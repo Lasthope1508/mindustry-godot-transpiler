@@ -1096,6 +1096,50 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_building_tether_update_state\", \"method\": \"public void update(){\", \"guard_expr\": \"if(building == null || !building.isValid() || building.team != team){\", \"building_exists\": building_exists, \"building_is_valid\": building_is_valid, \"building_team_value\": building_team_value, \"team_value\": team_value, \"guard\": guard, \"despawn\": despawn_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/ChildComp.java"
+        and type_entry.get("name") == "ChildComp"
+        and method.get("name") == "add"
+    ):
+        return [
+            "\tvar child_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\tvar x: float = float(child_state.get(\"x\", 0.0))",
+            "\tvar y: float = float(child_state.get(\"y\", 0.0))",
+            "\tvar rotation: float = float(child_state.get(\"rotation\", 0.0))",
+            "\tvar offset_x: float = float(child_state.get(\"offsetX\", 0.0))",
+            "\tvar offset_y: float = float(child_state.get(\"offsetY\", 0.0))",
+            "\tvar offset_pos: float = float(child_state.get(\"offsetPos\", 0.0))",
+            "\tvar offset_rot: float = float(child_state.get(\"offsetRot\", 0.0))",
+            "\tvar parent_guard: bool = bool(child_state.get(\"parent_exists\", false))",
+            "\tvar parent_get_x: float = float(child_state.get(\"parent_get_x\", 0.0))",
+            "\tvar parent_get_y: float = float(child_state.get(\"parent_get_y\", 0.0))",
+            "\tvar rot_with_parent: bool = bool(child_state.get(\"rot_with_parent\", false))",
+            "\tvar parent_is_rotc: bool = bool(child_state.get(\"parent_is_rotc\", false))",
+            "\tvar parent_rotc_rotation: float = float(child_state.get(\"parent_rotc_rotation\", 0.0))",
+            "\tvar parent_is_rotblock: bool = bool(child_state.get(\"parent_is_rotblock\", false))",
+            "\tvar parent_rotblock_build_rotation: float = float(child_state.get(\"parent_rotblock_build_rotation\", 0.0))",
+            "\tvar next_offset_x: float = offset_x",
+            "\tvar next_offset_y: float = offset_y",
+            "\tvar next_offset_pos: float = offset_pos",
+            "\tvar next_offset_rot: float = offset_rot",
+            "\tvar rot_with_parent_guard := false",
+            "\tvar parent_rotc_guard := false",
+            "\tvar parent_rotblock_guard := false",
+            "\tif parent_guard:",
+            "\t\tnext_offset_x = x - parent_get_x",
+            "\t\tnext_offset_y = y - parent_get_y",
+            "\t\tif rot_with_parent:",
+            "\t\t\trot_with_parent_guard = true",
+            "\t\t\tif parent_is_rotc:",
+            "\t\t\t\tparent_rotc_guard = true",
+            "\t\t\t\tnext_offset_pos = -parent_rotc_rotation",
+            "\t\t\t\tnext_offset_rot = rotation - parent_rotc_rotation",
+            "\t\t\telif parent_is_rotblock:",
+            "\t\t\t\tparent_rotblock_guard = true",
+            "\t\t\t\tnext_offset_pos = -parent_rotblock_build_rotation",
+            "\t\t\t\tnext_offset_rot = rotation - parent_rotblock_build_rotation",
+            "\treturn {\"source_owner\": \"PortGame.source_child_add_state\", \"method\": \"public void add(){\", \"parent_guard_expr\": \"if(parent != null){\", \"offsetX_expr\": \"offsetX = x - parent.getX();\", \"offsetY_expr\": \"offsetY = y - parent.getY();\", \"rot_with_parent_guard_expr\": \"if(rotWithParent){\", \"parent_rotc_guard_expr\": \"if(parent instanceof Rotc r){\", \"parent_rotblock_guard_expr\": \"}else if(parent instanceof RotBlock rot){\", \"offsetPos_rotc_expr\": \"offsetPos = -r.rotation();\", \"offsetRot_rotc_expr\": \"offsetRot = rotation - r.rotation();\", \"offsetPos_rotblock_expr\": \"offsetPos = -rot.buildRotation();\", \"offsetRot_rotblock_expr\": \"offsetRot = rotation - rot.buildRotation();\", \"parentGuard\": parent_guard, \"offsetX\": next_offset_x, \"offsetY\": next_offset_y, \"rotWithParentGuard\": rot_with_parent_guard, \"parentRotcGuard\": parent_rotc_guard, \"parentRotBlockGuard\": parent_rotblock_guard, \"offsetPos\": next_offset_pos, \"offsetRot\": next_offset_rot}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
         and type_entry.get("name") == "UnitTetherComp"
         and method.get("name") == "afterRead"

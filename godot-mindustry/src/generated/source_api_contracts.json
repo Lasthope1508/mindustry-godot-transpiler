@@ -2429,6 +2429,35 @@
         "test_building_damage_delegate_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_damage_destroy_gate_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "health",
+          "schema": "source_building_damage_destroy_gate_input.health",
+          "type": "float"
+        },
+        {
+          "name": "self_state",
+          "schema": "source_building_damage_destroy_gate_input.self_state",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "destroy_gate",
+        "build_destroyed_call",
+        "build_destroyed_called",
+        "build_destroyed"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp damage destroy gate helper.",
+      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
+      "source_method": "damage(float damage)",
+      "source_slice": "N1076",
+      "status": "active",
+      "tests": [
+        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_damage_handle_damage_gate_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
@@ -2511,6 +2540,70 @@
       "status": "active",
       "tests": [
         "test_building_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_building_display_bars_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "bar_results",
+          "schema": "source_building_display_bars_input.bar_results",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "barsLoop",
+        "getResult",
+        "nullSkip",
+        "addedBars",
+        "rowCalls",
+        "added_bars",
+        "skipped_bars",
+        "row_calls",
+        "bar_results"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.displayBars(Table table) helper.",
+      "runtime_proof": "/root/Main.source_building_display_bars_state",
+      "source_method": "displayBars(Table table)",
+      "source_slice": "N1027",
+      "status": "active",
+      "tests": [
+        "test_building_display_bars_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_building_display_consumption_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "consumers",
+          "schema": "source_building_display_consumption_input.consumers",
+          "type": "Array"
+        },
+        {
+          "name": "self_state",
+          "schema": "source_building_display_consumption_input.self_state",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "tableLeft",
+        "consumersLoop",
+        "optionalBoosterSkip",
+        "buildCalls",
+        "built_consumers",
+        "skipped_consumers",
+        "consumers",
+        "self_state"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.displayConsumption(Table table) helper.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "source_method": "displayConsumption(Table table)",
+      "source_slice": "N1026",
+      "status": "active",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
       ]
     },
     "PortGame.source_building_display_efficiency": {
@@ -4218,6 +4311,62 @@
         "test_building_get_power_connections_empty_guard_matches_upstream_source",
         "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
         "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_building_get_power_connections_manual_links_loop_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "link_present_by_index",
+          "schema": "source_building_get_power_connections_manual_links_loop_input.link_present_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "link_build_present_by_index",
+          "schema": "source_building_get_power_connections_manual_links_loop_input.link_build_present_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "link_build_power_present_by_index",
+          "schema": "source_building_get_power_connections_manual_links_loop_input.link_build_power_present_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "link_build_same_team_by_index",
+          "schema": "source_building_get_power_connections_manual_links_loop_input.link_build_same_team_by_index",
+          "type": "Array[bool]"
+        },
+        {
+          "name": "previous_out_count",
+          "schema": "source_building_get_power_connections_manual_links_loop_input.previous_out_count",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "manual_links_loop",
+        "manual_link_tile_lookup",
+        "manual_link_add_guard",
+        "manual_link_out_add",
+        "return_out",
+        "link_present_by_index",
+        "link_build_present_by_index",
+        "link_build_power_present_by_index",
+        "link_build_same_team_by_index",
+        "previous_out_count",
+        "manual_link_count",
+        "manual_link_added_indices",
+        "manual_link_added_count",
+        "out_count_after_manual_links"
+      ],
+      "rule": "Public runtime contract for BuildingComp.getPowerConnections manual power.links loop slice.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "source_method": "getPowerConnections(Seq<Building> out)",
+      "source_slice": "N976",
+      "status": "active",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
     },
     "PortGame.source_building_get_power_connections_power_compatibility_guard_state": {
@@ -6683,6 +6832,59 @@
         "test_building_remove_stack_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_sense_camera_default_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "params": [
+        {
+          "name": "is_control_block",
+          "schema": "source_building_sense_camera_default_input.is_control_block",
+          "type": "bool"
+        },
+        {
+          "name": "unit_camera_x",
+          "schema": "source_building_sense_camera_default_input.unit_camera_x",
+          "type": "float"
+        },
+        {
+          "name": "unit_camera_y",
+          "schema": "source_building_sense_camera_default_input.unit_camera_y",
+          "type": "float"
+        },
+        {
+          "name": "unit_camera_width",
+          "schema": "source_building_sense_camera_default_input.unit_camera_width",
+          "type": "float"
+        },
+        {
+          "name": "unit_camera_height",
+          "schema": "source_building_sense_camera_default_input.unit_camera_height",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "camera_case",
+        "default_case",
+        "is_control_block",
+        "unit_camera_x",
+        "unit_camera_y",
+        "unit_camera_width",
+        "unit_camera_height",
+        "camera_x",
+        "camera_y",
+        "camera_width",
+        "camera_height",
+        "invalid_sensor"
+      ],
+      "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) camera delegation and default NaN helper.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "source_method": "sense(LAccess sensor)",
+      "source_slice": "N1084",
+      "status": "active",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_building_sense_capacity_power_net_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
@@ -7674,6 +7876,53 @@
         "test_building_tapped_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_building_tether_update_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "params": [
+        {
+          "name": "building_exists",
+          "schema": "source_building_tether_update_input.building_exists",
+          "type": "bool"
+        },
+        {
+          "name": "building_is_valid",
+          "schema": "source_building_tether_update_input.building_is_valid",
+          "type": "bool"
+        },
+        {
+          "name": "building_team_value",
+          "schema": "source_building_tether_update_input.building_team_value",
+          "type": "Variant"
+        },
+        {
+          "name": "team_value",
+          "schema": "source_building_tether_update_input.team_value",
+          "type": "Variant"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_building_tether_update_input.unit_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "buildingExists",
+        "buildingIsValid",
+        "buildingTeam",
+        "team",
+        "despawn"
+      ],
+      "rule": "Public runtime contract for BuildingTetherComp.update despawn guard; keep all guard inputs explicit.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "source_method": "update()",
+      "source_slice": "N1109",
+      "status": "active",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_tether_update_state"
+      ]
+    },
     "PortGame.source_building_time_scale_decay_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
@@ -7746,53 +7995,6 @@
       "tests": [
         "test_building_to_string_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_building_to_string_state"
-      ]
-    },
-    "PortGame.source_building_tether_update_state": {
-      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
-      "params": [
-        {
-          "name": "building_exists",
-          "schema": "source_building_tether_update_input.building_exists",
-          "type": "bool"
-        },
-        {
-          "name": "building_is_valid",
-          "schema": "source_building_tether_update_input.building_is_valid",
-          "type": "bool"
-        },
-        {
-          "name": "building_team_value",
-          "schema": "source_building_tether_update_input.building_team_value",
-          "type": "Variant"
-        },
-        {
-          "name": "team_value",
-          "schema": "source_building_tether_update_input.team_value",
-          "type": "Variant"
-        },
-        {
-          "name": "unit_id",
-          "schema": "source_building_tether_update_input.unit_id",
-          "type": "int"
-        }
-      ],
-      "return_keys": [
-        "guard",
-        "buildingExists",
-        "buildingIsValid",
-        "buildingTeam",
-        "team",
-        "despawn"
-      ],
-      "rule": "Public runtime contract for BuildingTetherComp.update despawn guard; keep all guard inputs explicit.",
-      "runtime_proof": "/root/Main.source_building_tether_update_state",
-      "source_method": "update()",
-      "source_slice": "N1109",
-      "status": "active",
-      "tests": [
-        "test_building_tether_update_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_building_tether_update_state"
       ]
     },
     "PortGame.source_building_transfer_liquid_state": {
@@ -12409,6 +12611,36 @@
       "status": "active",
       "tests": [
         "test_bullet_world_speed_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_child_add_state": {
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "params": [
+        {
+          "name": "child_state",
+          "schema": "source_child_add_input",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "parentGuard",
+        "offsetX",
+        "offsetY",
+        "rotWithParentGuard",
+        "parentRotcGuard",
+        "parentRotBlockGuard",
+        "offsetPos",
+        "offsetRot"
+      ],
+      "rule": "Public runtime contract for ChildComp.add parent offset and optional parent rotation offset capture.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "source_method": "add()",
+      "source_slice": "N1113",
+      "status": "active",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_child_add_state"
       ]
     },
     "PortGame.source_consume_power_requested_power_state": {
@@ -19427,6 +19659,123 @@
         "test_port_game_exposes_source_unit_targetable_state"
       ]
     },
+    "PortGame.source_unit_tether_after_read_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "params": [
+        {
+          "name": "spawner_unit_id",
+          "schema": "source_unit_tether_after_read_input.spawner_unit_id",
+          "type": "int"
+        },
+        {
+          "name": "groups_unit_get_by_id_result",
+          "schema": "source_unit_tether_after_read_input.groups_unit_get_by_id_result",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard",
+        "spawnerUnitIdBefore",
+        "groupsUnitGetById",
+        "spawner",
+        "spawnerUnitId"
+      ],
+      "rule": "Public runtime contract for UnitTetherComp.afterRead optional Groups.unit lookup and unconditional spawnerUnitId reset.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "source_method": "afterRead()",
+      "source_slice": "N1111",
+      "status": "active",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_tether_after_read_state"
+      ]
+    },
+    "PortGame.source_unit_tether_after_sync_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "params": [
+        {
+          "name": "spawner_unit_id",
+          "schema": "source_unit_tether_after_sync_input.spawner_unit_id",
+          "type": "int"
+        },
+        {
+          "name": "groups_unit_get_by_id_result",
+          "schema": "source_unit_tether_after_sync_input.groups_unit_get_by_id_result",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard",
+        "spawnerUnitIdBefore",
+        "groupsUnitGetById",
+        "spawner",
+        "spawnerUnitId"
+      ],
+      "rule": "Public runtime contract for UnitTetherComp.afterSync optional Groups.unit lookup and unconditional spawnerUnitId reset.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
+      "source_method": "afterSync()",
+      "source_slice": "N1112",
+      "status": "active",
+      "tests": [
+        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_tether_after_sync_state"
+      ]
+    },
+    "PortGame.source_unit_tether_update_state": {
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "params": [
+        {
+          "name": "spawner_exists",
+          "schema": "source_unit_tether_update_input.spawner_exists",
+          "type": "bool"
+        },
+        {
+          "name": "spawner_is_valid",
+          "schema": "source_unit_tether_update_input.spawner_is_valid",
+          "type": "bool"
+        },
+        {
+          "name": "spawner_team_value",
+          "schema": "source_unit_tether_update_input.spawner_team_value",
+          "type": "Variant"
+        },
+        {
+          "name": "team_value",
+          "schema": "source_unit_tether_update_input.team_value",
+          "type": "Variant"
+        },
+        {
+          "name": "unit_id",
+          "schema": "source_unit_tether_update_input.unit_id",
+          "type": "int"
+        },
+        {
+          "name": "spawner_id",
+          "schema": "source_unit_tether_update_input.spawner_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "spawnerExists",
+        "spawnerIsValid",
+        "spawnerTeam",
+        "team",
+        "despawn",
+        "spawnerUnitId"
+      ],
+      "rule": "Public runtime contract for UnitTetherComp.update despawn guard and valid-spawner spawnerUnitId assignment; keep all guard inputs explicit.",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "source_method": "update()",
+      "source_slice": "N1110",
+      "status": "active",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_tether_update_state"
+      ]
+    },
     "PortGame.source_unit_unloaded_state": {
       "java_source": "core/src/mindustry/entities/comp/UnitComp.java",
       "params": [
@@ -23521,325 +23870,6 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
-    },
-    "PortGame.source_building_get_power_connections_manual_links_loop_state": {
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "params": [
-        {
-          "name": "link_present_by_index",
-          "schema": "source_building_get_power_connections_manual_links_loop_input.link_present_by_index",
-          "type": "Array[bool]"
-        },
-        {
-          "name": "link_build_present_by_index",
-          "schema": "source_building_get_power_connections_manual_links_loop_input.link_build_present_by_index",
-          "type": "Array[bool]"
-        },
-        {
-          "name": "link_build_power_present_by_index",
-          "schema": "source_building_get_power_connections_manual_links_loop_input.link_build_power_present_by_index",
-          "type": "Array[bool]"
-        },
-        {
-          "name": "link_build_same_team_by_index",
-          "schema": "source_building_get_power_connections_manual_links_loop_input.link_build_same_team_by_index",
-          "type": "Array[bool]"
-        },
-        {
-          "name": "previous_out_count",
-          "schema": "source_building_get_power_connections_manual_links_loop_input.previous_out_count",
-          "type": "int"
-        }
-      ],
-      "return_keys": [
-        "manual_links_loop",
-        "manual_link_tile_lookup",
-        "manual_link_add_guard",
-        "manual_link_out_add",
-        "return_out",
-        "link_present_by_index",
-        "link_build_present_by_index",
-        "link_build_power_present_by_index",
-        "link_build_same_team_by_index",
-        "previous_out_count",
-        "manual_link_count",
-        "manual_link_added_indices",
-        "manual_link_added_count",
-        "out_count_after_manual_links"
-      ],
-      "rule": "Public runtime contract for BuildingComp.getPowerConnections manual power.links loop slice.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "source_method": "getPowerConnections(Seq<Building> out)",
-      "source_slice": "N976",
-      "status": "active",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_building_display_consumption_state": {
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "params": [
-        {
-          "name": "consumers",
-          "schema": "source_building_display_consumption_input.consumers",
-          "type": "Array"
-        },
-        {
-          "name": "self_state",
-          "schema": "source_building_display_consumption_input.self_state",
-          "type": "Variant"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "tableLeft",
-        "consumersLoop",
-        "optionalBoosterSkip",
-        "buildCalls",
-        "built_consumers",
-        "skipped_consumers",
-        "consumers",
-        "self_state"
-      ],
-      "rule": "Public runtime contract for Mindustry BuildingComp.displayConsumption(Table table) helper.",
-      "runtime_proof": "/root/Main.source_building_display_consumption_state",
-      "source_method": "displayConsumption(Table table)",
-      "source_slice": "N1026",
-      "status": "active",
-      "tests": [
-        "test_building_display_consumption_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_building_display_bars_state": {
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "params": [
-        {
-          "name": "bar_results",
-          "schema": "source_building_display_bars_input.bar_results",
-          "type": "Array"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "barsLoop",
-        "getResult",
-        "nullSkip",
-        "addedBars",
-        "rowCalls",
-        "added_bars",
-        "skipped_bars",
-        "row_calls",
-        "bar_results"
-      ],
-      "rule": "Public runtime contract for Mindustry BuildingComp.displayBars(Table table) helper.",
-      "runtime_proof": "/root/Main.source_building_display_bars_state",
-      "source_method": "displayBars(Table table)",
-      "source_slice": "N1027",
-      "status": "active",
-      "tests": [
-        "test_building_display_bars_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_building_damage_destroy_gate_state": {
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "params": [
-        {
-          "name": "health",
-          "schema": "source_building_damage_destroy_gate_input.health",
-          "type": "float"
-        },
-        {
-          "name": "self_state",
-          "schema": "source_building_damage_destroy_gate_input.self_state",
-          "type": "Variant"
-        }
-      ],
-      "return_keys": [
-        "destroy_gate",
-        "build_destroyed_call",
-        "build_destroyed_called",
-        "build_destroyed"
-      ],
-      "rule": "Public runtime contract for Mindustry BuildingComp damage destroy gate helper.",
-      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
-      "source_method": "damage(float damage)",
-      "source_slice": "N1076",
-      "status": "active",
-      "tests": [
-        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_building_sense_camera_default_state": {
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "params": [
-        {
-          "name": "is_control_block",
-          "schema": "source_building_sense_camera_default_input.is_control_block",
-          "type": "bool"
-        },
-        {
-          "name": "unit_camera_x",
-          "schema": "source_building_sense_camera_default_input.unit_camera_x",
-          "type": "float"
-        },
-        {
-          "name": "unit_camera_y",
-          "schema": "source_building_sense_camera_default_input.unit_camera_y",
-          "type": "float"
-        },
-        {
-          "name": "unit_camera_width",
-          "schema": "source_building_sense_camera_default_input.unit_camera_width",
-          "type": "float"
-        },
-        {
-          "name": "unit_camera_height",
-          "schema": "source_building_sense_camera_default_input.unit_camera_height",
-          "type": "float"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "camera_case",
-        "default_case",
-        "is_control_block",
-        "unit_camera_x",
-        "unit_camera_y",
-        "unit_camera_width",
-        "unit_camera_height",
-        "camera_x",
-        "camera_y",
-        "camera_width",
-        "camera_height",
-        "invalid_sensor"
-      ],
-      "rule": "Public runtime contract for Mindustry BuildingComp.sense(LAccess sensor) camera delegation and default NaN helper.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "source_method": "sense(LAccess sensor)",
-      "source_slice": "N1084",
-      "status": "active",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_unit_tether_update_state": {
-      "status": "active",
-      "source_slice": "N1110",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "source_method": "update()",
-      "params": [
-        {
-          "name": "spawner_exists",
-          "type": "bool",
-          "schema": "source_unit_tether_update_input.spawner_exists"
-        },
-        {
-          "name": "spawner_is_valid",
-          "type": "bool",
-          "schema": "source_unit_tether_update_input.spawner_is_valid"
-        },
-        {
-          "name": "spawner_team_value",
-          "type": "Variant",
-          "schema": "source_unit_tether_update_input.spawner_team_value"
-        },
-        {
-          "name": "team_value",
-          "type": "Variant",
-          "schema": "source_unit_tether_update_input.team_value"
-        },
-        {
-          "name": "unit_id",
-          "type": "int",
-          "schema": "source_unit_tether_update_input.unit_id"
-        },
-        {
-          "name": "spawner_id",
-          "type": "int",
-          "schema": "source_unit_tether_update_input.spawner_id"
-        }
-      ],
-      "return_keys": [
-        "guard",
-        "spawnerExists",
-        "spawnerIsValid",
-        "spawnerTeam",
-        "team",
-        "despawn",
-        "spawnerUnitId"
-      ],
-      "tests": [
-        "test_unit_tether_update_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_tether_update_state"
-      ],
-      "runtime_proof": "/root/Main.source_unit_tether_update_state",
-      "rule": "Public runtime contract for UnitTetherComp.update despawn guard and valid-spawner spawnerUnitId assignment; keep all guard inputs explicit."
-    },
-    "PortGame.source_unit_tether_after_read_state": {
-      "status": "active",
-      "source_slice": "N1111",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "source_method": "afterRead()",
-      "params": [
-        {
-          "name": "spawner_unit_id",
-          "type": "int",
-          "schema": "source_unit_tether_after_read_input.spawner_unit_id"
-        },
-        {
-          "name": "groups_unit_get_by_id_result",
-          "type": "Variant",
-          "schema": "source_unit_tether_after_read_input.groups_unit_get_by_id_result"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "guard",
-        "spawnerUnitIdBefore",
-        "groupsUnitGetById",
-        "spawner",
-        "spawnerUnitId"
-      ],
-      "tests": [
-        "test_unit_tether_after_read_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_tether_after_read_state"
-      ],
-      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
-      "rule": "Public runtime contract for UnitTetherComp.afterRead optional Groups.unit lookup and unconditional spawnerUnitId reset."
-    },
-    "PortGame.source_unit_tether_after_sync_state": {
-      "status": "active",
-      "source_slice": "N1112",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "source_method": "afterSync()",
-      "params": [
-        {
-          "name": "spawner_unit_id",
-          "type": "int",
-          "schema": "source_unit_tether_after_sync_input.spawner_unit_id"
-        },
-        {
-          "name": "groups_unit_get_by_id_result",
-          "type": "Variant",
-          "schema": "source_unit_tether_after_sync_input.groups_unit_get_by_id_result"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "guard",
-        "spawnerUnitIdBefore",
-        "groupsUnitGetById",
-        "spawner",
-        "spawnerUnitId"
-      ],
-      "tests": [
-        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_unit_tether_after_sync_state"
-      ],
-      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
-      "rule": "Public runtime contract for UnitTetherComp.afterSync optional Groups.unit lookup and unconditional spawnerUnitId reset."
     }
   },
   "policy": {

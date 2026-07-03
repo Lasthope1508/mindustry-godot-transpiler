@@ -11532,5 +11532,52 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"conveyor_world_speed": conveyor_world_speed', source)
         self.assertIn('"conveyor_path_progress_rate": conveyor_path_progress_rate', source)
 
+    def test_generated_child_comp_bridges_add_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "ChildComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_add_0(_args: Array = []) -> Variant:", source)
+        self.assertIn("var child_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}", source)
+        self.assertIn("var parent_guard: bool = bool(child_state.get(\"parent_exists\", false))", source)
+        self.assertIn("next_offset_x = x - parent_get_x", source)
+        self.assertIn("next_offset_y = y - parent_get_y", source)
+        self.assertIn("next_offset_pos = -parent_rotc_rotation", source)
+        self.assertIn("next_offset_rot = rotation - parent_rotc_rotation", source)
+        self.assertIn("next_offset_pos = -parent_rotblock_build_rotation", source)
+        self.assertIn("next_offset_rot = rotation - parent_rotblock_build_rotation", source)
+        self.assertIn('"source_owner": "PortGame.source_child_add_state"', source)
+        self.assertIn('"parentRotcGuard": parent_rotc_guard', source)
+        self.assertIn('"parentRotBlockGuard": parent_rotblock_guard', source)
+
+    def test_port_game_exposes_source_child_add_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_child_add_state(child_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var x: float = float(child_state.get(\"x\", 0.0))", source)
+        self.assertIn("var rotation_value: float = float(child_state.get(\"rotation\", 0.0))", source)
+        self.assertIn("var parent_get_x: float = float(child_state.get(\"parent_get_x\", 0.0))", source)
+        self.assertIn("var rot_with_parent: bool = bool(child_state.get(\"rot_with_parent\", false))", source)
+        self.assertIn("next_offset_x = x - parent_get_x", source)
+        self.assertIn("next_offset_y = y - parent_get_y", source)
+        self.assertIn("next_offset_pos = -parent_rotc_rotation", source)
+        self.assertIn("next_offset_rot = rotation_value - parent_rotc_rotation", source)
+        self.assertIn("next_offset_pos = -parent_rotblock_build_rotation", source)
+        self.assertIn("next_offset_rot = rotation_value - parent_rotblock_build_rotation", source)
+        self.assertIn('"offsetX": next_offset_x', source)
+        self.assertIn('"offsetRot": next_offset_rot', source)
+
+    def test_port_game_exposes_generated_child_comp_add_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_child_comp_add_bridge_state(child_state: Dictionary) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_add_0([child_state])", source)
+        self.assertIn("var canonical = source_child_add_state(child_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_child_add_state"', source)
+        self.assertIn('"generated_owner": "ChildComp.java_method_add_0"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

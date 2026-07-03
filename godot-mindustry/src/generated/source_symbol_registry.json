@@ -6489,6 +6489,71 @@
         "test_building_damage_delegate_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_damage_destroy_gate.build_destroyed": {
+      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
+      "godot_symbol": "source_building_damage_destroy_gate_result.build_destroyed",
+      "java_expr": "self()",
+      "java_method": "damage(float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Self payload passed to buildDestroyed when destroy gate fires.",
+      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
+      "status": "generated",
+      "tests": [
+        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_damage_destroy_gate.build_destroyed_call": {
+      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
+      "godot_symbol": "source_building_damage_destroy_gate_result.build_destroyed_call",
+      "java_expr": "Call.buildDestroyed(self());",
+      "java_method": "damage(float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Destroyed branch dispatches buildDestroyed for self.",
+      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_damage_destroy_gate.destroy_gate": {
+      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
+      "godot_symbol": "source_building_damage_destroy_gate_result.destroy_gate",
+      "java_expr": "if(health <= 0){",
+      "java_method": "damage(float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "damage(float damage) dispatches buildDestroyed when health is non-positive after damage handling.",
+      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_damage_destroy_gate.health": {
+      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
+      "godot_symbol": "source_building_damage_destroy_gate_input.health",
+      "java_expr": "health",
+      "java_method": "damage(float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime health supplies the post-handleDamage health for destroy gate evaluation.",
+      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_damage_destroy_gate.self_state": {
+      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
+      "godot_symbol": "source_building_damage_destroy_gate_input.self_state",
+      "java_expr": "self()",
+      "java_method": "damage(float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime self_state supplies self() passed to buildDestroyed.",
+      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_damage_handle_damage_gate.client_comment": {
       "godot_owner": "PortGame.source_building_damage_handle_damage_gate_state",
       "godot_symbol": "source_building_damage_handle_damage_gate_result.client_comment",
@@ -6656,6 +6721,188 @@
       "status": "explicit-input",
       "tests": [
         "test_building_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_bars.add_call": {
+      "godot_owner": "PortGame.source_building_display_bars_state",
+      "godot_symbol": "source_building_display_bars_result.addedBars",
+      "java_expr": "table.add(result).growX();",
+      "java_method": "displayBars(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Non-null bars are added to the table with growX().",
+      "runtime_proof": "/root/Main.source_building_display_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_bars_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_bars.bar_results": {
+      "godot_owner": "PortGame.source_building_display_bars_state",
+      "godot_symbol": "source_building_display_bars_input.bar_results",
+      "java_expr": "bar.get(self())",
+      "java_method": "displayBars(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime bar_results supplies results of bar.get(self()).",
+      "runtime_proof": "/root/Main.source_building_display_bars_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_display_bars_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_bars.bars_loop": {
+      "godot_owner": "PortGame.source_building_display_bars_state",
+      "godot_symbol": "source_building_display_bars_result.barsLoop",
+      "java_expr": "for(Func<Building, Bar> bar : block.listBars()){",
+      "java_method": "displayBars(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "displayBars iterates block.listBars().",
+      "runtime_proof": "/root/Main.source_building_display_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_bars_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_bars.get_result": {
+      "godot_owner": "PortGame.source_building_display_bars_state",
+      "godot_symbol": "source_building_display_bars_result.getResult",
+      "java_expr": "var result = bar.get(self());",
+      "java_method": "displayBars(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "displayBars obtains each Bar from bar.get(self()).",
+      "runtime_proof": "/root/Main.source_building_display_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_bars_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_bars.method": {
+      "godot_owner": "PortGame.source_building_display_bars_state",
+      "godot_symbol": "source_building_display_bars_result.method",
+      "java_expr": "public void displayBars(Table table){",
+      "java_method": "displayBars(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source displayBars(Table table) method declaration.",
+      "runtime_proof": "/root/Main.source_building_display_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_bars_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_bars.null_skip": {
+      "godot_owner": "PortGame.source_building_display_bars_state",
+      "godot_symbol": "source_building_display_bars_result.nullSkip",
+      "java_expr": "if(result == null) continue;",
+      "java_method": "displayBars(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Null bar results are skipped.",
+      "runtime_proof": "/root/Main.source_building_display_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_bars_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_bars.row_call": {
+      "godot_owner": "PortGame.source_building_display_bars_state",
+      "godot_symbol": "source_building_display_bars_result.rowCalls",
+      "java_expr": "table.row();",
+      "java_method": "displayBars(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "displayBars advances a table row after each added bar.",
+      "runtime_proof": "/root/Main.source_building_display_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_bars_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.build_call": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_result.buildCalls",
+      "java_expr": "cons.build(self(), table);",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Non-skipped consumers build into the display table with self().",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.consumers": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_input.consumers",
+      "java_expr": "block.consumers",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime consumers supplies block.consumers.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.consumers_loop": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_result.consumersLoop",
+      "java_expr": "for(Consume cons : block.consumers){",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "displayConsumption iterates block.consumers.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.method": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_result.method",
+      "java_expr": "public void displayConsumption(Table table){",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Source displayConsumption(Table table) method declaration.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.optional_booster_skip": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_result.optionalBoosterSkip",
+      "java_expr": "if(cons.optional && cons.booster) continue;",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Optional booster consumers are skipped.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.self_state": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_input.self_state",
+      "java_expr": "self()",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime self_state supplies self().",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_display_consumption.table_left": {
+      "godot_owner": "PortGame.source_building_display_consumption_state",
+      "godot_symbol": "source_building_display_consumption_result.tableLeft",
+      "java_expr": "table.left();",
+      "java_method": "displayConsumption(Table table)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "displayConsumption left-aligns the table before consumer rows.",
+      "runtime_proof": "/root/Main.source_building_display_consumption_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_display_consumption_symbols_are_registered_with_source_backing"
       ]
     },
     "building_display_efficiency.base_time": {
@@ -12018,6 +12265,216 @@
         "test_building_get_power_connections_empty_guard_matches_upstream_source",
         "test_port_game_exposes_source_building_get_power_connections_empty_guard_state",
         "test_building_get_power_connections_empty_guard_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.link_build_power_present_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_build_power_present_by_index",
+      "java_expr": "link.build.power != null",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N976 canonical explicit input for manual link build power presence.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.link_build_present_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_build_present_by_index",
+      "java_expr": "link.build != null",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N976 canonical explicit input for manual link build presence.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.link_build_same_team_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_build_same_team_by_index",
+      "java_expr": "link.build.team == team",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N976 canonical explicit input for manual link build team guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.link_present_by_index": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_present_by_index",
+      "java_expr": "link != null",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N976 canonical explicit input for manual link tile presence.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_add_guard": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_add_guard",
+      "java_expr": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source manual link guard and add statement.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_added_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_added_count",
+      "java_expr": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Counts rows added by the source manual link guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_added_indices": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_added_indices",
+      "java_expr": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Records rows added by the source manual link guard.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_count",
+      "java_expr": "power.links.size",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Models source manual power.links loop count.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_out_add": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_out_add",
+      "java_expr": "out.add(link.build)",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source manual link out.add call target.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_link_tile_lookup": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_tile_lookup",
+      "java_expr": "Tile link = world.tile(power.links.get(i));",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source manual link tile lookup.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.manual_links_loop": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_links_loop",
+      "java_expr": "for(int i = 0; i < power.links.size; i++){",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source manual power.links loop.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.out_count_after_manual_links": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.out_count_after_manual_links",
+      "java_expr": "out.add(link.build)",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Models output sequence size after source manual link adds.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.previous_out_count": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.previous_out_count",
+      "java_expr": "out",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "N976 canonical explicit input for output sequence size before manual links.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_get_power_connections_manual_links_loop.return_out": {
+      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
+      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.return_out",
+      "java_expr": "return out;",
+      "java_method": "getPowerConnections(Seq<Building> out)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Preserves source final getPowerConnections return.",
+      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
+        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
+        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
     },
     "building_get_power_connections_power_compatibility_guard.block_conductive_power": {
@@ -18974,6 +19431,175 @@
         "test_building_remove_stack_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_sense_camera_default.camera_case": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.camera_case",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "sense(LAccess) camera sensor case delegates to controlled unit or returns zero.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.camera_height": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.camera_height",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime camera_height mirrors delegated unit cameraHeight when ControlBlock, otherwise zero.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "generated",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.camera_width": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.camera_width",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime camera_width mirrors delegated unit cameraWidth when ControlBlock, otherwise zero.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "generated",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.camera_x": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.camera_x",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime camera_x mirrors delegated unit cameraX when ControlBlock, otherwise zero.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "generated",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.camera_y": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.camera_y",
+      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime camera_y mirrors delegated unit cameraY when ControlBlock, otherwise zero.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "generated",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.default_case": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.default_case",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "sense(LAccess) default returns Float.NaN upstream, converted to null in logic.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.invalid_sensor": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.invalid_sensor",
+      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime invalid_sensor is null for upstream Float.NaN default sense path.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "generated",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.is_control_block": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_input.is_control_block",
+      "java_expr": "this instanceof ControlBlock c",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime is_control_block supplies ControlBlock type guard.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.method": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_result.method",
+      "java_expr": "public double sense(LAccess sensor){",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp sense(LAccess) method boundary.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.unit_camera_height": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_height",
+      "java_expr": "c.unit().sense(cameraHeight)",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime unit_camera_height supplies delegated unit cameraHeight sense result.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.unit_camera_width": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_width",
+      "java_expr": "c.unit().sense(cameraWidth)",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime unit_camera_width supplies delegated unit cameraWidth sense result.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.unit_camera_x": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_x",
+      "java_expr": "c.unit().sense(cameraX)",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime unit_camera_x supplies delegated unit cameraX sense result.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_sense_camera_default.unit_camera_y": {
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_y",
+      "java_expr": "c.unit().sense(cameraY)",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Runtime unit_camera_y supplies delegated unit cameraY sense result.",
+      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_sense_capacity_power_net.block_has_items": {
       "godot_owner": "PortGame.source_building_sense_capacity_power_net_state",
       "godot_symbol": "source_building_sense_capacity_power_net_input.block_has_items",
@@ -21601,6 +22227,97 @@
         "test_building_tapped_symbols_are_registered_with_source_backing"
       ]
     },
+    "building_tether_update.building_exists": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_input.building_exists",
+      "java_expr": "building != null",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Explicit input mirrors null branch in BuildingTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.building_is_valid": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_input.building_is_valid",
+      "java_expr": "building.isValid()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Explicit input mirrors building.isValid() branch in BuildingTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.building_team": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_input.building_team_value",
+      "java_expr": "building.team",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Explicit input mirrors building.team branch in BuildingTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.call": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_result.despawn",
+      "java_expr": "Call.unitDespawn(self());",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "BuildingTetherComp.update despawn call recorded when guard passes.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.guard": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_result.guard",
+      "java_expr": "if(building == null || !building.isValid() || building.team != team){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "BuildingTetherComp.update despawns when tethered building is missing, invalid, or on another team.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.team": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_input.team_value",
+      "java_expr": "team",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Explicit input mirrors imported team field in BuildingTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "building_tether_update.unit_id": {
+      "godot_owner": "PortGame.source_building_tether_update_state",
+      "godot_symbol": "source_building_tether_update_input.unit_id",
+      "java_expr": "self()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
+      "rule": "Explicit input identifies self() passed to Call.unitDespawn.",
+      "runtime_proof": "/root/Main.source_building_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
     "building_time_scale_decay.current_duration": {
       "godot_owner": "PortGame.source_building_time_scale_decay_state",
       "godot_symbol": "source_building_time_scale_decay_input.current_duration",
@@ -21794,97 +22511,6 @@
       "status": "explicit-input",
       "tests": [
         "test_building_to_string_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_tether_update.building_exists": {
-      "godot_owner": "PortGame.source_building_tether_update_state",
-      "godot_symbol": "source_building_tether_update_input.building_exists",
-      "java_expr": "building != null",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
-      "rule": "Explicit input mirrors null branch in BuildingTetherComp.update guard.",
-      "runtime_proof": "/root/Main.source_building_tether_update_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_tether_update_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_tether_update.building_is_valid": {
-      "godot_owner": "PortGame.source_building_tether_update_state",
-      "godot_symbol": "source_building_tether_update_input.building_is_valid",
-      "java_expr": "building.isValid()",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
-      "rule": "Explicit input mirrors building.isValid() branch in BuildingTetherComp.update guard.",
-      "runtime_proof": "/root/Main.source_building_tether_update_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_tether_update_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_tether_update.building_team": {
-      "godot_owner": "PortGame.source_building_tether_update_state",
-      "godot_symbol": "source_building_tether_update_input.building_team_value",
-      "java_expr": "building.team",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
-      "rule": "Explicit input mirrors building.team branch in BuildingTetherComp.update guard.",
-      "runtime_proof": "/root/Main.source_building_tether_update_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_tether_update_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_tether_update.call": {
-      "godot_owner": "PortGame.source_building_tether_update_state",
-      "godot_symbol": "source_building_tether_update_result.despawn",
-      "java_expr": "Call.unitDespawn(self());",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
-      "rule": "BuildingTetherComp.update despawn call recorded when guard passes.",
-      "runtime_proof": "/root/Main.source_building_tether_update_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_tether_update_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_tether_update.guard": {
-      "godot_owner": "PortGame.source_building_tether_update_state",
-      "godot_symbol": "source_building_tether_update_result.guard",
-      "java_expr": "if(building == null || !building.isValid() || building.team != team){",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
-      "rule": "BuildingTetherComp.update despawns when tethered building is missing, invalid, or on another team.",
-      "runtime_proof": "/root/Main.source_building_tether_update_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_tether_update_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_tether_update.team": {
-      "godot_owner": "PortGame.source_building_tether_update_state",
-      "godot_symbol": "source_building_tether_update_input.team_value",
-      "java_expr": "team",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
-      "rule": "Explicit input mirrors imported team field in BuildingTetherComp.update guard.",
-      "runtime_proof": "/root/Main.source_building_tether_update_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_tether_update_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_tether_update.unit_id": {
-      "godot_owner": "PortGame.source_building_tether_update_state",
-      "godot_symbol": "source_building_tether_update_input.unit_id",
-      "java_expr": "self()",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingTetherComp.java",
-      "rule": "Explicit input identifies self() passed to Call.unitDespawn.",
-      "runtime_proof": "/root/Main.source_building_tether_update_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_tether_update_symbols_are_registered_with_source_backing"
       ]
     },
     "building_transfer_liquid.accept_guard": {
@@ -23063,6 +23689,20 @@
         "test_port_game_exposes_source_building_update_consumption_non_optional_pass_state"
       ]
     },
+    "building_update_consumption_non_optional.is_power": {
+      "godot_owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
+      "godot_symbol": "source_building_update_consumption_non_optional_pass_input.is_power",
+      "java_expr": "cons == block.consPower",
+      "java_method": "updateConsumption()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Explicit runtime input marking whether a supplied non_optional_consumer_results entry represents upstream block.consPower.",
+      "runtime_proof": "/root/Main.source_building_update_consumption_non_optional_pass_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_building_update_consumption_non_optional_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_building_update_consumption_non_optional_pass_state"
+      ]
+    },
     "building_update_consumption_non_optional.loop": {
       "godot_owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
       "godot_symbol": "source_building_update_consumption_non_optional_pass_result.loop",
@@ -23126,20 +23766,6 @@
       "java_method": "updateConsumption()",
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "rule": "Explicit runtime input representing upstream block.nonOptionalConsumers iteration results.",
-      "runtime_proof": "/root/Main.source_building_update_consumption_non_optional_pass_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_update_consumption_non_optional_symbols_are_registered_with_source_backing",
-        "test_port_game_exposes_source_building_update_consumption_non_optional_pass_state"
-      ]
-    },
-    "building_update_consumption_non_optional.is_power": {
-      "godot_owner": "PortGame.source_building_update_consumption_non_optional_pass_state",
-      "godot_symbol": "source_building_update_consumption_non_optional_pass_input.is_power",
-      "java_expr": "cons == block.consPower",
-      "java_method": "updateConsumption()",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Explicit runtime input marking whether a supplied non_optional_consumer_results entry represents upstream block.consPower.",
       "runtime_proof": "/root/Main.source_building_update_consumption_non_optional_pass_state",
       "status": "explicit-input",
       "tests": [
@@ -25984,6 +26610,344 @@
         "test_bullet_type_calculate_range_spawn_unit_state_matches_upstream_source",
         "test_port_game_exposes_source_bullet_type_calculate_range_spawn_unit_state",
         "test_bullet_type_calculate_range_spawn_unit_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "child_add.method": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.method",
+      "java_expr": "public void add(){",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add method boundary.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.offset_pos": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.offsetPos",
+      "java_expr": "offsetPos",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Child offsetPos value before add.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.offset_pos_rotblock_assign": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.offsetPos",
+      "java_expr": "offsetPos = -rot.buildRotation();",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add RotBlock offsetPos assignment.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.offset_pos_rotc_assign": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.offsetPos",
+      "java_expr": "offsetPos = -r.rotation();",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add Rotc offsetPos assignment.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.offset_rot": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.offsetRot",
+      "java_expr": "offsetRot",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Child offsetRot value before add.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.offset_rot_rotblock_assign": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.offsetRot",
+      "java_expr": "offsetRot = rotation - rot.buildRotation();",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add RotBlock offsetRot assignment.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.offset_rot_rotc_assign": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.offsetRot",
+      "java_expr": "offsetRot = rotation - r.rotation();",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add Rotc offsetRot assignment.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.offset_x": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.offsetX",
+      "java_expr": "offsetX",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Child offsetX value before add.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.offset_x_assign": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.offsetX",
+      "java_expr": "offsetX = x - parent.getX();",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add offsetX assignment.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.offset_y": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.offsetY",
+      "java_expr": "offsetY",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Child offsetY value before add.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.offset_y_assign": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.offsetY",
+      "java_expr": "offsetY = y - parent.getY();",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add offsetY assignment.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.parent_exists": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.parent_exists",
+      "java_expr": "parent != null",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit input for parent presence guard.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.parent_get_x": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.parent_get_x",
+      "java_expr": "parent.getX()",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit input for parent.getX().",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.parent_get_y": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.parent_get_y",
+      "java_expr": "parent.getY()",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit input for parent.getY().",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.parent_guard": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.parentGuard",
+      "java_expr": "if(parent != null){",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add parent presence guard.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.parent_is_rotblock": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.parent_is_rotblock",
+      "java_expr": "parent instanceof RotBlock rot",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit input for RotBlock branch check.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.parent_is_rotc": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.parent_is_rotc",
+      "java_expr": "parent instanceof Rotc r",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit input for Rotc branch check.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.parent_rotblock_build_rotation": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.parent_rotblock_build_rotation",
+      "java_expr": "rot.buildRotation()",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit input for RotBlock buildRotation.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.parent_rotblock_guard": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.parentRotBlockGuard",
+      "java_expr": "}else if(parent instanceof RotBlock rot){",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add RotBlock branch guard.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.parent_rotc_guard": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.parentRotcGuard",
+      "java_expr": "if(parent instanceof Rotc r){",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add Rotc branch guard.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.parent_rotc_rotation": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.parent_rotc_rotation",
+      "java_expr": "r.rotation()",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Explicit input for Rotc rotation.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.rot_with_parent": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.rot_with_parent",
+      "java_expr": "rotWithParent",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Child rotWithParent field.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.rot_with_parent_guard": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_result.rotWithParentGuard",
+      "java_expr": "if(rotWithParent){",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "ChildComp.add rotation-with-parent guard.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.rotation": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.rotation",
+      "java_expr": "rotation",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Imported child rotation field.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.x": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.x",
+      "java_expr": "x",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Imported child x field.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "child_add.y": {
+      "godot_owner": "PortGame.source_child_add_state",
+      "godot_symbol": "source_child_add_input.y",
+      "java_expr": "y",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/ChildComp.java",
+      "rule": "Imported child y field.",
+      "runtime_proof": "/root/Main.source_child_add_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_child_comp_add_slice_is_registered_with_source_backing"
       ]
     },
     "consume_power_requested_power.buffered": {
@@ -54137,6 +55101,279 @@
         "test_port_game_exposes_source_unit_targetable_state"
       ]
     },
+    "unit_tether_after_read.groups_unit_get_by_id": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "godot_symbol": "source_unit_tether_after_read_result.groupsUnitGetById",
+      "java_expr": "Groups.unit.getByID(spawnerUnitId)",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.afterRead lookup call used to restore transient spawner.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_read.groups_unit_get_by_id_result": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "godot_symbol": "source_unit_tether_after_read_input.groups_unit_get_by_id_result",
+      "java_expr": "Groups.unit.getByID(spawnerUnitId)",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "Explicit input carries deferred Groups.unit.getByID(spawnerUnitId) result until live Groups runtime owns unit lookup.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_read.guard": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "godot_symbol": "source_unit_tether_after_read_result.guard",
+      "java_expr": "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.afterRead restores spawner from stored id when spawnerUnitId is not -1.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_read.method": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "godot_symbol": "source_unit_tether_after_read_result.method",
+      "java_expr": "public void afterRead(){",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.afterRead method boundary.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_read.spawner_unit_id": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "godot_symbol": "source_unit_tether_after_read_input.spawner_unit_id",
+      "java_expr": "spawnerUnitId",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "Explicit input mirrors stored spawnerUnitId before UnitTetherComp.afterRead reset.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_read.spawner_unit_id_reset": {
+      "godot_owner": "PortGame.source_unit_tether_after_read_state",
+      "godot_symbol": "source_unit_tether_after_read_result.spawnerUnitId",
+      "java_expr": "spawnerUnitId = -1;",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.afterRead resets spawnerUnitId after optional lookup.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_sync.groups_unit_get_by_id": {
+      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
+      "godot_symbol": "source_unit_tether_after_sync_result.groupsUnitGetById",
+      "java_expr": "Groups.unit.getByID(spawnerUnitId)",
+      "java_method": "afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.afterSync lookup call used to restore transient spawner.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_sync.groups_unit_get_by_id_result": {
+      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
+      "godot_symbol": "source_unit_tether_after_sync_input.groups_unit_get_by_id_result",
+      "java_expr": "Groups.unit.getByID(spawnerUnitId)",
+      "java_method": "afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "Explicit input carries deferred Groups.unit.getByID(spawnerUnitId) result until live Groups runtime owns unit lookup.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_sync.guard": {
+      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
+      "godot_symbol": "source_unit_tether_after_sync_result.guard",
+      "java_expr": "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);",
+      "java_method": "afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.afterSync restores spawner from stored id when spawnerUnitId is not -1.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_sync.method": {
+      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
+      "godot_symbol": "source_unit_tether_after_sync_result.method",
+      "java_expr": "public void afterSync(){",
+      "java_method": "afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.afterSync method boundary.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_sync.spawner_unit_id": {
+      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
+      "godot_symbol": "source_unit_tether_after_sync_input.spawner_unit_id",
+      "java_expr": "spawnerUnitId",
+      "java_method": "afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "Explicit input mirrors stored spawnerUnitId before UnitTetherComp.afterSync reset.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_after_sync.spawner_unit_id_reset": {
+      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
+      "godot_symbol": "source_unit_tether_after_sync_result.spawnerUnitId",
+      "java_expr": "spawnerUnitId = -1;",
+      "java_method": "afterSync()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.afterSync resets spawnerUnitId after optional lookup.",
+      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_update.call": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "godot_symbol": "source_unit_tether_update_result.despawn",
+      "java_expr": "Call.unitDespawn(self());",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.update despawn call recorded when guard passes.",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_update.guard": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "godot_symbol": "source_unit_tether_update_result.guard",
+      "java_expr": "if(spawner == null || !spawner.isValid() || spawner.team != team){",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.update despawns when tethered spawner is missing, invalid, or on another team.",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_update.spawner_exists": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "godot_symbol": "source_unit_tether_update_input.spawner_exists",
+      "java_expr": "spawner != null",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "Explicit input mirrors null branch in UnitTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_update.spawner_id": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "godot_symbol": "source_unit_tether_update_input.spawner_id",
+      "java_expr": "spawner.id",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "Explicit input mirrors spawner.id assigned to spawnerUnitId when tether is valid.",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_update.spawner_is_valid": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "godot_symbol": "source_unit_tether_update_input.spawner_is_valid",
+      "java_expr": "spawner.isValid()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "Explicit input mirrors spawner.isValid() branch in UnitTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_update.spawner_team": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "godot_symbol": "source_unit_tether_update_input.spawner_team_value",
+      "java_expr": "spawner.team",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "Explicit input mirrors spawner.team branch in UnitTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_update.spawner_unit_id_assign": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "godot_symbol": "source_unit_tether_update_result.spawnerUnitId",
+      "java_expr": "spawnerUnitId = spawner.id;",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "UnitTetherComp.update stores spawner.id into spawnerUnitId when guard fails.",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "status": "source-backed",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_update.team": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "godot_symbol": "source_unit_tether_update_input.team_value",
+      "java_expr": "team",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "Explicit input mirrors imported team field in UnitTetherComp.update guard.",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "unit_tether_update.unit_id": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "godot_symbol": "source_unit_tether_update_input.unit_id",
+      "java_expr": "self()",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "rule": "Explicit input identifies self() passed to Call.unitDespawn.",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ]
+    },
     "unit_unloaded.comment": {
       "godot_owner": "PortGame.source_unit_unloaded_state",
       "godot_symbol": "source_unit_unloaded_result.comment",
@@ -73288,905 +74525,6 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
-    },
-    "building_get_power_connections_manual_links_loop.link_present_by_index": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_present_by_index",
-      "java_expr": "link != null",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "N976 canonical explicit input for manual link tile presence.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.link_build_present_by_index": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_build_present_by_index",
-      "java_expr": "link.build != null",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "N976 canonical explicit input for manual link build presence.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.link_build_power_present_by_index": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_build_power_present_by_index",
-      "java_expr": "link.build.power != null",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "N976 canonical explicit input for manual link build power presence.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.link_build_same_team_by_index": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.link_build_same_team_by_index",
-      "java_expr": "link.build.team == team",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "N976 canonical explicit input for manual link build team guard.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.previous_out_count": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_input.previous_out_count",
-      "java_expr": "out",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "N976 canonical explicit input for output sequence size before manual links.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.manual_links_loop": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_links_loop",
-      "java_expr": "for(int i = 0; i < power.links.size; i++){",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source manual power.links loop.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.manual_link_tile_lookup": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_tile_lookup",
-      "java_expr": "Tile link = world.tile(power.links.get(i));",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source manual link tile lookup.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.manual_link_add_guard": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_add_guard",
-      "java_expr": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source manual link guard and add statement.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.manual_link_out_add": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_out_add",
-      "java_expr": "out.add(link.build)",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source manual link out.add call target.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.return_out": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.return_out",
-      "java_expr": "return out;",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Preserves source final getPowerConnections return.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.manual_link_count": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_count",
-      "java_expr": "power.links.size",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Models source manual power.links loop count.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.manual_link_added_indices": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_added_indices",
-      "java_expr": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Records rows added by the source manual link guard.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.manual_link_added_count": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.manual_link_added_count",
-      "java_expr": "if(link != null && link.build != null && link.build.power != null && link.build.team == team) out.add(link.build);",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Counts rows added by the source manual link guard.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_get_power_connections_manual_links_loop.out_count_after_manual_links": {
-      "godot_owner": "PortGame.source_building_get_power_connections_manual_links_loop_state",
-      "godot_symbol": "source_building_get_power_connections_manual_links_loop_result.out_count_after_manual_links",
-      "java_expr": "out.add(link.build)",
-      "java_method": "getPowerConnections(Seq<Building> out)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Models output sequence size after source manual link adds.",
-      "runtime_proof": "/root/Main.source_building_get_power_connections_manual_links_loop_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
-        "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
-        "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_consumption.method": {
-      "godot_owner": "PortGame.source_building_display_consumption_state",
-      "godot_symbol": "source_building_display_consumption_result.method",
-      "java_expr": "public void displayConsumption(Table table){",
-      "java_method": "displayConsumption(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Source displayConsumption(Table table) method declaration.",
-      "runtime_proof": "/root/Main.source_building_display_consumption_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_consumption_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_consumption.table_left": {
-      "godot_owner": "PortGame.source_building_display_consumption_state",
-      "godot_symbol": "source_building_display_consumption_result.tableLeft",
-      "java_expr": "table.left();",
-      "java_method": "displayConsumption(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "displayConsumption left-aligns the table before consumer rows.",
-      "runtime_proof": "/root/Main.source_building_display_consumption_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_consumption_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_consumption.consumers_loop": {
-      "godot_owner": "PortGame.source_building_display_consumption_state",
-      "godot_symbol": "source_building_display_consumption_result.consumersLoop",
-      "java_expr": "for(Consume cons : block.consumers){",
-      "java_method": "displayConsumption(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "displayConsumption iterates block.consumers.",
-      "runtime_proof": "/root/Main.source_building_display_consumption_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_consumption_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_consumption.optional_booster_skip": {
-      "godot_owner": "PortGame.source_building_display_consumption_state",
-      "godot_symbol": "source_building_display_consumption_result.optionalBoosterSkip",
-      "java_expr": "if(cons.optional && cons.booster) continue;",
-      "java_method": "displayConsumption(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Optional booster consumers are skipped.",
-      "runtime_proof": "/root/Main.source_building_display_consumption_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_consumption_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_consumption.build_call": {
-      "godot_owner": "PortGame.source_building_display_consumption_state",
-      "godot_symbol": "source_building_display_consumption_result.buildCalls",
-      "java_expr": "cons.build(self(), table);",
-      "java_method": "displayConsumption(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Non-skipped consumers build into the display table with self().",
-      "runtime_proof": "/root/Main.source_building_display_consumption_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_consumption_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_consumption.consumers": {
-      "godot_owner": "PortGame.source_building_display_consumption_state",
-      "godot_symbol": "source_building_display_consumption_input.consumers",
-      "java_expr": "block.consumers",
-      "java_method": "displayConsumption(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime consumers supplies block.consumers.",
-      "runtime_proof": "/root/Main.source_building_display_consumption_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_display_consumption_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_consumption.self_state": {
-      "godot_owner": "PortGame.source_building_display_consumption_state",
-      "godot_symbol": "source_building_display_consumption_input.self_state",
-      "java_expr": "self()",
-      "java_method": "displayConsumption(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime self_state supplies self().",
-      "runtime_proof": "/root/Main.source_building_display_consumption_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_display_consumption_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_bars.method": {
-      "godot_owner": "PortGame.source_building_display_bars_state",
-      "godot_symbol": "source_building_display_bars_result.method",
-      "java_expr": "public void displayBars(Table table){",
-      "java_method": "displayBars(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Source displayBars(Table table) method declaration.",
-      "runtime_proof": "/root/Main.source_building_display_bars_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_bars_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_bars.bars_loop": {
-      "godot_owner": "PortGame.source_building_display_bars_state",
-      "godot_symbol": "source_building_display_bars_result.barsLoop",
-      "java_expr": "for(Func<Building, Bar> bar : block.listBars()){",
-      "java_method": "displayBars(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "displayBars iterates block.listBars().",
-      "runtime_proof": "/root/Main.source_building_display_bars_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_bars_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_bars.get_result": {
-      "godot_owner": "PortGame.source_building_display_bars_state",
-      "godot_symbol": "source_building_display_bars_result.getResult",
-      "java_expr": "var result = bar.get(self());",
-      "java_method": "displayBars(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "displayBars obtains each Bar from bar.get(self()).",
-      "runtime_proof": "/root/Main.source_building_display_bars_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_bars_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_bars.null_skip": {
-      "godot_owner": "PortGame.source_building_display_bars_state",
-      "godot_symbol": "source_building_display_bars_result.nullSkip",
-      "java_expr": "if(result == null) continue;",
-      "java_method": "displayBars(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Null bar results are skipped.",
-      "runtime_proof": "/root/Main.source_building_display_bars_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_bars_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_bars.add_call": {
-      "godot_owner": "PortGame.source_building_display_bars_state",
-      "godot_symbol": "source_building_display_bars_result.addedBars",
-      "java_expr": "table.add(result).growX();",
-      "java_method": "displayBars(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Non-null bars are added to the table with growX().",
-      "runtime_proof": "/root/Main.source_building_display_bars_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_bars_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_bars.row_call": {
-      "godot_owner": "PortGame.source_building_display_bars_state",
-      "godot_symbol": "source_building_display_bars_result.rowCalls",
-      "java_expr": "table.row();",
-      "java_method": "displayBars(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "displayBars advances a table row after each added bar.",
-      "runtime_proof": "/root/Main.source_building_display_bars_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_display_bars_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_display_bars.bar_results": {
-      "godot_owner": "PortGame.source_building_display_bars_state",
-      "godot_symbol": "source_building_display_bars_input.bar_results",
-      "java_expr": "bar.get(self())",
-      "java_method": "displayBars(Table table)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime bar_results supplies results of bar.get(self()).",
-      "runtime_proof": "/root/Main.source_building_display_bars_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_display_bars_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_damage_destroy_gate.destroy_gate": {
-      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
-      "java_method": "damage(float damage)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
-      "tests": [
-        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_building_damage_destroy_gate_result.destroy_gate",
-      "java_expr": "if(health <= 0){",
-      "rule": "damage(float damage) dispatches buildDestroyed when health is non-positive after damage handling.",
-      "status": "source-backed"
-    },
-    "building_damage_destroy_gate.build_destroyed_call": {
-      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
-      "java_method": "damage(float damage)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
-      "tests": [
-        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_building_damage_destroy_gate_result.build_destroyed_call",
-      "java_expr": "Call.buildDestroyed(self());",
-      "rule": "Destroyed branch dispatches buildDestroyed for self.",
-      "status": "source-backed"
-    },
-    "building_damage_destroy_gate.health": {
-      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
-      "java_method": "damage(float damage)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
-      "tests": [
-        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_building_damage_destroy_gate_input.health",
-      "java_expr": "health",
-      "rule": "Runtime health supplies the post-handleDamage health for destroy gate evaluation.",
-      "status": "explicit-input"
-    },
-    "building_damage_destroy_gate.self_state": {
-      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
-      "java_method": "damage(float damage)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
-      "tests": [
-        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_building_damage_destroy_gate_input.self_state",
-      "java_expr": "self()",
-      "rule": "Runtime self_state supplies self() passed to buildDestroyed.",
-      "status": "explicit-input"
-    },
-    "building_damage_destroy_gate.build_destroyed": {
-      "godot_owner": "PortGame.source_building_damage_destroy_gate_state",
-      "java_method": "damage(float damage)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "runtime_proof": "/root/Main.source_building_damage_destroy_gate_state",
-      "tests": [
-        "test_building_damage_destroy_gate_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_building_damage_destroy_gate_result.build_destroyed",
-      "java_expr": "self()",
-      "rule": "Self payload passed to buildDestroyed when destroy gate fires.",
-      "status": "generated"
-    },
-    "building_sense_camera_default.method": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_result.method",
-      "java_expr": "public double sense(LAccess sensor){",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "BuildingComp sense(LAccess) method boundary.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.camera_case": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_result.camera_case",
-      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "sense(LAccess) camera sensor case delegates to controlled unit or returns zero.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.default_case": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_result.default_case",
-      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "sense(LAccess) default returns Float.NaN upstream, converted to null in logic.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "source-backed",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.is_control_block": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_input.is_control_block",
-      "java_expr": "this instanceof ControlBlock c",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime is_control_block supplies ControlBlock type guard.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.unit_camera_x": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_x",
-      "java_expr": "c.unit().sense(cameraX)",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime unit_camera_x supplies delegated unit cameraX sense result.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.unit_camera_y": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_y",
-      "java_expr": "c.unit().sense(cameraY)",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime unit_camera_y supplies delegated unit cameraY sense result.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.unit_camera_width": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_width",
-      "java_expr": "c.unit().sense(cameraWidth)",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime unit_camera_width supplies delegated unit cameraWidth sense result.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.unit_camera_height": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_input.unit_camera_height",
-      "java_expr": "c.unit().sense(cameraHeight)",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime unit_camera_height supplies delegated unit cameraHeight sense result.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "explicit-input",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.camera_x": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_result.camera_x",
-      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime camera_x mirrors delegated unit cameraX when ControlBlock, otherwise zero.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "generated",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.camera_y": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_result.camera_y",
-      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime camera_y mirrors delegated unit cameraY when ControlBlock, otherwise zero.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "generated",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.camera_width": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_result.camera_width",
-      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime camera_width mirrors delegated unit cameraWidth when ControlBlock, otherwise zero.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "generated",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.camera_height": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_result.camera_height",
-      "java_expr": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime camera_height mirrors delegated unit cameraHeight when ControlBlock, otherwise zero.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "generated",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "building_sense_camera_default.invalid_sensor": {
-      "godot_owner": "PortGame.source_building_sense_camera_default_state",
-      "godot_symbol": "source_building_sense_camera_default_result.invalid_sensor",
-      "java_expr": "default -> Float.NaN; //gets converted to null in logic",
-      "java_method": "sense(LAccess sensor)",
-      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-      "rule": "Runtime invalid_sensor is null for upstream Float.NaN default sense path.",
-      "runtime_proof": "/root/Main.source_building_sense_camera_default_state",
-      "status": "generated",
-      "tests": [
-        "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "unit_tether_update.spawner_exists": {
-      "godot_owner": "PortGame.source_unit_tether_update_state",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_update_state",
-      "tests": [
-        "test_unit_tether_update_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_update_input.spawner_exists",
-      "java_expr": "spawner != null",
-      "rule": "Explicit input mirrors null branch in UnitTetherComp.update guard.",
-      "status": "explicit-input"
-    },
-    "unit_tether_update.spawner_is_valid": {
-      "godot_owner": "PortGame.source_unit_tether_update_state",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_update_state",
-      "tests": [
-        "test_unit_tether_update_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_update_input.spawner_is_valid",
-      "java_expr": "spawner.isValid()",
-      "rule": "Explicit input mirrors spawner.isValid() branch in UnitTetherComp.update guard.",
-      "status": "explicit-input"
-    },
-    "unit_tether_update.spawner_team": {
-      "godot_owner": "PortGame.source_unit_tether_update_state",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_update_state",
-      "tests": [
-        "test_unit_tether_update_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_update_input.spawner_team_value",
-      "java_expr": "spawner.team",
-      "rule": "Explicit input mirrors spawner.team branch in UnitTetherComp.update guard.",
-      "status": "explicit-input"
-    },
-    "unit_tether_update.team": {
-      "godot_owner": "PortGame.source_unit_tether_update_state",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_update_state",
-      "tests": [
-        "test_unit_tether_update_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_update_input.team_value",
-      "java_expr": "team",
-      "rule": "Explicit input mirrors imported team field in UnitTetherComp.update guard.",
-      "status": "explicit-input"
-    },
-    "unit_tether_update.unit_id": {
-      "godot_owner": "PortGame.source_unit_tether_update_state",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_update_state",
-      "tests": [
-        "test_unit_tether_update_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_update_input.unit_id",
-      "java_expr": "self()",
-      "rule": "Explicit input identifies self() passed to Call.unitDespawn.",
-      "status": "explicit-input"
-    },
-    "unit_tether_update.spawner_id": {
-      "godot_owner": "PortGame.source_unit_tether_update_state",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_update_state",
-      "tests": [
-        "test_unit_tether_update_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_update_input.spawner_id",
-      "java_expr": "spawner.id",
-      "rule": "Explicit input mirrors spawner.id assigned to spawnerUnitId when tether is valid.",
-      "status": "explicit-input"
-    },
-    "unit_tether_update.guard": {
-      "godot_owner": "PortGame.source_unit_tether_update_state",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_update_state",
-      "tests": [
-        "test_unit_tether_update_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_update_result.guard",
-      "java_expr": "if(spawner == null || !spawner.isValid() || spawner.team != team){",
-      "rule": "UnitTetherComp.update despawns when tethered spawner is missing, invalid, or on another team.",
-      "status": "source-backed"
-    },
-    "unit_tether_update.call": {
-      "godot_owner": "PortGame.source_unit_tether_update_state",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_update_state",
-      "tests": [
-        "test_unit_tether_update_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_update_result.despawn",
-      "java_expr": "Call.unitDespawn(self());",
-      "rule": "UnitTetherComp.update despawn call recorded when guard passes.",
-      "status": "source-backed"
-    },
-    "unit_tether_update.spawner_unit_id_assign": {
-      "godot_owner": "PortGame.source_unit_tether_update_state",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_update_state",
-      "tests": [
-        "test_unit_tether_update_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_update_result.spawnerUnitId",
-      "java_expr": "spawnerUnitId = spawner.id;",
-      "rule": "UnitTetherComp.update stores spawner.id into spawnerUnitId when guard fails.",
-      "status": "source-backed"
-    },
-    "unit_tether_after_read.method": {
-      "godot_owner": "PortGame.source_unit_tether_after_read_state",
-      "java_method": "afterRead()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
-      "tests": [
-        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_read_result.method",
-      "java_expr": "public void afterRead(){",
-      "rule": "UnitTetherComp.afterRead method boundary.",
-      "status": "source-backed"
-    },
-    "unit_tether_after_read.guard": {
-      "godot_owner": "PortGame.source_unit_tether_after_read_state",
-      "java_method": "afterRead()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
-      "tests": [
-        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_read_result.guard",
-      "java_expr": "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);",
-      "rule": "UnitTetherComp.afterRead restores spawner from stored id when spawnerUnitId is not -1.",
-      "status": "source-backed"
-    },
-    "unit_tether_after_read.groups_unit_get_by_id": {
-      "godot_owner": "PortGame.source_unit_tether_after_read_state",
-      "java_method": "afterRead()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
-      "tests": [
-        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_read_result.groupsUnitGetById",
-      "java_expr": "Groups.unit.getByID(spawnerUnitId)",
-      "rule": "UnitTetherComp.afterRead lookup call used to restore transient spawner.",
-      "status": "source-backed"
-    },
-    "unit_tether_after_read.spawner_unit_id_reset": {
-      "godot_owner": "PortGame.source_unit_tether_after_read_state",
-      "java_method": "afterRead()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
-      "tests": [
-        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_read_result.spawnerUnitId",
-      "java_expr": "spawnerUnitId = -1;",
-      "rule": "UnitTetherComp.afterRead resets spawnerUnitId after optional lookup.",
-      "status": "source-backed"
-    },
-    "unit_tether_after_read.spawner_unit_id": {
-      "godot_owner": "PortGame.source_unit_tether_after_read_state",
-      "java_method": "afterRead()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
-      "tests": [
-        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_read_input.spawner_unit_id",
-      "java_expr": "spawnerUnitId",
-      "rule": "Explicit input mirrors stored spawnerUnitId before UnitTetherComp.afterRead reset.",
-      "status": "explicit-input"
-    },
-    "unit_tether_after_read.groups_unit_get_by_id_result": {
-      "godot_owner": "PortGame.source_unit_tether_after_read_state",
-      "java_method": "afterRead()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
-      "tests": [
-        "test_unit_tether_after_read_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_read_input.groups_unit_get_by_id_result",
-      "java_expr": "Groups.unit.getByID(spawnerUnitId)",
-      "rule": "Explicit input carries deferred Groups.unit.getByID(spawnerUnitId) result until live Groups runtime owns unit lookup.",
-      "status": "explicit-input"
-    },
-    "unit_tether_after_sync.method": {
-      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
-      "java_method": "afterSync()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
-      "tests": [
-        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_sync_result.method",
-      "java_expr": "public void afterSync(){",
-      "rule": "UnitTetherComp.afterSync method boundary.",
-      "status": "source-backed"
-    },
-    "unit_tether_after_sync.guard": {
-      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
-      "java_method": "afterSync()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
-      "tests": [
-        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_sync_result.guard",
-      "java_expr": "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);",
-      "rule": "UnitTetherComp.afterSync restores spawner from stored id when spawnerUnitId is not -1.",
-      "status": "source-backed"
-    },
-    "unit_tether_after_sync.groups_unit_get_by_id": {
-      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
-      "java_method": "afterSync()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
-      "tests": [
-        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_sync_result.groupsUnitGetById",
-      "java_expr": "Groups.unit.getByID(spawnerUnitId)",
-      "rule": "UnitTetherComp.afterSync lookup call used to restore transient spawner.",
-      "status": "source-backed"
-    },
-    "unit_tether_after_sync.spawner_unit_id_reset": {
-      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
-      "java_method": "afterSync()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
-      "tests": [
-        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_sync_result.spawnerUnitId",
-      "java_expr": "spawnerUnitId = -1;",
-      "rule": "UnitTetherComp.afterSync resets spawnerUnitId after optional lookup.",
-      "status": "source-backed"
-    },
-    "unit_tether_after_sync.spawner_unit_id": {
-      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
-      "java_method": "afterSync()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
-      "tests": [
-        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_sync_input.spawner_unit_id",
-      "java_expr": "spawnerUnitId",
-      "rule": "Explicit input mirrors stored spawnerUnitId before UnitTetherComp.afterSync reset.",
-      "status": "explicit-input"
-    },
-    "unit_tether_after_sync.groups_unit_get_by_id_result": {
-      "godot_owner": "PortGame.source_unit_tether_after_sync_state",
-      "java_method": "afterSync()",
-      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
-      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
-      "tests": [
-        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing"
-      ],
-      "godot_symbol": "source_unit_tether_after_sync_input.groups_unit_get_by_id_result",
-      "java_expr": "Groups.unit.getByID(spawnerUnitId)",
-      "rule": "Explicit input carries deferred Groups.unit.getByID(spawnerUnitId) result until live Groups runtime owns unit lookup.",
-      "status": "explicit-input"
     }
   },
   "version": 1

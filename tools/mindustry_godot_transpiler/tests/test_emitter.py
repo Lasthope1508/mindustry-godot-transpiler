@@ -5567,5 +5567,58 @@ class BuildingComp{
             self.assertIn('"destroy_gate_source_owner": "PortGame.source_building_damage_destroy_gate_state"', source_text)
             self.assertIn('"destroy_gate": destroy_gate_state', source_text)
 
+    def test_emit_bridges_child_comp_add_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "ChildComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class ChildComp{
+    public void add(){
+        if(parent != null){
+            offsetX = x - parent.getX();
+            offsetY = y - parent.getY();
+            if(rotWithParent){
+                if(parent instanceof Rotc r){
+                    offsetPos = -r.rotation();
+                    offsetRot = rotation - r.rotation();
+                }else if(parent instanceof RotBlock rot){
+                    offsetPos = -rot.buildRotation();
+                    offsetRot = rotation - rot.buildRotation();
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "ChildComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_add_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var child_state: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}", source_text)
+            self.assertIn("var parent_guard: bool = bool(child_state.get(\"parent_exists\", false))", source_text)
+            self.assertIn("var next_offset_x: float = offset_x", source_text)
+            self.assertIn("next_offset_x = x - parent_get_x", source_text)
+            self.assertIn("next_offset_y = y - parent_get_y", source_text)
+            self.assertIn("next_offset_pos = -parent_rotc_rotation", source_text)
+            self.assertIn("next_offset_rot = rotation - parent_rotc_rotation", source_text)
+            self.assertIn("next_offset_pos = -parent_rotblock_build_rotation", source_text)
+            self.assertIn("next_offset_rot = rotation - parent_rotblock_build_rotation", source_text)
+            self.assertIn('"source_owner": "PortGame.source_child_add_state"', source_text)
+            self.assertIn('"method": "public void add(){"', source_text)
+            self.assertIn('"parent_guard_expr": "if(parent != null){"', source_text)
+            self.assertIn('"offsetX_expr": "offsetX = x - parent.getX();"', source_text)
+            self.assertIn('"parent_rotc_guard_expr": "if(parent instanceof Rotc r){"', source_text)
+            self.assertIn('"parent_rotblock_guard_expr": "}else if(parent instanceof RotBlock rot){"', source_text)
+
 if __name__ == "__main__":
     unittest.main()
