@@ -11791,6 +11791,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"return_expr": "return false;"', source)
         self.assertIn('"is_sync_hidden": false', source)
 
+    def test_generated_sync_comp_bridges_handle_sync_hidden_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "SyncComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_handleSyncHidden_9(_args: Array = []) -> Variant:", source)
+        self.assertIn('"source_owner": "PortGame.source_sync_handle_sync_hidden_state"', source)
+        self.assertIn('"method": "void handleSyncHidden(){"', source)
+        self.assertIn('"empty_body": "void handleSyncHidden(){\\n\\n}"', source)
+        self.assertIn('"no_op": true', source)
+
     def test_port_game_exposes_source_sync_snap_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -11872,6 +11882,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"player": player', source)
         self.assertIn('"return_expr": "return false;"', source)
         self.assertIn('"is_sync_hidden": false', source)
+
+    def test_port_game_exposes_source_sync_handle_sync_hidden_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_sync_handle_sync_hidden_state() -> Dictionary:", source)
+        self.assertIn('"method": "void handleSyncHidden(){"', source)
+        self.assertIn('"empty_body": "void handleSyncHidden(){\\n\\n}"', source)
+        self.assertIn('"no_op": true', source)
 
     def test_port_game_exposes_generated_sync_comp_snap_sync_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
@@ -11980,6 +11999,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_sync_is_sync_hidden_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_isSyncHidden_8"', source)
         self.assertIn('"matches": result.get("is_sync_hidden", null) == canonical.get("is_sync_hidden", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
+
+    def test_port_game_exposes_generated_sync_comp_handle_sync_hidden_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_sync_comp_handle_sync_hidden_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
+        self.assertIn("var result = instance.java_method_handleSyncHidden_9([])", source)
+        self.assertIn("var canonical = source_sync_handle_sync_hidden_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_sync_handle_sync_hidden_state"', source)
+        self.assertIn('"generated_owner": "SyncComp.java_method_handleSyncHidden_9"', source)
+        self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null)', source)
 
 if __name__ == "__main__":
     unittest.main()

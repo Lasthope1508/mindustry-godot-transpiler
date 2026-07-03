@@ -75357,6 +75357,45 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "sync_handle_sync_hidden.method": {
+      "godot_owner": "PortGame.source_sync_handle_sync_hidden_state",
+      "godot_symbol": "source_sync_handle_sync_hidden_result.method",
+      "java_expr": "void handleSyncHidden(){",
+      "java_method": "handleSyncHidden()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp handleSyncHidden method boundary.",
+      "runtime_proof": "/root/Main.source_sync_handle_sync_hidden_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_handle_sync_hidden.empty_body": {
+      "godot_owner": "PortGame.source_sync_handle_sync_hidden_state",
+      "godot_symbol": "source_sync_handle_sync_hidden_result.empty_body",
+      "java_expr": "void handleSyncHidden(){\n\n}",
+      "java_method": "handleSyncHidden()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp handleSyncHidden body is empty in source.",
+      "runtime_proof": "/root/Main.source_sync_handle_sync_hidden_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_handle_sync_hidden.no_op": {
+      "godot_owner": "PortGame.source_sync_handle_sync_hidden_state",
+      "godot_symbol": "source_sync_handle_sync_hidden_result.no_op",
+      "java_expr": "void handleSyncHidden(){\n\n}",
+      "java_method": "handleSyncHidden()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Empty SyncComp handleSyncHidden body has no visible side effects in this source slice.",
+      "runtime_proof": "/root/Main.source_sync_handle_sync_hidden_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

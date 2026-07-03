@@ -24242,6 +24242,32 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N1126": {
+      "exact_exprs": [
+        "void handleSyncHidden(){",
+        "void handleSyncHidden(){\n\n}"
+      ],
+      "godot_owner": "PortGame.source_sync_handle_sync_hidden_state",
+      "java_class": "mindustry.entities.comp.SyncComp",
+      "java_method": "handleSyncHidden()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Registers SyncComp.handleSyncHidden() empty body and wires generated SyncComp.java_method_handleSyncHidden_9 plus PortGame generated bridge to canonical source_sync_handle_sync_hidden_state.",
+      "runtime_proof": "/root/Main.generated_sync_comp_handle_sync_hidden_bridge_state",
+      "source_symbols": [
+        "sync_handle_sync_hidden.method",
+        "sync_handle_sync_hidden.empty_body",
+        "sync_handle_sync_hidden.no_op"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_sync_comp_handle_sync_hidden_to_source_state",
+        "test_generated_sync_comp_bridges_handle_sync_hidden_to_source_state",
+        "test_port_game_exposes_source_sync_handle_sync_hidden_state",
+        "test_port_game_exposes_generated_sync_comp_handle_sync_hidden_bridge_state",
+        "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

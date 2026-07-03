@@ -1287,6 +1287,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_sync_is_sync_hidden_state\", \"method\": \"boolean isSyncHidden(Player player){\", \"player\": player, \"return_expr\": \"return false;\", \"is_sync_hidden\": false}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/SyncComp.java"
+        and type_entry.get("name") == "SyncComp"
+        and method.get("name") == "handleSyncHidden"
+    ):
+        return [
+            "\treturn {\"source_owner\": \"PortGame.source_sync_handle_sync_hidden_state\", \"method\": \"void handleSyncHidden(){\", \"empty_body\": \"void handleSyncHidden(){\\n\\n}\", \"no_op\": true}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
         and type_entry.get("name") == "UnitTetherComp"
         and method.get("name") == "afterRead"

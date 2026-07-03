@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 594)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 595)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 599)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 600)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -40741,6 +40741,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_sync_is_sync_hidden_result["keys"]["player"]["java_expr"], "Player player")
         self.assertEqual(source_sync_is_sync_hidden_result["keys"]["return_expr"]["java_expr"], "return false;")
         self.assertEqual(source_sync_is_sync_hidden_result["keys"]["is_sync_hidden"]["java_expr"], "return false;")
+
+    def test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "sync_handle_sync_hidden.method")
+        self.assertEqual(method["java_expr"], "void handleSyncHidden(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/SyncComp.java")
+        self.assertEqual(method["java_method"], "handleSyncHidden()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_sync_handle_sync_hidden_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_sync_handle_sync_hidden_state")
+
+        empty_body = source_symbols.source_symbol(registry, "sync_handle_sync_hidden.empty_body")
+        self.assertEqual(empty_body["java_expr"], "void handleSyncHidden(){\n\n}")
+        self.assertEqual(empty_body["godot_symbol"], "source_sync_handle_sync_hidden_result.empty_body")
+        no_op = source_symbols.source_symbol(registry, "sync_handle_sync_hidden.no_op")
+        self.assertEqual(no_op["java_expr"], "void handleSyncHidden(){\n\n}")
+        self.assertEqual(no_op["godot_symbol"], "source_sync_handle_sync_hidden_result.no_op")
+
+        hidden_slice = source_symbols.source_slice(ledger, "N1126")
+        self.assertEqual(hidden_slice["java_source"], "core/src/mindustry/entities/comp/SyncComp.java")
+        self.assertEqual(hidden_slice["java_method"], "handleSyncHidden()")
+        self.assertEqual(hidden_slice["godot_owner"], "PortGame.source_sync_handle_sync_hidden_state")
+        self.assertEqual(hidden_slice["runtime_proof"], "/root/Main.generated_sync_comp_handle_sync_hidden_bridge_state")
+        self.assertIn("void handleSyncHidden(){", hidden_slice["exact_exprs"])
+        self.assertIn("void handleSyncHidden(){\n\n}", hidden_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_sync_handle_sync_hidden_state")
+        self.assertEqual(contract["params"], [])
+        for key in ["method", "empty_body", "no_op"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_sync_handle_sync_hidden_result = source_symbols.state_schema(schema, "source_sync_handle_sync_hidden_result")
+        self.assertEqual(source_sync_handle_sync_hidden_result["keys"]["method"]["java_expr"], "void handleSyncHidden(){")
+        self.assertEqual(source_sync_handle_sync_hidden_result["keys"]["empty_body"]["java_expr"], "void handleSyncHidden(){\n\n}")
+        self.assertEqual(source_sync_handle_sync_hidden_result["keys"]["no_op"]["java_expr"], "void handleSyncHidden(){\n\n}")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {
