@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 606)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 607)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 611)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 612)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19741,6 +19741,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_dump_null_remove_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_null_success_handoff_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_specific_proximity_scan_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_unit_add_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_killed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_team_state", audit["registeredSourceOwners"])
@@ -41351,6 +41352,59 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_unit_update_result["keys"]["guard_expr"]["java_expr"], "if(tile != null){")
         self.assertEqual(source_block_unit_update_result["keys"]["tile_guard"]["java_expr"], "tile != null")
         self.assertEqual(source_block_unit_update_result["keys"]["team_after"]["java_expr"], "team = tile.team;")
+
+    def test_generated_block_unit_comp_add_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_unit_add.method")
+        self.assertEqual(method["java_expr"], "public void add(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(method["java_method"], "add()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_unit_add_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_unit_add_state")
+
+        tile_null = source_symbols.source_symbol(registry, "block_unit_add.tile_null")
+        self.assertEqual(tile_null["java_expr"], "tile == null")
+        self.assertEqual(tile_null["godot_symbol"], "source_block_unit_add_input.tile_null")
+        guard = source_symbols.source_symbol(registry, "block_unit_add.guard")
+        self.assertEqual(guard["java_expr"], "tile == null")
+        self.assertEqual(guard["godot_symbol"], "source_block_unit_add_result.runtime_exception_thrown")
+        message = source_symbols.source_symbol(registry, "block_unit_add.runtime_exception_message")
+        self.assertEqual(message["java_expr"], "Do not add BlockUnit entities to the game, they will simply crash. Internal use only.")
+        self.assertEqual(message["godot_symbol"], "source_block_unit_add_result.runtime_exception_message")
+        thrown = source_symbols.source_symbol(registry, "block_unit_add.runtime_exception_thrown")
+        self.assertEqual(thrown["java_expr"], "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");")
+        self.assertEqual(thrown["godot_symbol"], "source_block_unit_add_result.runtime_exception_thrown")
+
+        add_slice = source_symbols.source_slice(ledger, "N1138")
+        self.assertEqual(add_slice["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(add_slice["java_method"], "add()")
+        self.assertEqual(add_slice["godot_owner"], "PortGame.source_block_unit_add_state")
+        self.assertEqual(add_slice["runtime_proof"], "/root/Main.generated_block_unit_comp_add_bridge_state")
+        self.assertIn("@Override", add_slice["exact_exprs"])
+        self.assertIn("public void add(){", add_slice["exact_exprs"])
+        self.assertIn("if(tile == null){", add_slice["exact_exprs"])
+        self.assertIn("throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");", add_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_unit_add_state")
+        self.assertEqual(contract["params"], [
+            {"name": "tile_null", "schema": "source_block_unit_add_input.tile_null", "type": "bool"},
+        ])
+        for key in ["method", "guard_expr", "throw_expr", "tile_null", "runtime_exception_thrown", "runtime_exception_message"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_block_unit_add_input = source_symbols.state_schema(schema, "source_block_unit_add_input")
+        self.assertEqual(source_block_unit_add_input["keys"]["tile_null"]["java_expr"], "tile == null")
+        source_block_unit_add_result = source_symbols.state_schema(schema, "source_block_unit_add_result")
+        self.assertEqual(source_block_unit_add_result["keys"]["method"]["java_expr"], "public void add(){")
+        self.assertEqual(source_block_unit_add_result["keys"]["guard_expr"]["java_expr"], "if(tile == null){")
+        self.assertEqual(source_block_unit_add_result["keys"]["throw_expr"]["java_expr"], "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");")
+        self.assertEqual(source_block_unit_add_result["keys"]["runtime_exception_thrown"]["java_expr"], "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

@@ -17,7 +17,10 @@ func java_method_tile_0(_args: Array = []) -> Variant:
 	return null
 
 func java_method_add_1(_args: Array = []) -> Variant:
-	return null
+	var tile_null: bool = bool(_args[0] if _args.size() > 0 else false)
+	var runtime_exception_thrown: bool = tile_null
+	var runtime_exception_message: String = "Do not add BlockUnit entities to the game, they will simply crash. Internal use only." if runtime_exception_thrown else ""
+	return {"source_owner": "PortGame.source_block_unit_add_state", "method": "public void add(){", "guard_expr": "if(tile == null){", "throw_expr": "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");", "tile_null": tile_null, "runtime_exception_thrown": runtime_exception_thrown, "runtime_exception_message": runtime_exception_message}
 
 func java_method_update_2(_args: Array = []) -> Variant:
 	var tile_exists: bool = bool(_args[0] if _args.size() > 0 else false)

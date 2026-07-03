@@ -89422,6 +89422,100 @@
           ]
         }
       }
+    },
+    "source_block_unit_add_input": {
+      "status": "active",
+      "keys": {
+        "tile_null": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "add()",
+          "java_expr": "tile == null",
+          "godot_symbol": "source_block_unit_add_input.tile_null",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves explicit BlockUnitComp.add() tile null guard.",
+          "used_by": [
+            "PortGame.source_block_unit_add_state"
+          ]
+        }
+      }
+    },
+    "source_block_unit_add_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "add()",
+          "java_expr": "public void add(){",
+          "godot_symbol": "source_block_unit_add_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records BlockUnitComp.add method boundary.",
+          "used_by": [
+            "PortGame.source_block_unit_add_state"
+          ]
+        },
+        "guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "add()",
+          "java_expr": "if(tile == null){",
+          "godot_symbol": "source_block_unit_add_result.guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact BlockUnitComp.add tile null guard expression.",
+          "used_by": [
+            "PortGame.source_block_unit_add_state"
+          ]
+        },
+        "throw_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "add()",
+          "java_expr": "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");",
+          "godot_symbol": "source_block_unit_add_result.throw_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact BlockUnitComp.add RuntimeException throw expression.",
+          "used_by": [
+            "PortGame.source_block_unit_add_state"
+          ]
+        },
+        "tile_null": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "add()",
+          "java_expr": "tile == null",
+          "godot_symbol": "source_block_unit_add_input.tile_null",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result preserves explicit tile null guard input.",
+          "used_by": [
+            "PortGame.source_block_unit_add_state"
+          ]
+        },
+        "runtime_exception_thrown": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "add()",
+          "java_expr": "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");",
+          "godot_symbol": "source_block_unit_add_result.runtime_exception_thrown",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records whether BlockUnitComp.add throws RuntimeException.",
+          "used_by": [
+            "PortGame.source_block_unit_add_state"
+          ]
+        },
+        "runtime_exception_message": {
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "java_method": "add()",
+          "java_expr": "Do not add BlockUnit entities to the game, they will simply crash. Internal use only.",
+          "godot_symbol": "source_block_unit_add_result.runtime_exception_message",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records BlockUnitComp.add RuntimeException message.",
+          "used_by": [
+            "PortGame.source_block_unit_add_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

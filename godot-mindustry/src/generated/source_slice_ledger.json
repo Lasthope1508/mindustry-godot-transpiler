@@ -24596,6 +24596,36 @@
         "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1138": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "add()",
+      "godot_owner": "PortGame.source_block_unit_add_state",
+      "source_symbols": [
+        "block_unit_add.method",
+        "block_unit_add.tile_null",
+        "block_unit_add.guard",
+        "block_unit_add.throw_expr",
+        "block_unit_add.runtime_exception_thrown",
+        "block_unit_add.runtime_exception_message"
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void add(){",
+        "if(tile == null){",
+        "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");"
+      ],
+      "status": "done",
+      "rule": "Registers BlockUnitComp.add() tile null guard and RuntimeException throw; wires generated BlockUnitComp.java_method_add_1 plus PortGame generated bridge to canonical source_block_unit_add_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_add_bridge_state",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_add_to_source_state",
+        "test_port_game_exposes_source_block_unit_add_state",
+        "test_port_game_exposes_generated_block_unit_comp_add_bridge_state",
+        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

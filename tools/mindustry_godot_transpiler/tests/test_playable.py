@@ -12385,5 +12385,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_update_2"', source)
         self.assertIn('"matches": result.get("tile_guard", null) == canonical.get("tile_guard", null) and result.get("team_after", null) == canonical.get("team_after", null)', source)
 
+    def test_port_game_exposes_source_block_unit_add_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_unit_add_state(tile_null: bool) -> Dictionary:", source)
+        self.assertIn("var runtime_exception_thrown: bool = tile_null", source)
+        self.assertIn('var runtime_exception_message: String = "Do not add BlockUnit entities to the game, they will simply crash. Internal use only." if runtime_exception_thrown else ""', source)
+        self.assertIn('"method": "public void add(){"', source)
+        self.assertIn('"guard_expr": "if(tile == null){"', source)
+        self.assertIn('"throw_expr": "throw new RuntimeException', source)
+        self.assertIn('"runtime_exception_thrown": runtime_exception_thrown', source)
+        self.assertIn('"runtime_exception_message": runtime_exception_message', source)
+
+    def test_port_game_exposes_generated_block_unit_comp_add_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_unit_comp_add_bridge_state(tile_null: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
+        self.assertIn("var result = instance.java_method_add_1([tile_null])", source)
+        self.assertIn("var canonical = source_block_unit_add_state(tile_null)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_add_state"', source)
+        self.assertIn('"generated_owner": "BlockUnitComp.java_method_add_1"', source)
+        self.assertIn('"matches": result.get("runtime_exception_thrown", null) == canonical.get("runtime_exception_thrown", null) and result.get("runtime_exception_message", null) == canonical.get("runtime_exception_message", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

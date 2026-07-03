@@ -24483,6 +24483,33 @@
         "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_block_unit_update_state"
       ]
+    },
+    "PortGame.source_block_unit_add_state": {
+      "source_slice": "N1138",
+      "source_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_null",
+          "type": "bool",
+          "schema": "source_block_unit_add_input.tile_null"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard_expr",
+        "throw_expr",
+        "tile_null",
+        "runtime_exception_thrown",
+        "runtime_exception_message"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BlockUnitComp.add() tile null RuntimeException state.",
+      "runtime_proof": "/root/Main.source_block_unit_add_state",
+      "tests": [
+        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_add_state"
+      ]
     }
   },
   "policy": {

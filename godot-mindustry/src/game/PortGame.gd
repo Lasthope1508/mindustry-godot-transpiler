@@ -7443,6 +7443,31 @@ func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) ->
 		"matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
 	}
 
+func source_block_unit_add_state(tile_null: bool) -> Dictionary:
+	var runtime_exception_thrown: bool = tile_null
+	var runtime_exception_message: String = "Do not add BlockUnit entities to the game, they will simply crash. Internal use only." if runtime_exception_thrown else ""
+	return {
+		"method": "public void add(){",
+		"guard_expr": "if(tile == null){",
+		"throw_expr": "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");",
+		"tile_null": tile_null,
+		"runtime_exception_thrown": runtime_exception_thrown,
+		"runtime_exception_message": runtime_exception_message,
+	}
+
+func generated_block_unit_comp_add_bridge_state(tile_null: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_add_1([tile_null])
+	var canonical = source_block_unit_add_state(tile_null)
+	return {
+		"source_owner": "PortGame.source_block_unit_add_state",
+		"generated_owner": "BlockUnitComp.java_method_add_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("runtime_exception_thrown", null) == canonical.get("runtime_exception_thrown", null) and result.get("runtime_exception_message", null) == canonical.get("runtime_exception_message", null),
+	}
+
 func source_block_unit_update_state(tile_exists: bool, team: Variant, tile_team: Variant) -> Dictionary:
 	var tile_guard: bool = tile_exists
 	var team_after: Variant = team

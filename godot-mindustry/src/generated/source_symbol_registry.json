@@ -76163,6 +76163,84 @@
       "tests": [
         "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_unit_add.method": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "add()",
+      "java_expr": "public void add(){",
+      "godot_owner": "PortGame.source_block_unit_add_state",
+      "godot_symbol": "source_block_unit_add_result.method",
+      "status": "source-backed",
+      "rule": "BlockUnitComp add method boundary.",
+      "runtime_proof": "/root/Main.source_block_unit_add_state",
+      "tests": [
+        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_add.tile_null": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "add()",
+      "java_expr": "tile == null",
+      "godot_owner": "PortGame.source_block_unit_add_state",
+      "godot_symbol": "source_block_unit_add_input.tile_null",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for BlockUnitComp.add() tile null guard.",
+      "runtime_proof": "/root/Main.source_block_unit_add_state",
+      "tests": [
+        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_add.guard": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "add()",
+      "java_expr": "tile == null",
+      "godot_owner": "PortGame.source_block_unit_add_state",
+      "godot_symbol": "source_block_unit_add_result.runtime_exception_thrown",
+      "status": "source-backed",
+      "rule": "Result of BlockUnitComp.add() tile == null guard.",
+      "runtime_proof": "/root/Main.source_block_unit_add_state",
+      "tests": [
+        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_add.runtime_exception_message": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "add()",
+      "java_expr": "Do not add BlockUnit entities to the game, they will simply crash. Internal use only.",
+      "godot_owner": "PortGame.source_block_unit_add_state",
+      "godot_symbol": "source_block_unit_add_result.runtime_exception_message",
+      "status": "source-backed",
+      "rule": "RuntimeException message from BlockUnitComp.add().",
+      "runtime_proof": "/root/Main.source_block_unit_add_state",
+      "tests": [
+        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_add.runtime_exception_thrown": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "add()",
+      "java_expr": "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");",
+      "godot_owner": "PortGame.source_block_unit_add_state",
+      "godot_symbol": "source_block_unit_add_result.runtime_exception_thrown",
+      "status": "source-backed",
+      "rule": "Result marker for BlockUnitComp.add() RuntimeException throw.",
+      "runtime_proof": "/root/Main.source_block_unit_add_state",
+      "tests": [
+        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_add.throw_expr": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "add()",
+      "java_expr": "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");",
+      "godot_owner": "PortGame.source_block_unit_add_state",
+      "godot_symbol": "source_block_unit_add_result.throw_expr",
+      "status": "source-backed",
+      "rule": "Exact BlockUnitComp.add() throw expression.",
+      "runtime_proof": "/root/Main.source_block_unit_add_state",
+      "tests": [
+        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -1195,6 +1195,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
+        and method.get("name") == "add"
+    ):
+        return [
+            "\tvar tile_null: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar runtime_exception_thrown: bool = tile_null",
+            "\tvar runtime_exception_message: String = \"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\" if runtime_exception_thrown else \"\"",
+            "\treturn {\"source_owner\": \"PortGame.source_block_unit_add_state\", \"method\": \"public void add(){\", \"guard_expr\": \"if(tile == null){\", \"throw_expr\": \"throw new RuntimeException(\\\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\\\");\", \"tile_null\": tile_null, \"runtime_exception_thrown\": runtime_exception_thrown, \"runtime_exception_message\": runtime_exception_message}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
+        and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "update"
     ):
         return [

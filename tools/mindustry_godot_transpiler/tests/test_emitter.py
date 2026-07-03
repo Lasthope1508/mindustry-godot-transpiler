@@ -6447,5 +6447,43 @@ class BlockUnitComp{
             self.assertIn('"tile_guard": tile_guard', source_text)
             self.assertIn('"team_after": team_after', source_text)
 
+    def test_emit_bridges_block_unit_comp_add_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BlockUnitComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BlockUnitComp{
+    public void add(){
+        if(tile == null){
+            throw new RuntimeException("Do not add BlockUnit entities to the game, they will simply crash. Internal use only.");
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_add_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_null: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var runtime_exception_thrown: bool = tile_null", source_text)
+            self.assertIn('var runtime_exception_message: String = "Do not add BlockUnit entities to the game, they will simply crash. Internal use only." if runtime_exception_thrown else ""', source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_unit_add_state"', source_text)
+            self.assertIn('"method": "public void add(){"', source_text)
+            self.assertIn('"guard_expr": "if(tile == null){"', source_text)
+            self.assertIn('"throw_expr": "throw new RuntimeException', source_text)
+            self.assertIn('"tile_null": tile_null', source_text)
+            self.assertIn('"runtime_exception_thrown": runtime_exception_thrown', source_text)
+            self.assertIn('"runtime_exception_message": runtime_exception_message', source_text)
+
 if __name__ == "__main__":
     unittest.main()
