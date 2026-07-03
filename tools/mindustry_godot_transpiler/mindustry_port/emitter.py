@@ -1260,6 +1260,28 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "drawPlan"
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar all_plans: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar plan_breaking: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar alpha: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar build_valid_place: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar control_input_plan_matches: bool = bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar plan_anim_scale: float = 1.0",
+            "\tvar draw_plan_valid: bool = build_valid_place or control_input_plan_matches",
+            "\tvar draw_breaking_call: Variant = null",
+            "\tvar draw_plan_call: Variant = null",
+            "\tif plan_breaking:",
+            "\t\tdraw_breaking_call = {\"call\": \"control.input.drawBreaking(plan);\", \"plan\": plan}",
+            "\telse:",
+            "\t\tdraw_plan_call = {\"call\": \"plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(...) || control.input.planMatches(plan), alpha);\", \"plan\": plan, \"all_plans\": all_plans, \"valid\": draw_plan_valid, \"alpha\": alpha}",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_draw_plan_state\", \"method\": \"void drawPlan(BuildPlan plan, float alpha){\", \"anim_scale_expr\": \"plan.animScale = 1f;\", \"breaking_guard_expr\": \"if(plan.breaking){\", \"draw_breaking_expr\": \"control.input.drawBreaking(plan);\", \"draw_plan_expr\": \"plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan), alpha);\", \"draw_plan_valid_expr\": \"Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)\", \"plan\": plan, \"all_plans\": all_plans, \"plan_breaking\": plan_breaking, \"alpha\": alpha, \"build_valid_place\": build_valid_place, \"control_input_plan_matches\": control_input_plan_matches, \"plan_anim_scale\": plan_anim_scale, \"draw_plan_valid\": draw_plan_valid, \"draw_breaking_call\": draw_breaking_call, \"draw_plan_call\": draw_plan_call}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "drawPlanTop"
     ):
         return [

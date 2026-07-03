@@ -7810,6 +7810,47 @@ func generated_builder_comp_clear_building_bridge_state() -> Dictionary:
 		"matches": result.get("plans_clear_call", null) == canonical.get("plans_clear_call", null) and result.get("plans_clear_called", null) == canonical.get("plans_clear_called", null),
 	}
 
+func source_builder_draw_plan_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:
+	var plan_anim_scale: float = 1.0
+	var draw_plan_valid: bool = build_valid_place or control_input_plan_matches
+	var draw_breaking_call: Variant = null
+	var draw_plan_call: Variant = null
+	if plan_breaking:
+		draw_breaking_call = {"call": "control.input.drawBreaking(plan);", "plan": plan}
+	else:
+		draw_plan_call = {"call": "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(...) || control.input.planMatches(plan), alpha);", "plan": plan, "all_plans": all_plans, "valid": draw_plan_valid, "alpha": alpha}
+	return {
+		"method": "void drawPlan(BuildPlan plan, float alpha){",
+		"anim_scale_expr": "plan.animScale = 1f;",
+		"breaking_guard_expr": "if(plan.breaking){",
+		"draw_breaking_expr": "control.input.drawBreaking(plan);",
+		"draw_plan_expr": "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan), alpha);",
+		"draw_plan_valid_expr": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)",
+		"plan": plan,
+		"all_plans": all_plans,
+		"plan_breaking": plan_breaking,
+		"alpha": alpha,
+		"build_valid_place": build_valid_place,
+		"control_input_plan_matches": control_input_plan_matches,
+		"plan_anim_scale": plan_anim_scale,
+		"draw_plan_valid": draw_plan_valid,
+		"draw_breaking_call": draw_breaking_call,
+		"draw_plan_call": draw_plan_call,
+	}
+
+func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawPlan_5([plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches])
+	var canonical = source_builder_draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)
+	return {
+		"source_owner": "PortGame.source_builder_draw_plan_state",
+		"generated_owner": "BuilderComp.java_method_drawPlan_5",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("draw_breaking_call", null) == canonical.get("draw_breaking_call", null) and result.get("draw_plan_call", null) == canonical.get("draw_plan_call", null),
+	}
+
 func source_builder_draw_plan_top_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
 	var draw_top: bool = not plan_breaking
 	var mixcol_alpha: float = 0.24 + mathf_absin_time_global_6_0_28

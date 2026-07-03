@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 619)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 620)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 624)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 625)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19753,6 +19753,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_builder_build_plan_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_can_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_clear_building_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_builder_draw_plan_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_draw_plan_top_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_is_building_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_remove_build_state", audit["registeredSourceOwners"])
@@ -42121,6 +42122,75 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_draw_plan_top_result["keys"]["draw_top"]["java_expr"], "!plan.breaking")
         self.assertEqual(source_builder_draw_plan_top_result["keys"]["mixcol_alpha"]["java_expr"], "0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f)")
         self.assertEqual(source_builder_draw_plan_top_result["keys"]["draw_plan_config_top_call"]["java_expr"], "plan.block.drawPlanConfigTop(plan, plans);")
+
+    def test_generated_builder_comp_draw_plan_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_draw_plan.method")
+        self.assertEqual(method["java_expr"], "void drawPlan(BuildPlan plan, float alpha){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "drawPlan(BuildPlan plan, float alpha)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_draw_plan_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_draw_plan_state")
+
+        anim_scale = source_symbols.source_symbol(registry, "builder_draw_plan.anim_scale")
+        self.assertEqual(anim_scale["java_expr"], "plan.animScale = 1f;")
+        self.assertEqual(anim_scale["godot_symbol"], "source_builder_draw_plan_result.plan_anim_scale")
+        draw_plan_valid = source_symbols.source_symbol(registry, "builder_draw_plan.draw_plan_valid")
+        self.assertEqual(draw_plan_valid["java_expr"], "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)")
+        self.assertEqual(draw_plan_valid["godot_symbol"], "source_builder_draw_plan_result.draw_plan_valid")
+        draw_plan_call = source_symbols.source_symbol(registry, "builder_draw_plan.draw_plan_call")
+        self.assertEqual(draw_plan_call["java_expr"], "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan), alpha);")
+        self.assertEqual(draw_plan_call["godot_symbol"], "source_builder_draw_plan_result.draw_plan_call")
+
+        draw_plan_slice = source_symbols.source_slice(ledger, "N1151")
+        self.assertEqual(draw_plan_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(draw_plan_slice["java_method"], "drawPlan(BuildPlan plan, float alpha)")
+        self.assertEqual(draw_plan_slice["godot_owner"], "PortGame.source_builder_draw_plan_state")
+        self.assertEqual(draw_plan_slice["runtime_proof"], "/root/Main.generated_builder_comp_draw_plan_bridge_state")
+        self.assertIn("void drawPlan(BuildPlan plan, float alpha){", draw_plan_slice["exact_exprs"])
+        self.assertIn("plan.animScale = 1f;", draw_plan_slice["exact_exprs"])
+        self.assertIn("if(plan.breaking){", draw_plan_slice["exact_exprs"])
+        self.assertIn("control.input.drawBreaking(plan);", draw_plan_slice["exact_exprs"])
+        self.assertIn("plan.block.drawPlan(plan, control.input.allPlans(),", draw_plan_slice["exact_exprs"])
+        self.assertIn("Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan),", draw_plan_slice["exact_exprs"])
+        self.assertIn("alpha);", draw_plan_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_draw_plan_state")
+        self.assertEqual(contract["params"], [
+            {"name": "plan", "schema": "source_builder_draw_plan_input.plan", "type": "Variant"},
+            {"name": "all_plans", "schema": "source_builder_draw_plan_input.all_plans", "type": "Array"},
+            {"name": "plan_breaking", "schema": "source_builder_draw_plan_input.plan_breaking", "type": "bool"},
+            {"name": "alpha", "schema": "source_builder_draw_plan_input.alpha", "type": "float"},
+            {"name": "build_valid_place", "schema": "source_builder_draw_plan_input.build_valid_place", "type": "bool"},
+            {"name": "control_input_plan_matches", "schema": "source_builder_draw_plan_input.control_input_plan_matches", "type": "bool"},
+        ])
+        for key in ["method", "anim_scale_expr", "breaking_guard_expr", "draw_breaking_expr", "draw_plan_expr", "draw_plan_valid_expr", "plan", "all_plans", "plan_breaking", "alpha", "build_valid_place", "control_input_plan_matches", "plan_anim_scale", "draw_plan_valid", "draw_breaking_call", "draw_plan_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_draw_plan_input = source_symbols.state_schema(schema, "source_builder_draw_plan_input")
+        self.assertEqual(source_builder_draw_plan_input["keys"]["plan"]["java_expr"], "plan")
+        self.assertEqual(source_builder_draw_plan_input["keys"]["all_plans"]["java_expr"], "control.input.allPlans()")
+        self.assertEqual(source_builder_draw_plan_input["keys"]["plan_breaking"]["java_expr"], "plan.breaking")
+        self.assertEqual(source_builder_draw_plan_input["keys"]["alpha"]["java_expr"], "alpha")
+        self.assertEqual(source_builder_draw_plan_input["keys"]["build_valid_place"]["java_expr"], "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation)")
+        self.assertEqual(source_builder_draw_plan_input["keys"]["control_input_plan_matches"]["java_expr"], "control.input.planMatches(plan)")
+        source_builder_draw_plan_result = source_symbols.state_schema(schema, "source_builder_draw_plan_result")
+        self.assertEqual(source_builder_draw_plan_result["keys"]["method"]["java_expr"], "void drawPlan(BuildPlan plan, float alpha){")
+        self.assertEqual(source_builder_draw_plan_result["keys"]["anim_scale_expr"]["java_expr"], "plan.animScale = 1f;")
+        self.assertEqual(source_builder_draw_plan_result["keys"]["breaking_guard_expr"]["java_expr"], "if(plan.breaking){")
+        self.assertEqual(source_builder_draw_plan_result["keys"]["draw_breaking_expr"]["java_expr"], "control.input.drawBreaking(plan);")
+        self.assertEqual(source_builder_draw_plan_result["keys"]["draw_plan_expr"]["java_expr"], "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan), alpha);")
+        self.assertEqual(source_builder_draw_plan_result["keys"]["draw_plan_valid_expr"]["java_expr"], "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)")
+        self.assertEqual(source_builder_draw_plan_result["keys"]["plan_anim_scale"]["java_expr"], "plan.animScale = 1f;")
+        self.assertEqual(source_builder_draw_plan_result["keys"]["draw_plan_valid"]["java_expr"], "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)")
+        self.assertEqual(source_builder_draw_plan_result["keys"]["draw_breaking_call"]["java_expr"], "control.input.drawBreaking(plan);")
+        self.assertEqual(source_builder_draw_plan_result["keys"]["draw_plan_call"]["java_expr"], "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan), alpha);")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

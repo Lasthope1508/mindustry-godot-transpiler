@@ -25041,6 +25041,50 @@
       ],
       "status": "active",
       "rule": "BuilderComp.drawPlanTop records top-plan draw calls only when !plan.breaking, preserving Draw.reset, Draw.mixcol, Draw.alpha, and drawPlanConfigTop calls."
+    },
+    "N1151": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "drawPlan(BuildPlan plan, float alpha)",
+      "godot_owner": "PortGame.source_builder_draw_plan_state",
+      "source_symbols": [
+        "builder_draw_plan.method",
+        "builder_draw_plan.anim_scale",
+        "builder_draw_plan.breaking_guard",
+        "builder_draw_plan.draw_breaking_expr",
+        "builder_draw_plan.draw_plan_expr",
+        "builder_draw_plan.draw_plan_valid_expr",
+        "builder_draw_plan.plan",
+        "builder_draw_plan.all_plans",
+        "builder_draw_plan.plan_breaking",
+        "builder_draw_plan.alpha",
+        "builder_draw_plan.build_valid_place",
+        "builder_draw_plan.control_input_plan_matches",
+        "builder_draw_plan.plan_anim_scale",
+        "builder_draw_plan.draw_plan_valid",
+        "builder_draw_plan.draw_breaking_call",
+        "builder_draw_plan.draw_plan_call"
+      ],
+      "exact_exprs": [
+        "void drawPlan(BuildPlan plan, float alpha){",
+        "plan.animScale = 1f;",
+        "if(plan.breaking){",
+        "control.input.drawBreaking(plan);",
+        "}else{",
+        "plan.block.drawPlan(plan, control.input.allPlans(),",
+        "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan),",
+        "alpha);"
+      ],
+      "runtime_proof": "/root/Main.generated_builder_comp_draw_plan_bridge_state",
+      "tests": [
+        "test_emit_bridges_builder_comp_draw_plan_to_source_state",
+        "test_port_game_exposes_source_builder_draw_plan_state",
+        "test_port_game_exposes_generated_builder_comp_draw_plan_bridge_state",
+        "test_builder_draw_plan_matches_upstream_source",
+        "test_generated_builder_comp_draw_plan_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "BuilderComp.drawPlan sets plan.animScale, calls drawBreaking for breaking plans, otherwise calls plan.block.drawPlan with control.input.allPlans(), Build.validPlace(...) || control.input.planMatches(plan), and alpha."
     }
   },
   "version": 1

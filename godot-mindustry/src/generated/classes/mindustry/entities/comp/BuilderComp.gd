@@ -39,7 +39,21 @@ func java_method_updateBuildLogic_4(_args: Array = []) -> Variant:
 	return null
 
 func java_method_drawPlan_5(_args: Array = []) -> Variant:
-	return null
+	var plan: Variant = _args[0] if _args.size() > 0 else null
+	var all_plans: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []
+	var plan_breaking: bool = bool(_args[2] if _args.size() > 2 else false)
+	var alpha: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var build_valid_place: bool = bool(_args[4] if _args.size() > 4 else false)
+	var control_input_plan_matches: bool = bool(_args[5] if _args.size() > 5 else false)
+	var plan_anim_scale: float = 1.0
+	var draw_plan_valid: bool = build_valid_place or control_input_plan_matches
+	var draw_breaking_call: Variant = null
+	var draw_plan_call: Variant = null
+	if plan_breaking:
+		draw_breaking_call = {"call": "control.input.drawBreaking(plan);", "plan": plan}
+	else:
+		draw_plan_call = {"call": "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(...) || control.input.planMatches(plan), alpha);", "plan": plan, "all_plans": all_plans, "valid": draw_plan_valid, "alpha": alpha}
+	return {"source_owner": "PortGame.source_builder_draw_plan_state", "method": "void drawPlan(BuildPlan plan, float alpha){", "anim_scale_expr": "plan.animScale = 1f;", "breaking_guard_expr": "if(plan.breaking){", "draw_breaking_expr": "control.input.drawBreaking(plan);", "draw_plan_expr": "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan), alpha);", "draw_plan_valid_expr": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)", "plan": plan, "all_plans": all_plans, "plan_breaking": plan_breaking, "alpha": alpha, "build_valid_place": build_valid_place, "control_input_plan_matches": control_input_plan_matches, "plan_anim_scale": plan_anim_scale, "draw_plan_valid": draw_plan_valid, "draw_breaking_call": draw_breaking_call, "draw_plan_call": draw_plan_call}
 
 func java_method_drawPlanTop_6(_args: Array = []) -> Variant:
 	var plan: Variant = _args[0] if _args.size() > 0 else null

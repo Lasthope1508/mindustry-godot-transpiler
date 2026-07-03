@@ -6958,5 +6958,57 @@ class BuilderComp{
             self.assertIn('"draw_plan_config_top_expr": "plan.block.drawPlanConfigTop(plan, plans);"', source_text)
             self.assertIn('"draw_top": draw_top', source_text)
 
+    def test_emit_bridges_builder_comp_draw_plan_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    void drawPlan(BuildPlan plan, float alpha){
+        plan.animScale = 1f;
+        if(plan.breaking){
+            control.input.drawBreaking(plan);
+        }else{
+            plan.block.drawPlan(plan, control.input.allPlans(),
+            Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan),
+            alpha);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawPlan_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var plan: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var all_plans: Array = _args[1] if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var plan_breaking: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var alpha: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var build_valid_place: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var control_input_plan_matches: bool = bool(_args[5] if _args.size() > 5 else false)", source_text)
+            self.assertIn("var plan_anim_scale: float = 1.0", source_text)
+            self.assertIn("var draw_plan_valid: bool = build_valid_place or control_input_plan_matches", source_text)
+            self.assertIn("var draw_breaking_call: Variant = null", source_text)
+            self.assertIn("var draw_plan_call: Variant = null", source_text)
+            self.assertIn('draw_breaking_call = {"call": "control.input.drawBreaking(plan);", "plan": plan}', source_text)
+            self.assertIn('draw_plan_call = {"call": "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(...) || control.input.planMatches(plan), alpha);", "plan": plan, "all_plans": all_plans, "valid": draw_plan_valid, "alpha": alpha}', source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_draw_plan_state"', source_text)
+            self.assertIn('"method": "void drawPlan(BuildPlan plan, float alpha){"', source_text)
+            self.assertIn('"anim_scale_expr": "plan.animScale = 1f;"', source_text)
+            self.assertIn('"breaking_guard_expr": "if(plan.breaking){"', source_text)
+            self.assertIn('"draw_breaking_expr": "control.input.drawBreaking(plan);"', source_text)
+            self.assertIn('"draw_plan_valid_expr": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)"', source_text)
+            self.assertIn('"draw_plan_call": draw_plan_call', source_text)
+
 if __name__ == "__main__":
     unittest.main()

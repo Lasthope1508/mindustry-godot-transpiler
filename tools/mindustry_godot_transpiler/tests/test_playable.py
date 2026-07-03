@@ -12720,5 +12720,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_drawPlanTop_6"', source)
         self.assertIn('"matches": result.get("draw_top", null) == canonical.get("draw_top", null) and result.get("draw_plan_config_top_call", null) == canonical.get("draw_plan_config_top_call", null)', source)
 
+    def test_port_game_exposes_source_builder_draw_plan_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_draw_plan_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:", source)
+        self.assertIn("var plan_anim_scale: float = 1.0", source)
+        self.assertIn("var draw_plan_valid: bool = build_valid_place or control_input_plan_matches", source)
+        self.assertIn("var draw_breaking_call: Variant = null", source)
+        self.assertIn("var draw_plan_call: Variant = null", source)
+        self.assertIn('draw_breaking_call = {"call": "control.input.drawBreaking(plan);", "plan": plan}', source)
+        self.assertIn('draw_plan_call = {"call": "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(...) || control.input.planMatches(plan), alpha);", "plan": plan, "all_plans": all_plans, "valid": draw_plan_valid, "alpha": alpha}', source)
+        self.assertIn('"method": "void drawPlan(BuildPlan plan, float alpha){"', source)
+        self.assertIn('"anim_scale_expr": "plan.animScale = 1f;"', source)
+        self.assertIn('"draw_breaking_expr": "control.input.drawBreaking(plan);"', source)
+        self.assertIn('"draw_plan_valid_expr": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)"', source)
+        self.assertIn('"draw_plan_call": draw_plan_call', source)
+
+    def test_port_game_exposes_generated_builder_comp_draw_plan_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Array, plan_breaking: bool, alpha: float, build_valid_place: bool, control_input_plan_matches: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_drawPlan_5([plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches])", source)
+        self.assertIn("var canonical = source_builder_draw_plan_state(plan, all_plans, plan_breaking, alpha, build_valid_place, control_input_plan_matches)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_draw_plan_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_drawPlan_5"', source)
+        self.assertIn('"matches": result.get("draw_breaking_call", null) == canonical.get("draw_breaking_call", null) and result.get("draw_plan_call", null) == canonical.get("draw_plan_call", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

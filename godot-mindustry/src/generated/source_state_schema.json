@@ -91414,6 +91414,280 @@
           ]
         }
       }
+    },
+    "source_builder_draw_plan_input": {
+      "status": "active",
+      "keys": {
+        "plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "plan",
+          "godot_symbol": "source_builder_draw_plan_input.plan",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Input preserves drawPlan plan parameter.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "all_plans": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "control.input.allPlans()",
+          "godot_symbol": "source_builder_draw_plan_input.all_plans",
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "Input preserves control.input.allPlans() result.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "plan_breaking": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "plan.breaking",
+          "godot_symbol": "source_builder_draw_plan_input.plan_breaking",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves plan.breaking branch predicate.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "alpha": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "alpha",
+          "godot_symbol": "source_builder_draw_plan_input.alpha",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves drawPlan alpha parameter.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "build_valid_place": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation)",
+          "godot_symbol": "source_builder_draw_plan_input.build_valid_place",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves Build.validPlace(...) predicate.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "control_input_plan_matches": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "control.input.planMatches(plan)",
+          "godot_symbol": "source_builder_draw_plan_input.control_input_plan_matches",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves control.input.planMatches(plan) predicate.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        }
+      }
+    },
+    "source_builder_draw_plan_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "void drawPlan(BuildPlan plan, float alpha){",
+          "godot_symbol": "source_builder_draw_plan_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records method boundary.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "anim_scale_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "plan.animScale = 1f;",
+          "godot_symbol": "source_builder_draw_plan_result.anim_scale_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records animScale assignment.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "breaking_guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "if(plan.breaking){",
+          "godot_symbol": "source_builder_draw_plan_result.breaking_guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records breaking guard.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "draw_breaking_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "control.input.drawBreaking(plan);",
+          "godot_symbol": "source_builder_draw_plan_result.draw_breaking_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records drawBreaking call.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "draw_plan_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan), alpha);",
+          "godot_symbol": "source_builder_draw_plan_result.draw_plan_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records drawPlan call expression.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "draw_plan_valid_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)",
+          "godot_symbol": "source_builder_draw_plan_result.draw_plan_valid_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records drawPlan valid predicate.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "plan",
+          "godot_symbol": "source_builder_draw_plan_result.plan",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Result echoes plan input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "all_plans": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "control.input.allPlans()",
+          "godot_symbol": "source_builder_draw_plan_result.all_plans",
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "Result echoes control.input.allPlans() input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "plan_breaking": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "plan.breaking",
+          "godot_symbol": "source_builder_draw_plan_result.plan_breaking",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result echoes plan.breaking input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "alpha": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "alpha",
+          "godot_symbol": "source_builder_draw_plan_result.alpha",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result echoes alpha input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "build_valid_place": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation)",
+          "godot_symbol": "source_builder_draw_plan_result.build_valid_place",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result echoes Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "control_input_plan_matches": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "control.input.planMatches(plan)",
+          "godot_symbol": "source_builder_draw_plan_result.control_input_plan_matches",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result echoes control.input.planMatches(plan) input.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "plan_anim_scale": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "plan.animScale = 1f;",
+          "godot_symbol": "source_builder_draw_plan_result.plan_anim_scale",
+          "type": "float",
+          "status": "source-backed",
+          "rule": "Result records plan.animScale assigned to 1f.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "draw_plan_valid": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)",
+          "godot_symbol": "source_builder_draw_plan_result.draw_plan_valid",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records Build.validPlace(...) || control.input.planMatches(plan).",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "draw_breaking_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "control.input.drawBreaking(plan);",
+          "godot_symbol": "source_builder_draw_plan_result.draw_breaking_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result records drawBreaking call data when plan.breaking.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        },
+        "draw_plan_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawPlan(BuildPlan plan, float alpha)",
+          "java_expr": "plan.block.drawPlan(plan, control.input.allPlans(), Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan), alpha);",
+          "godot_symbol": "source_builder_draw_plan_result.draw_plan_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result records drawPlan call data when not breaking.",
+          "used_by": [
+            "PortGame.source_builder_draw_plan_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

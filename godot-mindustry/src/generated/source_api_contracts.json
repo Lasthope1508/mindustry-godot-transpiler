@@ -24997,6 +24997,68 @@
         "test_generated_builder_comp_draw_plan_top_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_builder_draw_plan_top_state"
       ]
+    },
+    "PortGame.source_builder_draw_plan_state": {
+      "source_slice": "N1151",
+      "source_method": "drawPlan(BuildPlan plan, float alpha)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plan",
+          "type": "Variant",
+          "schema": "source_builder_draw_plan_input.plan"
+        },
+        {
+          "name": "all_plans",
+          "type": "Array",
+          "schema": "source_builder_draw_plan_input.all_plans"
+        },
+        {
+          "name": "plan_breaking",
+          "type": "bool",
+          "schema": "source_builder_draw_plan_input.plan_breaking"
+        },
+        {
+          "name": "alpha",
+          "type": "float",
+          "schema": "source_builder_draw_plan_input.alpha"
+        },
+        {
+          "name": "build_valid_place",
+          "type": "bool",
+          "schema": "source_builder_draw_plan_input.build_valid_place"
+        },
+        {
+          "name": "control_input_plan_matches",
+          "type": "bool",
+          "schema": "source_builder_draw_plan_input.control_input_plan_matches"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "anim_scale_expr",
+        "breaking_guard_expr",
+        "draw_breaking_expr",
+        "draw_plan_expr",
+        "draw_plan_valid_expr",
+        "plan",
+        "all_plans",
+        "plan_breaking",
+        "alpha",
+        "build_valid_place",
+        "control_input_plan_matches",
+        "plan_anim_scale",
+        "draw_plan_valid",
+        "draw_breaking_call",
+        "draw_plan_call"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.drawPlan() preserving animScale, breaking branch, non-breaking drawPlan call, and valid predicate.",
+      "runtime_proof": "/root/Main.source_builder_draw_plan_state",
+      "tests": [
+        "test_generated_builder_comp_draw_plan_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_draw_plan_state"
+      ]
     }
   },
   "policy": {

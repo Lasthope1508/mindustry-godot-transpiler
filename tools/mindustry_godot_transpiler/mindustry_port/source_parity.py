@@ -257,6 +257,26 @@ def verify_builder_draw_plan_top_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_builder_draw_plan_source(upstream_root: Path) -> dict[str, Any]:
+    builder_comp_path = Path(upstream_root) / BUILDER_COMP_SOURCE
+    source = builder_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "void drawPlan(BuildPlan plan, float alpha){",
+        "anim_scale": "plan.animScale = 1f;",
+        "breaking_guard": "if(plan.breaking){",
+        "draw_breaking": "control.input.drawBreaking(plan);",
+        "else_guard": "}else{",
+        "draw_plan_start": "plan.block.drawPlan(plan, control.input.allPlans(),",
+        "draw_plan_valid": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan),",
+        "draw_plan_alpha": "alpha);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BUILDER_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"
