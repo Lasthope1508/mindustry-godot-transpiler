@@ -26117,6 +26117,18 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("netServer.buildHealthUpdate(self());", building_generated_health_changed["exact_exprs"])
         self.assertIn("indexer.notifyHealthChanged(self());", building_generated_health_changed["exact_exprs"])
 
+        building_generated_sense_position = source_symbols.source_slice(ledger, "N1078")
+        self.assertEqual(building_generated_sense_position["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_sense_position["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(building_generated_sense_position["godot_owner"], "PortGame.source_building_sense_position_state")
+        self.assertEqual(building_generated_sense_position["runtime_proof"], "/root/Main.generated_building_comp_sense_position_bridge_state")
+        self.assertIn("public double sense(LAccess sensor){", building_generated_sense_position["exact_exprs"])
+        self.assertIn("return switch(sensor){", building_generated_sense_position["exact_exprs"])
+        self.assertIn("case x -> World.conv(x);", building_generated_sense_position["exact_exprs"])
+        self.assertIn("case y -> World.conv(y);", building_generated_sense_position["exact_exprs"])
+        self.assertIn("public static float conv(float coord){", building_generated_sense_position["exact_exprs"])
+        self.assertIn("return coord / tilesize;", building_generated_sense_position["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

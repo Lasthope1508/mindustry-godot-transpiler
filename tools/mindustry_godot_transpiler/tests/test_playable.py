@@ -5138,6 +5138,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_healthChanged_205"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_sense_position_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_sense_206(_args: Array = []) -> Variant:", source)
+        self.assertIn("var world_x := float(_args[0] if _args.size() > 0 else 0.0)", source)
+        self.assertIn("var world_y := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var source_tilesize := float(_args[2] if _args.size() > 2 else 8.0)", source)
+        self.assertIn("var source_x := world_x / source_tilesize", source)
+        self.assertIn("var source_y := world_y / source_tilesize", source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_position_state"', source)
+        self.assertIn('"method": "public double sense(LAccess sensor){"', source)
+        self.assertIn('"switch_case": "return switch(sensor){"', source)
+        self.assertIn('"x_case": "case x -> World.conv(x);"', source)
+        self.assertIn('"y_case": "case y -> World.conv(y);"', source)
+        self.assertIn('"world_conv_method": "public static float conv(float coord){"', source)
+        self.assertIn('"world_conv_return": "return coord / tilesize;"', source)
+        self.assertIn('"x": source_x', source)
+        self.assertIn('"y": source_y', source)
+
+    def test_port_game_exposes_generated_building_comp_sense_position_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_sense_position_bridge_state(world_x: float, world_y: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize])", source)
+        self.assertIn("var canonical = source_building_sense_position_state(world_x, world_y, source_tilesize)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_position_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

@@ -22475,6 +22475,46 @@
         "test_port_game_exposes_generated_building_comp_health_changed_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1078": {
+      "deferred_exprs": [
+        "Remaining BuildingComp.sense(LAccess sensor) cases stay owned by their canonical sense slices; this generated bridge records only the x/y World.conv position cases."
+      ],
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "return switch(sensor){",
+        "case x -> World.conv(x);",
+        "case y -> World.conv(y);",
+        "public static float conv(float coord){",
+        "return coord / tilesize;",
+        "x",
+        "y",
+        "tilesize"
+      ],
+      "godot_owner": "PortGame.source_building_sense_position_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_sense_206 and PortGame generated bridge to existing N638 canonical source_building_sense_position_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_sense_position_bridge_state",
+      "source_symbols": [
+        "building_sense_position.method",
+        "building_sense_position.switch_case",
+        "building_sense_position.x_case",
+        "building_sense_position.y_case",
+        "building_sense_position.world_conv_method",
+        "building_sense_position.world_conv_return",
+        "building_sense_position.world_x",
+        "building_sense_position.world_y",
+        "building_sense_position.source_tilesize"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_sense_position_to_source_state",
+        "test_generated_building_comp_bridges_sense_position_to_source_state",
+        "test_port_game_exposes_generated_building_comp_sense_position_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

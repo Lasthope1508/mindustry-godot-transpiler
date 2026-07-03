@@ -1113,6 +1113,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "sense"
+        and [parameter.get("name") for parameter in method.get("parameters", [])] == ["sensor"]
+    ):
+        return [
+            "\tvar world_x := float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar world_y := float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar source_tilesize := float(_args[2] if _args.size() > 2 else 8.0)",
+            "\tvar source_x := world_x / source_tilesize",
+            "\tvar source_y := world_y / source_tilesize",
+            "\treturn {\"source_owner\": \"PortGame.source_building_sense_position_state\", \"method\": \"public double sense(LAccess sensor){\", \"switch_case\": \"return switch(sensor){\", \"x_case\": \"case x -> World.conv(x);\", \"y_case\": \"case y -> World.conv(y);\", \"world_conv_method\": \"public static float conv(float coord){\", \"world_conv_return\": \"return coord / tilesize;\", \"world_x\": world_x, \"world_y\": world_y, \"source_tilesize\": source_tilesize, \"x\": source_x, \"y\": source_y}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

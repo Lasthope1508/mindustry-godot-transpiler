@@ -1290,7 +1290,12 @@ func java_method_healthChanged_205(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_health_changed_state", "method": "public void healthChanged(){", "server_comment": "//server-side, health updates are batched.", "server_guard": "if(net.server()){", "build_health_update_call": "netServer.buildHealthUpdate(self());", "notify_call": "indexer.notifyHealthChanged(self());", "net_server": net_server, "self_state": self_state, "build_health_update_called": net_server, "build_health_update": build_health_update, "notify_health_changed": self_state}
 
 func java_method_sense_206(_args: Array = []) -> Variant:
-	return null
+	var world_x := float(_args[0] if _args.size() > 0 else 0.0)
+	var world_y := float(_args[1] if _args.size() > 1 else 0.0)
+	var source_tilesize := float(_args[2] if _args.size() > 2 else 8.0)
+	var source_x := world_x / source_tilesize
+	var source_y := world_y / source_tilesize
+	return {"source_owner": "PortGame.source_building_sense_position_state", "method": "public double sense(LAccess sensor){", "switch_case": "return switch(sensor){", "x_case": "case x -> World.conv(x);", "y_case": "case y -> World.conv(y);", "world_conv_method": "public static float conv(float coord){", "world_conv_return": "return coord / tilesize;", "world_x": world_x, "world_y": world_y, "source_tilesize": source_tilesize, "x": source_x, "y": source_y}
 
 func java_method_senseObject_207(_args: Array = []) -> Variant:
 	return null

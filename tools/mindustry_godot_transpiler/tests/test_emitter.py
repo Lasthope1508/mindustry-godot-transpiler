@@ -3716,6 +3716,54 @@ class BuildingComp{
             self.assertIn('"build_health_update": build_health_update', source_text)
             self.assertIn('"notify_health_changed": self_state', source_text)
 
+    def test_emit_bridges_building_comp_sense_position_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public double sense(LAccess sensor){
+        return switch(sensor){
+            case x -> World.conv(x);
+            case y -> World.conv(y);
+            default -> Float.NaN;
+        };
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var world_x := float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var world_y := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var source_tilesize := float(_args[2] if _args.size() > 2 else 8.0)", source_text)
+            self.assertIn("var source_x := world_x / source_tilesize", source_text)
+            self.assertIn("var source_y := world_y / source_tilesize", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_sense_position_state"', source_text)
+            self.assertIn('"method": "public double sense(LAccess sensor){"', source_text)
+            self.assertIn('"switch_case": "return switch(sensor){"', source_text)
+            self.assertIn('"x_case": "case x -> World.conv(x);"', source_text)
+            self.assertIn('"y_case": "case y -> World.conv(y);"', source_text)
+            self.assertIn('"world_conv_method": "public static float conv(float coord){"', source_text)
+            self.assertIn('"world_conv_return": "return coord / tilesize;"', source_text)
+            self.assertIn('"world_x": world_x', source_text)
+            self.assertIn('"world_y": world_y', source_text)
+            self.assertIn('"source_tilesize": source_tilesize', source_text)
+            self.assertIn('"x": source_x', source_text)
+            self.assertIn('"y": source_y', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
