@@ -75838,6 +75838,45 @@
       "java_expr": "tile != null && tile.isValid()",
       "rule": "Result of BlockUnitComp isAdded return expression.",
       "status": "source-backed"
+    },
+    "block_unit_killed.method": {
+      "godot_owner": "PortGame.source_block_unit_killed_state",
+      "java_method": "killed()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_killed_state",
+      "tests": [
+        "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_killed_result.method",
+      "java_expr": "public void killed(){",
+      "rule": "BlockUnitComp killed method boundary.",
+      "status": "source-backed"
+    },
+    "block_unit_killed.tile_kill_call": {
+      "godot_owner": "PortGame.source_block_unit_killed_state",
+      "java_method": "killed()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_killed_state",
+      "tests": [
+        "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_killed_result.tile_kill_call",
+      "java_expr": "tile.kill();",
+      "rule": "BlockUnitComp killed delegates to tile.kill().",
+      "status": "source-backed"
+    },
+    "block_unit_killed.tile_kill_called": {
+      "godot_owner": "PortGame.source_block_unit_killed_state",
+      "java_method": "killed()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_killed_state",
+      "tests": [
+        "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_killed_result.tile_kill_called",
+      "java_expr": "tile.kill();",
+      "rule": "Result marker for BlockUnitComp killed tile.kill() call.",
+      "status": "source-backed"
     }
   },
   "version": 1

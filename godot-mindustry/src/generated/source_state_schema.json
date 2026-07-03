@@ -88919,6 +88919,47 @@
         }
       },
       "status": "active"
+    },
+    "source_block_unit_killed_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_block_unit_killed_result.method",
+          "java_expr": "public void killed(){",
+          "java_method": "killed()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records BlockUnitComp.killed method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_killed_state"
+          ]
+        },
+        "tile_kill_call": {
+          "godot_symbol": "source_block_unit_killed_result.tile_kill_call",
+          "java_expr": "tile.kill();",
+          "java_method": "killed()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records exact BlockUnitComp.killed tile.kill() call expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_killed_state"
+          ]
+        },
+        "tile_kill_called": {
+          "godot_symbol": "source_block_unit_killed_result.tile_kill_called",
+          "java_expr": "tile.kill();",
+          "java_method": "killed()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records that BlockUnitComp.killed calls tile.kill().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_killed_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

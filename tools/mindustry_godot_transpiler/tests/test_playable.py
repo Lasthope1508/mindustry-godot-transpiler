@@ -12206,6 +12206,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_icon_3"', source)
         self.assertIn('"matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
 
+    def test_port_game_exposes_source_block_unit_killed_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_unit_killed_state() -> Dictionary:", source)
+        self.assertIn('var tile_kill_call: String = "tile.kill();"', source)
+        self.assertIn("var tile_kill_called: bool = true", source)
+        self.assertIn('"method": "public void killed(){"', source)
+        self.assertIn('"tile_kill_call": tile_kill_call', source)
+        self.assertIn('"tile_kill_called": tile_kill_called', source)
+
+    def test_port_game_exposes_generated_block_unit_comp_killed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_unit_comp_killed_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
+        self.assertIn("var result = instance.java_method_killed_5([])", source)
+        self.assertIn("var canonical = source_block_unit_killed_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_killed_state"', source)
+        self.assertIn('"generated_owner": "BlockUnitComp.java_method_killed_5"', source)
+        self.assertIn('"matches": result.get("tile_kill_call", null) == canonical.get("tile_kill_call", null) and result.get("tile_kill_called", null) == canonical.get("tile_kill_called", null)', source)
+
     def test_port_game_exposes_source_block_unit_dead_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

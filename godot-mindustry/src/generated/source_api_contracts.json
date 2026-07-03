@@ -24345,6 +24345,24 @@
         "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_block_unit_is_added_state"
       ]
+    },
+    "PortGame.source_block_unit_killed_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "tile_kill_call",
+        "tile_kill_called"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.killed() tile.kill() delegation state.",
+      "runtime_proof": "/root/Main.source_block_unit_killed_state",
+      "source_method": "killed()",
+      "source_slice": "N1134",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_killed_state"
+      ]
     }
   },
   "policy": {

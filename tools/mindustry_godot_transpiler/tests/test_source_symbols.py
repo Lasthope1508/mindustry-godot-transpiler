@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 602)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 603)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 607)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 608)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19741,6 +19741,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_building_dump_null_remove_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_null_success_handoff_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_specific_proximity_scan_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_unit_killed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_read_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_sync_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_update_state", audit["registeredSourceOwners"])
@@ -40972,6 +40973,47 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_unit_icon_result["keys"]["method"]["java_expr"], "public TextureRegion icon(){")
         self.assertEqual(source_block_unit_icon_result["keys"]["return_expr"]["java_expr"], "return tile.block.uiIcon;")
         self.assertEqual(source_block_unit_icon_result["keys"]["tile_block_ui_icon"]["java_expr"], "tile.block.uiIcon")
+
+    def test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_unit_killed.method")
+        self.assertEqual(method["java_expr"], "public void killed(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(method["java_method"], "killed()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_unit_killed_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_unit_killed_state")
+
+        tile_kill_call = source_symbols.source_symbol(registry, "block_unit_killed.tile_kill_call")
+        self.assertEqual(tile_kill_call["java_expr"], "tile.kill();")
+        self.assertEqual(tile_kill_call["godot_symbol"], "source_block_unit_killed_result.tile_kill_call")
+        tile_kill_called = source_symbols.source_symbol(registry, "block_unit_killed.tile_kill_called")
+        self.assertEqual(tile_kill_called["java_expr"], "tile.kill();")
+        self.assertEqual(tile_kill_called["godot_symbol"], "source_block_unit_killed_result.tile_kill_called")
+
+        killed_slice = source_symbols.source_slice(ledger, "N1134")
+        self.assertEqual(killed_slice["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(killed_slice["java_method"], "killed()")
+        self.assertEqual(killed_slice["godot_owner"], "PortGame.source_block_unit_killed_state")
+        self.assertEqual(killed_slice["runtime_proof"], "/root/Main.generated_block_unit_comp_killed_bridge_state")
+        self.assertIn("@Override", killed_slice["exact_exprs"])
+        self.assertIn("public void killed(){", killed_slice["exact_exprs"])
+        self.assertIn("tile.kill();", killed_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_unit_killed_state")
+        self.assertEqual(contract["params"], [])
+        for key in ["method", "tile_kill_call", "tile_kill_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_block_unit_killed_result = source_symbols.state_schema(schema, "source_block_unit_killed_result")
+        self.assertEqual(source_block_unit_killed_result["keys"]["method"]["java_expr"], "public void killed(){")
+        self.assertEqual(source_block_unit_killed_result["keys"]["tile_kill_call"]["java_expr"], "tile.kill();")
+        self.assertEqual(source_block_unit_killed_result["keys"]["tile_kill_called"]["java_expr"], "tile.kill();")
 
     def test_generated_block_unit_comp_dead_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

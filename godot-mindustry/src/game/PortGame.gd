@@ -7443,6 +7443,28 @@ func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) ->
 		"matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
 	}
 
+func source_block_unit_killed_state() -> Dictionary:
+	var tile_kill_call: String = "tile.kill();"
+	var tile_kill_called: bool = true
+	return {
+		"method": "public void killed(){",
+		"tile_kill_call": tile_kill_call,
+		"tile_kill_called": tile_kill_called,
+	}
+
+func generated_block_unit_comp_killed_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_killed_5([])
+	var canonical = source_block_unit_killed_state()
+	return {
+		"source_owner": "PortGame.source_block_unit_killed_state",
+		"generated_owner": "BlockUnitComp.java_method_killed_5",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("tile_kill_call", null) == canonical.get("tile_kill_call", null) and result.get("tile_kill_called", null) == canonical.get("tile_kill_called", null),
+	}
+
 func source_block_unit_dead_state(tile_null: bool, tile_dead: bool) -> Dictionary:
 	var dead: bool = tile_null or tile_dead
 	return {

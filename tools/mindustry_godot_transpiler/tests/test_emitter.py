@@ -6179,6 +6179,38 @@ class BlockUnitComp{
             self.assertIn('"return_expr": "return tile.block.uiIcon;"', source_text)
             self.assertIn('"tile_block_ui_icon": tile_block_ui_icon', source_text)
 
+    def test_emit_bridges_block_unit_comp_killed_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BlockUnitComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BlockUnitComp{
+    public void killed(){
+        tile.kill();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_killed_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_kill_call: String = \"tile.kill();\"", source_text)
+            self.assertIn("var tile_kill_called: bool = true", source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_unit_killed_state"', source_text)
+            self.assertIn('"method": "public void killed(){"', source_text)
+            self.assertIn('"tile_kill_call": tile_kill_call', source_text)
+            self.assertIn('"tile_kill_called": tile_kill_called', source_text)
+
     def test_emit_bridges_block_unit_comp_dead_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

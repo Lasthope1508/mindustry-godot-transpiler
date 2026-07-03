@@ -1213,6 +1213,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
+        and method.get("name") == "killed"
+    ):
+        return [
+            "\tvar tile_kill_call: String = \"tile.kill();\"",
+            "\tvar tile_kill_called: bool = true",
+            "\treturn {\"source_owner\": \"PortGame.source_block_unit_killed_state\", \"method\": \"public void killed(){\", \"tile_kill_call\": tile_kill_call, \"tile_kill_called\": tile_kill_called}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
+        and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "dead"
     ):
         return [

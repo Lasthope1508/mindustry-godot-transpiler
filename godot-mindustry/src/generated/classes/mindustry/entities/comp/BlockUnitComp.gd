@@ -31,7 +31,9 @@ func java_method_ammof_4(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_unit_ammof_state", "method": "public float ammof(){", "return_expr": "return ammo;", "ammo": ammo}
 
 func java_method_killed_5(_args: Array = []) -> Variant:
-	return null
+	var tile_kill_call: String = "tile.kill();"
+	var tile_kill_called: bool = true
+	return {"source_owner": "PortGame.source_block_unit_killed_state", "method": "public void killed(){", "tile_kill_call": tile_kill_call, "tile_kill_called": tile_kill_called}
 
 func java_method_damage_6(_args: Array = []) -> Variant:
 	return null

@@ -24475,6 +24475,32 @@
         "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1134": {
+      "exact_exprs": [
+        "@Override",
+        "public void killed(){",
+        "tile.kill();"
+      ],
+      "godot_owner": "PortGame.source_block_unit_killed_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "killed()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.killed() tile.kill() delegation and wires generated BlockUnitComp.java_method_killed_5 plus PortGame generated bridge to canonical source_block_unit_killed_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_killed_bridge_state",
+      "source_symbols": [
+        "block_unit_killed.method",
+        "block_unit_killed.tile_kill_call",
+        "block_unit_killed.tile_kill_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_killed_to_source_state",
+        "test_port_game_exposes_source_block_unit_killed_state",
+        "test_port_game_exposes_generated_block_unit_comp_killed_bridge_state",
+        "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
