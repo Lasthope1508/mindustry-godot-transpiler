@@ -1068,6 +1068,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "toString"
+    ):
+        return [
+            "\tvar id_value := int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar tile_x_value := int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar tile_y_value := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar block_value: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar to_string_result := \"Building#\" + str(id_value) + \"[\" + str(tile_x_value) + \",\" + str(tile_y_value) + \"]:\" + str(block_value)",
+            "\treturn {\"source_owner\": \"PortGame.source_building_to_string_state\", \"override_annotation\": \"@Override\", \"replace_annotation\": \"@Replace\", \"method\": \"public String toString(){\", \"return_expr\": \"return \\\"Building#\\\" + id() + \\\"[\\\" + tileX() + \\\",\\\" + tileY() + \\\"]:\\\" + block;\", \"id_value\": id_value, \"tile_x_value\": tile_x_value, \"tile_y_value\": tile_y_value, \"block_value\": block_value, \"to_string\": to_string_result}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "kill"
     ):
         return [

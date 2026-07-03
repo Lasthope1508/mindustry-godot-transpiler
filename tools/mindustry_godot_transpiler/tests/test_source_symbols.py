@@ -26510,6 +26510,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("out.setCentered(x, y, block.size * tilesize, block.size * tilesize);", building_generated_hitbox["exact_exprs"])
         self.assertIn("block.size * tilesize", building_generated_hitbox["exact_exprs"])
 
+        building_generated_to_string = source_symbols.source_slice(ledger, "N1108")
+        self.assertEqual(building_generated_to_string["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_to_string["java_method"], "toString()")
+        self.assertEqual(building_generated_to_string["godot_owner"], "PortGame.source_building_to_string_state")
+        self.assertEqual(building_generated_to_string["runtime_proof"], "/root/Main.generated_building_comp_to_string_bridge_state")
+        self.assertIn("@Override", building_generated_to_string["exact_exprs"])
+        self.assertIn("@Replace", building_generated_to_string["exact_exprs"])
+        self.assertIn("public String toString(){", building_generated_to_string["exact_exprs"])
+        self.assertIn('return "Building#" + id() + "[" + tileX() + "," + tileY() + "]:" + block;', building_generated_to_string["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

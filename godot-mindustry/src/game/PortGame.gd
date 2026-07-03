@@ -6937,6 +6937,21 @@ const SOURCE_BUILDING_TO_STRING_RETURN := "return \"Building#\" + id() + \"[\" +
 func source_building_to_string_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> String:
 	return "Building#" + str(id_value) + "[" + str(tile_x_value) + "," + str(tile_y_value) + "]:" + str(block_value)
 
+func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_toString_220([id_value, tile_x_value, tile_y_value, block_value])
+	var canonical = source_building_to_string_state(id_value, tile_x_value, tile_y_value, block_value)
+	var generated_to_string = result.get("to_string", "") if result is Dictionary else str(result)
+	return {
+		"source_owner": "PortGame.source_building_to_string_state",
+		"generated_owner": "BuildingComp.java_method_toString_220",
+		"result": result,
+		"canonical": canonical,
+		"generated_to_string": generated_to_string,
+		"matches": generated_to_string == canonical,
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

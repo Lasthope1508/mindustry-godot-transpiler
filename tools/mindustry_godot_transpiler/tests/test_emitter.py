@@ -5039,6 +5039,49 @@ class BuildingComp{
             self.assertIn('"hitbox_size_expr": "block.size * tilesize"', source_text)
             self.assertIn('"set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size}', source_text)
 
+    def test_emit_bridges_building_comp_to_string_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    @Replace
+    public String toString(){
+        return "Building#" + id() + "[" + tileX() + "," + tileY() + "]:" + block;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_toString_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var id_value := int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var tile_x_value := int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var tile_y_value := int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("var block_value: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn('var to_string_result := "Building#" + str(id_value) + "[" + str(tile_x_value) + "," + str(tile_y_value) + "]:" + str(block_value)', source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_to_string_state"', source_text)
+            self.assertIn('"override_annotation": "@Override"', source_text)
+            self.assertIn('"replace_annotation": "@Replace"', source_text)
+            self.assertIn('"method": "public String toString(){"', source_text)
+            self.assertIn('"return_expr": "return \\"Building#\\" + id() + \\"[\\" + tileX() + \\",\\" + tileY() + \\"]:\\" + block;"', source_text)
+            self.assertIn('"id_value": id_value', source_text)
+            self.assertIn('"tile_x_value": tile_x_value', source_text)
+            self.assertIn('"tile_y_value": tile_y_value', source_text)
+            self.assertIn('"block_value": block_value', source_text)
+            self.assertIn('"to_string": to_string_result', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

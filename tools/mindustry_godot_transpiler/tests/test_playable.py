@@ -6044,6 +6044,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_to_string_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_toString_220(_args: Array = []) -> Variant:", source)
+        self.assertIn("var id_value := int(_args[0] if _args.size() > 0 else 0)", source)
+        self.assertIn("var tile_x_value := int(_args[1] if _args.size() > 1 else 0)", source)
+        self.assertIn("var tile_y_value := int(_args[2] if _args.size() > 2 else 0)", source)
+        self.assertIn("var block_value: Variant = _args[3] if _args.size() > 3 else null", source)
+        self.assertIn('var to_string_result := "Building#" + str(id_value) + "[" + str(tile_x_value) + "," + str(tile_y_value) + "]:" + str(block_value)', source)
+        self.assertIn('"source_owner": "PortGame.source_building_to_string_state"', source)
+        self.assertIn('"override_annotation": "@Override"', source)
+        self.assertIn('"replace_annotation": "@Replace"', source)
+        self.assertIn('"method": "public String toString(){"', source)
+        self.assertIn('"return_expr": "return \\"Building#\\" + id() + \\"[\\" + tileX() + \\",\\" + tileY() + \\"]:\\" + block;"', source)
+        self.assertIn('"to_string": to_string_result', source)
+
+    def test_port_game_exposes_generated_building_comp_to_string_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_to_string_bridge_state(id_value: int, tile_x_value: int, tile_y_value: int, block_value: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_toString_220([id_value, tile_x_value, tile_y_value, block_value])", source)
+        self.assertIn("var canonical = source_building_to_string_state(id_value, tile_x_value, tile_y_value, block_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_to_string_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_toString_220"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

@@ -1640,4 +1640,9 @@ func java_method_hitbox_219(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_hitbox_state", "method": "public void hitbox(Rect out){", "set_centered_expr": "out.setCentered(x, y, block.size * tilesize, block.size * tilesize);", "hitbox_size_expr": "block.size * tilesize", "world_x": world_x, "world_y": world_y, "block_size_value": block_size_value, "source_tilesize": source_tilesize, "hitbox_size": hitbox_size, "set_centered": {"x": world_x, "y": world_y, "width": hitbox_size, "height": hitbox_size}}
 
 func java_method_toString_220(_args: Array = []) -> Variant:
-	return null
+	var id_value := int(_args[0] if _args.size() > 0 else 0)
+	var tile_x_value := int(_args[1] if _args.size() > 1 else 0)
+	var tile_y_value := int(_args[2] if _args.size() > 2 else 0)
+	var block_value: Variant = _args[3] if _args.size() > 3 else null
+	var to_string_result := "Building#" + str(id_value) + "[" + str(tile_x_value) + "," + str(tile_y_value) + "]:" + str(block_value)
+	return {"source_owner": "PortGame.source_building_to_string_state", "override_annotation": "@Override", "replace_annotation": "@Replace", "method": "public String toString(){", "return_expr": "return \"Building#\" + id() + \"[\" + tileX() + \",\" + tileY() + \"]:\" + block;", "id_value": id_value, "tile_x_value": tile_x_value, "tile_y_value": tile_y_value, "block_value": block_value, "to_string": to_string_result}

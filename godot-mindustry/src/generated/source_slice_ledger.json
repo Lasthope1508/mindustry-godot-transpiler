@@ -23636,6 +23636,40 @@
         "test_port_game_exposes_generated_building_comp_hitbox_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1108": {
+      "deferred_exprs": [
+        "Generated toString bridge returns proof metadata plus to_string until generated class instances own full Building identity state."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "@Replace",
+        "public String toString(){",
+        "return \"Building#\" + id() + \"[\" + tileX() + \",\" + tileY() + \"]:\" + block;"
+      ],
+      "godot_owner": "PortGame.source_building_to_string_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "toString()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_toString_220 and PortGame generated bridge to existing N653 canonical source_building_to_string_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_to_string_bridge_state",
+      "source_symbols": [
+        "building_to_string.override_annotation",
+        "building_to_string.replace_annotation",
+        "building_to_string.method",
+        "building_to_string.return_expr",
+        "building_to_string.id_value",
+        "building_to_string.tile_x_value",
+        "building_to_string.tile_y_value",
+        "building_to_string.block_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_to_string_to_source_state",
+        "test_generated_building_comp_bridges_to_string_to_source_state",
+        "test_port_game_exposes_generated_building_comp_to_string_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
