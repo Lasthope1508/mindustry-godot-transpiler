@@ -5202,6 +5202,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_sense_totals_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_sense_206(_args: Array = []) -> Variant:", source)
+        self.assertIn("var total_items := float(_args[10] if _args.size() > 10 else 0.0)", source)
+        self.assertIn("var total_liquids := float(_args[11] if _args.size() > 11 else 0.0)", source)
+        self.assertIn("var total_power := float(_args[12] if _args.size() > 12 else 0.0)", source)
+        self.assertIn('"totals_source_owner": "PortGame.source_building_sense_totals_state"', source)
+        self.assertIn('"total_items_case": "case totalItems -> items == null ? 0 : items.total();"', source)
+        self.assertIn('"total_liquids_comment": "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks"', source)
+        self.assertIn('"total_liquids_case": "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();"', source)
+        self.assertIn('"total_power_case": "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);"', source)
+        self.assertIn('"sense_totals": sense_totals', source)
+
+    def test_port_game_exposes_generated_building_comp_sense_totals_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_sense_totals_bridge_state(world_x: float, world_y: float, total_items: float, total_liquids: float, total_power: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, total_items, total_liquids, total_power])", source)
+        self.assertIn("var canonical = source_building_sense_totals_state(total_items, total_liquids, total_power)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_totals_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

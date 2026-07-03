@@ -3817,6 +3817,51 @@ class BuildingComp{
             self.assertIn('"rotation": rotation_value', source_text)
             self.assertIn('"sense_health_process": sense_health_process', source_text)
 
+    def test_emit_bridges_building_comp_sense_totals_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public double sense(LAccess sensor){
+        return switch(sensor){
+            case totalItems -> items == null ? 0 : items.total();
+            //totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks
+            case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();
+            case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);
+            default -> Float.NaN;
+        };
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var total_items := float(_args[10] if _args.size() > 10 else 0.0)", source_text)
+            self.assertIn("var total_liquids := float(_args[11] if _args.size() > 11 else 0.0)", source_text)
+            self.assertIn("var total_power := float(_args[12] if _args.size() > 12 else 0.0)", source_text)
+            self.assertIn('"totals_source_owner": "PortGame.source_building_sense_totals_state"', source_text)
+            self.assertIn('"total_items_case": "case totalItems -> items == null ? 0 : items.total();"', source_text)
+            self.assertIn('"total_liquids_comment": "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks"', source_text)
+            self.assertIn('"total_liquids_case": "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();"', source_text)
+            self.assertIn('"total_power_case": "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);"', source_text)
+            self.assertIn('"total_items": total_items', source_text)
+            self.assertIn('"total_liquids": total_liquids', source_text)
+            self.assertIn('"total_power": total_power', source_text)
+            self.assertIn('"sense_totals": sense_totals', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

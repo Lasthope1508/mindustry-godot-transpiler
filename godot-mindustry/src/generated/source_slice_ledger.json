@@ -22567,6 +22567,44 @@
         "test_port_game_exposes_generated_building_comp_sense_health_process_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1080": {
+      "deferred_exprs": [
+        "Position, color, dead, solid, team, health/process, capacity/power-net, enabled, controlled, payload, size, camera, and default NaN sense cases stay owned by their own canonical slices; this generated bridge records only the totals cases."
+      ],
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "case totalItems -> items == null ? 0 : items.total();",
+        "//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks",
+        "case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();",
+        "case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);",
+        "items == null ? 0 : items.total()",
+        "liquids == null ? 0 : liquids.currentAmount()",
+        "power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f)"
+      ],
+      "godot_owner": "PortGame.source_building_sense_totals_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_sense_206 and PortGame generated bridge to existing N639 canonical source_building_sense_totals_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_sense_totals_bridge_state",
+      "source_symbols": [
+        "building_sense_totals.method",
+        "building_sense_totals.total_items_case",
+        "building_sense_totals.total_liquids_comment",
+        "building_sense_totals.total_liquids_case",
+        "building_sense_totals.total_power_case",
+        "building_sense_totals.total_items",
+        "building_sense_totals.total_liquids",
+        "building_sense_totals.total_power"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_sense_totals_to_source_state",
+        "test_generated_building_comp_bridges_sense_totals_to_source_state",
+        "test_port_game_exposes_generated_building_comp_sense_totals_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

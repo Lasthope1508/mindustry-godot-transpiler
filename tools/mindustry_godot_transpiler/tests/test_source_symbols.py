@@ -26142,6 +26142,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("case range -> this instanceof Ranged r ? r.range() / tilesize : 0;", building_generated_sense_health_process["exact_exprs"])
         self.assertIn("case rotation -> rotation;", building_generated_sense_health_process["exact_exprs"])
 
+        building_generated_sense_totals = source_symbols.source_slice(ledger, "N1080")
+        self.assertEqual(building_generated_sense_totals["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_sense_totals["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(building_generated_sense_totals["godot_owner"], "PortGame.source_building_sense_totals_state")
+        self.assertEqual(building_generated_sense_totals["runtime_proof"], "/root/Main.generated_building_comp_sense_totals_bridge_state")
+        self.assertIn("public double sense(LAccess sensor){", building_generated_sense_totals["exact_exprs"])
+        self.assertIn("case totalItems -> items == null ? 0 : items.total();", building_generated_sense_totals["exact_exprs"])
+        self.assertIn("//totalLiquids is inherently bad design, but unfortunately it is useful for conduits/tanks", building_generated_sense_totals["exact_exprs"])
+        self.assertIn("case totalLiquids -> liquids == null ? 0 : liquids.currentAmount();", building_generated_sense_totals["exact_exprs"])
+        self.assertIn("case totalPower -> power == null || block.consPower == null ? 0 : power.status * (block.consPower.buffered ? block.consPower.capacity : 1f);", building_generated_sense_totals["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
