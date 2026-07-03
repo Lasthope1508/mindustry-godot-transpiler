@@ -3916,6 +3916,47 @@ class BuildingComp{
             self.assertIn('"power_net_in": power_net_in', source_text)
             self.assertIn('"sense_capacity_power_net": sense_capacity_power_net', source_text)
 
+    def test_emit_bridges_building_comp_sense_enabled_controlled_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public double sense(LAccess sensor){
+        return switch(sensor){
+            case enabled -> enabled ? 1 : 0;
+            case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;
+            default -> Float.NaN;
+        };
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var enabled_state := bool(_args[24] if _args.size() > 24 else false)", source_text)
+            self.assertIn("var is_control_block := bool(_args[25] if _args.size() > 25 else false)", source_text)
+            self.assertIn("var is_controlled := bool(_args[26] if _args.size() > 26 else false)", source_text)
+            self.assertIn("var ctrl_player_value := float(_args[27] if _args.size() > 27 else 0.0)", source_text)
+            self.assertIn('"enabled_controlled_source_owner": "PortGame.source_building_sense_enabled_controlled_state"', source_text)
+            self.assertIn('"enabled_case": "case enabled -> enabled ? 1 : 0;"', source_text)
+            self.assertIn('"controlled_case": "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;"', source_text)
+            self.assertIn('"enabled": 1.0 if enabled_state else 0.0', source_text)
+            self.assertIn('"controlled": ctrl_player_value if is_control_block and is_controlled else 0.0', source_text)
+            self.assertIn('"sense_enabled_controlled": sense_enabled_controlled', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

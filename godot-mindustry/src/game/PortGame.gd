@@ -4864,6 +4864,18 @@ func generated_building_comp_sense_capacity_power_net_bridge_state(world_x: floa
 		"canonical": canonical,
 	}
 
+func generated_building_comp_sense_enabled_controlled_bridge_state(world_x: float, world_y: float, enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float, source_tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, enabled_state, is_control_block, is_controlled, ctrl_player_value])
+	var canonical = source_building_sense_enabled_controlled_state(enabled_state, is_control_block, is_controlled, ctrl_player_value)
+	return {
+		"source_owner": "PortGame.source_building_sense_enabled_controlled_state",
+		"generated_owner": "BuildingComp.java_method_sense_206",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func generated_building_comp_display_bridge_state(block_ui_icon: Variant, localized_name: String, team_is_derelict: bool, team_is_player: bool, team_emoji: String, derelict_label: String, block_category: String, block_display_flow: bool, net_active: bool, has_last_accessed: bool) -> Dictionary:
 	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
 	var instance = script.new()

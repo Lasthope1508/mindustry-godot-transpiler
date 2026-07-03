@@ -22665,6 +22665,42 @@
         "test_port_game_exposes_generated_building_comp_sense_capacity_power_net_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1082": {
+      "deferred_exprs": [
+        "Position, color, dead, solid, team, health/process, totals, capacity/power-net, payload, size, camera, and default NaN sense cases stay owned by their own canonical slices; this generated bridge records only the enabled and controlled cases. Concrete ControlBlock ownership and GlobalVars runtime integration stay owned by control integration slices."
+      ],
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "case enabled -> enabled ? 1 : 0;",
+        "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;",
+        "enabled",
+        "this instanceof ControlBlock c",
+        "c.isControlled()",
+        "GlobalVars.ctrlPlayer"
+      ],
+      "godot_owner": "PortGame.source_building_sense_enabled_controlled_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_sense_206 and PortGame generated bridge to existing N634 canonical source_building_sense_enabled_controlled_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_sense_enabled_controlled_bridge_state",
+      "source_symbols": [
+        "building_sense_enabled_controlled.method",
+        "building_sense_enabled_controlled.enabled_case",
+        "building_sense_enabled_controlled.controlled_case",
+        "building_sense_enabled_controlled.enabled_state",
+        "building_sense_enabled_controlled.is_control_block",
+        "building_sense_enabled_controlled.is_controlled",
+        "building_sense_enabled_controlled.ctrl_player_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_sense_enabled_controlled_to_source_state",
+        "test_generated_building_comp_bridges_sense_enabled_controlled_to_source_state",
+        "test_port_game_exposes_generated_building_comp_sense_enabled_controlled_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

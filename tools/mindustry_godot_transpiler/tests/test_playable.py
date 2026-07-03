@@ -5260,6 +5260,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_sense_enabled_controlled_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_sense_206(_args: Array = []) -> Variant:", source)
+        self.assertIn("var enabled_state := bool(_args[24] if _args.size() > 24 else false)", source)
+        self.assertIn("var is_control_block := bool(_args[25] if _args.size() > 25 else false)", source)
+        self.assertIn("var is_controlled := bool(_args[26] if _args.size() > 26 else false)", source)
+        self.assertIn("var ctrl_player_value := float(_args[27] if _args.size() > 27 else 0.0)", source)
+        self.assertIn('"enabled_controlled_source_owner": "PortGame.source_building_sense_enabled_controlled_state"', source)
+        self.assertIn('"enabled_case": "case enabled -> enabled ? 1 : 0;"', source)
+        self.assertIn('"controlled_case": "case controlled -> this instanceof ControlBlock c && c.isControlled() ? GlobalVars.ctrlPlayer : 0;"', source)
+        self.assertIn('"sense_enabled_controlled": sense_enabled_controlled', source)
+
+    def test_port_game_exposes_generated_building_comp_sense_enabled_controlled_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_sense_enabled_controlled_bridge_state(world_x: float, world_y: float, enabled_state: bool, is_control_block: bool, is_controlled: bool, ctrl_player_value: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, enabled_state, is_control_block, is_controlled, ctrl_player_value])", source)
+        self.assertIn("var canonical = source_building_sense_enabled_controlled_state(enabled_state, is_control_block, is_controlled, ctrl_player_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_enabled_controlled_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
