@@ -5186,6 +5186,39 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_damage_block_health_scale_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_damage_204(_args: Array = []) -> Variant:", source)
+        self.assertIn("var health := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn("var block_health_multiplier := float(_args[3] if _args.size() > 3 else 0.0)", source)
+        self.assertIn("var source_time := float(_args[4] if _args.size() > 4 else 0.0)", source)
+        self.assertIn("var block_health_scale := {}", source)
+        self.assertIn("if not dead_state:", source)
+        self.assertIn("if is_zero_approx(block_health_multiplier):", source)
+        self.assertIn('"damage": health + 1.0', source)
+        self.assertIn('"damage": damage_amount / block_health_multiplier', source)
+        self.assertIn('"last_damage_time": source_time', source)
+        self.assertIn('"block_health_source_owner": "PortGame.source_building_damage_block_health_scale_state"', source)
+        self.assertIn('"block_health": "float dm = state.rules.blockHealth(team);"', source)
+        self.assertIn('"last_damage_time_expr": "lastDamageTime = Time.time;"', source)
+        self.assertIn('"zero_guard": "if(Mathf.zero(dm)){"', source)
+        self.assertIn('"zero_assignment": "damage = health + 1;"', source)
+        self.assertIn('"scale_assignment": "damage /= dm;"', source)
+        self.assertIn('"block_health_scale": block_health_scale', source)
+
+    def test_port_game_exposes_generated_building_comp_damage_block_health_scale_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_damage_block_health_scale_bridge_state(damage_amount: float, health: float, block_health_multiplier: float, source_time: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_damage_204([damage_amount, false, health, block_health_multiplier, source_time])", source)
+        self.assertIn("var canonical = source_building_damage_block_health_scale_state(damage_amount, health, block_health_multiplier, source_time)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_damage_block_health_scale_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_damage_204"', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_display_to_source_ui_gates_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

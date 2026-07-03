@@ -3782,5 +3782,57 @@ class BuildingComp{
             self.assertIn('"returned": dead_state', source_text)
             self.assertIn('"continues": not dead_state', source_text)
 
+    def test_emit_bridges_building_comp_damage_block_health_scale_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Replace
+    @Override
+    public void damage(float damage){
+        if(dead()) return;
+
+        float dm = state.rules.blockHealth(team);
+        lastDamageTime = Time.time;
+
+        if(Mathf.zero(dm)){
+            damage = health + 1;
+        }else{
+            damage /= dm;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var health := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var block_health_multiplier := float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var source_time := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var block_health_scale := {}", source_text)
+            self.assertIn("if not dead_state:", source_text)
+            self.assertIn("if is_zero_approx(block_health_multiplier):", source_text)
+            self.assertIn('"damage": health + 1.0', source_text)
+            self.assertIn('"damage": damage_amount / block_health_multiplier', source_text)
+            self.assertIn('"last_damage_time": source_time', source_text)
+            self.assertIn('"block_health_source_owner": "PortGame.source_building_damage_block_health_scale_state"', source_text)
+            self.assertIn('"block_health": "float dm = state.rules.blockHealth(team);"', source_text)
+            self.assertIn('"last_damage_time_expr": "lastDamageTime = Time.time;"', source_text)
+            self.assertIn('"zero_guard": "if(Mathf.zero(dm)){"', source_text)
+            self.assertIn('"zero_assignment": "damage = health + 1;"', source_text)
+            self.assertIn('"scale_assignment": "damage /= dm;"', source_text)
+            self.assertIn('"block_health_scale": block_health_scale', source_text)
+
 if __name__ == "__main__":
     unittest.main()

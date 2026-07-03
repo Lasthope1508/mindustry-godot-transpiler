@@ -1253,7 +1253,16 @@ func java_method_kill_203(_args: Array = []) -> Variant:
 func java_method_damage_204(_args: Array = []) -> Variant:
 	var damage_amount := float(_args[0] if _args.size() > 0 else 0.0)
 	var dead_state := bool(_args[1] if _args.size() > 1 else false)
-	return {"source_owner": "PortGame.source_building_damage_dead_guard_state", "replace": "@Replace", "override": "@Override", "method": "public void damage(float damage){", "dead_guard": "if(dead()) return;", "damage_amount": damage_amount, "dead_state": dead_state, "returned": dead_state, "continues": not dead_state}
+	var health := float(_args[2] if _args.size() > 2 else 0.0)
+	var block_health_multiplier := float(_args[3] if _args.size() > 3 else 0.0)
+	var source_time := float(_args[4] if _args.size() > 4 else 0.0)
+	var block_health_scale := {}
+	if not dead_state:
+		if is_zero_approx(block_health_multiplier):
+			block_health_scale = {"damage": health + 1.0, "last_damage_time": source_time}
+		else:
+			block_health_scale = {"damage": damage_amount / block_health_multiplier, "last_damage_time": source_time}
+	return {"source_owner": "PortGame.source_building_damage_dead_guard_state", "block_health_source_owner": "PortGame.source_building_damage_block_health_scale_state", "replace": "@Replace", "override": "@Override", "method": "public void damage(float damage){", "dead_guard": "if(dead()) return;", "block_health": "float dm = state.rules.blockHealth(team);", "last_damage_time_expr": "lastDamageTime = Time.time;", "zero_guard": "if(Mathf.zero(dm)){", "zero_assignment": "damage = health + 1;", "scale_assignment": "damage /= dm;", "damage_amount": damage_amount, "dead_state": dead_state, "returned": dead_state, "continues": not dead_state, "block_health_multiplier": block_health_multiplier, "health": health, "source_time": source_time, "block_health_scale": block_health_scale}
 
 func java_method_healthChanged_205(_args: Array = []) -> Variant:
 	return null

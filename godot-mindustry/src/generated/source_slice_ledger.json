@@ -22302,6 +22302,44 @@
         "test_port_game_exposes_generated_building_comp_damage_dead_guard_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1073": {
+      "deferred_exprs": [
+        "handleDamage, healthChanged, and buildDestroyed side effects stay owned by later damage slices. The generated bridge passes dead_state=false because this block is reachable only after if(dead()) return;."
+      ],
+      "exact_exprs": [
+        "@Replace",
+        "@Override",
+        "public void damage(float damage){",
+        "float dm = state.rules.blockHealth(team);",
+        "lastDamageTime = Time.time;",
+        "if(Mathf.zero(dm)){",
+        "damage = health + 1;",
+        "damage /= dm;"
+      ],
+      "godot_owner": "PortGame.source_building_damage_block_health_scale_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "damage(float damage)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_damage_204 and PortGame generated bridge to existing N555 canonical source_building_damage_block_health_scale_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_damage_block_health_scale_bridge_state",
+      "source_symbols": [
+        "building_damage_block_health_scale.block_health",
+        "building_damage_block_health_scale.last_damage_time",
+        "building_damage_block_health_scale.zero_guard",
+        "building_damage_block_health_scale.zero_assignment",
+        "building_damage_block_health_scale.scale_assignment",
+        "building_damage_block_health_scale.damage_amount",
+        "building_damage_block_health_scale.health",
+        "building_damage_block_health_scale.source_time"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_damage_block_health_scale_to_source_state",
+        "test_generated_building_comp_bridges_damage_block_health_scale_to_source_state",
+        "test_port_game_exposes_generated_building_comp_damage_block_health_scale_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
