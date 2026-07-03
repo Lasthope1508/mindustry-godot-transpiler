@@ -12487,5 +12487,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_update_1"', source)
         self.assertIn('"matches": result.get("update_build_logic_call", null) == canonical.get("update_build_logic_call", null) and result.get("update_build_logic_called", null) == canonical.get("update_build_logic_called", null)', source)
 
+    def test_port_game_exposes_source_builder_is_building_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_is_building_state(plans_size: int) -> Dictionary:", source)
+        self.assertIn("var is_building: bool = plans_size != 0", source)
+        self.assertIn('"method": "boolean isBuilding(){"', source)
+        self.assertIn('"return_expr": "return plans.size != 0;"', source)
+        self.assertIn('"plans_size": plans_size', source)
+        self.assertIn('"is_building": is_building', source)
+
+    def test_port_game_exposes_generated_builder_comp_is_building_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_isBuilding_9([plans_size])", source)
+        self.assertIn("var canonical = source_builder_is_building_state(plans_size)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_is_building_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_isBuilding_9"', source)
+        self.assertIn('"matches": result.get("is_building", null) == canonical.get("is_building", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

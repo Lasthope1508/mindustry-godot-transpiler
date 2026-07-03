@@ -7740,6 +7740,28 @@ func generated_builder_comp_update_bridge_state() -> Dictionary:
 		"matches": result.get("update_build_logic_call", null) == canonical.get("update_build_logic_call", null) and result.get("update_build_logic_called", null) == canonical.get("update_build_logic_called", null),
 	}
 
+func source_builder_is_building_state(plans_size: int) -> Dictionary:
+	var is_building: bool = plans_size != 0
+	return {
+		"method": "boolean isBuilding(){",
+		"return_expr": "return plans.size != 0;",
+		"plans_size": plans_size,
+		"is_building": is_building,
+	}
+
+func generated_builder_comp_is_building_bridge_state(plans_size: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_isBuilding_9([plans_size])
+	var canonical = source_builder_is_building_state(plans_size)
+	return {
+		"source_owner": "PortGame.source_builder_is_building_state",
+		"generated_owner": "BuilderComp.java_method_isBuilding_9",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("is_building", null) == canonical.get("is_building", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

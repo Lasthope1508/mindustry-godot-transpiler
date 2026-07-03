@@ -48,7 +48,9 @@ func java_method_removeBuild_8(_args: Array = []) -> Variant:
 	return null
 
 func java_method_isBuilding_9(_args: Array = []) -> Variant:
-	return null
+	var plans_size: int = int(_args[0] if _args.size() > 0 else 0)
+	var is_building: bool = plans_size != 0
+	return {"source_owner": "PortGame.source_builder_is_building_state", "method": "boolean isBuilding(){", "return_expr": "return plans.size != 0;", "plans_size": plans_size, "is_building": is_building}
 
 func java_method_clearBuilding_10(_args: Array = []) -> Variant:
 	return null

@@ -6602,5 +6602,38 @@ class BuilderComp{
             self.assertIn('"update_build_logic_call": update_build_logic_call', source_text)
             self.assertIn('"update_build_logic_called": update_build_logic_called', source_text)
 
+    def test_emit_bridges_builder_comp_is_building_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    boolean isBuilding(){
+        return plans.size != 0;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_isBuilding_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var plans_size: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var is_building: bool = plans_size != 0", source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_is_building_state"', source_text)
+            self.assertIn('"method": "boolean isBuilding(){"', source_text)
+            self.assertIn('"return_expr": "return plans.size != 0;"', source_text)
+            self.assertIn('"plans_size": plans_size', source_text)
+            self.assertIn('"is_building": is_building', source_text)
+
 if __name__ == "__main__":
     unittest.main()

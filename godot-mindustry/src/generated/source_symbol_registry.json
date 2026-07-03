@@ -76553,6 +76553,45 @@
       "tests": [
         "test_generated_builder_comp_update_slice_is_registered_with_source_backing"
       ]
+    },
+    "builder_is_building.method": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "isBuilding()",
+      "java_expr": "boolean isBuilding(){",
+      "godot_owner": "PortGame.source_builder_is_building_state",
+      "godot_symbol": "source_builder_is_building_result.method",
+      "status": "source-backed",
+      "rule": "BuilderComp isBuilding method boundary.",
+      "runtime_proof": "/root/Main.source_builder_is_building_state",
+      "tests": [
+        "test_generated_builder_comp_is_building_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_is_building.plans_size": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "isBuilding()",
+      "java_expr": "plans.size",
+      "godot_owner": "PortGame.source_builder_is_building_state",
+      "godot_symbol": "source_builder_is_building_input.plans_size",
+      "status": "explicit-input",
+      "rule": "Input preserves BuilderComp plans.size.",
+      "runtime_proof": "/root/Main.source_builder_is_building_state",
+      "tests": [
+        "test_generated_builder_comp_is_building_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_is_building.is_building": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "isBuilding()",
+      "java_expr": "plans.size != 0",
+      "godot_owner": "PortGame.source_builder_is_building_state",
+      "godot_symbol": "source_builder_is_building_result.is_building",
+      "status": "source-backed",
+      "rule": "Result records BuilderComp isBuilding return predicate.",
+      "runtime_proof": "/root/Main.source_builder_is_building_state",
+      "tests": [
+        "test_generated_builder_comp_is_building_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

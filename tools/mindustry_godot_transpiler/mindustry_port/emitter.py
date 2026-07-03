@@ -1237,6 +1237,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_builder_update_state\", \"method\": \"public void update(){\", \"update_build_logic_call\": update_build_logic_call, \"update_build_logic_called\": update_build_logic_called}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "isBuilding"
+    ):
+        return [
+            "\tvar plans_size: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar is_building: bool = plans_size != 0",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_is_building_state\", \"method\": \"boolean isBuilding(){\", \"return_expr\": \"return plans.size != 0;\", \"plans_size\": plans_size, \"is_building\": is_building}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "add"
