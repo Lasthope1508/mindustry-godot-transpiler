@@ -1484,7 +1484,28 @@ func java_method_setProp_212(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_set_prop_team_object_state", "team_object_source_owner": "PortGame.source_building_set_prop_team_object_state", "set_prop_team_object": set_prop_team_object}
 
 func java_method_setProp_213(_args: Array = []) -> Variant:
-	return null
+	var content_type := str(_args[0] if _args.size() > 0 else "")
+	var has_items_module := bool(_args[1] if _args.size() > 1 else false)
+	var item_value: Variant = _args[2] if _args.size() > 2 else null
+	var current_amount := int(_args[3] if _args.size() > 3 else 0)
+	var value := float(_args[4] if _args.size() > 4 else 0.0)
+	var accepted_stack := int(_args[5] if _args.size() > 5 else 0)
+	var amount := int(value)
+	var source_exprs := {"method": "public void setProp(UnlockableContent content, double value){", "item_gate": "if(content instanceof Item item && items != null){", "amount_assign": "int amount = (int)value;", "amount_diff_gate": "if(items.get(item) != amount){", "increase_gate": "if(items.get(item) < amount){", "handle_stack_call": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);", "remove_gate": "}else if(amount >= 0){", "remove_stack_call": "removeStack(item, items.get(item) - amount);"}
+	var set_prop_item_content: Dictionary
+	if content_type != "item" or not has_items_module:
+		set_prop_item_content = {"action": "none", "item": item_value, "amount": current_amount, "delta": 0, "accepted": 0}
+	elif current_amount == amount:
+		set_prop_item_content = {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
+	elif current_amount < amount:
+		set_prop_item_content = {"action": "handle_stack", "item": item_value, "amount": amount, "delta": amount - current_amount, "accepted": accepted_stack}
+	elif amount >= 0:
+		set_prop_item_content = {"action": "remove_stack", "item": item_value, "amount": amount, "delta": current_amount - amount, "accepted": 0}
+	else:
+		set_prop_item_content = {"action": "none", "item": item_value, "amount": amount, "delta": 0, "accepted": 0}
+	set_prop_item_content.merge(source_exprs)
+	set_prop_item_content.merge({"content_type": content_type, "has_items_module": has_items_module, "value": value})
+	return {"source_owner": "PortGame.source_building_set_prop_item_content_state", "item_content_source_owner": "PortGame.source_building_set_prop_item_content_state", "set_prop_item_content": set_prop_item_content}
 
 func java_method_inFogTo_214(_args: Array = []) -> Variant:
 	return null

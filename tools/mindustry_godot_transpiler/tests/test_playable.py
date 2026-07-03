@@ -5653,6 +5653,46 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_set_prop_item_content_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_setProp_213(_args: Array = []) -> Variant:", source)
+        self.assertIn('var content_type := str(_args[0] if _args.size() > 0 else "")', source)
+        self.assertIn("var has_items_module := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var item_value: Variant = _args[2] if _args.size() > 2 else null", source)
+        self.assertIn("var current_amount := int(_args[3] if _args.size() > 3 else 0)", source)
+        self.assertIn("var value := float(_args[4] if _args.size() > 4 else 0.0)", source)
+        self.assertIn("var accepted_stack := int(_args[5] if _args.size() > 5 else 0)", source)
+        self.assertIn("var amount := int(value)", source)
+        self.assertIn('"item_content_source_owner": "PortGame.source_building_set_prop_item_content_state"', source)
+        self.assertIn('"method": "public void setProp(UnlockableContent content, double value){"', source)
+        self.assertIn('"item_gate": "if(content instanceof Item item && items != null){"', source)
+        self.assertIn('"amount_assign": "int amount = (int)value;"', source)
+        self.assertIn('"amount_diff_gate": "if(items.get(item) != amount){"', source)
+        self.assertIn('"increase_gate": "if(items.get(item) < amount){"', source)
+        self.assertIn('"handle_stack_call": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);"', source)
+        self.assertIn('"remove_gate": "}else if(amount >= 0){"', source)
+        self.assertIn('"remove_stack_call": "removeStack(item, items.get(item) - amount);"', source)
+        self.assertIn('"content_type": content_type', source)
+        self.assertIn('"has_items_module": has_items_module', source)
+        self.assertIn('"item": item_value', source)
+        self.assertIn('"amount": amount', source)
+        self.assertIn('"accepted": accepted_stack', source)
+        self.assertIn('"set_prop_item_content": set_prop_item_content', source)
+
+    def test_port_game_exposes_generated_building_comp_set_prop_item_content_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_set_prop_item_content_bridge_state(content_type: String, has_items_module: bool, item_value: Variant, current_amount: int, value: float, accepted_stack: int) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_setProp_213([content_type, has_items_module, item_value, current_amount, value, accepted_stack])", source)
+        self.assertIn("var canonical = source_building_set_prop_item_content_state(content_type, has_items_module, item_value, current_amount, value, accepted_stack)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_set_prop_item_content_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_213"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

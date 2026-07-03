@@ -23130,6 +23130,51 @@
         "test_port_game_exposes_generated_building_comp_set_prop_team_object_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1094": {
+      "deferred_exprs": [
+        "Concrete ItemModule mutation, acceptStack internals, and handleStack side effects remain owned by existing runtime item stack slices; this generated bridge records BuildingComp setProp item content branch selection through existing N641 canonical owner.",
+        "BuildingComp.setProp(UnlockableContent content, double value) generated liquid content bridge remains deferred to a later slice."
+      ],
+      "exact_exprs": [
+        "public void setProp(UnlockableContent content, double value){",
+        "if(content instanceof Item item && items != null){",
+        "int amount = (int)value;",
+        "if(items.get(item) != amount){",
+        "if(items.get(item) < amount){",
+        "handleStack(item, acceptStack(item, amount - items.get(item), null), null);",
+        "}else if(amount >= 0){",
+        "removeStack(item, items.get(item) - amount);"
+      ],
+      "godot_owner": "PortGame.source_building_set_prop_item_content_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(UnlockableContent content, double value)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_setProp_213 and PortGame generated bridge to existing N641 canonical source_building_set_prop_item_content_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_set_prop_item_content_bridge_state",
+      "source_symbols": [
+        "building_set_prop_item_content.method",
+        "building_set_prop_item_content.item_gate",
+        "building_set_prop_item_content.amount_assign",
+        "building_set_prop_item_content.amount_diff_gate",
+        "building_set_prop_item_content.increase_gate",
+        "building_set_prop_item_content.handle_stack_call",
+        "building_set_prop_item_content.remove_gate",
+        "building_set_prop_item_content.remove_stack_call",
+        "building_set_prop_item_content.content_type",
+        "building_set_prop_item_content.has_items_module",
+        "building_set_prop_item_content.item_value",
+        "building_set_prop_item_content.current_amount",
+        "building_set_prop_item_content.value",
+        "building_set_prop_item_content.accepted_stack"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_set_prop_item_content_to_source_state",
+        "test_generated_building_comp_bridges_set_prop_item_content_to_source_state",
+        "test_port_game_exposes_generated_building_comp_set_prop_item_content_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

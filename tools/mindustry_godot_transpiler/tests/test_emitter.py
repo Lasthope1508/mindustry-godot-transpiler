@@ -4477,6 +4477,64 @@ class BuildingComp{
             self.assertIn('"change_team": change_team', source_text)
             self.assertIn('"set_prop_team_object": set_prop_team_object', source_text)
 
+    def test_emit_bridges_building_comp_set_prop_item_content_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public void setProp(UnlockableContent content, double value){
+        if(content instanceof Item item && items != null){
+            int amount = (int)value;
+            if(items.get(item) != amount){
+                if(items.get(item) < amount){
+                    handleStack(item, acceptStack(item, amount - items.get(item), null), null);
+                }else if(amount >= 0){
+                    removeStack(item, items.get(item) - amount);
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setProp_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var content_type := str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var has_items_module := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var item_value: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var current_amount := int(_args[3] if _args.size() > 3 else 0)", source_text)
+            self.assertIn("var value := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var accepted_stack := int(_args[5] if _args.size() > 5 else 0)", source_text)
+            self.assertIn("var amount := int(value)", source_text)
+            self.assertIn('"item_content_source_owner": "PortGame.source_building_set_prop_item_content_state"', source_text)
+            self.assertIn('"method": "public void setProp(UnlockableContent content, double value){"', source_text)
+            self.assertIn('"item_gate": "if(content instanceof Item item && items != null){"', source_text)
+            self.assertIn('"amount_assign": "int amount = (int)value;"', source_text)
+            self.assertIn('"amount_diff_gate": "if(items.get(item) != amount){"', source_text)
+            self.assertIn('"increase_gate": "if(items.get(item) < amount){"', source_text)
+            self.assertIn('"handle_stack_call": "handleStack(item, acceptStack(item, amount - items.get(item), null), null);"', source_text)
+            self.assertIn('"remove_gate": "}else if(amount >= 0){"', source_text)
+            self.assertIn('"remove_stack_call": "removeStack(item, items.get(item) - amount);"', source_text)
+            self.assertIn('"content_type": content_type', source_text)
+            self.assertIn('"has_items_module": has_items_module', source_text)
+            self.assertIn('"item": item_value', source_text)
+            self.assertIn('"amount": amount', source_text)
+            self.assertIn('"accepted": accepted_stack', source_text)
+            self.assertIn('"set_prop_item_content": set_prop_item_content', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

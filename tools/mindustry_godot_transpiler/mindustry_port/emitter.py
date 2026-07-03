@@ -1347,6 +1347,36 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "setProp"
+        and [parameter.get("type") for parameter in method.get("parameters", [])] == ["UnlockableContent", "double"]
+    ):
+        return [
+            "\tvar content_type := str(_args[0] if _args.size() > 0 else \"\")",
+            "\tvar has_items_module := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar item_value: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar current_amount := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar value := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar accepted_stack := int(_args[5] if _args.size() > 5 else 0)",
+            "\tvar amount := int(value)",
+            "\tvar source_exprs := {\"method\": \"public void setProp(UnlockableContent content, double value){\", \"item_gate\": \"if(content instanceof Item item && items != null){\", \"amount_assign\": \"int amount = (int)value;\", \"amount_diff_gate\": \"if(items.get(item) != amount){\", \"increase_gate\": \"if(items.get(item) < amount){\", \"handle_stack_call\": \"handleStack(item, acceptStack(item, amount - items.get(item), null), null);\", \"remove_gate\": \"}else if(amount >= 0){\", \"remove_stack_call\": \"removeStack(item, items.get(item) - amount);\"}",
+            "\tvar set_prop_item_content: Dictionary",
+            "\tif content_type != \"item\" or not has_items_module:",
+            "\t\tset_prop_item_content = {\"action\": \"none\", \"item\": item_value, \"amount\": current_amount, \"delta\": 0, \"accepted\": 0}",
+            "\telif current_amount == amount:",
+            "\t\tset_prop_item_content = {\"action\": \"none\", \"item\": item_value, \"amount\": amount, \"delta\": 0, \"accepted\": 0}",
+            "\telif current_amount < amount:",
+            "\t\tset_prop_item_content = {\"action\": \"handle_stack\", \"item\": item_value, \"amount\": amount, \"delta\": amount - current_amount, \"accepted\": accepted_stack}",
+            "\telif amount >= 0:",
+            "\t\tset_prop_item_content = {\"action\": \"remove_stack\", \"item\": item_value, \"amount\": amount, \"delta\": current_amount - amount, \"accepted\": 0}",
+            "\telse:",
+            "\t\tset_prop_item_content = {\"action\": \"none\", \"item\": item_value, \"amount\": amount, \"delta\": 0, \"accepted\": 0}",
+            "\tset_prop_item_content.merge(source_exprs)",
+            "\tset_prop_item_content.merge({\"content_type\": content_type, \"has_items_module\": has_items_module, \"value\": value})",
+            "\treturn {\"source_owner\": \"PortGame.source_building_set_prop_item_content_state\", \"item_content_source_owner\": \"PortGame.source_building_set_prop_item_content_state\", \"set_prop_item_content\": set_prop_item_content}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [
