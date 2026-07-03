@@ -24626,6 +24626,47 @@
         "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1139": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "tile(Building tile)",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "source_symbols": [
+        "block_unit_tile.method",
+        "block_unit_tile.tile",
+        "block_unit_tile.tile_block_health",
+        "block_unit_tile.tile_health",
+        "block_unit_tile.tile_block_size",
+        "block_unit_tile.tilesize",
+        "block_unit_tile.tile_assignment",
+        "block_unit_tile.comment",
+        "block_unit_tile.max_health_call",
+        "block_unit_tile.health_call",
+        "block_unit_tile.hit_size_call",
+        "block_unit_tile.set_call",
+        "block_unit_tile.this_tile_after",
+        "block_unit_tile.hit_size"
+      ],
+      "exact_exprs": [
+        "public void tile(Building tile){",
+        "this.tile = tile;",
+        "//sets up block stats",
+        "maxHealth(tile.block.health);",
+        "health(tile.health);",
+        "hitSize(tile.block.size * tilesize * 0.7f);",
+        "set(tile);"
+      ],
+      "status": "done",
+      "rule": "Registers BlockUnitComp.tile(Building tile) tile assignment and block stat setup calls; wires generated BlockUnitComp.java_method_tile_0 plus PortGame generated bridge to canonical source_block_unit_tile_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_tile_bridge_state",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_tile_to_source_state",
+        "test_port_game_exposes_source_block_unit_tile_state",
+        "test_port_game_exposes_generated_block_unit_comp_tile_bridge_state",
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

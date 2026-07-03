@@ -6447,6 +6447,54 @@ class BlockUnitComp{
             self.assertIn('"tile_guard": tile_guard', source_text)
             self.assertIn('"team_after": team_after', source_text)
 
+    def test_emit_bridges_block_unit_comp_tile_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BlockUnitComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BlockUnitComp{
+    public void tile(Building tile){
+        this.tile = tile;
+
+        //sets up block stats
+        maxHealth(tile.block.health);
+        health(tile.health);
+        hitSize(tile.block.size * tilesize * 0.7f);
+        set(tile);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_tile_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var tile_block_health: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var tile_health: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var tile_block_size: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var hit_size: float = tile_block_size * tilesize * 0.7", source_text)
+            self.assertIn('var max_health_call: Dictionary = {"call": "maxHealth(tile.block.health);", "value": tile_block_health}', source_text)
+            self.assertIn('var health_call: Dictionary = {"call": "health(tile.health);", "value": tile_health}', source_text)
+            self.assertIn('var hit_size_call: Dictionary = {"call": "hitSize(tile.block.size * tilesize * 0.7f);", "value": hit_size}', source_text)
+            self.assertIn('var set_call: Dictionary = {"call": "set(tile);", "tile": tile}', source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_unit_tile_state"', source_text)
+            self.assertIn('"method": "public void tile(Building tile){"', source_text)
+            self.assertIn('"tile_assignment_expr": "this.tile = tile;"', source_text)
+            self.assertIn('"comment": "//sets up block stats"', source_text)
+            self.assertIn('"hit_size": hit_size', source_text)
+            self.assertIn('"set_call": set_call', source_text)
+
     def test_emit_bridges_block_unit_comp_add_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

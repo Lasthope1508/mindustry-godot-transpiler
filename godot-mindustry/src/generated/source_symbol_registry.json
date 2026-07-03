@@ -76241,6 +76241,188 @@
       "tests": [
         "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_unit_tile.method": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "public void tile(Building tile){",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_result.method",
+      "status": "source-backed",
+      "rule": "BlockUnitComp tile(Building tile) method boundary.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.tile": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "tile",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_input.tile",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for BlockUnitComp tile parameter.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.tile_block_health": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "tile.block.health",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_input.tile_block_health",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for maxHealth(tile.block.health).",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.tile_health": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "tile.health",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_input.tile_health",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for health(tile.health).",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.tile_block_size": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "tile.block.size",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_input.tile_block_size",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for hitSize tile.block.size operand.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.tilesize": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "tilesize",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_input.tilesize",
+      "status": "explicit-input",
+      "rule": "Explicit runtime fact for imported Vars.tilesize operand.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.tile_assignment": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "this.tile = tile;",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_result.this_tile_after",
+      "status": "source-backed",
+      "rule": "Result records this.tile assignment to tile parameter.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.comment": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "//sets up block stats",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_result.comment",
+      "status": "source-backed",
+      "rule": "Result records exact source comment before block stat setup calls.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.max_health_call": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "maxHealth(tile.block.health);",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_result.max_health_call",
+      "status": "source-backed",
+      "rule": "Result records exact maxHealth call and argument value.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.health_call": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "health(tile.health);",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_result.health_call",
+      "status": "source-backed",
+      "rule": "Result records exact health call and argument value.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.hit_size_call": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "hitSize(tile.block.size * tilesize * 0.7f);",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_result.hit_size_call",
+      "status": "source-backed",
+      "rule": "Result records exact hitSize call and computed value.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.set_call": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "set(tile);",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_result.set_call",
+      "status": "source-backed",
+      "rule": "Result records exact set(tile) call.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.this_tile_after": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "this.tile = tile;",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_result.this_tile_after",
+      "status": "source-backed",
+      "rule": "Result value of this.tile after assignment.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_unit_tile.hit_size": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "java_method": "tile(Building tile)",
+      "java_expr": "tile.block.size * tilesize * 0.7f",
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "godot_symbol": "source_block_unit_tile_result.hit_size",
+      "status": "source-backed",
+      "rule": "Result value of hitSize(tile.block.size * tilesize * 0.7f).",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 607)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 608)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 612)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 613)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19745,6 +19745,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_unit_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_killed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_team_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_unit_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_read_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_sync_state", audit["registeredSourceOwners"])
@@ -41405,6 +41406,83 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_unit_add_result["keys"]["guard_expr"]["java_expr"], "if(tile == null){")
         self.assertEqual(source_block_unit_add_result["keys"]["throw_expr"]["java_expr"], "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");")
         self.assertEqual(source_block_unit_add_result["keys"]["runtime_exception_thrown"]["java_expr"], "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");")
+
+    def test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_unit_tile.method")
+        self.assertEqual(method["java_expr"], "public void tile(Building tile){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(method["java_method"], "tile(Building tile)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_unit_tile_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_unit_tile_state")
+
+        tile = source_symbols.source_symbol(registry, "block_unit_tile.tile")
+        self.assertEqual(tile["java_expr"], "tile")
+        self.assertEqual(tile["godot_symbol"], "source_block_unit_tile_input.tile")
+        tile_block_health = source_symbols.source_symbol(registry, "block_unit_tile.tile_block_health")
+        self.assertEqual(tile_block_health["java_expr"], "tile.block.health")
+        self.assertEqual(tile_block_health["godot_symbol"], "source_block_unit_tile_input.tile_block_health")
+        tile_health = source_symbols.source_symbol(registry, "block_unit_tile.tile_health")
+        self.assertEqual(tile_health["java_expr"], "tile.health")
+        self.assertEqual(tile_health["godot_symbol"], "source_block_unit_tile_input.tile_health")
+        tile_block_size = source_symbols.source_symbol(registry, "block_unit_tile.tile_block_size")
+        self.assertEqual(tile_block_size["java_expr"], "tile.block.size")
+        self.assertEqual(tile_block_size["godot_symbol"], "source_block_unit_tile_input.tile_block_size")
+        tilesize = source_symbols.source_symbol(registry, "block_unit_tile.tilesize")
+        self.assertEqual(tilesize["java_expr"], "tilesize")
+        self.assertEqual(tilesize["godot_symbol"], "source_block_unit_tile_input.tilesize")
+        hit_size = source_symbols.source_symbol(registry, "block_unit_tile.hit_size")
+        self.assertEqual(hit_size["java_expr"], "tile.block.size * tilesize * 0.7f")
+        self.assertEqual(hit_size["godot_symbol"], "source_block_unit_tile_result.hit_size")
+        set_call = source_symbols.source_symbol(registry, "block_unit_tile.set_call")
+        self.assertEqual(set_call["java_expr"], "set(tile);")
+        self.assertEqual(set_call["godot_symbol"], "source_block_unit_tile_result.set_call")
+
+        tile_slice = source_symbols.source_slice(ledger, "N1139")
+        self.assertEqual(tile_slice["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(tile_slice["java_method"], "tile(Building tile)")
+        self.assertEqual(tile_slice["godot_owner"], "PortGame.source_block_unit_tile_state")
+        self.assertEqual(tile_slice["runtime_proof"], "/root/Main.generated_block_unit_comp_tile_bridge_state")
+        self.assertIn("public void tile(Building tile){", tile_slice["exact_exprs"])
+        self.assertIn("this.tile = tile;", tile_slice["exact_exprs"])
+        self.assertIn("//sets up block stats", tile_slice["exact_exprs"])
+        self.assertIn("maxHealth(tile.block.health);", tile_slice["exact_exprs"])
+        self.assertIn("health(tile.health);", tile_slice["exact_exprs"])
+        self.assertIn("hitSize(tile.block.size * tilesize * 0.7f);", tile_slice["exact_exprs"])
+        self.assertIn("set(tile);", tile_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_unit_tile_state")
+        self.assertEqual(contract["params"], [
+            {"name": "tile", "schema": "source_block_unit_tile_input.tile", "type": "Variant"},
+            {"name": "tile_block_health", "schema": "source_block_unit_tile_input.tile_block_health", "type": "float"},
+            {"name": "tile_health", "schema": "source_block_unit_tile_input.tile_health", "type": "float"},
+            {"name": "tile_block_size", "schema": "source_block_unit_tile_input.tile_block_size", "type": "float"},
+            {"name": "tilesize", "schema": "source_block_unit_tile_input.tilesize", "type": "float"},
+        ])
+        for key in ["method", "tile_assignment_expr", "comment", "max_health_call", "health_call", "hit_size_call", "set_call", "this_tile_after", "hit_size"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_block_unit_tile_input = source_symbols.state_schema(schema, "source_block_unit_tile_input")
+        self.assertEqual(source_block_unit_tile_input["keys"]["tile"]["java_expr"], "tile")
+        self.assertEqual(source_block_unit_tile_input["keys"]["tile_block_health"]["java_expr"], "tile.block.health")
+        self.assertEqual(source_block_unit_tile_input["keys"]["tile_health"]["java_expr"], "tile.health")
+        self.assertEqual(source_block_unit_tile_input["keys"]["tile_block_size"]["java_expr"], "tile.block.size")
+        self.assertEqual(source_block_unit_tile_input["keys"]["tilesize"]["java_expr"], "tilesize")
+        source_block_unit_tile_result = source_symbols.state_schema(schema, "source_block_unit_tile_result")
+        self.assertEqual(source_block_unit_tile_result["keys"]["method"]["java_expr"], "public void tile(Building tile){")
+        self.assertEqual(source_block_unit_tile_result["keys"]["tile_assignment_expr"]["java_expr"], "this.tile = tile;")
+        self.assertEqual(source_block_unit_tile_result["keys"]["comment"]["java_expr"], "//sets up block stats")
+        self.assertEqual(source_block_unit_tile_result["keys"]["max_health_call"]["java_expr"], "maxHealth(tile.block.health);")
+        self.assertEqual(source_block_unit_tile_result["keys"]["health_call"]["java_expr"], "health(tile.health);")
+        self.assertEqual(source_block_unit_tile_result["keys"]["hit_size_call"]["java_expr"], "hitSize(tile.block.size * tilesize * 0.7f);")
+        self.assertEqual(source_block_unit_tile_result["keys"]["set_call"]["java_expr"], "set(tile);")
+        self.assertEqual(source_block_unit_tile_result["keys"]["hit_size"]["java_expr"], "tile.block.size * tilesize * 0.7f")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

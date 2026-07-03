@@ -24510,6 +24510,61 @@
         "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_block_unit_add_state"
       ]
+    },
+    "PortGame.source_block_unit_tile_state": {
+      "source_slice": "N1139",
+      "source_method": "tile(Building tile)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Variant",
+          "schema": "source_block_unit_tile_input.tile"
+        },
+        {
+          "name": "tile_block_health",
+          "type": "float",
+          "schema": "source_block_unit_tile_input.tile_block_health"
+        },
+        {
+          "name": "tile_health",
+          "type": "float",
+          "schema": "source_block_unit_tile_input.tile_health"
+        },
+        {
+          "name": "tile_block_size",
+          "type": "float",
+          "schema": "source_block_unit_tile_input.tile_block_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "schema": "source_block_unit_tile_input.tilesize"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "tile_assignment_expr",
+        "comment",
+        "max_health_call",
+        "health_call",
+        "hit_size_call",
+        "set_call",
+        "tile",
+        "tile_block_health",
+        "tile_health",
+        "tile_block_size",
+        "tilesize",
+        "this_tile_after",
+        "hit_size"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BlockUnitComp.tile(Building tile) tile assignment and block stat setup calls.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_tile_state"
+      ]
     }
   },
   "policy": {

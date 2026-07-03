@@ -14,7 +14,18 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "tile", "parameters": [
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_tile_0(_args: Array = []) -> Variant:
-	return null
+	var tile: Variant = _args[0] if _args.size() > 0 else null
+	var tile_block_health: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var tile_health: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var tile_block_size: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)
+	var this_tile_after: Variant = tile
+	var hit_size: float = tile_block_size * tilesize * 0.7
+	var max_health_call: Dictionary = {"call": "maxHealth(tile.block.health);", "value": tile_block_health}
+	var health_call: Dictionary = {"call": "health(tile.health);", "value": tile_health}
+	var hit_size_call: Dictionary = {"call": "hitSize(tile.block.size * tilesize * 0.7f);", "value": hit_size}
+	var set_call: Dictionary = {"call": "set(tile);", "tile": tile}
+	return {"source_owner": "PortGame.source_block_unit_tile_state", "method": "public void tile(Building tile){", "tile_assignment_expr": "this.tile = tile;", "comment": "//sets up block stats", "max_health_call": max_health_call, "health_call": health_call, "hit_size_call": hit_size_call, "set_call": set_call, "tile": tile, "tile_block_health": tile_block_health, "tile_health": tile_health, "tile_block_size": tile_block_size, "tilesize": tilesize, "this_tile_after": this_tile_after, "hit_size": hit_size}
 
 func java_method_add_1(_args: Array = []) -> Variant:
 	var tile_null: bool = bool(_args[0] if _args.size() > 0 else false)

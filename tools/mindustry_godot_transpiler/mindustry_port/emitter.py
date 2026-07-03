@@ -1195,6 +1195,27 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
+        and method.get("name") == "tile"
+        and len(method.get("parameters", [])) == 1
+        and method.get("parameters", [])[0].get("name") == "tile"
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar tile_block_health: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar tile_health: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar tile_block_size: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar this_tile_after: Variant = tile",
+            "\tvar hit_size: float = tile_block_size * tilesize * 0.7",
+            "\tvar max_health_call: Dictionary = {\"call\": \"maxHealth(tile.block.health);\", \"value\": tile_block_health}",
+            "\tvar health_call: Dictionary = {\"call\": \"health(tile.health);\", \"value\": tile_health}",
+            "\tvar hit_size_call: Dictionary = {\"call\": \"hitSize(tile.block.size * tilesize * 0.7f);\", \"value\": hit_size}",
+            "\tvar set_call: Dictionary = {\"call\": \"set(tile);\", \"tile\": tile}",
+            "\treturn {\"source_owner\": \"PortGame.source_block_unit_tile_state\", \"method\": \"public void tile(Building tile){\", \"tile_assignment_expr\": \"this.tile = tile;\", \"comment\": \"//sets up block stats\", \"max_health_call\": max_health_call, \"health_call\": health_call, \"hit_size_call\": hit_size_call, \"set_call\": set_call, \"tile\": tile, \"tile_block_health\": tile_block_health, \"tile_health\": tile_health, \"tile_block_size\": tile_block_size, \"tilesize\": tilesize, \"this_tile_after\": this_tile_after, \"hit_size\": hit_size}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
+        and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "add"
     ):
         return [

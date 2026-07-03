@@ -12358,6 +12358,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_team_10"', source)
         self.assertIn('"matches": result.get("outer_guard", null) == canonical.get("outer_guard", null) and result.get("inner_guard", null) == canonical.get("inner_guard", null) and result.get("this_team_after", null) == canonical.get("this_team_after", null) and result.get("tile_change_team_called", null) == canonical.get("tile_change_team_called", null)', source)
 
+    def test_port_game_exposes_source_block_unit_tile_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_unit_tile_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:", source)
+        self.assertIn("var hit_size: float = tile_block_size * tilesize * 0.7", source)
+        self.assertIn('var max_health_call: Dictionary = {"call": "maxHealth(tile.block.health);", "value": tile_block_health}', source)
+        self.assertIn('var health_call: Dictionary = {"call": "health(tile.health);", "value": tile_health}', source)
+        self.assertIn('var hit_size_call: Dictionary = {"call": "hitSize(tile.block.size * tilesize * 0.7f);", "value": hit_size}', source)
+        self.assertIn('var set_call: Dictionary = {"call": "set(tile);", "tile": tile}', source)
+        self.assertIn('"method": "public void tile(Building tile){"', source)
+        self.assertIn('"tile_assignment_expr": "this.tile = tile;"', source)
+        self.assertIn('"comment": "//sets up block stats"', source)
+        self.assertIn('"hit_size": hit_size', source)
+        self.assertIn('"set_call": set_call', source)
+
+    def test_port_game_exposes_generated_block_unit_comp_tile_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
+        self.assertIn("var result = instance.java_method_tile_0([tile, tile_block_health, tile_health, tile_block_size, tilesize])", source)
+        self.assertIn("var canonical = source_block_unit_tile_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_tile_state"', source)
+        self.assertIn('"generated_owner": "BlockUnitComp.java_method_tile_0"', source)
+        self.assertIn('"matches": result.get("this_tile_after", null) == canonical.get("this_tile_after", null) and result.get("hit_size", null) == canonical.get("hit_size", null) and result.get("max_health_call", null) == canonical.get("max_health_call", null) and result.get("health_call", null) == canonical.get("health_call", null) and result.get("set_call", null) == canonical.get("set_call", null)', source)
+
     def test_port_game_exposes_source_block_unit_update_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

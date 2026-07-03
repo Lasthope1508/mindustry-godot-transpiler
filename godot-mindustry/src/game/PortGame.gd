@@ -7443,6 +7443,43 @@ func generated_block_unit_comp_icon_bridge_state(tile_block_ui_icon: Variant) ->
 		"matches": result.get("tile_block_ui_icon", null) == canonical.get("tile_block_ui_icon", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
 	}
 
+func source_block_unit_tile_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:
+	var this_tile_after: Variant = tile
+	var hit_size: float = tile_block_size * tilesize * 0.7
+	var max_health_call: Dictionary = {"call": "maxHealth(tile.block.health);", "value": tile_block_health}
+	var health_call: Dictionary = {"call": "health(tile.health);", "value": tile_health}
+	var hit_size_call: Dictionary = {"call": "hitSize(tile.block.size * tilesize * 0.7f);", "value": hit_size}
+	var set_call: Dictionary = {"call": "set(tile);", "tile": tile}
+	return {
+		"method": "public void tile(Building tile){",
+		"tile_assignment_expr": "this.tile = tile;",
+		"comment": "//sets up block stats",
+		"max_health_call": max_health_call,
+		"health_call": health_call,
+		"hit_size_call": hit_size_call,
+		"set_call": set_call,
+		"tile": tile,
+		"tile_block_health": tile_block_health,
+		"tile_health": tile_health,
+		"tile_block_size": tile_block_size,
+		"tilesize": tilesize,
+		"this_tile_after": this_tile_after,
+		"hit_size": hit_size,
+	}
+
+func generated_block_unit_comp_tile_bridge_state(tile: Variant, tile_block_health: float, tile_health: float, tile_block_size: float, tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_tile_0([tile, tile_block_health, tile_health, tile_block_size, tilesize])
+	var canonical = source_block_unit_tile_state(tile, tile_block_health, tile_health, tile_block_size, tilesize)
+	return {
+		"source_owner": "PortGame.source_block_unit_tile_state",
+		"generated_owner": "BlockUnitComp.java_method_tile_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("this_tile_after", null) == canonical.get("this_tile_after", null) and result.get("hit_size", null) == canonical.get("hit_size", null) and result.get("max_health_call", null) == canonical.get("max_health_call", null) and result.get("health_call", null) == canonical.get("health_call", null) and result.get("set_call", null) == canonical.get("set_call", null),
+	}
+
 func source_block_unit_add_state(tile_null: bool) -> Dictionary:
 	var runtime_exception_thrown: bool = tile_null
 	var runtime_exception_message: String = "Do not add BlockUnit entities to the game, they will simply crash. Internal use only." if runtime_exception_thrown else ""
