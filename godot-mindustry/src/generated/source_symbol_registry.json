@@ -76514,6 +76514,45 @@
       "tests": [
         "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing"
       ]
+    },
+    "builder_update.method": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "update()",
+      "java_expr": "public void update(){",
+      "godot_owner": "PortGame.source_builder_update_state",
+      "godot_symbol": "source_builder_update_result.method",
+      "status": "source-backed",
+      "rule": "BuilderComp update method boundary.",
+      "runtime_proof": "/root/Main.source_builder_update_state",
+      "tests": [
+        "test_generated_builder_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_update.update_build_logic_call": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "update()",
+      "java_expr": "updateBuildLogic();",
+      "godot_owner": "PortGame.source_builder_update_state",
+      "godot_symbol": "source_builder_update_result.update_build_logic_call",
+      "status": "source-backed",
+      "rule": "Exact BuilderComp.update dispatch call.",
+      "runtime_proof": "/root/Main.source_builder_update_state",
+      "tests": [
+        "test_generated_builder_comp_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_update.update_build_logic_called": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "update()",
+      "java_expr": "updateBuildLogic();",
+      "godot_owner": "PortGame.source_builder_update_state",
+      "godot_symbol": "source_builder_update_result.update_build_logic_called",
+      "status": "source-backed",
+      "rule": "Result records BuilderComp.update dispatch call occurrence.",
+      "runtime_proof": "/root/Main.source_builder_update_state",
+      "tests": [
+        "test_generated_builder_comp_update_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

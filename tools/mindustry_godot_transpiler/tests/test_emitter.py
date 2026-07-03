@@ -6570,5 +6570,37 @@ class BuilderComp{
             self.assertIn('"build_speed_multiplier_positive": build_speed_multiplier_positive', source_text)
             self.assertIn('"can_build": can_build', source_text)
 
+    def test_emit_bridges_builder_comp_update_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    public void update(){
+        updateBuildLogic();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var update_build_logic_call: String = "updateBuildLogic();"', source_text)
+            self.assertIn("var update_build_logic_called: bool = true", source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_update_state"', source_text)
+            self.assertIn('"method": "public void update(){"', source_text)
+            self.assertIn('"update_build_logic_call": update_build_logic_call', source_text)
+            self.assertIn('"update_build_logic_called": update_build_logic_called', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -24696,6 +24696,32 @@
         "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1141": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_builder_update_state",
+      "source_symbols": [
+        "builder_update.method",
+        "builder_update.update_build_logic_call",
+        "builder_update.update_build_logic_called"
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void update(){",
+        "updateBuildLogic();"
+      ],
+      "status": "done",
+      "rule": "Registers BuilderComp.update() updateBuildLogic() dispatch; wires generated BuilderComp.java_method_update_1 plus PortGame generated bridge to canonical source_builder_update_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_update_bridge_state",
+      "tests": [
+        "test_emit_bridges_builder_comp_update_to_source_state",
+        "test_port_game_exposes_source_builder_update_state",
+        "test_port_game_exposes_generated_builder_comp_update_bridge_state",
+        "test_generated_builder_comp_update_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

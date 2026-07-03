@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 609)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 610)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 614)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 615)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19748,6 +19748,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_unit_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_can_build_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_builder_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_read_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_sync_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_update_state", audit["registeredSourceOwners"])
@@ -41535,6 +41536,47 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_can_build_result["keys"]["type_build_speed_positive"]["java_expr"], "type.buildSpeed > 0")
         self.assertEqual(source_builder_can_build_result["keys"]["build_speed_multiplier_positive"]["java_expr"], "buildSpeedMultiplier > 0")
         self.assertEqual(source_builder_can_build_result["keys"]["can_build"]["java_expr"], "type.buildSpeed > 0 && buildSpeedMultiplier > 0")
+
+    def test_generated_builder_comp_update_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_update.method")
+        self.assertEqual(method["java_expr"], "public void update(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "update()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_update_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_update_state")
+
+        call = source_symbols.source_symbol(registry, "builder_update.update_build_logic_call")
+        self.assertEqual(call["java_expr"], "updateBuildLogic();")
+        self.assertEqual(call["godot_symbol"], "source_builder_update_result.update_build_logic_call")
+        called = source_symbols.source_symbol(registry, "builder_update.update_build_logic_called")
+        self.assertEqual(called["java_expr"], "updateBuildLogic();")
+        self.assertEqual(called["godot_symbol"], "source_builder_update_result.update_build_logic_called")
+
+        update_slice = source_symbols.source_slice(ledger, "N1141")
+        self.assertEqual(update_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(update_slice["java_method"], "update()")
+        self.assertEqual(update_slice["godot_owner"], "PortGame.source_builder_update_state")
+        self.assertEqual(update_slice["runtime_proof"], "/root/Main.generated_builder_comp_update_bridge_state")
+        self.assertIn("@Override", update_slice["exact_exprs"])
+        self.assertIn("public void update(){", update_slice["exact_exprs"])
+        self.assertIn("updateBuildLogic();", update_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_update_state")
+        self.assertEqual(contract["params"], [])
+        for key in ["method", "update_build_logic_call", "update_build_logic_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_update_result = source_symbols.state_schema(schema, "source_builder_update_result")
+        self.assertEqual(source_builder_update_result["keys"]["method"]["java_expr"], "public void update(){")
+        self.assertEqual(source_builder_update_result["keys"]["update_build_logic_call"]["java_expr"], "updateBuildLogic();")
+        self.assertEqual(source_builder_update_result["keys"]["update_build_logic_called"]["java_expr"], "updateBuildLogic();")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

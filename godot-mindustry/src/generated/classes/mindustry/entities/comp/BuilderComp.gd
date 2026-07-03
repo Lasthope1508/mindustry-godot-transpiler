@@ -22,7 +22,9 @@ func java_method_canBuild_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_builder_can_build_state", "method": "public boolean canBuild(){", "return_expr": "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;", "type_build_speed": type_build_speed, "build_speed_multiplier": build_speed_multiplier, "type_build_speed_positive": type_build_speed_positive, "build_speed_multiplier_positive": build_speed_multiplier_positive, "can_build": can_build}
 
 func java_method_update_1(_args: Array = []) -> Variant:
-	return null
+	var update_build_logic_call: String = "updateBuildLogic();"
+	var update_build_logic_called: bool = true
+	return {"source_owner": "PortGame.source_builder_update_state", "method": "public void update(){", "update_build_logic_call": update_build_logic_call, "update_build_logic_called": update_build_logic_called}
 
 func java_method_afterRead_2(_args: Array = []) -> Variant:
 	return null

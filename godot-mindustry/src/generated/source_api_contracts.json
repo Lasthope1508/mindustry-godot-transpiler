@@ -24598,6 +24598,24 @@
         "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_builder_can_build_state"
       ]
+    },
+    "PortGame.source_builder_update_state": {
+      "source_slice": "N1141",
+      "source_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "update_build_logic_call",
+        "update_build_logic_called"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.update() updateBuildLogic() dispatch state.",
+      "runtime_proof": "/root/Main.source_builder_update_state",
+      "tests": [
+        "test_generated_builder_comp_update_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_update_state"
+      ]
     }
   },
   "policy": {

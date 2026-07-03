@@ -1227,6 +1227,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_builder_can_build_state\", \"method\": \"public boolean canBuild(){\", \"return_expr\": \"return type.buildSpeed > 0 && buildSpeedMultiplier > 0;\", \"type_build_speed\": type_build_speed, \"build_speed_multiplier\": build_speed_multiplier, \"type_build_speed_positive\": type_build_speed_positive, \"build_speed_multiplier_positive\": build_speed_multiplier_positive, \"can_build\": can_build}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar update_build_logic_call: String = \"updateBuildLogic();\"",
+            "\tvar update_build_logic_called: bool = true",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_update_state\", \"method\": \"public void update(){\", \"update_build_logic_call\": update_build_logic_call, \"update_build_logic_called\": update_build_logic_called}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "add"

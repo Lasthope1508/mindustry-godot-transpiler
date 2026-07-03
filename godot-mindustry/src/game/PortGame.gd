@@ -7718,6 +7718,28 @@ func generated_builder_comp_can_build_bridge_state(type_build_speed: float, buil
 		"matches": result.get("can_build", null) == canonical.get("can_build", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
 	}
 
+func source_builder_update_state() -> Dictionary:
+	var update_build_logic_call: String = "updateBuildLogic();"
+	var update_build_logic_called: bool = true
+	return {
+		"method": "public void update(){",
+		"update_build_logic_call": update_build_logic_call,
+		"update_build_logic_called": update_build_logic_called,
+	}
+
+func generated_builder_comp_update_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_1([])
+	var canonical = source_builder_update_state()
+	return {
+		"source_owner": "PortGame.source_builder_update_state",
+		"generated_owner": "BuilderComp.java_method_update_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("update_build_logic_call", null) == canonical.get("update_build_logic_call", null) and result.get("update_build_logic_called", null) == canonical.get("update_build_logic_called", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

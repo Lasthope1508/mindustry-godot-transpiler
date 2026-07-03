@@ -89872,6 +89872,47 @@
           ]
         }
       }
+    },
+    "source_builder_update_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "update()",
+          "java_expr": "public void update(){",
+          "godot_symbol": "source_builder_update_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records BuilderComp.update method boundary.",
+          "used_by": [
+            "PortGame.source_builder_update_state"
+          ]
+        },
+        "update_build_logic_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "update()",
+          "java_expr": "updateBuildLogic();",
+          "godot_symbol": "source_builder_update_result.update_build_logic_call",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact updateBuildLogic call.",
+          "used_by": [
+            "PortGame.source_builder_update_state"
+          ]
+        },
+        "update_build_logic_called": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "update()",
+          "java_expr": "updateBuildLogic();",
+          "godot_symbol": "source_builder_update_result.update_build_logic_called",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result records updateBuildLogic call occurrence.",
+          "used_by": [
+            "PortGame.source_builder_update_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

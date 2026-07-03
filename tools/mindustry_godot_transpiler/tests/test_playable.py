@@ -12464,5 +12464,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_canBuild_0"', source)
         self.assertIn('"matches": result.get("can_build", null) == canonical.get("can_build", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
 
+    def test_port_game_exposes_source_builder_update_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_update_state() -> Dictionary:", source)
+        self.assertIn('var update_build_logic_call: String = "updateBuildLogic();"', source)
+        self.assertIn("var update_build_logic_called: bool = true", source)
+        self.assertIn('"method": "public void update(){"', source)
+        self.assertIn('"update_build_logic_call": update_build_logic_call', source)
+        self.assertIn('"update_build_logic_called": update_build_logic_called', source)
+
+    def test_port_game_exposes_generated_builder_comp_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_update_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_update_1([])", source)
+        self.assertIn("var canonical = source_builder_update_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_update_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_update_1"', source)
+        self.assertIn('"matches": result.get("update_build_logic_call", null) == canonical.get("update_build_logic_call", null) and result.get("update_build_logic_called", null) == canonical.get("update_build_logic_called", null)', source)
+
 if __name__ == "__main__":
     unittest.main()
