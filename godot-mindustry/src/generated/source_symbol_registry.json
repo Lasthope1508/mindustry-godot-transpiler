@@ -45628,6 +45628,45 @@
         "test_generated_sync_comp_after_sync_slice_is_registered_with_source_backing"
       ]
     },
+    "sync_interpolate.empty_body": {
+      "godot_owner": "PortGame.source_sync_interpolate_state",
+      "godot_symbol": "source_sync_interpolate_result.empty_body",
+      "java_expr": "void interpolate(){}",
+      "java_method": "interpolate()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp interpolate body is internally generated upstream and empty in source.",
+      "runtime_proof": "/root/Main.source_sync_interpolate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_interpolate_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_interpolate.method": {
+      "godot_owner": "PortGame.source_sync_interpolate_state",
+      "godot_symbol": "source_sync_interpolate_result.method",
+      "java_expr": "void interpolate(){}",
+      "java_method": "interpolate()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "SyncComp interpolate method boundary and empty generated body.",
+      "runtime_proof": "/root/Main.source_sync_interpolate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_interpolate_slice_is_registered_with_source_backing"
+      ]
+    },
+    "sync_interpolate.no_op": {
+      "godot_owner": "PortGame.source_sync_interpolate_state",
+      "godot_symbol": "source_sync_interpolate_result.no_op",
+      "java_expr": "void interpolate(){}",
+      "java_method": "interpolate()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Empty SyncComp interpolate body has no visible side effects in this source slice.",
+      "runtime_proof": "/root/Main.source_sync_interpolate_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_sync_comp_interpolate_slice_is_registered_with_source_backing"
+      ]
+    },
     "sync_read_sync.empty_body": {
       "godot_owner": "PortGame.source_sync_read_sync_state",
       "godot_symbol": "source_sync_read_sync_result.empty_body",

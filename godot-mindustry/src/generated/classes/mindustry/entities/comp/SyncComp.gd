@@ -35,7 +35,7 @@ func java_method_afterSync_6(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_sync_after_sync_state", "method": "void afterSync(){}", "empty_body": "void afterSync(){}", "no_op": true}
 
 func java_method_interpolate_7(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_sync_interpolate_state", "method": "void interpolate(){}", "empty_body": "void interpolate(){}", "no_op": true}
 
 func java_method_isSyncHidden_8(_args: Array = []) -> Variant:
 	return null

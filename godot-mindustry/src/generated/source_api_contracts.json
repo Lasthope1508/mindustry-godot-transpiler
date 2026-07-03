@@ -16362,6 +16362,24 @@
         "test_port_game_exposes_source_sync_after_sync_state"
       ]
     },
+    "PortGame.source_sync_interpolate_state": {
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "empty_body",
+        "no_op"
+      ],
+      "rule": "Public runtime contract for SyncComp.interpolate() empty no-op state.",
+      "runtime_proof": "/root/Main.source_sync_interpolate_state",
+      "source_method": "interpolate()",
+      "source_slice": "N1124",
+      "status": "active",
+      "tests": [
+        "test_generated_sync_comp_interpolate_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_sync_interpolate_state"
+      ]
+    },
     "PortGame.source_sync_read_sync_manual_state": {
       "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
       "params": [],
