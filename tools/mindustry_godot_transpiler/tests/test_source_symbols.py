@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 617)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 618)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 622)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 623)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19755,6 +19755,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_builder_clear_building_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_is_building_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_remove_build_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_builder_should_skip_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_builder_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_read_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_tether_after_sync_state", audit["registeredSourceOwners"])
@@ -41984,6 +41985,76 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_remove_build_result["keys"]["idx"]["java_expr"], "idx")
         self.assertEqual(source_builder_remove_build_result["keys"]["removed"]["java_expr"], "idx != -1")
         self.assertEqual(source_builder_remove_build_result["keys"]["remove_index_call"]["java_expr"], "plans.removeIndex(idx);")
+
+    def test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_should_skip.method")
+        self.assertEqual(method["java_expr"], "boolean shouldSkip(BuildPlan plan, @Nullable Building core){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "shouldSkip(BuildPlan plan, @Nullable Building core)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_should_skip_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_should_skip_state")
+
+        guard = source_symbols.source_symbol(registry, "builder_should_skip.guard")
+        self.assertEqual(guard["java_expr"], "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;")
+        self.assertEqual(guard["godot_symbol"], "source_builder_should_skip_result.guard_expr")
+        structs_contains = source_symbols.source_symbol(registry, "builder_should_skip.structs_contains_missing_requirement")
+        self.assertEqual(structs_contains["java_expr"], "Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)")
+        self.assertEqual(structs_contains["godot_symbol"], "source_builder_should_skip_input.structs_contains_missing_requirement")
+        should_skip = source_symbols.source_symbol(registry, "builder_should_skip.should_skip")
+        self.assertEqual(should_skip["java_expr"], "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));")
+        self.assertEqual(should_skip["godot_symbol"], "source_builder_should_skip_result.should_skip")
+
+        should_skip_slice = source_symbols.source_slice(ledger, "N1149")
+        self.assertEqual(should_skip_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(should_skip_slice["java_method"], "shouldSkip(BuildPlan plan, @Nullable Building core)")
+        self.assertEqual(should_skip_slice["godot_owner"], "PortGame.source_builder_should_skip_state")
+        self.assertEqual(should_skip_slice["runtime_proof"], "/root/Main.generated_builder_comp_should_skip_bridge_state")
+        self.assertIn("/** @return whether this plan should be skipped, in favor of the next one. */", should_skip_slice["exact_exprs"])
+        self.assertIn("boolean shouldSkip(BuildPlan plan, @Nullable Building core){", should_skip_slice["exact_exprs"])
+        self.assertIn("if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;", should_skip_slice["exact_exprs"])
+        self.assertIn("return (plan.stuck && !core.items.has(plan.block.requirements)) ||", should_skip_slice["exact_exprs"])
+        self.assertIn("(Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));", should_skip_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_should_skip_state")
+        self.assertEqual(contract["params"], [
+            {"name": "state_rules_infinite_resources", "schema": "source_builder_should_skip_input.state_rules_infinite_resources", "type": "bool"},
+            {"name": "team_rules_infinite_resources", "schema": "source_builder_should_skip_input.team_rules_infinite_resources", "type": "bool"},
+            {"name": "plan_breaking", "schema": "source_builder_should_skip_input.plan_breaking", "type": "bool"},
+            {"name": "core_null", "schema": "source_builder_should_skip_input.core_null", "type": "bool"},
+            {"name": "plan_is_rotation", "schema": "source_builder_should_skip_input.plan_is_rotation", "type": "bool"},
+            {"name": "plan_is_derelict_repair", "schema": "source_builder_should_skip_input.plan_is_derelict_repair", "type": "bool"},
+            {"name": "plan_stuck", "schema": "source_builder_should_skip_input.plan_stuck", "type": "bool"},
+            {"name": "core_items_has_plan_block_requirements", "schema": "source_builder_should_skip_input.core_items_has_plan_block_requirements", "type": "bool"},
+            {"name": "structs_contains_missing_requirement", "schema": "source_builder_should_skip_input.structs_contains_missing_requirement", "type": "bool"},
+        ])
+        for key in ["method", "comment", "guard_expr", "return_expr", "state_rules_infinite_resources", "team_rules_infinite_resources", "plan_breaking", "core_null", "plan_is_rotation", "plan_is_derelict_repair", "plan_stuck", "core_items_has_plan_block_requirements", "structs_contains_missing_requirement", "guard_returns_false", "stuck_missing_requirements", "should_skip"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_should_skip_input = source_symbols.state_schema(schema, "source_builder_should_skip_input")
+        self.assertEqual(source_builder_should_skip_input["keys"]["state_rules_infinite_resources"]["java_expr"], "state.rules.infiniteResources")
+        self.assertEqual(source_builder_should_skip_input["keys"]["team_rules_infinite_resources"]["java_expr"], "team.rules().infiniteResources")
+        self.assertEqual(source_builder_should_skip_input["keys"]["plan_breaking"]["java_expr"], "plan.breaking")
+        self.assertEqual(source_builder_should_skip_input["keys"]["core_null"]["java_expr"], "core == null")
+        self.assertEqual(source_builder_should_skip_input["keys"]["plan_is_rotation"]["java_expr"], "plan.isRotation(team)")
+        self.assertEqual(source_builder_should_skip_input["keys"]["plan_is_derelict_repair"]["java_expr"], "plan.isDerelictRepair()")
+        self.assertEqual(source_builder_should_skip_input["keys"]["plan_stuck"]["java_expr"], "plan.stuck")
+        self.assertEqual(source_builder_should_skip_input["keys"]["core_items_has_plan_block_requirements"]["java_expr"], "core.items.has(plan.block.requirements)")
+        self.assertEqual(source_builder_should_skip_input["keys"]["structs_contains_missing_requirement"]["java_expr"], "Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)")
+        source_builder_should_skip_result = source_symbols.state_schema(schema, "source_builder_should_skip_result")
+        self.assertEqual(source_builder_should_skip_result["keys"]["method"]["java_expr"], "boolean shouldSkip(BuildPlan plan, @Nullable Building core){")
+        self.assertEqual(source_builder_should_skip_result["keys"]["comment"]["java_expr"], "/** @return whether this plan should be skipped, in favor of the next one. */")
+        self.assertEqual(source_builder_should_skip_result["keys"]["guard_expr"]["java_expr"], "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;")
+        self.assertEqual(source_builder_should_skip_result["keys"]["return_expr"]["java_expr"], "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));")
+        self.assertEqual(source_builder_should_skip_result["keys"]["stuck_missing_requirements"]["java_expr"], "plan.stuck && !core.items.has(plan.block.requirements)")
+        self.assertEqual(source_builder_should_skip_result["keys"]["guard_returns_false"]["java_expr"], "state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()")
+        self.assertEqual(source_builder_should_skip_result["keys"]["should_skip"]["java_expr"], "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {

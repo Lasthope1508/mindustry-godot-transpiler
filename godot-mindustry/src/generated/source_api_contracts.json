@@ -24863,6 +24863,83 @@
         "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_builder_remove_build_state"
       ]
+    },
+    "PortGame.source_builder_should_skip_state": {
+      "source_slice": "N1149",
+      "source_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "state_rules_infinite_resources",
+          "type": "bool",
+          "schema": "source_builder_should_skip_input.state_rules_infinite_resources"
+        },
+        {
+          "name": "team_rules_infinite_resources",
+          "type": "bool",
+          "schema": "source_builder_should_skip_input.team_rules_infinite_resources"
+        },
+        {
+          "name": "plan_breaking",
+          "type": "bool",
+          "schema": "source_builder_should_skip_input.plan_breaking"
+        },
+        {
+          "name": "core_null",
+          "type": "bool",
+          "schema": "source_builder_should_skip_input.core_null"
+        },
+        {
+          "name": "plan_is_rotation",
+          "type": "bool",
+          "schema": "source_builder_should_skip_input.plan_is_rotation"
+        },
+        {
+          "name": "plan_is_derelict_repair",
+          "type": "bool",
+          "schema": "source_builder_should_skip_input.plan_is_derelict_repair"
+        },
+        {
+          "name": "plan_stuck",
+          "type": "bool",
+          "schema": "source_builder_should_skip_input.plan_stuck"
+        },
+        {
+          "name": "core_items_has_plan_block_requirements",
+          "type": "bool",
+          "schema": "source_builder_should_skip_input.core_items_has_plan_block_requirements"
+        },
+        {
+          "name": "structs_contains_missing_requirement",
+          "type": "bool",
+          "schema": "source_builder_should_skip_input.structs_contains_missing_requirement"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "guard_expr",
+        "return_expr",
+        "state_rules_infinite_resources",
+        "team_rules_infinite_resources",
+        "plan_breaking",
+        "core_null",
+        "plan_is_rotation",
+        "plan_is_derelict_repair",
+        "plan_stuck",
+        "core_items_has_plan_block_requirements",
+        "structs_contains_missing_requirement",
+        "guard_returns_false",
+        "stuck_missing_requirements",
+        "should_skip"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.shouldSkip() preserving guard false return and final skip predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
     }
   },
   "policy": {

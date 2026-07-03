@@ -77242,6 +77242,230 @@
       "tests": [
         "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing"
       ]
+    },
+    "builder_should_skip.method": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_result.method",
+      "java_expr": "boolean shouldSkip(BuildPlan plan, @Nullable Building core){",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Method boundary comes from BuilderComp.shouldSkip.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.comment": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_result.comment",
+      "java_expr": "/** @return whether this plan should be skipped, in favor of the next one. */",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Comment documents skip preference behavior.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.guard": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_result.guard_expr",
+      "java_expr": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Guard returns false for infinite resources, breaking plans, null core, rotation, or derelict repair.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.return_expr": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_result.return_expr",
+      "java_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Final return checks stuck missing full requirements or Structs.contains missing capped requirement.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.state_rules_infinite_resources": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_input.state_rules_infinite_resources",
+      "java_expr": "state.rules.infiniteResources",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves state.rules.infiniteResources predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.team_rules_infinite_resources": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_input.team_rules_infinite_resources",
+      "java_expr": "team.rules().infiniteResources",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves team.rules().infiniteResources predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.plan_breaking": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_input.plan_breaking",
+      "java_expr": "plan.breaking",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves plan.breaking predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.core_null": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_input.core_null",
+      "java_expr": "core == null",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves core null predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.plan_is_rotation": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_input.plan_is_rotation",
+      "java_expr": "plan.isRotation(team)",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves plan.isRotation(team) predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.plan_is_derelict_repair": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_input.plan_is_derelict_repair",
+      "java_expr": "plan.isDerelictRepair()",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves plan.isDerelictRepair() predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.plan_stuck": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_input.plan_stuck",
+      "java_expr": "plan.stuck",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves plan.stuck predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.core_items_has_plan_block_requirements": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_input.core_items_has_plan_block_requirements",
+      "java_expr": "core.items.has(plan.block.requirements)",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves core.items.has(plan.block.requirements) predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.structs_contains_missing_requirement": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_input.structs_contains_missing_requirement",
+      "java_expr": "Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0)",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves exact Structs.contains missing requirement predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.guard_returns_false": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_result.guard_returns_false",
+      "java_expr": "state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Guard predicate determines early false return.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.stuck_missing_requirements": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_result.stuck_missing_requirements",
+      "java_expr": "plan.stuck && !core.items.has(plan.block.requirements)",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "First return branch checks stuck plan with missing full requirements.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "builder_should_skip.should_skip": {
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "godot_symbol": "source_builder_should_skip_result.should_skip",
+      "java_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Return value follows guarded Java shouldSkip expression.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "status": "source-backed",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
     }
   },
   "version": 1

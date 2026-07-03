@@ -12666,5 +12666,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_removeBuild_8"', source)
         self.assertIn('"matches": result.get("idx", null) == canonical.get("idx", null) and result.get("plans_after", null) == canonical.get("plans_after", null)', source)
 
+    def test_port_game_exposes_source_builder_should_skip_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_should_skip_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:", source)
+        self.assertIn("var guard_returns_false: bool = state_rules_infinite_resources or team_rules_infinite_resources or plan_breaking or core_null or plan_is_rotation or plan_is_derelict_repair", source)
+        self.assertIn("var stuck_missing_requirements: bool = plan_stuck and not core_items_has_plan_block_requirements", source)
+        self.assertIn("var should_skip: bool = false if guard_returns_false else (stuck_missing_requirements or structs_contains_missing_requirement)", source)
+        self.assertIn('"method": "boolean shouldSkip(BuildPlan plan, @Nullable Building core){"', source)
+        self.assertIn('"comment": "/** @return whether this plan should be skipped, in favor of the next one. */"', source)
+        self.assertIn('"guard_expr": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;"', source)
+        self.assertIn('"return_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));"', source)
+        self.assertIn('"should_skip": should_skip', source)
+
+    def test_port_game_exposes_generated_builder_comp_should_skip_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_shouldSkip_7([state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement])", source)
+        self.assertIn("var canonical = source_builder_should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_should_skip_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_shouldSkip_7"', source)
+        self.assertIn('"matches": result.get("should_skip", null) == canonical.get("should_skip", null) and result.get("guard_returns_false", null) == canonical.get("guard_returns_false", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

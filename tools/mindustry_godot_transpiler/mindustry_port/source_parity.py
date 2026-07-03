@@ -223,6 +223,22 @@ def verify_builder_remove_build_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_builder_should_skip_source(upstream_root: Path) -> dict[str, Any]:
+    builder_comp_path = Path(upstream_root) / BUILDER_COMP_SOURCE
+    source = builder_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "/** @return whether this plan should be skipped, in favor of the next one. */",
+        "method": "boolean shouldSkip(BuildPlan plan, @Nullable Building core){",
+        "guard": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
+        "return_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) ||\n            (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BUILDER_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

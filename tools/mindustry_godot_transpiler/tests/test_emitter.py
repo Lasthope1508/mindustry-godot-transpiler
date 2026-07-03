@@ -6863,5 +6863,53 @@ class BuilderComp{
             self.assertIn('"index_expr": "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);"', source_text)
             self.assertIn('"removed": idx != -1', source_text)
 
+    def test_emit_bridges_builder_comp_should_skip_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    /** @return whether this plan should be skipped, in favor of the next one. */
+    boolean shouldSkip(BuildPlan plan, @Nullable Building core){
+        if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;
+
+        return (plan.stuck && !core.items.has(plan.block.requirements)) ||
+            (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_shouldSkip_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var state_rules_infinite_resources: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var team_rules_infinite_resources: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var plan_breaking: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var core_null: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var plan_is_rotation: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var plan_is_derelict_repair: bool = bool(_args[5] if _args.size() > 5 else false)", source_text)
+            self.assertIn("var plan_stuck: bool = bool(_args[6] if _args.size() > 6 else false)", source_text)
+            self.assertIn("var core_items_has_plan_block_requirements: bool = bool(_args[7] if _args.size() > 7 else true)", source_text)
+            self.assertIn("var structs_contains_missing_requirement: bool = bool(_args[8] if _args.size() > 8 else false)", source_text)
+            self.assertIn("var guard_returns_false: bool = state_rules_infinite_resources or team_rules_infinite_resources or plan_breaking or core_null or plan_is_rotation or plan_is_derelict_repair", source_text)
+            self.assertIn("var stuck_missing_requirements: bool = plan_stuck and not core_items_has_plan_block_requirements", source_text)
+            self.assertIn("var should_skip: bool = false if guard_returns_false else (stuck_missing_requirements or structs_contains_missing_requirement)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_should_skip_state"', source_text)
+            self.assertIn('"method": "boolean shouldSkip(BuildPlan plan, @Nullable Building core){"', source_text)
+            self.assertIn('"comment": "/** @return whether this plan should be skipped, in favor of the next one. */"', source_text)
+            self.assertIn('"guard_expr": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;"', source_text)
+            self.assertIn('"return_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));"', source_text)
+            self.assertIn('"should_skip": should_skip', source_text)
+
 if __name__ == "__main__":
     unittest.main()

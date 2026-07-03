@@ -1260,6 +1260,26 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "shouldSkip"
+    ):
+        return [
+            "\tvar state_rules_infinite_resources: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar team_rules_infinite_resources: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar plan_breaking: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar core_null: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar plan_is_rotation: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar plan_is_derelict_repair: bool = bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar plan_stuck: bool = bool(_args[6] if _args.size() > 6 else false)",
+            "\tvar core_items_has_plan_block_requirements: bool = bool(_args[7] if _args.size() > 7 else true)",
+            "\tvar structs_contains_missing_requirement: bool = bool(_args[8] if _args.size() > 8 else false)",
+            "\tvar guard_returns_false: bool = state_rules_infinite_resources or team_rules_infinite_resources or plan_breaking or core_null or plan_is_rotation or plan_is_derelict_repair",
+            "\tvar stuck_missing_requirements: bool = plan_stuck and not core_items_has_plan_block_requirements",
+            "\tvar should_skip: bool = false if guard_returns_false else (stuck_missing_requirements or structs_contains_missing_requirement)",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_should_skip_state\", \"method\": \"boolean shouldSkip(BuildPlan plan, @Nullable Building core){\", \"comment\": \"/** @return whether this plan should be skipped, in favor of the next one. */\", \"guard_expr\": \"if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;\", \"return_expr\": \"return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));\", \"state_rules_infinite_resources\": state_rules_infinite_resources, \"team_rules_infinite_resources\": team_rules_infinite_resources, \"plan_breaking\": plan_breaking, \"core_null\": core_null, \"plan_is_rotation\": plan_is_rotation, \"plan_is_derelict_repair\": plan_is_derelict_repair, \"plan_stuck\": plan_stuck, \"core_items_has_plan_block_requirements\": core_items_has_plan_block_requirements, \"structs_contains_missing_requirement\": structs_contains_missing_requirement, \"guard_returns_false\": guard_returns_false, \"stuck_missing_requirements\": stuck_missing_requirements, \"should_skip\": should_skip}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "removeBuild"
     ):
         return [

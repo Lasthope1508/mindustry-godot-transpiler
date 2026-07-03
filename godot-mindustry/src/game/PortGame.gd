@@ -7810,6 +7810,42 @@ func generated_builder_comp_clear_building_bridge_state() -> Dictionary:
 		"matches": result.get("plans_clear_call", null) == canonical.get("plans_clear_call", null) and result.get("plans_clear_called", null) == canonical.get("plans_clear_called", null),
 	}
 
+func source_builder_should_skip_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:
+	var guard_returns_false: bool = state_rules_infinite_resources or team_rules_infinite_resources or plan_breaking or core_null or plan_is_rotation or plan_is_derelict_repair
+	var stuck_missing_requirements: bool = plan_stuck and not core_items_has_plan_block_requirements
+	var should_skip: bool = false if guard_returns_false else (stuck_missing_requirements or structs_contains_missing_requirement)
+	return {
+		"method": "boolean shouldSkip(BuildPlan plan, @Nullable Building core){",
+		"comment": "/** @return whether this plan should be skipped, in favor of the next one. */",
+		"guard_expr": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
+		"return_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) || (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));",
+		"state_rules_infinite_resources": state_rules_infinite_resources,
+		"team_rules_infinite_resources": team_rules_infinite_resources,
+		"plan_breaking": plan_breaking,
+		"core_null": core_null,
+		"plan_is_rotation": plan_is_rotation,
+		"plan_is_derelict_repair": plan_is_derelict_repair,
+		"plan_stuck": plan_stuck,
+		"core_items_has_plan_block_requirements": core_items_has_plan_block_requirements,
+		"structs_contains_missing_requirement": structs_contains_missing_requirement,
+		"guard_returns_false": guard_returns_false,
+		"stuck_missing_requirements": stuck_missing_requirements,
+		"should_skip": should_skip,
+	}
+
+func generated_builder_comp_should_skip_bridge_state(state_rules_infinite_resources: bool, team_rules_infinite_resources: bool, plan_breaking: bool, core_null: bool, plan_is_rotation: bool, plan_is_derelict_repair: bool, plan_stuck: bool, core_items_has_plan_block_requirements: bool, structs_contains_missing_requirement: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_shouldSkip_7([state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement])
+	var canonical = source_builder_should_skip_state(state_rules_infinite_resources, team_rules_infinite_resources, plan_breaking, core_null, plan_is_rotation, plan_is_derelict_repair, plan_stuck, core_items_has_plan_block_requirements, structs_contains_missing_requirement)
+	return {
+		"source_owner": "PortGame.source_builder_should_skip_state",
+		"generated_owner": "BuilderComp.java_method_shouldSkip_7",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("should_skip", null) == canonical.get("should_skip", null) and result.get("guard_returns_false", null) == canonical.get("guard_returns_false", null),
+	}
+
 func source_builder_remove_build_state(plans: Array, x: int, y: int, breaking: bool) -> Dictionary:
 	var idx: int = -1
 	for i in range(plans.size()):

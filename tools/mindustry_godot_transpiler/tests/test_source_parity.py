@@ -8126,5 +8126,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_builder_should_skip_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_builder_should_skip_source"))
+        report = source_parity.verify_builder_should_skip_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(report["checked"], {
+            "comment": "/** @return whether this plan should be skipped, in favor of the next one. */",
+            "method": "boolean shouldSkip(BuildPlan plan, @Nullable Building core){",
+            "guard": "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
+            "return_expr": "return (plan.stuck && !core.items.has(plan.block.requirements)) ||\n            (Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
