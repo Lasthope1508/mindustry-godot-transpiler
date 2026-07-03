@@ -4922,6 +4922,40 @@ class BuildingComp{
             self.assertIn('"update_consumption_call_source_owner": "PortGame.source_building_update_consumption_call_state"', source_text)
             self.assertIn('"update_consumption_call": update_consumption_call', source_text)
 
+    def test_emit_bridges_building_comp_update_tile_gate_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void update(){
+        if(enabled || !block.noUpdateDisabled){
+            updateTile();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var enabled_state := bool(_args[9] if _args.size() > 9 else false)", source_text)
+            self.assertIn("var block_no_update_disabled := bool(_args[10] if _args.size() > 10 else false)", source_text)
+            self.assertIn("var update_tile_called := enabled_state or not block_no_update_disabled", source_text)
+            self.assertIn('var update_tile_gate := {"method": "public void update(){", "gate": "if(enabled || !block.noUpdateDisabled){", "update_tile_call": "updateTile();", "enabled_state": enabled_state, "block_no_update_disabled": block_no_update_disabled, "update_tile_called": update_tile_called}', source_text)
+            self.assertIn('"update_tile_gate_source_owner": "PortGame.source_building_update_tile_gate_state"', source_text)
+            self.assertIn('"update_tile_gate": update_tile_gate', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

@@ -1609,7 +1609,11 @@ func java_method_update_217(_args: Array = []) -> Variant:
 	else:
 		update_ambient_sound_gate.merge({"loop_called": true, "sound": ambient_sound_value, "volume": block_ambient_sound_volume * ambient_volume_value})
 	var update_consumption_call := {"method": "public void update(){", "call": "updateConsumption();", "update_consumption_called": true}
-	return {"source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay": update_timescale_decay, "update_ambient_sound_gate_source_owner": "PortGame.source_building_update_ambient_sound_gate_state", "update_ambient_sound_gate": update_ambient_sound_gate, "update_consumption_call_source_owner": "PortGame.source_building_update_consumption_call_state", "update_consumption_call": update_consumption_call}
+	var enabled_state := bool(_args[9] if _args.size() > 9 else false)
+	var block_no_update_disabled := bool(_args[10] if _args.size() > 10 else false)
+	var update_tile_called := enabled_state or not block_no_update_disabled
+	var update_tile_gate := {"method": "public void update(){", "gate": "if(enabled || !block.noUpdateDisabled){", "update_tile_call": "updateTile();", "enabled_state": enabled_state, "block_no_update_disabled": block_no_update_disabled, "update_tile_called": update_tile_called}
+	return {"source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay": update_timescale_decay, "update_ambient_sound_gate_source_owner": "PortGame.source_building_update_ambient_sound_gate_state", "update_ambient_sound_gate": update_ambient_sound_gate, "update_consumption_call_source_owner": "PortGame.source_building_update_consumption_call_state", "update_consumption_call": update_consumption_call, "update_tile_gate_source_owner": "PortGame.source_building_update_tile_gate_state", "update_tile_gate": update_tile_gate}
 
 func java_method_updateFogVisibility_218(_args: Array = []) -> Variant:
 	return null

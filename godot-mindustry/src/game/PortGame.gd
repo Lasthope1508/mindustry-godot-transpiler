@@ -6862,6 +6862,18 @@ func source_building_update_tile_gate_state(enabled_state: bool, block_no_update
 	var update_tile_called: bool = enabled_state or not block_no_update_disabled
 	return {"update_tile_called": update_tile_called}
 
+func generated_building_comp_update_tile_gate_bridge_state(enabled_state: bool, block_no_update_disabled: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_217([1.0, 0.0, 0.0, false, null, null, false, 0.0, 0.0, enabled_state, block_no_update_disabled])
+	var canonical = source_building_update_tile_gate_state(enabled_state, block_no_update_disabled)
+	return {
+		"source_owner": "PortGame.source_building_update_tile_gate_state",
+		"generated_owner": "BuildingComp.java_method_update_217",
+		"result": result,
+		"canonical": canonical,
+	}
+
 const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_COMMENT := "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */"
 const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_METHOD := "public void updateFogVisibility(){"
 const SOURCE_BUILDING_UPDATE_FOG_VISIBILITY_GATE := "if(!wasVisible && !inFogTo(player.team())){"
