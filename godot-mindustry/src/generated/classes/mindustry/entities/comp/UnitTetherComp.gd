@@ -25,7 +25,15 @@ func java_method_afterRead_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_tether_after_read_state", "method": "public void afterRead(){", "guard_expr": "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);", "reset_expr": "spawnerUnitId = -1;", "spawnerUnitIdBefore": spawner_unit_id, "guard": guard, "groupsUnitGetById": groups_unit_get_by_id_call, "spawner": spawner_value, "spawnerUnitId": -1}
 
 func java_method_afterSync_1(_args: Array = []) -> Variant:
-	return null
+	var spawner_unit_id := int(_args[0] if _args.size() > 0 else -1)
+	var groups_unit_get_by_id_result: Variant = _args[1] if _args.size() > 1 else null
+	var guard: bool = spawner_unit_id != -1
+	var spawner_value: Variant = null
+	var groups_unit_get_by_id_call: Variant = null
+	if guard:
+		groups_unit_get_by_id_call = {"call": "Groups.unit.getByID(spawnerUnitId)", "id": spawner_unit_id}
+		spawner_value = groups_unit_get_by_id_result
+	return {"source_owner": "PortGame.source_unit_tether_after_sync_state", "method": "public void afterSync(){", "guard_expr": "if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);", "reset_expr": "spawnerUnitId = -1;", "spawnerUnitIdBefore": spawner_unit_id, "guard": guard, "groupsUnitGetById": groups_unit_get_by_id_call, "spawner": spawner_value, "spawnerUnitId": -1}
 
 func java_method_update_2(_args: Array = []) -> Variant:
 	var spawner_exists := bool(_args[0] if _args.size() > 0 else false)

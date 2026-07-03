@@ -1114,6 +1114,22 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
         and type_entry.get("name") == "UnitTetherComp"
+        and method.get("name") == "afterSync"
+    ):
+        return [
+            "\tvar spawner_unit_id := int(_args[0] if _args.size() > 0 else -1)",
+            "\tvar groups_unit_get_by_id_result: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar guard: bool = spawner_unit_id != -1",
+            "\tvar spawner_value: Variant = null",
+            "\tvar groups_unit_get_by_id_call: Variant = null",
+            "\tif guard:",
+            "\t\tgroups_unit_get_by_id_call = {\"call\": \"Groups.unit.getByID(spawnerUnitId)\", \"id\": spawner_unit_id}",
+            "\t\tspawner_value = groups_unit_get_by_id_result",
+            "\treturn {\"source_owner\": \"PortGame.source_unit_tether_after_sync_state\", \"method\": \"public void afterSync(){\", \"guard_expr\": \"if(spawnerUnitId != -1) spawner = Groups.unit.getByID(spawnerUnitId);\", \"reset_expr\": \"spawnerUnitId = -1;\", \"spawnerUnitIdBefore\": spawner_unit_id, \"guard\": guard, \"groupsUnitGetById\": groups_unit_get_by_id_call, \"spawner\": spawner_value, \"spawnerUnitId\": -1}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
+        and type_entry.get("name") == "UnitTetherComp"
         and method.get("name") == "update"
     ):
         return [

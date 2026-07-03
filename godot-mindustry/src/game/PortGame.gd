@@ -7011,6 +7011,35 @@ func generated_unit_tether_comp_after_read_bridge_state(spawner_unit_id: int, gr
 		"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("groupsUnitGetById", null) == canonical.get("groupsUnitGetById", null) and result.get("spawner", null) == canonical.get("spawner", null) and result.get("spawnerUnitId", null) == canonical.get("spawnerUnitId", null),
 	}
 
+func source_unit_tether_after_sync_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
+	var guard: bool = spawner_unit_id != -1
+	var spawner_value: Variant = null
+	var groups_unit_get_by_id_call: Variant = null
+	if guard:
+		groups_unit_get_by_id_call = {"call": "Groups.unit.getByID(spawnerUnitId)", "id": spawner_unit_id}
+		spawner_value = groups_unit_get_by_id_result
+	return {
+		"method": "public void afterSync(){",
+		"guard": guard,
+		"spawnerUnitIdBefore": spawner_unit_id,
+		"groupsUnitGetById": groups_unit_get_by_id_call,
+		"spawner": spawner_value,
+		"spawnerUnitId": -1,
+	}
+
+func generated_unit_tether_comp_after_sync_bridge_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_afterSync_1([spawner_unit_id, groups_unit_get_by_id_result])
+	var canonical = source_unit_tether_after_sync_state(spawner_unit_id, groups_unit_get_by_id_result)
+	return {
+		"source_owner": "PortGame.source_unit_tether_after_sync_state",
+		"generated_owner": "UnitTetherComp.java_method_afterSync_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("groupsUnitGetById", null) == canonical.get("groupsUnitGetById", null) and result.get("spawner", null) == canonical.get("spawner", null) and result.get("spawnerUnitId", null) == canonical.get("spawnerUnitId", null),
+	}
+
 func source_unit_tether_update_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:
 	var guard: bool = (not spawner_exists) or (not spawner_is_valid) or spawner_team_value != team_value
 	var despawn_call: Variant = null

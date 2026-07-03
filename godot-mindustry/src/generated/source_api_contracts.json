@@ -23808,6 +23808,38 @@
       ],
       "runtime_proof": "/root/Main.source_unit_tether_after_read_state",
       "rule": "Public runtime contract for UnitTetherComp.afterRead optional Groups.unit lookup and unconditional spawnerUnitId reset."
+    },
+    "PortGame.source_unit_tether_after_sync_state": {
+      "status": "active",
+      "source_slice": "N1112",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "source_method": "afterSync()",
+      "params": [
+        {
+          "name": "spawner_unit_id",
+          "type": "int",
+          "schema": "source_unit_tether_after_sync_input.spawner_unit_id"
+        },
+        {
+          "name": "groups_unit_get_by_id_result",
+          "type": "Variant",
+          "schema": "source_unit_tether_after_sync_input.groups_unit_get_by_id_result"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard",
+        "spawnerUnitIdBefore",
+        "groupsUnitGetById",
+        "spawner",
+        "spawnerUnitId"
+      ],
+      "tests": [
+        "test_unit_tether_after_sync_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_tether_after_sync_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_tether_after_sync_state",
+      "rule": "Public runtime contract for UnitTetherComp.afterSync optional Groups.unit lookup and unconditional spawnerUnitId reset."
     }
   },
   "policy": {
