@@ -6113,6 +6113,55 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_unit_tether_comp_bridges_update_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "UnitTetherComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_update_2(_args: Array = []) -> Variant:", source)
+        self.assertIn("var spawner_exists := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var spawner_is_valid := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var spawner_team_value: Variant = _args[2] if _args.size() > 2 else null", source)
+        self.assertIn("var team_value: Variant = _args[3] if _args.size() > 3 else null", source)
+        self.assertIn("var unit_id := int(_args[4] if _args.size() > 4 else 0)", source)
+        self.assertIn("var spawner_id := int(_args[5] if _args.size() > 5 else -1)", source)
+        self.assertIn("var guard: bool = (not spawner_exists) or (not spawner_is_valid) or spawner_team_value != team_value", source)
+        self.assertIn("var next_spawner_unit_id := -1", source)
+        self.assertIn("if not guard:", source)
+        self.assertIn("next_spawner_unit_id = spawner_id", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_tether_update_state"', source)
+        self.assertIn('"method": "public void update(){"', source)
+        self.assertIn('"guard_expr": "if(spawner == null || !spawner.isValid() || spawner.team != team){"', source)
+        self.assertIn('"else_expr": "}else{"', source)
+        self.assertIn('"assign_expr": "spawnerUnitId = spawner.id;"', source)
+        self.assertIn('"call": "Call.unitDespawn(self())"', source)
+        self.assertIn('"spawnerUnitId": next_spawner_unit_id', source)
+
+    def test_port_game_exposes_source_unit_tether_update_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_tether_update_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:", source)
+        self.assertIn("var guard: bool = (not spawner_exists) or (not spawner_is_valid) or spawner_team_value != team_value", source)
+        self.assertIn("var next_spawner_unit_id := -1", source)
+        self.assertIn("if guard:", source)
+        self.assertIn('"call": "Call.unitDespawn(self())"', source)
+        self.assertIn('"unit": unit_id', source)
+        self.assertIn("else:", source)
+        self.assertIn("next_spawner_unit_id = spawner_id", source)
+        self.assertIn('"spawnerUnitId": next_spawner_unit_id', source)
+
+    def test_port_game_exposes_generated_unit_tether_comp_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_update_2([spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id])", source)
+        self.assertIn("var canonical = source_unit_tether_update_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_tether_update_state"', source)
+        self.assertIn('"generated_owner": "UnitTetherComp.java_method_update_2"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

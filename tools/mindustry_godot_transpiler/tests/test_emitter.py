@@ -5122,6 +5122,54 @@ class BuildingTetherComp{
             self.assertIn('"unit": unit_id', source_text)
             self.assertIn('"despawn": despawn_call', source_text)
 
+    def test_emit_bridges_unit_tether_comp_update_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "UnitTetherComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class UnitTetherComp{
+    public void update(){
+        if(spawner == null || !spawner.isValid() || spawner.team != team){
+            Call.unitDespawn(self());
+        }else{
+            spawnerUnitId = spawner.id;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "UnitTetherComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var spawner_exists := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var spawner_is_valid := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var spawner_team_value: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var team_value: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn("var unit_id := int(_args[4] if _args.size() > 4 else 0)", source_text)
+            self.assertIn("var spawner_id := int(_args[5] if _args.size() > 5 else -1)", source_text)
+            self.assertIn("var guard: bool = (not spawner_exists) or (not spawner_is_valid) or spawner_team_value != team_value", source_text)
+            self.assertIn("var next_spawner_unit_id := -1", source_text)
+            self.assertIn("if not guard:", source_text)
+            self.assertIn("next_spawner_unit_id = spawner_id", source_text)
+            self.assertIn('"source_owner": "PortGame.source_unit_tether_update_state"', source_text)
+            self.assertIn('"method": "public void update(){"', source_text)
+            self.assertIn('"guard_expr": "if(spawner == null || !spawner.isValid() || spawner.team != team){"', source_text)
+            self.assertIn('"else_expr": "}else{"', source_text)
+            self.assertIn('"assign_expr": "spawnerUnitId = spawner.id;"', source_text)
+            self.assertIn('"call": "Call.unitDespawn(self())"', source_text)
+            self.assertIn('"unit": unit_id', source_text)
+            self.assertIn('"spawnerUnitId": next_spawner_unit_id', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

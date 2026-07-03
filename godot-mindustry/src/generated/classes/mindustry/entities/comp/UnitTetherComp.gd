@@ -20,4 +20,17 @@ func java_method_afterSync_1(_args: Array = []) -> Variant:
 	return null
 
 func java_method_update_2(_args: Array = []) -> Variant:
-	return null
+	var spawner_exists := bool(_args[0] if _args.size() > 0 else false)
+	var spawner_is_valid := bool(_args[1] if _args.size() > 1 else false)
+	var spawner_team_value: Variant = _args[2] if _args.size() > 2 else null
+	var team_value: Variant = _args[3] if _args.size() > 3 else null
+	var unit_id := int(_args[4] if _args.size() > 4 else 0)
+	var spawner_id := int(_args[5] if _args.size() > 5 else -1)
+	var guard: bool = (not spawner_exists) or (not spawner_is_valid) or spawner_team_value != team_value
+	var despawn_call: Variant = null
+	var next_spawner_unit_id := -1
+	if guard:
+		despawn_call = {"call": "Call.unitDespawn(self())", "unit": unit_id}
+	if not guard:
+		next_spawner_unit_id = spawner_id
+	return {"source_owner": "PortGame.source_unit_tether_update_state", "method": "public void update(){", "guard_expr": "if(spawner == null || !spawner.isValid() || spawner.team != team){", "else_expr": "}else{", "assign_expr": "spawnerUnitId = spawner.id;", "spawner_exists": spawner_exists, "spawner_is_valid": spawner_is_valid, "spawner_team_value": spawner_team_value, "team_value": team_value, "guard": guard, "despawn": despawn_call, "spawnerUnitId": next_spawner_unit_id}

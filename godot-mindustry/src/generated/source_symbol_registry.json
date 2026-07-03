@@ -73914,6 +73914,123 @@
       "tests": [
         "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
       ]
+    },
+    "unit_tether_update.spawner_exists": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_update_input.spawner_exists",
+      "java_expr": "spawner != null",
+      "rule": "Explicit input mirrors null branch in UnitTetherComp.update guard.",
+      "status": "explicit-input"
+    },
+    "unit_tether_update.spawner_is_valid": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_update_input.spawner_is_valid",
+      "java_expr": "spawner.isValid()",
+      "rule": "Explicit input mirrors spawner.isValid() branch in UnitTetherComp.update guard.",
+      "status": "explicit-input"
+    },
+    "unit_tether_update.spawner_team": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_update_input.spawner_team_value",
+      "java_expr": "spawner.team",
+      "rule": "Explicit input mirrors spawner.team branch in UnitTetherComp.update guard.",
+      "status": "explicit-input"
+    },
+    "unit_tether_update.team": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_update_input.team_value",
+      "java_expr": "team",
+      "rule": "Explicit input mirrors imported team field in UnitTetherComp.update guard.",
+      "status": "explicit-input"
+    },
+    "unit_tether_update.unit_id": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_update_input.unit_id",
+      "java_expr": "self()",
+      "rule": "Explicit input identifies self() passed to Call.unitDespawn.",
+      "status": "explicit-input"
+    },
+    "unit_tether_update.spawner_id": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_update_input.spawner_id",
+      "java_expr": "spawner.id",
+      "rule": "Explicit input mirrors spawner.id assigned to spawnerUnitId when tether is valid.",
+      "status": "explicit-input"
+    },
+    "unit_tether_update.guard": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_update_result.guard",
+      "java_expr": "if(spawner == null || !spawner.isValid() || spawner.team != team){",
+      "rule": "UnitTetherComp.update despawns when tethered spawner is missing, invalid, or on another team.",
+      "status": "source-backed"
+    },
+    "unit_tether_update.call": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_update_result.despawn",
+      "java_expr": "Call.unitDespawn(self());",
+      "rule": "UnitTetherComp.update despawn call recorded when guard passes.",
+      "status": "source-backed"
+    },
+    "unit_tether_update.spawner_unit_id_assign": {
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_tether_update_result.spawnerUnitId",
+      "java_expr": "spawnerUnitId = spawner.id;",
+      "rule": "UnitTetherComp.update stores spawner.id into spawnerUnitId when guard fails.",
+      "status": "source-backed"
     }
   },
   "version": 1

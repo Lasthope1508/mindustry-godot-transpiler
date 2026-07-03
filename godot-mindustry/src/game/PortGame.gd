@@ -6982,6 +6982,40 @@ func generated_building_tether_comp_update_bridge_state(building_exists: bool, b
 		"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("despawn", null) == canonical.get("despawn", null),
 	}
 
+func source_unit_tether_update_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:
+	var guard: bool = (not spawner_exists) or (not spawner_is_valid) or spawner_team_value != team_value
+	var despawn_call: Variant = null
+	var next_spawner_unit_id := -1
+	if guard:
+		despawn_call = {
+			"call": "Call.unitDespawn(self())",
+			"unit": unit_id,
+		}
+	else:
+		next_spawner_unit_id = spawner_id
+	return {
+		"guard": guard,
+		"spawnerExists": spawner_exists,
+		"spawnerIsValid": spawner_is_valid,
+		"spawnerTeam": spawner_team_value,
+		"team": team_value,
+		"despawn": despawn_call,
+		"spawnerUnitId": next_spawner_unit_id,
+	}
+
+func generated_unit_tether_comp_update_bridge_state(spawner_exists: bool, spawner_is_valid: bool, spawner_team_value: Variant, team_value: Variant, unit_id: int, spawner_id: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/UnitTetherComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_2([spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id])
+	var canonical = source_unit_tether_update_state(spawner_exists, spawner_is_valid, spawner_team_value, team_value, unit_id, spawner_id)
+	return {
+		"source_owner": "PortGame.source_unit_tether_update_state",
+		"generated_owner": "UnitTetherComp.java_method_update_2",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("guard", null) == canonical.get("guard", null) and result.get("despawn", null) == canonical.get("despawn", null) and result.get("spawnerUnitId", null) == canonical.get("spawnerUnitId", null),
+	}
+
 func source_building_handle_liquid_amount(current_amount: float, amount: float) -> float:
 	return current_amount + amount
 

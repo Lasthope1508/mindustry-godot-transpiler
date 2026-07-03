@@ -23706,6 +23706,48 @@
         "test_building_tether_update_symbols_are_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1110": {
+      "status": "done",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "java_class": "mindustry.entities.comp.UnitTetherComp",
+      "java_method": "update()",
+      "godot_owner": "PortGame.source_unit_tether_update_state",
+      "exact_exprs": [
+        "/** A unit that depends on a units's existence; if that unit is removed, it despawns. */",
+        "public transient @Nullable Unit spawner;",
+        "public int spawnerUnitId = -1;",
+        "public void update(){",
+        "if(spawner == null || !spawner.isValid() || spawner.team != team){",
+        "Call.unitDespawn(self());",
+        "}else{",
+        "spawnerUnitId = spawner.id;"
+      ],
+      "deferred_exprs": [
+        "Live unit despawn side effect remains recorded call state only until unit networking/removal runtime owns Call.unitDespawn.",
+        "Groups.unit.getByID(spawnerUnitId) remains deferred to UnitTetherComp.afterRead/afterSync slices."
+      ],
+      "source_symbols": [
+        "unit_tether_update.spawner_exists",
+        "unit_tether_update.spawner_is_valid",
+        "unit_tether_update.spawner_team",
+        "unit_tether_update.team",
+        "unit_tether_update.unit_id",
+        "unit_tether_update.spawner_id",
+        "unit_tether_update.guard",
+        "unit_tether_update.call",
+        "unit_tether_update.spawner_unit_id_assign"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_tether_comp_update_to_source_state",
+        "test_generated_unit_tether_comp_bridges_update_to_source_state",
+        "test_port_game_exposes_source_unit_tether_update_state",
+        "test_port_game_exposes_generated_unit_tether_comp_update_bridge_state",
+        "test_unit_tether_update_symbols_are_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ],
+      "runtime_proof": "/root/Main.generated_unit_tether_comp_update_bridge_state",
+      "rule": "Registers UnitTetherComp.update despawn guard and valid-spawner spawnerUnitId assignment; wires generated UnitTetherComp.java_method_update_2 plus PortGame generated bridge to canonical source_unit_tether_update_state."
     }
   },
   "version": 1

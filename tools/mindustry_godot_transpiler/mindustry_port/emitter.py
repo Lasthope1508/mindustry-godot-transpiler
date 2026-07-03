@@ -1096,6 +1096,27 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_building_tether_update_state\", \"method\": \"public void update(){\", \"guard_expr\": \"if(building == null || !building.isValid() || building.team != team){\", \"building_exists\": building_exists, \"building_is_valid\": building_is_valid, \"building_team_value\": building_team_value, \"team_value\": team_value, \"guard\": guard, \"despawn\": despawn_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
+        and type_entry.get("name") == "UnitTetherComp"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar spawner_exists := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar spawner_is_valid := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar spawner_team_value: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar team_value: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar unit_id := int(_args[4] if _args.size() > 4 else 0)",
+            "\tvar spawner_id := int(_args[5] if _args.size() > 5 else -1)",
+            "\tvar guard: bool = (not spawner_exists) or (not spawner_is_valid) or spawner_team_value != team_value",
+            "\tvar despawn_call: Variant = null",
+            "\tvar next_spawner_unit_id := -1",
+            "\tif guard:",
+            "\t\tdespawn_call = {\"call\": \"Call.unitDespawn(self())\", \"unit\": unit_id}",
+            "\tif not guard:",
+            "\t\tnext_spawner_unit_id = spawner_id",
+            "\treturn {\"source_owner\": \"PortGame.source_unit_tether_update_state\", \"method\": \"public void update(){\", \"guard_expr\": \"if(spawner == null || !spawner.isValid() || spawner.team != team){\", \"else_expr\": \"}else{\", \"assign_expr\": \"spawnerUnitId = spawner.id;\", \"spawner_exists\": spawner_exists, \"spawner_is_valid\": spawner_is_valid, \"spawner_team_value\": spawner_team_value, \"team_value\": team_value, \"guard\": guard, \"despawn\": despawn_call, \"spawnerUnitId\": next_spawner_unit_id}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "kill"

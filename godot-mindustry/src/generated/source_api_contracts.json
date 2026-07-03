@@ -23723,6 +23723,59 @@
       "tests": [
         "test_building_sense_camera_default_symbols_are_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_tether_update_state": {
+      "status": "active",
+      "source_slice": "N1110",
+      "java_source": "core/src/mindustry/entities/comp/UnitTetherComp.java",
+      "source_method": "update()",
+      "params": [
+        {
+          "name": "spawner_exists",
+          "type": "bool",
+          "schema": "source_unit_tether_update_input.spawner_exists"
+        },
+        {
+          "name": "spawner_is_valid",
+          "type": "bool",
+          "schema": "source_unit_tether_update_input.spawner_is_valid"
+        },
+        {
+          "name": "spawner_team_value",
+          "type": "Variant",
+          "schema": "source_unit_tether_update_input.spawner_team_value"
+        },
+        {
+          "name": "team_value",
+          "type": "Variant",
+          "schema": "source_unit_tether_update_input.team_value"
+        },
+        {
+          "name": "unit_id",
+          "type": "int",
+          "schema": "source_unit_tether_update_input.unit_id"
+        },
+        {
+          "name": "spawner_id",
+          "type": "int",
+          "schema": "source_unit_tether_update_input.spawner_id"
+        }
+      ],
+      "return_keys": [
+        "guard",
+        "spawnerExists",
+        "spawnerIsValid",
+        "spawnerTeam",
+        "team",
+        "despawn",
+        "spawnerUnitId"
+      ],
+      "tests": [
+        "test_unit_tether_update_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_unit_tether_update_state"
+      ],
+      "runtime_proof": "/root/Main.source_unit_tether_update_state",
+      "rule": "Public runtime contract for UnitTetherComp.update despawn guard and valid-spawner spawnerUnitId assignment; keep all guard inputs explicit."
     }
   },
   "policy": {
