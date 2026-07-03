@@ -1246,6 +1246,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_sync_write_sync_state\", \"method\": \"void writeSync(Writes write){}\", \"empty_body\": \"void writeSync(Writes write){}\", \"no_op\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/SyncComp.java"
+        and type_entry.get("name") == "SyncComp"
+        and method.get("name") == "readSyncManual"
+    ):
+        return [
+            "\treturn {\"source_owner\": \"PortGame.source_sync_read_sync_manual_state\", \"method\": \"void readSyncManual(FloatBuffer buffer){}\", \"empty_body\": \"void readSyncManual(FloatBuffer buffer){}\", \"no_op\": true}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/UnitTetherComp.java"
         and type_entry.get("name") == "UnitTetherComp"
         and method.get("name") == "afterRead"

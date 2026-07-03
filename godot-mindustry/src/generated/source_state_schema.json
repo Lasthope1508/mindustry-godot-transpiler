@@ -54895,6 +54895,47 @@
       },
       "status": "active"
     },
+    "source_sync_read_sync_manual_result": {
+      "keys": {
+        "empty_body": {
+          "godot_symbol": "source_sync_read_sync_manual_result.empty_body",
+          "java_expr": "void readSyncManual(FloatBuffer buffer){}",
+          "java_method": "readSyncManual(FloatBuffer buffer)",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records exact one-line empty readSyncManual body.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_sync_read_sync_manual_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_sync_read_sync_manual_result.method",
+          "java_expr": "void readSyncManual(FloatBuffer buffer){}",
+          "java_method": "readSyncManual(FloatBuffer buffer)",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records SyncComp.readSyncManual method boundary and empty body.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_sync_read_sync_manual_state"
+          ]
+        },
+        "no_op": {
+          "godot_symbol": "source_sync_read_sync_manual_result.no_op",
+          "java_expr": "void readSyncManual(FloatBuffer buffer){}",
+          "java_method": "readSyncManual(FloatBuffer buffer)",
+          "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+          "rule": "Result records readSyncManual no-op semantics for empty source body.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_sync_read_sync_manual_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
     "source_sync_read_sync_result": {
       "keys": {
         "empty_body": {

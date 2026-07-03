@@ -7227,6 +7227,26 @@ func generated_sync_comp_write_sync_bridge_state() -> Dictionary:
 		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
 	}
 
+func source_sync_read_sync_manual_state() -> Dictionary:
+	return {
+		"method": "void readSyncManual(FloatBuffer buffer){}",
+		"empty_body": "void readSyncManual(FloatBuffer buffer){}",
+		"no_op": true,
+	}
+
+func generated_sync_comp_read_sync_manual_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_readSyncManual_4([])
+	var canonical = source_sync_read_sync_manual_state()
+	return {
+		"source_owner": "PortGame.source_sync_read_sync_manual_state",
+		"generated_owner": "SyncComp.java_method_readSyncManual_4",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

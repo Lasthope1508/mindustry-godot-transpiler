@@ -3475,6 +3475,31 @@
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
     },
+    "N1121": {
+      "exact_exprs": [
+        "void readSyncManual(FloatBuffer buffer){}"
+      ],
+      "godot_owner": "PortGame.source_sync_read_sync_manual_state",
+      "java_class": "mindustry.entities.comp.SyncComp",
+      "java_method": "readSyncManual(FloatBuffer buffer)",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Registers SyncComp.readSyncManual(FloatBuffer buffer) empty internally generated body and wires generated SyncComp.java_method_readSyncManual_4 plus PortGame generated bridge to canonical source_sync_read_sync_manual_state.",
+      "runtime_proof": "/root/Main.generated_sync_comp_read_sync_manual_bridge_state",
+      "source_symbols": [
+        "sync_read_sync_manual.method",
+        "sync_read_sync_manual.empty_body",
+        "sync_read_sync_manual.no_op"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_sync_comp_read_sync_manual_to_source_state",
+        "test_generated_sync_comp_bridges_read_sync_manual_to_source_state",
+        "test_port_game_exposes_source_sync_read_sync_manual_state",
+        "test_port_game_exposes_generated_sync_comp_read_sync_manual_bridge_state",
+        "test_generated_sync_comp_read_sync_manual_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
