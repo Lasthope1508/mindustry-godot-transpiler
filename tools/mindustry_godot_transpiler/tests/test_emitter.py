@@ -4196,6 +4196,56 @@ class BuildingComp{
             self.assertIn('"enabled": next_enabled', source_text)
             self.assertIn('"control_enabled": control_enabled', source_text)
 
+    def test_emit_bridges_building_comp_control_config_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public void control(LAccess type, Object p1, double p2, double p3, double p4){
+        //don't execute configure instructions that copy logic building configures; this can cause extreme lag
+        if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){
+            //change config only if it's new
+            configured(null, p1);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_control_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var control_type := str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var block_logic_configurable := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var p1_is_logic_build := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var p1_value: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn("var configured_called := false", source_text)
+            self.assertIn("var value: Variant = null", source_text)
+            self.assertIn('if control_type == "config" and block_logic_configurable and not p1_is_logic_build:', source_text)
+            self.assertIn("configured_called = true", source_text)
+            self.assertIn("value = p1_value", source_text)
+            self.assertIn('"config_source_owner": "PortGame.source_building_control_config_state"', source_text)
+            self.assertIn('"method": "public void control(LAccess type, Object p1, double p2, double p3, double p4){"', source_text)
+            self.assertIn('"lag_comment": "//don\'t execute configure instructions that copy logic building configures; this can cause extreme lag"', source_text)
+            self.assertIn('"guard": "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){"', source_text)
+            self.assertIn('"new_comment": "//change config only if it\'s new"', source_text)
+            self.assertIn('"configured_call": "configured(null, p1);"', source_text)
+            self.assertIn('"configured_called": configured_called', source_text)
+            self.assertIn('"builder": null', source_text)
+            self.assertIn('"value": value', source_text)
+            self.assertIn('"control_config": control_config', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

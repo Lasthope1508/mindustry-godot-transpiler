@@ -1256,6 +1256,25 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "control"
+        and [parameter.get("type") for parameter in method.get("parameters", [])] == ["LAccess", "Object", "double", "double", "double"]
+    ):
+        return [
+            "\tvar control_type := str(_args[0] if _args.size() > 0 else \"\")",
+            "\tvar block_logic_configurable := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar p1_is_logic_build := bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar p1_value: Variant = _args[3] if _args.size() > 3 else null",
+            "\tvar configured_called := false",
+            "\tvar value: Variant = null",
+            "\tif control_type == \"config\" and block_logic_configurable and not p1_is_logic_build:",
+            "\t\tconfigured_called = true",
+            "\t\tvalue = p1_value",
+            "\tvar control_config := {\"method\": \"public void control(LAccess type, Object p1, double p2, double p3, double p4){\", \"lag_comment\": \"//don't execute configure instructions that copy logic building configures; this can cause extreme lag\", \"guard\": \"if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){\", \"new_comment\": \"//change config only if it's new\", \"configured_call\": \"configured(null, p1);\", \"control_type\": control_type, \"block_logic_configurable\": block_logic_configurable, \"p1_is_logic_build\": p1_is_logic_build, \"p1_value\": p1_value, \"configured_called\": configured_called, \"builder\": null, \"value\": value}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_control_config_state\", \"config_source_owner\": \"PortGame.source_building_control_config_state\", \"control_config\": control_config}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

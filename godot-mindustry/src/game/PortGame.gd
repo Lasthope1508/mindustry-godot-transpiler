@@ -6447,6 +6447,18 @@ func source_building_control_config_state(control_type: String, block_logic_conf
 		return {"configured_called": true, "builder": null, "value": p1_value}
 	return {"configured_called": false, "builder": null, "value": null}
 
+func generated_building_comp_control_config_bridge_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_control_210([control_type, block_logic_configurable, p1_is_logic_build, p1_value])
+	var canonical = source_building_control_config_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)
+	return {
+		"source_owner": "PortGame.source_building_control_config_state",
+		"generated_owner": "BuildingComp.java_method_control_210",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_set_prop_health_state(prop: String, current_health: float, max_health_value: float, value: float, dead_state: bool, self_state: Variant) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public void setProp(LAccess prop, double value){",

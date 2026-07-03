@@ -1411,7 +1411,17 @@ func java_method_control_209(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_control_enabled_state", "enabled_source_owner": "PortGame.source_building_control_enabled_state", "control_enabled": control_enabled}
 
 func java_method_control_210(_args: Array = []) -> Variant:
-	return null
+	var control_type := str(_args[0] if _args.size() > 0 else "")
+	var block_logic_configurable := bool(_args[1] if _args.size() > 1 else false)
+	var p1_is_logic_build := bool(_args[2] if _args.size() > 2 else false)
+	var p1_value: Variant = _args[3] if _args.size() > 3 else null
+	var configured_called := false
+	var value: Variant = null
+	if control_type == "config" and block_logic_configurable and not p1_is_logic_build:
+		configured_called = true
+		value = p1_value
+	var control_config := {"method": "public void control(LAccess type, Object p1, double p2, double p3, double p4){", "lag_comment": "//don't execute configure instructions that copy logic building configures; this can cause extreme lag", "guard": "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){", "new_comment": "//change config only if it's new", "configured_call": "configured(null, p1);", "control_type": control_type, "block_logic_configurable": block_logic_configurable, "p1_is_logic_build": p1_is_logic_build, "p1_value": p1_value, "configured_called": configured_called, "builder": null, "value": value}
+	return {"source_owner": "PortGame.source_building_control_config_state", "config_source_owner": "PortGame.source_building_control_config_state", "control_config": control_config}
 
 func java_method_setProp_211(_args: Array = []) -> Variant:
 	return null

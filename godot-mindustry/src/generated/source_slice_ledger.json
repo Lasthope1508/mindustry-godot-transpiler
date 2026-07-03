@@ -22938,6 +22938,42 @@
         "test_port_game_exposes_generated_building_comp_control_enabled_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1089": {
+      "deferred_exprs": [
+        "Concrete configured(null, p1) mutation remains owned by runtime configure integration; this generated bridge records only BuildingComp object control config branch selection through existing N552 canonical owner."
+      ],
+      "exact_exprs": [
+        "public void control(LAccess type, Object p1, double p2, double p3, double p4){",
+        "//don't execute configure instructions that copy logic building configures; this can cause extreme lag",
+        "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){",
+        "//change config only if it's new",
+        "configured(null, p1);"
+      ],
+      "godot_owner": "PortGame.source_building_control_config_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "control(LAccess type, Object p1, double p2, double p3, double p4)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_control_210 and PortGame generated bridge to existing N552 canonical source_building_control_config_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_control_config_bridge_state",
+      "source_symbols": [
+        "building_control_config.method",
+        "building_control_config.lag_comment",
+        "building_control_config.guard",
+        "building_control_config.new_comment",
+        "building_control_config.configured_call",
+        "building_control_config.control_type",
+        "building_control_config.block_logic_configurable",
+        "building_control_config.p1_is_logic_build",
+        "building_control_config.p1_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_control_config_to_source_state",
+        "test_generated_building_comp_bridges_control_config_to_source_state",
+        "test_port_game_exposes_generated_building_comp_control_config_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

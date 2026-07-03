@@ -5449,6 +5449,43 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_control_config_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_control_210(_args: Array = []) -> Variant:", source)
+        self.assertIn('var control_type := str(_args[0] if _args.size() > 0 else "")', source)
+        self.assertIn("var block_logic_configurable := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var p1_is_logic_build := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var p1_value: Variant = _args[3] if _args.size() > 3 else null", source)
+        self.assertIn("var configured_called := false", source)
+        self.assertIn("var value: Variant = null", source)
+        self.assertIn('if control_type == "config" and block_logic_configurable and not p1_is_logic_build:', source)
+        self.assertIn("configured_called = true", source)
+        self.assertIn("value = p1_value", source)
+        self.assertIn('"config_source_owner": "PortGame.source_building_control_config_state"', source)
+        self.assertIn('"method": "public void control(LAccess type, Object p1, double p2, double p3, double p4){"', source)
+        self.assertIn('"lag_comment": "//don\'t execute configure instructions that copy logic building configures; this can cause extreme lag"', source)
+        self.assertIn('"guard": "if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){"', source)
+        self.assertIn('"new_comment": "//change config only if it\'s new"', source)
+        self.assertIn('"configured_call": "configured(null, p1);"', source)
+        self.assertIn('"configured_called": configured_called', source)
+        self.assertIn('"builder": null', source)
+        self.assertIn('"value": value', source)
+        self.assertIn('"control_config": control_config', source)
+
+    def test_port_game_exposes_generated_building_comp_control_config_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_control_config_bridge_state(control_type: String, block_logic_configurable: bool, p1_is_logic_build: bool, p1_value: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_control_210([control_type, block_logic_configurable, p1_is_logic_build, p1_value])", source)
+        self.assertIn("var canonical = source_building_control_config_state(control_type, block_logic_configurable, p1_is_logic_build, p1_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_control_config_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_control_210"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

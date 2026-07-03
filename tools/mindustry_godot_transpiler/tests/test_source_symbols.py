@@ -26289,6 +26289,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("public static final float FLOAT_ROUNDING_ERROR = 0.000001f; // 32 bits", building_generated_control_enabled["exact_exprs"])
         self.assertIn("return Math.abs(value) <= FLOAT_ROUNDING_ERROR;", building_generated_control_enabled["exact_exprs"])
 
+        building_generated_control_config = source_symbols.source_slice(ledger, "N1089")
+        self.assertEqual(building_generated_control_config["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_control_config["java_method"], "control(LAccess type, Object p1, double p2, double p3, double p4)")
+        self.assertEqual(building_generated_control_config["godot_owner"], "PortGame.source_building_control_config_state")
+        self.assertEqual(building_generated_control_config["runtime_proof"], "/root/Main.generated_building_comp_control_config_bridge_state")
+        self.assertIn("public void control(LAccess type, Object p1, double p2, double p3, double p4){", building_generated_control_config["exact_exprs"])
+        self.assertIn("//don't execute configure instructions that copy logic building configures; this can cause extreme lag", building_generated_control_config["exact_exprs"])
+        self.assertIn("if(type == LAccess.config && block.logicConfigurable && !(p1 instanceof LogicBuild)){", building_generated_control_config["exact_exprs"])
+        self.assertIn("//change config only if it's new", building_generated_control_config["exact_exprs"])
+        self.assertIn("configured(null, p1);", building_generated_control_config["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
