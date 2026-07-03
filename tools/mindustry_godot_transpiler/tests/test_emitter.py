@@ -4003,6 +4003,53 @@ class BuildingComp{
             self.assertIn('"size": block_size_value', source_text)
             self.assertIn('"sense_payload_size": sense_payload_size', source_text)
 
+    def test_emit_bridges_building_comp_sense_camera_default_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public double sense(LAccess sensor){
+        return switch(sensor){
+            case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;
+            default -> Float.NaN; //gets converted to null in logic
+        };
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var camera_is_control_block := bool(_args[32] if _args.size() > 32 else false)", source_text)
+            self.assertIn("var unit_camera_x := float(_args[33] if _args.size() > 33 else 0.0)", source_text)
+            self.assertIn("var unit_camera_y := float(_args[34] if _args.size() > 34 else 0.0)", source_text)
+            self.assertIn("var unit_camera_width := float(_args[35] if _args.size() > 35 else 0.0)", source_text)
+            self.assertIn("var unit_camera_height := float(_args[36] if _args.size() > 36 else 0.0)", source_text)
+            self.assertIn("var camera_x := unit_camera_x if camera_is_control_block else 0.0", source_text)
+            self.assertIn("var camera_y := unit_camera_y if camera_is_control_block else 0.0", source_text)
+            self.assertIn("var camera_width := unit_camera_width if camera_is_control_block else 0.0", source_text)
+            self.assertIn("var camera_height := unit_camera_height if camera_is_control_block else 0.0", source_text)
+            self.assertIn('"camera_default_source_owner": "PortGame.source_building_sense_camera_default_state"', source_text)
+            self.assertIn('"camera_case": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;"', source_text)
+            self.assertIn('"default_case": "default -> Float.NaN; //gets converted to null in logic"', source_text)
+            self.assertIn('"is_control_block": camera_is_control_block', source_text)
+            self.assertIn('"camera_x": camera_x', source_text)
+            self.assertIn('"camera_height": camera_height', source_text)
+            self.assertIn('"invalid_sensor": null', source_text)
+            self.assertIn('"sense_camera_default": sense_camera_default', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

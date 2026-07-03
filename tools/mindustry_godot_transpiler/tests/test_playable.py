@@ -5314,6 +5314,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_sense_camera_default_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_sense_206(_args: Array = []) -> Variant:", source)
+        self.assertIn("var camera_is_control_block := bool(_args[32] if _args.size() > 32 else false)", source)
+        self.assertIn("var unit_camera_x := float(_args[33] if _args.size() > 33 else 0.0)", source)
+        self.assertIn("var unit_camera_y := float(_args[34] if _args.size() > 34 else 0.0)", source)
+        self.assertIn("var unit_camera_width := float(_args[35] if _args.size() > 35 else 0.0)", source)
+        self.assertIn("var unit_camera_height := float(_args[36] if _args.size() > 36 else 0.0)", source)
+        self.assertIn('"camera_default_source_owner": "PortGame.source_building_sense_camera_default_state"', source)
+        self.assertIn('"camera_case": "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;"', source)
+        self.assertIn('"default_case": "default -> Float.NaN; //gets converted to null in logic"', source)
+        self.assertIn('"camera_x": camera_x', source)
+        self.assertIn('"camera_height": camera_height', source)
+        self.assertIn('"invalid_sensor": null', source)
+        self.assertIn('"sense_camera_default": sense_camera_default', source)
+
+    def test_port_game_exposes_generated_building_comp_sense_camera_default_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_sense_camera_default_bridge_state(world_x: float, world_y: float, is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_sense_206([world_x, world_y, source_tilesize, 0.0, 0.0, 0.0, 0.0, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, 0.0, false, 0.0, false, 0.0, false, 0.0, 0.0, 0.0, 0.0, false, false, false, 0.0, false, 0.0, false, 0.0, is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height])", source)
+        self.assertIn("var canonical = source_building_sense_camera_default_state(is_control_block, unit_camera_x, unit_camera_y, unit_camera_width, unit_camera_height)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_camera_default_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_206"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

@@ -26242,6 +26242,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("this instanceof ControlBlock c", building_sense_camera_default["exact_exprs"])
         self.assertIn("c.unit().sense(sensor)", building_sense_camera_default["exact_exprs"])
 
+        building_generated_sense_camera_default = source_symbols.source_slice(ledger, "N1085")
+        self.assertEqual(building_generated_sense_camera_default["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_sense_camera_default["java_method"], "sense(LAccess sensor)")
+        self.assertEqual(building_generated_sense_camera_default["godot_owner"], "PortGame.source_building_sense_camera_default_state")
+        self.assertEqual(building_generated_sense_camera_default["runtime_proof"], "/root/Main.generated_building_comp_sense_camera_default_bridge_state")
+        self.assertIn("public double sense(LAccess sensor){", building_generated_sense_camera_default["exact_exprs"])
+        self.assertIn("case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;", building_generated_sense_camera_default["exact_exprs"])
+        self.assertIn("default -> Float.NaN; //gets converted to null in logic", building_generated_sense_camera_default["exact_exprs"])
+        self.assertIn("this instanceof ControlBlock c", building_generated_sense_camera_default["exact_exprs"])
+        self.assertIn("c.unit().sense(sensor)", building_generated_sense_camera_default["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

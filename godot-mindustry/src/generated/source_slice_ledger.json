@@ -22779,6 +22779,46 @@
         "test_source_api_contracts_define_runtime_shapes",
         "test_source_state_schema_tracks_runtime_keys"
       ]
+    },
+    "N1085": {
+      "deferred_exprs": [
+        "UnitComp cameraX/cameraY/cameraWidth/cameraHeight internals stay owned by UnitComp camera sense slices; this generated bridge records only BuildingComp ControlBlock camera delegation and default Float.NaN behavior through existing N1084 canonical owner."
+      ],
+      "exact_exprs": [
+        "public double sense(LAccess sensor){",
+        "case cameraX, cameraY, cameraWidth, cameraHeight -> this instanceof ControlBlock c ? c.unit().sense(sensor) : 0;",
+        "default -> Float.NaN; //gets converted to null in logic",
+        "this instanceof ControlBlock c",
+        "c.unit().sense(sensor)"
+      ],
+      "godot_owner": "PortGame.source_building_sense_camera_default_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_sense_206 and PortGame generated bridge to existing N1084 canonical source_building_sense_camera_default_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_sense_camera_default_bridge_state",
+      "source_symbols": [
+        "building_sense_camera_default.method",
+        "building_sense_camera_default.camera_case",
+        "building_sense_camera_default.default_case",
+        "building_sense_camera_default.is_control_block",
+        "building_sense_camera_default.unit_camera_x",
+        "building_sense_camera_default.unit_camera_y",
+        "building_sense_camera_default.unit_camera_width",
+        "building_sense_camera_default.unit_camera_height",
+        "building_sense_camera_default.camera_x",
+        "building_sense_camera_default.camera_y",
+        "building_sense_camera_default.camera_width",
+        "building_sense_camera_default.camera_height",
+        "building_sense_camera_default.invalid_sensor"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_sense_camera_default_to_source_state",
+        "test_generated_building_comp_bridges_sense_camera_default_to_source_state",
+        "test_port_game_exposes_generated_building_comp_sense_camera_default_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1
