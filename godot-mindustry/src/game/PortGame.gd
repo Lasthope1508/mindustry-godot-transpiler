@@ -6544,6 +6544,18 @@ func source_building_set_prop_total_power_state(prop: String, current_power_stat
 	unchanged_result.merge(source_exprs)
 	return unchanged_result
 
+func generated_building_comp_set_prop_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_setProp_211([prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value])
+	var canonical = source_building_set_prop_total_power_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)
+	return {
+		"source_owner": "PortGame.source_building_set_prop_total_power_state",
+		"generated_owner": "BuildingComp.java_method_setProp_211",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_set_prop_team_object_state(prop: String, current_team_value: Variant, value_is_team: bool, team_value: Variant) -> Dictionary:
 	var source_exprs: Dictionary = {
 		"method": "public void setProp(LAccess prop, Object value){",

@@ -4363,6 +4363,63 @@ class BuildingComp{
             self.assertIn('"change_team": change_team', source_text)
             self.assertIn('"set_prop_team_double": set_prop_team_double', source_text)
 
+    def test_emit_bridges_building_comp_set_prop_total_power_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public void setProp(LAccess prop, double value){
+        switch(prop){
+            case totalPower -> {
+                if(power != null && block.consPower != null && block.consPower.buffered){
+                    power.status = Mathf.clamp((float)(value / block.consPower.capacity));
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setProp_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_power_status := float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var has_power := bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var has_cons_power := bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var cons_power_buffered := bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var cons_power_capacity := float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("var total_power_value := float(_args[6] if _args.size() > 6 else value)", source_text)
+            self.assertIn("var power_status := current_power_status", source_text)
+            self.assertIn("var updated := false", source_text)
+            self.assertIn('if prop == "totalPower" and has_power and has_cons_power and cons_power_buffered:', source_text)
+            self.assertIn("power_status = clampf(total_power_value / cons_power_capacity, 0.0, 1.0)", source_text)
+            self.assertIn("updated = true", source_text)
+            self.assertIn('"total_power_source_owner": "PortGame.source_building_set_prop_total_power_state"', source_text)
+            self.assertIn('"total_power_case": "case totalPower -> {"', source_text)
+            self.assertIn('"total_power_guard": "if(power != null && block.consPower != null && block.consPower.buffered){"', source_text)
+            self.assertIn('"status_assign": "power.status = Mathf.clamp((float)(value / block.consPower.capacity));"', source_text)
+            self.assertIn('"current_power_status": current_power_status', source_text)
+            self.assertIn('"has_power": has_power', source_text)
+            self.assertIn('"has_cons_power": has_cons_power', source_text)
+            self.assertIn('"cons_power_buffered": cons_power_buffered', source_text)
+            self.assertIn('"cons_power_capacity": cons_power_capacity', source_text)
+            self.assertIn('"value": total_power_value', source_text)
+            self.assertIn('"power_status": power_status', source_text)
+            self.assertIn('"updated": updated', source_text)
+            self.assertIn('"set_prop_total_power": set_prop_total_power', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

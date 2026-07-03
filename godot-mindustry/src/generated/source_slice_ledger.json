@@ -23055,6 +23055,44 @@
         "test_port_game_exposes_generated_building_comp_set_prop_team_double_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1092": {
+      "deferred_exprs": [
+        "Concrete power module mutation and block consPower runtime object integration remain owned by runtime power integration; this generated bridge records only BuildingComp setProp totalPower branch selection through existing N645 canonical owner.",
+        "BuildingComp.setProp(LAccess prop, Object value) and setProp(UnlockableContent content, double value) generated bridges remain deferred to later slices."
+      ],
+      "exact_exprs": [
+        "public void setProp(LAccess prop, double value){",
+        "case totalPower -> {",
+        "if(power != null && block.consPower != null && block.consPower.buffered){",
+        "power.status = Mathf.clamp((float)(value / block.consPower.capacity));"
+      ],
+      "godot_owner": "PortGame.source_building_set_prop_total_power_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "setProp(LAccess prop, double value)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_setProp_211 and PortGame generated bridge to existing N645 canonical source_building_set_prop_total_power_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_set_prop_total_power_bridge_state",
+      "source_symbols": [
+        "building_set_prop_total_power.method",
+        "building_set_prop_total_power.total_power_case",
+        "building_set_prop_total_power.total_power_guard",
+        "building_set_prop_total_power.status_assign",
+        "building_set_prop_total_power.prop",
+        "building_set_prop_total_power.current_power_status",
+        "building_set_prop_total_power.has_power",
+        "building_set_prop_total_power.has_cons_power",
+        "building_set_prop_total_power.cons_power_buffered",
+        "building_set_prop_total_power.cons_power_capacity",
+        "building_set_prop_total_power.value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_set_prop_total_power_to_source_state",
+        "test_generated_building_comp_bridges_set_prop_total_power_to_source_state",
+        "test_port_game_exposes_generated_building_comp_set_prop_total_power_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

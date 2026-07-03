@@ -5569,6 +5569,48 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_set_prop_total_power_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_setProp_211(_args: Array = []) -> Variant:", source)
+        self.assertIn("var current_power_status := float(_args[1] if _args.size() > 1 else 0.0)", source)
+        self.assertIn("var has_power := bool(_args[2] if _args.size() > 2 else false)", source)
+        self.assertIn("var has_cons_power := bool(_args[3] if _args.size() > 3 else false)", source)
+        self.assertIn("var cons_power_buffered := bool(_args[4] if _args.size() > 4 else false)", source)
+        self.assertIn("var cons_power_capacity := float(_args[5] if _args.size() > 5 else 0.0)", source)
+        self.assertIn("var total_power_value := float(_args[6] if _args.size() > 6 else value)", source)
+        self.assertIn("var power_status := current_power_status", source)
+        self.assertIn("var updated := false", source)
+        self.assertIn('if prop == "totalPower" and has_power and has_cons_power and cons_power_buffered:', source)
+        self.assertIn("power_status = clampf(total_power_value / cons_power_capacity, 0.0, 1.0)", source)
+        self.assertIn("updated = true", source)
+        self.assertIn('"total_power_source_owner": "PortGame.source_building_set_prop_total_power_state"', source)
+        self.assertIn('"total_power_case": "case totalPower -> {"', source)
+        self.assertIn('"total_power_guard": "if(power != null && block.consPower != null && block.consPower.buffered){"', source)
+        self.assertIn('"status_assign": "power.status = Mathf.clamp((float)(value / block.consPower.capacity));"', source)
+        self.assertIn('"current_power_status": current_power_status', source)
+        self.assertIn('"has_power": has_power', source)
+        self.assertIn('"has_cons_power": has_cons_power', source)
+        self.assertIn('"cons_power_buffered": cons_power_buffered', source)
+        self.assertIn('"cons_power_capacity": cons_power_capacity', source)
+        self.assertIn('"value": total_power_value', source)
+        self.assertIn('"power_status": power_status', source)
+        self.assertIn('"updated": updated', source)
+        self.assertIn('"set_prop_total_power": set_prop_total_power', source)
+
+    def test_port_game_exposes_generated_building_comp_set_prop_total_power_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_set_prop_total_power_bridge_state(prop: String, current_power_status: float, has_power: bool, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, value: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_setProp_211([prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value])", source)
+        self.assertIn("var canonical = source_building_set_prop_total_power_state(prop, current_power_status, has_power, has_cons_power, cons_power_buffered, cons_power_capacity, value)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_set_prop_total_power_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_setProp_211"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

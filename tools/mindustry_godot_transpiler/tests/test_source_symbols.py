@@ -26325,6 +26325,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("if(this.team != team){", building_generated_set_prop_team_double["exact_exprs"])
         self.assertIn("changeTeam(team);", building_generated_set_prop_team_double["exact_exprs"])
 
+        building_generated_set_prop_total_power = source_symbols.source_slice(ledger, "N1092")
+        self.assertEqual(building_generated_set_prop_total_power["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_set_prop_total_power["java_method"], "setProp(LAccess prop, double value)")
+        self.assertEqual(building_generated_set_prop_total_power["godot_owner"], "PortGame.source_building_set_prop_total_power_state")
+        self.assertEqual(building_generated_set_prop_total_power["runtime_proof"], "/root/Main.generated_building_comp_set_prop_total_power_bridge_state")
+        self.assertIn("public void setProp(LAccess prop, double value){", building_generated_set_prop_total_power["exact_exprs"])
+        self.assertIn("case totalPower -> {", building_generated_set_prop_total_power["exact_exprs"])
+        self.assertIn("if(power != null && block.consPower != null && block.consPower.buffered){", building_generated_set_prop_total_power["exact_exprs"])
+        self.assertIn("power.status = Mathf.clamp((float)(value / block.consPower.capacity));", building_generated_set_prop_total_power["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")
