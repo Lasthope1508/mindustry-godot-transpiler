@@ -6214,5 +6214,40 @@ class BlockUnitComp{
             self.assertIn('"tile_dead": tile_dead', source_text)
             self.assertIn('"dead": dead', source_text)
 
+    def test_emit_bridges_block_unit_comp_is_valid_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BlockUnitComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BlockUnitComp{
+    public boolean isValid(){
+        return tile != null && tile.isValid();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_isValid_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_exists: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var tile_is_valid: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var is_valid: bool = tile_exists and tile_is_valid", source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_unit_is_valid_state"', source_text)
+            self.assertIn('"method": "public boolean isValid(){"', source_text)
+            self.assertIn('"return_expr": "return tile != null && tile.isValid();"', source_text)
+            self.assertIn('"tile_exists": tile_exists', source_text)
+            self.assertIn('"tile_is_valid": tile_is_valid', source_text)
+            self.assertIn('"is_valid": is_valid', source_text)
+
 if __name__ == "__main__":
     unittest.main()

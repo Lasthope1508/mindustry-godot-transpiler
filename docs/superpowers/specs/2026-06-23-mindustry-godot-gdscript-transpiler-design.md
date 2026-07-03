@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 1021 |
-| Done | 1021 |
+| Total tracked work items | 1022 |
+| Done | 1022 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -944,6 +944,7 @@
 - [x] N1129: Generated BlockUnitComp ammof bridge state.
 - [x] N1130: Generated BlockUnitComp icon bridge state.
 - [x] N1131: Generated BlockUnitComp dead bridge state.
+- [x] N1132: Generated BlockUnitComp isValid bridge state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode

@@ -24417,6 +24417,35 @@
         "test_generated_block_unit_comp_dead_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1132": {
+      "exact_exprs": [
+        "@Replace",
+        "public boolean isValid(){",
+        "return tile != null && tile.isValid();"
+      ],
+      "godot_owner": "PortGame.source_block_unit_is_valid_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "isValid()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.isValid() tile exists/isValid return and wires generated BlockUnitComp.java_method_isValid_8 plus PortGame generated bridge to canonical source_block_unit_is_valid_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_is_valid_bridge_state",
+      "source_symbols": [
+        "block_unit_is_valid.method",
+        "block_unit_is_valid.return_expr",
+        "block_unit_is_valid.tile_exists",
+        "block_unit_is_valid.tile_is_valid",
+        "block_unit_is_valid.is_valid"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_is_valid_to_source_state",
+        "test_generated_block_unit_comp_bridges_is_valid_to_source_state",
+        "test_port_game_exposes_source_block_unit_is_valid_state",
+        "test_port_game_exposes_generated_block_unit_comp_is_valid_bridge_state",
+        "test_generated_block_unit_comp_is_valid_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

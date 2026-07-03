@@ -11872,6 +11872,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"tile_dead": tile_dead', source)
         self.assertIn('"dead": dead', source)
 
+    def test_generated_block_unit_comp_bridges_is_valid_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_isValid_8(_args: Array = []) -> Variant:", source)
+        self.assertIn("var tile_exists: bool = bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var tile_is_valid: bool = bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var is_valid: bool = tile_exists and tile_is_valid", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_is_valid_state"', source)
+        self.assertIn('"method": "public boolean isValid(){"', source)
+        self.assertIn('"return_expr": "return tile != null && tile.isValid();"', source)
+        self.assertIn('"tile_exists": tile_exists', source)
+        self.assertIn('"tile_is_valid": tile_is_valid', source)
+        self.assertIn('"is_valid": is_valid', source)
+
     def test_port_game_exposes_source_sync_snap_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -12199,6 +12214,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_block_unit_dead_state"', source)
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_dead_7"', source)
         self.assertIn('"matches": result.get("dead", null) == canonical.get("dead", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
+
+    def test_port_game_exposes_source_block_unit_is_valid_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_unit_is_valid_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:", source)
+        self.assertIn("var is_valid: bool = tile_exists and tile_is_valid", source)
+        self.assertIn('"method": "public boolean isValid(){"', source)
+        self.assertIn('"return_expr": "return tile != null && tile.isValid();"', source)
+        self.assertIn('"tile_exists": tile_exists', source)
+        self.assertIn('"tile_is_valid": tile_is_valid', source)
+        self.assertIn('"is_valid": is_valid', source)
+
+    def test_port_game_exposes_generated_block_unit_comp_is_valid_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_unit_comp_is_valid_bridge_state(tile_exists: bool, tile_is_valid: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
+        self.assertIn("var result = instance.java_method_isValid_8([tile_exists, tile_is_valid])", source)
+        self.assertIn("var canonical = source_block_unit_is_valid_state(tile_exists, tile_is_valid)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_is_valid_state"', source)
+        self.assertIn('"generated_owner": "BlockUnitComp.java_method_isValid_8"', source)
+        self.assertIn('"matches": result.get("is_valid", null) == canonical.get("is_valid", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
 
 if __name__ == "__main__":
     unittest.main()

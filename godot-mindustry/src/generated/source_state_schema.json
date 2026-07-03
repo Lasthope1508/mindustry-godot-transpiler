@@ -88731,6 +88731,100 @@
         }
       },
       "status": "active"
+    },
+    "source_block_unit_is_valid_input": {
+      "keys": {
+        "tile_exists": {
+          "godot_symbol": "source_block_unit_is_valid_input.tile_exists",
+          "java_expr": "tile != null",
+          "java_method": "isValid()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Input preserves explicit BlockUnitComp tile non-null branch.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_is_valid_state"
+          ]
+        },
+        "tile_is_valid": {
+          "godot_symbol": "source_block_unit_is_valid_input.tile_is_valid",
+          "java_expr": "tile.isValid()",
+          "java_method": "isValid()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Input preserves explicit BlockUnitComp tile.isValid() branch.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_is_valid_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_block_unit_is_valid_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_block_unit_is_valid_result.method",
+          "java_expr": "public boolean isValid(){",
+          "java_method": "isValid()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records BlockUnitComp.isValid method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_is_valid_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_unit_is_valid_result.return_expr",
+          "java_expr": "return tile != null && tile.isValid();",
+          "java_method": "isValid()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records exact tile exists and tile.isValid return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_is_valid_state"
+          ]
+        },
+        "tile_exists": {
+          "godot_symbol": "source_block_unit_is_valid_input.tile_exists",
+          "java_expr": "tile != null",
+          "java_method": "isValid()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result preserves explicit tile non-null branch value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_is_valid_state"
+          ]
+        },
+        "tile_is_valid": {
+          "godot_symbol": "source_block_unit_is_valid_input.tile_is_valid",
+          "java_expr": "tile.isValid()",
+          "java_method": "isValid()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result preserves explicit tile.isValid branch value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_is_valid_state"
+          ]
+        },
+        "is_valid": {
+          "godot_symbol": "source_block_unit_is_valid_result.is_valid",
+          "java_expr": "tile != null && tile.isValid()",
+          "java_method": "isValid()",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result of BlockUnitComp.isValid return expression.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_is_valid_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

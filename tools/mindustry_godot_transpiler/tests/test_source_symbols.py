@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 600)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 601)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 605)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 606)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -41024,6 +41024,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_block_unit_dead_result["keys"]["tile_null"]["java_expr"], "tile == null")
         self.assertEqual(source_block_unit_dead_result["keys"]["tile_dead"]["java_expr"], "tile.dead()")
         self.assertEqual(source_block_unit_dead_result["keys"]["dead"]["java_expr"], "tile == null || tile.dead()")
+
+    def test_generated_block_unit_comp_is_valid_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_unit_is_valid.method")
+        self.assertEqual(method["java_expr"], "public boolean isValid(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(method["java_method"], "isValid()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_unit_is_valid_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_unit_is_valid_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_unit_is_valid.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return tile != null && tile.isValid();")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_unit_is_valid_result.return_expr")
+        tile_exists = source_symbols.source_symbol(registry, "block_unit_is_valid.tile_exists")
+        self.assertEqual(tile_exists["java_expr"], "tile != null")
+        self.assertEqual(tile_exists["godot_symbol"], "source_block_unit_is_valid_input.tile_exists")
+        tile_is_valid = source_symbols.source_symbol(registry, "block_unit_is_valid.tile_is_valid")
+        self.assertEqual(tile_is_valid["java_expr"], "tile.isValid()")
+        self.assertEqual(tile_is_valid["godot_symbol"], "source_block_unit_is_valid_input.tile_is_valid")
+        is_valid = source_symbols.source_symbol(registry, "block_unit_is_valid.is_valid")
+        self.assertEqual(is_valid["java_expr"], "tile != null && tile.isValid()")
+        self.assertEqual(is_valid["godot_symbol"], "source_block_unit_is_valid_result.is_valid")
+
+        is_valid_slice = source_symbols.source_slice(ledger, "N1132")
+        self.assertEqual(is_valid_slice["java_source"], "core/src/mindustry/entities/comp/BlockUnitComp.java")
+        self.assertEqual(is_valid_slice["java_method"], "isValid()")
+        self.assertEqual(is_valid_slice["godot_owner"], "PortGame.source_block_unit_is_valid_state")
+        self.assertEqual(is_valid_slice["runtime_proof"], "/root/Main.generated_block_unit_comp_is_valid_bridge_state")
+        self.assertIn("@Replace", is_valid_slice["exact_exprs"])
+        self.assertIn("public boolean isValid(){", is_valid_slice["exact_exprs"])
+        self.assertIn("return tile != null && tile.isValid();", is_valid_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_unit_is_valid_state")
+        self.assertEqual(contract["params"], [
+            {"name": "tile_exists", "schema": "source_block_unit_is_valid_input.tile_exists", "type": "bool"},
+            {"name": "tile_is_valid", "schema": "source_block_unit_is_valid_input.tile_is_valid", "type": "bool"},
+        ])
+        for key in ["method", "return_expr", "tile_exists", "tile_is_valid", "is_valid"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_block_unit_is_valid_result = source_symbols.state_schema(schema, "source_block_unit_is_valid_result")
+        self.assertEqual(source_block_unit_is_valid_result["keys"]["method"]["java_expr"], "public boolean isValid(){")
+        self.assertEqual(source_block_unit_is_valid_result["keys"]["return_expr"]["java_expr"], "return tile != null && tile.isValid();")
+        self.assertEqual(source_block_unit_is_valid_result["keys"]["tile_exists"]["java_expr"], "tile != null")
+        self.assertEqual(source_block_unit_is_valid_result["keys"]["tile_is_valid"]["java_expr"], "tile.isValid()")
+        self.assertEqual(source_block_unit_is_valid_result["keys"]["is_valid"]["java_expr"], "tile != null && tile.isValid()")
 
     def test_state_schema_rejects_keys_without_source_or_alias(self):
         schema = {
