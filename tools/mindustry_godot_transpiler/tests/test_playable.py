@@ -11719,6 +11719,16 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"empty_body": "void snapInterpolation(){}"', source)
         self.assertIn('"no_op": true', source)
 
+    def test_generated_sync_comp_bridges_read_sync_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "SyncComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_readSync_2(_args: Array = []) -> Variant:", source)
+        self.assertIn('"source_owner": "PortGame.source_sync_read_sync_state"', source)
+        self.assertIn('"method": "void readSync(Reads read){}"', source)
+        self.assertIn('"empty_body": "void readSync(Reads read){}"', source)
+        self.assertIn('"no_op": true', source)
+
     def test_port_game_exposes_source_sync_snap_sync_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
@@ -11735,6 +11745,15 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("func source_sync_snap_interpolation_state() -> Dictionary:", source)
         self.assertIn('"method": "void snapInterpolation(){}"', source)
         self.assertIn('"empty_body": "void snapInterpolation(){}"', source)
+        self.assertIn('"no_op": true', source)
+
+    def test_port_game_exposes_source_sync_read_sync_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_sync_read_sync_state() -> Dictionary:", source)
+        self.assertIn('"method": "void readSync(Reads read){}"', source)
+        self.assertIn('"empty_body": "void readSync(Reads read){}"', source)
         self.assertIn('"no_op": true', source)
 
     def test_port_game_exposes_generated_sync_comp_snap_sync_bridge_state(self):
@@ -11759,6 +11778,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn("var canonical = source_sync_snap_interpolation_state()", source)
         self.assertIn('"source_owner": "PortGame.source_sync_snap_interpolation_state"', source)
         self.assertIn('"generated_owner": "SyncComp.java_method_snapInterpolation_1"', source)
+        self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null)', source)
+
+    def test_port_game_exposes_generated_sync_comp_read_sync_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_sync_comp_read_sync_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")', source)
+        self.assertIn("var result = instance.java_method_readSync_2([])", source)
+        self.assertIn("var canonical = source_sync_read_sync_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_sync_read_sync_state"', source)
+        self.assertIn('"generated_owner": "SyncComp.java_method_readSync_2"', source)
         self.assertIn('"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null)', source)
 
 if __name__ == "__main__":

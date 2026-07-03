@@ -5803,5 +5803,33 @@ class SyncComp{
             self.assertIn('"empty_body": "void snapInterpolation(){}"', source_text)
             self.assertIn('"no_op": true', source_text)
 
+    def test_emit_bridges_sync_comp_read_sync_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "SyncComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class SyncComp{
+    void readSync(Reads read){}
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "SyncComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_readSync_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('"source_owner": "PortGame.source_sync_read_sync_state"', source_text)
+            self.assertIn('"method": "void readSync(Reads read){}"', source_text)
+            self.assertIn('"empty_body": "void readSync(Reads read){}"', source_text)
+            self.assertIn('"no_op": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

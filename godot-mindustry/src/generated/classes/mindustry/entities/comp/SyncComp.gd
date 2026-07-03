@@ -20,7 +20,7 @@ func java_method_snapInterpolation_1(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_sync_snap_interpolation_state", "method": "void snapInterpolation(){}", "empty_body": "void snapInterpolation(){}", "no_op": true}
 
 func java_method_readSync_2(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_sync_read_sync_state", "method": "void readSync(Reads read){}", "empty_body": "void readSync(Reads read){}", "no_op": true}
 
 func java_method_writeSync_3(_args: Array = []) -> Variant:
 	return null
