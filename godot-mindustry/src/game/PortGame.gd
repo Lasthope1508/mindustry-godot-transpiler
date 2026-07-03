@@ -7167,6 +7167,26 @@ func generated_sync_comp_snap_sync_bridge_state() -> Dictionary:
 		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
 	}
 
+func source_sync_snap_interpolation_state() -> Dictionary:
+	return {
+		"method": "void snapInterpolation(){}",
+		"empty_body": "void snapInterpolation(){}",
+		"no_op": true,
+	}
+
+func generated_sync_comp_snap_interpolation_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/SyncComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_snapInterpolation_1([])
+	var canonical = source_sync_snap_interpolation_state()
+	return {
+		"source_owner": "PortGame.source_sync_snap_interpolation_state",
+		"generated_owner": "SyncComp.java_method_snapInterpolation_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("empty_body", null) == canonical.get("empty_body", null) and result.get("no_op", null) == canonical.get("no_op", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

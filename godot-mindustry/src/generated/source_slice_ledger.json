@@ -3400,6 +3400,31 @@
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
     },
+    "N1118": {
+      "exact_exprs": [
+        "void snapInterpolation(){}"
+      ],
+      "godot_owner": "PortGame.source_sync_snap_interpolation_state",
+      "java_class": "mindustry.entities.comp.SyncComp",
+      "java_method": "snapInterpolation()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Registers SyncComp.snapInterpolation() empty internally generated body and wires generated SyncComp.java_method_snapInterpolation_1 plus PortGame generated bridge to canonical source_sync_snap_interpolation_state.",
+      "runtime_proof": "/root/Main.generated_sync_comp_snap_interpolation_bridge_state",
+      "source_symbols": [
+        "sync_snap_interpolation.method",
+        "sync_snap_interpolation.empty_body",
+        "sync_snap_interpolation.no_op"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_sync_comp_snap_interpolation_to_source_state",
+        "test_generated_sync_comp_bridges_snap_interpolation_to_source_state",
+        "test_port_game_exposes_source_sync_snap_interpolation_state",
+        "test_port_game_exposes_generated_sync_comp_snap_interpolation_bridge_state",
+        "test_generated_sync_comp_snap_interpolation_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
