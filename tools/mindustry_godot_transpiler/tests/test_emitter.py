@@ -6211,6 +6211,42 @@ class BlockUnitComp{
             self.assertIn('"tile_kill_call": tile_kill_call', source_text)
             self.assertIn('"tile_kill_called": tile_kill_called', source_text)
 
+    def test_emit_bridges_block_unit_comp_damage_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BlockUnitComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BlockUnitComp{
+    public void damage(float v, boolean b){
+        tile.damage(v, b);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BlockUnitComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_damage_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var v: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var b: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var tile_damage_call: String = \"tile.damage(v, b);\"", source_text)
+            self.assertIn("var tile_damage_called: bool = true", source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_unit_damage_state"', source_text)
+            self.assertIn('"method": "public void damage(float v, boolean b){"', source_text)
+            self.assertIn('"tile_damage_call": tile_damage_call', source_text)
+            self.assertIn('"tile_damage_called": tile_damage_called', source_text)
+            self.assertIn('"v": v', source_text)
+            self.assertIn('"b": b', source_text)
+
     def test_emit_bridges_block_unit_comp_dead_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

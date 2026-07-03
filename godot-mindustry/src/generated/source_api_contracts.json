@@ -24363,6 +24363,37 @@
         "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_block_unit_killed_state"
       ]
+    },
+    "PortGame.source_block_unit_damage_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "v",
+          "schema": "source_block_unit_damage_input.v",
+          "type": "float"
+        },
+        {
+          "name": "b",
+          "schema": "source_block_unit_damage_input.b",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "tile_damage_call",
+        "tile_damage_called",
+        "v",
+        "b"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.damage(float v, boolean b) tile.damage(v, b) delegation state.",
+      "runtime_proof": "/root/Main.source_block_unit_damage_state",
+      "source_method": "damage(float v, boolean b)",
+      "source_slice": "N1135",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_damage_state"
+      ]
     }
   },
   "policy": {

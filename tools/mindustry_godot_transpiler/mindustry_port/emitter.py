@@ -1223,6 +1223,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
+        and method.get("name") == "damage"
+        and len(method.get("parameters", [])) == 2
+        and method.get("parameters", [])[0].get("name") == "v"
+        and method.get("parameters", [])[1].get("name") == "b"
+    ):
+        return [
+            "\tvar v: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar b: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar tile_damage_call: String = \"tile.damage(v, b);\"",
+            "\tvar tile_damage_called: bool = true",
+            "\treturn {\"source_owner\": \"PortGame.source_block_unit_damage_state\", \"method\": \"public void damage(float v, boolean b){\", \"tile_damage_call\": tile_damage_call, \"tile_damage_called\": tile_damage_called, \"v\": v, \"b\": b}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
+        and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "dead"
     ):
         return [

@@ -75877,6 +75877,71 @@
       "java_expr": "tile.kill();",
       "rule": "Result marker for BlockUnitComp killed tile.kill() call.",
       "status": "source-backed"
+    },
+    "block_unit_damage.method": {
+      "godot_owner": "PortGame.source_block_unit_damage_state",
+      "java_method": "damage(float v, boolean b)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_damage_state",
+      "tests": [
+        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_damage_result.method",
+      "java_expr": "public void damage(float v, boolean b){",
+      "rule": "BlockUnitComp damage method boundary.",
+      "status": "source-backed"
+    },
+    "block_unit_damage.v": {
+      "godot_owner": "PortGame.source_block_unit_damage_state",
+      "java_method": "damage(float v, boolean b)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_damage_state",
+      "tests": [
+        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_damage_input.v",
+      "java_expr": "v",
+      "rule": "Explicit runtime fact for BlockUnitComp damage float v parameter.",
+      "status": "explicit-input"
+    },
+    "block_unit_damage.b": {
+      "godot_owner": "PortGame.source_block_unit_damage_state",
+      "java_method": "damage(float v, boolean b)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_damage_state",
+      "tests": [
+        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_damage_input.b",
+      "java_expr": "b",
+      "rule": "Explicit runtime fact for BlockUnitComp damage boolean b parameter.",
+      "status": "explicit-input"
+    },
+    "block_unit_damage.tile_damage_call": {
+      "godot_owner": "PortGame.source_block_unit_damage_state",
+      "java_method": "damage(float v, boolean b)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_damage_state",
+      "tests": [
+        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_damage_result.tile_damage_call",
+      "java_expr": "tile.damage(v, b);",
+      "rule": "BlockUnitComp damage delegates to tile.damage(v, b).",
+      "status": "source-backed"
+    },
+    "block_unit_damage.tile_damage_called": {
+      "godot_owner": "PortGame.source_block_unit_damage_state",
+      "java_method": "damage(float v, boolean b)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "runtime_proof": "/root/Main.source_block_unit_damage_state",
+      "tests": [
+        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_unit_damage_result.tile_damage_called",
+      "java_expr": "tile.damage(v, b);",
+      "rule": "Result marker for BlockUnitComp damage tile.damage(v, b) call.",
+      "status": "source-backed"
     }
   },
   "version": 1

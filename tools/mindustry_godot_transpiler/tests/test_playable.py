@@ -12229,6 +12229,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockUnitComp.java_method_killed_5"', source)
         self.assertIn('"matches": result.get("tile_kill_call", null) == canonical.get("tile_kill_call", null) and result.get("tile_kill_called", null) == canonical.get("tile_kill_called", null)', source)
 
+    def test_port_game_exposes_source_block_unit_damage_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_unit_damage_state(v: float, b: bool) -> Dictionary:", source)
+        self.assertIn('var tile_damage_call: String = "tile.damage(v, b);"', source)
+        self.assertIn("var tile_damage_called: bool = true", source)
+        self.assertIn('"method": "public void damage(float v, boolean b){"', source)
+        self.assertIn('"tile_damage_call": tile_damage_call', source)
+        self.assertIn('"tile_damage_called": tile_damage_called', source)
+        self.assertIn('"v": v', source)
+        self.assertIn('"b": b', source)
+
+    def test_port_game_exposes_generated_block_unit_comp_damage_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")', source)
+        self.assertIn("var result = instance.java_method_damage_6([v, b])", source)
+        self.assertIn("var canonical = source_block_unit_damage_state(v, b)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_unit_damage_state"', source)
+        self.assertIn('"generated_owner": "BlockUnitComp.java_method_damage_6"', source)
+        self.assertIn('"matches": result.get("tile_damage_call", null) == canonical.get("tile_damage_call", null) and result.get("tile_damage_called", null) == canonical.get("tile_damage_called", null) and result.get("v", null) == canonical.get("v", null) and result.get("b", null) == canonical.get("b", null)', source)
+
     def test_port_game_exposes_source_block_unit_dead_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

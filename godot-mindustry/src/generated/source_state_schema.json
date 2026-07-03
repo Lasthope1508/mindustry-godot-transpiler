@@ -88960,6 +88960,100 @@
         }
       },
       "status": "active"
+    },
+    "source_block_unit_damage_input": {
+      "keys": {
+        "v": {
+          "godot_symbol": "source_block_unit_damage_input.v",
+          "java_expr": "v",
+          "java_method": "damage(float v, boolean b)",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Input preserves exact BlockUnitComp damage float v parameter.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_block_unit_damage_state"
+          ]
+        },
+        "b": {
+          "godot_symbol": "source_block_unit_damage_input.b",
+          "java_expr": "b",
+          "java_method": "damage(float v, boolean b)",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Input preserves exact BlockUnitComp damage boolean b parameter.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_damage_state"
+          ]
+        }
+      },
+      "status": "active"
+    },
+    "source_block_unit_damage_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_block_unit_damage_result.method",
+          "java_expr": "public void damage(float v, boolean b){",
+          "java_method": "damage(float v, boolean b)",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records BlockUnitComp.damage method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_damage_state"
+          ]
+        },
+        "tile_damage_call": {
+          "godot_symbol": "source_block_unit_damage_result.tile_damage_call",
+          "java_expr": "tile.damage(v, b);",
+          "java_method": "damage(float v, boolean b)",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records exact BlockUnitComp.damage tile.damage(v, b) call expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_block_unit_damage_state"
+          ]
+        },
+        "tile_damage_called": {
+          "godot_symbol": "source_block_unit_damage_result.tile_damage_called",
+          "java_expr": "tile.damage(v, b);",
+          "java_method": "damage(float v, boolean b)",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result records that BlockUnitComp.damage calls tile.damage(v, b).",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_damage_state"
+          ]
+        },
+        "v": {
+          "godot_symbol": "source_block_unit_damage_input.v",
+          "java_expr": "v",
+          "java_method": "damage(float v, boolean b)",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result preserves exact float v input parameter.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_block_unit_damage_state"
+          ]
+        },
+        "b": {
+          "godot_symbol": "source_block_unit_damage_input.b",
+          "java_expr": "b",
+          "java_method": "damage(float v, boolean b)",
+          "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+          "rule": "Result preserves exact boolean b input parameter.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_block_unit_damage_state"
+          ]
+        }
+      },
+      "status": "active"
     }
   },
   "version": 1

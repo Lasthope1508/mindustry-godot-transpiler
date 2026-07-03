@@ -7465,6 +7465,30 @@ func generated_block_unit_comp_killed_bridge_state() -> Dictionary:
 		"matches": result.get("tile_kill_call", null) == canonical.get("tile_kill_call", null) and result.get("tile_kill_called", null) == canonical.get("tile_kill_called", null),
 	}
 
+func source_block_unit_damage_state(v: float, b: bool) -> Dictionary:
+	var tile_damage_call: String = "tile.damage(v, b);"
+	var tile_damage_called: bool = true
+	return {
+		"method": "public void damage(float v, boolean b){",
+		"tile_damage_call": tile_damage_call,
+		"tile_damage_called": tile_damage_called,
+		"v": v,
+		"b": b,
+	}
+
+func generated_block_unit_comp_damage_bridge_state(v: float, b: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BlockUnitComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_damage_6([v, b])
+	var canonical = source_block_unit_damage_state(v, b)
+	return {
+		"source_owner": "PortGame.source_block_unit_damage_state",
+		"generated_owner": "BlockUnitComp.java_method_damage_6",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("tile_damage_call", null) == canonical.get("tile_damage_call", null) and result.get("tile_damage_called", null) == canonical.get("tile_damage_called", null) and result.get("v", null) == canonical.get("v", null) and result.get("b", null) == canonical.get("b", null),
+	}
+
 func source_block_unit_dead_state(tile_null: bool, tile_dead: bool) -> Dictionary:
 	var dead: bool = tile_null or tile_dead
 	return {

@@ -24501,6 +24501,34 @@
         "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1135": {
+      "exact_exprs": [
+        "@Replace",
+        "public void damage(float v, boolean b){",
+        "tile.damage(v, b);"
+      ],
+      "godot_owner": "PortGame.source_block_unit_damage_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "damage(float v, boolean b)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.damage(float v, boolean b) tile.damage(v, b) delegation and wires generated BlockUnitComp.java_method_damage_6 plus PortGame generated bridge to canonical source_block_unit_damage_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_damage_bridge_state",
+      "source_symbols": [
+        "block_unit_damage.method",
+        "block_unit_damage.v",
+        "block_unit_damage.b",
+        "block_unit_damage.tile_damage_call",
+        "block_unit_damage.tile_damage_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_damage_to_source_state",
+        "test_port_game_exposes_source_block_unit_damage_state",
+        "test_port_game_exposes_generated_block_unit_comp_damage_bridge_state",
+        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

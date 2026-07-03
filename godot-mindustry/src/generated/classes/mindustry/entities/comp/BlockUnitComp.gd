@@ -36,7 +36,11 @@ func java_method_killed_5(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_unit_killed_state", "method": "public void killed(){", "tile_kill_call": tile_kill_call, "tile_kill_called": tile_kill_called}
 
 func java_method_damage_6(_args: Array = []) -> Variant:
-	return null
+	var v: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var b: bool = bool(_args[1] if _args.size() > 1 else false)
+	var tile_damage_call: String = "tile.damage(v, b);"
+	var tile_damage_called: bool = true
+	return {"source_owner": "PortGame.source_block_unit_damage_state", "method": "public void damage(float v, boolean b){", "tile_damage_call": tile_damage_call, "tile_damage_called": tile_damage_called, "v": v, "b": b}
 
 func java_method_dead_7(_args: Array = []) -> Variant:
 	var tile_null: bool = bool(_args[0] if _args.size() > 0 else false)
