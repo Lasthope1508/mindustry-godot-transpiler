@@ -12558,5 +12558,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_addBuild_11"', source)
         self.assertIn('"matches": result.get("add_build_call", null) == canonical.get("add_build_call", null) and result.get("add_build_called", null) == canonical.get("add_build_called", null)', source)
 
+    def test_port_game_exposes_source_builder_build_plan_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_build_plan_state(plans_size: int, plans_first: Variant) -> Dictionary:", source)
+        self.assertIn("var build_plan: Variant = null if plans_size == 0 else plans_first", source)
+        self.assertIn('"method": "BuildPlan buildPlan(){"', source)
+        self.assertIn('"return_expr": "return plans.size == 0 ? null : plans.first();"', source)
+        self.assertIn('"plans_size": plans_size', source)
+        self.assertIn('"plans_first": plans_first', source)
+        self.assertIn('"build_plan": build_plan', source)
+
+    def test_port_game_exposes_generated_builder_comp_build_plan_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_buildPlan_14([plans_size, plans_first])", source)
+        self.assertIn("var canonical = source_builder_build_plan_state(plans_size, plans_first)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_build_plan_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_buildPlan_14"', source)
+        self.assertIn('"matches": result.get("build_plan", null) == canonical.get("build_plan", null) and result.get("return_expr", null) == canonical.get("return_expr", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

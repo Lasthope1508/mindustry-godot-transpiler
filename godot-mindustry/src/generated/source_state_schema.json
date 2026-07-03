@@ -90106,6 +90106,100 @@
           ]
         }
       }
+    },
+    "source_builder_build_plan_input": {
+      "status": "active",
+      "keys": {
+        "plans_size": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "buildPlan()",
+          "java_expr": "plans.size",
+          "godot_symbol": "source_builder_build_plan_input.plans_size",
+          "type": "int",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp plans.size.",
+          "used_by": [
+            "PortGame.source_builder_build_plan_state"
+          ]
+        },
+        "plans_first": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "buildPlan()",
+          "java_expr": "plans.first()",
+          "godot_symbol": "source_builder_build_plan_input.plans_first",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp plans.first().",
+          "used_by": [
+            "PortGame.source_builder_build_plan_state"
+          ]
+        }
+      }
+    },
+    "source_builder_build_plan_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "buildPlan()",
+          "java_expr": "BuildPlan buildPlan(){",
+          "godot_symbol": "source_builder_build_plan_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records BuilderComp buildPlan method boundary.",
+          "used_by": [
+            "PortGame.source_builder_build_plan_state"
+          ]
+        },
+        "return_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "buildPlan()",
+          "java_expr": "return plans.size == 0 ? null : plans.first();",
+          "godot_symbol": "source_builder_build_plan_result.return_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result records exact buildPlan return expression.",
+          "used_by": [
+            "PortGame.source_builder_build_plan_state"
+          ]
+        },
+        "plans_size": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "buildPlan()",
+          "java_expr": "plans.size",
+          "godot_symbol": "source_builder_build_plan_input.plans_size",
+          "type": "int",
+          "status": "explicit-input",
+          "rule": "Result preserves plans.size input.",
+          "used_by": [
+            "PortGame.source_builder_build_plan_state"
+          ]
+        },
+        "plans_first": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "buildPlan()",
+          "java_expr": "plans.first()",
+          "godot_symbol": "source_builder_build_plan_input.plans_first",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Result preserves plans.first() input.",
+          "used_by": [
+            "PortGame.source_builder_build_plan_state"
+          ]
+        },
+        "build_plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "buildPlan()",
+          "java_expr": "plans.size == 0 ? null : plans.first()",
+          "godot_symbol": "source_builder_build_plan_result.build_plan",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result records BuilderComp buildPlan ternary.",
+          "used_by": [
+            "PortGame.source_builder_build_plan_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

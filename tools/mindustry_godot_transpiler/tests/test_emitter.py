@@ -6700,5 +6700,38 @@ class BuilderComp{
             self.assertIn('"add_build_call": add_build_call', source_text)
             self.assertIn('"add_build_called": true', source_text)
 
+    def test_emit_bridges_builder_comp_build_plan_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    @Nullable BuildPlan buildPlan(){
+        return plans.size == 0 ? null : plans.first();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_buildPlan_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var plans_size: int = int(_args[0]) if _args.size() > 0 else 0", source_text)
+            self.assertIn("var plans_first: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var build_plan: Variant = null if plans_size == 0 else plans_first", source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_build_plan_state"', source_text)
+            self.assertIn('"method": "BuildPlan buildPlan(){"', source_text)
+            self.assertIn('"return_expr": "return plans.size == 0 ? null : plans.first();"', source_text)
+            self.assertIn('"build_plan": build_plan', source_text)
+
 if __name__ == "__main__":
     unittest.main()

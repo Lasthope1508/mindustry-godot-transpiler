@@ -76696,6 +76696,58 @@
       "tests": [
         "test_generated_builder_comp_add_build_tail_slice_is_registered_with_source_backing"
       ]
+    },
+    "builder_build_plan.method": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "buildPlan()",
+      "java_expr": "BuildPlan buildPlan(){",
+      "godot_owner": "PortGame.source_builder_build_plan_state",
+      "godot_symbol": "source_builder_build_plan_result.method",
+      "status": "source-backed",
+      "rule": "BuilderComp buildPlan method boundary.",
+      "runtime_proof": "/root/Main.source_builder_build_plan_state",
+      "tests": [
+        "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_build_plan.plans_size": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "buildPlan()",
+      "java_expr": "plans.size",
+      "godot_owner": "PortGame.source_builder_build_plan_state",
+      "godot_symbol": "source_builder_build_plan_input.plans_size",
+      "status": "explicit-input",
+      "rule": "Input preserves BuilderComp plans.size.",
+      "runtime_proof": "/root/Main.source_builder_build_plan_state",
+      "tests": [
+        "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_build_plan.plans_first": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "buildPlan()",
+      "java_expr": "plans.first()",
+      "godot_owner": "PortGame.source_builder_build_plan_state",
+      "godot_symbol": "source_builder_build_plan_input.plans_first",
+      "status": "explicit-input",
+      "rule": "Input preserves BuilderComp plans.first().",
+      "runtime_proof": "/root/Main.source_builder_build_plan_state",
+      "tests": [
+        "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_build_plan.build_plan": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_method": "buildPlan()",
+      "java_expr": "plans.size == 0 ? null : plans.first()",
+      "godot_owner": "PortGame.source_builder_build_plan_state",
+      "godot_symbol": "source_builder_build_plan_result.build_plan",
+      "status": "source-backed",
+      "rule": "Result records BuilderComp buildPlan ternary.",
+      "runtime_proof": "/root/Main.source_builder_build_plan_state",
+      "tests": [
+        "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

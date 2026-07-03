@@ -70,7 +70,10 @@ func java_method_activelyBuilding_13(_args: Array = []) -> Variant:
 	return null
 
 func java_method_buildPlan_14(_args: Array = []) -> Variant:
-	return null
+	var plans_size: int = int(_args[0]) if _args.size() > 0 else 0
+	var plans_first: Variant = _args[1] if _args.size() > 1 else null
+	var build_plan: Variant = null if plans_size == 0 else plans_first
+	return {"source_owner": "PortGame.source_builder_build_plan_state", "method": "BuildPlan buildPlan(){", "return_expr": "return plans.size == 0 ? null : plans.first();", "plans_size": plans_size, "plans_first": plans_first, "build_plan": build_plan}
 
 func java_method_drawBuilding_15(_args: Array = []) -> Variant:
 	return null

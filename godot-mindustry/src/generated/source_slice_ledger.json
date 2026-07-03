@@ -24802,6 +24802,36 @@
         "test_generated_builder_comp_add_build_tail_slice_is_registered_with_source_backing",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1145": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "buildPlan()",
+      "godot_owner": "PortGame.source_builder_build_plan_state",
+      "source_symbols": [
+        "builder_build_plan.method",
+        "builder_build_plan.plans_size",
+        "builder_build_plan.plans_first",
+        "builder_build_plan.build_plan"
+      ],
+      "exact_exprs": [
+        "/** @return  the build plan currently active, or the one at the top of the queue.*/",
+        "@Nullable BuildPlan buildPlan(){",
+        "return plans.size == 0 ? null : plans.first();"
+      ],
+      "deferred_exprs": [
+        "Queue mutation and active-range selection remain owned by addBuild(BuildPlan place, boolean tail) and activelyBuilding(); this slice only preserves buildPlan() return selection."
+      ],
+      "status": "done",
+      "rule": "Registers BuilderComp.buildPlan() plans.size ternary and wires generated BuilderComp.java_method_buildPlan_14 plus PortGame generated bridge to canonical source_builder_build_plan_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_build_plan_bridge_state",
+      "tests": [
+        "test_emit_bridges_builder_comp_build_plan_to_source_state",
+        "test_port_game_exposes_source_builder_build_plan_state",
+        "test_port_game_exposes_generated_builder_comp_build_plan_bridge_state",
+        "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

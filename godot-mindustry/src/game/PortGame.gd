@@ -7808,6 +7808,29 @@ func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dicti
 		"matches": result.get("add_build_call", null) == canonical.get("add_build_call", null) and result.get("add_build_called", null) == canonical.get("add_build_called", null),
 	}
 
+func source_builder_build_plan_state(plans_size: int, plans_first: Variant) -> Dictionary:
+	var build_plan: Variant = null if plans_size == 0 else plans_first
+	return {
+		"method": "BuildPlan buildPlan(){",
+		"return_expr": "return plans.size == 0 ? null : plans.first();",
+		"plans_size": plans_size,
+		"plans_first": plans_first,
+		"build_plan": build_plan,
+	}
+
+func generated_builder_comp_build_plan_bridge_state(plans_size: int, plans_first: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_buildPlan_14([plans_size, plans_first])
+	var canonical = source_builder_build_plan_state(plans_size, plans_first)
+	return {
+		"source_owner": "PortGame.source_builder_build_plan_state",
+		"generated_owner": "BuilderComp.java_method_buildPlan_14",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("build_plan", null) == canonical.get("build_plan", null) and result.get("return_expr", null) == canonical.get("return_expr", null),
+	}
+
 func source_unit_tether_after_read_state(spawner_unit_id: int, groups_unit_get_by_id_result: Variant) -> Dictionary:
 	var guard: bool = spawner_unit_id != -1
 	var spawner_value: Variant = null

@@ -1269,6 +1269,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_builder_add_build_tail_state\", \"method\": \"void addBuild(BuildPlan place){\", \"place\": place, \"tail\": tail, \"add_build_call\": add_build_call, \"add_build_called\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "buildPlan"
+    ):
+        return [
+            "\tvar plans_size: int = int(_args[0]) if _args.size() > 0 else 0",
+            "\tvar plans_first: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar build_plan: Variant = null if plans_size == 0 else plans_first",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_build_plan_state\", \"method\": \"BuildPlan buildPlan(){\", \"return_expr\": \"return plans.size == 0 ? null : plans.first();\", \"plans_size\": plans_size, \"plans_first\": plans_first, \"build_plan\": build_plan}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "add"
