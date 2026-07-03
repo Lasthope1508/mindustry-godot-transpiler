@@ -4101,6 +4101,57 @@ class BuildingComp{
             self.assertIn('"value": value', source_text)
             self.assertIn('"sense_object": sense_object', source_text)
 
+    def test_emit_bridges_building_comp_sense_content_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    @Override
+    public double sense(Content content){
+        if(content instanceof Item i && items != null) return items.get(i);
+        if(content instanceof Liquid l && liquids != null) return liquids.get(l);
+        if(getPayloads() != null){
+            if(content instanceof UnitType u) return getPayloads().get(u);
+            if(content instanceof Block b) return getPayloads().get(b);
+        }
+        return Float.NaN; //invalid sense
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var content_type := str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var has_items_module := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var item_amount := float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var has_liquids_module := bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var liquid_amount := float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var has_payloads := bool(_args[5] if _args.size() > 5 else false)", source_text)
+            self.assertIn("var payload_amount := float(_args[6] if _args.size() > 6 else 0.0)", source_text)
+            self.assertIn('"content_source_owner": "PortGame.source_building_sense_content_state"', source_text)
+            self.assertIn('"method": "public double sense(Content content){"', source_text)
+            self.assertIn('"item_case": "if(content instanceof Item i && items != null) return items.get(i);"', source_text)
+            self.assertIn('"liquid_case": "if(content instanceof Liquid l && liquids != null) return liquids.get(l);"', source_text)
+            self.assertIn('"payloads_guard": "if(getPayloads() != null){"', source_text)
+            self.assertIn('"unit_payload_case": "if(content instanceof UnitType u) return getPayloads().get(u);"', source_text)
+            self.assertIn('"block_payload_case": "if(content instanceof Block b) return getPayloads().get(b);"', source_text)
+            self.assertIn('"invalid_return": "return Float.NaN; //invalid sense"', source_text)
+            self.assertIn('"sensed": sensed', source_text)
+            self.assertIn('"value": value', source_text)
+            self.assertIn('"sense_content": sense_content', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

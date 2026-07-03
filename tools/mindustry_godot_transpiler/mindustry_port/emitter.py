@@ -1212,6 +1212,34 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "sense"
+        and [parameter.get("name") for parameter in method.get("parameters", [])] == ["content"]
+    ):
+        return [
+            "\tvar content_type := str(_args[0] if _args.size() > 0 else \"\")",
+            "\tvar has_items_module := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar item_amount := float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar has_liquids_module := bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar liquid_amount := float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar has_payloads := bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar payload_amount := float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar sensed := false",
+            "\tvar value: Variant = null",
+            "\tif content_type == \"item\" and has_items_module:",
+            "\t\tsensed = true",
+            "\t\tvalue = item_amount",
+            "\telif content_type == \"liquid\" and has_liquids_module:",
+            "\t\tsensed = true",
+            "\t\tvalue = liquid_amount",
+            "\telif (content_type == \"unit\" or content_type == \"block\") and has_payloads:",
+            "\t\tsensed = true",
+            "\t\tvalue = payload_amount",
+            "\tvar sense_content := {\"method\": \"public double sense(Content content){\", \"item_case\": \"if(content instanceof Item i && items != null) return items.get(i);\", \"liquid_case\": \"if(content instanceof Liquid l && liquids != null) return liquids.get(l);\", \"payloads_guard\": \"if(getPayloads() != null){\", \"unit_payload_case\": \"if(content instanceof UnitType u) return getPayloads().get(u);\", \"block_payload_case\": \"if(content instanceof Block b) return getPayloads().get(b);\", \"invalid_return\": \"return Float.NaN; //invalid sense\", \"content_type\": content_type, \"has_items_module\": has_items_module, \"item_amount\": item_amount, \"has_liquids_module\": has_liquids_module, \"liquid_amount\": liquid_amount, \"has_payloads\": has_payloads, \"payload_amount\": payload_amount, \"sensed\": sensed, \"value\": value}",
+            "\treturn {\"source_owner\": \"PortGame.source_building_sense_content_state\", \"content_source_owner\": \"PortGame.source_building_sense_content_state\", \"sense_content\": sense_content}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

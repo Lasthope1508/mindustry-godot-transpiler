@@ -5380,6 +5380,42 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_sense_content_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_sense_208(_args: Array = []) -> Variant:", source)
+        self.assertIn('var content_type := str(_args[0] if _args.size() > 0 else "")', source)
+        self.assertIn("var has_items_module := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var item_amount := float(_args[2] if _args.size() > 2 else 0.0)", source)
+        self.assertIn("var has_liquids_module := bool(_args[3] if _args.size() > 3 else false)", source)
+        self.assertIn("var liquid_amount := float(_args[4] if _args.size() > 4 else 0.0)", source)
+        self.assertIn("var has_payloads := bool(_args[5] if _args.size() > 5 else false)", source)
+        self.assertIn("var payload_amount := float(_args[6] if _args.size() > 6 else 0.0)", source)
+        self.assertIn('"content_source_owner": "PortGame.source_building_sense_content_state"', source)
+        self.assertIn('"method": "public double sense(Content content){"', source)
+        self.assertIn('"item_case": "if(content instanceof Item i && items != null) return items.get(i);"', source)
+        self.assertIn('"liquid_case": "if(content instanceof Liquid l && liquids != null) return liquids.get(l);"', source)
+        self.assertIn('"payloads_guard": "if(getPayloads() != null){"', source)
+        self.assertIn('"unit_payload_case": "if(content instanceof UnitType u) return getPayloads().get(u);"', source)
+        self.assertIn('"block_payload_case": "if(content instanceof Block b) return getPayloads().get(b);"', source)
+        self.assertIn('"invalid_return": "return Float.NaN; //invalid sense"', source)
+        self.assertIn('"sensed": sensed', source)
+        self.assertIn('"value": value', source)
+        self.assertIn('"sense_content": sense_content', source)
+
+    def test_port_game_exposes_generated_building_comp_sense_content_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_sense_content_bridge_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_sense_208([content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount])", source)
+        self.assertIn("var canonical = source_building_sense_content_state(content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_sense_content_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_sense_208"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

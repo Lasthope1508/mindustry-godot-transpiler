@@ -22861,6 +22861,49 @@
         "test_port_game_exposes_generated_building_comp_sense_object_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1087": {
+      "deferred_exprs": [
+        "Concrete content class checks and module/payload containers remain owned by content/payload integration slices; this generated bridge records only BuildingComp.sense(Content content) branch selection through existing N633 canonical owner."
+      ],
+      "exact_exprs": [
+        "public double sense(Content content){",
+        "if(content instanceof Item i && items != null) return items.get(i);",
+        "if(content instanceof Liquid l && liquids != null) return liquids.get(l);",
+        "if(getPayloads() != null){",
+        "if(content instanceof UnitType u) return getPayloads().get(u);",
+        "if(content instanceof Block b) return getPayloads().get(b);",
+        "return Float.NaN; //invalid sense"
+      ],
+      "godot_owner": "PortGame.source_building_sense_content_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "sense(Content content)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_sense_208 and PortGame generated bridge to existing N633 canonical source_building_sense_content_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_sense_content_bridge_state",
+      "source_symbols": [
+        "building_sense_content.method",
+        "building_sense_content.item_case",
+        "building_sense_content.liquid_case",
+        "building_sense_content.payloads_guard",
+        "building_sense_content.unit_payload_case",
+        "building_sense_content.block_payload_case",
+        "building_sense_content.invalid_return",
+        "building_sense_content.content_type",
+        "building_sense_content.has_items_module",
+        "building_sense_content.item_amount",
+        "building_sense_content.has_liquids_module",
+        "building_sense_content.liquid_amount",
+        "building_sense_content.has_payloads",
+        "building_sense_content.payload_amount"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_sense_content_to_source_state",
+        "test_generated_building_comp_bridges_sense_content_to_source_state",
+        "test_port_game_exposes_generated_building_comp_sense_content_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

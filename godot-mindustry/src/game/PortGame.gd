@@ -6390,6 +6390,18 @@ func source_building_sense_content_state(content_type: String, has_items_module:
 	source_state["value"] = null
 	return source_state
 
+func generated_building_comp_sense_content_bridge_state(content_type: String, has_items_module: bool, item_amount: float, has_liquids_module: bool, liquid_amount: float, has_payloads: bool, payload_amount: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_sense_208([content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount])
+	var canonical = source_building_sense_content_state(content_type, has_items_module, item_amount, has_liquids_module, liquid_amount, has_payloads, payload_amount)
+	return {
+		"source_owner": "PortGame.source_building_sense_content_state",
+		"generated_owner": "BuildingComp.java_method_sense_208",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_sense_camera_default_state(is_control_block: bool, unit_camera_x: float, unit_camera_y: float, unit_camera_width: float, unit_camera_height: float) -> Dictionary:
 	var camera_x := unit_camera_x if is_control_block else 0.0
 	var camera_y := unit_camera_y if is_control_block else 0.0
