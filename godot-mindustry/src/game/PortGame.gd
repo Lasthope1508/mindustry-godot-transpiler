@@ -6899,6 +6899,18 @@ func source_building_update_fog_visibility_state(was_visible: bool, in_fog_to_pl
 		"minimap_update": tile_state,
 	}
 
+func generated_building_comp_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_updateFogVisibility_218([was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state])
+	var canonical = source_building_update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)
+	return {
+		"source_owner": "PortGame.source_building_update_fog_visibility_state",
+		"generated_owner": "BuildingComp.java_method_updateFogVisibility_218",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_hitbox_state(world_x: float, world_y: float, block_size_value: int, source_tilesize: float) -> Dictionary:
 	var hitbox_size: float = float(block_size_value) * source_tilesize
 	return {

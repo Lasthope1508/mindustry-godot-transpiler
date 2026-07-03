@@ -4956,6 +4956,53 @@ class BuildingComp{
             self.assertIn('"update_tile_gate_source_owner": "PortGame.source_building_update_tile_gate_state"', source_text)
             self.assertIn('"update_tile_gate": update_tile_gate', source_text)
 
+    def test_emit_bridges_building_comp_update_fog_visibility_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void updateFogVisibility(){
+        if(!wasVisible && !inFogTo(player.team())){
+            visibleFlags |= (1L << player.team().id);
+            wasVisible = true;
+            renderer.blocks.updateShadow(self());
+            renderer.minimap.update(tile);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_updateFogVisibility_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var was_visible := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var in_fog_to_player_team := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var visible_flags := int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("var player_team_id := int(_args[3] if _args.size() > 3 else 0)", source_text)
+            self.assertIn("var self_state: Variant = _args[4] if _args.size() > 4 else null", source_text)
+            self.assertIn("var tile_state: Variant = _args[5] if _args.size() > 5 else null", source_text)
+            self.assertIn("var should_update := not was_visible and not in_fog_to_player_team", source_text)
+            self.assertIn("var updated_flags := visible_flags | (1 << player_team_id)", source_text)
+            self.assertIn('"comment": "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */"', source_text)
+            self.assertIn('"gate": "if(!wasVisible && !inFogTo(player.team())){"', source_text)
+            self.assertIn('"visible_flags": updated_flags', source_text)
+            self.assertIn('"update_shadow": self_state', source_text)
+            self.assertIn('"minimap_update": tile_state', source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_update_fog_visibility_state"', source_text)
+            self.assertIn('"update_fog_visibility_source_owner": "PortGame.source_building_update_fog_visibility_state"', source_text)
+            self.assertIn('"update_fog_visibility": update_fog_visibility', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

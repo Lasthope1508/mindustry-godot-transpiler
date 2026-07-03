@@ -1616,7 +1616,20 @@ func java_method_update_217(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay_source_owner": "PortGame.source_building_update_timescale_decay_state", "update_timescale_decay": update_timescale_decay, "update_ambient_sound_gate_source_owner": "PortGame.source_building_update_ambient_sound_gate_state", "update_ambient_sound_gate": update_ambient_sound_gate, "update_consumption_call_source_owner": "PortGame.source_building_update_consumption_call_state", "update_consumption_call": update_consumption_call, "update_tile_gate_source_owner": "PortGame.source_building_update_tile_gate_state", "update_tile_gate": update_tile_gate}
 
 func java_method_updateFogVisibility_218(_args: Array = []) -> Variant:
-	return null
+	var was_visible := bool(_args[0] if _args.size() > 0 else false)
+	var in_fog_to_player_team := bool(_args[1] if _args.size() > 1 else false)
+	var visible_flags := int(_args[2] if _args.size() > 2 else 0)
+	var player_team_id := int(_args[3] if _args.size() > 3 else 0)
+	var self_state: Variant = _args[4] if _args.size() > 4 else null
+	var tile_state: Variant = _args[5] if _args.size() > 5 else null
+	var should_update := not was_visible and not in_fog_to_player_team
+	var update_fog_visibility := {"comment": "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */", "method": "public void updateFogVisibility(){", "gate": "if(!wasVisible && !inFogTo(player.team())){", "was_visible_input": was_visible, "in_fog_to_player_team": in_fog_to_player_team, "visible_flags_input": visible_flags, "player_team_id": player_team_id}
+	if not should_update:
+		update_fog_visibility.merge({"visible_flags": visible_flags, "was_visible": was_visible, "update_shadow": null, "minimap_update": null})
+	else:
+		var updated_flags := visible_flags | (1 << player_team_id)
+		update_fog_visibility.merge({"visible_flags": updated_flags, "was_visible": true, "update_shadow": self_state, "minimap_update": tile_state})
+	return {"source_owner": "PortGame.source_building_update_fog_visibility_state", "update_fog_visibility_source_owner": "PortGame.source_building_update_fog_visibility_state", "update_fog_visibility": update_fog_visibility}
 
 func java_method_hitbox_219(_args: Array = []) -> Variant:
 	return null

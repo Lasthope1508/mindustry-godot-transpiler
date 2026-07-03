@@ -1505,6 +1505,27 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "updateFogVisibility"
+    ):
+        return [
+            "\tvar was_visible := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar in_fog_to_player_team := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar visible_flags := int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar player_team_id := int(_args[3] if _args.size() > 3 else 0)",
+            "\tvar self_state: Variant = _args[4] if _args.size() > 4 else null",
+            "\tvar tile_state: Variant = _args[5] if _args.size() > 5 else null",
+            "\tvar should_update := not was_visible and not in_fog_to_player_team",
+            "\tvar update_fog_visibility := {\"comment\": \"/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */\", \"method\": \"public void updateFogVisibility(){\", \"gate\": \"if(!wasVisible && !inFogTo(player.team())){\", \"was_visible_input\": was_visible, \"in_fog_to_player_team\": in_fog_to_player_team, \"visible_flags_input\": visible_flags, \"player_team_id\": player_team_id}",
+            "\tif not should_update:",
+            "\t\tupdate_fog_visibility.merge({\"visible_flags\": visible_flags, \"was_visible\": was_visible, \"update_shadow\": null, \"minimap_update\": null})",
+            "\telse:",
+            "\t\tvar updated_flags := visible_flags | (1 << player_team_id)",
+            "\t\tupdate_fog_visibility.merge({\"visible_flags\": updated_flags, \"was_visible\": true, \"update_shadow\": self_state, \"minimap_update\": tile_state})",
+            "\treturn {\"source_owner\": \"PortGame.source_building_update_fog_visibility_state\", \"update_fog_visibility_source_owner\": \"PortGame.source_building_update_fog_visibility_state\", \"update_fog_visibility\": update_fog_visibility}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

@@ -23560,6 +23560,51 @@
         "test_port_game_exposes_generated_building_comp_update_tile_gate_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1106": {
+      "exact_exprs": [
+        "/** When a block is newly revealed outside of camera view range, it is updated on the minimap. */",
+        "public void updateFogVisibility(){",
+        "if(!wasVisible && !inFogTo(player.team())){",
+        "visibleFlags |= (1L << player.team().id);",
+        "wasVisible = true;",
+        "renderer.blocks.updateShadow(self());",
+        "renderer.minimap.update(tile);",
+        "wasVisible",
+        "inFogTo(player.team())",
+        "visibleFlags",
+        "player.team().id",
+        "self()",
+        "tile"
+      ],
+      "godot_owner": "PortGame.source_building_update_fog_visibility_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "updateFogVisibility()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_updateFogVisibility_218 and PortGame generated bridge to existing N667 canonical source_building_update_fog_visibility_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_update_fog_visibility_bridge_state",
+      "source_symbols": [
+        "building_update_fog_visibility.comment",
+        "building_update_fog_visibility.method",
+        "building_update_fog_visibility.gate",
+        "building_update_fog_visibility.flags",
+        "building_update_fog_visibility.was_visible_assignment",
+        "building_update_fog_visibility.shadow",
+        "building_update_fog_visibility.minimap",
+        "building_update_fog_visibility.was_visible",
+        "building_update_fog_visibility.in_fog_to_player_team",
+        "building_update_fog_visibility.visible_flags",
+        "building_update_fog_visibility.player_team_id",
+        "building_update_fog_visibility.self_state",
+        "building_update_fog_visibility.tile_state"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_update_fog_visibility_to_source_state",
+        "test_generated_building_comp_bridges_update_fog_visibility_to_source_state",
+        "test_port_game_exposes_generated_building_comp_update_fog_visibility_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

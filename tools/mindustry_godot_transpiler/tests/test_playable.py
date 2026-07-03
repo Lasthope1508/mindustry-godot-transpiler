@@ -5985,6 +5985,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_update_fog_visibility_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_updateFogVisibility_218(_args: Array = []) -> Variant:", source)
+        self.assertIn("var was_visible := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var in_fog_to_player_team := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn("var visible_flags := int(_args[2] if _args.size() > 2 else 0)", source)
+        self.assertIn("var player_team_id := int(_args[3] if _args.size() > 3 else 0)", source)
+        self.assertIn("var self_state: Variant = _args[4] if _args.size() > 4 else null", source)
+        self.assertIn("var tile_state: Variant = _args[5] if _args.size() > 5 else null", source)
+        self.assertIn("var should_update := not was_visible and not in_fog_to_player_team", source)
+        self.assertIn('"gate": "if(!wasVisible && !inFogTo(player.team())){"', source)
+        self.assertIn('"visible_flags": updated_flags', source)
+        self.assertIn('"update_shadow": self_state', source)
+        self.assertIn('"minimap_update": tile_state', source)
+        self.assertIn('"update_fog_visibility_source_owner": "PortGame.source_building_update_fog_visibility_state"', source)
+        self.assertIn('"update_fog_visibility": update_fog_visibility', source)
+
+    def test_port_game_exposes_generated_building_comp_update_fog_visibility_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_update_fog_visibility_bridge_state(was_visible: bool, in_fog_to_player_team: bool, visible_flags: int, player_team_id: int, self_state: Variant, tile_state: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_updateFogVisibility_218([was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state])", source)
+        self.assertIn("var canonical = source_building_update_fog_visibility_state(was_visible, in_fog_to_player_team, visible_flags, player_team_id, self_state, tile_state)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_update_fog_visibility_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_updateFogVisibility_218"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")
