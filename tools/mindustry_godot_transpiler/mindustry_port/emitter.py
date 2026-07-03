@@ -1456,6 +1456,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
+        and method.get("name") == "checkAllowUpdate"
+    ):
+        return [
+            "\tvar current_enabled := bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar allow_update_result := bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar check_allow_update := {\"method\": \"public void checkAllowUpdate(){\", \"guard\": \"if(!allowUpdate()){\", \"disable\": \"enabled = false;\", \"current_enabled\": current_enabled, \"allow_update_result\": allow_update_result}",
+            "\tif not allow_update_result:",
+            "\t\tcheck_allow_update.merge({\"enabled\": false, \"changed\": current_enabled})",
+            "\telse:",
+            "\t\tcheck_allow_update.merge({\"enabled\": current_enabled, \"changed\": false})",
+            "\treturn {\"source_owner\": \"PortGame.source_building_check_allow_update_state\", \"check_allow_update_source_owner\": \"PortGame.source_building_check_allow_update_state\", \"check_allow_update\": check_allow_update}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
+        and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "splashLiquid"
     ):
         return [

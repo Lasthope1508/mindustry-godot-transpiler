@@ -6773,6 +6773,18 @@ func source_building_killed_removal_side_effects_state(tile_not_empty_tile: bool
 		"after_destroyed_called": true,
 	}
 
+func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuildingComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_checkAllowUpdate_216([current_enabled, allow_update_result])
+	var canonical = source_building_check_allow_update_state(current_enabled, allow_update_result)
+	return {
+		"source_owner": "PortGame.source_building_check_allow_update_state",
+		"generated_owner": "BuildingComp.java_method_checkAllowUpdate_216",
+		"result": result,
+		"canonical": canonical,
+	}
+
 func source_building_check_allow_update_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:
 	if not allow_update_result:
 		return {"enabled": false, "changed": current_enabled}

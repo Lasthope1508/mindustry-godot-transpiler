@@ -5853,6 +5853,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"result": result', source)
         self.assertIn('"canonical": canonical', source)
 
+    def test_generated_building_comp_bridges_check_allow_update_to_source_state(self):
+        generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+        source = generated.read_text(encoding="utf-8")
+
+        self.assertIn("func java_method_checkAllowUpdate_216(_args: Array = []) -> Variant:", source)
+        self.assertIn("var current_enabled := bool(_args[0] if _args.size() > 0 else false)", source)
+        self.assertIn("var allow_update_result := bool(_args[1] if _args.size() > 1 else false)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_check_allow_update_state"', source)
+        self.assertIn('"method": "public void checkAllowUpdate(){"', source)
+        self.assertIn('"guard": "if(!allowUpdate()){"', source)
+        self.assertIn('"disable": "enabled = false;"', source)
+        self.assertIn('"check_allow_update_source_owner": "PortGame.source_building_check_allow_update_state"', source)
+        self.assertIn('"check_allow_update": check_allow_update', source)
+
+    def test_port_game_exposes_generated_building_comp_check_allow_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_building_comp_check_allow_update_bridge_state(current_enabled: bool, allow_update_result: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_checkAllowUpdate_216([current_enabled, allow_update_result])", source)
+        self.assertIn("var canonical = source_building_check_allow_update_state(current_enabled, allow_update_result)", source)
+        self.assertIn('"source_owner": "PortGame.source_building_check_allow_update_state"', source)
+        self.assertIn('"generated_owner": "BuildingComp.java_method_checkAllowUpdate_216"', source)
+        self.assertIn('"result": result', source)
+        self.assertIn('"canonical": canonical', source)
+
     def test_generated_building_comp_bridges_hit_size_to_source_state(self):
         generated = ROOT / "godot-mindustry" / "src" / "generated" / "classes" / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
         source = generated.read_text(encoding="utf-8")

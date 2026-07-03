@@ -1577,7 +1577,14 @@ func java_method_killed_215(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_building_killed_initial_side_effects_state", "killed_initial_side_effects_source_owner": "PortGame.source_building_killed_initial_side_effects_state", "killed_initial_side_effects": killed_initial_side_effects, "killed_removal_side_effects_source_owner": "PortGame.source_building_killed_removal_side_effects_state", "killed_removal_side_effects": killed_removal_side_effects}
 
 func java_method_checkAllowUpdate_216(_args: Array = []) -> Variant:
-	return null
+	var current_enabled := bool(_args[0] if _args.size() > 0 else false)
+	var allow_update_result := bool(_args[1] if _args.size() > 1 else false)
+	var check_allow_update := {"method": "public void checkAllowUpdate(){", "guard": "if(!allowUpdate()){", "disable": "enabled = false;", "current_enabled": current_enabled, "allow_update_result": allow_update_result}
+	if not allow_update_result:
+		check_allow_update.merge({"enabled": false, "changed": current_enabled})
+	else:
+		check_allow_update.merge({"enabled": current_enabled, "changed": false})
+	return {"source_owner": "PortGame.source_building_check_allow_update_state", "check_allow_update_source_owner": "PortGame.source_building_check_allow_update_state", "check_allow_update": check_allow_update}
 
 func java_method_update_217(_args: Array = []) -> Variant:
 	return null

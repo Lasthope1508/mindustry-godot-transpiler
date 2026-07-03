@@ -23395,6 +23395,37 @@
         "test_port_game_exposes_generated_building_comp_killed_removal_side_effects_bridge_state",
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
+    },
+    "N1101": {
+      "deferred_exprs": [
+        "Full allowUpdate() predicate remains owned by its own source helper; this bridge consumes allow_update_result explicitly."
+      ],
+      "exact_exprs": [
+        "public void checkAllowUpdate(){",
+        "if(!allowUpdate()){",
+        "enabled = false;",
+        "allowUpdate()"
+      ],
+      "godot_owner": "PortGame.source_building_check_allow_update_state",
+      "java_class": "mindustry.entities.comp.BuildingComp",
+      "java_method": "checkAllowUpdate()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "Wires generated BuildingComp.java_method_checkAllowUpdate_216 and PortGame generated bridge to existing N539 canonical source_building_check_allow_update_state helper.",
+      "runtime_proof": "/root/Main.generated_building_comp_check_allow_update_bridge_state",
+      "source_symbols": [
+        "building_check_allow_update.method",
+        "building_check_allow_update.guard",
+        "building_check_allow_update.disable",
+        "building_check_allow_update.current_enabled",
+        "building_check_allow_update.allow_update_result"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_building_comp_check_allow_update_to_source_state",
+        "test_generated_building_comp_bridges_check_allow_update_to_source_state",
+        "test_port_game_exposes_generated_building_comp_check_allow_update_bridge_state",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
     }
   },
   "version": 1

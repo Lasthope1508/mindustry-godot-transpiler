@@ -26433,6 +26433,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("afterDestroyed();", building_generated_killed_removal["exact_exprs"])
         self.assertIn("tile != emptyTile", building_generated_killed_removal["exact_exprs"])
 
+        building_generated_check_allow_update = source_symbols.source_slice(ledger, "N1101")
+        self.assertEqual(building_generated_check_allow_update["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(building_generated_check_allow_update["java_method"], "checkAllowUpdate()")
+        self.assertEqual(building_generated_check_allow_update["godot_owner"], "PortGame.source_building_check_allow_update_state")
+        self.assertEqual(building_generated_check_allow_update["runtime_proof"], "/root/Main.generated_building_comp_check_allow_update_bridge_state")
+        self.assertIn("public void checkAllowUpdate(){", building_generated_check_allow_update["exact_exprs"])
+        self.assertIn("if(!allowUpdate()){", building_generated_check_allow_update["exact_exprs"])
+        self.assertIn("enabled = false;", building_generated_check_allow_update["exact_exprs"])
+        self.assertIn("allowUpdate()", building_generated_check_allow_update["exact_exprs"])
+
         building_handle_damage = source_symbols.source_slice(ledger, "N583")
         self.assertEqual(building_handle_damage["java_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
         self.assertEqual(building_handle_damage["java_method"], "handleDamage(float amount)")

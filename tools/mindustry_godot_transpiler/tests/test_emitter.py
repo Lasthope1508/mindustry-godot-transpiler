@@ -4773,6 +4773,42 @@ class BuildingComp{
             self.assertIn('"killed_removal_side_effects_source_owner": "PortGame.source_building_killed_removal_side_effects_state"', source_text)
             self.assertIn('"killed_removal_side_effects": killed_removal_side_effects', source_text)
 
+    def test_emit_bridges_building_comp_check_allow_update_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuildingComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuildingComp{
+    public void checkAllowUpdate(){
+        if(!allowUpdate()){
+            enabled = false;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuildingComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_checkAllowUpdate_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_enabled := bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var allow_update_result := bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_building_check_allow_update_state"', source_text)
+            self.assertIn('"method": "public void checkAllowUpdate(){"', source_text)
+            self.assertIn('"guard": "if(!allowUpdate()){"', source_text)
+            self.assertIn('"disable": "enabled = false;"', source_text)
+            self.assertIn('"check_allow_update_source_owner": "PortGame.source_building_check_allow_update_state"', source_text)
+            self.assertIn('"check_allow_update": check_allow_update', source_text)
+
     def test_emit_bridges_building_comp_hit_size_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
