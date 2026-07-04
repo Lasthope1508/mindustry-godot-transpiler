@@ -8296,6 +8296,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_base_turret_check_init_coolant_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_base_turret_check_init_coolant_source"))
+        report = source_parity.verify_base_turret_check_init_coolant_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(report["checked"], {
+            "method": "void checkInitCoolant(){",
+            "coolant_guard": "if(coolant != null){",
+            "update_assign": "coolant.update = false;",
+            "booster_assign": "coolant.booster = true;",
+            "optional_assign": "coolant.optional = true;",
+            "json_comment": "//json parsing does not add to consumes",
+            "consume_guard": "if(!hasConsumer(coolant)) consume(coolant);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_load_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_load_source"))
         report = source_parity.verify_turret_load_source(ROOT / "mindustry-upstream")

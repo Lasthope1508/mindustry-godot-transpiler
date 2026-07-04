@@ -1336,6 +1336,24 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_base_turret_reinitialize_consumers_state\", \"method\": \"public void reinitializeConsumers(){\", \"override_expr\": \"@Override\", \"check_init_coolant_expr\": \"checkInitCoolant();\", \"super_reinitialize_consumers_expr\": \"super.reinitializeConsumers();\", \"check_init_coolant_called\": true, \"super_reinitialize_consumers_called\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
+        and type_entry.get("name") == "BaseTurret"
+        and method.get("name") == "checkInitCoolant"
+    ):
+        return [
+            "\tvar coolant_present: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar has_consumer: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar update_after: Variant = null",
+            "\tvar booster_after: Variant = null",
+            "\tvar optional_after: Variant = null",
+            "\tif coolant_present:",
+            "\t\tupdate_after = false",
+            "\t\tbooster_after = true",
+            "\t\toptional_after = true",
+            "\tvar consume_called: bool = coolant_present and not has_consumer",
+            "\treturn {\"source_owner\": \"PortGame.source_base_turret_check_init_coolant_state\", \"method\": \"void checkInitCoolant(){\", \"coolant_guard_expr\": \"if(coolant != null){\", \"update_assign_expr\": \"coolant.update = false;\", \"booster_assign_expr\": \"coolant.booster = true;\", \"optional_assign_expr\": \"coolant.optional = true;\", \"json_comment\": \"//json parsing does not add to consumes\", \"consume_guard_expr\": \"if(!hasConsumer(coolant)) consume(coolant);\", \"coolant_present\": coolant_present, \"has_consumer\": has_consumer, \"update_after\": update_after, \"booster_after\": booster_after, \"optional_after\": optional_after, \"consume_called\": consume_called}",
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
         and type_entry.get("name") == "Turret"
         and method.get("name") == "rotatedOutput"

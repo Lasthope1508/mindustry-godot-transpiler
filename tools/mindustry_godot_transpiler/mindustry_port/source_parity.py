@@ -426,6 +426,25 @@ def verify_base_turret_reinitialize_consumers_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_base_turret_check_init_coolant_source(upstream_root: Path) -> dict[str, Any]:
+    base_turret_path = Path(upstream_root) / BASE_TURRET_SOURCE
+    source = base_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "void checkInitCoolant(){",
+        "coolant_guard": "if(coolant != null){",
+        "update_assign": "coolant.update = false;",
+        "booster_assign": "coolant.booster = true;",
+        "optional_assign": "coolant.optional = true;",
+        "json_comment": "//json parsing does not add to consumes",
+        "consume_guard": "if(!hasConsumer(coolant)) consume(coolant);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BASE_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_load_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

@@ -4680,6 +4680,1931 @@
         "test_generated_builder_comp_draw_building_beam_slice_is_registered_with_source_backing"
       ]
     },
+    "N1155": {
+      "deferred_exprs": [
+        "Concrete item output routing remains owned by block/item transport slices; this slice preserves Turret.outputsItems return state only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public boolean outputsItems(){",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_turret_outputs_items_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "outputsItems()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.outputsItems preserves override boundary and constant false return for turret item-output behavior.",
+      "runtime_proof": "/root/Main.generated_turret_outputs_items_bridge_state",
+      "source_symbols": [
+        "turret_outputs_items.method",
+        "turret_outputs_items.override",
+        "turret_outputs_items.return_false"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_outputs_items_to_source_state",
+        "test_port_game_exposes_source_turret_outputs_items_state",
+        "test_port_game_exposes_generated_turret_outputs_items_bridge_state",
+        "test_turret_outputs_items_matches_upstream_source",
+        "test_generated_turret_outputs_items_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1156": {
+      "deferred_exprs": [
+        "ReloadTurret.super.init() internals, block overlap spatial queries, and live turret targeting remain owned by existing/later slices; this slice preserves Turret.init default field assignments and tracking range state only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;",
+        "if(elevation < 0) elevation = size / 2f;",
+        "if(recoilTime < 0f) recoilTime = reload;",
+        "if(cooldownTime < 0f) cooldownTime = reload;",
+        "if(newTargetInterval <= 0f) newTargetInterval = targetInterval;",
+        "if(!targetGround){",
+        "disableOverlapCheck = true;",
+        "super.init();",
+        "trackingRange = Math.max(range, trackingRange);"
+      ],
+      "godot_owner": "PortGame.source_turret_init_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.init preserves default shootY/elevation/recoil/cooldown/target interval setup, overlap check gate, superclass init dispatch, and trackingRange max assignment.",
+      "runtime_proof": "/root/Main.generated_turret_init_bridge_state",
+      "source_symbols": [
+        "turret_init.method",
+        "turret_init.override",
+        "turret_init.shoot_y_default",
+        "turret_init.elevation_default",
+        "turret_init.recoil_time_default",
+        "turret_init.cooldown_time_default",
+        "turret_init.new_target_interval_default",
+        "turret_init.target_ground_guard",
+        "turret_init.disable_overlap_check",
+        "turret_init.super_init",
+        "turret_init.tracking_range",
+        "turret_init.shoot_y",
+        "turret_init.shoot_y_is_negative_infinity",
+        "turret_init.size",
+        "turret_init.tilesize",
+        "turret_init.elevation",
+        "turret_init.recoil_time",
+        "turret_init.reload",
+        "turret_init.cooldown_time",
+        "turret_init.new_target_interval",
+        "turret_init.target_interval",
+        "turret_init.target_ground",
+        "turret_init.disable_overlap_check_input",
+        "turret_init.range",
+        "turret_init.tracking_range_input"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1157": {
+      "deferred_exprs": [
+        "ReloadTurret.super.load() internals and DrawBlock drawer texture loading internals remain owned by their source classes; this slice preserves Turret.load call order markers only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void load(){",
+        "super.load();",
+        "drawer.load(this);"
+      ],
+      "godot_owner": "PortGame.source_turret_load_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "load()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.load preserves superclass load dispatch followed by drawer.load(this).",
+      "runtime_proof": "/root/Main.generated_turret_load_bridge_state",
+      "source_symbols": [
+        "turret_load.method",
+        "turret_load.override",
+        "turret_load.super_load",
+        "turret_load.drawer_load"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_load_to_source_state",
+        "test_port_game_exposes_source_turret_load_state",
+        "test_port_game_exposes_generated_turret_load_bridge_state",
+        "test_turret_load_matches_upstream_source",
+        "test_generated_turret_load_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1158": {
+      "deferred_exprs": [
+        "DrawBlock.drawPlan rendering internals and Eachable iteration remain owned by drawer/source rendering slices; this slice preserves Turret.drawPlanRegion dispatch only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+        "drawer.drawPlan(this, plan, list);"
+      ],
+      "godot_owner": "PortGame.source_turret_draw_plan_region_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.drawPlanRegion preserves drawer.drawPlan(this, plan, list) dispatch with explicit plan/list parameters.",
+      "runtime_proof": "/root/Main.generated_turret_draw_plan_region_bridge_state",
+      "source_symbols": [
+        "turret_draw_plan_region.method",
+        "turret_draw_plan_region.override",
+        "turret_draw_plan_region.plan",
+        "turret_draw_plan_region.list",
+        "turret_draw_plan_region.drawer_draw_plan"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_turret_draw_plan_region_state",
+        "test_port_game_exposes_generated_turret_draw_plan_region_bridge_state",
+        "test_turret_draw_plan_region_matches_upstream_source",
+        "test_generated_turret_draw_plan_region_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1159": {
+      "deferred_exprs": [
+        "DrawBlock.finalIcons internals and concrete TextureRegion array contents remain owned by drawer/rendering slices; this slice preserves Turret.icons dispatch only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public TextureRegion[] icons(){",
+        "return drawer.finalIcons(this);"
+      ],
+      "godot_owner": "PortGame.source_turret_icons_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.icons preserves drawer.finalIcons(this) dispatch and returned icon marker.",
+      "runtime_proof": "/root/Main.generated_turret_icons_bridge_state",
+      "source_symbols": [
+        "turret_icons.method",
+        "turret_icons.override",
+        "turret_icons.drawer_final_icons",
+        "turret_icons.icons"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_icons_to_source_state",
+        "test_port_game_exposes_source_turret_icons_state",
+        "test_port_game_exposes_generated_turret_icons_bridge_state",
+        "test_turret_icons_matches_upstream_source",
+        "test_generated_turret_icons_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1160": {
+      "deferred_exprs": [
+        "DrawBlock.getRegionsToOutline internals, Seq mutation semantics, and concrete TextureRegion contents remain owned by drawer/rendering slices; this slice preserves Turret.getRegionsToOutline dispatch only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void getRegionsToOutline(Seq<TextureRegion> out){",
+        "drawer.getRegionsToOutline(this, out);"
+      ],
+      "godot_owner": "PortGame.source_turret_get_regions_to_outline_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.getRegionsToOutline preserves drawer.getRegionsToOutline(this, out) dispatch and out input marker.",
+      "runtime_proof": "/root/Main.generated_turret_get_regions_to_outline_bridge_state",
+      "source_symbols": [
+        "turret_get_regions_to_outline.method",
+        "turret_get_regions_to_outline.override",
+        "turret_get_regions_to_outline.out",
+        "turret_get_regions_to_outline.drawer_get_regions_to_outline"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_get_regions_to_outline_to_source_state",
+        "test_port_game_exposes_source_turret_get_regions_to_outline_state",
+        "test_port_game_exposes_generated_turret_get_regions_to_outline_bridge_state",
+        "test_turret_get_regions_to_outline_matches_upstream_source",
+        "test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1161": {
+      "deferred_exprs": [
+        "BulletType drag behavior is intentionally not modeled in this slice because Turret.limitRange source comment says //doesn't handle drag."
+      ],
+      "exact_exprs": [
+        "public void limitRange(BulletType bullet, float margin){",
+        "float realRange = bullet.rangeChange + range;",
+        "//doesn't handle drag",
+        "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;"
+      ],
+      "godot_owner": "PortGame.source_turret_limit_range_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "limitRange(BulletType bullet, float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.limitRange mutates bullet.lifetime from bullet.rangeChange, range, margin, bullet.extraRangeMargin, constant 10f, and bullet.speed.",
+      "runtime_proof": "/root/Main.generated_turret_limit_range_bridge_state",
+      "source_symbols": [
+        "turret_limit_range.method",
+        "turret_limit_range.bullet",
+        "turret_limit_range.margin",
+        "turret_limit_range.range",
+        "turret_limit_range.bullet_range_change",
+        "turret_limit_range.real_range",
+        "turret_limit_range.drag_comment",
+        "turret_limit_range.bullet_extra_range_margin",
+        "turret_limit_range.bullet_speed",
+        "turret_limit_range.lifetime",
+        "turret_limit_range.updated_bullet"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_turret_limit_range_state",
+        "test_port_game_exposes_generated_turret_limit_range_bridge_state",
+        "test_turret_limit_range_matches_upstream_source",
+        "test_generated_turret_limit_range_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1162": {
+      "deferred_exprs": [
+        "Actual Drawf.dashCircle rendering is recorded as source-backed draw intent; renderer internals are deferred."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void drawPlace(int x, int y, int rotation, boolean valid){",
+        "super.drawPlace(x, y, rotation, valid);",
+        "if(drawMinRange){",
+        "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);",
+        "public boolean drawMinRange;",
+        "public float minRange = 0f;",
+        "placing = accent,"
+      ],
+      "godot_owner": "PortGame.source_turret_draw_place_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.drawPlace delegates to super.drawPlace and conditionally records minRange dash circle draw intent when drawMinRange is true.",
+      "runtime_proof": "/root/Main.generated_turret_draw_place_bridge_state",
+      "source_symbols": [
+        "turret_draw_place.method",
+        "turret_draw_place.override",
+        "turret_draw_place.x",
+        "turret_draw_place.y",
+        "turret_draw_place.rotation",
+        "turret_draw_place.valid",
+        "turret_draw_place.draw_min_range",
+        "turret_draw_place.source_tilesize",
+        "turret_draw_place.block_offset",
+        "turret_draw_place.min_range",
+        "turret_draw_place.super_draw_place",
+        "turret_draw_place.draw_min_range_gate",
+        "turret_draw_place.dash_circle",
+        "turret_draw_place.pal_placing"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_draw_place_to_source_state",
+        "test_port_game_exposes_source_turret_draw_place_state",
+        "test_port_game_exposes_generated_turret_draw_place_bridge_state",
+        "test_turret_draw_place_matches_upstream_source",
+        "test_generated_turret_draw_place_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1163": {
+      "deferred_exprs": [
+        "Concrete rotated output routing remains owned by downstream block/item transport slices; this slice preserves Turret.rotatedOutput constant false return only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public boolean rotatedOutput(int x, int y){",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_turret_rotated_output_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "rotatedOutput(int x, int y)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.rotatedOutput preserves override boundary, tile coordinate inputs, and constant false return.",
+      "runtime_proof": "/root/Main.generated_turret_rotated_output_bridge_state",
+      "source_symbols": [
+        "turret_rotated_output.method",
+        "turret_rotated_output.override",
+        "turret_rotated_output.x",
+        "turret_rotated_output.y",
+        "turret_rotated_output.return_false"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_rotated_output_to_source_state",
+        "test_port_game_exposes_source_turret_rotated_output_state",
+        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
+        "test_turret_rotated_output_matches_upstream_source",
+        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1164": {
+      "deferred_exprs": [
+        "Superclass placeEnded internals remain deferred; this slice records the exact super call marker and Turret rotation assignment branch only.",
+        "Concrete Tile, Building, and TurretBuild object internals remain deferred; this slice accepts explicit source-backed branch inputs."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){",
+        "super.placeEnded(tile, builder, rotation, config);",
+        "if(rotate && tile.build instanceof TurretBuild turret){",
+        "turret.rotation = tile.build.rotdeg();"
+      ],
+      "godot_owner": "PortGame.source_turret_place_ended_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.placeEnded delegates to super and assigns TurretBuild rotation from tile.build.rotdeg() when rotate is true and tile.build is TurretBuild.",
+      "runtime_proof": "/root/Main.generated_turret_place_ended_bridge_state",
+      "source_symbols": [
+        "turret_place_ended.method",
+        "turret_place_ended.override",
+        "turret_place_ended.tile",
+        "turret_place_ended.builder",
+        "turret_place_ended.rotation",
+        "turret_place_ended.config",
+        "turret_place_ended.rotate",
+        "turret_place_ended.tile_build_turret_build",
+        "turret_place_ended.turret_rotation",
+        "turret_place_ended.tile_build_rotdeg",
+        "turret_place_ended.super_place_ended",
+        "turret_place_ended.place_ended_gate",
+        "turret_place_ended.rotation_assign"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_place_ended_to_source_state",
+        "test_port_game_exposes_source_turret_place_ended_state",
+        "test_port_game_exposes_generated_turret_place_ended_bridge_state",
+        "test_turret_place_ended_matches_upstream_source",
+        "test_generated_turret_place_ended_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1165": {
+      "deferred_exprs": [
+        "Superclass setStats internals remain deferred; this slice records the exact super call marker only.",
+        "StatValues.boosters internals, stats.replace internals, and coolant::consumes behavior remain deferred; this slice records the exact call and explicit inputs."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "if(coolant != null){",
+        "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));",
+        "public float reload = 10f;"
+      ],
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ReloadTurret",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "rule": "ReloadTurret.setStats delegates to super and replaces Stat.booster with StatValues.boosters only when coolant is not null.",
+      "runtime_proof": "/root/Main.generated_reload_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "reload_turret_set_stats.method",
+        "reload_turret_set_stats.override",
+        "reload_turret_set_stats.reload",
+        "reload_turret_set_stats.coolant",
+        "reload_turret_set_stats.coolant_amount",
+        "reload_turret_set_stats.coolant_multiplier",
+        "reload_turret_set_stats.super_set_stats",
+        "reload_turret_set_stats.coolant_gate",
+        "reload_turret_set_stats.booster_replace"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1166": {
+      "deferred_exprs": [
+        "Superclass setStats internals remain deferred; this slice records the exact super call marker only.",
+        "ObjectMap.of, StatValues.ammo, and stats.add internals remain deferred; this slice records exact call markers and explicit shootType input."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+        "public BulletType shootType;"
+      ],
+      "godot_owner": "PortGame.source_power_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "rule": "PowerTurret.setStats delegates to super and adds Stat.ammo with StatValues.ammo(ObjectMap.of(this, shootType)).",
+      "runtime_proof": "/root/Main.generated_power_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "power_turret_set_stats.method",
+        "power_turret_set_stats.override",
+        "power_turret_set_stats.shoot_type",
+        "power_turret_set_stats.super_set_stats",
+        "power_turret_set_stats.object_map",
+        "power_turret_set_stats.ammo_values",
+        "power_turret_set_stats.stats_add"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1167": {
+      "deferred_exprs": [
+        "Inherited Turret.limitRange(BulletType,float) internals remain owned by the Turret.limitRange source slice; this slice records only the PowerTurret dispatch.",
+        "BulletType shootType internals remain deferred and are supplied as an explicit runtime input."
+      ],
+      "exact_exprs": [
+        "public void limitRange(float margin){",
+        "limitRange(shootType, margin);",
+        "public BulletType shootType;"
+      ],
+      "godot_owner": "PortGame.source_power_turret_limit_range_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret",
+      "java_method": "limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "rule": "PowerTurret.limitRange dispatches to inherited limitRange with shootType and margin.",
+      "runtime_proof": "/root/Main.generated_power_turret_limit_range_bridge_state",
+      "source_symbols": [
+        "power_turret_limit_range.method",
+        "power_turret_limit_range.shoot_type",
+        "power_turret_limit_range.margin",
+        "power_turret_limit_range.dispatch"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_power_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_power_turret_limit_range_state",
+        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
+        "test_power_turret_limit_range_matches_upstream_source",
+        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1168": {
+      "deferred_exprs": [
+        "Concrete power graph/module status production remains owned by power runtime integration slices."
+      ],
+      "exact_exprs": [
+        "public class PowerTurretBuild extends TurretBuild{",
+        "@Override",
+        "public float getAmmoFraction(){",
+        "return power == null ? 0f : power.status;"
+      ],
+      "godot_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
+      "java_method": "PowerTurretBuild.getAmmoFraction()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "rule": "PowerTurretBuild.getAmmoFraction returns zero without a power module, otherwise returns power.status.",
+      "runtime_proof": "/root/Main.generated_power_turret_build_get_ammo_fraction_bridge_state",
+      "source_symbols": [
+        "power_turret_build_get_ammo_fraction.method",
+        "power_turret_build_get_ammo_fraction.power_null",
+        "power_turret_build_get_ammo_fraction.power_status",
+        "power_turret_build_get_ammo_fraction.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
+        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1169": {
+      "deferred_exprs": [
+        "Inherited TurretBuild.sense internals remain owned by their own slices; default branch value is explicit input."
+      ],
+      "exact_exprs": [
+        "public class PowerTurretBuild extends TurretBuild{",
+        "@Override",
+        "public double sense(LAccess sensor){",
+        "return switch(sensor){",
+        "case ammo -> power == null ? 0f : power.status;",
+        "case ammoCapacity -> 1;",
+        "default -> super.sense(sensor);"
+      ],
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "rule": "PowerTurretBuild.sense maps ammo to power status, ammoCapacity to one, and all other sensors to super.sense(sensor).",
+      "runtime_proof": "/root/Main.generated_power_turret_build_sense_bridge_state",
+      "source_symbols": [
+        "power_turret_build_sense.method",
+        "power_turret_build_sense.sensor",
+        "power_turret_build_sense.power_null",
+        "power_turret_build_sense.power_status",
+        "power_turret_build_sense.super_sense",
+        "power_turret_build_sense.ammo_case",
+        "power_turret_build_sense.ammo_capacity_case",
+        "power_turret_build_sense.default_case"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1170": {
+      "deferred_exprs": [
+        "Concrete BulletType internals remain represented by explicit shoot_type input."
+      ],
+      "exact_exprs": [
+        "public class PowerTurretBuild extends TurretBuild{",
+        "@Override",
+        "public BulletType useAmmo(){",
+        "//nothing used directly",
+        "return shootType;",
+        "public BulletType shootType;"
+      ],
+      "godot_owner": "PortGame.source_power_turret_build_use_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
+      "java_method": "PowerTurretBuild.useAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "rule": "PowerTurretBuild.useAmmo returns shootType unchanged; no ammo is consumed directly.",
+      "runtime_proof": "/root/Main.generated_power_turret_build_use_ammo_bridge_state",
+      "source_symbols": [
+        "power_turret_build_use_ammo.method",
+        "power_turret_build_use_ammo.comment",
+        "power_turret_build_use_ammo.shoot_type",
+        "power_turret_build_use_ammo.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_power_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_use_ammo_bridge_state",
+        "test_power_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1171": {
+      "deferred_exprs": [
+        "Power availability and shooting permission remain represented by neighboring power/turret slices."
+      ],
+      "exact_exprs": [
+        "public class PowerTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean hasAmmo(){",
+        "//you can always rotate, but never shoot if there's no power",
+        "return true;"
+      ],
+      "godot_owner": "PortGame.source_power_turret_build_has_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
+      "java_method": "PowerTurretBuild.hasAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "rule": "PowerTurretBuild.hasAmmo always reports ammo available so rotation is allowed; power gating remains outside this slice.",
+      "runtime_proof": "/root/Main.generated_power_turret_build_has_ammo_bridge_state",
+      "source_symbols": [
+        "power_turret_build_has_ammo.method",
+        "power_turret_build_has_ammo.comment",
+        "power_turret_build_has_ammo.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_has_ammo_bridge_state",
+        "test_power_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1172": {
+      "deferred_exprs": [
+        "Concrete BulletType internals remain represented by explicit shoot_type input."
+      ],
+      "exact_exprs": [
+        "public class PowerTurretBuild extends TurretBuild{",
+        "@Override",
+        "public BulletType peekAmmo(){",
+        "return shootType;",
+        "public BulletType shootType;"
+      ],
+      "godot_owner": "PortGame.source_power_turret_build_peek_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
+      "java_method": "PowerTurretBuild.peekAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "rule": "PowerTurretBuild.peekAmmo returns shootType unchanged without consuming ammo.",
+      "runtime_proof": "/root/Main.generated_power_turret_build_peek_ammo_bridge_state",
+      "source_symbols": [
+        "power_turret_build_peek_ammo.method",
+        "power_turret_build_peek_ammo.shoot_type",
+        "power_turret_build_peek_ammo.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_power_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_peek_ammo_bridge_state",
+        "test_power_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1173": {
+      "deferred_exprs": [
+        "Per-ammo iteration and BulletType lifetime math remain owned by ItemTurret.limitRange(float) and Turret.limitRange(BulletType,float)."
+      ],
+      "exact_exprs": [
+        "/** Limits bullet range to this turret's range value. */",
+        "public void limitRange(){",
+        "limitRange(9f);"
+      ],
+      "godot_owner": "PortGame.source_item_turret_limit_range_default_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
+      "java_method": "ItemTurret.limitRange()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurret.limitRange() delegates to limitRange(float margin) with exact margin 9f.",
+      "runtime_proof": "/root/Main.generated_item_turret_limit_range_default_bridge_state",
+      "source_symbols": [
+        "item_turret_limit_range_default.method",
+        "item_turret_limit_range_default.comment",
+        "item_turret_limit_range_default.dispatch_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_default_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_default_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state",
+        "test_item_turret_limit_range_default_matches_upstream_source",
+        "test_generated_item_turret_limit_range_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1174": {
+      "deferred_exprs": [
+        "BulletType lifetime math remains owned by Turret.limitRange(BulletType,float)."
+      ],
+      "exact_exprs": [
+        "/** Limits bullet range to this turret's range value. */",
+        "public void limitRange(float margin){",
+        "for(var entry : ammoTypes.entries()){",
+        "limitRange(entry.value, margin);"
+      ],
+      "godot_owner": "PortGame.source_item_turret_limit_range_entries_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
+      "java_method": "ItemTurret.limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurret.limitRange(float margin) loops ammoTypes.entries() and dispatches entry.value with the explicit margin parameter.",
+      "runtime_proof": "/root/Main.generated_item_turret_limit_range_entries_bridge_state",
+      "source_symbols": [
+        "item_turret_limit_range_entries.method",
+        "item_turret_limit_range_entries.comment",
+        "item_turret_limit_range_entries.loop_expr",
+        "item_turret_limit_range_entries.dispatch_expr",
+        "item_turret_limit_range_entries.margin"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
+        "test_item_turret_limit_range_entries_matches_upstream_source",
+        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1175": {
+      "deferred_exprs": [
+        "StatValues.ammo internals and Stats storage internals are not expanded in this slice."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.remove(Stat.itemCapacity);",
+        "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
+        "stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);"
+      ],
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurret.setStats() removes itemCapacity, adds ammo stats from ammoTypes/name, and computes ammoCapacity as maxAmmo / Math.max(ammoPerShot, 1).",
+      "runtime_proof": "/root/Main.generated_item_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "item_turret_set_stats.method",
+        "item_turret_set_stats.override",
+        "item_turret_set_stats.super_set_stats",
+        "item_turret_set_stats.ammo_types",
+        "item_turret_set_stats.name",
+        "item_turret_set_stats.max_ammo",
+        "item_turret_set_stats.ammo_per_shot",
+        "item_turret_set_stats.stats_remove",
+        "item_turret_set_stats.stats_ammo_add",
+        "item_turret_set_stats.stats_ammo_capacity_add"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1176": {
+      "deferred_exprs": [
+        "Bar rendering and addBar UI storage internals are not expanded in this slice."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void setBars(){",
+        "super.setBars();",
+        "addBar(\"ammo\", (ItemTurretBuild entity) ->",
+        "\"stat.ammo\",",
+        "Pal.ammo,",
+        "() -> (float)entity.totalAmmo / maxAmmo"
+      ],
+      "godot_owner": "PortGame.source_item_turret_set_bars_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
+      "java_method": "ItemTurret.setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurret.setBars() adds the ammo bar and exposes the source fraction entity.totalAmmo / maxAmmo.",
+      "runtime_proof": "/root/Main.generated_item_turret_set_bars_bridge_state",
+      "source_symbols": [
+        "item_turret_set_bars.method",
+        "item_turret_set_bars.override",
+        "item_turret_set_bars.super_set_bars",
+        "item_turret_set_bars.total_ammo",
+        "item_turret_set_bars.max_ammo",
+        "item_turret_set_bars.add_bar",
+        "item_turret_set_bars.bar_fraction"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_bars_state",
+        "test_port_game_exposes_generated_item_turret_set_bars_bridge_state",
+        "test_item_turret_set_bars_matches_upstream_source",
+        "test_generated_item_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1177": {
+      "deferred_exprs": [
+        "ConsumeItemFilter build/efficiency/display internals are separate slices; this slice records the consume boundary only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)){",
+        "if(targetGround){",
+        "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+        "super.init();"
+      ],
+      "godot_owner": "PortGame.source_item_turret_init_ground_overlap_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
+      "java_method": "ItemTurret.init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurret.init() updates placeOverlapRange for ground-targeting item turrets using ammoTypes rangeChange values.",
+      "runtime_proof": "/root/Main.generated_item_turret_init_ground_overlap_bridge_state",
+      "source_symbols": [
+        "item_turret_init_ground_overlap.method",
+        "item_turret_init_ground_overlap.override",
+        "item_turret_init_ground_overlap.consume_filter",
+        "item_turret_init_ground_overlap.target_ground",
+        "item_turret_init_ground_overlap.place_overlap_range",
+        "item_turret_init_ground_overlap.range",
+        "item_turret_init_ground_overlap.place_overlap_margin",
+        "item_turret_init_ground_overlap.ammo_entries",
+        "item_turret_init_ground_overlap.range_change",
+        "item_turret_init_ground_overlap.target_ground_guard",
+        "item_turret_init_ground_overlap.overlap_update",
+        "item_turret_init_ground_overlap.overlap_formula",
+        "item_turret_init_ground_overlap.super_init"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_init_ground_overlap_to_source_state",
+        "test_port_game_exposes_source_item_turret_init_ground_overlap_state",
+        "test_port_game_exposes_generated_item_turret_init_ground_overlap_bridge_state",
+        "test_item_turret_init_ground_overlap_matches_upstream_source",
+        "test_generated_item_turret_init_ground_overlap_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1178": {
+      "deferred_exprs": [
+        "handleItem internals are owned by ItemTurretBuild.handleItem slices."
+      ],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public void onProximityAdded(){",
+        "super.onProximityAdded();",
+        "//add first ammo item to cheaty blocks so they can shoot properly",
+        "if(!hasAmmo() && cheating() && ammoTypes.size > 0){",
+        "handleItem(this, ammoTypes.keys().next());"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_on_proximity_added_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.onProximityAdded()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.onProximityAdded() adds the first ammo item to cheating builds when they currently have no ammo and ammoTypes is non-empty.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_on_proximity_added_bridge_state",
+      "source_symbols": [
+        "item_turret_build_on_proximity_added.inner_class",
+        "item_turret_build_on_proximity_added.method",
+        "item_turret_build_on_proximity_added.override",
+        "item_turret_build_on_proximity_added.super_on_proximity_added",
+        "item_turret_build_on_proximity_added.comment",
+        "item_turret_build_on_proximity_added.has_ammo",
+        "item_turret_build_on_proximity_added.cheating",
+        "item_turret_build_on_proximity_added.ammo_types_size",
+        "item_turret_build_on_proximity_added.first_ammo_item",
+        "item_turret_build_on_proximity_added.guard",
+        "item_turret_build_on_proximity_added.handle_item"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_on_proximity_added_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_on_proximity_added_state",
+        "test_port_game_exposes_generated_item_turret_build_on_proximity_added_bridge_state",
+        "test_item_turret_build_on_proximity_added_matches_upstream_source",
+        "test_generated_item_turret_build_on_proximity_added_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1179": {
+      "deferred_exprs": [
+        "ItemEntry, ammo.peek(), and super.senseObject(sensor) internals remain explicit inputs; this slice only preserves the switch branch decision."
+      ],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public Object senseObject(LAccess sensor){",
+        "return switch(sensor){",
+        "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;",
+        "default -> super.senseObject(sensor);"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_sense_object_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.senseObject(LAccess sensor) returns current ammo item only for currentAmmoType and otherwise delegates to explicit super.senseObject(sensor) value.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_sense_object_bridge_state",
+      "source_symbols": [
+        "item_turret_build_sense_object.inner_class",
+        "item_turret_build_sense_object.method",
+        "item_turret_build_sense_object.override",
+        "item_turret_build_sense_object.switch_return",
+        "item_turret_build_sense_object.current_ammo_type_case",
+        "item_turret_build_sense_object.default_case",
+        "item_turret_build_sense_object.sensor",
+        "item_turret_build_sense_object.ammo_size",
+        "item_turret_build_sense_object.peek_item",
+        "item_turret_build_sense_object.super_sense_object_value",
+        "item_turret_build_sense_object.sense_object_value"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_item_turret_build_sense_object_bridge_state",
+        "test_item_turret_build_sense_object_matches_upstream_source",
+        "test_generated_item_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1180": {
+      "deferred_exprs": [
+        "ItemEntry and ammo.peek() internals remain explicit inputs; this slice only preserves the ternary return decision."
+      ],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public UnlockableContent getAmmoContent(){",
+        "return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_get_ammo_content_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.getAmmoContent()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.getAmmoContent() returns the current ammo item when ammo.size > 0 and null otherwise.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_get_ammo_content_bridge_state",
+      "source_symbols": [
+        "item_turret_build_get_ammo_content.inner_class",
+        "item_turret_build_get_ammo_content.method",
+        "item_turret_build_get_ammo_content.override",
+        "item_turret_build_get_ammo_content.return_expr",
+        "item_turret_build_get_ammo_content.ammo_size",
+        "item_turret_build_get_ammo_content.peek_item",
+        "item_turret_build_get_ammo_content.ammo_content"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_item_turret_build_get_ammo_content_bridge_state",
+        "test_item_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_item_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1181": {
+      "deferred_exprs": [
+        "No maxAmmo zero guard is added because the upstream Java return expression has no guard."
+      ],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public float getAmmoFraction(){",
+        "return (float)totalAmmo / maxAmmo;"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.getAmmoFraction()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.getAmmoFraction() returns (float)totalAmmo / maxAmmo exactly as upstream Java.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_get_ammo_fraction_bridge_state",
+      "source_symbols": [
+        "item_turret_build_get_ammo_fraction.inner_class",
+        "item_turret_build_get_ammo_fraction.method",
+        "item_turret_build_get_ammo_fraction.override",
+        "item_turret_build_get_ammo_fraction.return_expr",
+        "item_turret_build_get_ammo_fraction.total_ammo",
+        "item_turret_build_get_ammo_fraction.max_ammo",
+        "item_turret_build_get_ammo_fraction.ammo_fraction"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_item_turret_build_get_ammo_fraction_bridge_state",
+        "test_item_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_item_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1182": {
+      "deferred_exprs": [
+        "Teamc source is not read by the upstream method body.",
+        "BulletType internals beyond ammoMultiplier remain owned by later slices."
+      ],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public int acceptStack(Item item, int amount, Teamc source){",
+        "BulletType type = ammoTypes.get(item);",
+        "if(type == null) return 0;",
+        "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_accept_stack_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.acceptStack(Item,int,Teamc)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.acceptStack() returns 0 for null ammo type, otherwise clamps accepted stack by Java ammo capacity expression.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_accept_stack_bridge_state",
+      "source_symbols": [
+        "item_turret_build_accept_stack.inner_class",
+        "item_turret_build_accept_stack.method",
+        "item_turret_build_accept_stack.override",
+        "item_turret_build_accept_stack.type_lookup",
+        "item_turret_build_accept_stack.null_guard",
+        "item_turret_build_accept_stack.return_expr",
+        "item_turret_build_accept_stack.item",
+        "item_turret_build_accept_stack.amount",
+        "item_turret_build_accept_stack.max_ammo",
+        "item_turret_build_accept_stack.total_ammo",
+        "item_turret_build_accept_stack.ammo_multiplier",
+        "item_turret_build_accept_stack.ammo_type_null",
+        "item_turret_build_accept_stack.accept_stack"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_stack_bridge_state",
+        "test_item_turret_build_accept_stack_matches_upstream_source",
+        "test_generated_item_turret_build_accept_stack_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1183": {
+      "deferred_exprs": [
+        "Teamc source is not read by the upstream method body.",
+        "handleItem(Building,Item) mutation semantics remain owned by the handleItem slice."
+      ],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public void handleStack(Item item, int amount, Teamc source){",
+        "for(int i = 0; i < amount; i++){",
+        "handleItem(null, item);"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_handle_stack_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.handleStack() delegates handleItem(null,item) once per Java loop iteration.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_handle_stack_bridge_state",
+      "source_symbols": [
+        "item_turret_build_handle_stack.inner_class",
+        "item_turret_build_handle_stack.method",
+        "item_turret_build_handle_stack.override",
+        "item_turret_build_handle_stack.loop_expr",
+        "item_turret_build_handle_stack.handle_item_expr",
+        "item_turret_build_handle_stack.item",
+        "item_turret_build_handle_stack.amount",
+        "item_turret_build_handle_stack.handle_item_calls",
+        "item_turret_build_handle_stack.handle_item_call_count"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_handle_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_handle_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_handle_stack_bridge_state",
+        "test_item_turret_build_handle_stack_matches_upstream_source",
+        "test_generated_item_turret_build_handle_stack_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1184": {
+      "deferred_exprs": [
+        "No item removal state exists in upstream removeStack; the method always returns 0."
+      ],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "//currently can't remove items from turrets.",
+        "@Override",
+        "public int removeStack(Item item, int amount){",
+        "return 0;"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.removeStack() currently cannot remove items from turrets and returns zero exactly as upstream Java.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_remove_stack_bridge_state",
+      "source_symbols": [
+        "item_turret_build_remove_stack.inner_class",
+        "item_turret_build_remove_stack.comment",
+        "item_turret_build_remove_stack.method",
+        "item_turret_build_remove_stack.override",
+        "item_turret_build_remove_stack.return_expr",
+        "item_turret_build_remove_stack.item",
+        "item_turret_build_remove_stack.amount",
+        "item_turret_build_remove_stack.removed_stack"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1185": {
+      "deferred_exprs": [
+        "Events.fire side effects are recorded as branch booleans; global event bus dispatch remains outside this bridge slice.",
+        "Building source parameter is not read by upstream handleItem and is not modeled in this bridge slice."
+      ],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public void handleItem(Building source, Item item){",
+        "//TODO instead of all this \"entry\" crap, turrets could just accept only one type of ammo at a time - simpler for both users and the code",
+        "if(item == Items.pyratite){",
+        "Events.fire(Trigger.flameAmmo);",
+        "if(totalAmmo == 0){",
+        "Events.fire(Trigger.resupplyTurret);",
+        "BulletType type = ammoTypes.get(item);",
+        "if(type == null) return;",
+        "totalAmmo += type.ammoMultiplier;",
+        "for(int i = 0; i < ammo.size; i++){",
+        "ItemEntry entry = (ItemEntry)ammo.get(i);",
+        "if(entry.item == item){",
+        "entry.amount += type.ammoMultiplier;",
+        "ammo.swap(i, ammo.size - 1);",
+        "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_handle_item_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.handleItem() updates ammo stacks and event branch state exactly from upstream Java with explicit ammo type inputs.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_handle_item_bridge_state",
+      "source_symbols": [
+        "item_turret_build_handle_item.inner_class",
+        "item_turret_build_handle_item.override",
+        "item_turret_build_handle_item.method",
+        "item_turret_build_handle_item.todo_comment",
+        "item_turret_build_handle_item.pyratite_guard",
+        "item_turret_build_handle_item.flame_event",
+        "item_turret_build_handle_item.resupply_guard",
+        "item_turret_build_handle_item.resupply_event",
+        "item_turret_build_handle_item.type_lookup",
+        "item_turret_build_handle_item.type_null_guard",
+        "item_turret_build_handle_item.total_ammo_update",
+        "item_turret_build_handle_item.loop_expr",
+        "item_turret_build_handle_item.entry_cast",
+        "item_turret_build_handle_item.found_guard",
+        "item_turret_build_handle_item.entry_update",
+        "item_turret_build_handle_item.swap_expr",
+        "item_turret_build_handle_item.add_expr",
+        "item_turret_build_handle_item.item",
+        "item_turret_build_handle_item.item_is_pyratite",
+        "item_turret_build_handle_item.total_ammo",
+        "item_turret_build_handle_item.ammo_multiplier",
+        "item_turret_build_handle_item.ammo_type_null",
+        "item_turret_build_handle_item.ammo_entries",
+        "item_turret_build_handle_item.flame_ammo_event_fired",
+        "item_turret_build_handle_item.resupply_turret_event_fired",
+        "item_turret_build_handle_item.type_null_returned",
+        "item_turret_build_handle_item.total_ammo_after",
+        "item_turret_build_handle_item.ammo_entries_after",
+        "item_turret_build_handle_item.entry_found",
+        "item_turret_build_handle_item.entry_added",
+        "item_turret_build_handle_item.swapped"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_handle_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_handle_item_state",
+        "test_port_game_exposes_generated_item_turret_build_handle_item_bridge_state",
+        "test_item_turret_build_handle_item_matches_upstream_source",
+        "test_generated_item_turret_build_handle_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1186": {
+      "deferred_exprs": [
+        "Building source parameter is not read by upstream acceptItem and is not modeled in this bridge slice."
+      ],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean acceptItem(Building source, Item item){",
+        "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.acceptItem() accepts only known ammo items whose ammoMultiplier keeps totalAmmo within maxAmmo.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_accept_item_bridge_state",
+      "source_symbols": [
+        "item_turret_build_accept_item.inner_class",
+        "item_turret_build_accept_item.override",
+        "item_turret_build_accept_item.method",
+        "item_turret_build_accept_item.return_expr",
+        "item_turret_build_accept_item.item",
+        "item_turret_build_accept_item.total_ammo",
+        "item_turret_build_accept_item.max_ammo",
+        "item_turret_build_accept_item.ammo_multiplier",
+        "item_turret_build_accept_item.ammo_type_null",
+        "item_turret_build_accept_item.accept_item"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1187": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public byte version(){",
+        "return 2;"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_version_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.version()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.version() returns upstream byte version 2.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_version_bridge_state",
+      "source_symbols": [
+        "item_turret_build_version.inner_class",
+        "item_turret_build_version.override",
+        "item_turret_build_version.method",
+        "item_turret_build_version.return_expr",
+        "item_turret_build_version.version"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_version_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_version_state",
+        "test_port_game_exposes_generated_item_turret_build_version_bridge_state",
+        "test_item_turret_build_version_matches_upstream_source",
+        "test_generated_item_turret_build_version_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1188": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public void write(Writes write){",
+        "super.write(write);",
+        "write.b(ammo.size);",
+        "for(AmmoEntry entry : ammo){",
+        "ItemEntry i = (ItemEntry)entry;",
+        "write.s(i.item.id);",
+        "write.s(i.amount);"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_write_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.write(Writes)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.write(Writes) writes superclass state, ammo size, then each ItemEntry item id and amount in ammo order.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_write_bridge_state",
+      "source_symbols": [
+        "item_turret_build_write.inner_class",
+        "item_turret_build_write.override",
+        "item_turret_build_write.method",
+        "item_turret_build_write.super_write_expr",
+        "item_turret_build_write.write_size_expr",
+        "item_turret_build_write.loop_expr",
+        "item_turret_build_write.entry_cast",
+        "item_turret_build_write.write_item_id_expr",
+        "item_turret_build_write.write_amount_expr",
+        "item_turret_build_write.ammo_entries",
+        "item_turret_build_write.ammo_size",
+        "item_turret_build_write.entry_writes",
+        "item_turret_build_write.write_calls"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_write_state",
+        "test_port_game_exposes_generated_item_turret_build_write_bridge_state",
+        "test_item_turret_build_write_matches_upstream_source",
+        "test_generated_item_turret_build_write_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1189": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public void read(Reads read, byte revision){",
+        "super.read(read, revision);",
+        "ammo.clear();",
+        "totalAmmo = 0;",
+        "int amount = read.ub();",
+        "for(int i = 0; i < amount; i++){",
+        "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());",
+        "int itemAmount = Math.min(read.s(), maxAmmo);",
+        "//only add ammo if this is a valid ammo type",
+        "if(item != null && ammoTypes.containsKey(item)){",
+        "totalAmmo += itemAmount;",
+        "ammo.add(new ItemEntry(item, itemAmount));"
+      ],
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurretBuild.read(Reads, byte) resets ammo, reads count, resolves item ids by revision, clamps amount to maxAmmo, and adds only valid ammo entries.",
+      "runtime_proof": "/root/Main.generated_item_turret_build_read_bridge_state",
+      "source_symbols": [
+        "item_turret_build_read.inner_class",
+        "item_turret_build_read.override",
+        "item_turret_build_read.method",
+        "item_turret_build_read.super_read_expr",
+        "item_turret_build_read.clear_expr",
+        "item_turret_build_read.total_reset_expr",
+        "item_turret_build_read.amount_expr",
+        "item_turret_build_read.loop_expr",
+        "item_turret_build_read.item_lookup_expr",
+        "item_turret_build_read.item_amount_expr",
+        "item_turret_build_read.valid_comment",
+        "item_turret_build_read.valid_ammo_guard",
+        "item_turret_build_read.total_add_expr",
+        "item_turret_build_read.ammo_add_expr",
+        "item_turret_build_read.revision",
+        "item_turret_build_read.max_ammo",
+        "item_turret_build_read.read_entries",
+        "item_turret_build_read.read_count",
+        "item_turret_build_read.total_ammo_after",
+        "item_turret_build_read.ammo_entries_after",
+        "item_turret_build_read.read_calls"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1190": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class ItemEntry extends AmmoEntry{",
+        "public Item item;",
+        "ItemEntry(Item item, int amount){",
+        "this.item = item;",
+        "this.amount = amount;"
+      ],
+      "godot_owner": "PortGame.source_item_entry_constructor_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemEntry",
+      "java_method": "ItemEntry(Item, int)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemEntry constructor assigns item and amount directly from parameters.",
+      "runtime_proof": "/root/Main.generated_item_entry_constructor_bridge_state",
+      "source_symbols": [
+        "item_entry_constructor.inner_class",
+        "item_entry_constructor.field",
+        "item_entry_constructor.constructor",
+        "item_entry_constructor.item_assign_expr",
+        "item_entry_constructor.amount_assign_expr",
+        "item_entry_constructor.item",
+        "item_entry_constructor.amount",
+        "item_entry_constructor.item_after",
+        "item_entry_constructor.amount_after"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_entry_constructor_to_source_state",
+        "test_port_game_exposes_source_item_entry_constructor_state",
+        "test_port_game_exposes_generated_item_entry_constructor_bridge_state",
+        "test_item_entry_constructor_matches_upstream_source",
+        "test_generated_item_entry_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1191": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class ItemEntry extends AmmoEntry{",
+        "@Override",
+        "public BulletType type(){",
+        "return ammoTypes.get(item);"
+      ],
+      "godot_owner": "PortGame.source_item_entry_type_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemEntry",
+      "java_method": "ItemEntry.type()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemEntry.type returns ammoTypes.get(item) directly.",
+      "runtime_proof": "/root/Main.generated_item_entry_type_bridge_state",
+      "source_symbols": [
+        "item_entry_type.inner_class",
+        "item_entry_type.override_expr",
+        "item_entry_type.method",
+        "item_entry_type.return_expr",
+        "item_entry_type.item",
+        "item_entry_type.ammo_type",
+        "item_entry_type.type"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1192": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class ItemEntry extends AmmoEntry{",
+        "@Override",
+        "public String toString(){",
+        "return \"ItemEntry{\" +",
+        "\"item=\" + item +",
+        "\", amount=\" + amount +",
+        "'}';"
+      ],
+      "godot_owner": "PortGame.source_item_entry_to_string_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemEntry",
+      "java_method": "ItemEntry.toString()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemEntry.toString concatenates item and amount exactly as upstream source.",
+      "runtime_proof": "/root/Main.generated_item_entry_to_string_bridge_state",
+      "source_symbols": [
+        "item_entry_to_string.inner_class",
+        "item_entry_to_string.override_expr",
+        "item_entry_to_string.method",
+        "item_entry_to_string.return_start_expr",
+        "item_entry_to_string.item_concat_expr",
+        "item_entry_to_string.amount_concat_expr",
+        "item_entry_to_string.return_end_expr",
+        "item_entry_to_string.item_string",
+        "item_entry_to_string.amount",
+        "item_entry_to_string.to_string"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_entry_to_string_to_source_state",
+        "test_port_game_exposes_source_item_entry_to_string_state",
+        "test_port_game_exposes_generated_item_entry_to_string_bridge_state",
+        "test_item_entry_to_string_matches_upstream_source",
+        "test_generated_item_entry_to_string_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1193": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+        "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
+        "public void ammo(Object... objects){",
+        "ammoTypes = ObjectMap.of(objects);"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret",
+      "java_method": "LiquidTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurret.ammo replaces ammoTypes with ObjectMap.of(objects); Godot bridge records explicit varargs snapshot only.",
+      "runtime_proof": "/root/Main.generated_liquid_turret_ammo_bridge_state",
+      "source_symbols": [
+        "liquid_turret_ammo.field",
+        "liquid_turret_ammo.comment",
+        "liquid_turret_ammo.method",
+        "liquid_turret_ammo.assignment_expr",
+        "liquid_turret_ammo.objects",
+        "liquid_turret_ammo.ammo_types_after"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_ammo_bridge_state",
+        "test_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1194": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret",
+      "java_method": "LiquidTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurret.setStats adds ammo stats from ammoTypes and name; Godot records exact calls without StatValues internals.",
+      "runtime_proof": "/root/Main.generated_liquid_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "liquid_turret_set_stats.override_expr",
+        "liquid_turret_set_stats.method",
+        "liquid_turret_set_stats.super_set_stats",
+        "liquid_turret_set_stats.stats_add",
+        "liquid_turret_set_stats.ammo_types",
+        "liquid_turret_set_stats.name",
+        "liquid_turret_set_stats.ammo_values_call"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_set_stats_state",
+        "test_port_game_exposes_generated_liquid_turret_set_stats_bridge_state",
+        "test_liquid_turret_set_stats_matches_upstream_source",
+        "test_generated_liquid_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1195": {
+      "deferred_exprs": [
+        "ConsumeLiquidFilter update/display concrete side effects stay no-op per anonymous override bodies."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){",
+        "public void update(Building build){",
+        "public void display(Stats stats){",
+        "if(targetGround){",
+        "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+        "super.init();"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_init_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret",
+      "java_method": "LiquidTurret.init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurret.init records consume filter, targetGround overlap Math.max updates, and super.init without inventing ConsumeLiquidFilter internals.",
+      "runtime_proof": "/root/Main.generated_liquid_turret_init_bridge_state",
+      "source_symbols": [
+        "liquid_turret_init.method",
+        "liquid_turret_init.ammo_entries",
+        "liquid_turret_init.overlap_each",
+        "liquid_turret_init.consume_filter"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_init_state",
+        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
+        "test_liquid_turret_init_matches_upstream_source",
+        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1196": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean shouldActiveSound(){",
+        "return wasShooting && enabled;"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.shouldActiveSound()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurretBuild.shouldActiveSound returns exact wasShooting && enabled state.",
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_should_active_sound_bridge_state",
+      "source_symbols": [
+        "liquid_turret_build_should_active_sound.method",
+        "liquid_turret_build_should_active_sound.was_shooting",
+        "liquid_turret_build_should_active_sound.enabled",
+        "liquid_turret_build_should_active_sound.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state",
+        "test_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1197": {
+      "deferred_exprs": [
+        "Liquid module implementation and UnlockableContent internals stay deferred; this slice records only ternary return state."
+      ],
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public UnlockableContent getAmmoContent(){",
+        "return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_build_get_ammo_content_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.getAmmoContent()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurretBuild.getAmmoContent returns current liquid only when liquids exists and currentAmount() > 0.",
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_get_ammo_content_bridge_state",
+      "source_symbols": [
+        "liquid_turret_build_get_ammo_content.method",
+        "liquid_turret_build_get_ammo_content.liquids_null",
+        "liquid_turret_build_get_ammo_content.current_amount",
+        "liquid_turret_build_get_ammo_content.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_content_bridge_state",
+        "test_liquid_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1198": {
+      "deferred_exprs": [
+        "Liquid module storage and LiquidTurret liquidCapacity owner integration stay deferred; this slice records only getAmmoFraction return state."
+      ],
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public float getAmmoFraction(){",
+        "return liquids.currentAmount() / liquidCapacity;"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_build_get_ammo_fraction_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.getAmmoFraction()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurretBuild.getAmmoFraction returns liquids.currentAmount() / liquidCapacity exactly as upstream Java.",
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_get_ammo_fraction_bridge_state",
+      "source_symbols": [
+        "liquid_turret_build_get_ammo_fraction.method",
+        "liquid_turret_build_get_ammo_fraction.current_amount",
+        "liquid_turret_build_get_ammo_fraction.liquid_capacity",
+        "liquid_turret_build_get_ammo_fraction.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_fraction_bridge_state",
+        "test_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1199": {
+      "deferred_exprs": [
+        "LAccess enum internals and superclass senseObject implementation stay deferred; this slice records only switch dispatch state."
+      ],
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public Object senseObject(LAccess sensor){",
+        "return switch(sensor){",
+        "case currentAmmoType -> liquids.current();",
+        "default -> super.senseObject(sensor);"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_build_sense_object_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.senseObject(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurretBuild.senseObject returns liquids.current() for currentAmmoType, otherwise super.senseObject(sensor).",
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_sense_object_bridge_state",
+      "source_symbols": [
+        "liquid_turret_build_sense_object.method",
+        "liquid_turret_build_sense_object.sensor",
+        "liquid_turret_build_sense_object.current_liquid",
+        "liquid_turret_build_sense_object.super_sense_object_value",
+        "liquid_turret_build_sense_object.current_ammo_type_case",
+        "liquid_turret_build_sense_object.default_case",
+        "liquid_turret_build_sense_object.sense_object_value"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_liquid_turret_build_sense_object_bridge_state",
+        "test_liquid_turret_build_sense_object_matches_upstream_source",
+        "test_generated_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1200": {
+      "deferred_exprs": [
+        "Fire scan tile iteration, distance comparison, team checks, and mindst updates stay deferred; this slice records extinguish gate and target/super dispatch using explicit fire_result."
+      ],
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "protected void findTarget(){",
+        "if(extinguish && liquids.current().canExtinguish()){",
+        "Fire result = null;",
+        "target = result;",
+        "return;",
+        "super.findTarget();"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurretBuild.findTarget assigns fire result and returns when extinguish scan finds fire; otherwise it calls super.findTarget().",
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_find_target_extinguish_bridge_state",
+      "source_symbols": [
+        "liquid_turret_build_find_target_extinguish.method",
+        "liquid_turret_build_find_target_extinguish.extinguish",
+        "liquid_turret_build_find_target_extinguish.current_liquid_can_extinguish",
+        "liquid_turret_build_find_target_extinguish.fire_result",
+        "liquid_turret_build_find_target_extinguish.guard_expr",
+        "liquid_turret_build_find_target_extinguish.assign_expr",
+        "liquid_turret_build_find_target_extinguish.super_find_target_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1201": {
+      "deferred_exprs": [
+        "ObjectMap ammoTypes lookup, LiquidModule mutation internals, and BulletType internals stay deferred; this slice records useAmmo branch state and liquid remove call payload."
+      ],
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public BulletType useAmmo(){",
+        "if(cheating()) return ammoTypes.get(liquids.current());",
+        "BulletType type = ammoTypes.get(liquids.current());",
+        "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);",
+        "return type;"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurretBuild.useAmmo returns ammo type immediately when cheating; otherwise removes 1f / type.ammoMultiplier from current liquid and returns type.",
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_use_ammo_bridge_state",
+      "source_symbols": [
+        "liquid_turret_build_use_ammo.method",
+        "liquid_turret_build_use_ammo.cheating",
+        "liquid_turret_build_use_ammo.current_liquid",
+        "liquid_turret_build_use_ammo.ammo_type",
+        "liquid_turret_build_use_ammo.ammo_multiplier",
+        "liquid_turret_build_use_ammo.cheating_return_expr",
+        "liquid_turret_build_use_ammo.remove_expr",
+        "liquid_turret_build_use_ammo.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1202": {
+      "deferred_exprs": [
+        "ObjectMap ammoTypes lookup internals stay deferred; this slice records peekAmmo return state using explicit current liquid and lookup result inputs."
+      ],
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public BulletType peekAmmo(){",
+        "return ammoTypes.get(liquids.current());"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.peekAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurretBuild.peekAmmo returns ammoTypes.get(liquids.current()).",
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_peek_ammo_bridge_state",
+      "source_symbols": [
+        "liquid_turret_build_peek_ammo.method",
+        "liquid_turret_build_peek_ammo.current_liquid",
+        "liquid_turret_build_peek_ammo.ammo_type",
+        "liquid_turret_build_peek_ammo.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
+        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1203": {
+      "deferred_exprs": [
+        "ObjectMap ammoTypes lookup internals, LiquidModule internals, and BulletType internals stay deferred; this slice records hasAmmo branch state with explicit current liquid, lookup result, current amount, and ammoMultiplier inputs."
+      ],
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean hasAmmo(){",
+        "return ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier;"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.hasAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurretBuild.hasAmmo returns ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier.",
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_has_ammo_bridge_state",
+      "source_symbols": [
+        "liquid_turret_build_has_ammo.method",
+        "liquid_turret_build_has_ammo.current_liquid",
+        "liquid_turret_build_has_ammo.ammo_type",
+        "liquid_turret_build_has_ammo.current_amount",
+        "liquid_turret_build_has_ammo.ammo_multiplier",
+        "liquid_turret_build_has_ammo.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1204": {
+      "deferred_exprs": [
+        "Building source and Item item internals stay deferred because upstream return ignores both parameters."
+      ],
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean acceptItem(Building source, Item item){",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_item_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurretBuild.acceptItem(Building source, Item item) always returns false.",
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_accept_item_bridge_state",
+      "source_symbols": [
+        "liquid_turret_build_accept_item.method",
+        "liquid_turret_build_accept_item.source_building",
+        "liquid_turret_build_accept_item.item",
+        "liquid_turret_build_accept_item.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_item_bridge_state",
+        "test_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1205": {
+      "deferred_exprs": [
+        "ObjectMap<Liquid, BulletType>, LiquidModule, Building, and Liquid internals stay deferred; explicit inputs carry exact Java lookup results.",
+        "Replacement threshold is evaluated only on the Java short-circuit path where ammoTypes.get(liquid) is non-null, current liquid differs, and ammoTypes.containsKey(liquids.current()) is true."
+      ],
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean acceptLiquid(Building source, Liquid liquid){",
+        "return ammoTypes.get(liquid) != null &&",
+        "(liquids.current() == liquid ||",
+        "((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));"
+      ],
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "rule": "LiquidTurretBuild.acceptLiquid accepts liquids with ammo types, same current liquid, or drained/unmapped current liquid replacement gate.",
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_accept_liquid_bridge_state",
+      "source_symbols": [
+        "liquid_turret_build_accept_liquid.method",
+        "liquid_turret_build_accept_liquid.source_building",
+        "liquid_turret_build_accept_liquid.liquid",
+        "liquid_turret_build_accept_liquid.ammo_type",
+        "liquid_turret_build_accept_liquid.current_liquid",
+        "liquid_turret_build_accept_liquid.current_liquid_ammo_type_present",
+        "liquid_turret_build_accept_liquid.current_liquid_amount",
+        "liquid_turret_build_accept_liquid.current_ammo_multiplier",
+        "liquid_turret_build_accept_liquid.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1206": {
+      "deferred_exprs": [
+        "checkInitCoolant() internals stay owned by BaseTurret.checkInitCoolant slices.",
+        "Superclass consumer reinitialization internals stay deferred to Block superclass source."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void reinitializeConsumers(){",
+        "checkInitCoolant();",
+        "super.reinitializeConsumers();"
+      ],
+      "godot_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
+      "java_method": "reinitializeConsumers()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "BaseTurret.reinitializeConsumers calls checkInitCoolant() then super.reinitializeConsumers().",
+      "runtime_proof": "/root/Main.generated_base_turret_reinitialize_consumers_bridge_state",
+      "source_symbols": [
+        "base_turret_reinitialize_consumers.method",
+        "base_turret_reinitialize_consumers.check_init_coolant",
+        "base_turret_reinitialize_consumers.super_reinitialize_consumers"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
+        "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
+        "test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state",
+        "test_base_turret_reinitialize_consumers_matches_upstream_source",
+        "test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1207": {
+      "exact_exprs": [
+        "void checkInitCoolant(){",
+        "if(coolant != null){",
+        "coolant.update = false;",
+        "coolant.booster = true;",
+        "coolant.optional = true;",
+        "//json parsing does not add to consumes",
+        "if(!hasConsumer(coolant)) consume(coolant);"
+      ],
+      "godot_owner": "PortGame.source_base_turret_check_init_coolant_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
+      "java_method": "checkInitCoolant()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "BaseTurret.checkInitCoolant marks coolant as optional booster and consumes it when not already registered.",
+      "runtime_proof": "/root/Main.generated_base_turret_check_init_coolant_bridge_state",
+      "source_symbols": [
+        "base_turret_check_init_coolant.method",
+        "base_turret_check_init_coolant.coolant_guard",
+        "base_turret_check_init_coolant.has_consumer",
+        "base_turret_check_init_coolant.update_assign",
+        "base_turret_check_init_coolant.booster_assign",
+        "base_turret_check_init_coolant.optional_assign",
+        "base_turret_check_init_coolant.json_comment",
+        "base_turret_check_init_coolant.consume_guard"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_base_turret_check_init_coolant_to_source_state",
+        "test_port_game_exposes_source_base_turret_check_init_coolant_state",
+        "test_port_game_exposes_generated_base_turret_check_init_coolant_bridge_state",
+        "test_base_turret_check_init_coolant_matches_upstream_source",
+        "test_generated_base_turret_check_init_coolant_slice_is_registered_with_source_backing"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
@@ -25320,1896 +27245,6 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
-    },
-    "N1155": {
-      "deferred_exprs": [
-        "Concrete item output routing remains owned by block/item transport slices; this slice preserves Turret.outputsItems return state only."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public boolean outputsItems(){",
-        "return false;"
-      ],
-      "godot_owner": "PortGame.source_turret_outputs_items_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
-      "java_method": "outputsItems()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "rule": "Turret.outputsItems preserves override boundary and constant false return for turret item-output behavior.",
-      "runtime_proof": "/root/Main.generated_turret_outputs_items_bridge_state",
-      "source_symbols": [
-        "turret_outputs_items.method",
-        "turret_outputs_items.override",
-        "turret_outputs_items.return_false"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_turret_outputs_items_to_source_state",
-        "test_port_game_exposes_source_turret_outputs_items_state",
-        "test_port_game_exposes_generated_turret_outputs_items_bridge_state",
-        "test_turret_outputs_items_matches_upstream_source",
-        "test_generated_turret_outputs_items_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1156": {
-      "deferred_exprs": [
-        "ReloadTurret.super.init() internals, block overlap spatial queries, and live turret targeting remain owned by existing/later slices; this slice preserves Turret.init default field assignments and tracking range state only."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void init(){",
-        "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;",
-        "if(elevation < 0) elevation = size / 2f;",
-        "if(recoilTime < 0f) recoilTime = reload;",
-        "if(cooldownTime < 0f) cooldownTime = reload;",
-        "if(newTargetInterval <= 0f) newTargetInterval = targetInterval;",
-        "if(!targetGround){",
-        "disableOverlapCheck = true;",
-        "super.init();",
-        "trackingRange = Math.max(range, trackingRange);"
-      ],
-      "godot_owner": "PortGame.source_turret_init_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
-      "java_method": "init()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "rule": "Turret.init preserves default shootY/elevation/recoil/cooldown/target interval setup, overlap check gate, superclass init dispatch, and trackingRange max assignment.",
-      "runtime_proof": "/root/Main.generated_turret_init_bridge_state",
-      "source_symbols": [
-        "turret_init.method",
-        "turret_init.override",
-        "turret_init.shoot_y_default",
-        "turret_init.elevation_default",
-        "turret_init.recoil_time_default",
-        "turret_init.cooldown_time_default",
-        "turret_init.new_target_interval_default",
-        "turret_init.target_ground_guard",
-        "turret_init.disable_overlap_check",
-        "turret_init.super_init",
-        "turret_init.tracking_range",
-        "turret_init.shoot_y",
-        "turret_init.shoot_y_is_negative_infinity",
-        "turret_init.size",
-        "turret_init.tilesize",
-        "turret_init.elevation",
-        "turret_init.recoil_time",
-        "turret_init.reload",
-        "turret_init.cooldown_time",
-        "turret_init.new_target_interval",
-        "turret_init.target_interval",
-        "turret_init.target_ground",
-        "turret_init.disable_overlap_check_input",
-        "turret_init.range",
-        "turret_init.tracking_range_input"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_turret_init_to_source_state",
-        "test_port_game_exposes_source_turret_init_state",
-        "test_port_game_exposes_generated_turret_init_bridge_state",
-        "test_turret_init_matches_upstream_source",
-        "test_generated_turret_init_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1157": {
-      "deferred_exprs": [
-        "ReloadTurret.super.load() internals and DrawBlock drawer texture loading internals remain owned by their source classes; this slice preserves Turret.load call order markers only."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void load(){",
-        "super.load();",
-        "drawer.load(this);"
-      ],
-      "godot_owner": "PortGame.source_turret_load_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
-      "java_method": "load()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "rule": "Turret.load preserves superclass load dispatch followed by drawer.load(this).",
-      "runtime_proof": "/root/Main.generated_turret_load_bridge_state",
-      "source_symbols": [
-        "turret_load.method",
-        "turret_load.override",
-        "turret_load.super_load",
-        "turret_load.drawer_load"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_turret_load_to_source_state",
-        "test_port_game_exposes_source_turret_load_state",
-        "test_port_game_exposes_generated_turret_load_bridge_state",
-        "test_turret_load_matches_upstream_source",
-        "test_generated_turret_load_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1158": {
-      "deferred_exprs": [
-        "DrawBlock.drawPlan rendering internals and Eachable iteration remain owned by drawer/source rendering slices; this slice preserves Turret.drawPlanRegion dispatch only."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
-        "drawer.drawPlan(this, plan, list);"
-      ],
-      "godot_owner": "PortGame.source_turret_draw_plan_region_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
-      "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "rule": "Turret.drawPlanRegion preserves drawer.drawPlan(this, plan, list) dispatch with explicit plan/list parameters.",
-      "runtime_proof": "/root/Main.generated_turret_draw_plan_region_bridge_state",
-      "source_symbols": [
-        "turret_draw_plan_region.method",
-        "turret_draw_plan_region.override",
-        "turret_draw_plan_region.plan",
-        "turret_draw_plan_region.list",
-        "turret_draw_plan_region.drawer_draw_plan"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_turret_draw_plan_region_to_source_state",
-        "test_port_game_exposes_source_turret_draw_plan_region_state",
-        "test_port_game_exposes_generated_turret_draw_plan_region_bridge_state",
-        "test_turret_draw_plan_region_matches_upstream_source",
-        "test_generated_turret_draw_plan_region_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1159": {
-      "deferred_exprs": [
-        "DrawBlock.finalIcons internals and concrete TextureRegion array contents remain owned by drawer/rendering slices; this slice preserves Turret.icons dispatch only."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public TextureRegion[] icons(){",
-        "return drawer.finalIcons(this);"
-      ],
-      "godot_owner": "PortGame.source_turret_icons_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
-      "java_method": "icons()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "rule": "Turret.icons preserves drawer.finalIcons(this) dispatch and returned icon marker.",
-      "runtime_proof": "/root/Main.generated_turret_icons_bridge_state",
-      "source_symbols": [
-        "turret_icons.method",
-        "turret_icons.override",
-        "turret_icons.drawer_final_icons",
-        "turret_icons.icons"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_turret_icons_to_source_state",
-        "test_port_game_exposes_source_turret_icons_state",
-        "test_port_game_exposes_generated_turret_icons_bridge_state",
-        "test_turret_icons_matches_upstream_source",
-        "test_generated_turret_icons_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1160": {
-      "deferred_exprs": [
-        "DrawBlock.getRegionsToOutline internals, Seq mutation semantics, and concrete TextureRegion contents remain owned by drawer/rendering slices; this slice preserves Turret.getRegionsToOutline dispatch only."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void getRegionsToOutline(Seq<TextureRegion> out){",
-        "drawer.getRegionsToOutline(this, out);"
-      ],
-      "godot_owner": "PortGame.source_turret_get_regions_to_outline_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
-      "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "rule": "Turret.getRegionsToOutline preserves drawer.getRegionsToOutline(this, out) dispatch and out input marker.",
-      "runtime_proof": "/root/Main.generated_turret_get_regions_to_outline_bridge_state",
-      "source_symbols": [
-        "turret_get_regions_to_outline.method",
-        "turret_get_regions_to_outline.override",
-        "turret_get_regions_to_outline.out",
-        "turret_get_regions_to_outline.drawer_get_regions_to_outline"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_turret_get_regions_to_outline_to_source_state",
-        "test_port_game_exposes_source_turret_get_regions_to_outline_state",
-        "test_port_game_exposes_generated_turret_get_regions_to_outline_bridge_state",
-        "test_turret_get_regions_to_outline_matches_upstream_source",
-        "test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1161": {
-      "deferred_exprs": [
-        "BulletType drag behavior is intentionally not modeled in this slice because Turret.limitRange source comment says //doesn't handle drag."
-      ],
-      "exact_exprs": [
-        "public void limitRange(BulletType bullet, float margin){",
-        "float realRange = bullet.rangeChange + range;",
-        "//doesn't handle drag",
-        "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;"
-      ],
-      "godot_owner": "PortGame.source_turret_limit_range_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
-      "java_method": "limitRange(BulletType bullet, float margin)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "rule": "Turret.limitRange mutates bullet.lifetime from bullet.rangeChange, range, margin, bullet.extraRangeMargin, constant 10f, and bullet.speed.",
-      "runtime_proof": "/root/Main.generated_turret_limit_range_bridge_state",
-      "source_symbols": [
-        "turret_limit_range.method",
-        "turret_limit_range.bullet",
-        "turret_limit_range.margin",
-        "turret_limit_range.range",
-        "turret_limit_range.bullet_range_change",
-        "turret_limit_range.real_range",
-        "turret_limit_range.drag_comment",
-        "turret_limit_range.bullet_extra_range_margin",
-        "turret_limit_range.bullet_speed",
-        "turret_limit_range.lifetime",
-        "turret_limit_range.updated_bullet"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_turret_limit_range_to_source_state",
-        "test_port_game_exposes_source_turret_limit_range_state",
-        "test_port_game_exposes_generated_turret_limit_range_bridge_state",
-        "test_turret_limit_range_matches_upstream_source",
-        "test_generated_turret_limit_range_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1162": {
-      "deferred_exprs": [
-        "Actual Drawf.dashCircle rendering is recorded as source-backed draw intent; renderer internals are deferred."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void drawPlace(int x, int y, int rotation, boolean valid){",
-        "super.drawPlace(x, y, rotation, valid);",
-        "if(drawMinRange){",
-        "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);",
-        "public boolean drawMinRange;",
-        "public float minRange = 0f;",
-        "placing = accent,"
-      ],
-      "godot_owner": "PortGame.source_turret_draw_place_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
-      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "rule": "Turret.drawPlace delegates to super.drawPlace and conditionally records minRange dash circle draw intent when drawMinRange is true.",
-      "runtime_proof": "/root/Main.generated_turret_draw_place_bridge_state",
-      "source_symbols": [
-        "turret_draw_place.method",
-        "turret_draw_place.override",
-        "turret_draw_place.x",
-        "turret_draw_place.y",
-        "turret_draw_place.rotation",
-        "turret_draw_place.valid",
-        "turret_draw_place.draw_min_range",
-        "turret_draw_place.source_tilesize",
-        "turret_draw_place.block_offset",
-        "turret_draw_place.min_range",
-        "turret_draw_place.super_draw_place",
-        "turret_draw_place.draw_min_range_gate",
-        "turret_draw_place.dash_circle",
-        "turret_draw_place.pal_placing"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_turret_draw_place_to_source_state",
-        "test_port_game_exposes_source_turret_draw_place_state",
-        "test_port_game_exposes_generated_turret_draw_place_bridge_state",
-        "test_turret_draw_place_matches_upstream_source",
-        "test_generated_turret_draw_place_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1163": {
-      "deferred_exprs": [
-        "Concrete rotated output routing remains owned by downstream block/item transport slices; this slice preserves Turret.rotatedOutput constant false return only."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public boolean rotatedOutput(int x, int y){",
-        "return false;"
-      ],
-      "godot_owner": "PortGame.source_turret_rotated_output_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
-      "java_method": "rotatedOutput(int x, int y)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "rule": "Turret.rotatedOutput preserves override boundary, tile coordinate inputs, and constant false return.",
-      "runtime_proof": "/root/Main.generated_turret_rotated_output_bridge_state",
-      "source_symbols": [
-        "turret_rotated_output.method",
-        "turret_rotated_output.override",
-        "turret_rotated_output.x",
-        "turret_rotated_output.y",
-        "turret_rotated_output.return_false"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_turret_rotated_output_to_source_state",
-        "test_port_game_exposes_source_turret_rotated_output_state",
-        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
-        "test_turret_rotated_output_matches_upstream_source",
-        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1164": {
-      "deferred_exprs": [
-        "Superclass placeEnded internals remain deferred; this slice records the exact super call marker and Turret rotation assignment branch only.",
-        "Concrete Tile, Building, and TurretBuild object internals remain deferred; this slice accepts explicit source-backed branch inputs."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){",
-        "super.placeEnded(tile, builder, rotation, config);",
-        "if(rotate && tile.build instanceof TurretBuild turret){",
-        "turret.rotation = tile.build.rotdeg();"
-      ],
-      "godot_owner": "PortGame.source_turret_place_ended_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
-      "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "rule": "Turret.placeEnded delegates to super and assigns TurretBuild rotation from tile.build.rotdeg() when rotate is true and tile.build is TurretBuild.",
-      "runtime_proof": "/root/Main.generated_turret_place_ended_bridge_state",
-      "source_symbols": [
-        "turret_place_ended.method",
-        "turret_place_ended.override",
-        "turret_place_ended.tile",
-        "turret_place_ended.builder",
-        "turret_place_ended.rotation",
-        "turret_place_ended.config",
-        "turret_place_ended.rotate",
-        "turret_place_ended.tile_build_turret_build",
-        "turret_place_ended.turret_rotation",
-        "turret_place_ended.tile_build_rotdeg",
-        "turret_place_ended.super_place_ended",
-        "turret_place_ended.place_ended_gate",
-        "turret_place_ended.rotation_assign"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_turret_place_ended_to_source_state",
-        "test_port_game_exposes_source_turret_place_ended_state",
-        "test_port_game_exposes_generated_turret_place_ended_bridge_state",
-        "test_turret_place_ended_matches_upstream_source",
-        "test_generated_turret_place_ended_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1165": {
-      "deferred_exprs": [
-        "Superclass setStats internals remain deferred; this slice records the exact super call marker only.",
-        "StatValues.boosters internals, stats.replace internals, and coolant::consumes behavior remain deferred; this slice records the exact call and explicit inputs."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void setStats(){",
-        "super.setStats();",
-        "if(coolant != null){",
-        "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));",
-        "public float reload = 10f;"
-      ],
-      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ReloadTurret",
-      "java_method": "setStats()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
-      "rule": "ReloadTurret.setStats delegates to super and replaces Stat.booster with StatValues.boosters only when coolant is not null.",
-      "runtime_proof": "/root/Main.generated_reload_turret_set_stats_bridge_state",
-      "source_symbols": [
-        "reload_turret_set_stats.method",
-        "reload_turret_set_stats.override",
-        "reload_turret_set_stats.reload",
-        "reload_turret_set_stats.coolant",
-        "reload_turret_set_stats.coolant_amount",
-        "reload_turret_set_stats.coolant_multiplier",
-        "reload_turret_set_stats.super_set_stats",
-        "reload_turret_set_stats.coolant_gate",
-        "reload_turret_set_stats.booster_replace"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_reload_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_reload_turret_set_stats_state",
-        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
-        "test_reload_turret_set_stats_matches_upstream_source",
-        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1166": {
-      "deferred_exprs": [
-        "Superclass setStats internals remain deferred; this slice records the exact super call marker only.",
-        "ObjectMap.of, StatValues.ammo, and stats.add internals remain deferred; this slice records exact call markers and explicit shootType input."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void setStats(){",
-        "super.setStats();",
-        "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
-        "public BulletType shootType;"
-      ],
-      "godot_owner": "PortGame.source_power_turret_set_stats_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret",
-      "java_method": "setStats()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "rule": "PowerTurret.setStats delegates to super and adds Stat.ammo with StatValues.ammo(ObjectMap.of(this, shootType)).",
-      "runtime_proof": "/root/Main.generated_power_turret_set_stats_bridge_state",
-      "source_symbols": [
-        "power_turret_set_stats.method",
-        "power_turret_set_stats.override",
-        "power_turret_set_stats.shoot_type",
-        "power_turret_set_stats.super_set_stats",
-        "power_turret_set_stats.object_map",
-        "power_turret_set_stats.ammo_values",
-        "power_turret_set_stats.stats_add"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_power_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_power_turret_set_stats_state",
-        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
-        "test_power_turret_set_stats_matches_upstream_source",
-        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1167": {
-      "deferred_exprs": [
-        "Inherited Turret.limitRange(BulletType,float) internals remain owned by the Turret.limitRange source slice; this slice records only the PowerTurret dispatch.",
-        "BulletType shootType internals remain deferred and are supplied as an explicit runtime input."
-      ],
-      "exact_exprs": [
-        "public void limitRange(float margin){",
-        "limitRange(shootType, margin);",
-        "public BulletType shootType;"
-      ],
-      "godot_owner": "PortGame.source_power_turret_limit_range_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret",
-      "java_method": "limitRange(float margin)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "rule": "PowerTurret.limitRange dispatches to inherited limitRange with shootType and margin.",
-      "runtime_proof": "/root/Main.generated_power_turret_limit_range_bridge_state",
-      "source_symbols": [
-        "power_turret_limit_range.method",
-        "power_turret_limit_range.shoot_type",
-        "power_turret_limit_range.margin",
-        "power_turret_limit_range.dispatch"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_power_turret_limit_range_to_source_state",
-        "test_port_game_exposes_source_power_turret_limit_range_state",
-        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
-        "test_power_turret_limit_range_matches_upstream_source",
-        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1168": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
-      "java_method": "PowerTurretBuild.getAmmoFraction()",
-      "godot_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state",
-      "exact_exprs": [
-        "public class PowerTurretBuild extends TurretBuild{",
-        "@Override",
-        "public float getAmmoFraction(){",
-        "return power == null ? 0f : power.status;"
-      ],
-      "source_symbols": [
-        "power_turret_build_get_ammo_fraction.method",
-        "power_turret_build_get_ammo_fraction.power_null",
-        "power_turret_build_get_ammo_fraction.power_status",
-        "power_turret_build_get_ammo_fraction.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
-        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
-        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
-        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
-        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_power_turret_build_get_ammo_fraction_bridge_state",
-      "rule": "PowerTurretBuild.getAmmoFraction returns zero without a power module, otherwise returns power.status.",
-      "deferred_exprs": [
-        "Concrete power graph/module status production remains owned by power runtime integration slices."
-      ]
-    },
-    "N1169": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
-      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
-      "godot_owner": "PortGame.source_power_turret_build_sense_state",
-      "exact_exprs": [
-        "public class PowerTurretBuild extends TurretBuild{",
-        "@Override",
-        "public double sense(LAccess sensor){",
-        "return switch(sensor){",
-        "case ammo -> power == null ? 0f : power.status;",
-        "case ammoCapacity -> 1;",
-        "default -> super.sense(sensor);"
-      ],
-      "source_symbols": [
-        "power_turret_build_sense.method",
-        "power_turret_build_sense.sensor",
-        "power_turret_build_sense.power_null",
-        "power_turret_build_sense.power_status",
-        "power_turret_build_sense.super_sense",
-        "power_turret_build_sense.ammo_case",
-        "power_turret_build_sense.ammo_capacity_case",
-        "power_turret_build_sense.default_case"
-      ],
-      "tests": [
-        "test_emit_bridges_power_turret_build_sense_to_source_state",
-        "test_port_game_exposes_source_power_turret_build_sense_state",
-        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
-        "test_power_turret_build_sense_matches_upstream_source",
-        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_power_turret_build_sense_bridge_state",
-      "rule": "PowerTurretBuild.sense maps ammo to power status, ammoCapacity to one, and all other sensors to super.sense(sensor).",
-      "deferred_exprs": [
-        "Inherited TurretBuild.sense internals remain owned by their own slices; default branch value is explicit input."
-      ]
-    },
-    "N1170": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
-      "java_method": "PowerTurretBuild.useAmmo()",
-      "godot_owner": "PortGame.source_power_turret_build_use_ammo_state",
-      "exact_exprs": [
-        "public class PowerTurretBuild extends TurretBuild{",
-        "@Override",
-        "public BulletType useAmmo(){",
-        "//nothing used directly",
-        "return shootType;",
-        "public BulletType shootType;"
-      ],
-      "source_symbols": [
-        "power_turret_build_use_ammo.method",
-        "power_turret_build_use_ammo.comment",
-        "power_turret_build_use_ammo.shoot_type",
-        "power_turret_build_use_ammo.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_power_turret_build_use_ammo_to_source_state",
-        "test_port_game_exposes_source_power_turret_build_use_ammo_state",
-        "test_port_game_exposes_generated_power_turret_build_use_ammo_bridge_state",
-        "test_power_turret_build_use_ammo_matches_upstream_source",
-        "test_generated_power_turret_build_use_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_power_turret_build_use_ammo_bridge_state",
-      "rule": "PowerTurretBuild.useAmmo returns shootType unchanged; no ammo is consumed directly.",
-      "deferred_exprs": [
-        "Concrete BulletType internals remain represented by explicit shoot_type input."
-      ]
-    },
-    "N1171": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
-      "java_method": "PowerTurretBuild.hasAmmo()",
-      "godot_owner": "PortGame.source_power_turret_build_has_ammo_state",
-      "exact_exprs": [
-        "public class PowerTurretBuild extends TurretBuild{",
-        "@Override",
-        "public boolean hasAmmo(){",
-        "//you can always rotate, but never shoot if there's no power",
-        "return true;"
-      ],
-      "source_symbols": [
-        "power_turret_build_has_ammo.method",
-        "power_turret_build_has_ammo.comment",
-        "power_turret_build_has_ammo.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
-        "test_port_game_exposes_source_power_turret_build_has_ammo_state",
-        "test_port_game_exposes_generated_power_turret_build_has_ammo_bridge_state",
-        "test_power_turret_build_has_ammo_matches_upstream_source",
-        "test_generated_power_turret_build_has_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_power_turret_build_has_ammo_bridge_state",
-      "rule": "PowerTurretBuild.hasAmmo always reports ammo available so rotation is allowed; power gating remains outside this slice.",
-      "deferred_exprs": [
-        "Power availability and shooting permission remain represented by neighboring power/turret slices."
-      ]
-    },
-    "N1172": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
-      "java_method": "PowerTurretBuild.peekAmmo()",
-      "godot_owner": "PortGame.source_power_turret_build_peek_ammo_state",
-      "exact_exprs": [
-        "public class PowerTurretBuild extends TurretBuild{",
-        "@Override",
-        "public BulletType peekAmmo(){",
-        "return shootType;",
-        "public BulletType shootType;"
-      ],
-      "source_symbols": [
-        "power_turret_build_peek_ammo.method",
-        "power_turret_build_peek_ammo.shoot_type",
-        "power_turret_build_peek_ammo.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_power_turret_build_peek_ammo_to_source_state",
-        "test_port_game_exposes_source_power_turret_build_peek_ammo_state",
-        "test_port_game_exposes_generated_power_turret_build_peek_ammo_bridge_state",
-        "test_power_turret_build_peek_ammo_matches_upstream_source",
-        "test_generated_power_turret_build_peek_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_power_turret_build_peek_ammo_bridge_state",
-      "rule": "PowerTurretBuild.peekAmmo returns shootType unchanged without consuming ammo.",
-      "deferred_exprs": [
-        "Concrete BulletType internals remain represented by explicit shoot_type input."
-      ]
-    },
-    "N1173": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
-      "java_method": "ItemTurret.limitRange()",
-      "godot_owner": "PortGame.source_item_turret_limit_range_default_state",
-      "exact_exprs": [
-        "/** Limits bullet range to this turret's range value. */",
-        "public void limitRange(){",
-        "limitRange(9f);"
-      ],
-      "source_symbols": [
-        "item_turret_limit_range_default.method",
-        "item_turret_limit_range_default.comment",
-        "item_turret_limit_range_default.dispatch_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_limit_range_default_to_source_state",
-        "test_port_game_exposes_source_item_turret_limit_range_default_state",
-        "test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state",
-        "test_item_turret_limit_range_default_matches_upstream_source",
-        "test_generated_item_turret_limit_range_default_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_limit_range_default_bridge_state",
-      "rule": "ItemTurret.limitRange() delegates to limitRange(float margin) with exact margin 9f.",
-      "deferred_exprs": [
-        "Per-ammo iteration and BulletType lifetime math remain owned by ItemTurret.limitRange(float) and Turret.limitRange(BulletType,float)."
-      ]
-    },
-    "N1174": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
-      "java_method": "ItemTurret.limitRange(float margin)",
-      "godot_owner": "PortGame.source_item_turret_limit_range_entries_state",
-      "exact_exprs": [
-        "/** Limits bullet range to this turret's range value. */",
-        "public void limitRange(float margin){",
-        "for(var entry : ammoTypes.entries()){",
-        "limitRange(entry.value, margin);"
-      ],
-      "source_symbols": [
-        "item_turret_limit_range_entries.method",
-        "item_turret_limit_range_entries.comment",
-        "item_turret_limit_range_entries.loop_expr",
-        "item_turret_limit_range_entries.dispatch_expr",
-        "item_turret_limit_range_entries.margin"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
-        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
-        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
-        "test_item_turret_limit_range_entries_matches_upstream_source",
-        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_limit_range_entries_bridge_state",
-      "rule": "ItemTurret.limitRange(float margin) loops ammoTypes.entries() and dispatches entry.value with the explicit margin parameter.",
-      "deferred_exprs": [
-        "BulletType lifetime math remains owned by Turret.limitRange(BulletType,float)."
-      ]
-    },
-    "N1175": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
-      "java_method": "ItemTurret.setStats()",
-      "godot_owner": "PortGame.source_item_turret_set_stats_state",
-      "exact_exprs": [
-        "@Override",
-        "public void setStats(){",
-        "super.setStats();",
-        "stats.remove(Stat.itemCapacity);",
-        "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
-        "stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);"
-      ],
-      "source_symbols": [
-        "item_turret_set_stats.method",
-        "item_turret_set_stats.override",
-        "item_turret_set_stats.super_set_stats",
-        "item_turret_set_stats.ammo_types",
-        "item_turret_set_stats.name",
-        "item_turret_set_stats.max_ammo",
-        "item_turret_set_stats.ammo_per_shot",
-        "item_turret_set_stats.stats_remove",
-        "item_turret_set_stats.stats_ammo_add",
-        "item_turret_set_stats.stats_ammo_capacity_add"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_item_turret_set_stats_state",
-        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
-        "test_item_turret_set_stats_matches_upstream_source",
-        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_set_stats_bridge_state",
-      "rule": "ItemTurret.setStats() removes itemCapacity, adds ammo stats from ammoTypes/name, and computes ammoCapacity as maxAmmo / Math.max(ammoPerShot, 1).",
-      "deferred_exprs": [
-        "StatValues.ammo internals and Stats storage internals are not expanded in this slice."
-      ]
-    },
-    "N1176": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
-      "java_method": "ItemTurret.setBars()",
-      "godot_owner": "PortGame.source_item_turret_set_bars_state",
-      "exact_exprs": [
-        "@Override",
-        "public void setBars(){",
-        "super.setBars();",
-        "addBar(\"ammo\", (ItemTurretBuild entity) ->",
-        "\"stat.ammo\",",
-        "Pal.ammo,",
-        "() -> (float)entity.totalAmmo / maxAmmo"
-      ],
-      "source_symbols": [
-        "item_turret_set_bars.method",
-        "item_turret_set_bars.override",
-        "item_turret_set_bars.super_set_bars",
-        "item_turret_set_bars.total_ammo",
-        "item_turret_set_bars.max_ammo",
-        "item_turret_set_bars.add_bar",
-        "item_turret_set_bars.bar_fraction"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_set_bars_to_source_state",
-        "test_port_game_exposes_source_item_turret_set_bars_state",
-        "test_port_game_exposes_generated_item_turret_set_bars_bridge_state",
-        "test_item_turret_set_bars_matches_upstream_source",
-        "test_generated_item_turret_set_bars_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_set_bars_bridge_state",
-      "rule": "ItemTurret.setBars() adds the ammo bar and exposes the source fraction entity.totalAmmo / maxAmmo.",
-      "deferred_exprs": [
-        "Bar rendering and addBar UI storage internals are not expanded in this slice."
-      ]
-    },
-    "N1177": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
-      "java_method": "ItemTurret.init()",
-      "godot_owner": "PortGame.source_item_turret_init_ground_overlap_state",
-      "exact_exprs": [
-        "@Override",
-        "public void init(){",
-        "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)){",
-        "if(targetGround){",
-        "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
-        "super.init();"
-      ],
-      "source_symbols": [
-        "item_turret_init_ground_overlap.method",
-        "item_turret_init_ground_overlap.override",
-        "item_turret_init_ground_overlap.consume_filter",
-        "item_turret_init_ground_overlap.target_ground",
-        "item_turret_init_ground_overlap.place_overlap_range",
-        "item_turret_init_ground_overlap.range",
-        "item_turret_init_ground_overlap.place_overlap_margin",
-        "item_turret_init_ground_overlap.ammo_entries",
-        "item_turret_init_ground_overlap.range_change",
-        "item_turret_init_ground_overlap.target_ground_guard",
-        "item_turret_init_ground_overlap.overlap_update",
-        "item_turret_init_ground_overlap.overlap_formula",
-        "item_turret_init_ground_overlap.super_init"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_init_ground_overlap_to_source_state",
-        "test_port_game_exposes_source_item_turret_init_ground_overlap_state",
-        "test_port_game_exposes_generated_item_turret_init_ground_overlap_bridge_state",
-        "test_item_turret_init_ground_overlap_matches_upstream_source",
-        "test_generated_item_turret_init_ground_overlap_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_init_ground_overlap_bridge_state",
-      "rule": "ItemTurret.init() updates placeOverlapRange for ground-targeting item turrets using ammoTypes rangeChange values.",
-      "deferred_exprs": [
-        "ConsumeItemFilter build/efficiency/display internals are separate slices; this slice records the consume boundary only."
-      ]
-    },
-    "N1178": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.onProximityAdded()",
-      "godot_owner": "PortGame.source_item_turret_build_on_proximity_added_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public void onProximityAdded(){",
-        "super.onProximityAdded();",
-        "//add first ammo item to cheaty blocks so they can shoot properly",
-        "if(!hasAmmo() && cheating() && ammoTypes.size > 0){",
-        "handleItem(this, ammoTypes.keys().next());"
-      ],
-      "source_symbols": [
-        "item_turret_build_on_proximity_added.inner_class",
-        "item_turret_build_on_proximity_added.method",
-        "item_turret_build_on_proximity_added.override",
-        "item_turret_build_on_proximity_added.super_on_proximity_added",
-        "item_turret_build_on_proximity_added.comment",
-        "item_turret_build_on_proximity_added.has_ammo",
-        "item_turret_build_on_proximity_added.cheating",
-        "item_turret_build_on_proximity_added.ammo_types_size",
-        "item_turret_build_on_proximity_added.first_ammo_item",
-        "item_turret_build_on_proximity_added.guard",
-        "item_turret_build_on_proximity_added.handle_item"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_on_proximity_added_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_on_proximity_added_state",
-        "test_port_game_exposes_generated_item_turret_build_on_proximity_added_bridge_state",
-        "test_item_turret_build_on_proximity_added_matches_upstream_source",
-        "test_generated_item_turret_build_on_proximity_added_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_on_proximity_added_bridge_state",
-      "rule": "ItemTurretBuild.onProximityAdded() adds the first ammo item to cheating builds when they currently have no ammo and ammoTypes is non-empty.",
-      "deferred_exprs": [
-        "handleItem internals are owned by ItemTurretBuild.handleItem slices."
-      ]
-    },
-    "N1179": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
-      "godot_owner": "PortGame.source_item_turret_build_sense_object_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public Object senseObject(LAccess sensor){",
-        "return switch(sensor){",
-        "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;",
-        "default -> super.senseObject(sensor);"
-      ],
-      "deferred_exprs": [
-        "ItemEntry, ammo.peek(), and super.senseObject(sensor) internals remain explicit inputs; this slice only preserves the switch branch decision."
-      ],
-      "source_symbols": [
-        "item_turret_build_sense_object.inner_class",
-        "item_turret_build_sense_object.method",
-        "item_turret_build_sense_object.override",
-        "item_turret_build_sense_object.switch_return",
-        "item_turret_build_sense_object.current_ammo_type_case",
-        "item_turret_build_sense_object.default_case",
-        "item_turret_build_sense_object.sensor",
-        "item_turret_build_sense_object.ammo_size",
-        "item_turret_build_sense_object.peek_item",
-        "item_turret_build_sense_object.super_sense_object_value",
-        "item_turret_build_sense_object.sense_object_value"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_sense_object_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_sense_object_state",
-        "test_port_game_exposes_generated_item_turret_build_sense_object_bridge_state",
-        "test_item_turret_build_sense_object_matches_upstream_source",
-        "test_generated_item_turret_build_sense_object_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_sense_object_bridge_state",
-      "rule": "ItemTurretBuild.senseObject(LAccess sensor) returns current ammo item only for currentAmmoType and otherwise delegates to explicit super.senseObject(sensor) value."
-    },
-    "N1180": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.getAmmoContent()",
-      "godot_owner": "PortGame.source_item_turret_build_get_ammo_content_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public UnlockableContent getAmmoContent(){",
-        "return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;"
-      ],
-      "deferred_exprs": [
-        "ItemEntry and ammo.peek() internals remain explicit inputs; this slice only preserves the ternary return decision."
-      ],
-      "source_symbols": [
-        "item_turret_build_get_ammo_content.inner_class",
-        "item_turret_build_get_ammo_content.method",
-        "item_turret_build_get_ammo_content.override",
-        "item_turret_build_get_ammo_content.return_expr",
-        "item_turret_build_get_ammo_content.ammo_size",
-        "item_turret_build_get_ammo_content.peek_item",
-        "item_turret_build_get_ammo_content.ammo_content"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_get_ammo_content_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_get_ammo_content_state",
-        "test_port_game_exposes_generated_item_turret_build_get_ammo_content_bridge_state",
-        "test_item_turret_build_get_ammo_content_matches_upstream_source",
-        "test_generated_item_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_get_ammo_content_bridge_state",
-      "rule": "ItemTurretBuild.getAmmoContent() returns the current ammo item when ammo.size > 0 and null otherwise."
-    },
-    "N1181": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.getAmmoFraction()",
-      "godot_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public float getAmmoFraction(){",
-        "return (float)totalAmmo / maxAmmo;"
-      ],
-      "deferred_exprs": [
-        "No maxAmmo zero guard is added because the upstream Java return expression has no guard."
-      ],
-      "source_symbols": [
-        "item_turret_build_get_ammo_fraction.inner_class",
-        "item_turret_build_get_ammo_fraction.method",
-        "item_turret_build_get_ammo_fraction.override",
-        "item_turret_build_get_ammo_fraction.return_expr",
-        "item_turret_build_get_ammo_fraction.total_ammo",
-        "item_turret_build_get_ammo_fraction.max_ammo",
-        "item_turret_build_get_ammo_fraction.ammo_fraction"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_get_ammo_fraction_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_get_ammo_fraction_state",
-        "test_port_game_exposes_generated_item_turret_build_get_ammo_fraction_bridge_state",
-        "test_item_turret_build_get_ammo_fraction_matches_upstream_source",
-        "test_generated_item_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_get_ammo_fraction_bridge_state",
-      "rule": "ItemTurretBuild.getAmmoFraction() returns (float)totalAmmo / maxAmmo exactly as upstream Java."
-    },
-    "N1182": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.acceptStack(Item,int,Teamc)",
-      "godot_owner": "PortGame.source_item_turret_build_accept_stack_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public int acceptStack(Item item, int amount, Teamc source){",
-        "BulletType type = ammoTypes.get(item);",
-        "if(type == null) return 0;",
-        "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);"
-      ],
-      "deferred_exprs": [
-        "Teamc source is not read by the upstream method body.",
-        "BulletType internals beyond ammoMultiplier remain owned by later slices."
-      ],
-      "source_symbols": [
-        "item_turret_build_accept_stack.inner_class",
-        "item_turret_build_accept_stack.method",
-        "item_turret_build_accept_stack.override",
-        "item_turret_build_accept_stack.type_lookup",
-        "item_turret_build_accept_stack.null_guard",
-        "item_turret_build_accept_stack.return_expr",
-        "item_turret_build_accept_stack.item",
-        "item_turret_build_accept_stack.amount",
-        "item_turret_build_accept_stack.max_ammo",
-        "item_turret_build_accept_stack.total_ammo",
-        "item_turret_build_accept_stack.ammo_multiplier",
-        "item_turret_build_accept_stack.ammo_type_null",
-        "item_turret_build_accept_stack.accept_stack"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_accept_stack_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_accept_stack_state",
-        "test_port_game_exposes_generated_item_turret_build_accept_stack_bridge_state",
-        "test_item_turret_build_accept_stack_matches_upstream_source",
-        "test_generated_item_turret_build_accept_stack_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_accept_stack_bridge_state",
-      "rule": "ItemTurretBuild.acceptStack() returns 0 for null ammo type, otherwise clamps accepted stack by Java ammo capacity expression."
-    },
-    "N1183": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
-      "godot_owner": "PortGame.source_item_turret_build_handle_stack_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public void handleStack(Item item, int amount, Teamc source){",
-        "for(int i = 0; i < amount; i++){",
-        "handleItem(null, item);"
-      ],
-      "deferred_exprs": [
-        "Teamc source is not read by the upstream method body.",
-        "handleItem(Building,Item) mutation semantics remain owned by the handleItem slice."
-      ],
-      "source_symbols": [
-        "item_turret_build_handle_stack.inner_class",
-        "item_turret_build_handle_stack.method",
-        "item_turret_build_handle_stack.override",
-        "item_turret_build_handle_stack.loop_expr",
-        "item_turret_build_handle_stack.handle_item_expr",
-        "item_turret_build_handle_stack.item",
-        "item_turret_build_handle_stack.amount",
-        "item_turret_build_handle_stack.handle_item_calls",
-        "item_turret_build_handle_stack.handle_item_call_count"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_handle_stack_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_handle_stack_state",
-        "test_port_game_exposes_generated_item_turret_build_handle_stack_bridge_state",
-        "test_item_turret_build_handle_stack_matches_upstream_source",
-        "test_generated_item_turret_build_handle_stack_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_handle_stack_bridge_state",
-      "rule": "ItemTurretBuild.handleStack() delegates handleItem(null,item) once per Java loop iteration."
-    },
-    "N1184": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.removeStack(Item,int)",
-      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "//currently can't remove items from turrets.",
-        "@Override",
-        "public int removeStack(Item item, int amount){",
-        "return 0;"
-      ],
-      "deferred_exprs": [
-        "No item removal state exists in upstream removeStack; the method always returns 0."
-      ],
-      "source_symbols": [
-        "item_turret_build_remove_stack.inner_class",
-        "item_turret_build_remove_stack.comment",
-        "item_turret_build_remove_stack.method",
-        "item_turret_build_remove_stack.override",
-        "item_turret_build_remove_stack.return_expr",
-        "item_turret_build_remove_stack.item",
-        "item_turret_build_remove_stack.amount",
-        "item_turret_build_remove_stack.removed_stack"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
-        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
-        "test_item_turret_build_remove_stack_matches_upstream_source",
-        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_remove_stack_bridge_state",
-      "rule": "ItemTurretBuild.removeStack() currently cannot remove items from turrets and returns zero exactly as upstream Java."
-    },
-    "N1185": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.handleItem(Building,Item)",
-      "godot_owner": "PortGame.source_item_turret_build_handle_item_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public void handleItem(Building source, Item item){",
-        "//TODO instead of all this \"entry\" crap, turrets could just accept only one type of ammo at a time - simpler for both users and the code",
-        "if(item == Items.pyratite){",
-        "Events.fire(Trigger.flameAmmo);",
-        "if(totalAmmo == 0){",
-        "Events.fire(Trigger.resupplyTurret);",
-        "BulletType type = ammoTypes.get(item);",
-        "if(type == null) return;",
-        "totalAmmo += type.ammoMultiplier;",
-        "for(int i = 0; i < ammo.size; i++){",
-        "ItemEntry entry = (ItemEntry)ammo.get(i);",
-        "if(entry.item == item){",
-        "entry.amount += type.ammoMultiplier;",
-        "ammo.swap(i, ammo.size - 1);",
-        "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));"
-      ],
-      "deferred_exprs": [
-        "Events.fire side effects are recorded as branch booleans; global event bus dispatch remains outside this bridge slice.",
-        "Building source parameter is not read by upstream handleItem and is not modeled in this bridge slice."
-      ],
-      "source_symbols": [
-        "item_turret_build_handle_item.inner_class",
-        "item_turret_build_handle_item.override",
-        "item_turret_build_handle_item.method",
-        "item_turret_build_handle_item.todo_comment",
-        "item_turret_build_handle_item.pyratite_guard",
-        "item_turret_build_handle_item.flame_event",
-        "item_turret_build_handle_item.resupply_guard",
-        "item_turret_build_handle_item.resupply_event",
-        "item_turret_build_handle_item.type_lookup",
-        "item_turret_build_handle_item.type_null_guard",
-        "item_turret_build_handle_item.total_ammo_update",
-        "item_turret_build_handle_item.loop_expr",
-        "item_turret_build_handle_item.entry_cast",
-        "item_turret_build_handle_item.found_guard",
-        "item_turret_build_handle_item.entry_update",
-        "item_turret_build_handle_item.swap_expr",
-        "item_turret_build_handle_item.add_expr",
-        "item_turret_build_handle_item.item",
-        "item_turret_build_handle_item.item_is_pyratite",
-        "item_turret_build_handle_item.total_ammo",
-        "item_turret_build_handle_item.ammo_multiplier",
-        "item_turret_build_handle_item.ammo_type_null",
-        "item_turret_build_handle_item.ammo_entries",
-        "item_turret_build_handle_item.flame_ammo_event_fired",
-        "item_turret_build_handle_item.resupply_turret_event_fired",
-        "item_turret_build_handle_item.type_null_returned",
-        "item_turret_build_handle_item.total_ammo_after",
-        "item_turret_build_handle_item.ammo_entries_after",
-        "item_turret_build_handle_item.entry_found",
-        "item_turret_build_handle_item.entry_added",
-        "item_turret_build_handle_item.swapped"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_handle_item_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_handle_item_state",
-        "test_port_game_exposes_generated_item_turret_build_handle_item_bridge_state",
-        "test_item_turret_build_handle_item_matches_upstream_source",
-        "test_generated_item_turret_build_handle_item_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_handle_item_bridge_state",
-      "rule": "ItemTurretBuild.handleItem() updates ammo stacks and event branch state exactly from upstream Java with explicit ammo type inputs."
-    },
-    "N1186": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
-      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public boolean acceptItem(Building source, Item item){",
-        "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;"
-      ],
-      "deferred_exprs": [
-        "Building source parameter is not read by upstream acceptItem and is not modeled in this bridge slice."
-      ],
-      "source_symbols": [
-        "item_turret_build_accept_item.inner_class",
-        "item_turret_build_accept_item.override",
-        "item_turret_build_accept_item.method",
-        "item_turret_build_accept_item.return_expr",
-        "item_turret_build_accept_item.item",
-        "item_turret_build_accept_item.total_ammo",
-        "item_turret_build_accept_item.max_ammo",
-        "item_turret_build_accept_item.ammo_multiplier",
-        "item_turret_build_accept_item.ammo_type_null",
-        "item_turret_build_accept_item.accept_item"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_accept_item_state",
-        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
-        "test_item_turret_build_accept_item_matches_upstream_source",
-        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_accept_item_bridge_state",
-      "rule": "ItemTurretBuild.acceptItem() accepts only known ammo items whose ammoMultiplier keeps totalAmmo within maxAmmo."
-    },
-    "N1187": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.version()",
-      "godot_owner": "PortGame.source_item_turret_build_version_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public byte version(){",
-        "return 2;"
-      ],
-      "deferred_exprs": [],
-      "source_symbols": [
-        "item_turret_build_version.inner_class",
-        "item_turret_build_version.override",
-        "item_turret_build_version.method",
-        "item_turret_build_version.return_expr",
-        "item_turret_build_version.version"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_version_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_version_state",
-        "test_port_game_exposes_generated_item_turret_build_version_bridge_state",
-        "test_item_turret_build_version_matches_upstream_source",
-        "test_generated_item_turret_build_version_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_version_bridge_state",
-      "rule": "ItemTurretBuild.version() returns upstream byte version 2."
-    },
-    "N1188": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.write(Writes)",
-      "godot_owner": "PortGame.source_item_turret_build_write_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public void write(Writes write){",
-        "super.write(write);",
-        "write.b(ammo.size);",
-        "for(AmmoEntry entry : ammo){",
-        "ItemEntry i = (ItemEntry)entry;",
-        "write.s(i.item.id);",
-        "write.s(i.amount);"
-      ],
-      "deferred_exprs": [],
-      "source_symbols": [
-        "item_turret_build_write.inner_class",
-        "item_turret_build_write.override",
-        "item_turret_build_write.method",
-        "item_turret_build_write.super_write_expr",
-        "item_turret_build_write.write_size_expr",
-        "item_turret_build_write.loop_expr",
-        "item_turret_build_write.entry_cast",
-        "item_turret_build_write.write_item_id_expr",
-        "item_turret_build_write.write_amount_expr",
-        "item_turret_build_write.ammo_entries",
-        "item_turret_build_write.ammo_size",
-        "item_turret_build_write.entry_writes",
-        "item_turret_build_write.write_calls"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_write_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_write_state",
-        "test_port_game_exposes_generated_item_turret_build_write_bridge_state",
-        "test_item_turret_build_write_matches_upstream_source",
-        "test_generated_item_turret_build_write_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_write_bridge_state",
-      "rule": "ItemTurretBuild.write(Writes) writes superclass state, ammo size, then each ItemEntry item id and amount in ammo order."
-    },
-    "N1189": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
-      "java_method": "ItemTurretBuild.read(Reads, byte)",
-      "godot_owner": "PortGame.source_item_turret_build_read_state",
-      "exact_exprs": [
-        "public class ItemTurretBuild extends TurretBuild{",
-        "@Override",
-        "public void read(Reads read, byte revision){",
-        "super.read(read, revision);",
-        "ammo.clear();",
-        "totalAmmo = 0;",
-        "int amount = read.ub();",
-        "for(int i = 0; i < amount; i++){",
-        "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());",
-        "int itemAmount = Math.min(read.s(), maxAmmo);",
-        "//only add ammo if this is a valid ammo type",
-        "if(item != null && ammoTypes.containsKey(item)){",
-        "totalAmmo += itemAmount;",
-        "ammo.add(new ItemEntry(item, itemAmount));"
-      ],
-      "deferred_exprs": [],
-      "source_symbols": [
-        "item_turret_build_read.inner_class",
-        "item_turret_build_read.override",
-        "item_turret_build_read.method",
-        "item_turret_build_read.super_read_expr",
-        "item_turret_build_read.clear_expr",
-        "item_turret_build_read.total_reset_expr",
-        "item_turret_build_read.amount_expr",
-        "item_turret_build_read.loop_expr",
-        "item_turret_build_read.item_lookup_expr",
-        "item_turret_build_read.item_amount_expr",
-        "item_turret_build_read.valid_comment",
-        "item_turret_build_read.valid_ammo_guard",
-        "item_turret_build_read.total_add_expr",
-        "item_turret_build_read.ammo_add_expr",
-        "item_turret_build_read.revision",
-        "item_turret_build_read.max_ammo",
-        "item_turret_build_read.read_entries",
-        "item_turret_build_read.read_count",
-        "item_turret_build_read.total_ammo_after",
-        "item_turret_build_read.ammo_entries_after",
-        "item_turret_build_read.read_calls"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_read_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_read_state",
-        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
-        "test_item_turret_build_read_matches_upstream_source",
-        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_turret_build_read_bridge_state",
-      "rule": "ItemTurretBuild.read(Reads, byte) resets ammo, reads count, resolves item ids by revision, clamps amount to maxAmmo, and adds only valid ammo entries."
-    },
-    "N1190": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemEntry",
-      "java_method": "ItemEntry(Item, int)",
-      "godot_owner": "PortGame.source_item_entry_constructor_state",
-      "exact_exprs": [
-        "public class ItemEntry extends AmmoEntry{",
-        "public Item item;",
-        "ItemEntry(Item item, int amount){",
-        "this.item = item;",
-        "this.amount = amount;"
-      ],
-      "deferred_exprs": [],
-      "source_symbols": [
-        "item_entry_constructor.inner_class",
-        "item_entry_constructor.field",
-        "item_entry_constructor.constructor",
-        "item_entry_constructor.item_assign_expr",
-        "item_entry_constructor.amount_assign_expr",
-        "item_entry_constructor.item",
-        "item_entry_constructor.amount",
-        "item_entry_constructor.item_after",
-        "item_entry_constructor.amount_after"
-      ],
-      "tests": [
-        "test_emit_bridges_item_entry_constructor_to_source_state",
-        "test_port_game_exposes_source_item_entry_constructor_state",
-        "test_port_game_exposes_generated_item_entry_constructor_bridge_state",
-        "test_item_entry_constructor_matches_upstream_source",
-        "test_generated_item_entry_constructor_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_entry_constructor_bridge_state",
-      "rule": "ItemEntry constructor assigns item and amount directly from parameters."
-    },
-    "N1191": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemEntry",
-      "java_method": "ItemEntry.type()",
-      "godot_owner": "PortGame.source_item_entry_type_state",
-      "exact_exprs": [
-        "public class ItemEntry extends AmmoEntry{",
-        "@Override",
-        "public BulletType type(){",
-        "return ammoTypes.get(item);"
-      ],
-      "deferred_exprs": [],
-      "source_symbols": [
-        "item_entry_type.inner_class",
-        "item_entry_type.override_expr",
-        "item_entry_type.method",
-        "item_entry_type.return_expr",
-        "item_entry_type.item",
-        "item_entry_type.ammo_type",
-        "item_entry_type.type"
-      ],
-      "tests": [
-        "test_emit_bridges_item_entry_type_to_source_state",
-        "test_port_game_exposes_source_item_entry_type_state",
-        "test_port_game_exposes_generated_item_entry_type_bridge_state",
-        "test_item_entry_type_matches_upstream_source",
-        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_entry_type_bridge_state",
-      "rule": "ItemEntry.type returns ammoTypes.get(item) directly."
-    },
-    "N1192": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemEntry",
-      "java_method": "ItemEntry.toString()",
-      "godot_owner": "PortGame.source_item_entry_to_string_state",
-      "exact_exprs": [
-        "public class ItemEntry extends AmmoEntry{",
-        "@Override",
-        "public String toString(){",
-        "return \"ItemEntry{\" +",
-        "\"item=\" + item +",
-        "\", amount=\" + amount +",
-        "'}';"
-      ],
-      "deferred_exprs": [],
-      "source_symbols": [
-        "item_entry_to_string.inner_class",
-        "item_entry_to_string.override_expr",
-        "item_entry_to_string.method",
-        "item_entry_to_string.return_start_expr",
-        "item_entry_to_string.item_concat_expr",
-        "item_entry_to_string.amount_concat_expr",
-        "item_entry_to_string.return_end_expr",
-        "item_entry_to_string.item_string",
-        "item_entry_to_string.amount",
-        "item_entry_to_string.to_string"
-      ],
-      "tests": [
-        "test_emit_bridges_item_entry_to_string_to_source_state",
-        "test_port_game_exposes_source_item_entry_to_string_state",
-        "test_port_game_exposes_generated_item_entry_to_string_bridge_state",
-        "test_item_entry_to_string_matches_upstream_source",
-        "test_generated_item_entry_to_string_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_item_entry_to_string_bridge_state",
-      "rule": "ItemEntry.toString concatenates item and amount exactly as upstream source."
-    },
-    "N1193": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret",
-      "java_method": "LiquidTurret.ammo(Object...)",
-      "godot_owner": "PortGame.source_liquid_turret_ammo_state",
-      "exact_exprs": [
-        "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
-        "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
-        "public void ammo(Object... objects){",
-        "ammoTypes = ObjectMap.of(objects);"
-      ],
-      "deferred_exprs": [],
-      "source_symbols": [
-        "liquid_turret_ammo.field",
-        "liquid_turret_ammo.comment",
-        "liquid_turret_ammo.method",
-        "liquid_turret_ammo.assignment_expr",
-        "liquid_turret_ammo.objects",
-        "liquid_turret_ammo.ammo_types_after"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_ammo_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_ammo_state",
-        "test_port_game_exposes_generated_liquid_turret_ammo_bridge_state",
-        "test_liquid_turret_ammo_matches_upstream_source",
-        "test_generated_liquid_turret_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_ammo_bridge_state",
-      "rule": "LiquidTurret.ammo replaces ammoTypes with ObjectMap.of(objects); Godot bridge records explicit varargs snapshot only."
-    },
-    "N1194": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret",
-      "java_method": "LiquidTurret.setStats()",
-      "godot_owner": "PortGame.source_liquid_turret_set_stats_state",
-      "exact_exprs": [
-        "@Override",
-        "public void setStats(){",
-        "super.setStats();",
-        "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));"
-      ],
-      "deferred_exprs": [],
-      "source_symbols": [
-        "liquid_turret_set_stats.override_expr",
-        "liquid_turret_set_stats.method",
-        "liquid_turret_set_stats.super_set_stats",
-        "liquid_turret_set_stats.stats_add",
-        "liquid_turret_set_stats.ammo_types",
-        "liquid_turret_set_stats.name",
-        "liquid_turret_set_stats.ammo_values_call"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_set_stats_state",
-        "test_port_game_exposes_generated_liquid_turret_set_stats_bridge_state",
-        "test_liquid_turret_set_stats_matches_upstream_source",
-        "test_generated_liquid_turret_set_stats_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_set_stats_bridge_state",
-      "rule": "LiquidTurret.setStats adds ammo stats from ammoTypes and name; Godot records exact calls without StatValues internals."
-    },
-    "N1195": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret",
-      "java_method": "LiquidTurret.init()",
-      "godot_owner": "PortGame.source_liquid_turret_init_state",
-      "exact_exprs": [
-        "@Override",
-        "public void init(){",
-        "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){",
-        "public void update(Building build){",
-        "public void display(Stats stats){",
-        "if(targetGround){",
-        "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
-        "super.init();"
-      ],
-      "deferred_exprs": [
-        "ConsumeLiquidFilter update/display concrete side effects stay no-op per anonymous override bodies."
-      ],
-      "source_symbols": [
-        "liquid_turret_init.method",
-        "liquid_turret_init.ammo_entries",
-        "liquid_turret_init.overlap_each",
-        "liquid_turret_init.consume_filter"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_init_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_init_state",
-        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
-        "test_liquid_turret_init_matches_upstream_source",
-        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_init_bridge_state",
-      "rule": "LiquidTurret.init records consume filter, targetGround overlap Math.max updates, and super.init without inventing ConsumeLiquidFilter internals."
-    },
-    "N1196": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
-      "java_method": "LiquidTurretBuild.shouldActiveSound()",
-      "godot_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
-      "exact_exprs": [
-        "public class LiquidTurretBuild extends TurretBuild{",
-        "@Override",
-        "public boolean shouldActiveSound(){",
-        "return wasShooting && enabled;"
-      ],
-      "deferred_exprs": [],
-      "source_symbols": [
-        "liquid_turret_build_should_active_sound.method",
-        "liquid_turret_build_should_active_sound.was_shooting",
-        "liquid_turret_build_should_active_sound.enabled",
-        "liquid_turret_build_should_active_sound.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_should_active_sound_state",
-        "test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state",
-        "test_liquid_turret_build_should_active_sound_matches_upstream_source",
-        "test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_build_should_active_sound_bridge_state",
-      "rule": "LiquidTurretBuild.shouldActiveSound returns exact wasShooting && enabled state."
-    },
-    "N1197": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
-      "java_method": "LiquidTurretBuild.getAmmoContent()",
-      "godot_owner": "PortGame.source_liquid_turret_build_get_ammo_content_state",
-      "exact_exprs": [
-        "public class LiquidTurretBuild extends TurretBuild{",
-        "@Override",
-        "public UnlockableContent getAmmoContent(){",
-        "return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;"
-      ],
-      "deferred_exprs": [
-        "Liquid module implementation and UnlockableContent internals stay deferred; this slice records only ternary return state."
-      ],
-      "source_symbols": [
-        "liquid_turret_build_get_ammo_content.method",
-        "liquid_turret_build_get_ammo_content.liquids_null",
-        "liquid_turret_build_get_ammo_content.current_amount",
-        "liquid_turret_build_get_ammo_content.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state",
-        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_content_bridge_state",
-        "test_liquid_turret_build_get_ammo_content_matches_upstream_source",
-        "test_generated_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_build_get_ammo_content_bridge_state",
-      "rule": "LiquidTurretBuild.getAmmoContent returns current liquid only when liquids exists and currentAmount() > 0."
-    },
-    "N1198": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
-      "java_method": "LiquidTurretBuild.getAmmoFraction()",
-      "godot_owner": "PortGame.source_liquid_turret_build_get_ammo_fraction_state",
-      "exact_exprs": [
-        "public class LiquidTurretBuild extends TurretBuild{",
-        "@Override",
-        "public float getAmmoFraction(){",
-        "return liquids.currentAmount() / liquidCapacity;"
-      ],
-      "deferred_exprs": [
-        "Liquid module storage and LiquidTurret liquidCapacity owner integration stay deferred; this slice records only getAmmoFraction return state."
-      ],
-      "source_symbols": [
-        "liquid_turret_build_get_ammo_fraction.method",
-        "liquid_turret_build_get_ammo_fraction.current_amount",
-        "liquid_turret_build_get_ammo_fraction.liquid_capacity",
-        "liquid_turret_build_get_ammo_fraction.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_get_ammo_fraction_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_get_ammo_fraction_state",
-        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_fraction_bridge_state",
-        "test_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
-        "test_generated_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_build_get_ammo_fraction_bridge_state",
-      "rule": "LiquidTurretBuild.getAmmoFraction returns liquids.currentAmount() / liquidCapacity exactly as upstream Java."
-    },
-    "N1199": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
-      "java_method": "LiquidTurretBuild.senseObject(LAccess sensor)",
-      "godot_owner": "PortGame.source_liquid_turret_build_sense_object_state",
-      "exact_exprs": [
-        "public class LiquidTurretBuild extends TurretBuild{",
-        "@Override",
-        "public Object senseObject(LAccess sensor){",
-        "return switch(sensor){",
-        "case currentAmmoType -> liquids.current();",
-        "default -> super.senseObject(sensor);"
-      ],
-      "deferred_exprs": [
-        "LAccess enum internals and superclass senseObject implementation stay deferred; this slice records only switch dispatch state."
-      ],
-      "source_symbols": [
-        "liquid_turret_build_sense_object.method",
-        "liquid_turret_build_sense_object.sensor",
-        "liquid_turret_build_sense_object.current_liquid",
-        "liquid_turret_build_sense_object.super_sense_object_value",
-        "liquid_turret_build_sense_object.current_ammo_type_case",
-        "liquid_turret_build_sense_object.default_case",
-        "liquid_turret_build_sense_object.sense_object_value"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_sense_object_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_sense_object_state",
-        "test_port_game_exposes_generated_liquid_turret_build_sense_object_bridge_state",
-        "test_liquid_turret_build_sense_object_matches_upstream_source",
-        "test_generated_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_build_sense_object_bridge_state",
-      "rule": "LiquidTurretBuild.senseObject returns liquids.current() for currentAmmoType, otherwise super.senseObject(sensor)."
-    },
-    "N1200": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
-      "java_method": "LiquidTurretBuild.findTarget()",
-      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
-      "exact_exprs": [
-        "public class LiquidTurretBuild extends TurretBuild{",
-        "@Override",
-        "protected void findTarget(){",
-        "if(extinguish && liquids.current().canExtinguish()){",
-        "Fire result = null;",
-        "target = result;",
-        "return;",
-        "super.findTarget();"
-      ],
-      "deferred_exprs": [
-        "Fire scan tile iteration, distance comparison, team checks, and mindst updates stay deferred; this slice records extinguish gate and target/super dispatch using explicit fire_result."
-      ],
-      "source_symbols": [
-        "liquid_turret_build_find_target_extinguish.method",
-        "liquid_turret_build_find_target_extinguish.extinguish",
-        "liquid_turret_build_find_target_extinguish.current_liquid_can_extinguish",
-        "liquid_turret_build_find_target_extinguish.fire_result",
-        "liquid_turret_build_find_target_extinguish.guard_expr",
-        "liquid_turret_build_find_target_extinguish.assign_expr",
-        "liquid_turret_build_find_target_extinguish.super_find_target_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
-        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
-        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
-        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_build_find_target_extinguish_bridge_state",
-      "rule": "LiquidTurretBuild.findTarget assigns fire result and returns when extinguish scan finds fire; otherwise it calls super.findTarget()."
-    },
-    "N1201": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
-      "java_method": "LiquidTurretBuild.useAmmo()",
-      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
-      "exact_exprs": [
-        "public class LiquidTurretBuild extends TurretBuild{",
-        "@Override",
-        "public BulletType useAmmo(){",
-        "if(cheating()) return ammoTypes.get(liquids.current());",
-        "BulletType type = ammoTypes.get(liquids.current());",
-        "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);",
-        "return type;"
-      ],
-      "deferred_exprs": [
-        "ObjectMap ammoTypes lookup, LiquidModule mutation internals, and BulletType internals stay deferred; this slice records useAmmo branch state and liquid remove call payload."
-      ],
-      "source_symbols": [
-        "liquid_turret_build_use_ammo.method",
-        "liquid_turret_build_use_ammo.cheating",
-        "liquid_turret_build_use_ammo.current_liquid",
-        "liquid_turret_build_use_ammo.ammo_type",
-        "liquid_turret_build_use_ammo.ammo_multiplier",
-        "liquid_turret_build_use_ammo.cheating_return_expr",
-        "liquid_turret_build_use_ammo.remove_expr",
-        "liquid_turret_build_use_ammo.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
-        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
-        "test_liquid_turret_build_use_ammo_matches_upstream_source",
-        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_build_use_ammo_bridge_state",
-      "rule": "LiquidTurretBuild.useAmmo returns ammo type immediately when cheating; otherwise removes 1f / type.ammoMultiplier from current liquid and returns type."
-    },
-    "N1202": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
-      "java_method": "LiquidTurretBuild.peekAmmo()",
-      "godot_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
-      "exact_exprs": [
-        "public class LiquidTurretBuild extends TurretBuild{",
-        "@Override",
-        "public BulletType peekAmmo(){",
-        "return ammoTypes.get(liquids.current());"
-      ],
-      "deferred_exprs": [
-        "ObjectMap ammoTypes lookup internals stay deferred; this slice records peekAmmo return state using explicit current liquid and lookup result inputs."
-      ],
-      "source_symbols": [
-        "liquid_turret_build_peek_ammo.method",
-        "liquid_turret_build_peek_ammo.current_liquid",
-        "liquid_turret_build_peek_ammo.ammo_type",
-        "liquid_turret_build_peek_ammo.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
-        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
-        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
-        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_build_peek_ammo_bridge_state",
-      "rule": "LiquidTurretBuild.peekAmmo returns ammoTypes.get(liquids.current())."
-    },
-    "N1203": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
-      "java_method": "LiquidTurretBuild.hasAmmo()",
-      "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
-      "exact_exprs": [
-        "public class LiquidTurretBuild extends TurretBuild{",
-        "@Override",
-        "public boolean hasAmmo(){",
-        "return ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier;"
-      ],
-      "deferred_exprs": [
-        "ObjectMap ammoTypes lookup internals, LiquidModule internals, and BulletType internals stay deferred; this slice records hasAmmo branch state with explicit current liquid, lookup result, current amount, and ammoMultiplier inputs."
-      ],
-      "source_symbols": [
-        "liquid_turret_build_has_ammo.method",
-        "liquid_turret_build_has_ammo.current_liquid",
-        "liquid_turret_build_has_ammo.ammo_type",
-        "liquid_turret_build_has_ammo.current_amount",
-        "liquid_turret_build_has_ammo.ammo_multiplier",
-        "liquid_turret_build_has_ammo.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
-        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
-        "test_liquid_turret_build_has_ammo_matches_upstream_source",
-        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_build_has_ammo_bridge_state",
-      "rule": "LiquidTurretBuild.hasAmmo returns ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier."
-    },
-    "N1204": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
-      "java_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
-      "godot_owner": "PortGame.source_liquid_turret_build_accept_item_state",
-      "exact_exprs": [
-        "public class LiquidTurretBuild extends TurretBuild{",
-        "@Override",
-        "public boolean acceptItem(Building source, Item item){",
-        "return false;"
-      ],
-      "deferred_exprs": [
-        "Building source and Item item internals stay deferred because upstream return ignores both parameters."
-      ],
-      "source_symbols": [
-        "liquid_turret_build_accept_item.method",
-        "liquid_turret_build_accept_item.source_building",
-        "liquid_turret_build_accept_item.item",
-        "liquid_turret_build_accept_item.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_accept_item_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_accept_item_state",
-        "test_port_game_exposes_generated_liquid_turret_build_accept_item_bridge_state",
-        "test_liquid_turret_build_accept_item_matches_upstream_source",
-        "test_generated_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_build_accept_item_bridge_state",
-      "rule": "LiquidTurretBuild.acceptItem(Building source, Item item) always returns false."
-    },
-    "N1205": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
-      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
-      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
-      "exact_exprs": [
-        "public class LiquidTurretBuild extends TurretBuild{",
-        "@Override",
-        "public boolean acceptLiquid(Building source, Liquid liquid){",
-        "return ammoTypes.get(liquid) != null &&",
-        "(liquids.current() == liquid ||",
-        "((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));"
-      ],
-      "deferred_exprs": [
-        "ObjectMap<Liquid, BulletType>, LiquidModule, Building, and Liquid internals stay deferred; explicit inputs carry exact Java lookup results.",
-        "Replacement threshold is evaluated only on the Java short-circuit path where ammoTypes.get(liquid) is non-null, current liquid differs, and ammoTypes.containsKey(liquids.current()) is true."
-      ],
-      "source_symbols": [
-        "liquid_turret_build_accept_liquid.method",
-        "liquid_turret_build_accept_liquid.source_building",
-        "liquid_turret_build_accept_liquid.liquid",
-        "liquid_turret_build_accept_liquid.ammo_type",
-        "liquid_turret_build_accept_liquid.current_liquid",
-        "liquid_turret_build_accept_liquid.current_liquid_ammo_type_present",
-        "liquid_turret_build_accept_liquid.current_liquid_amount",
-        "liquid_turret_build_accept_liquid.current_ammo_multiplier",
-        "liquid_turret_build_accept_liquid.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
-        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
-        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
-        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_liquid_turret_build_accept_liquid_bridge_state",
-      "rule": "LiquidTurretBuild.acceptLiquid accepts liquids with ammo types, same current liquid, or drained/unmapped current liquid replacement gate."
-    },
-    "N1206": {
-      "status": "active",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
-      "java_method": "reinitializeConsumers()",
-      "godot_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
-      "exact_exprs": [
-        "@Override",
-        "public void reinitializeConsumers(){",
-        "checkInitCoolant();",
-        "super.reinitializeConsumers();"
-      ],
-      "deferred_exprs": [
-        "checkInitCoolant() internals stay owned by BaseTurret.checkInitCoolant slices.",
-        "Superclass consumer reinitialization internals stay deferred to Block superclass source."
-      ],
-      "source_symbols": [
-        "base_turret_reinitialize_consumers.method",
-        "base_turret_reinitialize_consumers.check_init_coolant",
-        "base_turret_reinitialize_consumers.super_reinitialize_consumers"
-      ],
-      "tests": [
-        "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
-        "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
-        "test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state",
-        "test_base_turret_reinitialize_consumers_matches_upstream_source",
-        "test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_base_turret_reinitialize_consumers_bridge_state",
-      "rule": "BaseTurret.reinitializeConsumers calls checkInitCoolant() then super.reinitializeConsumers()."
     }
   },
   "version": 1

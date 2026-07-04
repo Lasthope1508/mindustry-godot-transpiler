@@ -12909,6 +12909,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BaseTurret.java_method_reinitializeConsumers_1"', source)
         self.assertIn('"matches": result.get("check_init_coolant_called", null) == canonical.get("check_init_coolant_called", null) and result.get("super_reinitialize_consumers_called", null) == canonical.get("super_reinitialize_consumers_called", null)', source)
 
+    def test_port_game_exposes_source_base_turret_check_init_coolant_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_base_turret_check_init_coolant_state(coolant_present: bool, has_consumer: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_check_init_coolant_state"', source)
+        self.assertIn('"method": "void checkInitCoolant(){"', source)
+        self.assertIn('"coolant_guard_expr": "if(coolant != null){"', source)
+        self.assertIn('"update_assign_expr": "coolant.update = false;"', source)
+        self.assertIn('"booster_assign_expr": "coolant.booster = true;"', source)
+        self.assertIn('"optional_assign_expr": "coolant.optional = true;"', source)
+        self.assertIn('"json_comment": "//json parsing does not add to consumes"', source)
+        self.assertIn('"consume_guard_expr": "if(!hasConsumer(coolant)) consume(coolant);"', source)
+        self.assertIn('"consume_called": coolant_present and not has_consumer', source)
+
+    def test_port_game_exposes_generated_base_turret_check_init_coolant_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_base_turret_check_init_coolant_bridge_state(coolant_present: bool, has_consumer: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_checkInitCoolant_2([coolant_present, has_consumer])", source)
+        self.assertIn("var canonical = source_base_turret_check_init_coolant_state(coolant_present, has_consumer)", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_check_init_coolant_state"', source)
+        self.assertIn('"generated_owner": "BaseTurret.java_method_checkInitCoolant_2"', source)
+        self.assertIn('"matches": result.get("consume_called", null) == canonical.get("consume_called", null) and result.get("update_after", null) == canonical.get("update_after", null) and result.get("booster_after", null) == canonical.get("booster_after", null) and result.get("optional_after", null) == canonical.get("optional_after", null)', source)
+
     def test_port_game_exposes_source_turret_load_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

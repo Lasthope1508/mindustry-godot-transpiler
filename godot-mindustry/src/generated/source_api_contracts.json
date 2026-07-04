@@ -846,6 +846,74 @@
         "test_arc_vec2_limit_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_base_turret_check_init_coolant_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "params": [
+        {
+          "name": "coolant_present",
+          "schema": "source_base_turret_check_init_coolant_input.coolant_present",
+          "type": "bool"
+        },
+        {
+          "name": "has_consumer",
+          "schema": "source_base_turret_check_init_coolant_input.has_consumer",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "coolant_guard_expr",
+        "update_assign_expr",
+        "booster_assign_expr",
+        "optional_assign_expr",
+        "json_comment",
+        "consume_guard_expr",
+        "coolant_present",
+        "has_consumer",
+        "update_after",
+        "booster_after",
+        "optional_after",
+        "consume_called"
+      ],
+      "rule": "Public runtime contract for BaseTurret.checkInitCoolant coolant consumer state.",
+      "runtime_proof": "/root/Main.source_base_turret_check_init_coolant_state",
+      "source_method": "checkInitCoolant()",
+      "source_slice": "N1207",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_check_init_coolant_to_source_state",
+        "test_port_game_exposes_source_base_turret_check_init_coolant_state",
+        "test_port_game_exposes_generated_base_turret_check_init_coolant_bridge_state",
+        "test_base_turret_check_init_coolant_matches_upstream_source",
+        "test_generated_base_turret_check_init_coolant_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_base_turret_reinitialize_consumers_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "check_init_coolant_expr",
+        "super_reinitialize_consumers_expr",
+        "check_init_coolant_called",
+        "super_reinitialize_consumers_called"
+      ],
+      "rule": "Public runtime contract for BaseTurret.reinitializeConsumers dispatch order state.",
+      "runtime_proof": "/root/Main.source_base_turret_reinitialize_consumers_state",
+      "source_method": "reinitializeConsumers()",
+      "source_slice": "N1206",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
+        "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
+        "test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state",
+        "test_base_turret_reinitialize_consumers_matches_upstream_source",
+        "test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_can_replace_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [
@@ -14854,6 +14922,909 @@
         "test_increment_dump_cursor_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_item_entry_constructor_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_item_entry_constructor_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "amount",
+          "schema": "source_item_entry_constructor_input.amount",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "field",
+        "constructor",
+        "item_assign_expr",
+        "amount_assign_expr",
+        "item",
+        "amount",
+        "item_after",
+        "amount_after"
+      ],
+      "rule": "Public runtime contract for ItemEntry(Item, int) constructor field assignment state.",
+      "runtime_proof": "/root/Main.source_item_entry_constructor_state",
+      "source_method": "ItemEntry(Item, int)",
+      "source_slice": "N1190",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_entry_constructor_to_source_state",
+        "test_port_game_exposes_source_item_entry_constructor_state",
+        "test_port_game_exposes_generated_item_entry_constructor_bridge_state",
+        "test_item_entry_constructor_matches_upstream_source",
+        "test_generated_item_entry_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_entry_to_string_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "item_string",
+          "schema": "source_item_entry_to_string_input.item_string",
+          "type": "String"
+        },
+        {
+          "name": "amount",
+          "schema": "source_item_entry_to_string_input.amount",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "override_expr",
+        "method",
+        "return_start_expr",
+        "item_concat_expr",
+        "amount_concat_expr",
+        "return_end_expr",
+        "item_string",
+        "amount",
+        "to_string"
+      ],
+      "rule": "Public runtime contract for ItemEntry.toString state.",
+      "runtime_proof": "/root/Main.source_item_entry_to_string_state",
+      "source_method": "ItemEntry.toString()",
+      "source_slice": "N1192",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_entry_to_string_to_source_state",
+        "test_port_game_exposes_source_item_entry_to_string_state",
+        "test_port_game_exposes_generated_item_entry_to_string_bridge_state",
+        "test_item_entry_to_string_matches_upstream_source",
+        "test_generated_item_entry_to_string_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_entry_type_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_item_entry_type_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "ammo_type",
+          "schema": "source_item_entry_type_input.ammo_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "override_expr",
+        "method",
+        "return_expr",
+        "item",
+        "ammo_type",
+        "type"
+      ],
+      "rule": "Public runtime contract for ItemEntry.type return state.",
+      "runtime_proof": "/root/Main.source_item_entry_type_state",
+      "source_method": "ItemEntry.type()",
+      "source_slice": "N1191",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_accept_item_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_item_turret_build_accept_item_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "total_ammo",
+          "schema": "source_item_turret_build_accept_item_input.total_ammo",
+          "type": "int"
+        },
+        {
+          "name": "max_ammo",
+          "schema": "source_item_turret_build_accept_item_input.max_ammo",
+          "type": "float"
+        },
+        {
+          "name": "ammo_multiplier",
+          "schema": "source_item_turret_build_accept_item_input.ammo_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "ammo_type_null",
+          "schema": "source_item_turret_build_accept_item_input.ammo_type_null",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "item",
+        "total_ammo",
+        "max_ammo",
+        "ammo_multiplier",
+        "ammo_type_null",
+        "accept_item"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.acceptItem() boolean acceptance expression.",
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "source_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "source_slice": "N1186",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_accept_stack_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_item_turret_build_accept_stack_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "amount",
+          "schema": "source_item_turret_build_accept_stack_input.amount",
+          "type": "int"
+        },
+        {
+          "name": "max_ammo",
+          "schema": "source_item_turret_build_accept_stack_input.max_ammo",
+          "type": "float"
+        },
+        {
+          "name": "total_ammo",
+          "schema": "source_item_turret_build_accept_stack_input.total_ammo",
+          "type": "float"
+        },
+        {
+          "name": "ammo_multiplier",
+          "schema": "source_item_turret_build_accept_stack_input.ammo_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "ammo_type_null",
+          "schema": "source_item_turret_build_accept_stack_input.ammo_type_null",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "type_lookup",
+        "null_guard",
+        "return_expr",
+        "item",
+        "amount",
+        "max_ammo",
+        "total_ammo",
+        "ammo_multiplier",
+        "ammo_type_null",
+        "accept_stack"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.acceptStack() accepted item count.",
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_stack_state",
+      "source_method": "ItemTurretBuild.acceptStack(Item,int,Teamc)",
+      "source_slice": "N1182",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_stack_bridge_state",
+        "test_item_turret_build_accept_stack_matches_upstream_source",
+        "test_generated_item_turret_build_accept_stack_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_get_ammo_content_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "ammo_size",
+          "schema": "source_item_turret_build_get_ammo_content_input.ammo_size",
+          "type": "int"
+        },
+        {
+          "name": "peek_item",
+          "schema": "source_item_turret_build_get_ammo_content_input.peek_item",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "ammo_size",
+        "peek_item",
+        "ammo_content"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.getAmmoContent() current ammo content return.",
+      "runtime_proof": "/root/Main.source_item_turret_build_get_ammo_content_state",
+      "source_method": "ItemTurretBuild.getAmmoContent()",
+      "source_slice": "N1180",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_item_turret_build_get_ammo_content_bridge_state",
+        "test_item_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_item_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_get_ammo_fraction_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "total_ammo",
+          "schema": "source_item_turret_build_get_ammo_fraction_input.total_ammo",
+          "type": "float"
+        },
+        {
+          "name": "max_ammo",
+          "schema": "source_item_turret_build_get_ammo_fraction_input.max_ammo",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "total_ammo",
+        "max_ammo",
+        "ammo_fraction"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.getAmmoFraction() ammo fraction return.",
+      "runtime_proof": "/root/Main.source_item_turret_build_get_ammo_fraction_state",
+      "source_method": "ItemTurretBuild.getAmmoFraction()",
+      "source_slice": "N1181",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_item_turret_build_get_ammo_fraction_bridge_state",
+        "test_item_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_item_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_handle_item_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_item_turret_build_handle_item_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "item_is_pyratite",
+          "schema": "source_item_turret_build_handle_item_input.item_is_pyratite",
+          "type": "bool"
+        },
+        {
+          "name": "total_ammo",
+          "schema": "source_item_turret_build_handle_item_input.total_ammo",
+          "type": "int"
+        },
+        {
+          "name": "ammo_multiplier",
+          "schema": "source_item_turret_build_handle_item_input.ammo_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "ammo_type_null",
+          "schema": "source_item_turret_build_handle_item_input.ammo_type_null",
+          "type": "bool"
+        },
+        {
+          "name": "ammo_entries",
+          "schema": "source_item_turret_build_handle_item_input.ammo_entries",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "todo_comment",
+        "pyratite_guard",
+        "flame_event_expr",
+        "resupply_guard",
+        "resupply_event_expr",
+        "type_lookup",
+        "type_null_guard",
+        "total_ammo_update_expr",
+        "loop_expr",
+        "entry_cast",
+        "found_guard",
+        "entry_update_expr",
+        "swap_expr",
+        "add_expr",
+        "item",
+        "item_is_pyratite",
+        "total_ammo",
+        "ammo_multiplier",
+        "ammo_type_null",
+        "flame_ammo_event_fired",
+        "resupply_turret_event_fired",
+        "type_null_returned",
+        "total_ammo_after",
+        "ammo_entries_after",
+        "entry_found",
+        "entry_added",
+        "swapped"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.handleItem() ammo stack and event branch state.",
+      "runtime_proof": "/root/Main.source_item_turret_build_handle_item_state",
+      "source_method": "ItemTurretBuild.handleItem(Building,Item)",
+      "source_slice": "N1185",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_handle_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_handle_item_state",
+        "test_port_game_exposes_generated_item_turret_build_handle_item_bridge_state",
+        "test_item_turret_build_handle_item_matches_upstream_source",
+        "test_generated_item_turret_build_handle_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_handle_stack_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_item_turret_build_handle_stack_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "amount",
+          "schema": "source_item_turret_build_handle_stack_input.amount",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "loop_expr",
+        "handle_item_expr",
+        "item",
+        "amount",
+        "handle_item_calls",
+        "handle_item_call_count"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.handleStack() handleItem dispatch records.",
+      "runtime_proof": "/root/Main.source_item_turret_build_handle_stack_state",
+      "source_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+      "source_slice": "N1183",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_handle_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_handle_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_handle_stack_bridge_state",
+        "test_item_turret_build_handle_stack_matches_upstream_source",
+        "test_generated_item_turret_build_handle_stack_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_on_proximity_added_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "has_ammo",
+          "schema": "source_item_turret_build_on_proximity_added_input.has_ammo",
+          "type": "bool"
+        },
+        {
+          "name": "cheating",
+          "schema": "source_item_turret_build_on_proximity_added_input.cheating",
+          "type": "bool"
+        },
+        {
+          "name": "ammo_types_size",
+          "schema": "source_item_turret_build_on_proximity_added_input.ammo_types_size",
+          "type": "int"
+        },
+        {
+          "name": "first_ammo_item",
+          "schema": "source_item_turret_build_on_proximity_added_input.first_ammo_item",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "super_on_proximity_added_expr",
+        "comment",
+        "guard_expr",
+        "handle_item_expr",
+        "has_ammo",
+        "cheating",
+        "ammo_types_size",
+        "first_ammo_item",
+        "should_handle_first_ammo",
+        "handle_item_call",
+        "super_on_proximity_added_called"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.onProximityAdded() cheaty first-ammo branch.",
+      "runtime_proof": "/root/Main.source_item_turret_build_on_proximity_added_state",
+      "source_method": "ItemTurretBuild.onProximityAdded()",
+      "source_slice": "N1178",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_on_proximity_added_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_on_proximity_added_state",
+        "test_port_game_exposes_generated_item_turret_build_on_proximity_added_bridge_state",
+        "test_item_turret_build_on_proximity_added_matches_upstream_source",
+        "test_generated_item_turret_build_on_proximity_added_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_read_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "revision",
+          "schema": "source_item_turret_build_read_input.revision",
+          "type": "int"
+        },
+        {
+          "name": "max_ammo",
+          "schema": "source_item_turret_build_read_input.max_ammo",
+          "type": "int"
+        },
+        {
+          "name": "read_entries",
+          "schema": "source_item_turret_build_read_input.read_entries",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "super_read_expr",
+        "clear_expr",
+        "total_reset_expr",
+        "amount_expr",
+        "loop_expr",
+        "item_lookup_expr",
+        "item_amount_expr",
+        "valid_comment",
+        "valid_ammo_guard",
+        "total_add_expr",
+        "ammo_add_expr",
+        "read_count",
+        "total_ammo_after",
+        "ammo_entries_after",
+        "read_calls"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.read(Reads, byte) read-call state.",
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "source_method": "ItemTurretBuild.read(Reads, byte)",
+      "source_slice": "N1189",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_remove_stack_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "item",
+          "schema": "source_item_turret_build_remove_stack_input.item",
+          "type": "Variant"
+        },
+        {
+          "name": "amount",
+          "schema": "source_item_turret_build_remove_stack_input.amount",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "comment",
+        "method",
+        "override_expr",
+        "return_expr",
+        "item",
+        "amount",
+        "removed_stack"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.removeStack() zero removal result.",
+      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
+      "source_method": "ItemTurretBuild.removeStack(Item,int)",
+      "source_slice": "N1184",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_sense_object_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "sensor",
+          "schema": "source_item_turret_build_sense_object_input.sensor",
+          "type": "String"
+        },
+        {
+          "name": "ammo_size",
+          "schema": "source_item_turret_build_sense_object_input.ammo_size",
+          "type": "int"
+        },
+        {
+          "name": "peek_item",
+          "schema": "source_item_turret_build_sense_object_input.peek_item",
+          "type": "Variant"
+        },
+        {
+          "name": "super_sense_object_value",
+          "schema": "source_item_turret_build_sense_object_input.super_sense_object_value",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "switch_return_expr",
+        "current_ammo_type_case",
+        "default_case",
+        "sensor",
+        "ammo_size",
+        "peek_item",
+        "super_sense_object_value",
+        "sense_object_value"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.senseObject(LAccess sensor) currentAmmoType switch branch.",
+      "runtime_proof": "/root/Main.source_item_turret_build_sense_object_state",
+      "source_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+      "source_slice": "N1179",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_item_turret_build_sense_object_bridge_state",
+        "test_item_turret_build_sense_object_matches_upstream_source",
+        "test_generated_item_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_version_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "version"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.version() byte return.",
+      "runtime_proof": "/root/Main.source_item_turret_build_version_state",
+      "source_method": "ItemTurretBuild.version()",
+      "source_slice": "N1187",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_version_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_version_state",
+        "test_port_game_exposes_generated_item_turret_build_version_bridge_state",
+        "test_item_turret_build_version_matches_upstream_source",
+        "test_generated_item_turret_build_version_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_build_write_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "ammo_entries",
+          "schema": "source_item_turret_build_write_input.ammo_entries",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "super_write_expr",
+        "write_size_expr",
+        "loop_expr",
+        "entry_cast",
+        "write_item_id_expr",
+        "write_amount_expr",
+        "ammo_size",
+        "entry_writes",
+        "write_calls"
+      ],
+      "rule": "Public runtime contract for ItemTurretBuild.write(Writes) ordered write-call state.",
+      "runtime_proof": "/root/Main.source_item_turret_build_write_state",
+      "source_method": "ItemTurretBuild.write(Writes)",
+      "source_slice": "N1188",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_write_state",
+        "test_port_game_exposes_generated_item_turret_build_write_bridge_state",
+        "test_item_turret_build_write_matches_upstream_source",
+        "test_generated_item_turret_build_write_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_init_ground_overlap_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "target_ground",
+          "schema": "source_item_turret_init_ground_overlap_input.target_ground",
+          "type": "bool"
+        },
+        {
+          "name": "place_overlap_range",
+          "schema": "source_item_turret_init_ground_overlap_input.place_overlap_range",
+          "type": "float"
+        },
+        {
+          "name": "range_value",
+          "schema": "source_item_turret_init_ground_overlap_input.range_value",
+          "type": "float"
+        },
+        {
+          "name": "place_overlap_margin",
+          "schema": "source_item_turret_init_ground_overlap_input.place_overlap_margin",
+          "type": "float"
+        },
+        {
+          "name": "ammo_entries",
+          "schema": "source_item_turret_init_ground_overlap_input.ammo_entries",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "consume_expr",
+        "consume_filter_deferred",
+        "target_ground_guard_expr",
+        "overlap_expr",
+        "super_init_expr",
+        "target_ground",
+        "place_overlap_range",
+        "range_value",
+        "place_overlap_margin",
+        "ammo_entries",
+        "place_overlap_range_after",
+        "place_overlap_updates",
+        "place_overlap_update_count",
+        "super_init_called"
+      ],
+      "rule": "Public runtime contract for ItemTurret.init() ground-target overlap range update branch.",
+      "runtime_proof": "/root/Main.source_item_turret_init_ground_overlap_state",
+      "source_method": "ItemTurret.init()",
+      "source_slice": "N1177",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_init_ground_overlap_to_source_state",
+        "test_port_game_exposes_source_item_turret_init_ground_overlap_state",
+        "test_port_game_exposes_generated_item_turret_init_ground_overlap_bridge_state",
+        "test_item_turret_init_ground_overlap_matches_upstream_source",
+        "test_generated_item_turret_init_ground_overlap_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_limit_range_default_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "comment",
+        "dispatch_expr",
+        "margin",
+        "limit_range_called",
+        "limit_range_call"
+      ],
+      "rule": "Public runtime contract for ItemTurret.limitRange() default margin dispatch.",
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_default_state",
+      "source_method": "ItemTurret.limitRange()",
+      "source_slice": "N1173",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_default_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_default_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state",
+        "test_item_turret_limit_range_default_matches_upstream_source",
+        "test_generated_item_turret_limit_range_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_limit_range_entries_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "margin",
+          "schema": "source_item_turret_limit_range_entries_input.margin",
+          "type": "float"
+        },
+        {
+          "name": "ammo_entries",
+          "schema": "source_item_turret_limit_range_entries_input.ammo_entries",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "loop_expr",
+        "dispatch_expr",
+        "margin",
+        "ammo_entries",
+        "limit_range_calls",
+        "limit_range_call_count"
+      ],
+      "rule": "Public runtime contract for ItemTurret.limitRange(float margin) ammo entry dispatch.",
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_entries_state",
+      "source_method": "ItemTurret.limitRange(float margin)",
+      "source_slice": "N1174",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
+        "test_item_turret_limit_range_entries_matches_upstream_source",
+        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_set_bars_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "total_ammo",
+          "schema": "source_item_turret_set_bars_input.total_ammo",
+          "type": "float"
+        },
+        {
+          "name": "max_ammo",
+          "schema": "source_item_turret_set_bars_input.max_ammo",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_set_bars_expr",
+        "add_bar_expr",
+        "bar_fraction_expr",
+        "total_ammo",
+        "max_ammo",
+        "ammo_bar_fraction",
+        "super_set_bars_called",
+        "bar_added",
+        "bar_call"
+      ],
+      "rule": "Public runtime contract for ItemTurret.setBars() ammo bar call and fraction supplier.",
+      "runtime_proof": "/root/Main.source_item_turret_set_bars_state",
+      "source_method": "ItemTurret.setBars()",
+      "source_slice": "N1176",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_bars_state",
+        "test_port_game_exposes_generated_item_turret_set_bars_bridge_state",
+        "test_item_turret_set_bars_matches_upstream_source",
+        "test_generated_item_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_item_turret_set_stats_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "ammo_types",
+          "schema": "source_item_turret_set_stats_input.ammo_types",
+          "type": "Variant"
+        },
+        {
+          "name": "name_value",
+          "schema": "source_item_turret_set_stats_input.name_value",
+          "type": "String"
+        },
+        {
+          "name": "max_ammo",
+          "schema": "source_item_turret_set_stats_input.max_ammo",
+          "type": "float"
+        },
+        {
+          "name": "ammo_per_shot",
+          "schema": "source_item_turret_set_stats_input.ammo_per_shot",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "stats_remove_expr",
+        "stats_ammo_add_expr",
+        "stats_ammo_capacity_add_expr",
+        "ammo_types",
+        "name_value",
+        "max_ammo",
+        "ammo_per_shot",
+        "ammo_capacity_divisor",
+        "ammo_capacity",
+        "super_set_stats_called",
+        "stats_item_capacity_removed",
+        "stats_ammo_added",
+        "stats_ammo_capacity_added",
+        "stats_item_capacity_remove_call",
+        "ammo_values_call",
+        "stats_ammo_add_call",
+        "stats_ammo_capacity_add_call"
+      ],
+      "rule": "Public runtime contract for ItemTurret.setStats() stat call sequence and ammo capacity formula.",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "source_method": "ItemTurret.setStats()",
+      "source_slice": "N1175",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_lerp_delta": {
       "java_source": "arc-core/src/arc/math/Mathf.java",
       "params": [
@@ -14894,6 +15865,601 @@
       "status": "active",
       "tests": [
         "test_lerp_delta_symbols_are_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "objects",
+          "schema": "source_liquid_turret_ammo_input.objects",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "field",
+        "comment",
+        "method",
+        "assignment_expr",
+        "objects",
+        "ammo_types_after"
+      ],
+      "rule": "Public runtime contract for LiquidTurret.ammo state; ObjectMap internals stay deferred.",
+      "runtime_proof": "/root/Main.source_liquid_turret_ammo_state",
+      "source_method": "LiquidTurret.ammo(Object...)",
+      "source_slice": "N1193",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_ammo_bridge_state",
+        "test_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_build_accept_item_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "source_building",
+          "schema": "source_liquid_turret_build_accept_item_input.source_building",
+          "type": "Variant"
+        },
+        {
+          "name": "item",
+          "schema": "source_liquid_turret_build_accept_item_input.item",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "source_building",
+        "item",
+        "accept_item"
+      ],
+      "rule": "Public runtime contract for LiquidTurretBuild.acceptItem state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_item_state",
+      "source_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
+      "source_slice": "N1204",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_item_bridge_state",
+        "test_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_build_accept_liquid_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "source_building",
+          "schema": "source_liquid_turret_build_accept_liquid_input.source_building",
+          "type": "Variant"
+        },
+        {
+          "name": "liquid",
+          "schema": "source_liquid_turret_build_accept_liquid_input.liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "ammo_type",
+          "schema": "source_liquid_turret_build_accept_liquid_input.ammo_type",
+          "type": "Variant"
+        },
+        {
+          "name": "current_liquid",
+          "schema": "source_liquid_turret_build_accept_liquid_input.current_liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "current_liquid_ammo_type_present",
+          "schema": "source_liquid_turret_build_accept_liquid_input.current_liquid_ammo_type_present",
+          "type": "bool"
+        },
+        {
+          "name": "current_liquid_amount",
+          "schema": "source_liquid_turret_build_accept_liquid_input.current_liquid_amount",
+          "type": "float"
+        },
+        {
+          "name": "current_ammo_multiplier",
+          "schema": "source_liquid_turret_build_accept_liquid_input.current_ammo_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "source_building",
+        "liquid",
+        "ammo_type",
+        "current_liquid",
+        "current_liquid_ammo_type_present",
+        "current_liquid_amount",
+        "current_ammo_multiplier",
+        "liquid_has_ammo_type",
+        "same_liquid",
+        "current_liquid_missing_ammo_type",
+        "current_required_with_epsilon",
+        "current_liquid_drained",
+        "replacement_allowed",
+        "accept_liquid"
+      ],
+      "rule": "Public runtime contract for LiquidTurretBuild.acceptLiquid state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
+      "source_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "source_slice": "N1205",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_build_find_target_extinguish_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "extinguish",
+          "schema": "source_liquid_turret_build_find_target_extinguish_input.extinguish",
+          "type": "bool"
+        },
+        {
+          "name": "current_liquid_can_extinguish",
+          "schema": "source_liquid_turret_build_find_target_extinguish_input.current_liquid_can_extinguish",
+          "type": "bool"
+        },
+        {
+          "name": "fire_result",
+          "schema": "source_liquid_turret_build_find_target_extinguish_input.fire_result",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "guard_expr",
+        "result_init_expr",
+        "assign_expr",
+        "return_expr",
+        "super_find_target_expr",
+        "extinguish",
+        "current_liquid_can_extinguish",
+        "fire_result",
+        "should_scan_fires",
+        "target_after",
+        "target_assigned",
+        "super_find_target_called"
+      ],
+      "rule": "Public runtime contract for LiquidTurretBuild.findTarget extinguish dispatch state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
+      "source_method": "LiquidTurretBuild.findTarget()",
+      "source_slice": "N1200",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_build_get_ammo_content_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "liquids_null",
+          "schema": "source_liquid_turret_build_get_ammo_content_input.liquids_null",
+          "type": "bool"
+        },
+        {
+          "name": "current_amount",
+          "schema": "source_liquid_turret_build_get_ammo_content_input.current_amount",
+          "type": "float"
+        },
+        {
+          "name": "current_liquid",
+          "schema": "source_liquid_turret_build_get_ammo_content_input.current_liquid",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "liquids_null",
+        "current_amount",
+        "current_liquid",
+        "ammo_content"
+      ],
+      "rule": "Public runtime contract for LiquidTurretBuild.getAmmoContent state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_build_get_ammo_content_state",
+      "source_method": "LiquidTurretBuild.getAmmoContent()",
+      "source_slice": "N1197",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_content_bridge_state",
+        "test_liquid_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_build_get_ammo_fraction_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "current_amount",
+          "schema": "source_liquid_turret_build_get_ammo_fraction_input.current_amount",
+          "type": "float"
+        },
+        {
+          "name": "liquid_capacity",
+          "schema": "source_liquid_turret_build_get_ammo_fraction_input.liquid_capacity",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "current_amount",
+        "liquid_capacity",
+        "ammo_fraction"
+      ],
+      "rule": "Public runtime contract for LiquidTurretBuild.getAmmoFraction state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_build_get_ammo_fraction_state",
+      "source_method": "LiquidTurretBuild.getAmmoFraction()",
+      "source_slice": "N1198",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_fraction_bridge_state",
+        "test_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_build_has_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "current_liquid",
+          "schema": "source_liquid_turret_build_has_ammo_input.current_liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "ammo_type",
+          "schema": "source_liquid_turret_build_has_ammo_input.ammo_type",
+          "type": "Variant"
+        },
+        {
+          "name": "current_amount",
+          "schema": "source_liquid_turret_build_has_ammo_input.current_amount",
+          "type": "float"
+        },
+        {
+          "name": "ammo_multiplier",
+          "schema": "source_liquid_turret_build_has_ammo_input.ammo_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "current_liquid",
+        "ammo_type",
+        "current_amount",
+        "ammo_multiplier",
+        "ammo_type_present",
+        "required_amount",
+        "has_ammo"
+      ],
+      "rule": "Public runtime contract for LiquidTurretBuild.hasAmmo state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_build_has_ammo_state",
+      "source_method": "LiquidTurretBuild.hasAmmo()",
+      "source_slice": "N1203",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_build_peek_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "current_liquid",
+          "schema": "source_liquid_turret_build_peek_ammo_input.current_liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "ammo_type",
+          "schema": "source_liquid_turret_build_peek_ammo_input.ammo_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "current_liquid",
+        "peek_ammo"
+      ],
+      "rule": "Public runtime contract for LiquidTurretBuild.peekAmmo state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_build_peek_ammo_state",
+      "source_method": "LiquidTurretBuild.peekAmmo()",
+      "source_slice": "N1202",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
+        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_build_sense_object_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "sensor",
+          "schema": "source_liquid_turret_build_sense_object_input.sensor",
+          "type": "String"
+        },
+        {
+          "name": "current_liquid",
+          "schema": "source_liquid_turret_build_sense_object_input.current_liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "super_sense_object_value",
+          "schema": "source_liquid_turret_build_sense_object_input.super_sense_object_value",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "switch_return_expr",
+        "current_ammo_type_case",
+        "default_case",
+        "sensor",
+        "current_liquid",
+        "super_sense_object_value",
+        "sense_object_value"
+      ],
+      "rule": "Public runtime contract for LiquidTurretBuild.senseObject state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_build_sense_object_state",
+      "source_method": "LiquidTurretBuild.senseObject(LAccess sensor)",
+      "source_slice": "N1199",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_liquid_turret_build_sense_object_bridge_state",
+        "test_liquid_turret_build_sense_object_matches_upstream_source",
+        "test_generated_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_build_should_active_sound_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "was_shooting",
+          "schema": "source_liquid_turret_build_should_active_sound_input.was_shooting",
+          "type": "bool"
+        },
+        {
+          "name": "enabled",
+          "schema": "source_liquid_turret_build_should_active_sound_input.enabled",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "was_shooting",
+        "enabled",
+        "should_active_sound"
+      ],
+      "rule": "Public runtime contract for LiquidTurretBuild.shouldActiveSound state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_build_should_active_sound_state",
+      "source_method": "LiquidTurretBuild.shouldActiveSound()",
+      "source_slice": "N1196",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state",
+        "test_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_build_use_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "cheating",
+          "schema": "source_liquid_turret_build_use_ammo_input.cheating",
+          "type": "bool"
+        },
+        {
+          "name": "current_liquid",
+          "schema": "source_liquid_turret_build_use_ammo_input.current_liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "ammo_type",
+          "schema": "source_liquid_turret_build_use_ammo_input.ammo_type",
+          "type": "Variant"
+        },
+        {
+          "name": "ammo_multiplier",
+          "schema": "source_liquid_turret_build_use_ammo_input.ammo_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "cheating_return_expr",
+        "type_lookup_expr",
+        "remove_expr",
+        "return_expr",
+        "cheating",
+        "current_liquid",
+        "ammo_type",
+        "ammo_multiplier",
+        "liquid_remove_amount",
+        "remove_liquid_call",
+        "returned_ammo"
+      ],
+      "rule": "Public runtime contract for LiquidTurretBuild.useAmmo state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
+      "source_method": "LiquidTurretBuild.useAmmo()",
+      "source_slice": "N1201",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_init_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "ammo_entries",
+          "schema": "source_liquid_turret_init_input.ammo_entries",
+          "type": "Array"
+        },
+        {
+          "name": "target_ground",
+          "schema": "source_liquid_turret_init_input.target_ground",
+          "type": "bool"
+        },
+        {
+          "name": "place_overlap_range",
+          "schema": "source_liquid_turret_init_input.place_overlap_range",
+          "type": "float"
+        },
+        {
+          "name": "range_value",
+          "schema": "source_liquid_turret_init_input.range_value",
+          "type": "float"
+        },
+        {
+          "name": "place_overlap_margin",
+          "schema": "source_liquid_turret_init_input.place_overlap_margin",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "consume_expr",
+        "filter_expr",
+        "consume_call",
+        "target_ground_expr",
+        "overlap_expr",
+        "super_init_expr",
+        "ammo_entries",
+        "target_ground",
+        "place_overlap_range_before",
+        "range_value",
+        "place_overlap_margin",
+        "overlap_updates",
+        "place_overlap_range_after",
+        "super_init_called"
+      ],
+      "rule": "Public runtime contract for LiquidTurret.init state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_init_state",
+      "source_method": "LiquidTurret.init()",
+      "source_slice": "N1195",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_init_state",
+        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
+        "test_liquid_turret_init_matches_upstream_source",
+        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_liquid_turret_set_stats_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "params": [
+        {
+          "name": "ammo_types",
+          "schema": "source_liquid_turret_set_stats_input.ammo_types",
+          "type": "Variant"
+        },
+        {
+          "name": "name_value",
+          "schema": "source_liquid_turret_set_stats_input.name_value",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "stats_add_expr",
+        "ammo_types",
+        "name_value",
+        "super_set_stats_called",
+        "stats_added",
+        "ammo_values_call",
+        "stats_add_call"
+      ],
+      "rule": "Public runtime contract for LiquidTurret.setStats state.",
+      "runtime_proof": "/root/Main.source_liquid_turret_set_stats_state",
+      "source_method": "LiquidTurret.setStats()",
+      "source_slice": "N1194",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_liquid_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_set_stats_state",
+        "test_port_game_exposes_generated_liquid_turret_set_stats_bridge_state",
+        "test_liquid_turret_set_stats_matches_upstream_source",
+        "test_generated_liquid_turret_set_stats_slice_is_registered_with_source_backing"
       ]
     },
     "PortGame.source_mathf_approach_delta": {
@@ -17491,6 +19057,296 @@
         "test_power_graph_use_batteries_matches_upstream_source"
       ]
     },
+    "PortGame.source_power_turret_build_get_ammo_fraction_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "params": [
+        {
+          "name": "power_null",
+          "schema": "source_power_turret_build_get_ammo_fraction_input.power_null",
+          "type": "bool"
+        },
+        {
+          "name": "power_status",
+          "schema": "source_power_turret_build_get_ammo_fraction_input.power_status",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "power_null",
+        "power_status",
+        "ammo_fraction"
+      ],
+      "rule": "Public runtime contract for PowerTurretBuild.getAmmoFraction state.",
+      "runtime_proof": "/root/Main.source_power_turret_build_get_ammo_fraction_state",
+      "source_method": "PowerTurretBuild.getAmmoFraction()",
+      "source_slice": "N1168",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
+        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_power_turret_build_has_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "params": [],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "comment",
+        "return_expr",
+        "has_ammo"
+      ],
+      "rule": "Public runtime contract for PowerTurretBuild.hasAmmo state.",
+      "runtime_proof": "/root/Main.source_power_turret_build_has_ammo_state",
+      "source_method": "PowerTurretBuild.hasAmmo()",
+      "source_slice": "N1171",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_has_ammo_bridge_state",
+        "test_power_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_power_turret_build_peek_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "params": [
+        {
+          "name": "shoot_type",
+          "schema": "source_power_turret_build_peek_ammo_input.shoot_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "shoot_type"
+      ],
+      "rule": "Public runtime contract for PowerTurretBuild.peekAmmo state.",
+      "runtime_proof": "/root/Main.source_power_turret_build_peek_ammo_state",
+      "source_method": "PowerTurretBuild.peekAmmo()",
+      "source_slice": "N1172",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_peek_ammo_bridge_state",
+        "test_power_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_power_turret_build_sense_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "params": [
+        {
+          "name": "sensor",
+          "schema": "source_power_turret_build_sense_input.sensor",
+          "type": "String"
+        },
+        {
+          "name": "power_null",
+          "schema": "source_power_turret_build_sense_input.power_null",
+          "type": "bool"
+        },
+        {
+          "name": "power_status",
+          "schema": "source_power_turret_build_sense_input.power_status",
+          "type": "float"
+        },
+        {
+          "name": "super_sense_value",
+          "schema": "source_power_turret_build_sense_input.super_sense_value",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "switch_return",
+        "ammo_case",
+        "ammo_capacity_case",
+        "default_case",
+        "sensor",
+        "power_null",
+        "power_status",
+        "super_sense_value",
+        "sense_value"
+      ],
+      "rule": "Public runtime contract for PowerTurretBuild.sense state.",
+      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
+      "source_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "source_slice": "N1169",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_power_turret_build_use_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "params": [
+        {
+          "name": "shoot_type",
+          "schema": "source_power_turret_build_use_ammo_input.shoot_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "comment",
+        "return_expr",
+        "shoot_type"
+      ],
+      "rule": "Public runtime contract for PowerTurretBuild.useAmmo state.",
+      "runtime_proof": "/root/Main.source_power_turret_build_use_ammo_state",
+      "source_method": "PowerTurretBuild.useAmmo()",
+      "source_slice": "N1170",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_use_ammo_bridge_state",
+        "test_power_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_power_turret_limit_range_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "params": [
+        {
+          "name": "shoot_type",
+          "schema": "source_power_turret_limit_range_input.shoot_type",
+          "type": "Variant"
+        },
+        {
+          "name": "margin",
+          "schema": "source_power_turret_limit_range_input.margin",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "dispatch_expr",
+        "shoot_type",
+        "margin",
+        "limit_range_called",
+        "limit_range_call"
+      ],
+      "rule": "Public runtime contract for PowerTurret.limitRange dispatch state.",
+      "runtime_proof": "/root/Main.source_power_turret_limit_range_state",
+      "source_method": "limitRange(float margin)",
+      "source_slice": "N1167",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_power_turret_limit_range_state",
+        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
+        "test_power_turret_limit_range_matches_upstream_source",
+        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_power_turret_set_stats_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "params": [
+        {
+          "name": "shoot_type",
+          "schema": "source_power_turret_set_stats_input.shoot_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "stats_add_expr",
+        "shoot_type",
+        "super_set_stats_called",
+        "stats_add_called",
+        "object_map_call",
+        "ammo_values_call",
+        "stats_add_call"
+      ],
+      "rule": "Public runtime contract for PowerTurret.setStats ammo stats branch state.",
+      "runtime_proof": "/root/Main.source_power_turret_set_stats_state",
+      "source_method": "setStats()",
+      "source_slice": "N1166",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_reload_turret_set_stats_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "params": [
+        {
+          "name": "coolant_present",
+          "schema": "source_reload_turret_set_stats_input.coolant_present",
+          "type": "bool"
+        },
+        {
+          "name": "reload_value",
+          "schema": "source_reload_turret_set_stats_input.reload_value",
+          "type": "float"
+        },
+        {
+          "name": "coolant_amount",
+          "schema": "source_reload_turret_set_stats_input.coolant_amount",
+          "type": "float"
+        },
+        {
+          "name": "coolant_multiplier",
+          "schema": "source_reload_turret_set_stats_input.coolant_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "coolant_gate",
+        "booster_replace_expr",
+        "coolant_present",
+        "reload_value",
+        "coolant_amount",
+        "coolant_multiplier",
+        "super_set_stats_called",
+        "booster_replace_called",
+        "booster_replace_call"
+      ],
+      "rule": "Public runtime contract for ReloadTurret.setStats coolant booster stats branch state.",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "source_method": "setStats()",
+      "source_slice": "N1165",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_shielder_absorb_state": {
       "java_source": "core/src/mindustry/entities/comp/ShielderComp.java",
       "params": [],
@@ -18693,6 +20549,171 @@
         "test_port_game_uses_source_turret_shoot_y"
       ]
     },
+    "PortGame.source_turret_draw_place_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "tile_x",
+          "schema": "source_turret_draw_place_input.tile_x",
+          "type": "int"
+        },
+        {
+          "name": "tile_y",
+          "schema": "source_turret_draw_place_input.tile_y",
+          "type": "int"
+        },
+        {
+          "name": "rotation",
+          "schema": "source_turret_draw_place_input.rotation",
+          "type": "int"
+        },
+        {
+          "name": "valid",
+          "schema": "source_turret_draw_place_input.valid",
+          "type": "bool"
+        },
+        {
+          "name": "draw_min_range",
+          "schema": "source_turret_draw_place_input.draw_min_range",
+          "type": "bool"
+        },
+        {
+          "name": "source_tilesize",
+          "schema": "source_turret_draw_place_input.source_tilesize",
+          "type": "float"
+        },
+        {
+          "name": "block_offset",
+          "schema": "source_turret_draw_place_input.block_offset",
+          "type": "float"
+        },
+        {
+          "name": "min_range",
+          "schema": "source_turret_draw_place_input.min_range",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_draw_place_expr",
+        "draw_min_range_gate",
+        "dash_circle_expr",
+        "tile_x",
+        "tile_y",
+        "rotation",
+        "valid",
+        "draw_min_range",
+        "source_tilesize",
+        "block_offset",
+        "min_range",
+        "dash_circle_x",
+        "dash_circle_y",
+        "dash_circle_called",
+        "dash_circle_call"
+      ],
+      "rule": "Public runtime contract for Turret.drawPlace minRange draw intent state.",
+      "runtime_proof": "/root/Main.source_turret_draw_place_state",
+      "source_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "source_slice": "N1162",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_draw_place_to_source_state",
+        "test_port_game_exposes_source_turret_draw_place_state",
+        "test_port_game_exposes_generated_turret_draw_place_bridge_state",
+        "test_turret_draw_place_matches_upstream_source",
+        "test_generated_turret_draw_place_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_turret_draw_plan_region_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "plan",
+          "schema": "source_turret_draw_plan_region_input.plan",
+          "type": "Variant"
+        },
+        {
+          "name": "list",
+          "schema": "source_turret_draw_plan_region_input.list",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "drawer_draw_plan_expr",
+        "drawer_draw_plan_called",
+        "plan",
+        "list",
+        "drawer_draw_plan_call"
+      ],
+      "rule": "Public runtime contract for Turret.drawPlanRegion dispatch state.",
+      "runtime_proof": "/root/Main.source_turret_draw_plan_region_state",
+      "source_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "source_slice": "N1158",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_turret_draw_plan_region_state",
+        "test_port_game_exposes_generated_turret_draw_plan_region_bridge_state",
+        "test_turret_draw_plan_region_matches_upstream_source",
+        "test_generated_turret_draw_plan_region_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_turret_get_regions_to_outline_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "out",
+          "schema": "source_turret_get_regions_to_outline_input.out",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "drawer_get_regions_to_outline_expr",
+        "out",
+        "drawer_get_regions_to_outline_call",
+        "drawer_get_regions_to_outline_called"
+      ],
+      "rule": "Public runtime contract for Turret.getRegionsToOutline drawer dispatch state.",
+      "runtime_proof": "/root/Main.source_turret_get_regions_to_outline_state",
+      "source_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+      "source_slice": "N1160",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_get_regions_to_outline_to_source_state",
+        "test_port_game_exposes_source_turret_get_regions_to_outline_state",
+        "test_port_game_exposes_generated_turret_get_regions_to_outline_bridge_state",
+        "test_turret_get_regions_to_outline_matches_upstream_source",
+        "test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_turret_icons_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "drawer_final_icons_expr",
+        "drawer_final_icons_called",
+        "icons"
+      ],
+      "rule": "Public runtime contract for Turret.icons drawer.finalIcons dispatch state.",
+      "runtime_proof": "/root/Main.source_turret_icons_state",
+      "source_method": "icons()",
+      "source_slice": "N1159",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_icons_to_source_state",
+        "test_port_game_exposes_source_turret_icons_state",
+        "test_port_game_exposes_generated_turret_icons_bridge_state",
+        "test_turret_icons_matches_upstream_source",
+        "test_generated_turret_icons_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_turret_inaccuracy": {
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "params": [
@@ -18719,6 +20740,300 @@
       "tests": [
         "test_turret_inaccuracy_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_inaccuracy"
+      ]
+    },
+    "PortGame.source_turret_init_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "shoot_y",
+          "schema": "source_turret_init_input.shoot_y",
+          "type": "float"
+        },
+        {
+          "name": "shoot_y_is_negative_infinity",
+          "schema": "source_turret_init_input.shoot_y_is_negative_infinity",
+          "type": "bool"
+        },
+        {
+          "name": "size",
+          "schema": "source_turret_init_input.size",
+          "type": "float"
+        },
+        {
+          "name": "source_tilesize",
+          "schema": "source_turret_init_input.source_tilesize",
+          "type": "float"
+        },
+        {
+          "name": "elevation",
+          "schema": "source_turret_init_input.elevation",
+          "type": "float"
+        },
+        {
+          "name": "recoil_time",
+          "schema": "source_turret_init_input.recoil_time",
+          "type": "float"
+        },
+        {
+          "name": "reload",
+          "schema": "source_turret_init_input.reload",
+          "type": "float"
+        },
+        {
+          "name": "cooldown_time",
+          "schema": "source_turret_init_input.cooldown_time",
+          "type": "float"
+        },
+        {
+          "name": "new_target_interval",
+          "schema": "source_turret_init_input.new_target_interval",
+          "type": "float"
+        },
+        {
+          "name": "target_interval",
+          "schema": "source_turret_init_input.target_interval",
+          "type": "float"
+        },
+        {
+          "name": "target_ground",
+          "schema": "source_turret_init_input.target_ground",
+          "type": "bool"
+        },
+        {
+          "name": "disable_overlap_check",
+          "schema": "source_turret_init_input.disable_overlap_check",
+          "type": "bool"
+        },
+        {
+          "name": "range_value",
+          "schema": "source_turret_init_input.range",
+          "type": "float"
+        },
+        {
+          "name": "tracking_range",
+          "schema": "source_turret_init_input.tracking_range",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "shoot_y_guard_expr",
+        "shoot_y_expr",
+        "elevation_guard_expr",
+        "elevation_expr",
+        "recoil_time_guard_expr",
+        "recoil_time_expr",
+        "cooldown_time_guard_expr",
+        "cooldown_time_expr",
+        "new_target_interval_guard_expr",
+        "new_target_interval_expr",
+        "target_ground_guard_expr",
+        "disable_overlap_check_expr",
+        "super_init_expr",
+        "tracking_range_expr",
+        "shoot_y",
+        "shoot_y_is_negative_infinity",
+        "size",
+        "source_tilesize",
+        "elevation",
+        "recoil_time",
+        "reload",
+        "cooldown_time",
+        "new_target_interval",
+        "target_interval",
+        "target_ground",
+        "disable_overlap_check",
+        "range",
+        "tracking_range",
+        "shoot_y_after",
+        "elevation_after",
+        "recoil_time_after",
+        "cooldown_time_after",
+        "new_target_interval_after",
+        "disable_overlap_check_after",
+        "tracking_range_after"
+      ],
+      "rule": "Public runtime contract for Turret.init default assignment state.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "source_method": "init()",
+      "source_slice": "N1156",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_turret_limit_range_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "bullet",
+          "schema": "source_turret_limit_range_input.bullet",
+          "type": "Dictionary"
+        },
+        {
+          "name": "margin",
+          "schema": "source_turret_limit_range_input.margin",
+          "type": "float"
+        },
+        {
+          "name": "turret_range",
+          "schema": "source_turret_limit_range_input.turret_range",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "real_range_expr",
+        "drag_comment",
+        "lifetime_expr",
+        "bullet",
+        "margin",
+        "turret_range",
+        "bullet_range_change",
+        "real_range",
+        "bullet_extra_range_margin",
+        "bullet_speed",
+        "bullet_lifetime",
+        "updated_bullet"
+      ],
+      "rule": "Public runtime contract for Turret.limitRange bullet lifetime mutation state.",
+      "runtime_proof": "/root/Main.source_turret_limit_range_state",
+      "source_method": "limitRange(BulletType bullet, float margin)",
+      "source_slice": "N1161",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_turret_limit_range_state",
+        "test_port_game_exposes_generated_turret_limit_range_bridge_state",
+        "test_turret_limit_range_matches_upstream_source",
+        "test_generated_turret_limit_range_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_turret_load_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_load_expr",
+        "drawer_load_expr",
+        "super_load_called",
+        "drawer_load_called"
+      ],
+      "rule": "Public runtime contract for Turret.load call marker state.",
+      "runtime_proof": "/root/Main.source_turret_load_state",
+      "source_method": "load()",
+      "source_slice": "N1157",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_load_to_source_state",
+        "test_port_game_exposes_source_turret_load_state",
+        "test_port_game_exposes_generated_turret_load_bridge_state",
+        "test_turret_load_matches_upstream_source",
+        "test_generated_turret_load_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_turret_outputs_items_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "return_expr",
+        "outputs_items"
+      ],
+      "rule": "Public runtime contract for Turret.outputsItems constant false state.",
+      "runtime_proof": "/root/Main.source_turret_outputs_items_state",
+      "source_method": "outputsItems()",
+      "source_slice": "N1155",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_outputs_items_to_source_state",
+        "test_port_game_exposes_source_turret_outputs_items_state",
+        "test_port_game_exposes_generated_turret_outputs_items_bridge_state",
+        "test_turret_outputs_items_matches_upstream_source",
+        "test_generated_turret_outputs_items_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_turret_place_ended_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "tile",
+          "schema": "source_turret_place_ended_input.tile",
+          "type": "Variant"
+        },
+        {
+          "name": "builder",
+          "schema": "source_turret_place_ended_input.builder",
+          "type": "Variant"
+        },
+        {
+          "name": "rotation",
+          "schema": "source_turret_place_ended_input.rotation",
+          "type": "int"
+        },
+        {
+          "name": "config",
+          "schema": "source_turret_place_ended_input.config",
+          "type": "Variant"
+        },
+        {
+          "name": "rotate",
+          "schema": "source_turret_place_ended_input.rotate",
+          "type": "bool"
+        },
+        {
+          "name": "tile_build_is_turret_build",
+          "schema": "source_turret_place_ended_input.tile_build_is_turret_build",
+          "type": "bool"
+        },
+        {
+          "name": "turret_rotation",
+          "schema": "source_turret_place_ended_input.turret_rotation",
+          "type": "float"
+        },
+        {
+          "name": "tile_build_rotdeg",
+          "schema": "source_turret_place_ended_input.tile_build_rotdeg",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_place_ended_expr",
+        "place_ended_gate",
+        "rotation_assign_expr",
+        "tile",
+        "builder",
+        "rotation",
+        "config",
+        "rotate",
+        "tile_build_is_turret_build",
+        "turret_rotation",
+        "tile_build_rotdeg",
+        "super_place_ended_called",
+        "rotation_assigned",
+        "turret_rotation_after"
+      ],
+      "rule": "Public runtime contract for Turret.placeEnded rotation assignment branch state.",
+      "runtime_proof": "/root/Main.source_turret_place_ended_state",
+      "source_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+      "source_slice": "N1164",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_place_ended_to_source_state",
+        "test_port_game_exposes_source_turret_place_ended_state",
+        "test_port_game_exposes_generated_turret_place_ended_bridge_state",
+        "test_turret_place_ended_matches_upstream_source",
+        "test_generated_turret_place_ended_slice_is_registered_with_source_backing"
       ]
     },
     "PortGame.source_turret_range": {
@@ -18994,6 +21309,41 @@
       "tests": [
         "test_turret_rotate_speed_symbols_are_registered_with_source_backing",
         "test_port_game_uses_source_turret_rotation_and_shoot_cone"
+      ]
+    },
+    "PortGame.source_turret_rotated_output_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "tile_x",
+          "schema": "source_turret_rotated_output_input.tile_x",
+          "type": "int"
+        },
+        {
+          "name": "tile_y",
+          "schema": "source_turret_rotated_output_input.tile_y",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "return_expr",
+        "tile_x",
+        "tile_y",
+        "rotated_output"
+      ],
+      "rule": "Public runtime contract for Turret.rotatedOutput constant false state.",
+      "runtime_proof": "/root/Main.source_turret_rotated_output_state",
+      "source_method": "rotatedOutput(int x, int y)",
+      "source_slice": "N1163",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_rotated_output_to_source_state",
+        "test_port_game_exposes_source_turret_rotated_output_state",
+        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
+        "test_turret_rotated_output_matches_upstream_source",
+        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
       ]
     },
     "PortGame.source_turret_shoot_cone": {
@@ -25481,2313 +27831,6 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
-    },
-    "PortGame.source_turret_outputs_items_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "params": [],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "return_expr",
-        "outputs_items"
-      ],
-      "rule": "Public runtime contract for Turret.outputsItems constant false state.",
-      "runtime_proof": "/root/Main.source_turret_outputs_items_state",
-      "source_method": "outputsItems()",
-      "source_slice": "N1155",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_outputs_items_to_source_state",
-        "test_port_game_exposes_source_turret_outputs_items_state",
-        "test_port_game_exposes_generated_turret_outputs_items_bridge_state",
-        "test_turret_outputs_items_matches_upstream_source",
-        "test_generated_turret_outputs_items_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_turret_init_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "params": [
-        {
-          "name": "shoot_y",
-          "schema": "source_turret_init_input.shoot_y",
-          "type": "float"
-        },
-        {
-          "name": "shoot_y_is_negative_infinity",
-          "schema": "source_turret_init_input.shoot_y_is_negative_infinity",
-          "type": "bool"
-        },
-        {
-          "name": "size",
-          "schema": "source_turret_init_input.size",
-          "type": "float"
-        },
-        {
-          "name": "source_tilesize",
-          "schema": "source_turret_init_input.source_tilesize",
-          "type": "float"
-        },
-        {
-          "name": "elevation",
-          "schema": "source_turret_init_input.elevation",
-          "type": "float"
-        },
-        {
-          "name": "recoil_time",
-          "schema": "source_turret_init_input.recoil_time",
-          "type": "float"
-        },
-        {
-          "name": "reload",
-          "schema": "source_turret_init_input.reload",
-          "type": "float"
-        },
-        {
-          "name": "cooldown_time",
-          "schema": "source_turret_init_input.cooldown_time",
-          "type": "float"
-        },
-        {
-          "name": "new_target_interval",
-          "schema": "source_turret_init_input.new_target_interval",
-          "type": "float"
-        },
-        {
-          "name": "target_interval",
-          "schema": "source_turret_init_input.target_interval",
-          "type": "float"
-        },
-        {
-          "name": "target_ground",
-          "schema": "source_turret_init_input.target_ground",
-          "type": "bool"
-        },
-        {
-          "name": "disable_overlap_check",
-          "schema": "source_turret_init_input.disable_overlap_check",
-          "type": "bool"
-        },
-        {
-          "name": "range_value",
-          "schema": "source_turret_init_input.range",
-          "type": "float"
-        },
-        {
-          "name": "tracking_range",
-          "schema": "source_turret_init_input.tracking_range",
-          "type": "float"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "shoot_y_guard_expr",
-        "shoot_y_expr",
-        "elevation_guard_expr",
-        "elevation_expr",
-        "recoil_time_guard_expr",
-        "recoil_time_expr",
-        "cooldown_time_guard_expr",
-        "cooldown_time_expr",
-        "new_target_interval_guard_expr",
-        "new_target_interval_expr",
-        "target_ground_guard_expr",
-        "disable_overlap_check_expr",
-        "super_init_expr",
-        "tracking_range_expr",
-        "shoot_y",
-        "shoot_y_is_negative_infinity",
-        "size",
-        "source_tilesize",
-        "elevation",
-        "recoil_time",
-        "reload",
-        "cooldown_time",
-        "new_target_interval",
-        "target_interval",
-        "target_ground",
-        "disable_overlap_check",
-        "range",
-        "tracking_range",
-        "shoot_y_after",
-        "elevation_after",
-        "recoil_time_after",
-        "cooldown_time_after",
-        "new_target_interval_after",
-        "disable_overlap_check_after",
-        "tracking_range_after"
-      ],
-      "rule": "Public runtime contract for Turret.init default assignment state.",
-      "runtime_proof": "/root/Main.source_turret_init_state",
-      "source_method": "init()",
-      "source_slice": "N1156",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_init_to_source_state",
-        "test_port_game_exposes_source_turret_init_state",
-        "test_port_game_exposes_generated_turret_init_bridge_state",
-        "test_turret_init_matches_upstream_source",
-        "test_generated_turret_init_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_turret_load_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "params": [],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "super_load_expr",
-        "drawer_load_expr",
-        "super_load_called",
-        "drawer_load_called"
-      ],
-      "rule": "Public runtime contract for Turret.load call marker state.",
-      "runtime_proof": "/root/Main.source_turret_load_state",
-      "source_method": "load()",
-      "source_slice": "N1157",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_load_to_source_state",
-        "test_port_game_exposes_source_turret_load_state",
-        "test_port_game_exposes_generated_turret_load_bridge_state",
-        "test_turret_load_matches_upstream_source",
-        "test_generated_turret_load_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_turret_draw_plan_region_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "params": [
-        {
-          "name": "plan",
-          "schema": "source_turret_draw_plan_region_input.plan",
-          "type": "Variant"
-        },
-        {
-          "name": "list",
-          "schema": "source_turret_draw_plan_region_input.list",
-          "type": "Variant"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "drawer_draw_plan_expr",
-        "drawer_draw_plan_called",
-        "plan",
-        "list",
-        "drawer_draw_plan_call"
-      ],
-      "rule": "Public runtime contract for Turret.drawPlanRegion dispatch state.",
-      "runtime_proof": "/root/Main.source_turret_draw_plan_region_state",
-      "source_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
-      "source_slice": "N1158",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_draw_plan_region_to_source_state",
-        "test_port_game_exposes_source_turret_draw_plan_region_state",
-        "test_port_game_exposes_generated_turret_draw_plan_region_bridge_state",
-        "test_turret_draw_plan_region_matches_upstream_source",
-        "test_generated_turret_draw_plan_region_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_turret_icons_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "params": [],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "drawer_final_icons_expr",
-        "drawer_final_icons_called",
-        "icons"
-      ],
-      "rule": "Public runtime contract for Turret.icons drawer.finalIcons dispatch state.",
-      "runtime_proof": "/root/Main.source_turret_icons_state",
-      "source_method": "icons()",
-      "source_slice": "N1159",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_icons_to_source_state",
-        "test_port_game_exposes_source_turret_icons_state",
-        "test_port_game_exposes_generated_turret_icons_bridge_state",
-        "test_turret_icons_matches_upstream_source",
-        "test_generated_turret_icons_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_turret_get_regions_to_outline_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "params": [
-        {
-          "name": "out",
-          "schema": "source_turret_get_regions_to_outline_input.out",
-          "type": "Variant"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "drawer_get_regions_to_outline_expr",
-        "out",
-        "drawer_get_regions_to_outline_call",
-        "drawer_get_regions_to_outline_called"
-      ],
-      "rule": "Public runtime contract for Turret.getRegionsToOutline drawer dispatch state.",
-      "runtime_proof": "/root/Main.source_turret_get_regions_to_outline_state",
-      "source_method": "getRegionsToOutline(Seq<TextureRegion> out)",
-      "source_slice": "N1160",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_get_regions_to_outline_to_source_state",
-        "test_port_game_exposes_source_turret_get_regions_to_outline_state",
-        "test_port_game_exposes_generated_turret_get_regions_to_outline_bridge_state",
-        "test_turret_get_regions_to_outline_matches_upstream_source",
-        "test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_turret_limit_range_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "params": [
-        {
-          "name": "bullet",
-          "schema": "source_turret_limit_range_input.bullet",
-          "type": "Dictionary"
-        },
-        {
-          "name": "margin",
-          "schema": "source_turret_limit_range_input.margin",
-          "type": "float"
-        },
-        {
-          "name": "turret_range",
-          "schema": "source_turret_limit_range_input.turret_range",
-          "type": "float"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "real_range_expr",
-        "drag_comment",
-        "lifetime_expr",
-        "bullet",
-        "margin",
-        "turret_range",
-        "bullet_range_change",
-        "real_range",
-        "bullet_extra_range_margin",
-        "bullet_speed",
-        "bullet_lifetime",
-        "updated_bullet"
-      ],
-      "rule": "Public runtime contract for Turret.limitRange bullet lifetime mutation state.",
-      "runtime_proof": "/root/Main.source_turret_limit_range_state",
-      "source_method": "limitRange(BulletType bullet, float margin)",
-      "source_slice": "N1161",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_limit_range_to_source_state",
-        "test_port_game_exposes_source_turret_limit_range_state",
-        "test_port_game_exposes_generated_turret_limit_range_bridge_state",
-        "test_turret_limit_range_matches_upstream_source",
-        "test_generated_turret_limit_range_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_turret_draw_place_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "params": [
-        {
-          "name": "tile_x",
-          "schema": "source_turret_draw_place_input.tile_x",
-          "type": "int"
-        },
-        {
-          "name": "tile_y",
-          "schema": "source_turret_draw_place_input.tile_y",
-          "type": "int"
-        },
-        {
-          "name": "rotation",
-          "schema": "source_turret_draw_place_input.rotation",
-          "type": "int"
-        },
-        {
-          "name": "valid",
-          "schema": "source_turret_draw_place_input.valid",
-          "type": "bool"
-        },
-        {
-          "name": "draw_min_range",
-          "schema": "source_turret_draw_place_input.draw_min_range",
-          "type": "bool"
-        },
-        {
-          "name": "source_tilesize",
-          "schema": "source_turret_draw_place_input.source_tilesize",
-          "type": "float"
-        },
-        {
-          "name": "block_offset",
-          "schema": "source_turret_draw_place_input.block_offset",
-          "type": "float"
-        },
-        {
-          "name": "min_range",
-          "schema": "source_turret_draw_place_input.min_range",
-          "type": "float"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "super_draw_place_expr",
-        "draw_min_range_gate",
-        "dash_circle_expr",
-        "tile_x",
-        "tile_y",
-        "rotation",
-        "valid",
-        "draw_min_range",
-        "source_tilesize",
-        "block_offset",
-        "min_range",
-        "dash_circle_x",
-        "dash_circle_y",
-        "dash_circle_called",
-        "dash_circle_call"
-      ],
-      "rule": "Public runtime contract for Turret.drawPlace minRange draw intent state.",
-      "runtime_proof": "/root/Main.source_turret_draw_place_state",
-      "source_method": "drawPlace(int x, int y, int rotation, boolean valid)",
-      "source_slice": "N1162",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_draw_place_to_source_state",
-        "test_port_game_exposes_source_turret_draw_place_state",
-        "test_port_game_exposes_generated_turret_draw_place_bridge_state",
-        "test_turret_draw_place_matches_upstream_source",
-        "test_generated_turret_draw_place_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_turret_rotated_output_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "params": [
-        {
-          "name": "tile_x",
-          "schema": "source_turret_rotated_output_input.tile_x",
-          "type": "int"
-        },
-        {
-          "name": "tile_y",
-          "schema": "source_turret_rotated_output_input.tile_y",
-          "type": "int"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "return_expr",
-        "tile_x",
-        "tile_y",
-        "rotated_output"
-      ],
-      "rule": "Public runtime contract for Turret.rotatedOutput constant false state.",
-      "runtime_proof": "/root/Main.source_turret_rotated_output_state",
-      "source_method": "rotatedOutput(int x, int y)",
-      "source_slice": "N1163",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_rotated_output_to_source_state",
-        "test_port_game_exposes_source_turret_rotated_output_state",
-        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
-        "test_turret_rotated_output_matches_upstream_source",
-        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_turret_place_ended_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "params": [
-        {
-          "name": "tile",
-          "schema": "source_turret_place_ended_input.tile",
-          "type": "Variant"
-        },
-        {
-          "name": "builder",
-          "schema": "source_turret_place_ended_input.builder",
-          "type": "Variant"
-        },
-        {
-          "name": "rotation",
-          "schema": "source_turret_place_ended_input.rotation",
-          "type": "int"
-        },
-        {
-          "name": "config",
-          "schema": "source_turret_place_ended_input.config",
-          "type": "Variant"
-        },
-        {
-          "name": "rotate",
-          "schema": "source_turret_place_ended_input.rotate",
-          "type": "bool"
-        },
-        {
-          "name": "tile_build_is_turret_build",
-          "schema": "source_turret_place_ended_input.tile_build_is_turret_build",
-          "type": "bool"
-        },
-        {
-          "name": "turret_rotation",
-          "schema": "source_turret_place_ended_input.turret_rotation",
-          "type": "float"
-        },
-        {
-          "name": "tile_build_rotdeg",
-          "schema": "source_turret_place_ended_input.tile_build_rotdeg",
-          "type": "float"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "super_place_ended_expr",
-        "place_ended_gate",
-        "rotation_assign_expr",
-        "tile",
-        "builder",
-        "rotation",
-        "config",
-        "rotate",
-        "tile_build_is_turret_build",
-        "turret_rotation",
-        "tile_build_rotdeg",
-        "super_place_ended_called",
-        "rotation_assigned",
-        "turret_rotation_after"
-      ],
-      "rule": "Public runtime contract for Turret.placeEnded rotation assignment branch state.",
-      "runtime_proof": "/root/Main.source_turret_place_ended_state",
-      "source_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
-      "source_slice": "N1164",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_place_ended_to_source_state",
-        "test_port_game_exposes_source_turret_place_ended_state",
-        "test_port_game_exposes_generated_turret_place_ended_bridge_state",
-        "test_turret_place_ended_matches_upstream_source",
-        "test_generated_turret_place_ended_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_reload_turret_set_stats_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
-      "params": [
-        {
-          "name": "coolant_present",
-          "schema": "source_reload_turret_set_stats_input.coolant_present",
-          "type": "bool"
-        },
-        {
-          "name": "reload_value",
-          "schema": "source_reload_turret_set_stats_input.reload_value",
-          "type": "float"
-        },
-        {
-          "name": "coolant_amount",
-          "schema": "source_reload_turret_set_stats_input.coolant_amount",
-          "type": "float"
-        },
-        {
-          "name": "coolant_multiplier",
-          "schema": "source_reload_turret_set_stats_input.coolant_multiplier",
-          "type": "float"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "super_set_stats_expr",
-        "coolant_gate",
-        "booster_replace_expr",
-        "coolant_present",
-        "reload_value",
-        "coolant_amount",
-        "coolant_multiplier",
-        "super_set_stats_called",
-        "booster_replace_called",
-        "booster_replace_call"
-      ],
-      "rule": "Public runtime contract for ReloadTurret.setStats coolant booster stats branch state.",
-      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
-      "source_method": "setStats()",
-      "source_slice": "N1165",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_reload_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_reload_turret_set_stats_state",
-        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
-        "test_reload_turret_set_stats_matches_upstream_source",
-        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_power_turret_set_stats_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "params": [
-        {
-          "name": "shoot_type",
-          "schema": "source_power_turret_set_stats_input.shoot_type",
-          "type": "Variant"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "super_set_stats_expr",
-        "stats_add_expr",
-        "shoot_type",
-        "super_set_stats_called",
-        "stats_add_called",
-        "object_map_call",
-        "ammo_values_call",
-        "stats_add_call"
-      ],
-      "rule": "Public runtime contract for PowerTurret.setStats ammo stats branch state.",
-      "runtime_proof": "/root/Main.source_power_turret_set_stats_state",
-      "source_method": "setStats()",
-      "source_slice": "N1166",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_power_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_power_turret_set_stats_state",
-        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
-        "test_power_turret_set_stats_matches_upstream_source",
-        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_power_turret_limit_range_state": {
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "params": [
-        {
-          "name": "shoot_type",
-          "schema": "source_power_turret_limit_range_input.shoot_type",
-          "type": "Variant"
-        },
-        {
-          "name": "margin",
-          "schema": "source_power_turret_limit_range_input.margin",
-          "type": "float"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "dispatch_expr",
-        "shoot_type",
-        "margin",
-        "limit_range_called",
-        "limit_range_call"
-      ],
-      "rule": "Public runtime contract for PowerTurret.limitRange dispatch state.",
-      "runtime_proof": "/root/Main.source_power_turret_limit_range_state",
-      "source_method": "limitRange(float margin)",
-      "source_slice": "N1167",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_power_turret_limit_range_to_source_state",
-        "test_port_game_exposes_source_power_turret_limit_range_state",
-        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
-        "test_power_turret_limit_range_matches_upstream_source",
-        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_power_turret_build_get_ammo_fraction_state": {
-      "status": "source-backed",
-      "source_slice": "N1168",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "source_method": "PowerTurretBuild.getAmmoFraction()",
-      "params": [
-        {
-          "name": "power_null",
-          "type": "bool",
-          "schema": "source_power_turret_build_get_ammo_fraction_input.power_null"
-        },
-        {
-          "name": "power_status",
-          "type": "float",
-          "schema": "source_power_turret_build_get_ammo_fraction_input.power_status"
-        }
-      ],
-      "return_keys": [
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "power_null",
-        "power_status",
-        "ammo_fraction"
-      ],
-      "tests": [
-        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
-        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
-        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
-        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
-        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_power_turret_build_get_ammo_fraction_state",
-      "rule": "Public runtime contract for PowerTurretBuild.getAmmoFraction state."
-    },
-    "PortGame.source_power_turret_build_sense_state": {
-      "status": "source-backed",
-      "source_slice": "N1169",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "source_method": "PowerTurretBuild.sense(LAccess sensor)",
-      "params": [
-        {
-          "name": "sensor",
-          "type": "String",
-          "schema": "source_power_turret_build_sense_input.sensor"
-        },
-        {
-          "name": "power_null",
-          "type": "bool",
-          "schema": "source_power_turret_build_sense_input.power_null"
-        },
-        {
-          "name": "power_status",
-          "type": "float",
-          "schema": "source_power_turret_build_sense_input.power_status"
-        },
-        {
-          "name": "super_sense_value",
-          "type": "float",
-          "schema": "source_power_turret_build_sense_input.super_sense_value"
-        }
-      ],
-      "return_keys": [
-        "inner_class",
-        "method",
-        "override_expr",
-        "switch_return",
-        "ammo_case",
-        "ammo_capacity_case",
-        "default_case",
-        "sensor",
-        "power_null",
-        "power_status",
-        "super_sense_value",
-        "sense_value"
-      ],
-      "tests": [
-        "test_emit_bridges_power_turret_build_sense_to_source_state",
-        "test_port_game_exposes_source_power_turret_build_sense_state",
-        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
-        "test_power_turret_build_sense_matches_upstream_source",
-        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
-      "rule": "Public runtime contract for PowerTurretBuild.sense state."
-    },
-    "PortGame.source_power_turret_build_use_ammo_state": {
-      "status": "source-backed",
-      "source_slice": "N1170",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "source_method": "PowerTurretBuild.useAmmo()",
-      "params": [
-        {
-          "name": "shoot_type",
-          "type": "Variant",
-          "schema": "source_power_turret_build_use_ammo_input.shoot_type"
-        }
-      ],
-      "return_keys": [
-        "inner_class",
-        "method",
-        "override_expr",
-        "comment",
-        "return_expr",
-        "shoot_type"
-      ],
-      "tests": [
-        "test_emit_bridges_power_turret_build_use_ammo_to_source_state",
-        "test_port_game_exposes_source_power_turret_build_use_ammo_state",
-        "test_port_game_exposes_generated_power_turret_build_use_ammo_bridge_state",
-        "test_power_turret_build_use_ammo_matches_upstream_source",
-        "test_generated_power_turret_build_use_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_power_turret_build_use_ammo_state",
-      "rule": "Public runtime contract for PowerTurretBuild.useAmmo state."
-    },
-    "PortGame.source_power_turret_build_has_ammo_state": {
-      "status": "source-backed",
-      "source_slice": "N1171",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "source_method": "PowerTurretBuild.hasAmmo()",
-      "params": [],
-      "return_keys": [
-        "inner_class",
-        "method",
-        "override_expr",
-        "comment",
-        "return_expr",
-        "has_ammo"
-      ],
-      "tests": [
-        "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
-        "test_port_game_exposes_source_power_turret_build_has_ammo_state",
-        "test_port_game_exposes_generated_power_turret_build_has_ammo_bridge_state",
-        "test_power_turret_build_has_ammo_matches_upstream_source",
-        "test_generated_power_turret_build_has_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_power_turret_build_has_ammo_state",
-      "rule": "Public runtime contract for PowerTurretBuild.hasAmmo state."
-    },
-    "PortGame.source_power_turret_build_peek_ammo_state": {
-      "status": "source-backed",
-      "source_slice": "N1172",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
-      "source_method": "PowerTurretBuild.peekAmmo()",
-      "params": [
-        {
-          "name": "shoot_type",
-          "type": "Variant",
-          "schema": "source_power_turret_build_peek_ammo_input.shoot_type"
-        }
-      ],
-      "return_keys": [
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "shoot_type"
-      ],
-      "tests": [
-        "test_emit_bridges_power_turret_build_peek_ammo_to_source_state",
-        "test_port_game_exposes_source_power_turret_build_peek_ammo_state",
-        "test_port_game_exposes_generated_power_turret_build_peek_ammo_bridge_state",
-        "test_power_turret_build_peek_ammo_matches_upstream_source",
-        "test_generated_power_turret_build_peek_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_power_turret_build_peek_ammo_state",
-      "rule": "Public runtime contract for PowerTurretBuild.peekAmmo state."
-    },
-    "PortGame.source_item_turret_limit_range_default_state": {
-      "status": "source-backed",
-      "source_slice": "N1173",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurret.limitRange()",
-      "params": [],
-      "return_keys": [
-        "method",
-        "comment",
-        "dispatch_expr",
-        "margin",
-        "limit_range_called",
-        "limit_range_call"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_limit_range_default_to_source_state",
-        "test_port_game_exposes_source_item_turret_limit_range_default_state",
-        "test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state",
-        "test_item_turret_limit_range_default_matches_upstream_source",
-        "test_generated_item_turret_limit_range_default_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_limit_range_default_state",
-      "rule": "Public runtime contract for ItemTurret.limitRange() default margin dispatch."
-    },
-    "PortGame.source_item_turret_limit_range_entries_state": {
-      "status": "source-backed",
-      "source_slice": "N1174",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurret.limitRange(float margin)",
-      "params": [
-        {
-          "name": "margin",
-          "type": "float",
-          "schema": "source_item_turret_limit_range_entries_input.margin"
-        },
-        {
-          "name": "ammo_entries",
-          "type": "Array",
-          "schema": "source_item_turret_limit_range_entries_input.ammo_entries"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "comment",
-        "loop_expr",
-        "dispatch_expr",
-        "margin",
-        "ammo_entries",
-        "limit_range_calls",
-        "limit_range_call_count"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
-        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
-        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
-        "test_item_turret_limit_range_entries_matches_upstream_source",
-        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_limit_range_entries_state",
-      "rule": "Public runtime contract for ItemTurret.limitRange(float margin) ammo entry dispatch."
-    },
-    "PortGame.source_item_turret_set_stats_state": {
-      "status": "source-backed",
-      "source_slice": "N1175",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurret.setStats()",
-      "params": [
-        {
-          "name": "ammo_types",
-          "type": "Variant",
-          "schema": "source_item_turret_set_stats_input.ammo_types"
-        },
-        {
-          "name": "name_value",
-          "type": "String",
-          "schema": "source_item_turret_set_stats_input.name_value"
-        },
-        {
-          "name": "max_ammo",
-          "type": "float",
-          "schema": "source_item_turret_set_stats_input.max_ammo"
-        },
-        {
-          "name": "ammo_per_shot",
-          "type": "float",
-          "schema": "source_item_turret_set_stats_input.ammo_per_shot"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "super_set_stats_expr",
-        "stats_remove_expr",
-        "stats_ammo_add_expr",
-        "stats_ammo_capacity_add_expr",
-        "ammo_types",
-        "name_value",
-        "max_ammo",
-        "ammo_per_shot",
-        "ammo_capacity_divisor",
-        "ammo_capacity",
-        "super_set_stats_called",
-        "stats_item_capacity_removed",
-        "stats_ammo_added",
-        "stats_ammo_capacity_added",
-        "stats_item_capacity_remove_call",
-        "ammo_values_call",
-        "stats_ammo_add_call",
-        "stats_ammo_capacity_add_call"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_item_turret_set_stats_state",
-        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
-        "test_item_turret_set_stats_matches_upstream_source",
-        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
-      "rule": "Public runtime contract for ItemTurret.setStats() stat call sequence and ammo capacity formula."
-    },
-    "PortGame.source_item_turret_set_bars_state": {
-      "status": "source-backed",
-      "source_slice": "N1176",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurret.setBars()",
-      "params": [
-        {
-          "name": "total_ammo",
-          "type": "float",
-          "schema": "source_item_turret_set_bars_input.total_ammo"
-        },
-        {
-          "name": "max_ammo",
-          "type": "float",
-          "schema": "source_item_turret_set_bars_input.max_ammo"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "super_set_bars_expr",
-        "add_bar_expr",
-        "bar_fraction_expr",
-        "total_ammo",
-        "max_ammo",
-        "ammo_bar_fraction",
-        "super_set_bars_called",
-        "bar_added",
-        "bar_call"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_set_bars_to_source_state",
-        "test_port_game_exposes_source_item_turret_set_bars_state",
-        "test_port_game_exposes_generated_item_turret_set_bars_bridge_state",
-        "test_item_turret_set_bars_matches_upstream_source",
-        "test_generated_item_turret_set_bars_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_set_bars_state",
-      "rule": "Public runtime contract for ItemTurret.setBars() ammo bar call and fraction supplier."
-    },
-    "PortGame.source_item_turret_init_ground_overlap_state": {
-      "status": "source-backed",
-      "source_slice": "N1177",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurret.init()",
-      "params": [
-        {
-          "name": "target_ground",
-          "type": "bool",
-          "schema": "source_item_turret_init_ground_overlap_input.target_ground"
-        },
-        {
-          "name": "place_overlap_range",
-          "type": "float",
-          "schema": "source_item_turret_init_ground_overlap_input.place_overlap_range"
-        },
-        {
-          "name": "range_value",
-          "type": "float",
-          "schema": "source_item_turret_init_ground_overlap_input.range_value"
-        },
-        {
-          "name": "place_overlap_margin",
-          "type": "float",
-          "schema": "source_item_turret_init_ground_overlap_input.place_overlap_margin"
-        },
-        {
-          "name": "ammo_entries",
-          "type": "Array",
-          "schema": "source_item_turret_init_ground_overlap_input.ammo_entries"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "override_expr",
-        "consume_expr",
-        "consume_filter_deferred",
-        "target_ground_guard_expr",
-        "overlap_expr",
-        "super_init_expr",
-        "target_ground",
-        "place_overlap_range",
-        "range_value",
-        "place_overlap_margin",
-        "ammo_entries",
-        "place_overlap_range_after",
-        "place_overlap_updates",
-        "place_overlap_update_count",
-        "super_init_called"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_init_ground_overlap_to_source_state",
-        "test_port_game_exposes_source_item_turret_init_ground_overlap_state",
-        "test_port_game_exposes_generated_item_turret_init_ground_overlap_bridge_state",
-        "test_item_turret_init_ground_overlap_matches_upstream_source",
-        "test_generated_item_turret_init_ground_overlap_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_init_ground_overlap_state",
-      "rule": "Public runtime contract for ItemTurret.init() ground-target overlap range update branch."
-    },
-    "PortGame.source_item_turret_build_on_proximity_added_state": {
-      "status": "source-backed",
-      "source_slice": "N1178",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.onProximityAdded()",
-      "params": [
-        {
-          "name": "has_ammo",
-          "type": "bool",
-          "schema": "source_item_turret_build_on_proximity_added_input.has_ammo"
-        },
-        {
-          "name": "cheating",
-          "type": "bool",
-          "schema": "source_item_turret_build_on_proximity_added_input.cheating"
-        },
-        {
-          "name": "ammo_types_size",
-          "type": "int",
-          "schema": "source_item_turret_build_on_proximity_added_input.ammo_types_size"
-        },
-        {
-          "name": "first_ammo_item",
-          "type": "Variant",
-          "schema": "source_item_turret_build_on_proximity_added_input.first_ammo_item"
-        }
-      ],
-      "return_keys": [
-        "inner_class",
-        "method",
-        "override_expr",
-        "super_on_proximity_added_expr",
-        "comment",
-        "guard_expr",
-        "handle_item_expr",
-        "has_ammo",
-        "cheating",
-        "ammo_types_size",
-        "first_ammo_item",
-        "should_handle_first_ammo",
-        "handle_item_call",
-        "super_on_proximity_added_called"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_on_proximity_added_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_on_proximity_added_state",
-        "test_port_game_exposes_generated_item_turret_build_on_proximity_added_bridge_state",
-        "test_item_turret_build_on_proximity_added_matches_upstream_source",
-        "test_generated_item_turret_build_on_proximity_added_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_on_proximity_added_state",
-      "rule": "Public runtime contract for ItemTurretBuild.onProximityAdded() cheaty first-ammo branch."
-    },
-    "PortGame.source_item_turret_build_sense_object_state": {
-      "status": "source-backed",
-      "source_slice": "N1179",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.senseObject(LAccess sensor)",
-      "params": [
-        {
-          "name": "sensor",
-          "type": "String",
-          "schema": "source_item_turret_build_sense_object_input.sensor"
-        },
-        {
-          "name": "ammo_size",
-          "type": "int",
-          "schema": "source_item_turret_build_sense_object_input.ammo_size"
-        },
-        {
-          "name": "peek_item",
-          "type": "Variant",
-          "schema": "source_item_turret_build_sense_object_input.peek_item"
-        },
-        {
-          "name": "super_sense_object_value",
-          "type": "Variant",
-          "schema": "source_item_turret_build_sense_object_input.super_sense_object_value"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "switch_return_expr",
-        "current_ammo_type_case",
-        "default_case",
-        "sensor",
-        "ammo_size",
-        "peek_item",
-        "super_sense_object_value",
-        "sense_object_value"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_sense_object_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_sense_object_state",
-        "test_port_game_exposes_generated_item_turret_build_sense_object_bridge_state",
-        "test_item_turret_build_sense_object_matches_upstream_source",
-        "test_generated_item_turret_build_sense_object_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_sense_object_state",
-      "rule": "Public runtime contract for ItemTurretBuild.senseObject(LAccess sensor) currentAmmoType switch branch."
-    },
-    "PortGame.source_item_turret_build_get_ammo_content_state": {
-      "status": "source-backed",
-      "source_slice": "N1180",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.getAmmoContent()",
-      "params": [
-        {
-          "name": "ammo_size",
-          "type": "int",
-          "schema": "source_item_turret_build_get_ammo_content_input.ammo_size"
-        },
-        {
-          "name": "peek_item",
-          "type": "Variant",
-          "schema": "source_item_turret_build_get_ammo_content_input.peek_item"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "ammo_size",
-        "peek_item",
-        "ammo_content"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_get_ammo_content_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_get_ammo_content_state",
-        "test_port_game_exposes_generated_item_turret_build_get_ammo_content_bridge_state",
-        "test_item_turret_build_get_ammo_content_matches_upstream_source",
-        "test_generated_item_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_get_ammo_content_state",
-      "rule": "Public runtime contract for ItemTurretBuild.getAmmoContent() current ammo content return."
-    },
-    "PortGame.source_item_turret_build_get_ammo_fraction_state": {
-      "status": "source-backed",
-      "source_slice": "N1181",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.getAmmoFraction()",
-      "params": [
-        {
-          "name": "total_ammo",
-          "type": "float",
-          "schema": "source_item_turret_build_get_ammo_fraction_input.total_ammo"
-        },
-        {
-          "name": "max_ammo",
-          "type": "float",
-          "schema": "source_item_turret_build_get_ammo_fraction_input.max_ammo"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "total_ammo",
-        "max_ammo",
-        "ammo_fraction"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_get_ammo_fraction_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_get_ammo_fraction_state",
-        "test_port_game_exposes_generated_item_turret_build_get_ammo_fraction_bridge_state",
-        "test_item_turret_build_get_ammo_fraction_matches_upstream_source",
-        "test_generated_item_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_get_ammo_fraction_state",
-      "rule": "Public runtime contract for ItemTurretBuild.getAmmoFraction() ammo fraction return."
-    },
-    "PortGame.source_item_turret_build_accept_stack_state": {
-      "status": "source-backed",
-      "source_slice": "N1182",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.acceptStack(Item,int,Teamc)",
-      "params": [
-        {
-          "name": "item",
-          "type": "Variant",
-          "schema": "source_item_turret_build_accept_stack_input.item"
-        },
-        {
-          "name": "amount",
-          "type": "int",
-          "schema": "source_item_turret_build_accept_stack_input.amount"
-        },
-        {
-          "name": "max_ammo",
-          "type": "float",
-          "schema": "source_item_turret_build_accept_stack_input.max_ammo"
-        },
-        {
-          "name": "total_ammo",
-          "type": "float",
-          "schema": "source_item_turret_build_accept_stack_input.total_ammo"
-        },
-        {
-          "name": "ammo_multiplier",
-          "type": "float",
-          "schema": "source_item_turret_build_accept_stack_input.ammo_multiplier"
-        },
-        {
-          "name": "ammo_type_null",
-          "type": "bool",
-          "schema": "source_item_turret_build_accept_stack_input.ammo_type_null"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "type_lookup",
-        "null_guard",
-        "return_expr",
-        "item",
-        "amount",
-        "max_ammo",
-        "total_ammo",
-        "ammo_multiplier",
-        "ammo_type_null",
-        "accept_stack"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_accept_stack_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_accept_stack_state",
-        "test_port_game_exposes_generated_item_turret_build_accept_stack_bridge_state",
-        "test_item_turret_build_accept_stack_matches_upstream_source",
-        "test_generated_item_turret_build_accept_stack_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_accept_stack_state",
-      "rule": "Public runtime contract for ItemTurretBuild.acceptStack() accepted item count."
-    },
-    "PortGame.source_item_turret_build_handle_stack_state": {
-      "status": "source-backed",
-      "source_slice": "N1183",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
-      "params": [
-        {
-          "name": "item",
-          "type": "Variant",
-          "schema": "source_item_turret_build_handle_stack_input.item"
-        },
-        {
-          "name": "amount",
-          "type": "int",
-          "schema": "source_item_turret_build_handle_stack_input.amount"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "loop_expr",
-        "handle_item_expr",
-        "item",
-        "amount",
-        "handle_item_calls",
-        "handle_item_call_count"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_handle_stack_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_handle_stack_state",
-        "test_port_game_exposes_generated_item_turret_build_handle_stack_bridge_state",
-        "test_item_turret_build_handle_stack_matches_upstream_source",
-        "test_generated_item_turret_build_handle_stack_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_handle_stack_state",
-      "rule": "Public runtime contract for ItemTurretBuild.handleStack() handleItem dispatch records."
-    },
-    "PortGame.source_item_turret_build_remove_stack_state": {
-      "status": "source-backed",
-      "source_slice": "N1184",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.removeStack(Item,int)",
-      "params": [
-        {
-          "name": "item",
-          "type": "Variant",
-          "schema": "source_item_turret_build_remove_stack_input.item"
-        },
-        {
-          "name": "amount",
-          "type": "int",
-          "schema": "source_item_turret_build_remove_stack_input.amount"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "comment",
-        "method",
-        "override_expr",
-        "return_expr",
-        "item",
-        "amount",
-        "removed_stack"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
-        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
-        "test_item_turret_build_remove_stack_matches_upstream_source",
-        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
-      "rule": "Public runtime contract for ItemTurretBuild.removeStack() zero removal result."
-    },
-    "PortGame.source_item_turret_build_handle_item_state": {
-      "status": "source-backed",
-      "source_slice": "N1185",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.handleItem(Building,Item)",
-      "params": [
-        {
-          "name": "item",
-          "type": "Variant",
-          "schema": "source_item_turret_build_handle_item_input.item"
-        },
-        {
-          "name": "item_is_pyratite",
-          "type": "bool",
-          "schema": "source_item_turret_build_handle_item_input.item_is_pyratite"
-        },
-        {
-          "name": "total_ammo",
-          "type": "int",
-          "schema": "source_item_turret_build_handle_item_input.total_ammo"
-        },
-        {
-          "name": "ammo_multiplier",
-          "type": "float",
-          "schema": "source_item_turret_build_handle_item_input.ammo_multiplier"
-        },
-        {
-          "name": "ammo_type_null",
-          "type": "bool",
-          "schema": "source_item_turret_build_handle_item_input.ammo_type_null"
-        },
-        {
-          "name": "ammo_entries",
-          "type": "Array",
-          "schema": "source_item_turret_build_handle_item_input.ammo_entries"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "todo_comment",
-        "pyratite_guard",
-        "flame_event_expr",
-        "resupply_guard",
-        "resupply_event_expr",
-        "type_lookup",
-        "type_null_guard",
-        "total_ammo_update_expr",
-        "loop_expr",
-        "entry_cast",
-        "found_guard",
-        "entry_update_expr",
-        "swap_expr",
-        "add_expr",
-        "item",
-        "item_is_pyratite",
-        "total_ammo",
-        "ammo_multiplier",
-        "ammo_type_null",
-        "flame_ammo_event_fired",
-        "resupply_turret_event_fired",
-        "type_null_returned",
-        "total_ammo_after",
-        "ammo_entries_after",
-        "entry_found",
-        "entry_added",
-        "swapped"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_handle_item_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_handle_item_state",
-        "test_port_game_exposes_generated_item_turret_build_handle_item_bridge_state",
-        "test_item_turret_build_handle_item_matches_upstream_source",
-        "test_generated_item_turret_build_handle_item_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_handle_item_state",
-      "rule": "Public runtime contract for ItemTurretBuild.handleItem() ammo stack and event branch state."
-    },
-    "PortGame.source_item_turret_build_accept_item_state": {
-      "status": "source-backed",
-      "source_slice": "N1186",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.acceptItem(Building,Item)",
-      "params": [
-        {
-          "name": "item",
-          "type": "Variant",
-          "schema": "source_item_turret_build_accept_item_input.item"
-        },
-        {
-          "name": "total_ammo",
-          "type": "int",
-          "schema": "source_item_turret_build_accept_item_input.total_ammo"
-        },
-        {
-          "name": "max_ammo",
-          "type": "float",
-          "schema": "source_item_turret_build_accept_item_input.max_ammo"
-        },
-        {
-          "name": "ammo_multiplier",
-          "type": "float",
-          "schema": "source_item_turret_build_accept_item_input.ammo_multiplier"
-        },
-        {
-          "name": "ammo_type_null",
-          "type": "bool",
-          "schema": "source_item_turret_build_accept_item_input.ammo_type_null"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "item",
-        "total_ammo",
-        "max_ammo",
-        "ammo_multiplier",
-        "ammo_type_null",
-        "accept_item"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_accept_item_state",
-        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
-        "test_item_turret_build_accept_item_matches_upstream_source",
-        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
-      "rule": "Public runtime contract for ItemTurretBuild.acceptItem() boolean acceptance expression."
-    },
-    "PortGame.source_item_turret_build_version_state": {
-      "status": "source-backed",
-      "source_slice": "N1187",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.version()",
-      "params": [],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "version"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_version_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_version_state",
-        "test_port_game_exposes_generated_item_turret_build_version_bridge_state",
-        "test_item_turret_build_version_matches_upstream_source",
-        "test_generated_item_turret_build_version_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_version_state",
-      "rule": "Public runtime contract for ItemTurretBuild.version() byte return."
-    },
-    "PortGame.source_item_turret_build_write_state": {
-      "status": "source-backed",
-      "source_slice": "N1188",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.write(Writes)",
-      "params": [
-        {
-          "name": "ammo_entries",
-          "type": "Array",
-          "schema": "source_item_turret_build_write_input.ammo_entries"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "super_write_expr",
-        "write_size_expr",
-        "loop_expr",
-        "entry_cast",
-        "write_item_id_expr",
-        "write_amount_expr",
-        "ammo_size",
-        "entry_writes",
-        "write_calls"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_write_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_write_state",
-        "test_port_game_exposes_generated_item_turret_build_write_bridge_state",
-        "test_item_turret_build_write_matches_upstream_source",
-        "test_generated_item_turret_build_write_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_write_state",
-      "rule": "Public runtime contract for ItemTurretBuild.write(Writes) ordered write-call state."
-    },
-    "PortGame.source_item_turret_build_read_state": {
-      "status": "source-backed",
-      "source_slice": "N1189",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemTurretBuild.read(Reads, byte)",
-      "params": [
-        {
-          "name": "revision",
-          "type": "int",
-          "schema": "source_item_turret_build_read_input.revision"
-        },
-        {
-          "name": "max_ammo",
-          "type": "int",
-          "schema": "source_item_turret_build_read_input.max_ammo"
-        },
-        {
-          "name": "read_entries",
-          "type": "Array",
-          "schema": "source_item_turret_build_read_input.read_entries"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "super_read_expr",
-        "clear_expr",
-        "total_reset_expr",
-        "amount_expr",
-        "loop_expr",
-        "item_lookup_expr",
-        "item_amount_expr",
-        "valid_comment",
-        "valid_ammo_guard",
-        "total_add_expr",
-        "ammo_add_expr",
-        "read_count",
-        "total_ammo_after",
-        "ammo_entries_after",
-        "read_calls"
-      ],
-      "tests": [
-        "test_emit_bridges_item_turret_build_read_to_source_state",
-        "test_port_game_exposes_source_item_turret_build_read_state",
-        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
-        "test_item_turret_build_read_matches_upstream_source",
-        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
-      "rule": "Public runtime contract for ItemTurretBuild.read(Reads, byte) read-call state."
-    },
-    "PortGame.source_item_entry_constructor_state": {
-      "status": "source-backed",
-      "source_slice": "N1190",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemEntry(Item, int)",
-      "params": [
-        {
-          "name": "item",
-          "type": "Variant",
-          "schema": "source_item_entry_constructor_input.item"
-        },
-        {
-          "name": "amount",
-          "type": "int",
-          "schema": "source_item_entry_constructor_input.amount"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "field",
-        "constructor",
-        "item_assign_expr",
-        "amount_assign_expr",
-        "item",
-        "amount",
-        "item_after",
-        "amount_after"
-      ],
-      "tests": [
-        "test_emit_bridges_item_entry_constructor_to_source_state",
-        "test_port_game_exposes_source_item_entry_constructor_state",
-        "test_port_game_exposes_generated_item_entry_constructor_bridge_state",
-        "test_item_entry_constructor_matches_upstream_source",
-        "test_generated_item_entry_constructor_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_entry_constructor_state",
-      "rule": "Public runtime contract for ItemEntry(Item, int) constructor field assignment state."
-    },
-    "PortGame.source_item_entry_type_state": {
-      "status": "source-backed",
-      "source_slice": "N1191",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemEntry.type()",
-      "params": [
-        {
-          "name": "item",
-          "type": "Variant",
-          "schema": "source_item_entry_type_input.item"
-        },
-        {
-          "name": "ammo_type",
-          "type": "Variant",
-          "schema": "source_item_entry_type_input.ammo_type"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "override_expr",
-        "method",
-        "return_expr",
-        "item",
-        "ammo_type",
-        "type"
-      ],
-      "tests": [
-        "test_emit_bridges_item_entry_type_to_source_state",
-        "test_port_game_exposes_source_item_entry_type_state",
-        "test_port_game_exposes_generated_item_entry_type_bridge_state",
-        "test_item_entry_type_matches_upstream_source",
-        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_entry_type_state",
-      "rule": "Public runtime contract for ItemEntry.type return state."
-    },
-    "PortGame.source_item_entry_to_string_state": {
-      "status": "source-backed",
-      "source_slice": "N1192",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "source_method": "ItemEntry.toString()",
-      "params": [
-        {
-          "name": "item_string",
-          "type": "String",
-          "schema": "source_item_entry_to_string_input.item_string"
-        },
-        {
-          "name": "amount",
-          "type": "int",
-          "schema": "source_item_entry_to_string_input.amount"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "override_expr",
-        "method",
-        "return_start_expr",
-        "item_concat_expr",
-        "amount_concat_expr",
-        "return_end_expr",
-        "item_string",
-        "amount",
-        "to_string"
-      ],
-      "tests": [
-        "test_emit_bridges_item_entry_to_string_to_source_state",
-        "test_port_game_exposes_source_item_entry_to_string_state",
-        "test_port_game_exposes_generated_item_entry_to_string_bridge_state",
-        "test_item_entry_to_string_matches_upstream_source",
-        "test_generated_item_entry_to_string_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_item_entry_to_string_state",
-      "rule": "Public runtime contract for ItemEntry.toString state."
-    },
-    "PortGame.source_liquid_turret_ammo_state": {
-      "status": "source-backed",
-      "source_slice": "N1193",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurret.ammo(Object...)",
-      "params": [
-        {
-          "name": "objects",
-          "type": "Array",
-          "schema": "source_liquid_turret_ammo_input.objects"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "field",
-        "comment",
-        "method",
-        "assignment_expr",
-        "objects",
-        "ammo_types_after"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_ammo_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_ammo_state",
-        "test_port_game_exposes_generated_liquid_turret_ammo_bridge_state",
-        "test_liquid_turret_ammo_matches_upstream_source",
-        "test_generated_liquid_turret_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_ammo_state",
-      "rule": "Public runtime contract for LiquidTurret.ammo state; ObjectMap internals stay deferred."
-    },
-    "PortGame.source_liquid_turret_set_stats_state": {
-      "status": "source-backed",
-      "source_slice": "N1194",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurret.setStats()",
-      "params": [
-        {
-          "name": "ammo_types",
-          "type": "Variant",
-          "schema": "source_liquid_turret_set_stats_input.ammo_types"
-        },
-        {
-          "name": "name_value",
-          "type": "String",
-          "schema": "source_liquid_turret_set_stats_input.name_value"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "method",
-        "override_expr",
-        "super_set_stats_expr",
-        "stats_add_expr",
-        "ammo_types",
-        "name_value",
-        "super_set_stats_called",
-        "stats_added",
-        "ammo_values_call",
-        "stats_add_call"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_set_stats_state",
-        "test_port_game_exposes_generated_liquid_turret_set_stats_bridge_state",
-        "test_liquid_turret_set_stats_matches_upstream_source",
-        "test_generated_liquid_turret_set_stats_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_set_stats_state",
-      "rule": "Public runtime contract for LiquidTurret.setStats state."
-    },
-    "PortGame.source_liquid_turret_init_state": {
-      "status": "source-backed",
-      "source_slice": "N1195",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurret.init()",
-      "params": [
-        {
-          "name": "ammo_entries",
-          "type": "Array",
-          "schema": "source_liquid_turret_init_input.ammo_entries"
-        },
-        {
-          "name": "target_ground",
-          "type": "bool",
-          "schema": "source_liquid_turret_init_input.target_ground"
-        },
-        {
-          "name": "place_overlap_range",
-          "type": "float",
-          "schema": "source_liquid_turret_init_input.place_overlap_range"
-        },
-        {
-          "name": "range_value",
-          "type": "float",
-          "schema": "source_liquid_turret_init_input.range_value"
-        },
-        {
-          "name": "place_overlap_margin",
-          "type": "float",
-          "schema": "source_liquid_turret_init_input.place_overlap_margin"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "method",
-        "override_expr",
-        "consume_expr",
-        "filter_expr",
-        "consume_call",
-        "target_ground_expr",
-        "overlap_expr",
-        "super_init_expr",
-        "ammo_entries",
-        "target_ground",
-        "place_overlap_range_before",
-        "range_value",
-        "place_overlap_margin",
-        "overlap_updates",
-        "place_overlap_range_after",
-        "super_init_called"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_init_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_init_state",
-        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
-        "test_liquid_turret_init_matches_upstream_source",
-        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_init_state",
-      "rule": "Public runtime contract for LiquidTurret.init state."
-    },
-    "PortGame.source_liquid_turret_build_should_active_sound_state": {
-      "status": "source-backed",
-      "source_slice": "N1196",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurretBuild.shouldActiveSound()",
-      "params": [
-        {
-          "name": "was_shooting",
-          "type": "bool",
-          "schema": "source_liquid_turret_build_should_active_sound_input.was_shooting"
-        },
-        {
-          "name": "enabled",
-          "type": "bool",
-          "schema": "source_liquid_turret_build_should_active_sound_input.enabled"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "was_shooting",
-        "enabled",
-        "should_active_sound"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_should_active_sound_state",
-        "test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state",
-        "test_liquid_turret_build_should_active_sound_matches_upstream_source",
-        "test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_build_should_active_sound_state",
-      "rule": "Public runtime contract for LiquidTurretBuild.shouldActiveSound state."
-    },
-    "PortGame.source_liquid_turret_build_get_ammo_content_state": {
-      "status": "source-backed",
-      "source_slice": "N1197",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurretBuild.getAmmoContent()",
-      "params": [
-        {
-          "name": "liquids_null",
-          "type": "bool",
-          "schema": "source_liquid_turret_build_get_ammo_content_input.liquids_null"
-        },
-        {
-          "name": "current_amount",
-          "type": "float",
-          "schema": "source_liquid_turret_build_get_ammo_content_input.current_amount"
-        },
-        {
-          "name": "current_liquid",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_get_ammo_content_input.current_liquid"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "liquids_null",
-        "current_amount",
-        "current_liquid",
-        "ammo_content"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state",
-        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_content_bridge_state",
-        "test_liquid_turret_build_get_ammo_content_matches_upstream_source",
-        "test_generated_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_build_get_ammo_content_state",
-      "rule": "Public runtime contract for LiquidTurretBuild.getAmmoContent state."
-    },
-    "PortGame.source_liquid_turret_build_get_ammo_fraction_state": {
-      "status": "source-backed",
-      "source_slice": "N1198",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurretBuild.getAmmoFraction()",
-      "params": [
-        {
-          "name": "current_amount",
-          "type": "float",
-          "schema": "source_liquid_turret_build_get_ammo_fraction_input.current_amount"
-        },
-        {
-          "name": "liquid_capacity",
-          "type": "float",
-          "schema": "source_liquid_turret_build_get_ammo_fraction_input.liquid_capacity"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "current_amount",
-        "liquid_capacity",
-        "ammo_fraction"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_get_ammo_fraction_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_get_ammo_fraction_state",
-        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_fraction_bridge_state",
-        "test_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
-        "test_generated_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_build_get_ammo_fraction_state",
-      "rule": "Public runtime contract for LiquidTurretBuild.getAmmoFraction state."
-    },
-    "PortGame.source_liquid_turret_build_sense_object_state": {
-      "status": "source-backed",
-      "source_slice": "N1199",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurretBuild.senseObject(LAccess sensor)",
-      "params": [
-        {
-          "name": "sensor",
-          "type": "String",
-          "schema": "source_liquid_turret_build_sense_object_input.sensor"
-        },
-        {
-          "name": "current_liquid",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_sense_object_input.current_liquid"
-        },
-        {
-          "name": "super_sense_object_value",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_sense_object_input.super_sense_object_value"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "switch_return_expr",
-        "current_ammo_type_case",
-        "default_case",
-        "sensor",
-        "current_liquid",
-        "super_sense_object_value",
-        "sense_object_value"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_sense_object_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_sense_object_state",
-        "test_port_game_exposes_generated_liquid_turret_build_sense_object_bridge_state",
-        "test_liquid_turret_build_sense_object_matches_upstream_source",
-        "test_generated_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_build_sense_object_state",
-      "rule": "Public runtime contract for LiquidTurretBuild.senseObject state."
-    },
-    "PortGame.source_liquid_turret_build_find_target_extinguish_state": {
-      "status": "source-backed",
-      "source_slice": "N1200",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurretBuild.findTarget()",
-      "params": [
-        {
-          "name": "extinguish",
-          "type": "bool",
-          "schema": "source_liquid_turret_build_find_target_extinguish_input.extinguish"
-        },
-        {
-          "name": "current_liquid_can_extinguish",
-          "type": "bool",
-          "schema": "source_liquid_turret_build_find_target_extinguish_input.current_liquid_can_extinguish"
-        },
-        {
-          "name": "fire_result",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_find_target_extinguish_input.fire_result"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "guard_expr",
-        "result_init_expr",
-        "assign_expr",
-        "return_expr",
-        "super_find_target_expr",
-        "extinguish",
-        "current_liquid_can_extinguish",
-        "fire_result",
-        "should_scan_fires",
-        "target_after",
-        "target_assigned",
-        "super_find_target_called"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
-        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
-        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
-        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
-      "rule": "Public runtime contract for LiquidTurretBuild.findTarget extinguish dispatch state."
-    },
-    "PortGame.source_liquid_turret_build_use_ammo_state": {
-      "status": "source-backed",
-      "source_slice": "N1201",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurretBuild.useAmmo()",
-      "params": [
-        {
-          "name": "cheating",
-          "type": "bool",
-          "schema": "source_liquid_turret_build_use_ammo_input.cheating"
-        },
-        {
-          "name": "current_liquid",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_use_ammo_input.current_liquid"
-        },
-        {
-          "name": "ammo_type",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_use_ammo_input.ammo_type"
-        },
-        {
-          "name": "ammo_multiplier",
-          "type": "float",
-          "schema": "source_liquid_turret_build_use_ammo_input.ammo_multiplier"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "cheating_return_expr",
-        "type_lookup_expr",
-        "remove_expr",
-        "return_expr",
-        "cheating",
-        "current_liquid",
-        "ammo_type",
-        "ammo_multiplier",
-        "liquid_remove_amount",
-        "remove_liquid_call",
-        "returned_ammo"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
-        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
-        "test_liquid_turret_build_use_ammo_matches_upstream_source",
-        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
-      "rule": "Public runtime contract for LiquidTurretBuild.useAmmo state."
-    },
-    "PortGame.source_liquid_turret_build_peek_ammo_state": {
-      "status": "source-backed",
-      "source_slice": "N1202",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurretBuild.peekAmmo()",
-      "params": [
-        {
-          "name": "current_liquid",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_peek_ammo_input.current_liquid"
-        },
-        {
-          "name": "ammo_type",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_peek_ammo_input.ammo_type"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "current_liquid",
-        "peek_ammo"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
-        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
-        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
-        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_build_peek_ammo_state",
-      "rule": "Public runtime contract for LiquidTurretBuild.peekAmmo state."
-    },
-    "PortGame.source_liquid_turret_build_has_ammo_state": {
-      "status": "source-backed",
-      "source_slice": "N1203",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurretBuild.hasAmmo()",
-      "params": [
-        {
-          "name": "current_liquid",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_has_ammo_input.current_liquid"
-        },
-        {
-          "name": "ammo_type",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_has_ammo_input.ammo_type"
-        },
-        {
-          "name": "current_amount",
-          "type": "float",
-          "schema": "source_liquid_turret_build_has_ammo_input.current_amount"
-        },
-        {
-          "name": "ammo_multiplier",
-          "type": "float",
-          "schema": "source_liquid_turret_build_has_ammo_input.ammo_multiplier"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "current_liquid",
-        "ammo_type",
-        "current_amount",
-        "ammo_multiplier",
-        "ammo_type_present",
-        "required_amount",
-        "has_ammo"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
-        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
-        "test_liquid_turret_build_has_ammo_matches_upstream_source",
-        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_build_has_ammo_state",
-      "rule": "Public runtime contract for LiquidTurretBuild.hasAmmo state."
-    },
-    "PortGame.source_liquid_turret_build_accept_item_state": {
-      "status": "source-backed",
-      "source_slice": "N1204",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
-      "params": [
-        {
-          "name": "source_building",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_accept_item_input.source_building"
-        },
-        {
-          "name": "item",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_accept_item_input.item"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "source_building",
-        "item",
-        "accept_item"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_accept_item_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_accept_item_state",
-        "test_port_game_exposes_generated_liquid_turret_build_accept_item_bridge_state",
-        "test_liquid_turret_build_accept_item_matches_upstream_source",
-        "test_generated_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_item_state",
-      "rule": "Public runtime contract for LiquidTurretBuild.acceptItem state."
-    },
-    "PortGame.source_liquid_turret_build_accept_liquid_state": {
-      "status": "source-backed",
-      "source_slice": "N1205",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
-      "source_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
-      "params": [
-        {
-          "name": "source_building",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_accept_liquid_input.source_building"
-        },
-        {
-          "name": "liquid",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_accept_liquid_input.liquid"
-        },
-        {
-          "name": "ammo_type",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_accept_liquid_input.ammo_type"
-        },
-        {
-          "name": "current_liquid",
-          "type": "Variant",
-          "schema": "source_liquid_turret_build_accept_liquid_input.current_liquid"
-        },
-        {
-          "name": "current_liquid_ammo_type_present",
-          "type": "bool",
-          "schema": "source_liquid_turret_build_accept_liquid_input.current_liquid_ammo_type_present"
-        },
-        {
-          "name": "current_liquid_amount",
-          "type": "float",
-          "schema": "source_liquid_turret_build_accept_liquid_input.current_liquid_amount"
-        },
-        {
-          "name": "current_ammo_multiplier",
-          "type": "float",
-          "schema": "source_liquid_turret_build_accept_liquid_input.current_ammo_multiplier"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "inner_class",
-        "method",
-        "override_expr",
-        "return_expr",
-        "source_building",
-        "liquid",
-        "ammo_type",
-        "current_liquid",
-        "current_liquid_ammo_type_present",
-        "current_liquid_amount",
-        "current_ammo_multiplier",
-        "liquid_has_ammo_type",
-        "same_liquid",
-        "current_liquid_missing_ammo_type",
-        "current_required_with_epsilon",
-        "current_liquid_drained",
-        "replacement_allowed",
-        "accept_liquid"
-      ],
-      "tests": [
-        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
-        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
-        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
-        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
-        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
-      "rule": "Public runtime contract for LiquidTurretBuild.acceptLiquid state."
-    },
-    "PortGame.source_base_turret_reinitialize_consumers_state": {
-      "status": "source-backed",
-      "source_slice": "N1206",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
-      "source_method": "reinitializeConsumers()",
-      "params": [],
-      "return_keys": [
-        "source_owner",
-        "method",
-        "override_expr",
-        "check_init_coolant_expr",
-        "super_reinitialize_consumers_expr",
-        "check_init_coolant_called",
-        "super_reinitialize_consumers_called"
-      ],
-      "tests": [
-        "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
-        "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
-        "test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state",
-        "test_base_turret_reinitialize_consumers_matches_upstream_source",
-        "test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.source_base_turret_reinitialize_consumers_state",
-      "rule": "Public runtime contract for BaseTurret.reinitializeConsumers dispatch order state."
     }
   },
   "policy": {

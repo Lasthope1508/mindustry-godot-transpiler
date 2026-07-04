@@ -7339,6 +7339,56 @@ public class BaseTurret extends Block{
             self.assertIn('"check_init_coolant_called": true', source_text)
             self.assertIn('"super_reinitialize_consumers_called": true', source_text)
 
+    def test_emit_bridges_base_turret_check_init_coolant_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            base_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.java"
+            base_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            base_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class BaseTurret extends Block{
+    @Override
+    public void init(){
+        super.init();
+    }
+
+    @Override
+    public void reinitializeConsumers(){
+    }
+
+    void checkInitCoolant(){
+        if(coolant != null){
+            coolant.update = false;
+            coolant.booster = true;
+            coolant.optional = true;
+
+            //json parsing does not add to consumes
+            if(!hasConsumer(coolant)) consume(coolant);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_checkInitCoolant_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('"source_owner": "PortGame.source_base_turret_check_init_coolant_state"', source_text)
+            self.assertIn('"method": "void checkInitCoolant(){"', source_text)
+            self.assertIn('"coolant_guard_expr": "if(coolant != null){"', source_text)
+            self.assertIn('"update_assign_expr": "coolant.update = false;"', source_text)
+            self.assertIn('"booster_assign_expr": "coolant.booster = true;"', source_text)
+            self.assertIn('"optional_assign_expr": "coolant.optional = true;"', source_text)
+            self.assertIn('"json_comment": "//json parsing does not add to consumes"', source_text)
+            self.assertIn('"consume_guard_expr": "if(!hasConsumer(coolant)) consume(coolant);"', source_text)
+
     def test_emit_bridges_turret_load_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -16681,6 +16681,44 @@ func generated_base_turret_reinitialize_consumers_bridge_state() -> Dictionary:
 		"matches": result.get("check_init_coolant_called", null) == canonical.get("check_init_coolant_called", null) and result.get("super_reinitialize_consumers_called", null) == canonical.get("super_reinitialize_consumers_called", null),
 	}
 
+func source_base_turret_check_init_coolant_state(coolant_present: bool, has_consumer: bool) -> Dictionary:
+	var update_after: Variant = null
+	var booster_after: Variant = null
+	var optional_after: Variant = null
+	if coolant_present:
+		update_after = false
+		booster_after = true
+		optional_after = true
+	return {
+		"source_owner": "PortGame.source_base_turret_check_init_coolant_state",
+		"method": "void checkInitCoolant(){",
+		"coolant_guard_expr": "if(coolant != null){",
+		"update_assign_expr": "coolant.update = false;",
+		"booster_assign_expr": "coolant.booster = true;",
+		"optional_assign_expr": "coolant.optional = true;",
+		"json_comment": "//json parsing does not add to consumes",
+		"consume_guard_expr": "if(!hasConsumer(coolant)) consume(coolant);",
+		"coolant_present": coolant_present,
+		"has_consumer": has_consumer,
+		"update_after": update_after,
+		"booster_after": booster_after,
+		"optional_after": optional_after,
+		"consume_called": coolant_present and not has_consumer,
+	}
+
+func generated_base_turret_check_init_coolant_bridge_state(coolant_present: bool, has_consumer: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_checkInitCoolant_2([coolant_present, has_consumer])
+	var canonical = source_base_turret_check_init_coolant_state(coolant_present, has_consumer)
+	return {
+		"source_owner": "PortGame.source_base_turret_check_init_coolant_state",
+		"generated_owner": "BaseTurret.java_method_checkInitCoolant_2",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("consume_called", null) == canonical.get("consume_called", null) and result.get("update_after", null) == canonical.get("update_after", null) and result.get("booster_after", null) == canonical.get("booster_after", null) and result.get("optional_after", null) == canonical.get("optional_after", null),
+	}
+
 func source_turret_load_state() -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_turret_load_state",

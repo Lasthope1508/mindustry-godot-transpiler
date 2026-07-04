@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 675)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 676)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 680)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 681)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42149,6 +42149,68 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void reinitializeConsumers(){")
         self.assertEqual(result_schema["keys"]["check_init_coolant_called"]["java_expr"], "checkInitCoolant();")
         self.assertEqual(result_schema["keys"]["super_reinitialize_consumers_called"]["java_expr"], "super.reinitializeConsumers();")
+
+    def test_generated_base_turret_check_init_coolant_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "base_turret_check_init_coolant.method")
+        self.assertEqual(method["java_expr"], "void checkInitCoolant(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(method["java_method"], "checkInitCoolant()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_base_turret_check_init_coolant_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_base_turret_check_init_coolant_state")
+
+        coolant_guard = source_symbols.source_symbol(registry, "base_turret_check_init_coolant.coolant_guard")
+        self.assertEqual(coolant_guard["java_expr"], "if(coolant != null){")
+        self.assertEqual(coolant_guard["godot_symbol"], "source_base_turret_check_init_coolant_input.coolant_present")
+        update_assign = source_symbols.source_symbol(registry, "base_turret_check_init_coolant.update_assign")
+        self.assertEqual(update_assign["java_expr"], "coolant.update = false;")
+        self.assertEqual(update_assign["godot_symbol"], "source_base_turret_check_init_coolant_result.update_after")
+        booster_assign = source_symbols.source_symbol(registry, "base_turret_check_init_coolant.booster_assign")
+        self.assertEqual(booster_assign["java_expr"], "coolant.booster = true;")
+        self.assertEqual(booster_assign["godot_symbol"], "source_base_turret_check_init_coolant_result.booster_after")
+        optional_assign = source_symbols.source_symbol(registry, "base_turret_check_init_coolant.optional_assign")
+        self.assertEqual(optional_assign["java_expr"], "coolant.optional = true;")
+        self.assertEqual(optional_assign["godot_symbol"], "source_base_turret_check_init_coolant_result.optional_after")
+        consume_guard = source_symbols.source_symbol(registry, "base_turret_check_init_coolant.consume_guard")
+        self.assertEqual(consume_guard["java_expr"], "if(!hasConsumer(coolant)) consume(coolant);")
+        self.assertEqual(consume_guard["godot_symbol"], "source_base_turret_check_init_coolant_result.consume_called")
+
+        check_slice = source_symbols.source_slice(ledger, "N1207")
+        self.assertEqual(check_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(check_slice["java_method"], "checkInitCoolant()")
+        self.assertEqual(check_slice["godot_owner"], "PortGame.source_base_turret_check_init_coolant_state")
+        self.assertEqual(check_slice["runtime_proof"], "/root/Main.generated_base_turret_check_init_coolant_bridge_state")
+        for expr in [
+            "void checkInitCoolant(){",
+            "if(coolant != null){",
+            "coolant.update = false;",
+            "coolant.booster = true;",
+            "coolant.optional = true;",
+            "//json parsing does not add to consumes",
+            "if(!hasConsumer(coolant)) consume(coolant);",
+        ]:
+            self.assertIn(expr, check_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_base_turret_check_init_coolant_state")
+        self.assertEqual(contract["params"], [
+            {"name": "coolant_present", "schema": "source_base_turret_check_init_coolant_input.coolant_present", "type": "bool"},
+            {"name": "has_consumer", "schema": "source_base_turret_check_init_coolant_input.has_consumer", "type": "bool"},
+        ])
+        for key in ["method", "coolant_guard_expr", "update_assign_expr", "booster_assign_expr", "optional_assign_expr", "json_comment", "consume_guard_expr", "coolant_present", "has_consumer", "update_after", "booster_after", "optional_after", "consume_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_base_turret_check_init_coolant_input")
+        self.assertEqual(input_schema["keys"]["coolant_present"]["java_expr"], "coolant != null")
+        self.assertEqual(input_schema["keys"]["has_consumer"]["java_expr"], "hasConsumer(coolant)")
+        result_schema = source_symbols.state_schema(schema, "source_base_turret_check_init_coolant_result")
+        self.assertEqual(result_schema["keys"]["method"]["java_expr"], "void checkInitCoolant(){")
+        self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "if(!hasConsumer(coolant)) consume(coolant);")
 
     def test_generated_turret_load_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
