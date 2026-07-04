@@ -2907,6 +2907,28 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar shoot_type: Variant = _args[0] if _args.size() > 0 else null",
                         "\treturn {\"source_owner\": \"PortGame.source_power_turret_build_peek_ammo_state\", \"inner_class\": \"public class PowerTurretBuild extends TurretBuild{\", \"method\": \"public BulletType peekAmmo(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return shootType;\", \"shoot_type\": shoot_type}",
                     ])
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ItemTurret.java"
+        and type_entry.get("name") == "ItemTurret"
+    ):
+        for inner_class in type_entry.get("inner_classes", []):
+            if inner_class.get("name") != "ItemTurretBuild":
+                continue
+            for index, method in enumerate(inner_class.get("methods", [])):
+                if method.get("name") == "onProximityAdded":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemTurretBuild_method_onProximityAdded_{index}(_args: Array = []) -> Variant:",
+                        "\tvar has_ammo: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar cheating: bool = bool(_args[1] if _args.size() > 1 else false)",
+                        "\tvar ammo_types_size: int = int(_args[2] if _args.size() > 2 else 0)",
+                        "\tvar first_ammo_item: Variant = _args[3] if _args.size() > 3 else null",
+                        "\tvar should_handle_first_ammo: bool = (not has_ammo) and cheating and ammo_types_size > 0",
+                        "\tvar handle_item_call: Dictionary = {}",
+                        "\tif should_handle_first_ammo:",
+                        "\t\thandle_item_call = {\"call\": \"handleItem(this, ammoTypes.keys().next());\", \"source\": \"this\", \"item\": first_ammo_item}",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_on_proximity_added_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public void onProximityAdded(){\", \"override_expr\": \"@Override\", \"super_on_proximity_added_expr\": \"super.onProximityAdded();\", \"comment\": \"//add first ammo item to cheaty blocks so they can shoot properly\", \"guard_expr\": \"if(!hasAmmo() && cheating() && ammoTypes.size > 0){\", \"handle_item_expr\": \"handleItem(this, ammoTypes.keys().next());\", \"has_ammo\": has_ammo, \"cheating\": cheating, \"ammo_types_size\": ammo_types_size, \"first_ammo_item\": first_ammo_item, \"should_handle_first_ammo\": should_handle_first_ammo, \"handle_item_call\": handle_item_call, \"super_on_proximity_added_called\": true}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

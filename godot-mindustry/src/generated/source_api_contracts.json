@@ -26485,6 +26485,59 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_init_ground_overlap_state",
       "rule": "Public runtime contract for ItemTurret.init() ground-target overlap range update branch."
+    },
+    "PortGame.source_item_turret_build_on_proximity_added_state": {
+      "status": "source-backed",
+      "source_slice": "N1178",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurretBuild.onProximityAdded()",
+      "params": [
+        {
+          "name": "has_ammo",
+          "type": "bool",
+          "schema": "source_item_turret_build_on_proximity_added_input.has_ammo"
+        },
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_item_turret_build_on_proximity_added_input.cheating"
+        },
+        {
+          "name": "ammo_types_size",
+          "type": "int",
+          "schema": "source_item_turret_build_on_proximity_added_input.ammo_types_size"
+        },
+        {
+          "name": "first_ammo_item",
+          "type": "Variant",
+          "schema": "source_item_turret_build_on_proximity_added_input.first_ammo_item"
+        }
+      ],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "super_on_proximity_added_expr",
+        "comment",
+        "guard_expr",
+        "handle_item_expr",
+        "has_ammo",
+        "cheating",
+        "ammo_types_size",
+        "first_ammo_item",
+        "should_handle_first_ammo",
+        "handle_item_call",
+        "super_on_proximity_added_called"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_on_proximity_added_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_on_proximity_added_state",
+        "test_port_game_exposes_generated_item_turret_build_on_proximity_added_bridge_state",
+        "test_item_turret_build_on_proximity_added_matches_upstream_source",
+        "test_generated_item_turret_build_on_proximity_added_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_on_proximity_added_state",
+      "rule": "Public runtime contract for ItemTurretBuild.onProximityAdded() cheaty first-ammo branch."
     }
   },
   "policy": {

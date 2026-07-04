@@ -17323,6 +17323,42 @@ func generated_item_turret_init_ground_overlap_bridge_state(target_ground: bool,
 		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null) and result.get("place_overlap_updates", null) == canonical.get("place_overlap_updates", null),
 	}
 
+func source_item_turret_build_on_proximity_added_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:
+	var should_handle_first_ammo: bool = (not has_ammo) and cheating and ammo_types_size > 0
+	var handle_item_call: Dictionary = {}
+	if should_handle_first_ammo:
+		handle_item_call = {"call": "handleItem(this, ammoTypes.keys().next());", "source": "this", "item": first_ammo_item}
+	return {
+		"source_owner": "PortGame.source_item_turret_build_on_proximity_added_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public void onProximityAdded(){",
+		"override_expr": "@Override",
+		"super_on_proximity_added_expr": "super.onProximityAdded();",
+		"comment": "//add first ammo item to cheaty blocks so they can shoot properly",
+		"guard_expr": "if(!hasAmmo() && cheating() && ammoTypes.size > 0){",
+		"handle_item_expr": "handleItem(this, ammoTypes.keys().next());",
+		"has_ammo": has_ammo,
+		"cheating": cheating,
+		"ammo_types_size": ammo_types_size,
+		"first_ammo_item": first_ammo_item,
+		"should_handle_first_ammo": should_handle_first_ammo,
+		"handle_item_call": handle_item_call,
+		"super_on_proximity_added_called": true,
+	}
+
+func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_onProximityAdded_0([has_ammo, cheating, ammo_types_size, first_ammo_item])
+	var canonical = source_item_turret_build_on_proximity_added_state(has_ammo, cheating, ammo_types_size, first_ammo_item)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_on_proximity_added_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.onProximityAdded",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("handle_item_call", null) == canonical.get("handle_item_call", null) and result.get("should_handle_first_ammo", null) == canonical.get("should_handle_first_ammo", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

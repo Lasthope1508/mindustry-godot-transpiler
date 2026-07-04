@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 646)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 647)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 651)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 652)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43173,6 +43173,67 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_item_turret_init_ground_overlap_result = source_symbols.state_schema(schema, "source_item_turret_init_ground_overlap_result")
         self.assertEqual(source_item_turret_init_ground_overlap_result["keys"]["place_overlap_range_after"]["java_expr"], "Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)")
         self.assertEqual(source_item_turret_init_ground_overlap_result["keys"]["super_init_expr"]["java_expr"], "super.init();")
+
+    def test_generated_item_turret_build_on_proximity_added_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "item_turret_build_on_proximity_added.method")
+        self.assertEqual(method["java_expr"], "public void onProximityAdded(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(method["java_method"], "ItemTurretBuild.onProximityAdded()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_item_turret_build_on_proximity_added_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_item_turret_build_on_proximity_added_state")
+
+        has_ammo = source_symbols.source_symbol(registry, "item_turret_build_on_proximity_added.has_ammo")
+        self.assertEqual(has_ammo["java_expr"], "hasAmmo()")
+        self.assertEqual(has_ammo["godot_symbol"], "source_item_turret_build_on_proximity_added_input.has_ammo")
+        cheating = source_symbols.source_symbol(registry, "item_turret_build_on_proximity_added.cheating")
+        self.assertEqual(cheating["java_expr"], "cheating()")
+        self.assertEqual(cheating["godot_symbol"], "source_item_turret_build_on_proximity_added_input.cheating")
+        ammo_types_size = source_symbols.source_symbol(registry, "item_turret_build_on_proximity_added.ammo_types_size")
+        self.assertEqual(ammo_types_size["java_expr"], "ammoTypes.size")
+        self.assertEqual(ammo_types_size["godot_symbol"], "source_item_turret_build_on_proximity_added_input.ammo_types_size")
+        first_ammo_item = source_symbols.source_symbol(registry, "item_turret_build_on_proximity_added.first_ammo_item")
+        self.assertEqual(first_ammo_item["java_expr"], "ammoTypes.keys().next()")
+        self.assertEqual(first_ammo_item["godot_symbol"], "source_item_turret_build_on_proximity_added_input.first_ammo_item")
+        guard = source_symbols.source_symbol(registry, "item_turret_build_on_proximity_added.guard")
+        self.assertEqual(guard["java_expr"], "!hasAmmo() && cheating() && ammoTypes.size > 0")
+        self.assertEqual(guard["godot_symbol"], "source_item_turret_build_on_proximity_added_result.should_handle_first_ammo")
+
+        on_proximity_slice = source_symbols.source_slice(ledger, "N1178")
+        self.assertEqual(on_proximity_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(on_proximity_slice["java_method"], "ItemTurretBuild.onProximityAdded()")
+        self.assertEqual(on_proximity_slice["godot_owner"], "PortGame.source_item_turret_build_on_proximity_added_state")
+        self.assertEqual(on_proximity_slice["runtime_proof"], "/root/Main.generated_item_turret_build_on_proximity_added_bridge_state")
+        for expr in [
+            "public class ItemTurretBuild extends TurretBuild{",
+            "@Override",
+            "public void onProximityAdded(){",
+            "super.onProximityAdded();",
+            "//add first ammo item to cheaty blocks so they can shoot properly",
+            "if(!hasAmmo() && cheating() && ammoTypes.size > 0){",
+            "handleItem(this, ammoTypes.keys().next());",
+        ]:
+            self.assertIn(expr, on_proximity_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_item_turret_build_on_proximity_added_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["has_ammo", "cheating", "ammo_types_size", "first_ammo_item"])
+        for key in ["inner_class", "method", "override_expr", "super_on_proximity_added_expr", "comment", "guard_expr", "handle_item_expr", "has_ammo", "cheating", "ammo_types_size", "first_ammo_item", "should_handle_first_ammo", "handle_item_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_item_turret_build_on_proximity_added_input = source_symbols.state_schema(schema, "source_item_turret_build_on_proximity_added_input")
+        self.assertEqual(source_item_turret_build_on_proximity_added_input["keys"]["has_ammo"]["java_expr"], "hasAmmo()")
+        self.assertEqual(source_item_turret_build_on_proximity_added_input["keys"]["cheating"]["java_expr"], "cheating()")
+        self.assertEqual(source_item_turret_build_on_proximity_added_input["keys"]["ammo_types_size"]["java_expr"], "ammoTypes.size")
+        self.assertEqual(source_item_turret_build_on_proximity_added_input["keys"]["first_ammo_item"]["java_expr"], "ammoTypes.keys().next()")
+        source_item_turret_build_on_proximity_added_result = source_symbols.state_schema(schema, "source_item_turret_build_on_proximity_added_result")
+        self.assertEqual(source_item_turret_build_on_proximity_added_result["keys"]["should_handle_first_ammo"]["java_expr"], "!hasAmmo() && cheating() && ammoTypes.size > 0")
+        self.assertEqual(source_item_turret_build_on_proximity_added_result["keys"]["handle_item_call"]["java_expr"], "handleItem(this, ammoTypes.keys().next());")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

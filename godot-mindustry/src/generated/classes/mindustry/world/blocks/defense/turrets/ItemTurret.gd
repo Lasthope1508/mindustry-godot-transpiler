@@ -66,3 +66,14 @@ func java_method_init_5(_args: Array = []) -> Variant:
 			place_overlap_range_after = maxf(place_overlap_range_after, candidate_range)
 			place_overlap_updates.append({"call": "placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)", "range_change": range_change, "candidate_range": candidate_range, "place_overlap_range_after": place_overlap_range_after})
 	return {"source_owner": "PortGame.source_item_turret_init_ground_overlap_state", "method": "public void init(){", "override_expr": "@Override", "consume_expr": "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)))", "consume_filter_deferred": true, "target_ground_guard_expr": "if(targetGround){", "overlap_expr": "placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)", "super_init_expr": "super.init();", "target_ground": target_ground, "place_overlap_range": place_overlap_range, "range_value": range_value, "place_overlap_margin": place_overlap_margin, "ammo_entries": ammo_entries, "place_overlap_range_after": place_overlap_range_after, "place_overlap_updates": place_overlap_updates, "place_overlap_update_count": place_overlap_updates.size(), "super_init_called": true}
+
+func java_inner_class_ItemTurretBuild_method_onProximityAdded_0(_args: Array = []) -> Variant:
+	var has_ammo: bool = bool(_args[0] if _args.size() > 0 else false)
+	var cheating: bool = bool(_args[1] if _args.size() > 1 else false)
+	var ammo_types_size: int = int(_args[2] if _args.size() > 2 else 0)
+	var first_ammo_item: Variant = _args[3] if _args.size() > 3 else null
+	var should_handle_first_ammo: bool = (not has_ammo) and cheating and ammo_types_size > 0
+	var handle_item_call: Dictionary = {}
+	if should_handle_first_ammo:
+		handle_item_call = {"call": "handleItem(this, ammoTypes.keys().next());", "source": "this", "item": first_ammo_item}
+	return {"source_owner": "PortGame.source_item_turret_build_on_proximity_added_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public void onProximityAdded(){", "override_expr": "@Override", "super_on_proximity_added_expr": "super.onProximityAdded();", "comment": "//add first ammo item to cheaty blocks so they can shoot properly", "guard_expr": "if(!hasAmmo() && cheating() && ammoTypes.size > 0){", "handle_item_expr": "handleItem(this, ammoTypes.keys().next());", "has_ammo": has_ammo, "cheating": cheating, "ammo_types_size": ammo_types_size, "first_ammo_item": first_ammo_item, "should_handle_first_ammo": should_handle_first_ammo, "handle_item_call": handle_item_call, "super_on_proximity_added_called": true}

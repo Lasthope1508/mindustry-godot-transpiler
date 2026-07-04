@@ -8571,5 +8571,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_turret_build_on_proximity_added_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_turret_build_on_proximity_added_source"))
+        report = source_parity.verify_item_turret_build_on_proximity_added_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "public void onProximityAdded(){",
+            "super_on_proximity_added": "super.onProximityAdded();",
+            "comment": "//add first ammo item to cheaty blocks so they can shoot properly",
+            "guard": "if(!hasAmmo() && cheating() && ammoTypes.size > 0){",
+            "handle_item": "handleItem(this, ammoTypes.keys().next());",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

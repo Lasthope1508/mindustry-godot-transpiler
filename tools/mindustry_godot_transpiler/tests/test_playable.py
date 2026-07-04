@@ -13374,5 +13374,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.java_method_init_5"', source)
         self.assertIn('"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)', source)
 
+    def test_port_game_exposes_source_item_turret_build_on_proximity_added_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_on_proximity_added_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ItemTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"method": "public void onProximityAdded(){"', source)
+        self.assertIn('"super_on_proximity_added_expr": "super.onProximityAdded();"', source)
+        self.assertIn('"comment": "//add first ammo item to cheaty blocks so they can shoot properly"', source)
+        self.assertIn('"guard_expr": "if(!hasAmmo() && cheating() && ammoTypes.size > 0){"', source)
+        self.assertIn('"handle_item_expr": "handleItem(this, ammoTypes.keys().next());"', source)
+        self.assertIn("var should_handle_first_ammo: bool = (not has_ammo) and cheating and ammo_types_size > 0", source)
+        self.assertIn('"handle_item_call": handle_item_call', source)
+
+    def test_port_game_exposes_generated_item_turret_build_on_proximity_added_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo: bool, cheating: bool, ammo_types_size: int, first_ammo_item: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_onProximityAdded_0([has_ammo, cheating, ammo_types_size, first_ammo_item])", source)
+        self.assertIn("var canonical = source_item_turret_build_on_proximity_added_state(has_ammo, cheating, ammo_types_size, first_ammo_item)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_on_proximity_added_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.onProximityAdded"', source)
+        self.assertIn('"matches": result.get("handle_item_call", null) == canonical.get("handle_item_call", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

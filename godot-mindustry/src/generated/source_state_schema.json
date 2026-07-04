@@ -97746,6 +97746,236 @@
           "rule": "Result records super.init execution."
         }
       }
+    },
+    "source_item_turret_build_on_proximity_added_input": {
+      "status": "source-backed",
+      "source_slice": "N1178",
+      "rule": "Explicit input state for ItemTurretBuild.onProximityAdded().",
+      "keys": {
+        "has_ammo": {
+          "status": "explicit-input",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_input.has_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "hasAmmo()",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Exact Java hasAmmo() result supplied to the bridge."
+        },
+        "cheating": {
+          "status": "explicit-input",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_input.cheating",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "cheating()",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Exact Java cheating() result supplied to the bridge."
+        },
+        "ammo_types_size": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_input.ammo_types_size",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "ammoTypes.size",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Exact Java ammoTypes.size supplied to the bridge."
+        },
+        "first_ammo_item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_input.first_ammo_item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "ammoTypes.keys().next()",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Exact first ammo item supplied to the bridge when ammoTypes is non-empty."
+        }
+      }
+    },
+    "source_item_turret_build_on_proximity_added_result": {
+      "status": "source-backed",
+      "source_slice": "N1178",
+      "rule": "Dictionary returned by PortGame.source_item_turret_build_on_proximity_added_state.",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "public class ItemTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "public void onProximityAdded(){",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result records exact override marker."
+        },
+        "super_on_proximity_added_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.super_on_proximity_added_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "super.onProximityAdded();",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result records exact super call expression."
+        },
+        "comment": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.comment",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "//add first ammo item to cheaty blocks so they can shoot properly",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result records exact source comment."
+        },
+        "guard_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.guard_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "if(!hasAmmo() && cheating() && ammoTypes.size > 0){",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result records exact guard expression."
+        },
+        "handle_item_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.handle_item_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "handleItem(this, ammoTypes.keys().next());",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result records exact handleItem expression."
+        },
+        "has_ammo": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.has_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "hasAmmo()",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result echoes hasAmmo input."
+        },
+        "cheating": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.cheating",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "cheating()",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result echoes cheating input."
+        },
+        "ammo_types_size": {
+          "status": "source-backed",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.ammo_types_size",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "ammoTypes.size",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result echoes ammoTypes.size input."
+        },
+        "first_ammo_item": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.first_ammo_item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "ammoTypes.keys().next()",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result echoes first ammo item input."
+        },
+        "should_handle_first_ammo": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.should_handle_first_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "!hasAmmo() && cheating() && ammoTypes.size > 0",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result records exact boolean guard result."
+        },
+        "handle_item_call": {
+          "status": "source-backed",
+          "type": "Dictionary",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.handle_item_call",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "handleItem(this, ammoTypes.keys().next());",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result records handleItem call payload when the source guard passes."
+        },
+        "super_on_proximity_added_called": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_on_proximity_added_result.super_on_proximity_added_called",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.onProximityAdded()",
+          "java_expr": "super.onProximityAdded();",
+          "used_by": [
+            "PortGame.source_item_turret_build_on_proximity_added_state"
+          ],
+          "rule": "Result records super call execution."
+        }
+      }
     }
   },
   "version": 1

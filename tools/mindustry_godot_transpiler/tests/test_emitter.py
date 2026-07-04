@@ -7954,6 +7954,56 @@ public class PowerTurret extends Turret{
             self.assertIn('"return_expr": "return shootType;"', source_text)
             self.assertIn('"shoot_type": shoot_type', source_text)
 
+    def test_emit_bridges_item_turret_build_on_proximity_added_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();
+
+    public class ItemTurretBuild extends TurretBuild{
+        @Override
+        public void onProximityAdded(){
+            super.onProximityAdded();
+
+            //add first ammo item to cheaty blocks so they can shoot properly
+            if(!hasAmmo() && cheating() && ammoTypes.size > 0){
+                handleItem(this, ammoTypes.keys().next());
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ItemTurretBuild_method_onProximityAdded_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var has_ammo: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var cheating: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var ammo_types_size: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("var first_ammo_item: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn("var should_handle_first_ammo: bool = (not has_ammo) and cheating and ammo_types_size > 0", source_text)
+            self.assertIn('if should_handle_first_ammo:', source_text)
+            self.assertIn('var handle_item_call: Dictionary = {}', source_text)
+            self.assertIn('handle_item_call = {"call": "handleItem(this, ammoTypes.keys().next());", "source": "this", "item": first_ammo_item}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_item_turret_build_on_proximity_added_state"', source_text)
+            self.assertIn('"inner_class": "public class ItemTurretBuild extends TurretBuild{"', source_text)
+            self.assertIn('"method": "public void onProximityAdded(){"', source_text)
+            self.assertIn('"super_on_proximity_added_expr": "super.onProximityAdded();"', source_text)
+            self.assertIn('"guard_expr": "if(!hasAmmo() && cheating() && ammoTypes.size > 0){"', source_text)
+            self.assertIn('"handle_item_expr": "handleItem(this, ammoTypes.keys().next());"', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
