@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 628)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 629)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 633)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 634)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42228,6 +42228,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_icons_result["keys"]["method"]["java_expr"], "public TextureRegion[] icons(){")
         self.assertEqual(source_turret_icons_result["keys"]["drawer_final_icons_called"]["java_expr"], "return drawer.finalIcons(this);")
         self.assertEqual(source_turret_icons_result["keys"]["icons"]["java_expr"], "drawer.finalIcons(this)")
+
+    def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_get_regions_to_outline.method")
+        self.assertEqual(method["java_expr"], "public void getRegionsToOutline(Seq<TextureRegion> out){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "getRegionsToOutline(Seq<TextureRegion> out)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_get_regions_to_outline_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_get_regions_to_outline_state")
+
+        out = source_symbols.source_symbol(registry, "turret_get_regions_to_outline.out")
+        self.assertEqual(out["java_expr"], "Seq<TextureRegion> out")
+        self.assertEqual(out["godot_symbol"], "source_turret_get_regions_to_outline_input.out")
+        drawer_get_regions_to_outline = source_symbols.source_symbol(registry, "turret_get_regions_to_outline.drawer_get_regions_to_outline")
+        self.assertEqual(drawer_get_regions_to_outline["java_expr"], "drawer.getRegionsToOutline(this, out);")
+        self.assertEqual(drawer_get_regions_to_outline["godot_symbol"], "source_turret_get_regions_to_outline_result.drawer_get_regions_to_outline_called")
+
+        get_regions_slice = source_symbols.source_slice(ledger, "N1160")
+        self.assertEqual(get_regions_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(get_regions_slice["java_method"], "getRegionsToOutline(Seq<TextureRegion> out)")
+        self.assertEqual(get_regions_slice["godot_owner"], "PortGame.source_turret_get_regions_to_outline_state")
+        self.assertEqual(get_regions_slice["runtime_proof"], "/root/Main.generated_turret_get_regions_to_outline_bridge_state")
+        for expr in [
+            "@Override",
+            "public void getRegionsToOutline(Seq<TextureRegion> out){",
+            "drawer.getRegionsToOutline(this, out);",
+        ]:
+            self.assertIn(expr, get_regions_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_get_regions_to_outline_state")
+        self.assertEqual(contract["params"], [
+            {"name": "out", "schema": "source_turret_get_regions_to_outline_input.out", "type": "Variant"},
+        ])
+        for key in ["method", "override_expr", "drawer_get_regions_to_outline_expr", "drawer_get_regions_to_outline_called", "out", "drawer_get_regions_to_outline_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_turret_get_regions_to_outline_input = source_symbols.state_schema(schema, "source_turret_get_regions_to_outline_input")
+        self.assertEqual(source_turret_get_regions_to_outline_input["keys"]["out"]["java_expr"], "Seq<TextureRegion> out")
+        source_turret_get_regions_to_outline_result = source_symbols.state_schema(schema, "source_turret_get_regions_to_outline_result")
+        self.assertEqual(source_turret_get_regions_to_outline_result["keys"]["method"]["java_expr"], "public void getRegionsToOutline(Seq<TextureRegion> out){")
+        self.assertEqual(source_turret_get_regions_to_outline_result["keys"]["drawer_get_regions_to_outline_called"]["java_expr"], "drawer.getRegionsToOutline(this, out);")
+        self.assertEqual(source_turret_get_regions_to_outline_result["keys"]["drawer_get_regions_to_outline_call"]["java_expr"], "drawer.getRegionsToOutline(this, out);")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

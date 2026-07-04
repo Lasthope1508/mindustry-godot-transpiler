@@ -25500,6 +25500,36 @@
         "test_turret_icons_matches_upstream_source",
         "test_generated_turret_icons_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1160": {
+      "deferred_exprs": [
+        "DrawBlock.getRegionsToOutline internals, Seq mutation semantics, and concrete TextureRegion contents remain owned by drawer/rendering slices; this slice preserves Turret.getRegionsToOutline dispatch only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void getRegionsToOutline(Seq<TextureRegion> out){",
+        "drawer.getRegionsToOutline(this, out);"
+      ],
+      "godot_owner": "PortGame.source_turret_get_regions_to_outline_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.getRegionsToOutline preserves drawer.getRegionsToOutline(this, out) dispatch and out input marker.",
+      "runtime_proof": "/root/Main.generated_turret_get_regions_to_outline_bridge_state",
+      "source_symbols": [
+        "turret_get_regions_to_outline.method",
+        "turret_get_regions_to_outline.override",
+        "turret_get_regions_to_outline.out",
+        "turret_get_regions_to_outline.drawer_get_regions_to_outline"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_get_regions_to_outline_to_source_state",
+        "test_port_game_exposes_source_turret_get_regions_to_outline_state",
+        "test_port_game_exposes_generated_turret_get_regions_to_outline_bridge_state",
+        "test_turret_get_regions_to_outline_matches_upstream_source",
+        "test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

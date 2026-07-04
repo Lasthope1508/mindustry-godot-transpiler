@@ -12951,5 +12951,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_icons_6"', source)
         self.assertIn('"matches": result.get("drawer_final_icons_called", null) == canonical.get("drawer_final_icons_called", null) and result.get("icons", null) == canonical.get("icons", null)', source)
 
+    def test_port_game_exposes_source_turret_get_regions_to_outline_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_get_regions_to_outline_state(out: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public void getRegionsToOutline(Seq<TextureRegion> out){"', source)
+        self.assertIn('"drawer_get_regions_to_outline_expr": "drawer.getRegionsToOutline(this, out);"', source)
+        self.assertIn('"drawer_get_regions_to_outline_called": true', source)
+        self.assertIn('"out": out', source)
+
+    def test_port_game_exposes_generated_turret_get_regions_to_outline_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_get_regions_to_outline_bridge_state(out: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_getRegionsToOutline_7([out])", source)
+        self.assertIn("var canonical = source_turret_get_regions_to_outline_state(out)", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_get_regions_to_outline_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_getRegionsToOutline_7"', source)
+        self.assertIn('"matches": result.get("drawer_get_regions_to_outline_called", null) == canonical.get("drawer_get_regions_to_outline_called", null) and result.get("out", null) == canonical.get("out", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

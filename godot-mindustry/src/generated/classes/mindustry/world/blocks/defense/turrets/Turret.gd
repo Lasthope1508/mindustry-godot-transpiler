@@ -60,7 +60,9 @@ func java_method_icons_6(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_turret_icons_state", "method": "public TextureRegion[] icons(){", "override_expr": "@Override", "drawer_final_icons_expr": "return drawer.finalIcons(this);", "drawer_final_icons_called": true, "icons": drawer_final_icons_return}
 
 func java_method_getRegionsToOutline_7(_args: Array = []) -> Variant:
-	return null
+	var out: Variant = _args[0] if _args.size() > 0 else null
+	var drawer_get_regions_to_outline_call: Dictionary = {"call": "drawer.getRegionsToOutline(this, out);", "out": out}
+	return {"source_owner": "PortGame.source_turret_get_regions_to_outline_state", "method": "public void getRegionsToOutline(Seq<TextureRegion> out){", "override_expr": "@Override", "drawer_get_regions_to_outline_expr": "drawer.getRegionsToOutline(this, out);", "out": out, "drawer_get_regions_to_outline_call": drawer_get_regions_to_outline_call, "drawer_get_regions_to_outline_called": true}
 
 func java_method_limitRange_8(_args: Array = []) -> Variant:
 	return null

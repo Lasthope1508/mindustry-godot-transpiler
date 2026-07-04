@@ -1279,6 +1279,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_turret_icons_state\", \"method\": \"public TextureRegion[] icons(){\", \"override_expr\": \"@Override\", \"drawer_final_icons_expr\": \"return drawer.finalIcons(this);\", \"drawer_final_icons_called\": true, \"icons\": drawer_final_icons_return}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+        and type_entry.get("name") == "Turret"
+        and method.get("name") == "getRegionsToOutline"
+    ):
+        return [
+            "\tvar out: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar drawer_get_regions_to_outline_call: Dictionary = {\"call\": \"drawer.getRegionsToOutline(this, out);\", \"out\": out}",
+            "\treturn {\"source_owner\": \"PortGame.source_turret_get_regions_to_outline_state\", \"method\": \"public void getRegionsToOutline(Seq<TextureRegion> out){\", \"override_expr\": \"@Override\", \"drawer_get_regions_to_outline_expr\": \"drawer.getRegionsToOutline(this, out);\", \"out\": out, \"drawer_get_regions_to_outline_call\": drawer_get_regions_to_outline_call, \"drawer_get_regions_to_outline_called\": true}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

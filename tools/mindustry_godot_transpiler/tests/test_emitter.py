@@ -7393,5 +7393,37 @@ public class Turret extends ReloadTurret{
             self.assertIn('"drawer_final_icons_expr": "return drawer.finalIcons(this);"', source_text)
             self.assertIn('"drawer_final_icons_called": true', source_text)
 
+    def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class Turret extends ReloadTurret{
+    @Override
+    public void getRegionsToOutline(Seq<TextureRegion> out){
+        drawer.getRegionsToOutline(this, out);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getRegionsToOutline_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var out: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_turret_get_regions_to_outline_state"', source_text)
+            self.assertIn('"method": "public void getRegionsToOutline(Seq<TextureRegion> out){"', source_text)
+            self.assertIn('"drawer_get_regions_to_outline_expr": "drawer.getRegionsToOutline(this, out);"', source_text)
+            self.assertIn('"drawer_get_regions_to_outline_called": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

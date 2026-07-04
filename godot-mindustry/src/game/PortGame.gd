@@ -16731,6 +16731,31 @@ func generated_turret_icons_bridge_state() -> Dictionary:
 		"matches": result.get("drawer_final_icons_called", null) == canonical.get("drawer_final_icons_called", null) and result.get("icons", null) == canonical.get("icons", null),
 	}
 
+func source_turret_get_regions_to_outline_state(out: Variant) -> Dictionary:
+	var drawer_get_regions_to_outline_call: Dictionary = {"call": "drawer.getRegionsToOutline(this, out);", "out": out}
+	return {
+		"source_owner": "PortGame.source_turret_get_regions_to_outline_state",
+		"method": "public void getRegionsToOutline(Seq<TextureRegion> out){",
+		"override_expr": "@Override",
+		"drawer_get_regions_to_outline_expr": "drawer.getRegionsToOutline(this, out);",
+		"out": out,
+		"drawer_get_regions_to_outline_call": drawer_get_regions_to_outline_call,
+		"drawer_get_regions_to_outline_called": true,
+	}
+
+func generated_turret_get_regions_to_outline_bridge_state(out: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_getRegionsToOutline_7([out])
+	var canonical = source_turret_get_regions_to_outline_state(out)
+	return {
+		"source_owner": "PortGame.source_turret_get_regions_to_outline_state",
+		"generated_owner": "Turret.java_method_getRegionsToOutline_7",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("drawer_get_regions_to_outline_called", null) == canonical.get("drawer_get_regions_to_outline_called", null) and result.get("out", null) == canonical.get("out", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

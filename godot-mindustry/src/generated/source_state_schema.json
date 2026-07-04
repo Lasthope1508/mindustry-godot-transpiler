@@ -94665,6 +94665,104 @@
       "rule": "Dictionary returned by PortGame.source_turret_icons_state.",
       "source_slice": "N1159",
       "status": "source-backed"
+    },
+    "source_turret_get_regions_to_outline_input": {
+      "keys": {
+        "out": {
+          "godot_symbol": "source_turret_get_regions_to_outline_input.out",
+          "java_expr": "Seq<TextureRegion> out",
+          "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves exact out sequence parameter.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_get_regions_to_outline_state"
+          ]
+        }
+      },
+      "rule": "Inputs accepted by PortGame.source_turret_get_regions_to_outline_state.",
+      "source_slice": "N1160",
+      "status": "source-backed"
+    },
+    "source_turret_get_regions_to_outline_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_turret_get_regions_to_outline_result.method",
+          "java_expr": "public void getRegionsToOutline(Seq<TextureRegion> out){",
+          "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves method boundary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_get_regions_to_outline_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_turret_get_regions_to_outline_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves override annotation.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_get_regions_to_outline_state"
+          ]
+        },
+        "drawer_get_regions_to_outline_expr": {
+          "godot_symbol": "source_turret_get_regions_to_outline_result.drawer_get_regions_to_outline_expr",
+          "java_expr": "drawer.getRegionsToOutline(this, out);",
+          "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves drawer dispatch expression.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_get_regions_to_outline_state"
+          ]
+        },
+        "out": {
+          "godot_symbol": "source_turret_get_regions_to_outline_result.out",
+          "java_expr": "Seq<TextureRegion> out",
+          "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result echoes out input for bridge parity.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_get_regions_to_outline_state"
+          ]
+        },
+        "drawer_get_regions_to_outline_call": {
+          "godot_symbol": "source_turret_get_regions_to_outline_result.drawer_get_regions_to_outline_call",
+          "java_expr": "drawer.getRegionsToOutline(this, out);",
+          "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records drawer dispatch payload without simulating Seq mutation.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_get_regions_to_outline_state"
+          ]
+        },
+        "drawer_get_regions_to_outline_called": {
+          "godot_symbol": "source_turret_get_regions_to_outline_result.drawer_get_regions_to_outline_called",
+          "java_expr": "drawer.getRegionsToOutline(this, out);",
+          "java_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records drawer getRegionsToOutline dispatch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_get_regions_to_outline_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_turret_get_regions_to_outline_state.",
+      "source_slice": "N1160",
+      "status": "source-backed"
     }
   },
   "version": 1

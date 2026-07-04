@@ -25712,6 +25712,36 @@
         "test_turret_icons_matches_upstream_source",
         "test_generated_turret_icons_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_turret_get_regions_to_outline_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "out",
+          "schema": "source_turret_get_regions_to_outline_input.out",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "drawer_get_regions_to_outline_expr",
+        "out",
+        "drawer_get_regions_to_outline_call",
+        "drawer_get_regions_to_outline_called"
+      ],
+      "rule": "Public runtime contract for Turret.getRegionsToOutline drawer dispatch state.",
+      "runtime_proof": "/root/Main.source_turret_get_regions_to_outline_state",
+      "source_method": "getRegionsToOutline(Seq<TextureRegion> out)",
+      "source_slice": "N1160",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_get_regions_to_outline_to_source_state",
+        "test_port_game_exposes_source_turret_get_regions_to_outline_state",
+        "test_port_game_exposes_generated_turret_get_regions_to_outline_bridge_state",
+        "test_turret_get_regions_to_outline_matches_upstream_source",
+        "test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
