@@ -7814,6 +7814,11 @@ public class PowerTurret extends Turret{
             //you can always rotate, but never shoot if there's no power
             return true;
         }
+
+        @Override
+        public BulletType peekAmmo(){
+            return shootType;
+        }
     }
 }
 """,
@@ -7887,6 +7892,67 @@ public class PowerTurret extends Turret{
             self.assertIn('"comment": "//you can always rotate, but never shoot if there\'s no power"', source_text)
             self.assertIn('"return_expr": "return true;"', source_text)
             self.assertIn('"has_ammo": true', source_text)
+
+    def test_emit_bridges_power_turret_build_peek_ammo_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "PowerTurret.java"
+            power_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            power_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class PowerTurret extends Turret{
+    public BulletType shootType;
+    public class PowerTurretBuild extends TurretBuild{
+        @Override
+        public float getAmmoFraction(){
+            return power == null ? 0f : power.status;
+        }
+
+        @Override
+        public double sense(LAccess sensor){
+            return switch(sensor){
+                case ammo -> power == null ? 0f : power.status;
+                case ammoCapacity -> 1;
+                default -> super.sense(sensor);
+            };
+        }
+
+        @Override
+        public BulletType useAmmo(){
+            //nothing used directly
+            return shootType;
+        }
+
+        @Override
+        public boolean hasAmmo(){
+            //you can always rotate, but never shoot if there's no power
+            return true;
+        }
+
+        @Override
+        public BulletType peekAmmo(){
+            return shootType;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "PowerTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_PowerTurretBuild_method_peekAmmo_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var shoot_type: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_power_turret_build_peek_ammo_state"', source_text)
+            self.assertIn('"method": "public BulletType peekAmmo(){"', source_text)
+            self.assertIn('"return_expr": "return shootType;"', source_text)
+            self.assertIn('"shoot_type": shoot_type', source_text)
 
 if __name__ == "__main__":
     unittest.main()

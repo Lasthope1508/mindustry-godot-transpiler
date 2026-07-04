@@ -25925,6 +25925,37 @@
       "deferred_exprs": [
         "Power availability and shooting permission remain represented by neighboring power/turret slices."
       ]
+    },
+    "N1172": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
+      "java_method": "PowerTurretBuild.peekAmmo()",
+      "godot_owner": "PortGame.source_power_turret_build_peek_ammo_state",
+      "exact_exprs": [
+        "public class PowerTurretBuild extends TurretBuild{",
+        "@Override",
+        "public BulletType peekAmmo(){",
+        "return shootType;",
+        "public BulletType shootType;"
+      ],
+      "source_symbols": [
+        "power_turret_build_peek_ammo.method",
+        "power_turret_build_peek_ammo.shoot_type",
+        "power_turret_build_peek_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_peek_ammo_bridge_state",
+        "test_power_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_build_peek_ammo_bridge_state",
+      "rule": "PowerTurretBuild.peekAmmo returns shootType unchanged without consuming ammo.",
+      "deferred_exprs": [
+        "Concrete BulletType internals remain represented by explicit shoot_type input."
+      ]
     }
   },
   "version": 1

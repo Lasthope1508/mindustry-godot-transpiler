@@ -26236,6 +26236,35 @@
       ],
       "runtime_proof": "/root/Main.source_power_turret_build_has_ammo_state",
       "rule": "Public runtime contract for PowerTurretBuild.hasAmmo state."
+    },
+    "PortGame.source_power_turret_build_peek_ammo_state": {
+      "status": "source-backed",
+      "source_slice": "N1172",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "source_method": "PowerTurretBuild.peekAmmo()",
+      "params": [
+        {
+          "name": "shoot_type",
+          "type": "Variant",
+          "schema": "source_power_turret_build_peek_ammo_input.shoot_type"
+        }
+      ],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "shoot_type"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_peek_ammo_bridge_state",
+        "test_power_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_turret_build_peek_ammo_state",
+      "rule": "Public runtime contract for PowerTurretBuild.peekAmmo state."
     }
   },
   "policy": {

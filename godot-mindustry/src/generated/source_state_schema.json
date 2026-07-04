@@ -96697,6 +96697,92 @@
           "rule": "Result mirrors the always-true Java return."
         }
       }
+    },
+    "source_power_turret_build_peek_ammo_input": {
+      "status": "source-backed",
+      "source_slice": "N1172",
+      "rule": "Inputs accepted by PortGame.source_power_turret_build_peek_ammo_state.",
+      "keys": {
+        "shoot_type": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_power_turret_build_peek_ammo_input.shoot_type",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.peekAmmo()",
+          "java_expr": "shootType",
+          "used_by": [
+            "PortGame.source_power_turret_build_peek_ammo_state"
+          ],
+          "rule": "Input preserves the PowerTurret.shootType field value."
+        }
+      }
+    },
+    "source_power_turret_build_peek_ammo_result": {
+      "status": "source-backed",
+      "source_slice": "N1172",
+      "rule": "Dictionary returned by PortGame.source_power_turret_build_peek_ammo_state.",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_peek_ammo_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.peekAmmo()",
+          "java_expr": "public class PowerTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_power_turret_build_peek_ammo_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_peek_ammo_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.peekAmmo()",
+          "java_expr": "public BulletType peekAmmo(){",
+          "used_by": [
+            "PortGame.source_power_turret_build_peek_ammo_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_peek_ammo_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.peekAmmo()",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_power_turret_build_peek_ammo_state"
+          ],
+          "rule": "Result records override marker."
+        },
+        "return_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_peek_ammo_result.return_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.peekAmmo()",
+          "java_expr": "return shootType;",
+          "used_by": [
+            "PortGame.source_power_turret_build_peek_ammo_state"
+          ],
+          "rule": "Result records exact return expression."
+        },
+        "shoot_type": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_power_turret_build_peek_ammo_result.shoot_type",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.peekAmmo()",
+          "java_expr": "return shootType;",
+          "used_by": [
+            "PortGame.source_power_turret_build_peek_ammo_state"
+          ],
+          "rule": "Result mirrors the returned shootType value."
+        }
+      }
     }
   },
   "version": 1
