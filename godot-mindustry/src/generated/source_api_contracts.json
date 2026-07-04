@@ -27653,6 +27653,43 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_has_ammo_state",
       "rule": "Public runtime contract for LiquidTurretBuild.hasAmmo state."
+    },
+    "PortGame.source_liquid_turret_build_accept_item_state": {
+      "status": "source-backed",
+      "source_slice": "N1204",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
+      "params": [
+        {
+          "name": "source_building",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_accept_item_input.source_building"
+        },
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_accept_item_input.item"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "source_building",
+        "item",
+        "accept_item"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_item_bridge_state",
+        "test_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_item_state",
+      "rule": "Public runtime contract for LiquidTurretBuild.acceptItem state."
     }
   },
   "policy": {

@@ -14020,5 +14020,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.hasAmmo"', source)
         self.assertIn('"matches": result.get("has_ammo", null) == canonical.get("has_ammo", null)', source)
 
+    def test_port_game_exposes_source_liquid_turret_build_accept_item_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_liquid_turret_build_accept_item_state(source_building: Variant, item: Variant) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class LiquidTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"method": "public boolean acceptItem(Building source, Item item){"', source)
+        self.assertIn('"return_expr": "return false;"', source)
+        self.assertIn("var accept_item: bool = false", source)
+        self.assertIn('"source_building": source_building', source)
+        self.assertIn('"item": item', source)
+        self.assertIn('"accept_item": accept_item', source)
+
+    def test_port_game_exposes_generated_liquid_turret_build_accept_item_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_acceptItem_8([source_building, item])", source)
+        self.assertIn("var canonical = source_liquid_turret_build_accept_item_state(source_building, item)", source)
+        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_accept_item_state"', source)
+        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.acceptItem"', source)
+        self.assertIn('"matches": result.get("accept_item", null) == canonical.get("accept_item", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

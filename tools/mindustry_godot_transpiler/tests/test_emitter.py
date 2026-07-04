@@ -9387,6 +9387,62 @@ public class LiquidTurret extends Turret{
             self.assertIn('"return_expr": "return ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier;"', source_text)
             self.assertIn('"has_ammo": has_ammo', source_text)
 
+    def test_emit_bridges_liquid_turret_build_accept_item_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            liquid_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.java"
+            liquid_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            liquid_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class LiquidTurret extends Turret{
+    public class LiquidTurretBuild extends TurretBuild{
+        @Override
+        public boolean shouldActiveSound(){ return wasShooting && enabled; }
+        @Override
+        public UnlockableContent getAmmoContent(){ return liquids.current(); }
+        @Override
+        public float getAmmoFraction(){ return liquids.currentAmount() / liquidCapacity; }
+        @Override
+        public Object senseObject(LAccess sensor){ return liquids.current(); }
+        @Override
+        protected void findTarget(){ super.findTarget(); }
+        @Override
+        public BulletType useAmmo(){ return ammoTypes.get(liquids.current()); }
+        @Override
+        public BulletType peekAmmo(){ return ammoTypes.get(liquids.current()); }
+        @Override
+        public boolean hasAmmo(){ return true; }
+
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            return false;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_LiquidTurretBuild_method_acceptItem_8(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var source_building: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var item: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var accept_item: bool = false", source_text)
+            self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_accept_item_state"', source_text)
+            self.assertIn('"inner_class": "public class LiquidTurretBuild extends TurretBuild{"', source_text)
+            self.assertIn('"method": "public boolean acceptItem(Building source, Item item){"', source_text)
+            self.assertIn('"return_expr": "return false;"', source_text)
+            self.assertIn('"source_building": source_building', source_text)
+            self.assertIn('"item": item', source_text)
+            self.assertIn('"accept_item": accept_item', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

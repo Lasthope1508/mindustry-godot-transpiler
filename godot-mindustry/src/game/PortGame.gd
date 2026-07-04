@@ -18237,6 +18237,32 @@ func generated_liquid_turret_build_has_ammo_bridge_state(current_liquid: Variant
 			and result.get("ammo_type_present", null) == canonical.get("ammo_type_present", null),
 	}
 
+func source_liquid_turret_build_accept_item_state(source_building: Variant, item: Variant) -> Dictionary:
+	var accept_item: bool = false
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_accept_item_state",
+		"inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+		"method": "public boolean acceptItem(Building source, Item item){",
+		"override_expr": "@Override",
+		"return_expr": "return false;",
+		"source_building": source_building,
+		"item": item,
+		"accept_item": accept_item,
+	}
+
+func generated_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_LiquidTurretBuild_method_acceptItem_8([source_building, item])
+	var canonical = source_liquid_turret_build_accept_item_state(source_building, item)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_accept_item_state",
+		"generated_owner": "LiquidTurret.LiquidTurretBuild.acceptItem",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("accept_item", null) == canonical.get("accept_item", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

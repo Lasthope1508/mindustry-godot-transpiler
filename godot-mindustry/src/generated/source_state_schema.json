@@ -101602,6 +101602,68 @@
         }
       },
       "rule": "Dictionary returned by PortGame.source_liquid_turret_build_has_ammo_state."
+    },
+    "source_liquid_turret_build_accept_item_input": {
+      "status": "source-backed",
+      "source_slice": "N1204",
+      "keys": {
+        "source_building": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_build_accept_item_input.source_building",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
+          "java_expr": "source",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_accept_item_state"
+          ],
+          "rule": "Input supplies source Building parameter."
+        },
+        "item": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_build_accept_item_input.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
+          "java_expr": "item",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_accept_item_state"
+          ],
+          "rule": "Input supplies Item parameter."
+        }
+      },
+      "rule": "Inputs for PortGame.source_liquid_turret_build_accept_item_state."
+    },
+    "source_liquid_turret_build_accept_item_result": {
+      "status": "source-backed",
+      "source_slice": "N1204",
+      "keys": {
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_build_accept_item_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
+          "java_expr": "public boolean acceptItem(Building source, Item item){",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_accept_item_state"
+          ],
+          "rule": "Method boundary."
+        },
+        "accept_item": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_liquid_turret_build_accept_item_result.accept_item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
+          "java_expr": "return false;",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_accept_item_state"
+          ],
+          "rule": "Final acceptItem return value."
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_liquid_turret_build_accept_item_state."
     }
   },
   "version": 1

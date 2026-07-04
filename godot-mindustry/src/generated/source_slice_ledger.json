@@ -27109,6 +27109,37 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_build_has_ammo_bridge_state",
       "rule": "LiquidTurretBuild.hasAmmo returns ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier."
+    },
+    "N1204": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.acceptItem(Building source, Item item)",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_item_state",
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean acceptItem(Building source, Item item){",
+        "return false;"
+      ],
+      "deferred_exprs": [
+        "Building source and Item item internals stay deferred because upstream return ignores both parameters."
+      ],
+      "source_symbols": [
+        "liquid_turret_build_accept_item.method",
+        "liquid_turret_build_accept_item.source_building",
+        "liquid_turret_build_accept_item.item",
+        "liquid_turret_build_accept_item.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_item_bridge_state",
+        "test_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_accept_item_bridge_state",
+      "rule": "LiquidTurretBuild.acceptItem(Building source, Item item) always returns false."
     }
   },
   "version": 1

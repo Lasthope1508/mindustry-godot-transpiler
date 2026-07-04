@@ -115,3 +115,9 @@ func java_inner_class_LiquidTurretBuild_method_hasAmmo_7(_args: Array = []) -> V
 	var required_amount: float = 1.0 / ammo_multiplier
 	var has_ammo: bool = ammo_type_present and current_amount >= required_amount
 	return {"source_owner": "PortGame.source_liquid_turret_build_has_ammo_state", "inner_class": "public class LiquidTurretBuild extends TurretBuild{", "method": "public boolean hasAmmo(){", "override_expr": "@Override", "return_expr": "return ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier;", "current_liquid": current_liquid, "ammo_type": ammo_type, "current_amount": current_amount, "ammo_multiplier": ammo_multiplier, "ammo_type_present": ammo_type_present, "required_amount": required_amount, "has_ammo": has_ammo}
+
+func java_inner_class_LiquidTurretBuild_method_acceptItem_8(_args: Array = []) -> Variant:
+	var source_building: Variant = _args[0] if _args.size() > 0 else null
+	var item: Variant = _args[1] if _args.size() > 1 else null
+	var accept_item: bool = false
+	return {"source_owner": "PortGame.source_liquid_turret_build_accept_item_state", "inner_class": "public class LiquidTurretBuild extends TurretBuild{", "method": "public boolean acceptItem(Building source, Item item){", "override_expr": "@Override", "return_expr": "return false;", "source_building": source_building, "item": item, "accept_item": accept_item}
