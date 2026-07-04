@@ -96618,6 +96618,85 @@
           "alias_of": "source_power_turret_build_use_ammo_input.shoot_type"
         }
       }
+    },
+    "source_power_turret_build_has_ammo_result": {
+      "status": "source-backed",
+      "source_slice": "N1171",
+      "rule": "Dictionary returned by PortGame.source_power_turret_build_has_ammo_state.",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_has_ammo_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.hasAmmo()",
+          "java_expr": "public class PowerTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_power_turret_build_has_ammo_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_has_ammo_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.hasAmmo()",
+          "java_expr": "public boolean hasAmmo(){",
+          "used_by": [
+            "PortGame.source_power_turret_build_has_ammo_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_has_ammo_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.hasAmmo()",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_power_turret_build_has_ammo_state"
+          ],
+          "rule": "Result records override marker."
+        },
+        "comment": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_has_ammo_result.comment",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.hasAmmo()",
+          "java_expr": "//you can always rotate, but never shoot if there's no power",
+          "used_by": [
+            "PortGame.source_power_turret_build_has_ammo_state"
+          ],
+          "rule": "Result records exact Java comment."
+        },
+        "return_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_has_ammo_result.return_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.hasAmmo()",
+          "java_expr": "return true;",
+          "used_by": [
+            "PortGame.source_power_turret_build_has_ammo_state"
+          ],
+          "rule": "Result records exact return expression."
+        },
+        "has_ammo": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_power_turret_build_has_ammo_result.has_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.hasAmmo()",
+          "java_expr": "return true;",
+          "used_by": [
+            "PortGame.source_power_turret_build_has_ammo_state"
+          ],
+          "rule": "Result mirrors the always-true Java return."
+        }
+      }
     }
   },
   "version": 1

@@ -26212,6 +26212,30 @@
       ],
       "runtime_proof": "/root/Main.source_power_turret_build_use_ammo_state",
       "rule": "Public runtime contract for PowerTurretBuild.useAmmo state."
+    },
+    "PortGame.source_power_turret_build_has_ammo_state": {
+      "status": "source-backed",
+      "source_slice": "N1171",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "source_method": "PowerTurretBuild.hasAmmo()",
+      "params": [],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "comment",
+        "return_expr",
+        "has_ammo"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_has_ammo_bridge_state",
+        "test_power_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_turret_build_has_ammo_state",
+      "rule": "Public runtime contract for PowerTurretBuild.hasAmmo state."
     }
   },
   "policy": {

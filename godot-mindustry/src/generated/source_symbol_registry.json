@@ -81943,6 +81943,57 @@
       "godot_symbol": "source_power_turret_build_use_ammo_result.shoot_type",
       "java_expr": "return shootType;",
       "rule": "Return value preserves exact shootType field return."
+    },
+    "power_turret_build_has_ammo.method": {
+      "godot_owner": "PortGame.source_power_turret_build_has_ammo_state",
+      "java_method": "PowerTurretBuild.hasAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_has_ammo_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_has_ammo_bridge_state",
+        "test_power_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_has_ammo_result.method",
+      "java_expr": "public boolean hasAmmo(){",
+      "rule": "Method boundary comes from PowerTurretBuild.hasAmmo."
+    },
+    "power_turret_build_has_ammo.comment": {
+      "godot_owner": "PortGame.source_power_turret_build_has_ammo_state",
+      "java_method": "PowerTurretBuild.hasAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_has_ammo_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_has_ammo_bridge_state",
+        "test_power_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_has_ammo_result.comment",
+      "java_expr": "//you can always rotate, but never shoot if there's no power",
+      "rule": "Comment records Java behavior note for rotation without power-backed shooting."
+    },
+    "power_turret_build_has_ammo.return_expr": {
+      "godot_owner": "PortGame.source_power_turret_build_has_ammo_state",
+      "java_method": "PowerTurretBuild.hasAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_has_ammo_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_has_ammo_bridge_state",
+        "test_power_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_has_ammo_result.has_ammo",
+      "java_expr": "return true;",
+      "rule": "PowerTurretBuild.hasAmmo always returns true."
     }
   },
   "version": 1

@@ -49,3 +49,6 @@ func java_inner_class_PowerTurretBuild_method_sense_1(_args: Array = []) -> Vari
 func java_inner_class_PowerTurretBuild_method_useAmmo_2(_args: Array = []) -> Variant:
 	var shoot_type: Variant = _args[0] if _args.size() > 0 else null
 	return {"source_owner": "PortGame.source_power_turret_build_use_ammo_state", "inner_class": "public class PowerTurretBuild extends TurretBuild{", "method": "public BulletType useAmmo(){", "override_expr": "@Override", "comment": "//nothing used directly", "return_expr": "return shootType;", "shoot_type": shoot_type}
+
+func java_inner_class_PowerTurretBuild_method_hasAmmo_3(_args: Array = []) -> Variant:
+	return {"source_owner": "PortGame.source_power_turret_build_has_ammo_state", "inner_class": "public class PowerTurretBuild extends TurretBuild{", "method": "public boolean hasAmmo(){", "override_expr": "@Override", "comment": "//you can always rotate, but never shoot if there's no power", "return_expr": "return true;", "has_ammo": true}

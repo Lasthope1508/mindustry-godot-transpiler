@@ -8472,5 +8472,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_turret_build_has_ammo_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_turret_build_has_ammo_source"))
+        report = source_parity.verify_power_turret_build_has_ammo_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class PowerTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "public boolean hasAmmo(){",
+            "comment": "//you can always rotate, but never shoot if there's no power",
+            "return_expr": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

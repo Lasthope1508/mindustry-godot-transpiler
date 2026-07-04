@@ -17102,6 +17102,30 @@ func generated_power_turret_build_use_ammo_bridge_state(shoot_type: Variant) -> 
 		"matches": result.get("shoot_type", null) == canonical.get("shoot_type", null),
 	}
 
+func source_power_turret_build_has_ammo_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_power_turret_build_has_ammo_state",
+		"inner_class": "public class PowerTurretBuild extends TurretBuild{",
+		"method": "public boolean hasAmmo(){",
+		"override_expr": "@Override",
+		"comment": "//you can always rotate, but never shoot if there's no power",
+		"return_expr": "return true;",
+		"has_ammo": true,
+	}
+
+func generated_power_turret_build_has_ammo_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_PowerTurretBuild_method_hasAmmo_3([])
+	var canonical = source_power_turret_build_has_ammo_state()
+	return {
+		"source_owner": "PortGame.source_power_turret_build_has_ammo_state",
+		"generated_owner": "PowerTurret.PowerTurretBuild.hasAmmo",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("has_ammo", null) == canonical.get("has_ammo", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

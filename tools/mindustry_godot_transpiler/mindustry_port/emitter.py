@@ -2816,6 +2816,12 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar shoot_type: Variant = _args[0] if _args.size() > 0 else null",
                         "\treturn {\"source_owner\": \"PortGame.source_power_turret_build_use_ammo_state\", \"inner_class\": \"public class PowerTurretBuild extends TurretBuild{\", \"method\": \"public BulletType useAmmo(){\", \"override_expr\": \"@Override\", \"comment\": \"//nothing used directly\", \"return_expr\": \"return shootType;\", \"shoot_type\": shoot_type}",
                     ])
+                elif method.get("name") == "hasAmmo":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_PowerTurretBuild_method_hasAmmo_{index}(_args: Array = []) -> Variant:",
+                        "\treturn {\"source_owner\": \"PortGame.source_power_turret_build_has_ammo_state\", \"inner_class\": \"public class PowerTurretBuild extends TurretBuild{\", \"method\": \"public boolean hasAmmo(){\", \"override_expr\": \"@Override\", \"comment\": \"//you can always rotate, but never shoot if there's no power\", \"return_expr\": \"return true;\", \"has_ammo\": true}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

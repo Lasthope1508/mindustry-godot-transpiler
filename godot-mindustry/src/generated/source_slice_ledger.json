@@ -25894,6 +25894,37 @@
       "deferred_exprs": [
         "Concrete BulletType internals remain represented by explicit shoot_type input."
       ]
+    },
+    "N1171": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
+      "java_method": "PowerTurretBuild.hasAmmo()",
+      "godot_owner": "PortGame.source_power_turret_build_has_ammo_state",
+      "exact_exprs": [
+        "public class PowerTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean hasAmmo(){",
+        "//you can always rotate, but never shoot if there's no power",
+        "return true;"
+      ],
+      "source_symbols": [
+        "power_turret_build_has_ammo.method",
+        "power_turret_build_has_ammo.comment",
+        "power_turret_build_has_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_has_ammo_bridge_state",
+        "test_power_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_build_has_ammo_bridge_state",
+      "rule": "PowerTurretBuild.hasAmmo always reports ammo available so rotation is allowed; power gating remains outside this slice.",
+      "deferred_exprs": [
+        "Power availability and shooting permission remain represented by neighboring power/turret slices."
+      ]
     }
   },
   "version": 1
