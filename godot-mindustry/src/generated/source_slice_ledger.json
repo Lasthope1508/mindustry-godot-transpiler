@@ -26871,6 +26871,37 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_build_should_active_sound_bridge_state",
       "rule": "LiquidTurretBuild.shouldActiveSound returns exact wasShooting && enabled state."
+    },
+    "N1197": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.getAmmoContent()",
+      "godot_owner": "PortGame.source_liquid_turret_build_get_ammo_content_state",
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public UnlockableContent getAmmoContent(){",
+        "return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;"
+      ],
+      "deferred_exprs": [
+        "Liquid module implementation and UnlockableContent internals stay deferred; this slice records only ternary return state."
+      ],
+      "source_symbols": [
+        "liquid_turret_build_get_ammo_content.method",
+        "liquid_turret_build_get_ammo_content.liquids_null",
+        "liquid_turret_build_get_ammo_content.current_amount",
+        "liquid_turret_build_get_ammo_content.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_content_bridge_state",
+        "test_liquid_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_get_ammo_content_bridge_state",
+      "rule": "LiquidTurretBuild.getAmmoContent returns current liquid only when liquids exists and currentAmount() > 0."
     }
   },
   "version": 1

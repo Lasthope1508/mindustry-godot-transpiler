@@ -27337,6 +27337,49 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_should_active_sound_state",
       "rule": "Public runtime contract for LiquidTurretBuild.shouldActiveSound state."
+    },
+    "PortGame.source_liquid_turret_build_get_ammo_content_state": {
+      "status": "source-backed",
+      "source_slice": "N1197",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurretBuild.getAmmoContent()",
+      "params": [
+        {
+          "name": "liquids_null",
+          "type": "bool",
+          "schema": "source_liquid_turret_build_get_ammo_content_input.liquids_null"
+        },
+        {
+          "name": "current_amount",
+          "type": "float",
+          "schema": "source_liquid_turret_build_get_ammo_content_input.current_amount"
+        },
+        {
+          "name": "current_liquid",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_get_ammo_content_input.current_liquid"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "liquids_null",
+        "current_amount",
+        "current_liquid",
+        "ammo_content"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_liquid_turret_build_get_ammo_content_bridge_state",
+        "test_liquid_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_get_ammo_content_state",
+      "rule": "Public runtime contract for LiquidTurretBuild.getAmmoContent state."
     }
   },
   "policy": {

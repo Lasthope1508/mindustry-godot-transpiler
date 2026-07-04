@@ -18000,6 +18000,36 @@ func generated_liquid_turret_build_should_active_sound_bridge_state(was_shooting
 			and result.get("enabled", null) == canonical.get("enabled", null),
 	}
 
+func source_liquid_turret_build_get_ammo_content_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:
+	var ammo_content: Variant = current_liquid if not liquids_null and current_amount > 0.0 else null
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_get_ammo_content_state",
+		"inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+		"method": "public UnlockableContent getAmmoContent(){",
+		"override_expr": "@Override",
+		"return_expr": "return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;",
+		"liquids_null": liquids_null,
+		"current_amount": current_amount,
+		"current_liquid": current_liquid,
+		"ammo_content": ammo_content,
+	}
+
+func generated_liquid_turret_build_get_ammo_content_bridge_state(liquids_null: bool, current_amount: float, current_liquid: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_LiquidTurretBuild_method_getAmmoContent_1([liquids_null, current_amount, current_liquid])
+	var canonical = source_liquid_turret_build_get_ammo_content_state(liquids_null, current_amount, current_liquid)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_get_ammo_content_state",
+		"generated_owner": "LiquidTurret.LiquidTurretBuild.getAmmoContent",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null)
+			and result.get("liquids_null", null) == canonical.get("liquids_null", null)
+			and result.get("current_amount", null) == canonical.get("current_amount", null)
+			and result.get("current_liquid", null) == canonical.get("current_liquid", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}
