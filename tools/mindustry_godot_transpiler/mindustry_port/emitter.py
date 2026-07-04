@@ -1421,6 +1421,24 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_item_turret_limit_range_entries_state\", \"method\": \"public void limitRange(float margin){\", \"comment\": \"/** Limits bullet range to this turret's range value. */\", \"loop_expr\": \"for(var entry : ammoTypes.entries()){\", \"dispatch_expr\": \"limitRange(entry.value, margin);\", \"margin\": margin, \"ammo_entries\": ammo_entries, \"limit_range_calls\": limit_range_calls, \"limit_range_call_count\": limit_range_calls.size()}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ItemTurret.java"
+        and type_entry.get("name") == "ItemTurret"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar ammo_types: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar name_value: String = str(_args[1] if _args.size() > 1 else \"\")",
+            "\tvar max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar ammo_per_shot: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar ammo_capacity_divisor: float = maxf(ammo_per_shot, 1.0)",
+            "\tvar ammo_capacity: float = max_ammo / ammo_capacity_divisor",
+            "\tvar stats_item_capacity_remove_call: Dictionary = {\"call\": \"stats.remove(Stat.itemCapacity);\", \"stat\": \"Stat.itemCapacity\"}",
+            "\tvar ammo_values_call: Dictionary = {\"call\": \"StatValues.ammo(ammoTypes, name)\", \"ammo_types\": ammo_types, \"name\": name_value}",
+            "\tvar stats_ammo_add_call: Dictionary = {\"call\": \"stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));\", \"stat\": \"Stat.ammo\", \"ammo_values_call\": ammo_values_call}",
+            "\tvar stats_ammo_capacity_add_call: Dictionary = {\"call\": \"stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);\", \"stat\": \"Stat.ammoCapacity\", \"value\": ammo_capacity, \"unit\": \"StatUnit.shots\"}",
+            "\treturn {\"source_owner\": \"PortGame.source_item_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"stats_remove_expr\": \"stats.remove(Stat.itemCapacity);\", \"stats_ammo_add_expr\": \"stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));\", \"stats_ammo_capacity_add_expr\": \"stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);\", \"ammo_types\": ammo_types, \"name_value\": name_value, \"max_ammo\": max_ammo, \"ammo_per_shot\": ammo_per_shot, \"ammo_capacity_divisor\": ammo_capacity_divisor, \"ammo_capacity\": ammo_capacity, \"super_set_stats_called\": true, \"stats_item_capacity_removed\": true, \"stats_ammo_added\": true, \"stats_ammo_capacity_added\": true, \"stats_item_capacity_remove_call\": stats_item_capacity_remove_call, \"ammo_values_call\": ammo_values_call, \"stats_ammo_add_call\": stats_ammo_add_call, \"stats_ammo_capacity_add_call\": stats_ammo_capacity_add_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

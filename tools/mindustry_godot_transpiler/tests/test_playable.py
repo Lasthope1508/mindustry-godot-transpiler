@@ -13298,5 +13298,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.java_method_limitRange_2"', source)
         self.assertIn('"matches": result.get("limit_range_calls", null) == canonical.get("limit_range_calls", null)', source)
 
+    def test_port_game_exposes_source_item_turret_set_stats_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_set_stats_state(ammo_types: Variant, name_value: String, max_ammo: float, ammo_per_shot: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void setStats(){"', source)
+        self.assertIn('"super_set_stats_expr": "super.setStats();"', source)
+        self.assertIn('"stats_remove_expr": "stats.remove(Stat.itemCapacity);"', source)
+        self.assertIn('"stats_ammo_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));"', source)
+        self.assertIn('"stats_ammo_capacity_add_expr": "stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);"', source)
+        self.assertIn("var ammo_capacity_divisor: float = maxf(ammo_per_shot, 1.0)", source)
+        self.assertIn("var ammo_capacity: float = max_ammo / ammo_capacity_divisor", source)
+        self.assertIn('"stats_ammo_capacity_add_call": stats_ammo_capacity_add_call', source)
+
+    def test_port_game_exposes_generated_item_turret_set_stats_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String, max_ammo: float, ammo_per_shot: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_setStats_3([ammo_types, name_value, max_ammo, ammo_per_shot])", source)
+        self.assertIn("var canonical = source_item_turret_set_stats_state(ammo_types, name_value, max_ammo, ammo_per_shot)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_set_stats_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.java_method_setStats_3"', source)
+        self.assertIn('"matches": result.get("stats_ammo_capacity_add_call", null) == canonical.get("stats_ammo_capacity_add_call", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

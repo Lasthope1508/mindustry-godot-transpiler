@@ -17205,6 +17205,50 @@ func generated_item_turret_limit_range_entries_bridge_state(margin: float, ammo_
 		"matches": result.get("limit_range_calls", null) == canonical.get("limit_range_calls", null) and result.get("limit_range_call_count", null) == canonical.get("limit_range_call_count", null) and result.get("margin", null) == canonical.get("margin", null),
 	}
 
+func source_item_turret_set_stats_state(ammo_types: Variant, name_value: String, max_ammo: float, ammo_per_shot: float) -> Dictionary:
+	var ammo_capacity_divisor: float = maxf(ammo_per_shot, 1.0)
+	var ammo_capacity: float = max_ammo / ammo_capacity_divisor
+	var stats_item_capacity_remove_call: Dictionary = {"call": "stats.remove(Stat.itemCapacity);", "stat": "Stat.itemCapacity"}
+	var ammo_values_call: Dictionary = {"call": "StatValues.ammo(ammoTypes, name)", "ammo_types": ammo_types, "name": name_value}
+	var stats_ammo_add_call: Dictionary = {"call": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));", "stat": "Stat.ammo", "ammo_values_call": ammo_values_call}
+	var stats_ammo_capacity_add_call: Dictionary = {"call": "stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);", "stat": "Stat.ammoCapacity", "value": ammo_capacity, "unit": "StatUnit.shots"}
+	return {
+		"source_owner": "PortGame.source_item_turret_set_stats_state",
+		"method": "public void setStats(){",
+		"override_expr": "@Override",
+		"super_set_stats_expr": "super.setStats();",
+		"stats_remove_expr": "stats.remove(Stat.itemCapacity);",
+		"stats_ammo_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
+		"stats_ammo_capacity_add_expr": "stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);",
+		"ammo_types": ammo_types,
+		"name_value": name_value,
+		"max_ammo": max_ammo,
+		"ammo_per_shot": ammo_per_shot,
+		"ammo_capacity_divisor": ammo_capacity_divisor,
+		"ammo_capacity": ammo_capacity,
+		"super_set_stats_called": true,
+		"stats_item_capacity_removed": true,
+		"stats_ammo_added": true,
+		"stats_ammo_capacity_added": true,
+		"stats_item_capacity_remove_call": stats_item_capacity_remove_call,
+		"ammo_values_call": ammo_values_call,
+		"stats_ammo_add_call": stats_ammo_add_call,
+		"stats_ammo_capacity_add_call": stats_ammo_capacity_add_call,
+	}
+
+func generated_item_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String, max_ammo: float, ammo_per_shot: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setStats_3([ammo_types, name_value, max_ammo, ammo_per_shot])
+	var canonical = source_item_turret_set_stats_state(ammo_types, name_value, max_ammo, ammo_per_shot)
+	return {
+		"source_owner": "PortGame.source_item_turret_set_stats_state",
+		"generated_owner": "ItemTurret.java_method_setStats_3",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("stats_ammo_capacity_add_call", null) == canonical.get("stats_ammo_capacity_add_call", null) and result.get("stats_ammo_add_call", null) == canonical.get("stats_ammo_add_call", null) and result.get("stats_item_capacity_remove_call", null) == canonical.get("stats_item_capacity_remove_call", null) and result.get("ammo_capacity", null) == canonical.get("ammo_capacity", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

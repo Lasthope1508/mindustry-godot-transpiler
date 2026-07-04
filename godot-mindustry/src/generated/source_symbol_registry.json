@@ -82181,6 +82181,176 @@
       "godot_symbol": "source_item_turret_limit_range_entries_input.margin",
       "java_expr": "margin",
       "rule": "Margin is the explicit Java method parameter."
+    },
+    "item_turret_set_stats.method": {
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_set_stats_result.method",
+      "java_expr": "public void setStats(){",
+      "rule": "Method boundary comes from ItemTurret.setStats()."
+    },
+    "item_turret_set_stats.override": {
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_set_stats_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "Override marker comes from ItemTurret.setStats()."
+    },
+    "item_turret_set_stats.super_set_stats": {
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_set_stats_result.super_set_stats_expr",
+      "java_expr": "super.setStats();",
+      "rule": "Superclass stats call preserves Java order."
+    },
+    "item_turret_set_stats.ammo_types": {
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_set_stats_input.ammo_types",
+      "java_expr": "ammoTypes",
+      "rule": "Explicit input represents the ItemTurret ammoTypes field."
+    },
+    "item_turret_set_stats.name": {
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_set_stats_input.name_value",
+      "java_expr": "name",
+      "rule": "Explicit input represents the Block name field used by StatValues.ammo."
+    },
+    "item_turret_set_stats.max_ammo": {
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_set_stats_input.max_ammo",
+      "java_expr": "maxAmmo",
+      "rule": "Explicit input represents maxAmmo for ammo capacity stat."
+    },
+    "item_turret_set_stats.ammo_per_shot": {
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_set_stats_input.ammo_per_shot",
+      "java_expr": "ammoPerShot",
+      "rule": "Explicit input represents ammoPerShot for the Math.max divisor."
+    },
+    "item_turret_set_stats.stats_remove": {
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_set_stats_result.stats_item_capacity_remove_call",
+      "java_expr": "stats.remove(Stat.itemCapacity);",
+      "rule": "Records exact item capacity stat removal."
+    },
+    "item_turret_set_stats.stats_ammo_add": {
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_set_stats_result.stats_ammo_add_call",
+      "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
+      "rule": "Records exact ammo stat add call."
+    },
+    "item_turret_set_stats.stats_ammo_capacity_add": {
+      "godot_owner": "PortGame.source_item_turret_set_stats_state",
+      "java_method": "ItemTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_set_stats_state",
+      "tests": [
+        "test_emit_bridges_item_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_stats_state",
+        "test_port_game_exposes_generated_item_turret_set_stats_bridge_state",
+        "test_item_turret_set_stats_matches_upstream_source",
+        "test_generated_item_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_set_stats_result.stats_ammo_capacity_add_call",
+      "java_expr": "stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);",
+      "rule": "Records exact ammo capacity stat add call."
     }
   },
   "version": 1

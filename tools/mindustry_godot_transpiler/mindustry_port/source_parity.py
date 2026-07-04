@@ -704,6 +704,24 @@ def verify_item_turret_limit_range_entries_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_item_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
+    item_turret_path = Path(upstream_root) / ITEM_TURRET_SOURCE
+    source = item_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void setStats(){",
+        "super_set_stats": "super.setStats();",
+        "stats_remove": "stats.remove(Stat.itemCapacity);",
+        "stats_ammo_add": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
+        "stats_ammo_capacity_add": "stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": ITEM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"
