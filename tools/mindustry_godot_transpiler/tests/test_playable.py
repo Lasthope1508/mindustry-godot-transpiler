@@ -13893,5 +13893,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.getAmmoFraction"', source)
         self.assertIn('"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)', source)
 
+    def test_port_game_exposes_source_liquid_turret_build_sense_object_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_liquid_turret_build_sense_object_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class LiquidTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"method": "public Object senseObject(LAccess sensor){"', source)
+        self.assertIn('"switch_return_expr": "return switch(sensor){"', source)
+        self.assertIn('"current_ammo_type_case": "case currentAmmoType -> liquids.current();"', source)
+        self.assertIn('"default_case": "default -> super.senseObject(sensor);"', source)
+        self.assertIn('if sensor == "currentAmmoType":', source)
+        self.assertIn('"current_liquid": current_liquid', source)
+        self.assertIn('"super_sense_object_value": super_sense_object_value', source)
+        self.assertIn('"sense_object_value": sense_object_value', source)
+
+    def test_port_game_exposes_generated_liquid_turret_build_sense_object_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_senseObject_3([sensor, current_liquid, super_sense_object_value])", source)
+        self.assertIn("var canonical = source_liquid_turret_build_sense_object_state(sensor, current_liquid, super_sense_object_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_sense_object_state"', source)
+        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.senseObject"', source)
+        self.assertIn('"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

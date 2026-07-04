@@ -8889,5 +8889,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_liquid_turret_build_sense_object_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_liquid_turret_build_sense_object_source"))
+        report = source_parity.verify_liquid_turret_build_sense_object_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "public Object senseObject(LAccess sensor){",
+            "switch_return_expr": "return switch(sensor){",
+            "current_ammo_type_case": "case currentAmmoType -> liquids.current();",
+            "default_case": "default -> super.senseObject(sensor);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

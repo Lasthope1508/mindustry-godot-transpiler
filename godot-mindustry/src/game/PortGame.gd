@@ -18058,6 +18058,42 @@ func generated_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount
 			and result.get("liquid_capacity", null) == canonical.get("liquid_capacity", null),
 	}
 
+func source_liquid_turret_build_sense_object_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:
+	var sense_object_value: Variant = null
+	if sensor == "currentAmmoType":
+		sense_object_value = current_liquid
+	else:
+		sense_object_value = super_sense_object_value
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_sense_object_state",
+		"inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+		"method": "public Object senseObject(LAccess sensor){",
+		"override_expr": "@Override",
+		"switch_return_expr": "return switch(sensor){",
+		"current_ammo_type_case": "case currentAmmoType -> liquids.current();",
+		"default_case": "default -> super.senseObject(sensor);",
+		"sensor": sensor,
+		"current_liquid": current_liquid,
+		"super_sense_object_value": super_sense_object_value,
+		"sense_object_value": sense_object_value,
+	}
+
+func generated_liquid_turret_build_sense_object_bridge_state(sensor: String, current_liquid: Variant, super_sense_object_value: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_LiquidTurretBuild_method_senseObject_3([sensor, current_liquid, super_sense_object_value])
+	var canonical = source_liquid_turret_build_sense_object_state(sensor, current_liquid, super_sense_object_value)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_sense_object_state",
+		"generated_owner": "LiquidTurret.LiquidTurretBuild.senseObject",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null)
+			and result.get("sensor", null) == canonical.get("sensor", null)
+			and result.get("current_liquid", null) == canonical.get("current_liquid", null)
+			and result.get("super_sense_object_value", null) == canonical.get("super_sense_object_value", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

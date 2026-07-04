@@ -9112,6 +9112,64 @@ public class LiquidTurret extends Turret{
             self.assertIn('"return_expr": "return liquids.currentAmount() / liquidCapacity;"', source_text)
             self.assertIn('"ammo_fraction": ammo_fraction', source_text)
 
+    def test_emit_bridges_liquid_turret_build_sense_object_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            liquid_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.java"
+            liquid_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            liquid_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class LiquidTurret extends Turret{
+    public class LiquidTurretBuild extends TurretBuild{
+        @Override
+        public boolean shouldActiveSound(){
+            return wasShooting && enabled;
+        }
+
+        @Override
+        public UnlockableContent getAmmoContent(){
+            return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;
+        }
+
+        @Override
+        public float getAmmoFraction(){
+            return liquids.currentAmount() / liquidCapacity;
+        }
+
+        @Override
+        public Object senseObject(LAccess sensor){
+            return switch(sensor){
+                case currentAmmoType -> liquids.current();
+                default -> super.senseObject(sensor);
+            };
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_LiquidTurretBuild_method_senseObject_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var sensor: String = str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var current_liquid: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var super_sense_object_value: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn('if sensor == "currentAmmoType":', source_text)
+            self.assertIn("sense_object_value = current_liquid", source_text)
+            self.assertIn("sense_object_value = super_sense_object_value", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_liquid_turret_build_sense_object_state"', source_text)
+            self.assertIn('"method": "public Object senseObject(LAccess sensor){"', source_text)
+            self.assertIn('"current_ammo_type_case": "case currentAmmoType -> liquids.current();"', source_text)
+            self.assertIn('"default_case": "default -> super.senseObject(sensor);"', source_text)
+            self.assertIn('"sense_object_value": sense_object_value', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

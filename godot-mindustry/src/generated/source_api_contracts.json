@@ -27417,6 +27417,51 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_get_ammo_fraction_state",
       "rule": "Public runtime contract for LiquidTurretBuild.getAmmoFraction state."
+    },
+    "PortGame.source_liquid_turret_build_sense_object_state": {
+      "status": "source-backed",
+      "source_slice": "N1199",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurretBuild.senseObject(LAccess sensor)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_liquid_turret_build_sense_object_input.sensor"
+        },
+        {
+          "name": "current_liquid",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_sense_object_input.current_liquid"
+        },
+        {
+          "name": "super_sense_object_value",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_sense_object_input.super_sense_object_value"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "switch_return_expr",
+        "current_ammo_type_case",
+        "default_case",
+        "sensor",
+        "current_liquid",
+        "super_sense_object_value",
+        "sense_object_value"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_liquid_turret_build_sense_object_bridge_state",
+        "test_liquid_turret_build_sense_object_matches_upstream_source",
+        "test_generated_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_sense_object_state",
+      "rule": "Public runtime contract for LiquidTurretBuild.senseObject state."
     }
   },
   "policy": {

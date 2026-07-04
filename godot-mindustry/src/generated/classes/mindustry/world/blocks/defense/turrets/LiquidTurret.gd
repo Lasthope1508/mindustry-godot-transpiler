@@ -62,3 +62,14 @@ func java_inner_class_LiquidTurretBuild_method_getAmmoFraction_2(_args: Array = 
 	var liquid_capacity: float = float(_args[1] if _args.size() > 1 else 1.0)
 	var ammo_fraction: float = current_amount / liquid_capacity
 	return {"source_owner": "PortGame.source_liquid_turret_build_get_ammo_fraction_state", "inner_class": "public class LiquidTurretBuild extends TurretBuild{", "method": "public float getAmmoFraction(){", "override_expr": "@Override", "return_expr": "return liquids.currentAmount() / liquidCapacity;", "current_amount": current_amount, "liquid_capacity": liquid_capacity, "ammo_fraction": ammo_fraction}
+
+func java_inner_class_LiquidTurretBuild_method_senseObject_3(_args: Array = []) -> Variant:
+	var sensor: String = str(_args[0] if _args.size() > 0 else "")
+	var current_liquid: Variant = _args[1] if _args.size() > 1 else null
+	var super_sense_object_value: Variant = _args[2] if _args.size() > 2 else null
+	var sense_object_value: Variant = null
+	if sensor == "currentAmmoType":
+		sense_object_value = current_liquid
+	else:
+		sense_object_value = super_sense_object_value
+	return {"source_owner": "PortGame.source_liquid_turret_build_sense_object_state", "inner_class": "public class LiquidTurretBuild extends TurretBuild{", "method": "public Object senseObject(LAccess sensor){", "override_expr": "@Override", "switch_return_expr": "return switch(sensor){", "current_ammo_type_case": "case currentAmmoType -> liquids.current();", "default_case": "default -> super.senseObject(sensor);", "sensor": sensor, "current_liquid": current_liquid, "super_sense_object_value": super_sense_object_value, "sense_object_value": sense_object_value}

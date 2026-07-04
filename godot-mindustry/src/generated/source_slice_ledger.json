@@ -26933,6 +26933,42 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_build_get_ammo_fraction_bridge_state",
       "rule": "LiquidTurretBuild.getAmmoFraction returns liquids.currentAmount() / liquidCapacity exactly as upstream Java."
+    },
+    "N1199": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.senseObject(LAccess sensor)",
+      "godot_owner": "PortGame.source_liquid_turret_build_sense_object_state",
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public Object senseObject(LAccess sensor){",
+        "return switch(sensor){",
+        "case currentAmmoType -> liquids.current();",
+        "default -> super.senseObject(sensor);"
+      ],
+      "deferred_exprs": [
+        "LAccess enum internals and superclass senseObject implementation stay deferred; this slice records only switch dispatch state."
+      ],
+      "source_symbols": [
+        "liquid_turret_build_sense_object.method",
+        "liquid_turret_build_sense_object.sensor",
+        "liquid_turret_build_sense_object.current_liquid",
+        "liquid_turret_build_sense_object.super_sense_object_value",
+        "liquid_turret_build_sense_object.current_ammo_type_case",
+        "liquid_turret_build_sense_object.default_case",
+        "liquid_turret_build_sense_object.sense_object_value"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_liquid_turret_build_sense_object_bridge_state",
+        "test_liquid_turret_build_sense_object_matches_upstream_source",
+        "test_generated_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_sense_object_bridge_state",
+      "rule": "LiquidTurretBuild.senseObject returns liquids.current() for currentAmmoType, otherwise super.senseObject(sensor)."
     }
   },
   "version": 1

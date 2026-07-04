@@ -2935,6 +2935,20 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar ammo_fraction: float = current_amount / liquid_capacity",
                         "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_build_get_ammo_fraction_state\", \"inner_class\": \"public class LiquidTurretBuild extends TurretBuild{\", \"method\": \"public float getAmmoFraction(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return liquids.currentAmount() / liquidCapacity;\", \"current_amount\": current_amount, \"liquid_capacity\": liquid_capacity, \"ammo_fraction\": ammo_fraction}",
                     ])
+                elif method.get("name") == "senseObject":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_LiquidTurretBuild_method_senseObject_{index}(_args: Array = []) -> Variant:",
+                        "\tvar sensor: String = str(_args[0] if _args.size() > 0 else \"\")",
+                        "\tvar current_liquid: Variant = _args[1] if _args.size() > 1 else null",
+                        "\tvar super_sense_object_value: Variant = _args[2] if _args.size() > 2 else null",
+                        "\tvar sense_object_value: Variant = null",
+                        "\tif sensor == \"currentAmmoType\":",
+                        "\t\tsense_object_value = current_liquid",
+                        "\telse:",
+                        "\t\tsense_object_value = super_sense_object_value",
+                        "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_build_sense_object_state\", \"inner_class\": \"public class LiquidTurretBuild extends TurretBuild{\", \"method\": \"public Object senseObject(LAccess sensor){\", \"override_expr\": \"@Override\", \"switch_return_expr\": \"return switch(sensor){\", \"current_ammo_type_case\": \"case currentAmmoType -> liquids.current();\", \"default_case\": \"default -> super.senseObject(sensor);\", \"sensor\": sensor, \"current_liquid\": current_liquid, \"super_sense_object_value\": super_sense_object_value, \"sense_object_value\": sense_object_value}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"
