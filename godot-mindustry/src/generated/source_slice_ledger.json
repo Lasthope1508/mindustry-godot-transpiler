@@ -27140,6 +27140,45 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_build_accept_item_bridge_state",
       "rule": "LiquidTurretBuild.acceptItem(Building source, Item item) always returns false."
+    },
+    "N1205": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean acceptLiquid(Building source, Liquid liquid){",
+        "return ammoTypes.get(liquid) != null &&",
+        "(liquids.current() == liquid ||",
+        "((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));"
+      ],
+      "deferred_exprs": [
+        "ObjectMap<Liquid, BulletType>, LiquidModule, Building, and Liquid internals stay deferred; explicit inputs carry exact Java lookup results.",
+        "Replacement threshold is evaluated only on the Java short-circuit path where ammoTypes.get(liquid) is non-null, current liquid differs, and ammoTypes.containsKey(liquids.current()) is true."
+      ],
+      "source_symbols": [
+        "liquid_turret_build_accept_liquid.method",
+        "liquid_turret_build_accept_liquid.source_building",
+        "liquid_turret_build_accept_liquid.liquid",
+        "liquid_turret_build_accept_liquid.ammo_type",
+        "liquid_turret_build_accept_liquid.current_liquid",
+        "liquid_turret_build_accept_liquid.current_liquid_ammo_type_present",
+        "liquid_turret_build_accept_liquid.current_liquid_amount",
+        "liquid_turret_build_accept_liquid.current_ammo_multiplier",
+        "liquid_turret_build_accept_liquid.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_accept_liquid_bridge_state",
+      "rule": "LiquidTurretBuild.acceptLiquid accepts liquids with ammo types, same current liquid, or drained/unmapped current liquid replacement gate."
     }
   },
   "version": 1

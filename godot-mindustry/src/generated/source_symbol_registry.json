@@ -86720,6 +86720,159 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_accept_item_state",
       "rule": "acceptItem always returns false."
+    },
+    "liquid_turret_build_accept_liquid.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_expr": "public boolean acceptLiquid(Building source, Liquid liquid){",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "godot_symbol": "source_liquid_turret_build_accept_liquid_result.method",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
+      "rule": "Method boundary for LiquidTurretBuild.acceptLiquid."
+    },
+    "liquid_turret_build_accept_liquid.source_building": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_expr": "source",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "godot_symbol": "source_liquid_turret_build_accept_liquid_input.source_building",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
+      "rule": "Input supplies source Building parameter."
+    },
+    "liquid_turret_build_accept_liquid.liquid": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_expr": "liquid",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "godot_symbol": "source_liquid_turret_build_accept_liquid_input.liquid",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
+      "rule": "Input supplies Liquid parameter."
+    },
+    "liquid_turret_build_accept_liquid.ammo_type": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_expr": "ammoTypes.get(liquid)",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "godot_symbol": "source_liquid_turret_build_accept_liquid_input.ammo_type",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
+      "rule": "Input supplies ammoTypes.get(liquid) lookup result."
+    },
+    "liquid_turret_build_accept_liquid.current_liquid": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_expr": "liquids.current()",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "godot_symbol": "source_liquid_turret_build_accept_liquid_input.current_liquid",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
+      "rule": "Input supplies current liquid for same-liquid branch."
+    },
+    "liquid_turret_build_accept_liquid.current_liquid_ammo_type_present": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_expr": "ammoTypes.containsKey(liquids.current())",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "godot_symbol": "source_liquid_turret_build_accept_liquid_input.current_liquid_ammo_type_present",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
+      "rule": "Input supplies containsKey(liquids.current()) branch result."
+    },
+    "liquid_turret_build_accept_liquid.current_liquid_amount": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_expr": "liquids.get(liquids.current())",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "godot_symbol": "source_liquid_turret_build_accept_liquid_input.current_liquid_amount",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
+      "rule": "Input supplies liquids.get(liquids.current()) amount for replacement gate."
+    },
+    "liquid_turret_build_accept_liquid.current_ammo_multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_expr": "ammoTypes.get(liquids.current()).ammoMultiplier",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "godot_symbol": "source_liquid_turret_build_accept_liquid_input.current_ammo_multiplier",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
+      "rule": "Input supplies current liquid ammo multiplier for replacement threshold."
+    },
+    "liquid_turret_build_accept_liquid.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_expr": "return ammoTypes.get(liquid) != null && (liquids.current() == liquid || ((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));",
+      "godot_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+      "godot_symbol": "source_liquid_turret_build_accept_liquid_result.accept_liquid",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_liquid_turret_build_accept_liquid_bridge_state",
+        "test_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
+      "rule": "Final acceptLiquid return value."
     }
   },
   "version": 1

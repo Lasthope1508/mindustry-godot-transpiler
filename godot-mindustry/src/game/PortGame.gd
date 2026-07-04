@@ -18263,6 +18263,56 @@ func generated_liquid_turret_build_accept_item_bridge_state(source_building: Var
 		"matches": result.get("accept_item", null) == canonical.get("accept_item", null),
 	}
 
+func source_liquid_turret_build_accept_liquid_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:
+	var liquid_has_ammo_type: bool = ammo_type != null
+	var same_liquid: bool = current_liquid == liquid
+	var current_liquid_missing_ammo_type: bool = not current_liquid_ammo_type_present
+	var current_required_with_epsilon: Variant = null
+	var current_liquid_drained: bool = false
+	if liquid_has_ammo_type and not same_liquid and current_liquid_ammo_type_present:
+		current_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001
+		current_liquid_drained = current_liquid_amount <= current_required_with_epsilon
+	var replacement_allowed: bool = false
+	if liquid_has_ammo_type and not same_liquid:
+		replacement_allowed = current_liquid_missing_ammo_type or current_liquid_drained
+	var accept_liquid: bool = liquid_has_ammo_type and (same_liquid or replacement_allowed)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+		"inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+		"method": "public boolean acceptLiquid(Building source, Liquid liquid){",
+		"override_expr": "@Override",
+		"return_expr": "return ammoTypes.get(liquid) != null && (liquids.current() == liquid || ((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));",
+		"source_building": source_building,
+		"liquid": liquid,
+		"ammo_type": ammo_type,
+		"current_liquid": current_liquid,
+		"current_liquid_ammo_type_present": current_liquid_ammo_type_present,
+		"current_liquid_amount": current_liquid_amount,
+		"current_ammo_multiplier": current_ammo_multiplier,
+		"liquid_has_ammo_type": liquid_has_ammo_type,
+		"same_liquid": same_liquid,
+		"current_liquid_missing_ammo_type": current_liquid_missing_ammo_type,
+		"current_required_with_epsilon": current_required_with_epsilon,
+		"current_liquid_drained": current_liquid_drained,
+		"replacement_allowed": replacement_allowed,
+		"accept_liquid": accept_liquid,
+	}
+
+func generated_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_LiquidTurretBuild_method_acceptLiquid_9([source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier])
+	var canonical = source_liquid_turret_build_accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_accept_liquid_state",
+		"generated_owner": "LiquidTurret.LiquidTurretBuild.acceptLiquid",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("accept_liquid", null) == canonical.get("accept_liquid", null)
+			and result.get("replacement_allowed", null) == canonical.get("replacement_allowed", null)
+			and result.get("current_required_with_epsilon", null) == canonical.get("current_required_with_epsilon", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}
