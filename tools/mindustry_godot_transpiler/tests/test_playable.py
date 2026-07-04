@@ -13426,5 +13426,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.senseObject"', source)
         self.assertIn('"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null)', source)
 
+    def test_port_game_exposes_source_item_turret_build_get_ammo_content_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_get_ammo_content_state(ammo_size: int, peek_item: Variant) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ItemTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"method": "public UnlockableContent getAmmoContent(){"', source)
+        self.assertIn('"return_expr": "return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;"', source)
+        self.assertIn("var ammo_content: Variant = peek_item if ammo_size > 0 else null", source)
+        self.assertIn('"ammo_content": ammo_content', source)
+
+    def test_port_game_exposes_generated_item_turret_build_get_ammo_content_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_get_ammo_content_bridge_state(ammo_size: int, peek_item: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_getAmmoContent_2([ammo_size, peek_item])", source)
+        self.assertIn("var canonical = source_item_turret_build_get_ammo_content_state(ammo_size, peek_item)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_get_ammo_content_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.getAmmoContent"', source)
+        self.assertIn('"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

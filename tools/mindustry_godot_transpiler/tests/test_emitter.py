@@ -8053,6 +8053,52 @@ public class ItemTurret extends Turret{
             self.assertIn('"default_case": "default -> super.senseObject(sensor);"', source_text)
             self.assertIn('"sense_object_value": sense_object_value', source_text)
 
+    def test_emit_bridges_item_turret_build_get_ammo_content_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public class ItemTurretBuild extends TurretBuild{
+        @Override
+        public void onProximityAdded(){
+            super.onProximityAdded();
+        }
+
+        @Override
+        public Object senseObject(LAccess sensor){
+            return null;
+        }
+
+        @Override
+        public UnlockableContent getAmmoContent(){
+            return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ItemTurretBuild_method_getAmmoContent_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var ammo_size: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var peek_item: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var ammo_content: Variant = peek_item if ammo_size > 0 else null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_item_turret_build_get_ammo_content_state"', source_text)
+            self.assertIn('"method": "public UnlockableContent getAmmoContent(){"', source_text)
+            self.assertIn('"return_expr": "return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;"', source_text)
+            self.assertIn('"ammo_content": ammo_content', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

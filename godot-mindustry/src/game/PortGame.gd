@@ -17393,6 +17393,32 @@ func generated_item_turret_build_sense_object_bridge_state(sensor: String, ammo_
 		"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null),
 	}
 
+func source_item_turret_build_get_ammo_content_state(ammo_size: int, peek_item: Variant) -> Dictionary:
+	var ammo_content: Variant = peek_item if ammo_size > 0 else null
+	return {
+		"source_owner": "PortGame.source_item_turret_build_get_ammo_content_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public UnlockableContent getAmmoContent(){",
+		"override_expr": "@Override",
+		"return_expr": "return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;",
+		"ammo_size": ammo_size,
+		"peek_item": peek_item,
+		"ammo_content": ammo_content,
+	}
+
+func generated_item_turret_build_get_ammo_content_bridge_state(ammo_size: int, peek_item: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_getAmmoContent_2([ammo_size, peek_item])
+	var canonical = source_item_turret_build_get_ammo_content_state(ammo_size, peek_item)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_get_ammo_content_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.getAmmoContent",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

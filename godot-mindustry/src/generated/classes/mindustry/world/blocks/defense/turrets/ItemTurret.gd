@@ -89,3 +89,9 @@ func java_inner_class_ItemTurretBuild_method_senseObject_1(_args: Array = []) ->
 	else:
 		sense_object_value = super_sense_object_value
 	return {"source_owner": "PortGame.source_item_turret_build_sense_object_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public Object senseObject(LAccess sensor){", "override_expr": "@Override", "switch_return_expr": "return switch(sensor){", "current_ammo_type_case": "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;", "default_case": "default -> super.senseObject(sensor);", "sensor": sensor, "ammo_size": ammo_size, "peek_item": peek_item, "super_sense_object_value": super_sense_object_value, "sense_object_value": sense_object_value}
+
+func java_inner_class_ItemTurretBuild_method_getAmmoContent_2(_args: Array = []) -> Variant:
+	var ammo_size: int = int(_args[0] if _args.size() > 0 else 0)
+	var peek_item: Variant = _args[1] if _args.size() > 1 else null
+	var ammo_content: Variant = peek_item if ammo_size > 0 else null
+	return {"source_owner": "PortGame.source_item_turret_build_get_ammo_content_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public UnlockableContent getAmmoContent(){", "override_expr": "@Override", "return_expr": "return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;", "ammo_size": ammo_size, "peek_item": peek_item, "ammo_content": ammo_content}

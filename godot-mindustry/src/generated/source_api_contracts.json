@@ -26589,6 +26589,43 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_sense_object_state",
       "rule": "Public runtime contract for ItemTurretBuild.senseObject(LAccess sensor) currentAmmoType switch branch."
+    },
+    "PortGame.source_item_turret_build_get_ammo_content_state": {
+      "status": "source-backed",
+      "source_slice": "N1180",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurretBuild.getAmmoContent()",
+      "params": [
+        {
+          "name": "ammo_size",
+          "type": "int",
+          "schema": "source_item_turret_build_get_ammo_content_input.ammo_size"
+        },
+        {
+          "name": "peek_item",
+          "type": "Variant",
+          "schema": "source_item_turret_build_get_ammo_content_input.peek_item"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "ammo_size",
+        "peek_item",
+        "ammo_content"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_item_turret_build_get_ammo_content_bridge_state",
+        "test_item_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_item_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_get_ammo_content_state",
+      "rule": "Public runtime contract for ItemTurretBuild.getAmmoContent() current ammo content return."
     }
   },
   "policy": {

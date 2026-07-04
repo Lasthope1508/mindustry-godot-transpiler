@@ -2944,6 +2944,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\tsense_object_value = super_sense_object_value",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_sense_object_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public Object senseObject(LAccess sensor){\", \"override_expr\": \"@Override\", \"switch_return_expr\": \"return switch(sensor){\", \"current_ammo_type_case\": \"case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;\", \"default_case\": \"default -> super.senseObject(sensor);\", \"sensor\": sensor, \"ammo_size\": ammo_size, \"peek_item\": peek_item, \"super_sense_object_value\": super_sense_object_value, \"sense_object_value\": sense_object_value}",
                     ])
+                elif method.get("name") == "getAmmoContent":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemTurretBuild_method_getAmmoContent_{index}(_args: Array = []) -> Variant:",
+                        "\tvar ammo_size: int = int(_args[0] if _args.size() > 0 else 0)",
+                        "\tvar peek_item: Variant = _args[1] if _args.size() > 1 else null",
+                        "\tvar ammo_content: Variant = peek_item if ammo_size > 0 else null",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_get_ammo_content_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public UnlockableContent getAmmoContent(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;\", \"ammo_size\": ammo_size, \"peek_item\": peek_item, \"ammo_content\": ammo_content}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:
