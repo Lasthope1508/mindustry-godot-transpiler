@@ -17,7 +17,35 @@ func java_method_outputsItems_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_turret_outputs_items_state", "method": "public boolean outputsItems(){", "override_expr": "@Override", "return_expr": "return false;", "outputs_items": false}
 
 func java_method_setStats_1(_args: Array = []) -> Variant:
-	return null
+	var inaccuracy_value: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var reload_value: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var reload_while_charging: bool = bool(_args[2] if _args.size() > 2 else true)
+	var shoot_first_shot_delay: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var shoot_shots: float = float(_args[4] if _args.size() > 4 else 1.0)
+	var target_air: bool = bool(_args[5] if _args.size() > 5 else true)
+	var target_ground: bool = bool(_args[6] if _args.size() > 6 else true)
+	var ammo_per_shot: int = int(_args[7] if _args.size() > 7 else 1)
+	var heat_requirement: float = float(_args[8] if _args.size() > 8 else -1.0)
+	var max_heat_efficiency: float = float(_args[9] if _args.size() > 9 else 3.0)
+	var reload_stat_denominator: float = reload_value + (shoot_first_shot_delay if not reload_while_charging else 0.0)
+	var reload_stat_rate: float = 60.0 / reload_stat_denominator * shoot_shots
+	var inaccuracy_stat_call: Dictionary = {"call": "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);", "stat": "Stat.inaccuracy", "value": int(inaccuracy_value), "unit": "StatUnit.degrees"}
+	var reload_stat_call: Dictionary = {"call": "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);", "stat": "Stat.reload", "value": reload_stat_rate, "unit": "StatUnit.perSecond", "denominator": reload_stat_denominator}
+	var targets_air_stat_call: Dictionary = {"call": "stats.add(Stat.targetsAir, targetAir);", "stat": "Stat.targetsAir", "value": target_air}
+	var targets_ground_stat_call: Dictionary = {"call": "stats.add(Stat.targetsGround, targetGround);", "stat": "Stat.targetsGround", "value": target_ground}
+	var ammo_use_stat_called: bool = ammo_per_shot != 1
+	var ammo_use_stat_call: Dictionary = {}
+	if ammo_use_stat_called:
+		ammo_use_stat_call = {"call": "stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);", "stat": "Stat.ammoUse", "value": ammo_per_shot, "unit": "StatUnit.perShot"}
+	var input_heat_stat_called: bool = heat_requirement > 0.0
+	var input_heat_stat_call: Dictionary = {}
+	if input_heat_stat_called:
+		input_heat_stat_call = {"call": "stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);", "stat": "Stat.input", "value": heat_requirement, "unit": "StatUnit.heatUnits"}
+	var max_efficiency_stat_called: bool = heat_requirement > 0.0 and max_heat_efficiency > 0.0
+	var max_efficiency_stat_call: Dictionary = {}
+	if max_efficiency_stat_called:
+		max_efficiency_stat_call = {"call": "stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);", "stat": "Stat.maxEfficiency", "value": int(max_heat_efficiency * 100.0), "unit": "StatUnit.percent"}
+	return {"source_owner": "PortGame.source_turret_set_stats_state", "method": "public void setStats(){", "override_expr": "@Override", "super_set_stats_expr": "super.setStats();", "inaccuracy_stat_expr": "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);", "reload_stat_expr": "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);", "targets_air_stat_expr": "stats.add(Stat.targetsAir, targetAir);", "targets_ground_stat_expr": "stats.add(Stat.targetsGround, targetGround);", "ammo_use_guard_expr": "if(ammoPerShot != 1)", "ammo_use_stat_expr": "stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);", "input_heat_guard_expr": "if(heatRequirement > 0)", "input_heat_stat_expr": "stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);", "max_efficiency_guard_expr": "if(heatRequirement > 0 && maxHeatEfficiency > 0)", "max_efficiency_stat_expr": "stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);", "inaccuracy_value": inaccuracy_value, "reload_value": reload_value, "reload_while_charging": reload_while_charging, "shoot_first_shot_delay": shoot_first_shot_delay, "shoot_shots": shoot_shots, "target_air": target_air, "target_ground": target_ground, "ammo_per_shot": ammo_per_shot, "heat_requirement": heat_requirement, "max_heat_efficiency": max_heat_efficiency, "reload_stat_denominator": reload_stat_denominator, "reload_stat_rate": reload_stat_rate, "super_set_stats_called": true, "inaccuracy_stat_call": inaccuracy_stat_call, "reload_stat_call": reload_stat_call, "targets_air_stat_call": targets_air_stat_call, "targets_ground_stat_call": targets_ground_stat_call, "ammo_use_stat_called": ammo_use_stat_called, "ammo_use_stat_call": ammo_use_stat_call, "input_heat_stat_called": input_heat_stat_called, "input_heat_stat_call": input_heat_stat_call, "max_efficiency_stat_called": max_efficiency_stat_called, "max_efficiency_stat_call": max_efficiency_stat_call}
 
 func java_method_setBars_2(_args: Array = []) -> Variant:
 	return null

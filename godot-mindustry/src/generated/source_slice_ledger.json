@@ -27410,6 +27410,46 @@
         "test_base_turret_set_bars_matches_upstream_source",
         "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1212": {
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);",
+        "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);",
+        "stats.add(Stat.targetsAir, targetAir);",
+        "stats.add(Stat.targetsGround, targetGround);",
+        "if(ammoPerShot != 1) stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);",
+        "if(heatRequirement > 0) stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);",
+        "if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);"
+      ],
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "notes": "Generated Turret.setStats bridge state records stat calls and guards from upstream without inventing Stats/Stat/StatUnit internals.",
+      "runtime_proof": "/root/Main.generated_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "turret_set_stats.method",
+        "turret_set_stats.override",
+        "turret_set_stats.super_set_stats",
+        "turret_set_stats.inaccuracy",
+        "turret_set_stats.reload_stat",
+        "turret_set_stats.targets_air",
+        "turret_set_stats.targets_ground",
+        "turret_set_stats.ammo_use_stat",
+        "turret_set_stats.input_heat_stat",
+        "turret_set_stats.max_efficiency_stat"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "java_class": "Turret"
     }
   },
   "version": 1

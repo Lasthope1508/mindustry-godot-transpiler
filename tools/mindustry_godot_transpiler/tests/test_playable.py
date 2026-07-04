@@ -13228,6 +13228,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_placeEnded_11"', source)
         self.assertIn('"matches": result.get("rotation_assigned", null) == canonical.get("rotation_assigned", null) and result.get("turret_rotation_after", null) == canonical.get("turret_rotation_after", null)', source)
 
+    def test_port_game_exposes_source_turret_set_stats_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_set_stats_state(inaccuracy_value: float, reload_value: float, reload_while_charging: bool, shoot_first_shot_delay: float, shoot_shots: float, target_air: bool, target_ground: bool, ammo_per_shot: int, heat_requirement: float, max_heat_efficiency: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_set_stats_state"', source)
+        self.assertIn('"method": "public void setStats(){"', source)
+        self.assertIn('"super_set_stats_expr": "super.setStats();"', source)
+        self.assertIn('"inaccuracy_stat_expr": "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);"', source)
+        self.assertIn('"reload_stat_expr": "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);"', source)
+        self.assertIn('"ammo_use_guard_expr": "if(ammoPerShot != 1)"', source)
+        self.assertIn('"input_heat_guard_expr": "if(heatRequirement > 0)"', source)
+        self.assertIn('"max_efficiency_guard_expr": "if(heatRequirement > 0 && maxHeatEfficiency > 0)"', source)
+        self.assertIn('"reload_stat_call": reload_stat_call', source)
+        self.assertIn('"max_efficiency_stat_call": max_efficiency_stat_call', source)
+
+    def test_port_game_exposes_generated_turret_set_stats_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_set_stats_bridge_state(inaccuracy_value: float, reload_value: float, reload_while_charging: bool, shoot_first_shot_delay: float, shoot_shots: float, target_air: bool, target_ground: bool, ammo_per_shot: int, heat_requirement: float, max_heat_efficiency: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_setStats_1([inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency])", source)
+        self.assertIn("var canonical = source_turret_set_stats_state(inaccuracy_value, reload_value, reload_while_charging, shoot_first_shot_delay, shoot_shots, target_air, target_ground, ammo_per_shot, heat_requirement, max_heat_efficiency)", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_set_stats_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_setStats_1"', source)
+        self.assertIn('"matches": result.get("reload_stat_call", null) == canonical.get("reload_stat_call", null) and result.get("ammo_use_stat_call", null) == canonical.get("ammo_use_stat_call", null) and result.get("max_efficiency_stat_call", null) == canonical.get("max_efficiency_stat_call", null)', source)
+
     def test_port_game_exposes_source_reload_turret_set_stats_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

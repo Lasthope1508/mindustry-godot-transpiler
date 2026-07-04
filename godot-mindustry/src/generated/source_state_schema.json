@@ -103351,6 +103351,344 @@
       "rule": "Dictionary returned by PortGame.source_base_turret_set_bars_state.",
       "source_slice": "N1211",
       "status": "source-backed"
+    },
+    "source_turret_set_stats_input": {
+      "keys": {
+        "inaccuracy": {
+          "godot_symbol": "source_turret_set_stats_input.inaccuracy",
+          "java_expr": "inaccuracy",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime inaccuracy field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "reload": {
+          "godot_symbol": "source_turret_set_stats_input.reload",
+          "java_expr": "reload",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime ReloadTurret.reload field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "reload_while_charging": {
+          "godot_symbol": "source_turret_set_stats_input.reload_while_charging",
+          "java_expr": "reloadWhileCharging",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime reloadWhileCharging field.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "shoot_first_shot_delay": {
+          "godot_symbol": "source_turret_set_stats_input.shoot_first_shot_delay",
+          "java_expr": "shoot.firstShotDelay",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime shoot.firstShotDelay field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "shoot_shots": {
+          "godot_symbol": "source_turret_set_stats_input.shoot_shots",
+          "java_expr": "shoot.shots",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime shoot.shots field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "target_air": {
+          "godot_symbol": "source_turret_set_stats_input.target_air",
+          "java_expr": "targetAir",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime targetAir field.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "target_ground": {
+          "godot_symbol": "source_turret_set_stats_input.target_ground",
+          "java_expr": "targetGround",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime targetGround field.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "ammo_per_shot": {
+          "godot_symbol": "source_turret_set_stats_input.ammo_per_shot",
+          "java_expr": "ammoPerShot",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime ammoPerShot field.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "heat_requirement": {
+          "godot_symbol": "source_turret_set_stats_input.heat_requirement",
+          "java_expr": "heatRequirement",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime heatRequirement field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "max_heat_efficiency": {
+          "godot_symbol": "source_turret_set_stats_input.max_heat_efficiency",
+          "java_expr": "maxHeatEfficiency",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime maxHeatEfficiency field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_turret_set_stats_state.",
+      "source_slice": "N1212",
+      "status": "source-backed"
+    },
+    "source_turret_set_stats_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_turret_set_stats_result.method",
+          "java_expr": "public void setStats(){",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_turret_set_stats_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Override marker.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "super_set_stats_expr": {
+          "godot_symbol": "source_turret_set_stats_result.super_set_stats_expr",
+          "java_expr": "super.setStats();",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Superclass setStats dispatch expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "super_set_stats_called": {
+          "godot_symbol": "source_turret_set_stats_result.super_set_stats_called",
+          "java_expr": "super.setStats();",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Records superclass setStats dispatch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "inaccuracy_stat_call": {
+          "godot_symbol": "source_turret_set_stats_result.inaccuracy_stat_call",
+          "java_expr": "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Recorded inaccuracy stat call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "reload_stat_call": {
+          "godot_symbol": "source_turret_set_stats_result.reload_stat_call",
+          "java_expr": "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Recorded reload stat call with computed rate.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "targets_air_stat_call": {
+          "godot_symbol": "source_turret_set_stats_result.targets_air_stat_call",
+          "java_expr": "stats.add(Stat.targetsAir, targetAir);",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Recorded targetsAir stat call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "targets_ground_stat_call": {
+          "godot_symbol": "source_turret_set_stats_result.targets_ground_stat_call",
+          "java_expr": "stats.add(Stat.targetsGround, targetGround);",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Recorded targetsGround stat call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "ammo_use_stat_called": {
+          "godot_symbol": "source_turret_set_stats_result.ammo_use_stat_called",
+          "java_expr": "ammoPerShot != 1",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "True when ammoUse stat guard passes.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "ammo_use_stat_call": {
+          "godot_symbol": "source_turret_set_stats_result.ammo_use_stat_call",
+          "java_expr": "if(ammoPerShot != 1) stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Recorded ammoUse stat call when guard passes.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "input_heat_stat_called": {
+          "godot_symbol": "source_turret_set_stats_result.input_heat_stat_called",
+          "java_expr": "heatRequirement > 0",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "True when heat input stat guard passes.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "input_heat_stat_call": {
+          "godot_symbol": "source_turret_set_stats_result.input_heat_stat_call",
+          "java_expr": "if(heatRequirement > 0) stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Recorded heat input stat call when guard passes.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "max_efficiency_stat_called": {
+          "godot_symbol": "source_turret_set_stats_result.max_efficiency_stat_called",
+          "java_expr": "heatRequirement > 0 && maxHeatEfficiency > 0",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "True when max efficiency stat guard passes.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "max_efficiency_stat_call": {
+          "godot_symbol": "source_turret_set_stats_result.max_efficiency_stat_call",
+          "java_expr": "if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Recorded maxEfficiency stat call when guard passes.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "reload_stat_denominator": {
+          "godot_symbol": "source_turret_set_stats_result.reload_stat_denominator",
+          "java_expr": "reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Computed reload stat denominator.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "reload_stat_rate": {
+          "godot_symbol": "source_turret_set_stats_result.reload_stat_rate",
+          "java_expr": "60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Computed reload stat per-second value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        },
+        "source_owner": {
+          "godot_symbol": "source_turret_set_stats_result.source_owner",
+          "java_expr": "PortGame.source_turret_set_stats_state",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Runtime owner marker.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_turret_set_stats_state.",
+      "source_slice": "N1212",
+      "status": "source-backed"
     }
   },
   "version": 1

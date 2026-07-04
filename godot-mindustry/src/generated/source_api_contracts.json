@@ -28105,6 +28105,112 @@
         "test_base_turret_set_bars_matches_upstream_source",
         "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_turret_set_stats_state": {
+      "params": [
+        {
+          "name": "inaccuracy_value",
+          "schema": "source_turret_set_stats_input.inaccuracy",
+          "type": "float"
+        },
+        {
+          "name": "reload_value",
+          "schema": "source_turret_set_stats_input.reload",
+          "type": "float"
+        },
+        {
+          "name": "reload_while_charging",
+          "schema": "source_turret_set_stats_input.reload_while_charging",
+          "type": "bool"
+        },
+        {
+          "name": "shoot_first_shot_delay",
+          "schema": "source_turret_set_stats_input.shoot_first_shot_delay",
+          "type": "float"
+        },
+        {
+          "name": "shoot_shots",
+          "schema": "source_turret_set_stats_input.shoot_shots",
+          "type": "float"
+        },
+        {
+          "name": "target_air",
+          "schema": "source_turret_set_stats_input.target_air",
+          "type": "bool"
+        },
+        {
+          "name": "target_ground",
+          "schema": "source_turret_set_stats_input.target_ground",
+          "type": "bool"
+        },
+        {
+          "name": "ammo_per_shot",
+          "schema": "source_turret_set_stats_input.ammo_per_shot",
+          "type": "int"
+        },
+        {
+          "name": "heat_requirement",
+          "schema": "source_turret_set_stats_input.heat_requirement",
+          "type": "float"
+        },
+        {
+          "name": "max_heat_efficiency",
+          "schema": "source_turret_set_stats_input.max_heat_efficiency",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "inaccuracy_stat_expr",
+        "reload_stat_expr",
+        "targets_air_stat_expr",
+        "targets_ground_stat_expr",
+        "ammo_use_guard_expr",
+        "ammo_use_stat_expr",
+        "input_heat_guard_expr",
+        "input_heat_stat_expr",
+        "max_efficiency_guard_expr",
+        "max_efficiency_stat_expr",
+        "inaccuracy_value",
+        "reload_value",
+        "reload_while_charging",
+        "shoot_first_shot_delay",
+        "shoot_shots",
+        "target_air",
+        "target_ground",
+        "ammo_per_shot",
+        "heat_requirement",
+        "max_heat_efficiency",
+        "reload_stat_denominator",
+        "reload_stat_rate",
+        "super_set_stats_called",
+        "inaccuracy_stat_call",
+        "reload_stat_call",
+        "targets_air_stat_call",
+        "targets_ground_stat_call",
+        "ammo_use_stat_called",
+        "ammo_use_stat_call",
+        "input_heat_stat_called",
+        "input_heat_stat_call",
+        "max_efficiency_stat_called",
+        "max_efficiency_stat_call"
+      ],
+      "runtime_proof": "/root/Main.source_turret_set_stats_state",
+      "source_slice": "N1212",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "source_method": "setStats()",
+      "rule": "Turret.setStats records source-backed stat calls and guarded stat additions without inventing Stats, Stat, StatUnit, or superclass internals."
     }
   },
   "policy": {

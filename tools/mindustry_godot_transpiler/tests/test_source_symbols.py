@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 680)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 681)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 685)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 686)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42864,6 +42864,75 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_turret_place_ended_result = source_symbols.state_schema(schema, "source_turret_place_ended_result")
         self.assertEqual(source_turret_place_ended_result["keys"]["super_place_ended_expr"]["java_expr"], "super.placeEnded(tile, builder, rotation, config);")
         self.assertEqual(source_turret_place_ended_result["keys"]["turret_rotation_after"]["java_expr"], "turret.rotation = tile.build.rotdeg();")
+
+    def test_generated_turret_set_stats_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_set_stats.method")
+        self.assertEqual(method["java_expr"], "public void setStats(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "setStats()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_set_stats_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_set_stats_state")
+
+        reload_stat = source_symbols.source_symbol(registry, "turret_set_stats.reload_stat")
+        self.assertEqual(reload_stat["java_expr"], "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);")
+        self.assertEqual(reload_stat["godot_symbol"], "source_turret_set_stats_result.reload_stat_call")
+        ammo_use = source_symbols.source_symbol(registry, "turret_set_stats.ammo_use_stat")
+        self.assertEqual(ammo_use["java_expr"], "if(ammoPerShot != 1) stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);")
+        self.assertEqual(ammo_use["godot_symbol"], "source_turret_set_stats_result.ammo_use_stat_call")
+        max_efficiency = source_symbols.source_symbol(registry, "turret_set_stats.max_efficiency_stat")
+        self.assertEqual(max_efficiency["java_expr"], "if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);")
+        self.assertEqual(max_efficiency["godot_symbol"], "source_turret_set_stats_result.max_efficiency_stat_call")
+
+        set_stats_slice = source_symbols.source_slice(ledger, "N1212")
+        self.assertEqual(set_stats_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(set_stats_slice["java_method"], "setStats()")
+        self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_turret_set_stats_state")
+        self.assertEqual(set_stats_slice["runtime_proof"], "/root/Main.generated_turret_set_stats_bridge_state")
+        for expr in [
+            "@Override",
+            "public void setStats(){",
+            "super.setStats();",
+            "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);",
+            "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);",
+            "stats.add(Stat.targetsAir, targetAir);",
+            "stats.add(Stat.targetsGround, targetGround);",
+            "if(ammoPerShot != 1) stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);",
+            "if(heatRequirement > 0) stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);",
+            "if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);",
+        ]:
+            self.assertIn(expr, set_stats_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_set_stats_state")
+        self.assertEqual(contract["params"], [
+            {"name": "inaccuracy_value", "schema": "source_turret_set_stats_input.inaccuracy", "type": "float"},
+            {"name": "reload_value", "schema": "source_turret_set_stats_input.reload", "type": "float"},
+            {"name": "reload_while_charging", "schema": "source_turret_set_stats_input.reload_while_charging", "type": "bool"},
+            {"name": "shoot_first_shot_delay", "schema": "source_turret_set_stats_input.shoot_first_shot_delay", "type": "float"},
+            {"name": "shoot_shots", "schema": "source_turret_set_stats_input.shoot_shots", "type": "float"},
+            {"name": "target_air", "schema": "source_turret_set_stats_input.target_air", "type": "bool"},
+            {"name": "target_ground", "schema": "source_turret_set_stats_input.target_ground", "type": "bool"},
+            {"name": "ammo_per_shot", "schema": "source_turret_set_stats_input.ammo_per_shot", "type": "int"},
+            {"name": "heat_requirement", "schema": "source_turret_set_stats_input.heat_requirement", "type": "float"},
+            {"name": "max_heat_efficiency", "schema": "source_turret_set_stats_input.max_heat_efficiency", "type": "float"},
+        ])
+        for key in ["method", "override_expr", "super_set_stats_expr", "inaccuracy_stat_call", "reload_stat_call", "targets_air_stat_call", "targets_ground_stat_call", "ammo_use_stat_called", "ammo_use_stat_call", "input_heat_stat_called", "input_heat_stat_call", "max_efficiency_stat_called", "max_efficiency_stat_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_turret_set_stats_input")
+        self.assertEqual(input_schema["keys"]["reload"]["java_expr"], "reload")
+        self.assertEqual(input_schema["keys"]["reload_while_charging"]["java_expr"], "reloadWhileCharging")
+        self.assertEqual(input_schema["keys"]["shoot_first_shot_delay"]["java_expr"], "shoot.firstShotDelay")
+        result_schema = source_symbols.state_schema(schema, "source_turret_set_stats_result")
+        self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void setStats(){")
+        self.assertEqual(result_schema["keys"]["reload_stat_call"]["java_expr"], "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);")
+        self.assertEqual(result_schema["keys"]["max_efficiency_stat_call"]["java_expr"], "if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);")
 
     def test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

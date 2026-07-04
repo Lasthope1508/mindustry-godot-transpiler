@@ -7834,6 +7834,52 @@ public class Turret extends ReloadTurret{
             self.assertIn('"draw_min_range_gate": "if(drawMinRange){"', source_text)
             self.assertIn('"dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);"', source_text)
 
+    def test_emit_bridges_turret_set_stats_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class Turret extends ReloadTurret{
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);
+        stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);
+        stats.add(Stat.targetsAir, targetAir);
+        stats.add(Stat.targetsGround, targetGround);
+        if(ammoPerShot != 1) stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);
+        if(heatRequirement > 0) stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);
+        if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var reload_stat_denominator: float = reload_value + (shoot_first_shot_delay if not reload_while_charging else 0.0)", source_text)
+            self.assertIn("var reload_stat_rate: float = 60.0 / reload_stat_denominator * shoot_shots", source_text)
+            self.assertIn("var ammo_use_stat_called: bool = ammo_per_shot != 1", source_text)
+            self.assertIn("var input_heat_stat_called: bool = heat_requirement > 0.0", source_text)
+            self.assertIn("var max_efficiency_stat_called: bool = heat_requirement > 0.0 and max_heat_efficiency > 0.0", source_text)
+            self.assertIn('"source_owner": "PortGame.source_turret_set_stats_state"', source_text)
+            self.assertIn('"method": "public void setStats(){"', source_text)
+            self.assertIn('"super_set_stats_expr": "super.setStats();"', source_text)
+            self.assertIn('"inaccuracy_stat_expr": "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);"', source_text)
+            self.assertIn('"reload_stat_expr": "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);"', source_text)
+            self.assertIn('"max_efficiency_stat_expr": "stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);"', source_text)
+
     def test_emit_bridges_turret_rotated_output_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

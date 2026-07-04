@@ -618,6 +618,28 @@ def verify_turret_draw_place_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void setStats(){",
+        "super_set_stats": "super.setStats();",
+        "inaccuracy_stat": "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);",
+        "reload_stat": "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);",
+        "targets_air_stat": "stats.add(Stat.targetsAir, targetAir);",
+        "targets_ground_stat": "stats.add(Stat.targetsGround, targetGround);",
+        "ammo_use_guard": "if(ammoPerShot != 1) stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);",
+        "input_heat_guard": "if(heatRequirement > 0) stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);",
+        "max_efficiency_guard": "if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_rotated_output_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")
