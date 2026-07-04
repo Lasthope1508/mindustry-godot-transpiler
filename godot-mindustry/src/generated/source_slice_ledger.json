@@ -27007,6 +27007,44 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_build_find_target_extinguish_bridge_state",
       "rule": "LiquidTurretBuild.findTarget assigns fire result and returns when extinguish scan finds fire; otherwise it calls super.findTarget()."
+    },
+    "N1201": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public BulletType useAmmo(){",
+        "if(cheating()) return ammoTypes.get(liquids.current());",
+        "BulletType type = ammoTypes.get(liquids.current());",
+        "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);",
+        "return type;"
+      ],
+      "deferred_exprs": [
+        "ObjectMap ammoTypes lookup, LiquidModule mutation internals, and BulletType internals stay deferred; this slice records useAmmo branch state and liquid remove call payload."
+      ],
+      "source_symbols": [
+        "liquid_turret_build_use_ammo.method",
+        "liquid_turret_build_use_ammo.cheating",
+        "liquid_turret_build_use_ammo.current_liquid",
+        "liquid_turret_build_use_ammo.ammo_type",
+        "liquid_turret_build_use_ammo.ammo_multiplier",
+        "liquid_turret_build_use_ammo.cheating_return_expr",
+        "liquid_turret_build_use_ammo.remove_expr",
+        "liquid_turret_build_use_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_use_ammo_bridge_state",
+      "rule": "LiquidTurretBuild.useAmmo returns ammo type immediately when cheating; otherwise removes 1f / type.ammoMultiplier from current liquid and returns type."
     }
   },
   "version": 1

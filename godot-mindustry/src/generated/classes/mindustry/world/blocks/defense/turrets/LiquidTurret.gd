@@ -87,3 +87,16 @@ func java_inner_class_LiquidTurretBuild_method_findTarget_4(_args: Array = []) -
 		target_assigned = true
 		super_find_target_called = false
 	return {"source_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state", "inner_class": "public class LiquidTurretBuild extends TurretBuild{", "method": "protected void findTarget(){", "override_expr": "@Override", "guard_expr": "if(extinguish && liquids.current().canExtinguish()){", "result_init_expr": "Fire result = null;", "assign_expr": "target = result;", "return_expr": "return;", "super_find_target_expr": "super.findTarget();", "extinguish": extinguish, "current_liquid_can_extinguish": current_liquid_can_extinguish, "fire_result": fire_result, "should_scan_fires": should_scan_fires, "target_after": target_after, "target_assigned": target_assigned, "super_find_target_called": super_find_target_called}
+
+func java_inner_class_LiquidTurretBuild_method_useAmmo_5(_args: Array = []) -> Variant:
+	var cheating: bool = bool(_args[0] if _args.size() > 0 else false)
+	var current_liquid: Variant = _args[1] if _args.size() > 1 else null
+	var ammo_type: Variant = _args[2] if _args.size() > 2 else null
+	var ammo_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)
+	var returned_ammo: Variant = ammo_type
+	var liquid_remove_amount: float = 0.0
+	var remove_liquid_call: Dictionary = {}
+	if not cheating:
+		liquid_remove_amount = 1.0 / ammo_multiplier
+		remove_liquid_call = {"call": "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);", "liquid": current_liquid, "amount": liquid_remove_amount}
+	return {"source_owner": "PortGame.source_liquid_turret_build_use_ammo_state", "inner_class": "public class LiquidTurretBuild extends TurretBuild{", "method": "public BulletType useAmmo(){", "override_expr": "@Override", "cheating_return_expr": "if(cheating()) return ammoTypes.get(liquids.current());", "type_lookup_expr": "BulletType type = ammoTypes.get(liquids.current());", "remove_expr": "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);", "return_expr": "return type;", "cheating": cheating, "current_liquid": current_liquid, "ammo_type": ammo_type, "ammo_multiplier": ammo_multiplier, "liquid_remove_amount": liquid_remove_amount, "remove_liquid_call": remove_liquid_call, "returned_ammo": returned_ammo}

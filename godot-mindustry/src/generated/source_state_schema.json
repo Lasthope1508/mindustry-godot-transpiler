@@ -101320,6 +101320,116 @@
         }
       },
       "rule": "Dictionary returned by PortGame.source_liquid_turret_build_find_target_extinguish_state."
+    },
+    "source_liquid_turret_build_use_ammo_input": {
+      "status": "source-backed",
+      "source_slice": "N1201",
+      "keys": {
+        "cheating": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_liquid_turret_build_use_ammo_input.cheating",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.useAmmo()",
+          "java_expr": "cheating()",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_use_ammo_state"
+          ],
+          "rule": "Input supplies cheating branch state."
+        },
+        "current_liquid": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_build_use_ammo_input.current_liquid",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.useAmmo()",
+          "java_expr": "liquids.current()",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_use_ammo_state"
+          ],
+          "rule": "Input supplies current liquid."
+        },
+        "ammo_type": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_build_use_ammo_input.ammo_type",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.useAmmo()",
+          "java_expr": "ammoTypes.get(liquids.current())",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_use_ammo_state"
+          ],
+          "rule": "Input supplies ammoTypes lookup result."
+        },
+        "ammo_multiplier": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_liquid_turret_build_use_ammo_input.ammo_multiplier",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.useAmmo()",
+          "java_expr": "type.ammoMultiplier",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_use_ammo_state"
+          ],
+          "rule": "Input supplies BulletType ammoMultiplier for non-cheating liquid removal."
+        }
+      },
+      "rule": "Inputs for PortGame.source_liquid_turret_build_use_ammo_state."
+    },
+    "source_liquid_turret_build_use_ammo_result": {
+      "status": "source-backed",
+      "source_slice": "N1201",
+      "keys": {
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_build_use_ammo_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.useAmmo()",
+          "java_expr": "public BulletType useAmmo(){",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_use_ammo_state"
+          ],
+          "rule": "Method boundary."
+        },
+        "liquid_remove_amount": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_liquid_turret_build_use_ammo_result.liquid_remove_amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.useAmmo()",
+          "java_expr": "1f / type.ammoMultiplier",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_use_ammo_state"
+          ],
+          "rule": "Computed non-cheating liquid removal amount."
+        },
+        "remove_liquid_call": {
+          "status": "source-backed",
+          "type": "Dictionary",
+          "godot_symbol": "source_liquid_turret_build_use_ammo_result.remove_liquid_call",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.useAmmo()",
+          "java_expr": "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_use_ammo_state"
+          ],
+          "rule": "Non-cheating liquid remove call payload."
+        },
+        "returned_ammo": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_build_use_ammo_result.returned_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.useAmmo()",
+          "java_expr": "if(cheating()) return ammoTypes.get(liquids.current()); / return type;",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_use_ammo_state"
+          ],
+          "rule": "Returned ammo type from cheating or non-cheating branch."
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_liquid_turret_build_use_ammo_state."
     }
   },
   "version": 1

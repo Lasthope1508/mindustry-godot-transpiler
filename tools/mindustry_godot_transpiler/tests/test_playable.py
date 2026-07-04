@@ -13946,5 +13946,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.findTarget"', source)
         self.assertIn('"matches": result.get("target_after", null) == canonical.get("target_after", null)', source)
 
+    def test_port_game_exposes_source_liquid_turret_build_use_ammo_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_liquid_turret_build_use_ammo_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:", source)
+        self.assertIn('"method": "public BulletType useAmmo(){"', source)
+        self.assertIn('"cheating_return_expr": "if(cheating()) return ammoTypes.get(liquids.current());"', source)
+        self.assertIn('"type_lookup_expr": "BulletType type = ammoTypes.get(liquids.current());"', source)
+        self.assertIn('"remove_expr": "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);"', source)
+        self.assertIn('"return_expr": "return type;"', source)
+        self.assertIn("if not cheating:", source)
+        self.assertIn('"returned_ammo": returned_ammo', source)
+        self.assertIn('"remove_liquid_call": remove_liquid_call', source)
+
+    def test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_liquid_turret_build_use_ammo_bridge_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_useAmmo_5([cheating, current_liquid, ammo_type, ammo_multiplier])", source)
+        self.assertIn("var canonical = source_liquid_turret_build_use_ammo_state(cheating, current_liquid, ammo_type, ammo_multiplier)", source)
+        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_use_ammo_state"', source)
+        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.useAmmo"', source)
+        self.assertIn('"matches": result.get("returned_ammo", null) == canonical.get("returned_ammo", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

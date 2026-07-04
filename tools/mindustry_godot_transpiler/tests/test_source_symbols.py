@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 669)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 670)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 674)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 675)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44415,6 +44415,67 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["should_scan_fires"]["java_expr"], "extinguish && liquids.current().canExtinguish()")
         self.assertEqual(result_schema["keys"]["target_after"]["java_expr"], "target = result;")
         self.assertEqual(result_schema["keys"]["super_find_target_called"]["java_expr"], "super.findTarget();")
+
+    def test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "liquid_turret_build_use_ammo.method")
+        self.assertEqual(method["java_expr"], "public BulletType useAmmo(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(method["java_method"], "LiquidTurretBuild.useAmmo()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_liquid_turret_build_use_ammo_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_liquid_turret_build_use_ammo_state")
+
+        cheating = source_symbols.source_symbol(registry, "liquid_turret_build_use_ammo.cheating")
+        self.assertEqual(cheating["java_expr"], "cheating()")
+        self.assertEqual(cheating["godot_symbol"], "source_liquid_turret_build_use_ammo_input.cheating")
+        current_liquid = source_symbols.source_symbol(registry, "liquid_turret_build_use_ammo.current_liquid")
+        self.assertEqual(current_liquid["java_expr"], "liquids.current()")
+        self.assertEqual(current_liquid["godot_symbol"], "source_liquid_turret_build_use_ammo_input.current_liquid")
+        ammo_type = source_symbols.source_symbol(registry, "liquid_turret_build_use_ammo.ammo_type")
+        self.assertEqual(ammo_type["java_expr"], "ammoTypes.get(liquids.current())")
+        self.assertEqual(ammo_type["godot_symbol"], "source_liquid_turret_build_use_ammo_input.ammo_type")
+        ammo_multiplier = source_symbols.source_symbol(registry, "liquid_turret_build_use_ammo.ammo_multiplier")
+        self.assertEqual(ammo_multiplier["java_expr"], "type.ammoMultiplier")
+        self.assertEqual(ammo_multiplier["godot_symbol"], "source_liquid_turret_build_use_ammo_input.ammo_multiplier")
+        remove_expr = source_symbols.source_symbol(registry, "liquid_turret_build_use_ammo.remove_expr")
+        self.assertEqual(remove_expr["java_expr"], "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);")
+        self.assertEqual(remove_expr["godot_symbol"], "source_liquid_turret_build_use_ammo_result.remove_liquid_call")
+
+        use_ammo_slice = source_symbols.source_slice(ledger, "N1201")
+        self.assertEqual(use_ammo_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(use_ammo_slice["java_method"], "LiquidTurretBuild.useAmmo()")
+        self.assertEqual(use_ammo_slice["godot_owner"], "PortGame.source_liquid_turret_build_use_ammo_state")
+        self.assertEqual(use_ammo_slice["runtime_proof"], "/root/Main.generated_liquid_turret_build_use_ammo_bridge_state")
+        for expr in [
+            "public class LiquidTurretBuild extends TurretBuild{",
+            "@Override",
+            "public BulletType useAmmo(){",
+            "if(cheating()) return ammoTypes.get(liquids.current());",
+            "BulletType type = ammoTypes.get(liquids.current());",
+            "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);",
+            "return type;",
+        ]:
+            self.assertIn(expr, use_ammo_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_liquid_turret_build_use_ammo_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["cheating", "current_liquid", "ammo_type", "ammo_multiplier"])
+        for key in ["inner_class", "method", "override_expr", "cheating_return_expr", "type_lookup_expr", "remove_expr", "return_expr", "cheating", "current_liquid", "ammo_type", "ammo_multiplier", "liquid_remove_amount", "remove_liquid_call", "returned_ammo"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_liquid_turret_build_use_ammo_input")
+        self.assertEqual(input_schema["keys"]["cheating"]["java_expr"], "cheating()")
+        self.assertEqual(input_schema["keys"]["current_liquid"]["java_expr"], "liquids.current()")
+        self.assertEqual(input_schema["keys"]["ammo_type"]["java_expr"], "ammoTypes.get(liquids.current())")
+        self.assertEqual(input_schema["keys"]["ammo_multiplier"]["java_expr"], "type.ammoMultiplier")
+        result_schema = source_symbols.state_schema(schema, "source_liquid_turret_build_use_ammo_result")
+        self.assertEqual(result_schema["keys"]["remove_liquid_call"]["java_expr"], "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);")
+        self.assertEqual(result_schema["keys"]["returned_ammo"]["java_expr"], "if(cheating()) return ammoTypes.get(liquids.current()); / return type;")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

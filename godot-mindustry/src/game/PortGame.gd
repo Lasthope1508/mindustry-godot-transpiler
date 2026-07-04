@@ -18138,6 +18138,47 @@ func generated_liquid_turret_build_find_target_extinguish_bridge_state(extinguis
 			and result.get("should_scan_fires", null) == canonical.get("should_scan_fires", null),
 	}
 
+func source_liquid_turret_build_use_ammo_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:
+	var returned_ammo: Variant = ammo_type
+	var liquid_remove_amount: float = 0.0
+	var remove_liquid_call: Dictionary = {}
+	if not cheating:
+		liquid_remove_amount = 1.0 / ammo_multiplier
+		remove_liquid_call = {"call": "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);", "liquid": current_liquid, "amount": liquid_remove_amount}
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+		"inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+		"method": "public BulletType useAmmo(){",
+		"override_expr": "@Override",
+		"cheating_return_expr": "if(cheating()) return ammoTypes.get(liquids.current());",
+		"type_lookup_expr": "BulletType type = ammoTypes.get(liquids.current());",
+		"remove_expr": "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);",
+		"return_expr": "return type;",
+		"cheating": cheating,
+		"current_liquid": current_liquid,
+		"ammo_type": ammo_type,
+		"ammo_multiplier": ammo_multiplier,
+		"liquid_remove_amount": liquid_remove_amount,
+		"remove_liquid_call": remove_liquid_call,
+		"returned_ammo": returned_ammo,
+	}
+
+func generated_liquid_turret_build_use_ammo_bridge_state(cheating: bool, current_liquid: Variant, ammo_type: Variant, ammo_multiplier: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_LiquidTurretBuild_method_useAmmo_5([cheating, current_liquid, ammo_type, ammo_multiplier])
+	var canonical = source_liquid_turret_build_use_ammo_state(cheating, current_liquid, ammo_type, ammo_multiplier)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+		"generated_owner": "LiquidTurret.LiquidTurretBuild.useAmmo",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("returned_ammo", null) == canonical.get("returned_ammo", null)
+			and result.get("liquid_remove_amount", null) == canonical.get("liquid_remove_amount", null)
+			and result.get("remove_liquid_call", {}) == canonical.get("remove_liquid_call", {})
+			and result.get("cheating", null) == canonical.get("cheating", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

@@ -86346,6 +86346,142 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
       "rule": "Fallback standard targeting call."
+    },
+    "liquid_turret_build_use_ammo.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "java_expr": "public BulletType useAmmo(){",
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_use_ammo_result.method",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
+      "rule": "Method boundary for LiquidTurretBuild.useAmmo."
+    },
+    "liquid_turret_build_use_ammo.cheating": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "java_expr": "cheating()",
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_use_ammo_input.cheating",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
+      "rule": "Input supplies cheating() branch state."
+    },
+    "liquid_turret_build_use_ammo.current_liquid": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "java_expr": "liquids.current()",
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_use_ammo_input.current_liquid",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
+      "rule": "Input supplies current liquid."
+    },
+    "liquid_turret_build_use_ammo.ammo_type": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "java_expr": "ammoTypes.get(liquids.current())",
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_use_ammo_input.ammo_type",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
+      "rule": "Input supplies ammoTypes lookup result."
+    },
+    "liquid_turret_build_use_ammo.ammo_multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "java_expr": "type.ammoMultiplier",
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_use_ammo_input.ammo_multiplier",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
+      "rule": "Input supplies BulletType ammoMultiplier for non-cheating liquid removal."
+    },
+    "liquid_turret_build_use_ammo.cheating_return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "java_expr": "if(cheating()) return ammoTypes.get(liquids.current());",
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_use_ammo_result.returned_ammo",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
+      "rule": "Cheating branch returns ammoTypes.get(liquids.current())."
+    },
+    "liquid_turret_build_use_ammo.remove_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "java_expr": "liquids.remove(liquids.current(), 1f / type.ammoMultiplier);",
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_use_ammo_result.remove_liquid_call",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
+      "rule": "Non-cheating branch removes liquid by reciprocal ammoMultiplier."
+    },
+    "liquid_turret_build_use_ammo.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.useAmmo()",
+      "java_expr": "return type;",
+      "godot_owner": "PortGame.source_liquid_turret_build_use_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_use_ammo_result.returned_ammo",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
+      "rule": "Non-cheating branch returns looked-up BulletType."
     }
   },
   "version": 1

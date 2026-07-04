@@ -27512,6 +27512,60 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
       "rule": "Public runtime contract for LiquidTurretBuild.findTarget extinguish dispatch state."
+    },
+    "PortGame.source_liquid_turret_build_use_ammo_state": {
+      "status": "source-backed",
+      "source_slice": "N1201",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurretBuild.useAmmo()",
+      "params": [
+        {
+          "name": "cheating",
+          "type": "bool",
+          "schema": "source_liquid_turret_build_use_ammo_input.cheating"
+        },
+        {
+          "name": "current_liquid",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_use_ammo_input.current_liquid"
+        },
+        {
+          "name": "ammo_type",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_use_ammo_input.ammo_type"
+        },
+        {
+          "name": "ammo_multiplier",
+          "type": "float",
+          "schema": "source_liquid_turret_build_use_ammo_input.ammo_multiplier"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "cheating_return_expr",
+        "type_lookup_expr",
+        "remove_expr",
+        "return_expr",
+        "cheating",
+        "current_liquid",
+        "ammo_type",
+        "ammo_multiplier",
+        "liquid_remove_amount",
+        "remove_liquid_call",
+        "returned_ammo"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_use_ammo_bridge_state",
+        "test_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
+      "rule": "Public runtime contract for LiquidTurretBuild.useAmmo state."
     }
   },
   "policy": {
