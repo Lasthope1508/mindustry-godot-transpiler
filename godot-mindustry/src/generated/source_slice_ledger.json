@@ -25349,6 +25349,65 @@
         "test_turret_outputs_items_matches_upstream_source",
         "test_generated_turret_outputs_items_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1156": {
+      "deferred_exprs": [
+        "ReloadTurret.super.init() internals, block overlap spatial queries, and live turret targeting remain owned by existing/later slices; this slice preserves Turret.init default field assignments and tracking range state only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;",
+        "if(elevation < 0) elevation = size / 2f;",
+        "if(recoilTime < 0f) recoilTime = reload;",
+        "if(cooldownTime < 0f) cooldownTime = reload;",
+        "if(newTargetInterval <= 0f) newTargetInterval = targetInterval;",
+        "if(!targetGround){",
+        "disableOverlapCheck = true;",
+        "super.init();",
+        "trackingRange = Math.max(range, trackingRange);"
+      ],
+      "godot_owner": "PortGame.source_turret_init_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.init preserves default shootY/elevation/recoil/cooldown/target interval setup, overlap check gate, superclass init dispatch, and trackingRange max assignment.",
+      "runtime_proof": "/root/Main.generated_turret_init_bridge_state",
+      "source_symbols": [
+        "turret_init.method",
+        "turret_init.override",
+        "turret_init.shoot_y_default",
+        "turret_init.elevation_default",
+        "turret_init.recoil_time_default",
+        "turret_init.cooldown_time_default",
+        "turret_init.new_target_interval_default",
+        "turret_init.target_ground_guard",
+        "turret_init.disable_overlap_check",
+        "turret_init.super_init",
+        "turret_init.tracking_range",
+        "turret_init.shoot_y",
+        "turret_init.shoot_y_is_negative_infinity",
+        "turret_init.size",
+        "turret_init.tilesize",
+        "turret_init.elevation",
+        "turret_init.recoil_time",
+        "turret_init.reload",
+        "turret_init.cooldown_time",
+        "turret_init.new_target_interval",
+        "turret_init.target_interval",
+        "turret_init.target_ground",
+        "turret_init.disable_overlap_check_input",
+        "turret_init.range",
+        "turret_init.tracking_range_input"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

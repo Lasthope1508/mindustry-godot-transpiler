@@ -382,6 +382,29 @@ def verify_turret_outputs_items_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_turret_init_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void init(){",
+        "shoot_y_default": "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;",
+        "elevation_default": "if(elevation < 0) elevation = size / 2f;",
+        "recoil_time_default": "if(recoilTime < 0f) recoilTime = reload;",
+        "cooldown_time_default": "if(cooldownTime < 0f) cooldownTime = reload;",
+        "new_target_interval_default": "if(newTargetInterval <= 0f) newTargetInterval = targetInterval;",
+        "target_ground_guard": "if(!targetGround){",
+        "disable_overlap_check": "disableOverlapCheck = true;",
+        "super_init": "super.init();",
+        "tracking_range": "trackingRange = Math.max(range, trackingRange);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

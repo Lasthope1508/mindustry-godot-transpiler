@@ -16595,6 +16595,68 @@ func generated_turret_outputs_items_bridge_state() -> Dictionary:
 		"matches": result.get("outputs_items", null) == canonical.get("outputs_items", null),
 	}
 
+func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
+	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
+	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation
+	var recoil_time_after: float = reload if recoil_time < 0.0 else recoil_time
+	var cooldown_time_after: float = reload if cooldown_time < 0.0 else cooldown_time
+	var new_target_interval_after: float = target_interval if new_target_interval <= 0.0 else new_target_interval
+	var disable_overlap_check_after: bool = true if not target_ground else disable_overlap_check
+	var tracking_range_after: float = max(range_value, tracking_range)
+	return {
+		"source_owner": "PortGame.source_turret_init_state",
+		"method": "public void init(){",
+		"override_expr": "@Override",
+		"shoot_y_guard_expr": "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;",
+		"shoot_y_expr": "shootY = size * tilesize / 2f",
+		"elevation_guard_expr": "if(elevation < 0) elevation = size / 2f;",
+		"elevation_expr": "elevation = size / 2f",
+		"recoil_time_guard_expr": "if(recoilTime < 0f) recoilTime = reload;",
+		"recoil_time_expr": "recoilTime = reload",
+		"cooldown_time_guard_expr": "if(cooldownTime < 0f) cooldownTime = reload;",
+		"cooldown_time_expr": "cooldownTime = reload",
+		"new_target_interval_guard_expr": "if(newTargetInterval <= 0f) newTargetInterval = targetInterval;",
+		"new_target_interval_expr": "newTargetInterval = targetInterval",
+		"target_ground_guard_expr": "if(!targetGround){",
+		"disable_overlap_check_expr": "disableOverlapCheck = true;",
+		"super_init_expr": "super.init();",
+		"tracking_range_expr": "trackingRange = Math.max(range, trackingRange);",
+		"shoot_y": shoot_y,
+		"shoot_y_is_negative_infinity": shoot_y_is_negative_infinity,
+		"size": size,
+		"source_tilesize": source_tilesize,
+		"elevation": elevation,
+		"recoil_time": recoil_time,
+		"reload": reload,
+		"cooldown_time": cooldown_time,
+		"new_target_interval": new_target_interval,
+		"target_interval": target_interval,
+		"target_ground": target_ground,
+		"disable_overlap_check": disable_overlap_check,
+		"range": range_value,
+		"tracking_range": tracking_range,
+		"shoot_y_after": shoot_y_after,
+		"elevation_after": elevation_after,
+		"recoil_time_after": recoil_time_after,
+		"cooldown_time_after": cooldown_time_after,
+		"new_target_interval_after": new_target_interval_after,
+		"disable_overlap_check_after": disable_overlap_check_after,
+		"tracking_range_after": tracking_range_after,
+	}
+
+func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range])
+	var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range)
+	return {
+		"source_owner": "PortGame.source_turret_init_state",
+		"generated_owner": "Turret.java_method_init_3",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

@@ -7247,5 +7247,53 @@ public class Turret extends ReloadTurret{
             self.assertIn('"return_expr": "return false;"', source_text)
             self.assertIn('"outputs_items": false', source_text)
 
+    def test_emit_bridges_turret_init_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class Turret extends ReloadTurret{
+    @Override
+    public void init(){
+        if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;
+        if(elevation < 0) elevation = size / 2f;
+        if(recoilTime < 0f) recoilTime = reload;
+        if(cooldownTime < 0f) cooldownTime = reload;
+        if(newTargetInterval <= 0f) newTargetInterval = targetInterval;
+
+        if(!targetGround){
+            disableOverlapCheck = true;
+        }
+
+        super.init();
+        trackingRange = Math.max(range, trackingRange);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y", source_text)
+            self.assertIn("var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation", source_text)
+            self.assertIn("var recoil_time_after: float = reload if recoil_time < 0.0 else recoil_time", source_text)
+            self.assertIn("var cooldown_time_after: float = reload if cooldown_time < 0.0 else cooldown_time", source_text)
+            self.assertIn("var new_target_interval_after: float = target_interval if new_target_interval <= 0.0 else new_target_interval", source_text)
+            self.assertIn("var disable_overlap_check_after: bool = true if not target_ground else disable_overlap_check", source_text)
+            self.assertIn("var tracking_range_after: float = max(range_value, tracking_range)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_turret_init_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"tracking_range_expr": "trackingRange = Math.max(range, trackingRange);"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

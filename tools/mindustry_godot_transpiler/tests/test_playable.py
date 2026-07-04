@@ -12858,5 +12858,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_outputsItems_0"', source)
         self.assertIn('"matches": result.get("outputs_items", null) == canonical.get("outputs_items", null)', source)
 
+    def test_port_game_exposes_source_turret_init_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:", source)
+        self.assertIn("var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y", source)
+        self.assertIn("var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation", source)
+        self.assertIn("var recoil_time_after: float = reload if recoil_time < 0.0 else recoil_time", source)
+        self.assertIn("var cooldown_time_after: float = reload if cooldown_time < 0.0 else cooldown_time", source)
+        self.assertIn("var new_target_interval_after: float = target_interval if new_target_interval <= 0.0 else new_target_interval", source)
+        self.assertIn("var disable_overlap_check_after: bool = true if not target_ground else disable_overlap_check", source)
+        self.assertIn("var tracking_range_after: float = max(range_value, tracking_range)", source)
+        self.assertIn('"method": "public void init(){"', source)
+
+    def test_port_game_exposes_generated_turret_init_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_init_3([shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range])", source)
+        self.assertIn("var canonical = source_turret_init_state(shoot_y, shoot_y_is_negative_infinity, size, source_tilesize, elevation, recoil_time, reload, cooldown_time, new_target_interval, target_interval, target_ground, disable_overlap_check, range_value, tracking_range)", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_init_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_init_3"', source)
+        self.assertIn('"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

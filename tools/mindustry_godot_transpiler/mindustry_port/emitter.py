@@ -1222,6 +1222,35 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_turret_outputs_items_state\", \"method\": \"public boolean outputsItems(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return false;\", \"outputs_items\": false}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+        and type_entry.get("name") == "Turret"
+        and method.get("name") == "init"
+    ):
+        return [
+            "\tvar shoot_y: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar shoot_y_is_negative_infinity: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar size: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_tilesize: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar elevation: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar recoil_time: float = float(_args[5] if _args.size() > 5 else 0.0)",
+            "\tvar reload: float = float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar cooldown_time: float = float(_args[7] if _args.size() > 7 else 0.0)",
+            "\tvar new_target_interval: float = float(_args[8] if _args.size() > 8 else 0.0)",
+            "\tvar target_interval: float = float(_args[9] if _args.size() > 9 else 0.0)",
+            "\tvar target_ground: bool = bool(_args[10] if _args.size() > 10 else true)",
+            "\tvar disable_overlap_check: bool = bool(_args[11] if _args.size() > 11 else false)",
+            "\tvar range_value: float = float(_args[12] if _args.size() > 12 else 0.0)",
+            "\tvar tracking_range: float = float(_args[13] if _args.size() > 13 else 0.0)",
+            "\tvar shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y",
+            "\tvar elevation_after: float = size / 2.0 if elevation < 0.0 else elevation",
+            "\tvar recoil_time_after: float = reload if recoil_time < 0.0 else recoil_time",
+            "\tvar cooldown_time_after: float = reload if cooldown_time < 0.0 else cooldown_time",
+            "\tvar new_target_interval_after: float = target_interval if new_target_interval <= 0.0 else new_target_interval",
+            "\tvar disable_overlap_check_after: bool = true if not target_ground else disable_overlap_check",
+            "\tvar tracking_range_after: float = max(range_value, tracking_range)",
+            "\treturn {\"source_owner\": \"PortGame.source_turret_init_state\", \"method\": \"public void init(){\", \"override_expr\": \"@Override\", \"shoot_y_guard_expr\": \"if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;\", \"shoot_y_expr\": \"shootY = size * tilesize / 2f\", \"elevation_guard_expr\": \"if(elevation < 0) elevation = size / 2f;\", \"elevation_expr\": \"elevation = size / 2f\", \"recoil_time_guard_expr\": \"if(recoilTime < 0f) recoilTime = reload;\", \"recoil_time_expr\": \"recoilTime = reload\", \"cooldown_time_guard_expr\": \"if(cooldownTime < 0f) cooldownTime = reload;\", \"cooldown_time_expr\": \"cooldownTime = reload\", \"new_target_interval_guard_expr\": \"if(newTargetInterval <= 0f) newTargetInterval = targetInterval;\", \"new_target_interval_expr\": \"newTargetInterval = targetInterval\", \"target_ground_guard_expr\": \"if(!targetGround){\", \"disable_overlap_check_expr\": \"disableOverlapCheck = true;\", \"super_init_expr\": \"super.init();\", \"tracking_range_expr\": \"trackingRange = Math.max(range, trackingRange);\", \"shoot_y\": shoot_y, \"shoot_y_is_negative_infinity\": shoot_y_is_negative_infinity, \"size\": size, \"source_tilesize\": source_tilesize, \"elevation\": elevation, \"recoil_time\": recoil_time, \"reload\": reload, \"cooldown_time\": cooldown_time, \"new_target_interval\": new_target_interval, \"target_interval\": target_interval, \"target_ground\": target_ground, \"disable_overlap_check\": disable_overlap_check, \"range\": range_value, \"tracking_range\": tracking_range, \"shoot_y_after\": shoot_y_after, \"elevation_after\": elevation_after, \"recoil_time_after\": recoil_time_after, \"cooldown_time_after\": cooldown_time_after, \"new_target_interval_after\": new_target_interval_after, \"disable_overlap_check_after\": disable_overlap_check_after, \"tracking_range_after\": tracking_range_after}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

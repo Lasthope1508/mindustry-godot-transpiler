@@ -25503,6 +25503,132 @@
         "test_turret_outputs_items_matches_upstream_source",
         "test_generated_turret_outputs_items_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_turret_init_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "shoot_y",
+          "schema": "source_turret_init_input.shoot_y",
+          "type": "float"
+        },
+        {
+          "name": "shoot_y_is_negative_infinity",
+          "schema": "source_turret_init_input.shoot_y_is_negative_infinity",
+          "type": "bool"
+        },
+        {
+          "name": "size",
+          "schema": "source_turret_init_input.size",
+          "type": "float"
+        },
+        {
+          "name": "source_tilesize",
+          "schema": "source_turret_init_input.source_tilesize",
+          "type": "float"
+        },
+        {
+          "name": "elevation",
+          "schema": "source_turret_init_input.elevation",
+          "type": "float"
+        },
+        {
+          "name": "recoil_time",
+          "schema": "source_turret_init_input.recoil_time",
+          "type": "float"
+        },
+        {
+          "name": "reload",
+          "schema": "source_turret_init_input.reload",
+          "type": "float"
+        },
+        {
+          "name": "cooldown_time",
+          "schema": "source_turret_init_input.cooldown_time",
+          "type": "float"
+        },
+        {
+          "name": "new_target_interval",
+          "schema": "source_turret_init_input.new_target_interval",
+          "type": "float"
+        },
+        {
+          "name": "target_interval",
+          "schema": "source_turret_init_input.target_interval",
+          "type": "float"
+        },
+        {
+          "name": "target_ground",
+          "schema": "source_turret_init_input.target_ground",
+          "type": "bool"
+        },
+        {
+          "name": "disable_overlap_check",
+          "schema": "source_turret_init_input.disable_overlap_check",
+          "type": "bool"
+        },
+        {
+          "name": "range_value",
+          "schema": "source_turret_init_input.range",
+          "type": "float"
+        },
+        {
+          "name": "tracking_range",
+          "schema": "source_turret_init_input.tracking_range",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "shoot_y_guard_expr",
+        "shoot_y_expr",
+        "elevation_guard_expr",
+        "elevation_expr",
+        "recoil_time_guard_expr",
+        "recoil_time_expr",
+        "cooldown_time_guard_expr",
+        "cooldown_time_expr",
+        "new_target_interval_guard_expr",
+        "new_target_interval_expr",
+        "target_ground_guard_expr",
+        "disable_overlap_check_expr",
+        "super_init_expr",
+        "tracking_range_expr",
+        "shoot_y",
+        "shoot_y_is_negative_infinity",
+        "size",
+        "source_tilesize",
+        "elevation",
+        "recoil_time",
+        "reload",
+        "cooldown_time",
+        "new_target_interval",
+        "target_interval",
+        "target_ground",
+        "disable_overlap_check",
+        "range",
+        "tracking_range",
+        "shoot_y_after",
+        "elevation_after",
+        "recoil_time_after",
+        "cooldown_time_after",
+        "new_target_interval_after",
+        "disable_overlap_check_after",
+        "tracking_range_after"
+      ],
+      "rule": "Public runtime contract for Turret.init default assignment state.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "source_method": "init()",
+      "source_slice": "N1156",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

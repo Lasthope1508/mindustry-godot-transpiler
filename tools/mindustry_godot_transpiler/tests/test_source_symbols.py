@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 624)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 625)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 629)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 630)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42028,6 +42028,76 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_turret_outputs_items_result = source_symbols.state_schema(schema, "source_turret_outputs_items_result")
         self.assertEqual(source_turret_outputs_items_result["keys"]["method"]["java_expr"], "public boolean outputsItems(){")
         self.assertEqual(source_turret_outputs_items_result["keys"]["outputs_items"]["java_expr"], "return false;")
+
+    def test_generated_turret_init_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_init.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_init_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_init_state")
+
+        shoot_y = source_symbols.source_symbol(registry, "turret_init.shoot_y_default")
+        self.assertEqual(shoot_y["java_expr"], "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;")
+        self.assertEqual(shoot_y["godot_symbol"], "source_turret_init_result.shoot_y_after")
+        tracking_range = source_symbols.source_symbol(registry, "turret_init.tracking_range")
+        self.assertEqual(tracking_range["java_expr"], "trackingRange = Math.max(range, trackingRange);")
+        self.assertEqual(tracking_range["godot_symbol"], "source_turret_init_result.tracking_range_after")
+
+        init_slice = source_symbols.source_slice(ledger, "N1156")
+        self.assertEqual(init_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(init_slice["java_method"], "init()")
+        self.assertEqual(init_slice["godot_owner"], "PortGame.source_turret_init_state")
+        self.assertEqual(init_slice["runtime_proof"], "/root/Main.generated_turret_init_bridge_state")
+        for expr in [
+            "@Override",
+            "public void init(){",
+            "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;",
+            "if(elevation < 0) elevation = size / 2f;",
+            "if(recoilTime < 0f) recoilTime = reload;",
+            "if(cooldownTime < 0f) cooldownTime = reload;",
+            "if(newTargetInterval <= 0f) newTargetInterval = targetInterval;",
+            "if(!targetGround){",
+            "disableOverlapCheck = true;",
+            "super.init();",
+            "trackingRange = Math.max(range, trackingRange);",
+        ]:
+            self.assertIn(expr, init_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_init_state")
+        self.assertEqual(contract["params"], [
+            {"name": "shoot_y", "schema": "source_turret_init_input.shoot_y", "type": "float"},
+            {"name": "shoot_y_is_negative_infinity", "schema": "source_turret_init_input.shoot_y_is_negative_infinity", "type": "bool"},
+            {"name": "size", "schema": "source_turret_init_input.size", "type": "float"},
+            {"name": "source_tilesize", "schema": "source_turret_init_input.source_tilesize", "type": "float"},
+            {"name": "elevation", "schema": "source_turret_init_input.elevation", "type": "float"},
+            {"name": "recoil_time", "schema": "source_turret_init_input.recoil_time", "type": "float"},
+            {"name": "reload", "schema": "source_turret_init_input.reload", "type": "float"},
+            {"name": "cooldown_time", "schema": "source_turret_init_input.cooldown_time", "type": "float"},
+            {"name": "new_target_interval", "schema": "source_turret_init_input.new_target_interval", "type": "float"},
+            {"name": "target_interval", "schema": "source_turret_init_input.target_interval", "type": "float"},
+            {"name": "target_ground", "schema": "source_turret_init_input.target_ground", "type": "bool"},
+            {"name": "disable_overlap_check", "schema": "source_turret_init_input.disable_overlap_check", "type": "bool"},
+            {"name": "range_value", "schema": "source_turret_init_input.range", "type": "float"},
+            {"name": "tracking_range", "schema": "source_turret_init_input.tracking_range", "type": "float"},
+        ])
+        for key in ["method", "override_expr", "shoot_y_guard_expr", "shoot_y_expr", "elevation_guard_expr", "elevation_expr", "recoil_time_guard_expr", "recoil_time_expr", "cooldown_time_guard_expr", "cooldown_time_expr", "new_target_interval_guard_expr", "new_target_interval_expr", "target_ground_guard_expr", "disable_overlap_check_expr", "super_init_expr", "tracking_range_expr", "shoot_y_after", "elevation_after", "recoil_time_after", "cooldown_time_after", "new_target_interval_after", "disable_overlap_check_after", "tracking_range_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_turret_init_input = source_symbols.state_schema(schema, "source_turret_init_input")
+        self.assertEqual(source_turret_init_input["keys"]["shoot_y_is_negative_infinity"]["java_expr"], "shootY == Float.NEGATIVE_INFINITY")
+        self.assertEqual(source_turret_init_input["keys"]["range"]["java_expr"], "range")
+        source_turret_init_result = source_symbols.state_schema(schema, "source_turret_init_result")
+        self.assertEqual(source_turret_init_result["keys"]["method"]["java_expr"], "public void init(){")
+        self.assertEqual(source_turret_init_result["keys"]["shoot_y_after"]["java_expr"], "shootY = size * tilesize / 2f")
+        self.assertEqual(source_turret_init_result["keys"]["tracking_range_after"]["java_expr"], "Math.max(range, trackingRange)")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

@@ -8263,5 +8263,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_turret_init_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_turret_init_source"))
+        report = source_parity.verify_turret_init_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public void init(){",
+            "shoot_y_default": "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;",
+            "elevation_default": "if(elevation < 0) elevation = size / 2f;",
+            "recoil_time_default": "if(recoilTime < 0f) recoilTime = reload;",
+            "cooldown_time_default": "if(cooldownTime < 0f) cooldownTime = reload;",
+            "new_target_interval_default": "if(newTargetInterval <= 0f) newTargetInterval = targetInterval;",
+            "target_ground_guard": "if(!targetGround){",
+            "disable_overlap_check": "disableOverlapCheck = true;",
+            "super_init": "super.init();",
+            "tracking_range": "trackingRange = Math.max(range, trackingRange);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

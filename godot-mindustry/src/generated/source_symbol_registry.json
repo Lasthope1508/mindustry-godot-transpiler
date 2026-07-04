@@ -79886,6 +79886,431 @@
         "test_turret_outputs_items_matches_upstream_source",
         "test_generated_turret_outputs_items_slice_is_registered_with_source_backing"
       ]
+    },
+    "turret_init.method": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.method",
+      "java_expr": "public void init(){",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Method boundary comes from Turret.init.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.override": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.override_expr",
+      "java_expr": "@Override",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Override annotation for Turret.init.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.shoot_y_default": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.shoot_y_after",
+      "java_expr": "if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Default shootY when Float.NEGATIVE_INFINITY.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.elevation_default": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.elevation_after",
+      "java_expr": "if(elevation < 0) elevation = size / 2f;",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Default elevation when negative.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.recoil_time_default": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.recoil_time_after",
+      "java_expr": "if(recoilTime < 0f) recoilTime = reload;",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Default recoilTime when negative.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.cooldown_time_default": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.cooldown_time_after",
+      "java_expr": "if(cooldownTime < 0f) cooldownTime = reload;",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Default cooldownTime when negative.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.new_target_interval_default": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.new_target_interval_after",
+      "java_expr": "if(newTargetInterval <= 0f) newTargetInterval = targetInterval;",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Default newTargetInterval when non-positive.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.target_ground_guard": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.disable_overlap_check_after",
+      "java_expr": "if(!targetGround){",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Ground-target guard for overlap check.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.disable_overlap_check": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.disable_overlap_check_after",
+      "java_expr": "disableOverlapCheck = true;",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Disable overlap when targetGround is false.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.super_init": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.super_init_expr",
+      "java_expr": "super.init();",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Superclass init dispatch.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.tracking_range": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_result.tracking_range_after",
+      "java_expr": "trackingRange = Math.max(range, trackingRange);",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Tracking range max assignment.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.shoot_y": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.shoot_y",
+      "java_expr": "shootY",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for current shootY.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.shoot_y_is_negative_infinity": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.shoot_y_is_negative_infinity",
+      "java_expr": "shootY == Float.NEGATIVE_INFINITY",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for Float.NEGATIVE_INFINITY comparison.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.size": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.size",
+      "java_expr": "size",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for turret block size.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.tilesize": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.source_tilesize",
+      "java_expr": "tilesize",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for source tilesize.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.elevation": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.elevation",
+      "java_expr": "elevation",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for elevation.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.recoil_time": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.recoil_time",
+      "java_expr": "recoilTime",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for recoilTime.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.reload": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.reload",
+      "java_expr": "reload",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for reload.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.cooldown_time": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.cooldown_time",
+      "java_expr": "cooldownTime",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for cooldownTime.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.new_target_interval": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.new_target_interval",
+      "java_expr": "newTargetInterval",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for newTargetInterval.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.target_interval": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.target_interval",
+      "java_expr": "targetInterval",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for targetInterval.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.target_ground": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.target_ground",
+      "java_expr": "targetGround",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for targetGround.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.disable_overlap_check_input": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.disable_overlap_check",
+      "java_expr": "disableOverlapCheck",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for disableOverlapCheck.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.range": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.range",
+      "java_expr": "range",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for range.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_init.tracking_range_input": {
+      "godot_owner": "PortGame.source_turret_init_state",
+      "godot_symbol": "source_turret_init_input.tracking_range",
+      "java_expr": "trackingRange",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Explicit input for trackingRange.",
+      "runtime_proof": "/root/Main.source_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_init_to_source_state",
+        "test_port_game_exposes_source_turret_init_state",
+        "test_port_game_exposes_generated_turret_init_bridge_state",
+        "test_turret_init_matches_upstream_source",
+        "test_generated_turret_init_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
