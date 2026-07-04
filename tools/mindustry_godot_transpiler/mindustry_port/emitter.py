@@ -1270,6 +1270,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_turret_draw_plan_region_state\", \"method\": \"public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){\", \"override_expr\": \"@Override\", \"drawer_draw_plan_expr\": \"drawer.drawPlan(this, plan, list);\", \"plan\": plan, \"list\": list, \"drawer_draw_plan_call\": drawer_draw_plan_call, \"drawer_draw_plan_called\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+        and type_entry.get("name") == "Turret"
+        and method.get("name") == "icons"
+    ):
+        return [
+            "\tvar drawer_final_icons_return: Array = [\"drawer.finalIcons(this)\"]",
+            "\treturn {\"source_owner\": \"PortGame.source_turret_icons_state\", \"method\": \"public TextureRegion[] icons(){\", \"override_expr\": \"@Override\", \"drawer_final_icons_expr\": \"return drawer.finalIcons(this);\", \"drawer_final_icons_called\": true, \"icons\": drawer_final_icons_return}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

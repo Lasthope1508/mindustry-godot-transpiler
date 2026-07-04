@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 627)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 628)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 632)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 633)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42187,6 +42187,47 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_draw_plan_region_result["keys"]["method"]["java_expr"], "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){")
         self.assertEqual(source_turret_draw_plan_region_result["keys"]["drawer_draw_plan_called"]["java_expr"], "drawer.drawPlan(this, plan, list);")
         self.assertEqual(source_turret_draw_plan_region_result["keys"]["drawer_draw_plan_call"]["java_expr"], "drawer.drawPlan(this, plan, list);")
+
+    def test_generated_turret_icons_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_icons.method")
+        self.assertEqual(method["java_expr"], "public TextureRegion[] icons(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "icons()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_icons_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_icons_state")
+
+        drawer_final_icons = source_symbols.source_symbol(registry, "turret_icons.drawer_final_icons")
+        self.assertEqual(drawer_final_icons["java_expr"], "return drawer.finalIcons(this);")
+        self.assertEqual(drawer_final_icons["godot_symbol"], "source_turret_icons_result.drawer_final_icons_called")
+
+        icons_slice = source_symbols.source_slice(ledger, "N1159")
+        self.assertEqual(icons_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(icons_slice["java_method"], "icons()")
+        self.assertEqual(icons_slice["godot_owner"], "PortGame.source_turret_icons_state")
+        self.assertEqual(icons_slice["runtime_proof"], "/root/Main.generated_turret_icons_bridge_state")
+        for expr in [
+            "@Override",
+            "public TextureRegion[] icons(){",
+            "return drawer.finalIcons(this);",
+        ]:
+            self.assertIn(expr, icons_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_icons_state")
+        self.assertEqual(contract["params"], [])
+        for key in ["method", "override_expr", "drawer_final_icons_expr", "drawer_final_icons_called", "icons"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_turret_icons_result = source_symbols.state_schema(schema, "source_turret_icons_result")
+        self.assertEqual(source_turret_icons_result["keys"]["method"]["java_expr"], "public TextureRegion[] icons(){")
+        self.assertEqual(source_turret_icons_result["keys"]["drawer_final_icons_called"]["java_expr"], "return drawer.finalIcons(this);")
+        self.assertEqual(source_turret_icons_result["keys"]["icons"]["java_expr"], "drawer.finalIcons(this)")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

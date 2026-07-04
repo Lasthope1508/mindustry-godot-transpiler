@@ -16707,6 +16707,30 @@ func generated_turret_draw_plan_region_bridge_state(plan: Variant, list: Variant
 		"matches": result.get("drawer_draw_plan_called", null) == canonical.get("drawer_draw_plan_called", null) and result.get("plan", null) == canonical.get("plan", null) and result.get("list", null) == canonical.get("list", null),
 	}
 
+func source_turret_icons_state() -> Dictionary:
+	var drawer_final_icons_return: Array = ["drawer.finalIcons(this)"]
+	return {
+		"source_owner": "PortGame.source_turret_icons_state",
+		"method": "public TextureRegion[] icons(){",
+		"override_expr": "@Override",
+		"drawer_final_icons_expr": "return drawer.finalIcons(this);",
+		"drawer_final_icons_called": true,
+		"icons": drawer_final_icons_return,
+	}
+
+func generated_turret_icons_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_icons_6([])
+	var canonical = source_turret_icons_state()
+	return {
+		"source_owner": "PortGame.source_turret_icons_state",
+		"generated_owner": "Turret.java_method_icons_6",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("drawer_final_icons_called", null) == canonical.get("drawer_final_icons_called", null) and result.get("icons", null) == canonical.get("icons", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

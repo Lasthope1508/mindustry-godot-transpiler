@@ -94598,6 +94598,73 @@
       "rule": "Dictionary returned by PortGame.source_turret_draw_plan_region_state.",
       "source_slice": "N1158",
       "status": "source-backed"
+    },
+    "source_turret_icons_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_turret_icons_result.method",
+          "java_expr": "public TextureRegion[] icons(){",
+          "java_method": "icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves method boundary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_icons_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_turret_icons_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves override annotation.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_icons_state"
+          ]
+        },
+        "drawer_final_icons_expr": {
+          "godot_symbol": "source_turret_icons_result.drawer_final_icons_expr",
+          "java_expr": "return drawer.finalIcons(this);",
+          "java_method": "icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves drawer finalIcons return expression.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_icons_state"
+          ]
+        },
+        "drawer_final_icons_called": {
+          "godot_symbol": "source_turret_icons_result.drawer_final_icons_called",
+          "java_expr": "return drawer.finalIcons(this);",
+          "java_method": "icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records drawer finalIcons dispatch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_icons_state"
+          ]
+        },
+        "icons": {
+          "godot_symbol": "source_turret_icons_result.icons",
+          "java_expr": "drawer.finalIcons(this)",
+          "java_method": "icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries returned icon-array marker without fabricating TextureRegion contents.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_turret_icons_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_turret_icons_state.",
+      "source_slice": "N1159",
+      "status": "source-backed"
     }
   },
   "version": 1

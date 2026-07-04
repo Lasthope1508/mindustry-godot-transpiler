@@ -12929,5 +12929,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_drawPlanRegion_5"', source)
         self.assertIn('"matches": result.get("drawer_draw_plan_called", null) == canonical.get("drawer_draw_plan_called", null) and result.get("plan", null) == canonical.get("plan", null) and result.get("list", null) == canonical.get("list", null)', source)
 
+    def test_port_game_exposes_source_turret_icons_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_icons_state() -> Dictionary:", source)
+        self.assertIn('"method": "public TextureRegion[] icons(){"', source)
+        self.assertIn('"drawer_final_icons_expr": "return drawer.finalIcons(this);"', source)
+        self.assertIn('"drawer_final_icons_called": true', source)
+        self.assertIn('"icons": drawer_final_icons_return', source)
+
+    def test_port_game_exposes_generated_turret_icons_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_icons_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_icons_6([])", source)
+        self.assertIn("var canonical = source_turret_icons_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_icons_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_icons_6"', source)
+        self.assertIn('"matches": result.get("drawer_final_icons_called", null) == canonical.get("drawer_final_icons_called", null) and result.get("icons", null) == canonical.get("icons", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

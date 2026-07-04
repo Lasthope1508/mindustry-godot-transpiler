@@ -7362,5 +7362,36 @@ public class Turret extends ReloadTurret{
             self.assertIn('"drawer_draw_plan_expr": "drawer.drawPlan(this, plan, list);"', source_text)
             self.assertIn('"drawer_draw_plan_called": true', source_text)
 
+    def test_emit_bridges_turret_icons_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class Turret extends ReloadTurret{
+    @Override
+    public TextureRegion[] icons(){
+        return drawer.finalIcons(this);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_icons_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_turret_icons_state"', source_text)
+            self.assertIn('"method": "public TextureRegion[] icons(){"', source_text)
+            self.assertIn('"drawer_final_icons_expr": "return drawer.finalIcons(this);"', source_text)
+            self.assertIn('"drawer_final_icons_called": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

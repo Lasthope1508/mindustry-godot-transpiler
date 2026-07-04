@@ -56,7 +56,8 @@ func java_method_drawPlanRegion_5(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_turret_draw_plan_region_state", "method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){", "override_expr": "@Override", "drawer_draw_plan_expr": "drawer.drawPlan(this, plan, list);", "plan": plan, "list": list, "drawer_draw_plan_call": drawer_draw_plan_call, "drawer_draw_plan_called": true}
 
 func java_method_icons_6(_args: Array = []) -> Variant:
-	return null
+	var drawer_final_icons_return: Array = ["drawer.finalIcons(this)"]
+	return {"source_owner": "PortGame.source_turret_icons_state", "method": "public TextureRegion[] icons(){", "override_expr": "@Override", "drawer_final_icons_expr": "return drawer.finalIcons(this);", "drawer_final_icons_called": true, "icons": drawer_final_icons_return}
 
 func java_method_getRegionsToOutline_7(_args: Array = []) -> Variant:
 	return null

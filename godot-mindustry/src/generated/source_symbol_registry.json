@@ -80464,6 +80464,74 @@
       "godot_symbol": "source_turret_draw_plan_region_result.drawer_draw_plan_called",
       "java_expr": "drawer.drawPlan(this, plan, list);",
       "rule": "Turret.drawPlanRegion delegates to drawer.drawPlan(this, plan, list)."
+    },
+    "turret_icons.method": {
+      "godot_owner": "PortGame.source_turret_icons_state",
+      "java_method": "icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_icons_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_icons_to_source_state",
+        "test_port_game_exposes_source_turret_icons_state",
+        "test_port_game_exposes_generated_turret_icons_bridge_state",
+        "test_turret_icons_matches_upstream_source",
+        "test_generated_turret_icons_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_turret_icons_result.method",
+      "java_expr": "public TextureRegion[] icons(){",
+      "rule": "Method boundary comes from Turret.icons."
+    },
+    "turret_icons.override": {
+      "godot_owner": "PortGame.source_turret_icons_state",
+      "java_method": "icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_icons_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_icons_to_source_state",
+        "test_port_game_exposes_source_turret_icons_state",
+        "test_port_game_exposes_generated_turret_icons_bridge_state",
+        "test_turret_icons_matches_upstream_source",
+        "test_generated_turret_icons_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_turret_icons_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "Override annotation for Turret.icons."
+    },
+    "turret_icons.drawer_final_icons": {
+      "godot_owner": "PortGame.source_turret_icons_state",
+      "java_method": "icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_icons_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_icons_to_source_state",
+        "test_port_game_exposes_source_turret_icons_state",
+        "test_port_game_exposes_generated_turret_icons_bridge_state",
+        "test_turret_icons_matches_upstream_source",
+        "test_generated_turret_icons_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_turret_icons_result.drawer_final_icons_called",
+      "java_expr": "return drawer.finalIcons(this);",
+      "rule": "Turret.icons delegates final icon array creation to drawer.finalIcons(this)."
+    },
+    "turret_icons.icons": {
+      "godot_owner": "PortGame.source_turret_icons_state",
+      "java_method": "icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_icons_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_icons_to_source_state",
+        "test_port_game_exposes_source_turret_icons_state",
+        "test_port_game_exposes_generated_turret_icons_bridge_state",
+        "test_turret_icons_matches_upstream_source",
+        "test_generated_turret_icons_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_turret_icons_result.icons",
+      "java_expr": "drawer.finalIcons(this)",
+      "rule": "Runtime return marker represents the drawer.finalIcons(this) TextureRegion array without fabricating DrawBlock internals."
     }
   },
   "version": 1

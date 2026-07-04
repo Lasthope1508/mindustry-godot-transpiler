@@ -25689,6 +25689,29 @@
         "test_turret_draw_plan_region_matches_upstream_source",
         "test_generated_turret_draw_plan_region_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_turret_icons_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "drawer_final_icons_expr",
+        "drawer_final_icons_called",
+        "icons"
+      ],
+      "rule": "Public runtime contract for Turret.icons drawer.finalIcons dispatch state.",
+      "runtime_proof": "/root/Main.source_turret_icons_state",
+      "source_method": "icons()",
+      "source_slice": "N1159",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_icons_to_source_state",
+        "test_port_game_exposes_source_turret_icons_state",
+        "test_port_game_exposes_generated_turret_icons_bridge_state",
+        "test_turret_icons_matches_upstream_source",
+        "test_generated_turret_icons_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

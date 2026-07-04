@@ -25470,6 +25470,36 @@
         "test_turret_draw_plan_region_matches_upstream_source",
         "test_generated_turret_draw_plan_region_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1159": {
+      "deferred_exprs": [
+        "DrawBlock.finalIcons internals and concrete TextureRegion array contents remain owned by drawer/rendering slices; this slice preserves Turret.icons dispatch only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public TextureRegion[] icons(){",
+        "return drawer.finalIcons(this);"
+      ],
+      "godot_owner": "PortGame.source_turret_icons_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.icons preserves drawer.finalIcons(this) dispatch and returned icon marker.",
+      "runtime_proof": "/root/Main.generated_turret_icons_bridge_state",
+      "source_symbols": [
+        "turret_icons.method",
+        "turret_icons.override",
+        "turret_icons.drawer_final_icons",
+        "turret_icons.icons"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_icons_to_source_state",
+        "test_port_game_exposes_source_turret_icons_state",
+        "test_port_game_exposes_generated_turret_icons_bridge_state",
+        "test_turret_icons_matches_upstream_source",
+        "test_generated_turret_icons_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
