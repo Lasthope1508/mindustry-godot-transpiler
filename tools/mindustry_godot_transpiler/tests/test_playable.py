@@ -12884,6 +12884,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_init_3"', source)
         self.assertIn('"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null)', source)
 
+    def test_port_game_exposes_source_base_turret_reinitialize_consumers_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_base_turret_reinitialize_consumers_state() -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_reinitialize_consumers_state"', source)
+        self.assertIn('"method": "public void reinitializeConsumers(){"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"check_init_coolant_expr": "checkInitCoolant();"', source)
+        self.assertIn('"super_reinitialize_consumers_expr": "super.reinitializeConsumers();"', source)
+        self.assertIn('"check_init_coolant_called": true', source)
+        self.assertIn('"super_reinitialize_consumers_called": true', source)
+
+    def test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_base_turret_reinitialize_consumers_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_reinitializeConsumers_1([])", source)
+        self.assertIn("var canonical = source_base_turret_reinitialize_consumers_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_reinitialize_consumers_state"', source)
+        self.assertIn('"generated_owner": "BaseTurret.java_method_reinitializeConsumers_1"', source)
+        self.assertIn('"matches": result.get("check_init_coolant_called", null) == canonical.get("check_init_coolant_called", null) and result.get("super_reinitialize_consumers_called", null) == canonical.get("super_reinitialize_consumers_called", null)', source)
+
     def test_port_game_exposes_source_turret_load_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

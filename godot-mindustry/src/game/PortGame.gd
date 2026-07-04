@@ -16657,6 +16657,30 @@ func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infi
 		"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null),
 	}
 
+func source_base_turret_reinitialize_consumers_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
+		"method": "public void reinitializeConsumers(){",
+		"override_expr": "@Override",
+		"check_init_coolant_expr": "checkInitCoolant();",
+		"super_reinitialize_consumers_expr": "super.reinitializeConsumers();",
+		"check_init_coolant_called": true,
+		"super_reinitialize_consumers_called": true,
+	}
+
+func generated_base_turret_reinitialize_consumers_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_reinitializeConsumers_1([])
+	var canonical = source_base_turret_reinitialize_consumers_state()
+	return {
+		"source_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
+		"generated_owner": "BaseTurret.java_method_reinitializeConsumers_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("check_init_coolant_called", null) == canonical.get("check_init_coolant_called", null) and result.get("super_reinitialize_consumers_called", null) == canonical.get("super_reinitialize_consumers_called", null),
+	}
+
 func source_turret_load_state() -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_turret_load_state",

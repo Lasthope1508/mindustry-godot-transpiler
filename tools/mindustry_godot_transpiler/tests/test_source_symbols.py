@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 674)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 675)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 679)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 680)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42104,6 +42104,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_init_result["keys"]["method"]["java_expr"], "public void init(){")
         self.assertEqual(source_turret_init_result["keys"]["shoot_y_after"]["java_expr"], "shootY = size * tilesize / 2f")
         self.assertEqual(source_turret_init_result["keys"]["tracking_range_after"]["java_expr"], "Math.max(range, trackingRange)")
+
+    def test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "base_turret_reinitialize_consumers.method")
+        self.assertEqual(method["java_expr"], "public void reinitializeConsumers(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(method["java_method"], "reinitializeConsumers()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_base_turret_reinitialize_consumers_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_base_turret_reinitialize_consumers_state")
+
+        check_init = source_symbols.source_symbol(registry, "base_turret_reinitialize_consumers.check_init_coolant")
+        self.assertEqual(check_init["java_expr"], "checkInitCoolant();")
+        self.assertEqual(check_init["godot_symbol"], "source_base_turret_reinitialize_consumers_result.check_init_coolant_called")
+        super_call = source_symbols.source_symbol(registry, "base_turret_reinitialize_consumers.super_reinitialize_consumers")
+        self.assertEqual(super_call["java_expr"], "super.reinitializeConsumers();")
+        self.assertEqual(super_call["godot_symbol"], "source_base_turret_reinitialize_consumers_result.super_reinitialize_consumers_called")
+
+        reinitialize_slice = source_symbols.source_slice(ledger, "N1206")
+        self.assertEqual(reinitialize_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(reinitialize_slice["java_method"], "reinitializeConsumers()")
+        self.assertEqual(reinitialize_slice["godot_owner"], "PortGame.source_base_turret_reinitialize_consumers_state")
+        self.assertEqual(reinitialize_slice["runtime_proof"], "/root/Main.generated_base_turret_reinitialize_consumers_bridge_state")
+        for expr in [
+            "@Override",
+            "public void reinitializeConsumers(){",
+            "checkInitCoolant();",
+            "super.reinitializeConsumers();",
+        ]:
+            self.assertIn(expr, reinitialize_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_base_turret_reinitialize_consumers_state")
+        self.assertEqual(contract["params"], [])
+        for key in ["method", "override_expr", "check_init_coolant_expr", "super_reinitialize_consumers_expr", "check_init_coolant_called", "super_reinitialize_consumers_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        result_schema = source_symbols.state_schema(schema, "source_base_turret_reinitialize_consumers_result")
+        self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void reinitializeConsumers(){")
+        self.assertEqual(result_schema["keys"]["check_init_coolant_called"]["java_expr"], "checkInitCoolant();")
+        self.assertEqual(result_schema["keys"]["super_reinitialize_consumers_called"]["java_expr"], "super.reinitializeConsumers();")
 
     def test_generated_turret_load_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

@@ -101858,6 +101858,49 @@
         }
       },
       "rule": "Dictionary returned by PortGame.source_liquid_turret_build_accept_liquid_state."
+    },
+    "source_base_turret_reinitialize_consumers_result": {
+      "status": "source-backed",
+      "source_slice": "N1206",
+      "keys": {
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_base_turret_reinitialize_consumers_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_method": "reinitializeConsumers()",
+          "java_expr": "public void reinitializeConsumers(){",
+          "used_by": [
+            "PortGame.source_base_turret_reinitialize_consumers_state"
+          ],
+          "rule": "Method boundary."
+        },
+        "check_init_coolant_called": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_base_turret_reinitialize_consumers_result.check_init_coolant_called",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_method": "reinitializeConsumers()",
+          "java_expr": "checkInitCoolant();",
+          "used_by": [
+            "PortGame.source_base_turret_reinitialize_consumers_state"
+          ],
+          "rule": "Records checkInitCoolant dispatch."
+        },
+        "super_reinitialize_consumers_called": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_base_turret_reinitialize_consumers_result.super_reinitialize_consumers_called",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "java_method": "reinitializeConsumers()",
+          "java_expr": "super.reinitializeConsumers();",
+          "used_by": [
+            "PortGame.source_base_turret_reinitialize_consumers_state"
+          ],
+          "rule": "Records superclass reinitializeConsumers dispatch."
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_base_turret_reinitialize_consumers_state."
     }
   },
   "version": 1

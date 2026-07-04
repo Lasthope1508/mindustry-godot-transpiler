@@ -27179,6 +27179,37 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_build_accept_liquid_bridge_state",
       "rule": "LiquidTurretBuild.acceptLiquid accepts liquids with ammo types, same current liquid, or drained/unmapped current liquid replacement gate."
+    },
+    "N1206": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
+      "java_method": "reinitializeConsumers()",
+      "godot_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
+      "exact_exprs": [
+        "@Override",
+        "public void reinitializeConsumers(){",
+        "checkInitCoolant();",
+        "super.reinitializeConsumers();"
+      ],
+      "deferred_exprs": [
+        "checkInitCoolant() internals stay owned by BaseTurret.checkInitCoolant slices.",
+        "Superclass consumer reinitialization internals stay deferred to Block superclass source."
+      ],
+      "source_symbols": [
+        "base_turret_reinitialize_consumers.method",
+        "base_turret_reinitialize_consumers.check_init_coolant",
+        "base_turret_reinitialize_consumers.super_reinitialize_consumers"
+      ],
+      "tests": [
+        "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
+        "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
+        "test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state",
+        "test_base_turret_reinitialize_consumers_matches_upstream_source",
+        "test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_base_turret_reinitialize_consumers_bridge_state",
+      "rule": "BaseTurret.reinitializeConsumers calls checkInitCoolant() then super.reinitializeConsumers()."
     }
   },
   "version": 1

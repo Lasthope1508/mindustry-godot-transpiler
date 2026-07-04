@@ -17,7 +17,7 @@ func java_method_init_0(_args: Array = []) -> Variant:
 	return null
 
 func java_method_reinitializeConsumers_1(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_base_turret_reinitialize_consumers_state", "method": "public void reinitializeConsumers(){", "override_expr": "@Override", "check_init_coolant_expr": "checkInitCoolant();", "super_reinitialize_consumers_expr": "super.reinitializeConsumers();", "check_init_coolant_called": true, "super_reinitialize_consumers_called": true}
 
 func java_method_checkInitCoolant_2(_args: Array = []) -> Variant:
 	return null

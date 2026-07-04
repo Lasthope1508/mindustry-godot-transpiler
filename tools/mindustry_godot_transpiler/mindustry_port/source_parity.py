@@ -26,6 +26,7 @@ HITBOX_COMP_SOURCE = "core/src/mindustry/entities/comp/HitboxComp.java"
 PAYLOAD_COMP_SOURCE = "core/src/mindustry/entities/comp/PayloadComp.java"
 BUILDER_COMP_SOURCE = "core/src/mindustry/entities/comp/BuilderComp.java"
 TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/Turret.java"
+BASE_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java"
 RELOAD_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java"
 POWER_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java"
 ITEM_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java"
@@ -405,6 +406,22 @@ def verify_turret_init_source(upstream_root: Path) -> dict[str, Any]:
     missing = [snippet for snippet in checked.values() if snippet not in source]
     return {
         "source": TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_base_turret_reinitialize_consumers_source(upstream_root: Path) -> dict[str, Any]:
+    base_turret_path = Path(upstream_root) / BASE_TURRET_SOURCE
+    source = base_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void reinitializeConsumers(){",
+        "check_init_coolant": "checkInitCoolant();",
+        "super_reinitialize_consumers": "super.reinitializeConsumers();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BASE_TURRET_SOURCE,
         "checked": checked,
         "missing": missing,
     }

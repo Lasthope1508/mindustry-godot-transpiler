@@ -27763,6 +27763,31 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
       "rule": "Public runtime contract for LiquidTurretBuild.acceptLiquid state."
+    },
+    "PortGame.source_base_turret_reinitialize_consumers_state": {
+      "status": "source-backed",
+      "source_slice": "N1206",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "source_method": "reinitializeConsumers()",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "check_init_coolant_expr",
+        "super_reinitialize_consumers_expr",
+        "check_init_coolant_called",
+        "super_reinitialize_consumers_called"
+      ],
+      "tests": [
+        "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
+        "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
+        "test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state",
+        "test_base_turret_reinitialize_consumers_matches_upstream_source",
+        "test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_base_turret_reinitialize_consumers_state",
+      "rule": "Public runtime contract for BaseTurret.reinitializeConsumers dispatch order state."
     }
   },
   "policy": {

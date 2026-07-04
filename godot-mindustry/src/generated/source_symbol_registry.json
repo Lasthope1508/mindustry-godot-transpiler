@@ -86873,6 +86873,57 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_accept_liquid_state",
       "rule": "Final acceptLiquid return value."
+    },
+    "base_turret_reinitialize_consumers.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "reinitializeConsumers()",
+      "java_expr": "public void reinitializeConsumers(){",
+      "godot_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
+      "godot_symbol": "source_base_turret_reinitialize_consumers_result.method",
+      "tests": [
+        "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
+        "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
+        "test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state",
+        "test_base_turret_reinitialize_consumers_matches_upstream_source",
+        "test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_base_turret_reinitialize_consumers_state",
+      "rule": "Method boundary for BaseTurret.reinitializeConsumers."
+    },
+    "base_turret_reinitialize_consumers.check_init_coolant": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "reinitializeConsumers()",
+      "java_expr": "checkInitCoolant();",
+      "godot_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
+      "godot_symbol": "source_base_turret_reinitialize_consumers_result.check_init_coolant_called",
+      "tests": [
+        "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
+        "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
+        "test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state",
+        "test_base_turret_reinitialize_consumers_matches_upstream_source",
+        "test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_base_turret_reinitialize_consumers_state",
+      "rule": "BaseTurret.reinitializeConsumers calls checkInitCoolant first."
+    },
+    "base_turret_reinitialize_consumers.super_reinitialize_consumers": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "java_method": "reinitializeConsumers()",
+      "java_expr": "super.reinitializeConsumers();",
+      "godot_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
+      "godot_symbol": "source_base_turret_reinitialize_consumers_result.super_reinitialize_consumers_called",
+      "tests": [
+        "test_emit_bridges_base_turret_reinitialize_consumers_to_source_state",
+        "test_port_game_exposes_source_base_turret_reinitialize_consumers_state",
+        "test_port_game_exposes_generated_base_turret_reinitialize_consumers_bridge_state",
+        "test_base_turret_reinitialize_consumers_matches_upstream_source",
+        "test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_base_turret_reinitialize_consumers_state",
+      "rule": "BaseTurret.reinitializeConsumers delegates to superclass after coolant check."
     }
   },
   "version": 1

@@ -8283,6 +8283,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_base_turret_reinitialize_consumers_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_base_turret_reinitialize_consumers_source"))
+        report = source_parity.verify_base_turret_reinitialize_consumers_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public void reinitializeConsumers(){",
+            "check_init_coolant": "checkInitCoolant();",
+            "super_reinitialize_consumers": "super.reinitializeConsumers();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_load_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_load_source"))
         report = source_parity.verify_turret_load_source(ROOT / "mindustry-upstream")
