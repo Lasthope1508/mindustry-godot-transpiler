@@ -25320,6 +25320,35 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N1155": {
+      "deferred_exprs": [
+        "Concrete item output routing remains owned by block/item transport slices; this slice preserves Turret.outputsItems return state only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public boolean outputsItems(){",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_turret_outputs_items_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "outputsItems()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.outputsItems preserves override boundary and constant false return for turret item-output behavior.",
+      "runtime_proof": "/root/Main.generated_turret_outputs_items_bridge_state",
+      "source_symbols": [
+        "turret_outputs_items.method",
+        "turret_outputs_items.override",
+        "turret_outputs_items.return_false"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_outputs_items_to_source_state",
+        "test_port_game_exposes_source_turret_outputs_items_state",
+        "test_port_game_exposes_generated_turret_outputs_items_bridge_state",
+        "test_turret_outputs_items_matches_upstream_source",
+        "test_generated_turret_outputs_items_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

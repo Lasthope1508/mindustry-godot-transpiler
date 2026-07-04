@@ -12837,5 +12837,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_drawBuildingBeam_16"', source)
         self.assertIn('"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null) and result.get("build_beam_call", null) == canonical.get("build_beam_call", null) and result.get("focus_square_call", null) == canonical.get("focus_square_call", null)', source)
 
+    def test_port_game_exposes_source_turret_outputs_items_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_outputs_items_state() -> Dictionary:", source)
+        self.assertIn('"method": "public boolean outputsItems(){"', source)
+        self.assertIn('"return_expr": "return false;"', source)
+        self.assertIn('"outputs_items": false', source)
+
+    def test_port_game_exposes_generated_turret_outputs_items_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_outputs_items_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_outputsItems_0([])", source)
+        self.assertIn("var canonical = source_turret_outputs_items_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_outputs_items_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_outputsItems_0"', source)
+        self.assertIn('"matches": result.get("outputs_items", null) == canonical.get("outputs_items", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

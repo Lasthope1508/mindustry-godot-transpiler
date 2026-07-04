@@ -1214,6 +1214,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_block_unit_tile_state\", \"method\": \"public void tile(Building tile){\", \"tile_assignment_expr\": \"this.tile = tile;\", \"comment\": \"//sets up block stats\", \"max_health_call\": max_health_call, \"health_call\": health_call, \"hit_size_call\": hit_size_call, \"set_call\": set_call, \"tile\": tile, \"tile_block_health\": tile_block_health, \"tile_health\": tile_health, \"tile_block_size\": tile_block_size, \"tilesize\": tilesize, \"this_tile_after\": this_tile_after, \"hit_size\": hit_size}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+        and type_entry.get("name") == "Turret"
+        and method.get("name") == "outputsItems"
+    ):
+        return [
+            "\treturn {\"source_owner\": \"PortGame.source_turret_outputs_items_state\", \"method\": \"public boolean outputsItems(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return false;\", \"outputs_items\": false}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

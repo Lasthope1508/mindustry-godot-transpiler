@@ -16573,6 +16573,28 @@ const SOURCE_TURRET_AMMO_DATA_ORDERED_MAP := "ammoTypes = OrderedMap.of(objects)
 const SOURCE_TURRET_AMMO_DATA_DUO_AMMO_CALL := "ammo("
 const SOURCE_TURRET_AMMO_DATA_DUO_COPPER_ENTRY := "Items.copper,  new BasicBulletType(2.5f, 9){{"
 
+func source_turret_outputs_items_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_turret_outputs_items_state",
+		"method": "public boolean outputsItems(){",
+		"override_expr": "@Override",
+		"return_expr": "return false;",
+		"outputs_items": false,
+	}
+
+func generated_turret_outputs_items_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_outputsItems_0([])
+	var canonical = source_turret_outputs_items_state()
+	return {
+		"source_owner": "PortGame.source_turret_outputs_items_state",
+		"generated_owner": "Turret.java_method_outputsItems_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("outputs_items", null) == canonical.get("outputs_items", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

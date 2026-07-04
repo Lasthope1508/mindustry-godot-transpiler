@@ -93890,6 +93890,59 @@
         }
       },
       "status": "active"
+    },
+    "source_turret_outputs_items_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_turret_outputs_items_result.method",
+          "java_expr": "public boolean outputsItems(){",
+          "java_method": "outputsItems()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves Turret.outputsItems method boundary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_outputs_items_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_turret_outputs_items_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "outputsItems()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves override annotation.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_outputs_items_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_turret_outputs_items_result.return_expr",
+          "java_expr": "return false;",
+          "java_method": "outputsItems()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves exact false return expression.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_outputs_items_state"
+          ]
+        },
+        "outputs_items": {
+          "godot_symbol": "source_turret_outputs_items_result.outputs_items",
+          "java_expr": "return false;",
+          "java_method": "outputsItems()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Canonical boolean returned by Turret.outputsItems.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_outputs_items_state"
+          ]
+        }
+      },
+      "rule": "Result schema for Turret.outputsItems constant false return state."
     }
   },
   "version": 1

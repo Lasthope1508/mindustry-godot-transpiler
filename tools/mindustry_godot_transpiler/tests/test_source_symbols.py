@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 623)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 624)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 628)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 629)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -41991,6 +41991,43 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_draw_building_beam_result["keys"]["size"]["java_expr"], "plan.breaking ? active ? tile.block().size : lastSize : plan.block.size")
         self.assertEqual(source_builder_draw_building_beam_result["keys"]["build_beam_call"]["java_expr"], "Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);")
         self.assertEqual(source_builder_draw_building_beam_result["keys"]["focus_square_call"]["java_expr"], "Fill.square(px, py, 1.8f + Mathf.absin(Time.time, 2.2f, 1.1f), rotation + 45);")
+
+    def test_generated_turret_outputs_items_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_outputs_items.method")
+        self.assertEqual(method["java_expr"], "public boolean outputsItems(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "outputsItems()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_outputs_items_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_outputs_items_state")
+
+        return_false = source_symbols.source_symbol(registry, "turret_outputs_items.return_false")
+        self.assertEqual(return_false["java_expr"], "return false;")
+        self.assertEqual(return_false["godot_symbol"], "source_turret_outputs_items_result.outputs_items")
+
+        outputs_items_slice = source_symbols.source_slice(ledger, "N1155")
+        self.assertEqual(outputs_items_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(outputs_items_slice["java_method"], "outputsItems()")
+        self.assertEqual(outputs_items_slice["godot_owner"], "PortGame.source_turret_outputs_items_state")
+        self.assertEqual(outputs_items_slice["runtime_proof"], "/root/Main.generated_turret_outputs_items_bridge_state")
+        self.assertIn("@Override", outputs_items_slice["exact_exprs"])
+        self.assertIn("public boolean outputsItems(){", outputs_items_slice["exact_exprs"])
+        self.assertIn("return false;", outputs_items_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_outputs_items_state")
+        self.assertEqual(contract["params"], [])
+        for key in ["method", "override_expr", "return_expr", "outputs_items"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_turret_outputs_items_result = source_symbols.state_schema(schema, "source_turret_outputs_items_result")
+        self.assertEqual(source_turret_outputs_items_result["keys"]["method"]["java_expr"], "public boolean outputsItems(){")
+        self.assertEqual(source_turret_outputs_items_result["keys"]["outputs_items"]["java_expr"], "return false;")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

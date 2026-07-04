@@ -14,7 +14,7 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "outputsItems", "parame
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_outputsItems_0(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_turret_outputs_items_state", "method": "public boolean outputsItems(){", "override_expr": "@Override", "return_expr": "return false;", "outputs_items": false}
 
 func java_method_setStats_1(_args: Array = []) -> Variant:
 	return null

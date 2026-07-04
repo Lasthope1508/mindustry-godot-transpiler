@@ -7216,5 +7216,36 @@ class BuilderComp{
             self.assertIn('"method": "public void drawBuildingBeam(float px, float py){"', source_text)
             self.assertIn('"size_expr": "int size = plan.breaking ? active ? tile.block().size : lastSize : plan.block.size;"', source_text)
 
+    def test_emit_bridges_turret_outputs_items_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class Turret extends ReloadTurret{
+    @Override
+    public boolean outputsItems(){
+        return false;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_outputsItems_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_turret_outputs_items_state"', source_text)
+            self.assertIn('"method": "public boolean outputsItems(){"', source_text)
+            self.assertIn('"return_expr": "return false;"', source_text)
+            self.assertIn('"outputs_items": false', source_text)
+
 if __name__ == "__main__":
     unittest.main()

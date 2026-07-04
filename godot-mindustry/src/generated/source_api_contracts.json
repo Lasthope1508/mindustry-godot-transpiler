@@ -25481,6 +25481,28 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_turret_outputs_items_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "return_expr",
+        "outputs_items"
+      ],
+      "rule": "Public runtime contract for Turret.outputsItems constant false state.",
+      "runtime_proof": "/root/Main.source_turret_outputs_items_state",
+      "source_method": "outputsItems()",
+      "source_slice": "N1155",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_outputs_items_to_source_state",
+        "test_port_game_exposes_source_turret_outputs_items_state",
+        "test_port_game_exposes_generated_turret_outputs_items_bridge_state",
+        "test_turret_outputs_items_matches_upstream_source",
+        "test_generated_turret_outputs_items_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

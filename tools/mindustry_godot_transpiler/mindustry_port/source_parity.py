@@ -25,6 +25,7 @@ WEAPONS_COMP_SOURCE = "core/src/mindustry/entities/comp/WeaponsComp.java"
 HITBOX_COMP_SOURCE = "core/src/mindustry/entities/comp/HitboxComp.java"
 PAYLOAD_COMP_SOURCE = "core/src/mindustry/entities/comp/PayloadComp.java"
 BUILDER_COMP_SOURCE = "core/src/mindustry/entities/comp/BuilderComp.java"
+TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/Turret.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 GAME_STATE_SOURCE = "core/src/mindustry/core/GameState.java"
@@ -362,6 +363,21 @@ def verify_builder_draw_building_beam_source(upstream_root: Path) -> dict[str, A
     missing = [snippet for snippet in checked.values() if snippet not in source]
     return {
         "source": BUILDER_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_turret_outputs_items_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public boolean outputsItems(){",
+        "return_false": "return false;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TURRET_SOURCE,
         "checked": checked,
         "missing": missing,
     }
