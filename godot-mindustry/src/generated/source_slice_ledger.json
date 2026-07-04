@@ -26674,6 +26674,38 @@
       ],
       "runtime_proof": "/root/Main.generated_item_entry_constructor_bridge_state",
       "rule": "ItemEntry constructor assigns item and amount directly from parameters."
+    },
+    "N1191": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemEntry",
+      "java_method": "ItemEntry.type()",
+      "godot_owner": "PortGame.source_item_entry_type_state",
+      "exact_exprs": [
+        "public class ItemEntry extends AmmoEntry{",
+        "@Override",
+        "public BulletType type(){",
+        "return ammoTypes.get(item);"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "item_entry_type.inner_class",
+        "item_entry_type.override_expr",
+        "item_entry_type.method",
+        "item_entry_type.return_expr",
+        "item_entry_type.item",
+        "item_entry_type.ammo_type",
+        "item_entry_type.type"
+      ],
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_entry_type_bridge_state",
+      "rule": "ItemEntry.type returns ammoTypes.get(item) directly."
     }
   },
   "version": 1

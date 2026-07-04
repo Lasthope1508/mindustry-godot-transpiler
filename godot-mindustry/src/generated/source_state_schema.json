@@ -100253,6 +100253,128 @@
         }
       },
       "rule": "Result schema for ItemEntry constructor bridge."
+    },
+    "source_item_entry_type_input": {
+      "status": "explicit-input",
+      "source_slice": "N1191",
+      "keys": {
+        "item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_entry_type_input.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.type()",
+          "java_expr": "item",
+          "used_by": [
+            "PortGame.source_item_entry_type_state"
+          ],
+          "rule": "Input supplies ItemEntry item field."
+        },
+        "ammo_type": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_entry_type_input.ammo_type",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.type()",
+          "java_expr": "ammoTypes.get(item)",
+          "used_by": [
+            "PortGame.source_item_entry_type_state"
+          ],
+          "rule": "Input supplies ammoTypes.get(item) lookup result."
+        }
+      },
+      "rule": "Input schema for ItemEntry.type bridge."
+    },
+    "source_item_entry_type_result": {
+      "status": "source-backed",
+      "source_slice": "N1191",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_type_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.type()",
+          "java_expr": "public class ItemEntry extends AmmoEntry{",
+          "used_by": [
+            "PortGame.source_item_entry_type_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_type_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.type()",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_item_entry_type_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_type_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.type()",
+          "java_expr": "public BulletType type(){",
+          "used_by": [
+            "PortGame.source_item_entry_type_state"
+          ],
+          "rule": "Result records method boundary."
+        },
+        "return_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_type_result.return_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.type()",
+          "java_expr": "return ammoTypes.get(item);",
+          "used_by": [
+            "PortGame.source_item_entry_type_state"
+          ],
+          "rule": "Result records exact return expression."
+        },
+        "item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_entry_type_result.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.type()",
+          "java_expr": "item",
+          "used_by": [
+            "PortGame.source_item_entry_type_state"
+          ],
+          "rule": "Result echoes ItemEntry item field input."
+        },
+        "ammo_type": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_entry_type_result.ammo_type",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.type()",
+          "java_expr": "ammoTypes.get(item)",
+          "used_by": [
+            "PortGame.source_item_entry_type_state"
+          ],
+          "rule": "Result echoes explicit lookup result input."
+        },
+        "type": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_item_entry_type_result.type",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.type()",
+          "java_expr": "return ammoTypes.get(item);",
+          "used_by": [
+            "PortGame.source_item_entry_type_state"
+          ],
+          "rule": "Result records returned BulletType."
+        }
+      },
+      "rule": "Result schema for ItemEntry.type return state."
     }
   },
   "version": 1

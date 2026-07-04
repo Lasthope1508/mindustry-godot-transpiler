@@ -27091,6 +27091,43 @@
       ],
       "runtime_proof": "/root/Main.source_item_entry_constructor_state",
       "rule": "Public runtime contract for ItemEntry(Item, int) constructor field assignment state."
+    },
+    "PortGame.source_item_entry_type_state": {
+      "status": "source-backed",
+      "source_slice": "N1191",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemEntry.type()",
+      "params": [
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_item_entry_type_input.item"
+        },
+        {
+          "name": "ammo_type",
+          "type": "Variant",
+          "schema": "source_item_entry_type_input.ammo_type"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "override_expr",
+        "method",
+        "return_expr",
+        "item",
+        "ammo_type",
+        "type"
+      ],
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_entry_type_state",
+      "rule": "Public runtime contract for ItemEntry.type return state."
     }
   },
   "policy": {

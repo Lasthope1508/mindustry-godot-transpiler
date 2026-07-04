@@ -85326,6 +85326,125 @@
       ],
       "runtime_proof": "/root/Main.source_item_entry_constructor_state",
       "rule": "Result records amount after constructor assignment."
+    },
+    "item_entry_type.inner_class": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemEntry.type()",
+      "java_expr": "public class ItemEntry extends AmmoEntry{",
+      "godot_owner": "PortGame.source_item_entry_type_state",
+      "godot_symbol": "source_item_entry_type_result.inner_class",
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_entry_type_state",
+      "rule": "Exact ItemEntry inner class boundary."
+    },
+    "item_entry_type.override_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemEntry.type()",
+      "java_expr": "@Override",
+      "godot_owner": "PortGame.source_item_entry_type_state",
+      "godot_symbol": "source_item_entry_type_result.override_expr",
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_entry_type_state",
+      "rule": "Type method is an override in ItemEntry."
+    },
+    "item_entry_type.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemEntry.type()",
+      "java_expr": "public BulletType type(){",
+      "godot_owner": "PortGame.source_item_entry_type_state",
+      "godot_symbol": "source_item_entry_type_result.method",
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_entry_type_state",
+      "rule": "Exact ItemEntry.type method boundary."
+    },
+    "item_entry_type.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemEntry.type()",
+      "java_expr": "return ammoTypes.get(item);",
+      "godot_owner": "PortGame.source_item_entry_type_state",
+      "godot_symbol": "source_item_entry_type_result.return_expr",
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_entry_type_state",
+      "rule": "Type method returns ammoTypes lookup for item."
+    },
+    "item_entry_type.item": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemEntry.type()",
+      "java_expr": "item",
+      "godot_owner": "PortGame.source_item_entry_type_state",
+      "godot_symbol": "source_item_entry_type_input.item",
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_entry_type_state",
+      "rule": "Explicit input supplies ItemEntry item field value."
+    },
+    "item_entry_type.ammo_type": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemEntry.type()",
+      "java_expr": "ammoTypes.get(item)",
+      "godot_owner": "PortGame.source_item_entry_type_state",
+      "godot_symbol": "source_item_entry_type_input.ammo_type",
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_entry_type_state",
+      "rule": "Explicit input supplies ammoTypes.get(item) lookup result without inventing ObjectMap internals."
+    },
+    "item_entry_type.type": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemEntry.type()",
+      "java_expr": "return ammoTypes.get(item);",
+      "godot_owner": "PortGame.source_item_entry_type_state",
+      "godot_symbol": "source_item_entry_type_result.type",
+      "tests": [
+        "test_emit_bridges_item_entry_type_to_source_state",
+        "test_port_game_exposes_source_item_entry_type_state",
+        "test_port_game_exposes_generated_item_entry_type_bridge_state",
+        "test_item_entry_type_matches_upstream_source",
+        "test_generated_item_entry_type_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_entry_type_state",
+      "rule": "Result records BulletType returned from ammoTypes.get(item)."
     }
   },
   "version": 1

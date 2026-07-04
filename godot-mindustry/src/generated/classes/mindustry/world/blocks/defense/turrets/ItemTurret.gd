@@ -216,3 +216,8 @@ func java_inner_class_ItemEntry_constructor_ItemEntry_0(_args: Array = []) -> Va
 	var item: Variant = _args[0] if _args.size() > 0 else null
 	var amount: int = int(_args[1] if _args.size() > 1 else 0)
 	return {"source_owner": "PortGame.source_item_entry_constructor_state", "inner_class": "public class ItemEntry extends AmmoEntry{", "field": "public Item item;", "constructor": "ItemEntry(Item item, int amount){", "item_assign_expr": "this.item = item;", "amount_assign_expr": "this.amount = amount;", "item": item, "amount": amount, "item_after": item, "amount_after": amount}
+
+func java_inner_class_ItemEntry_method_type_0(_args: Array = []) -> Variant:
+	var item: Variant = _args[0] if _args.size() > 0 else null
+	var ammo_type: Variant = _args[1] if _args.size() > 1 else null
+	return {"source_owner": "PortGame.source_item_entry_type_state", "inner_class": "public class ItemEntry extends AmmoEntry{", "override_expr": "@Override", "method": "public BulletType type(){", "return_expr": "return ammoTypes.get(item);", "item": item, "ammo_type": ammo_type, "type": ammo_type}

@@ -13691,5 +13691,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemEntry.constructor"', source)
         self.assertIn('"matches": result.get("item_after", null) == canonical.get("item_after", null)', source)
 
+    def test_port_game_exposes_source_item_entry_type_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_entry_type_state(item: Variant, ammo_type: Variant) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ItemEntry extends AmmoEntry{"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public BulletType type(){"', source)
+        self.assertIn('"return_expr": "return ammoTypes.get(item);"', source)
+        self.assertIn('"item": item', source)
+        self.assertIn('"ammo_type": ammo_type', source)
+        self.assertIn('"type": ammo_type', source)
+
+    def test_port_game_exposes_generated_item_entry_type_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_entry_type_bridge_state(item: Variant, ammo_type: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemEntry_method_type_0([item, ammo_type])", source)
+        self.assertIn("var canonical = source_item_entry_type_state(item, ammo_type)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_entry_type_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemEntry.type"', source)
+        self.assertIn('"matches": result.get("type", null) == canonical.get("type", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

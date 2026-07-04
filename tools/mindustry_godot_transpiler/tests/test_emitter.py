@@ -8738,6 +8738,45 @@ public class ItemTurret extends Turret{
             self.assertIn('"item_after": item', source_text)
             self.assertIn('"amount_after": amount', source_text)
 
+    def test_emit_bridges_item_entry_type_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public class ItemEntry extends AmmoEntry{
+        public Item item;
+
+        @Override
+        public BulletType type(){
+            return ammoTypes.get(item);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ItemEntry_method_type_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var item: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var ammo_type: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_item_entry_type_state"', source_text)
+            self.assertIn('"inner_class": "public class ItemEntry extends AmmoEntry{"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public BulletType type(){"', source_text)
+            self.assertIn('"return_expr": "return ammoTypes.get(item);"', source_text)
+            self.assertIn('"type": ammo_type', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

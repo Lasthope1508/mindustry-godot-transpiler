@@ -17795,6 +17795,32 @@ func generated_item_entry_constructor_bridge_state(item: Variant, amount: int) -
 			and result.get("amount_after", null) == canonical.get("amount_after", null),
 	}
 
+func source_item_entry_type_state(item: Variant, ammo_type: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_item_entry_type_state",
+		"inner_class": "public class ItemEntry extends AmmoEntry{",
+		"override_expr": "@Override",
+		"method": "public BulletType type(){",
+		"return_expr": "return ammoTypes.get(item);",
+		"item": item,
+		"ammo_type": ammo_type,
+		"type": ammo_type,
+	}
+
+func generated_item_entry_type_bridge_state(item: Variant, ammo_type: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemEntry_method_type_0([item, ammo_type])
+	var canonical = source_item_entry_type_state(item, ammo_type)
+	return {
+		"source_owner": "PortGame.source_item_entry_type_state",
+		"generated_owner": "ItemTurret.ItemEntry.type",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("type", null) == canonical.get("type", null)
+			and result.get("item", null) == canonical.get("item", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}
