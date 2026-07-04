@@ -2953,6 +2953,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar ammo_content: Variant = peek_item if ammo_size > 0 else null",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_get_ammo_content_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public UnlockableContent getAmmoContent(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;\", \"ammo_size\": ammo_size, \"peek_item\": peek_item, \"ammo_content\": ammo_content}",
                     ])
+                elif method.get("name") == "getAmmoFraction":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemTurretBuild_method_getAmmoFraction_{index}(_args: Array = []) -> Variant:",
+                        "\tvar total_ammo: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                        "\tvar max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)",
+                        "\tvar ammo_fraction: float = total_ammo / max_ammo",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_get_ammo_fraction_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public float getAmmoFraction(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return (float)totalAmmo / maxAmmo;\", \"total_ammo\": total_ammo, \"max_ammo\": max_ammo, \"ammo_fraction\": ammo_fraction}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

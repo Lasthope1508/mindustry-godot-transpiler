@@ -26250,6 +26250,40 @@
       ],
       "runtime_proof": "/root/Main.generated_item_turret_build_get_ammo_content_bridge_state",
       "rule": "ItemTurretBuild.getAmmoContent() returns the current ammo item when ammo.size > 0 and null otherwise."
+    },
+    "N1181": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.getAmmoFraction()",
+      "godot_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state",
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public float getAmmoFraction(){",
+        "return (float)totalAmmo / maxAmmo;"
+      ],
+      "deferred_exprs": [
+        "No maxAmmo zero guard is added because the upstream Java return expression has no guard."
+      ],
+      "source_symbols": [
+        "item_turret_build_get_ammo_fraction.inner_class",
+        "item_turret_build_get_ammo_fraction.method",
+        "item_turret_build_get_ammo_fraction.override",
+        "item_turret_build_get_ammo_fraction.return_expr",
+        "item_turret_build_get_ammo_fraction.total_ammo",
+        "item_turret_build_get_ammo_fraction.max_ammo",
+        "item_turret_build_get_ammo_fraction.ammo_fraction"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_item_turret_build_get_ammo_fraction_bridge_state",
+        "test_item_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_item_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_get_ammo_fraction_bridge_state",
+      "rule": "ItemTurretBuild.getAmmoFraction() returns (float)totalAmmo / maxAmmo exactly as upstream Java."
     }
   },
   "version": 1

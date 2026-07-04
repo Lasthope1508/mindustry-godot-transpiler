@@ -17419,6 +17419,32 @@ func generated_item_turret_build_get_ammo_content_bridge_state(ammo_size: int, p
 		"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null),
 	}
 
+func source_item_turret_build_get_ammo_fraction_state(total_ammo: float, max_ammo: float) -> Dictionary:
+	var ammo_fraction: float = total_ammo / max_ammo
+	return {
+		"source_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public float getAmmoFraction(){",
+		"override_expr": "@Override",
+		"return_expr": "return (float)totalAmmo / maxAmmo;",
+		"total_ammo": total_ammo,
+		"max_ammo": max_ammo,
+		"ammo_fraction": ammo_fraction,
+	}
+
+func generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_getAmmoFraction_3([total_ammo, max_ammo])
+	var canonical = source_item_turret_build_get_ammo_fraction_state(total_ammo, max_ammo)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.getAmmoFraction",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

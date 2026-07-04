@@ -95,3 +95,9 @@ func java_inner_class_ItemTurretBuild_method_getAmmoContent_2(_args: Array = [])
 	var peek_item: Variant = _args[1] if _args.size() > 1 else null
 	var ammo_content: Variant = peek_item if ammo_size > 0 else null
 	return {"source_owner": "PortGame.source_item_turret_build_get_ammo_content_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public UnlockableContent getAmmoContent(){", "override_expr": "@Override", "return_expr": "return ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;", "ammo_size": ammo_size, "peek_item": peek_item, "ammo_content": ammo_content}
+
+func java_inner_class_ItemTurretBuild_method_getAmmoFraction_3(_args: Array = []) -> Variant:
+	var total_ammo: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)
+	var ammo_fraction: float = total_ammo / max_ammo
+	return {"source_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public float getAmmoFraction(){", "override_expr": "@Override", "return_expr": "return (float)totalAmmo / maxAmmo;", "total_ammo": total_ammo, "max_ammo": max_ammo, "ammo_fraction": ammo_fraction}
