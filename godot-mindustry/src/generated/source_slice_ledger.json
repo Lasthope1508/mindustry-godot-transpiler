@@ -26093,6 +26093,48 @@
       "deferred_exprs": [
         "Bar rendering and addBar UI storage internals are not expanded in this slice."
       ]
+    },
+    "N1177": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
+      "java_method": "ItemTurret.init()",
+      "godot_owner": "PortGame.source_item_turret_init_ground_overlap_state",
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)){",
+        "if(targetGround){",
+        "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+        "super.init();"
+      ],
+      "source_symbols": [
+        "item_turret_init_ground_overlap.method",
+        "item_turret_init_ground_overlap.override",
+        "item_turret_init_ground_overlap.consume_filter",
+        "item_turret_init_ground_overlap.target_ground",
+        "item_turret_init_ground_overlap.place_overlap_range",
+        "item_turret_init_ground_overlap.range",
+        "item_turret_init_ground_overlap.place_overlap_margin",
+        "item_turret_init_ground_overlap.ammo_entries",
+        "item_turret_init_ground_overlap.range_change",
+        "item_turret_init_ground_overlap.target_ground_guard",
+        "item_turret_init_ground_overlap.overlap_update",
+        "item_turret_init_ground_overlap.overlap_formula",
+        "item_turret_init_ground_overlap.super_init"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_init_ground_overlap_to_source_state",
+        "test_port_game_exposes_source_item_turret_init_ground_overlap_state",
+        "test_port_game_exposes_generated_item_turret_init_ground_overlap_bridge_state",
+        "test_item_turret_init_ground_overlap_matches_upstream_source",
+        "test_generated_item_turret_init_ground_overlap_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_init_ground_overlap_bridge_state",
+      "rule": "ItemTurret.init() updates placeOverlapRange for ground-targeting item turrets using ammoTypes rangeChange values.",
+      "deferred_exprs": [
+        "ConsumeItemFilter build/efficiency/display internals are separate slices; this slice records the consume boundary only."
+      ]
     }
   },
   "version": 1

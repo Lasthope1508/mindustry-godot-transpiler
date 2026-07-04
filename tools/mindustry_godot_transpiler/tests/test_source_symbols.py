@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 645)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 646)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 650)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 651)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43116,6 +43116,63 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_item_turret_set_bars_result = source_symbols.state_schema(schema, "source_item_turret_set_bars_result")
         self.assertEqual(source_item_turret_set_bars_result["keys"]["super_set_bars_expr"]["java_expr"], "super.setBars();")
         self.assertEqual(source_item_turret_set_bars_result["keys"]["ammo_bar_fraction"]["java_expr"], "(float)entity.totalAmmo / maxAmmo")
+
+    def test_generated_item_turret_init_ground_overlap_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "item_turret_init_ground_overlap.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(method["java_method"], "ItemTurret.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_item_turret_init_ground_overlap_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_item_turret_init_ground_overlap_state")
+
+        target_ground = source_symbols.source_symbol(registry, "item_turret_init_ground_overlap.target_ground")
+        self.assertEqual(target_ground["java_expr"], "targetGround")
+        self.assertEqual(target_ground["godot_symbol"], "source_item_turret_init_ground_overlap_input.target_ground")
+        range_value = source_symbols.source_symbol(registry, "item_turret_init_ground_overlap.range")
+        self.assertEqual(range_value["java_expr"], "range")
+        self.assertEqual(range_value["godot_symbol"], "source_item_turret_init_ground_overlap_input.range_value")
+        range_change = source_symbols.source_symbol(registry, "item_turret_init_ground_overlap.range_change")
+        self.assertEqual(range_change["java_expr"], "type.rangeChange")
+        self.assertEqual(range_change["godot_symbol"], "source_item_turret_init_ground_overlap_input.ammo_entries.value.range_change")
+        overlap_formula = source_symbols.source_symbol(registry, "item_turret_init_ground_overlap.overlap_formula")
+        self.assertEqual(overlap_formula["java_expr"], "Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)")
+        self.assertEqual(overlap_formula["godot_symbol"], "source_item_turret_init_ground_overlap_result.place_overlap_range_after")
+
+        init_slice = source_symbols.source_slice(ledger, "N1177")
+        self.assertEqual(init_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(init_slice["java_method"], "ItemTurret.init()")
+        self.assertEqual(init_slice["godot_owner"], "PortGame.source_item_turret_init_ground_overlap_state")
+        self.assertEqual(init_slice["runtime_proof"], "/root/Main.generated_item_turret_init_ground_overlap_bridge_state")
+        for expr in [
+            "@Override",
+            "public void init(){",
+            "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)){",
+            "if(targetGround){",
+            "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+            "super.init();",
+        ]:
+            self.assertIn(expr, init_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_item_turret_init_ground_overlap_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["target_ground", "place_overlap_range", "range_value", "place_overlap_margin", "ammo_entries"])
+        for key in ["method", "consume_expr", "target_ground_guard_expr", "overlap_expr", "super_init_expr", "target_ground", "place_overlap_range", "range_value", "place_overlap_margin", "ammo_entries", "place_overlap_range_after", "place_overlap_updates"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_item_turret_init_ground_overlap_input = source_symbols.state_schema(schema, "source_item_turret_init_ground_overlap_input")
+        self.assertEqual(source_item_turret_init_ground_overlap_input["keys"]["target_ground"]["java_expr"], "targetGround")
+        self.assertEqual(source_item_turret_init_ground_overlap_input["keys"]["place_overlap_range"]["java_expr"], "placeOverlapRange")
+        self.assertEqual(source_item_turret_init_ground_overlap_input["keys"]["range_value"]["java_expr"], "range")
+        self.assertEqual(source_item_turret_init_ground_overlap_input["keys"]["place_overlap_margin"]["java_expr"], "placeOverlapMargin")
+        source_item_turret_init_ground_overlap_result = source_symbols.state_schema(schema, "source_item_turret_init_ground_overlap_result")
+        self.assertEqual(source_item_turret_init_ground_overlap_result["keys"]["place_overlap_range_after"]["java_expr"], "Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)")
+        self.assertEqual(source_item_turret_init_ground_overlap_result["keys"]["super_init_expr"]["java_expr"], "super.init();")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

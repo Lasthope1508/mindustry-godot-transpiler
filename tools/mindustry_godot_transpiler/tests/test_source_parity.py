@@ -8556,5 +8556,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_turret_init_ground_overlap_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_turret_init_ground_overlap_source"))
+        report = source_parity.verify_item_turret_init_ground_overlap_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public void init(){",
+            "consume_filter": "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)){",
+            "target_ground_guard": "if(targetGround){",
+            "overlap_update": "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+            "super_init": "super.init();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

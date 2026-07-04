@@ -13348,5 +13348,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.java_method_setBars_4"', source)
         self.assertIn('"matches": result.get("bar_call", null) == canonical.get("bar_call", null)', source)
 
+    def test_port_game_exposes_source_item_turret_init_ground_overlap_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_init_ground_overlap_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"consume_expr": "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)))"', source)
+        self.assertIn('"target_ground_guard_expr": "if(targetGround){"', source)
+        self.assertIn('"overlap_expr": "placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)"', source)
+        self.assertIn('"super_init_expr": "super.init();"', source)
+        self.assertIn("var place_overlap_range_after: float = place_overlap_range", source)
+        self.assertIn("var candidate_range: float = range_value + range_change + place_overlap_margin", source)
+        self.assertIn('"place_overlap_updates": place_overlap_updates', source)
+
+    def test_port_game_exposes_generated_item_turret_init_ground_overlap_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_init_ground_overlap_bridge_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_init_5([target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries])", source)
+        self.assertIn("var canonical = source_item_turret_init_ground_overlap_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_init_ground_overlap_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.java_method_init_5"', source)
+        self.assertIn('"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

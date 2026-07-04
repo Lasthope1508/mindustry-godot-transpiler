@@ -8174,5 +8174,61 @@ public class ItemTurret extends Turret{
             self.assertIn('"add_bar_expr": "addBar(\\"ammo\\", (ItemTurretBuild entity) -> new Bar(\\"', source_text)
             self.assertIn('"bar_fraction_expr": "() -> (float)entity.totalAmmo / maxAmmo"', source_text)
 
+    def test_emit_bridges_item_turret_init_ground_overlap_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();
+
+    @Override
+    public void init(){
+        consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)){
+            @Override
+            public void build(Building build, Table table){
+                MultiReqImage image = new MultiReqImage();
+            }
+        });
+
+        if(targetGround){
+            ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));
+        }
+
+        super.init();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var target_ground: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var place_overlap_range: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var range_value: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var place_overlap_margin: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var ammo_entries: Array = _args[4] if _args.size() > 4 else []", source_text)
+            self.assertIn("var place_overlap_range_after: float = place_overlap_range", source_text)
+            self.assertIn("if target_ground:", source_text)
+            self.assertIn("var range_change: float = float(entry_value.get(\"range_change\", entry_value.get(\"rangeChange\", 0.0)) if entry_value is Dictionary else 0.0)", source_text)
+            self.assertIn("var candidate_range: float = range_value + range_change + place_overlap_margin", source_text)
+            self.assertIn("place_overlap_range_after = maxf(place_overlap_range_after, candidate_range)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_item_turret_init_ground_overlap_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"consume_expr": "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)))"', source_text)
+            self.assertIn('"target_ground_guard_expr": "if(targetGround){"', source_text)
+            self.assertIn('"overlap_expr": "placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)"', source_text)
+            self.assertIn('"super_init_expr": "super.init();"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

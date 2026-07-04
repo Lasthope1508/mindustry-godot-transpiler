@@ -17280,6 +17280,49 @@ func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_ammo: fl
 		"matches": result.get("bar_call", null) == canonical.get("bar_call", null) and result.get("ammo_bar_fraction", null) == canonical.get("ammo_bar_fraction", null),
 	}
 
+func source_item_turret_init_ground_overlap_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:
+	var place_overlap_range_after: float = place_overlap_range
+	var place_overlap_updates: Array = []
+	if target_ground:
+		for entry in ammo_entries:
+			var entry_value: Variant = entry.get("value", entry) if entry is Dictionary else entry
+			var range_change: float = float(entry_value.get("range_change", entry_value.get("rangeChange", 0.0)) if entry_value is Dictionary else 0.0)
+			var candidate_range: float = range_value + range_change + place_overlap_margin
+			place_overlap_range_after = maxf(place_overlap_range_after, candidate_range)
+			place_overlap_updates.append({"call": "placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)", "range_change": range_change, "candidate_range": candidate_range, "place_overlap_range_after": place_overlap_range_after})
+	return {
+		"source_owner": "PortGame.source_item_turret_init_ground_overlap_state",
+		"method": "public void init(){",
+		"override_expr": "@Override",
+		"consume_expr": "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)))",
+		"consume_filter_deferred": true,
+		"target_ground_guard_expr": "if(targetGround){",
+		"overlap_expr": "placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)",
+		"super_init_expr": "super.init();",
+		"target_ground": target_ground,
+		"place_overlap_range": place_overlap_range,
+		"range_value": range_value,
+		"place_overlap_margin": place_overlap_margin,
+		"ammo_entries": ammo_entries,
+		"place_overlap_range_after": place_overlap_range_after,
+		"place_overlap_updates": place_overlap_updates,
+		"place_overlap_update_count": place_overlap_updates.size(),
+		"super_init_called": true,
+	}
+
+func generated_item_turret_init_ground_overlap_bridge_state(target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, ammo_entries: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_5([target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries])
+	var canonical = source_item_turret_init_ground_overlap_state(target_ground, place_overlap_range, range_value, place_overlap_margin, ammo_entries)
+	return {
+		"source_owner": "PortGame.source_item_turret_init_ground_overlap_state",
+		"generated_owner": "ItemTurret.java_method_init_5",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null) and result.get("place_overlap_updates", null) == canonical.get("place_overlap_updates", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

@@ -97468,6 +97468,284 @@
           "rule": "Result records ammo bar call payload."
         }
       }
+    },
+    "source_item_turret_init_ground_overlap_input": {
+      "status": "source-backed",
+      "source_slice": "N1177",
+      "rule": "Explicit input state for ItemTurret.init() ground-overlap branch.",
+      "keys": {
+        "target_ground": {
+          "status": "explicit-input",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_init_ground_overlap_input.target_ground",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "targetGround",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Exact Java targetGround field supplied to the bridge."
+        },
+        "place_overlap_range": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_item_turret_init_ground_overlap_input.place_overlap_range",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "placeOverlapRange",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Exact Java placeOverlapRange field supplied to the bridge."
+        },
+        "range_value": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_item_turret_init_ground_overlap_input.range_value",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "range",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Exact Java range field supplied as range_value."
+        },
+        "place_overlap_margin": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_item_turret_init_ground_overlap_input.place_overlap_margin",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "placeOverlapMargin",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Exact Java placeOverlapMargin field supplied to the bridge."
+        },
+        "ammo_entries": {
+          "status": "explicit-input",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_init_ground_overlap_input.ammo_entries",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "ammoTypes.each((item, type) -> ...)",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Explicit input models the source ammoTypes.each iteration."
+        },
+        "range_change": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_item_turret_init_ground_overlap_input.ammo_entries.value.range_change",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "type.rangeChange",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Exact Java BulletType rangeChange supplied on each ammo entry value."
+        }
+      }
+    },
+    "source_item_turret_init_ground_overlap_result": {
+      "status": "source-backed",
+      "source_slice": "N1177",
+      "rule": "Dictionary returned by PortGame.source_item_turret_init_ground_overlap_state.",
+      "keys": {
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "public void init(){",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result records exact override marker."
+        },
+        "consume_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.consume_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)){",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result records consume filter boundary."
+        },
+        "consume_filter_deferred": {
+          "status": "deferred",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.consume_filter_deferred",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "ConsumeItemFilter build/efficiency/display internals",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Consumer internals are intentionally deferred to later slices."
+        },
+        "target_ground_guard_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.target_ground_guard_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "if(targetGround){",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result records targetGround guard."
+        },
+        "overlap_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.overlap_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result records source overlap assignment expression."
+        },
+        "super_init_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.super_init_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "super.init();",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result records exact super call."
+        },
+        "target_ground": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.target_ground",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "targetGround",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result echoes targetGround input."
+        },
+        "place_overlap_range": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.place_overlap_range",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "placeOverlapRange",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result echoes placeOverlapRange input."
+        },
+        "range_value": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.range_value",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "range",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result echoes range input."
+        },
+        "place_overlap_margin": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.place_overlap_margin",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "placeOverlapMargin",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result echoes placeOverlapMargin input."
+        },
+        "ammo_entries": {
+          "status": "source-backed",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.ammo_entries",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "ammoTypes.each((item, type) -> ...)",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result echoes ammo entries input."
+        },
+        "place_overlap_range_after": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.place_overlap_range_after",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result records final overlap range after applying source formula."
+        },
+        "place_overlap_updates": {
+          "status": "source-backed",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.place_overlap_updates",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result records one update per ammo entry when targetGround is true."
+        },
+        "place_overlap_update_count": {
+          "status": "source-backed",
+          "type": "int",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.place_overlap_update_count",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "ammoTypes.each((item, type) -> ...)",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result records number of source loop updates."
+        },
+        "super_init_called": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_init_ground_overlap_result.super_init_called",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.init()",
+          "java_expr": "super.init();",
+          "used_by": [
+            "PortGame.source_item_turret_init_ground_overlap_state"
+          ],
+          "rule": "Result records super.init execution."
+        }
+      }
     }
   },
   "version": 1

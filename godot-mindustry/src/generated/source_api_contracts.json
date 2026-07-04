@@ -26425,6 +26425,66 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_set_bars_state",
       "rule": "Public runtime contract for ItemTurret.setBars() ammo bar call and fraction supplier."
+    },
+    "PortGame.source_item_turret_init_ground_overlap_state": {
+      "status": "source-backed",
+      "source_slice": "N1177",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurret.init()",
+      "params": [
+        {
+          "name": "target_ground",
+          "type": "bool",
+          "schema": "source_item_turret_init_ground_overlap_input.target_ground"
+        },
+        {
+          "name": "place_overlap_range",
+          "type": "float",
+          "schema": "source_item_turret_init_ground_overlap_input.place_overlap_range"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_item_turret_init_ground_overlap_input.range_value"
+        },
+        {
+          "name": "place_overlap_margin",
+          "type": "float",
+          "schema": "source_item_turret_init_ground_overlap_input.place_overlap_margin"
+        },
+        {
+          "name": "ammo_entries",
+          "type": "Array",
+          "schema": "source_item_turret_init_ground_overlap_input.ammo_entries"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "consume_expr",
+        "consume_filter_deferred",
+        "target_ground_guard_expr",
+        "overlap_expr",
+        "super_init_expr",
+        "target_ground",
+        "place_overlap_range",
+        "range_value",
+        "place_overlap_margin",
+        "ammo_entries",
+        "place_overlap_range_after",
+        "place_overlap_updates",
+        "place_overlap_update_count",
+        "super_init_called"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_init_ground_overlap_to_source_state",
+        "test_port_game_exposes_source_item_turret_init_ground_overlap_state",
+        "test_port_game_exposes_generated_item_turret_init_ground_overlap_bridge_state",
+        "test_item_turret_init_ground_overlap_matches_upstream_source",
+        "test_generated_item_turret_init_ground_overlap_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_init_ground_overlap_state",
+      "rule": "Public runtime contract for ItemTurret.init() ground-target overlap range update branch."
     }
   },
   "policy": {

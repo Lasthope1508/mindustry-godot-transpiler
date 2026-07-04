@@ -51,4 +51,18 @@ func java_method_setBars_4(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_item_turret_set_bars_state", "method": "public void setBars(){", "override_expr": "@Override", "super_set_bars_expr": "super.setBars();", "add_bar_expr": "addBar(\"ammo\", (ItemTurretBuild entity) -> new Bar(\"stat.ammo\", Pal.ammo, () -> (float)entity.totalAmmo / maxAmmo));", "bar_fraction_expr": "() -> (float)entity.totalAmmo / maxAmmo", "total_ammo": total_ammo, "max_ammo": max_ammo, "ammo_bar_fraction": ammo_bar_fraction, "super_set_bars_called": true, "bar_added": true, "bar_call": bar_call}
 
 func java_method_init_5(_args: Array = []) -> Variant:
-	return null
+	var target_ground: bool = bool(_args[0] if _args.size() > 0 else false)
+	var place_overlap_range: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var range_value: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var place_overlap_margin: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var ammo_entries: Array = _args[4] if _args.size() > 4 else []
+	var place_overlap_range_after: float = place_overlap_range
+	var place_overlap_updates: Array = []
+	if target_ground:
+		for entry in ammo_entries:
+			var entry_value: Variant = entry.get("value", entry) if entry is Dictionary else entry
+			var range_change: float = float(entry_value.get("range_change", entry_value.get("rangeChange", 0.0)) if entry_value is Dictionary else 0.0)
+			var candidate_range: float = range_value + range_change + place_overlap_margin
+			place_overlap_range_after = maxf(place_overlap_range_after, candidate_range)
+			place_overlap_updates.append({"call": "placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)", "range_change": range_change, "candidate_range": candidate_range, "place_overlap_range_after": place_overlap_range_after})
+	return {"source_owner": "PortGame.source_item_turret_init_ground_overlap_state", "method": "public void init(){", "override_expr": "@Override", "consume_expr": "consume(new ConsumeItemFilter(i -> ammoTypes.containsKey(i)))", "consume_filter_deferred": true, "target_ground_guard_expr": "if(targetGround){", "overlap_expr": "placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin)", "super_init_expr": "super.init();", "target_ground": target_ground, "place_overlap_range": place_overlap_range, "range_value": range_value, "place_overlap_margin": place_overlap_margin, "ammo_entries": ammo_entries, "place_overlap_range_after": place_overlap_range_after, "place_overlap_updates": place_overlap_updates, "place_overlap_update_count": place_overlap_updates.size(), "super_init_called": true}
