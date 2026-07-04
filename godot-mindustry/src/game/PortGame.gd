@@ -17708,6 +17708,65 @@ func generated_item_turret_build_write_bridge_state(ammo_entries: Array) -> Dict
 			and result.get("ammo_size", null) == canonical.get("ammo_size", null),
 	}
 
+func source_item_turret_build_read_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:
+	var read_calls: Array = []
+	var ammo_entries_after: Array = []
+	var total_ammo_after: int = 0
+	read_calls.append({"call": "super.read(read, revision);", "revision": revision})
+	read_calls.append({"call": "ammo.clear();"})
+	read_calls.append({"call": "totalAmmo = 0;", "value": 0})
+	read_calls.append({"call": "read.ub();", "target": "amount", "value": read_entries.size()})
+	for entry in read_entries:
+		var entry_copy: Dictionary = entry.duplicate(true) if entry is Dictionary else {}
+		var item: Variant = entry_copy.get("item", null)
+		var ammo_type_valid: bool = bool(entry_copy.get("ammo_type_valid", false))
+		var item_read_call: String = "read.ub();" if revision < 2 else "read.s();"
+		read_calls.append({"call": item_read_call, "target": "item", "item": item})
+		var item_amount: int = min(int(entry_copy.get("amount", 0)), max_ammo)
+		read_calls.append({"call": "read.s();", "target": "itemAmount", "value": item_amount})
+		if item != null and ammo_type_valid:
+			total_ammo_after += item_amount
+			ammo_entries_after.append({"item": item, "amount": item_amount})
+			read_calls.append({"call": "totalAmmo += itemAmount;", "value": total_ammo_after})
+			read_calls.append({"call": "ammo.add(new ItemEntry(item, itemAmount));", "item": item, "amount": item_amount})
+	return {
+		"source_owner": "PortGame.source_item_turret_build_read_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public void read(Reads read, byte revision){",
+		"override_expr": "@Override",
+		"super_read_expr": "super.read(read, revision);",
+		"clear_expr": "ammo.clear();",
+		"total_reset_expr": "totalAmmo = 0;",
+		"amount_expr": "int amount = read.ub();",
+		"loop_expr": "for(int i = 0; i < amount; i++){",
+		"item_lookup_expr": "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());",
+		"item_amount_expr": "int itemAmount = Math.min(read.s(), maxAmmo);",
+		"valid_comment": "//only add ammo if this is a valid ammo type",
+		"valid_ammo_guard": "if(item != null && ammoTypes.containsKey(item)){",
+		"total_add_expr": "totalAmmo += itemAmount;",
+		"ammo_add_expr": "ammo.add(new ItemEntry(item, itemAmount));",
+		"read_count": read_entries.size(),
+		"total_ammo_after": total_ammo_after,
+		"ammo_entries_after": ammo_entries_after,
+		"read_calls": read_calls,
+	}
+
+func generated_item_turret_build_read_bridge_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_read_11([revision, max_ammo, read_entries])
+	var canonical = source_item_turret_build_read_state(revision, max_ammo, read_entries)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_read_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.read",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("read_calls", []) == canonical.get("read_calls", [])
+			and result.get("ammo_entries_after", []) == canonical.get("ammo_entries_after", [])
+			and result.get("total_ammo_after", null) == canonical.get("total_ammo_after", null)
+			and result.get("read_count", null) == canonical.get("read_count", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

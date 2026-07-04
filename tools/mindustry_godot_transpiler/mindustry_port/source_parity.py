@@ -962,6 +962,32 @@ def verify_item_turret_build_write_source(upstream_root: Path) -> dict[str, Any]
         "missing": missing,
     }
 
+def verify_item_turret_build_read_source(upstream_root: Path) -> dict[str, Any]:
+    item_turret_path = Path(upstream_root) / ITEM_TURRET_SOURCE
+    source = item_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+        "override": "@Override",
+        "method": "public void read(Reads read, byte revision){",
+        "super_read": "super.read(read, revision);",
+        "clear_expr": "ammo.clear();",
+        "total_reset": "totalAmmo = 0;",
+        "amount_expr": "int amount = read.ub();",
+        "loop_expr": "for(int i = 0; i < amount; i++){",
+        "item_lookup": "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());",
+        "item_amount": "int itemAmount = Math.min(read.s(), maxAmmo);",
+        "valid_comment": "//only add ammo if this is a valid ammo type",
+        "valid_guard": "if(item != null && ammoTypes.containsKey(item)){",
+        "total_add": "totalAmmo += itemAmount;",
+        "ammo_add": "ammo.add(new ItemEntry(item, itemAmount));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": ITEM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

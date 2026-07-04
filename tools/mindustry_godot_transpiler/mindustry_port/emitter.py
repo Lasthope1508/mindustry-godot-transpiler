@@ -3067,6 +3067,35 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\twrite_calls.append({\"call\": \"write.s(i.amount);\", \"value\": int(entry_copy.get(\"amount\", 0))})",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_write_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public void write(Writes write){\", \"override_expr\": \"@Override\", \"super_write_expr\": \"super.write(write);\", \"write_size_expr\": \"write.b(ammo.size);\", \"loop_expr\": \"for(AmmoEntry entry : ammo){\", \"entry_cast\": \"ItemEntry i = (ItemEntry)entry;\", \"write_item_id_expr\": \"write.s(i.item.id);\", \"write_amount_expr\": \"write.s(i.amount);\", \"ammo_size\": ammo_entries.size(), \"entry_writes\": entry_writes, \"write_calls\": write_calls}",
                     ])
+                elif method.get("name") == "read":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemTurretBuild_method_read_{index}(_args: Array = []) -> Variant:",
+                        "\tvar revision: int = int(_args[0] if _args.size() > 0 else 0)",
+                        "\tvar max_ammo: int = int(_args[1] if _args.size() > 1 else 0)",
+                        "\tvar read_entries: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []",
+                        "\tvar read_calls: Array = []",
+                        "\tvar ammo_entries_after: Array = []",
+                        "\tvar total_ammo_after: int = 0",
+                        "\tread_calls.append({\"call\": \"super.read(read, revision);\", \"revision\": revision})",
+                        "\tread_calls.append({\"call\": \"ammo.clear();\"})",
+                        "\tread_calls.append({\"call\": \"totalAmmo = 0;\", \"value\": 0})",
+                        "\tread_calls.append({\"call\": \"read.ub();\", \"target\": \"amount\", \"value\": read_entries.size()})",
+                        "\tfor entry in read_entries:",
+                        "\t\tvar entry_copy: Dictionary = entry.duplicate(true) if entry is Dictionary else {}",
+                        "\t\tvar item: Variant = entry_copy.get(\"item\", null)",
+                        "\t\tvar ammo_type_valid: bool = bool(entry_copy.get(\"ammo_type_valid\", false))",
+                        "\t\tvar item_read_call: String = \"read.ub();\" if revision < 2 else \"read.s();\"",
+                        "\t\tread_calls.append({\"call\": item_read_call, \"target\": \"item\", \"item\": item})",
+                        "\t\tvar item_amount: int = min(int(entry_copy.get(\"amount\", 0)), max_ammo)",
+                        "\t\tread_calls.append({\"call\": \"read.s();\", \"target\": \"itemAmount\", \"value\": item_amount})",
+                        "\t\tif item != null and ammo_type_valid:",
+                        "\t\t\ttotal_ammo_after += item_amount",
+                        "\t\t\tammo_entries_after.append({\"item\": item, \"amount\": item_amount})",
+                        "\t\t\tread_calls.append({\"call\": \"totalAmmo += itemAmount;\", \"value\": total_ammo_after})",
+                        "\t\t\tread_calls.append({\"call\": \"ammo.add(new ItemEntry(item, itemAmount));\", \"item\": item, \"amount\": item_amount})",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_read_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public void read(Reads read, byte revision){\", \"override_expr\": \"@Override\", \"super_read_expr\": \"super.read(read, revision);\", \"clear_expr\": \"ammo.clear();\", \"total_reset_expr\": \"totalAmmo = 0;\", \"amount_expr\": \"int amount = read.ub();\", \"loop_expr\": \"for(int i = 0; i < amount; i++){\", \"item_lookup_expr\": \"Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());\", \"item_amount_expr\": \"int itemAmount = Math.min(read.s(), maxAmmo);\", \"valid_comment\": \"//only add ammo if this is a valid ammo type\", \"valid_ammo_guard\": \"if(item != null && ammoTypes.containsKey(item)){\", \"total_add_expr\": \"totalAmmo += itemAmount;\", \"ammo_add_expr\": \"ammo.add(new ItemEntry(item, itemAmount));\", \"read_count\": read_entries.size(), \"total_ammo_after\": total_ammo_after, \"ammo_entries_after\": ammo_entries_after, \"read_calls\": read_calls}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

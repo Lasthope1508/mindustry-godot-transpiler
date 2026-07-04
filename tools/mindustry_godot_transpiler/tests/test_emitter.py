@@ -8615,6 +8615,84 @@ public class ItemTurret extends Turret{
             self.assertIn('"write_item_id_expr": "write.s(i.item.id);"', source_text)
             self.assertIn('"write_amount_expr": "write.s(i.amount);"', source_text)
 
+    def test_emit_bridges_item_turret_build_read_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public class ItemTurretBuild extends TurretBuild{
+        @Override
+        public void onProximityAdded(){ }
+        @Override
+        public Object senseObject(LAccess sensor){ return null; }
+        @Override
+        public UnlockableContent getAmmoContent(){ return null; }
+        @Override
+        public float getAmmoFraction(){ return 0f; }
+        @Override
+        public int acceptStack(Item item, int amount, Teamc source){ return 0; }
+        @Override
+        public void handleStack(Item item, int amount, Teamc source){ }
+        @Override
+        public int removeStack(Item item, int amount){ return 0; }
+        @Override
+        public void handleItem(Building source, Item item){ }
+        @Override
+        public boolean acceptItem(Building source, Item item){ return false; }
+        @Override
+        public byte version(){ return 2; }
+        @Override
+        public void write(Writes write){ }
+
+        @Override
+        public void read(Reads read, byte revision){
+            super.read(read, revision);
+            ammo.clear();
+            totalAmmo = 0;
+            int amount = read.ub();
+            for(int i = 0; i < amount; i++){
+                Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());
+                int itemAmount = Math.min(read.s(), maxAmmo);
+
+                //only add ammo if this is a valid ammo type
+                if(item != null && ammoTypes.containsKey(item)){
+                    totalAmmo += itemAmount;
+                    ammo.add(new ItemEntry(item, itemAmount));
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ItemTurretBuild_method_read_11(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var revision: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var max_ammo: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var read_entries: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn('read_calls.append({"call": "super.read(read, revision);", "revision": revision})', source_text)
+            self.assertIn('read_calls.append({"call": "ammo.clear();"})', source_text)
+            self.assertIn('read_calls.append({"call": "totalAmmo = 0;", "value": 0})', source_text)
+            self.assertIn('read_calls.append({"call": "read.ub();", "target": "amount", "value": read_entries.size()})', source_text)
+            self.assertIn('var item_read_call: String = "read.ub();" if revision < 2 else "read.s();"', source_text)
+            self.assertIn('var item_amount: int = min(int(entry_copy.get("amount", 0)), max_ammo)', source_text)
+            self.assertIn('ammo_entries_after.append({"item": item, "amount": item_amount})', source_text)
+            self.assertIn('"method": "public void read(Reads read, byte revision){"', source_text)
+            self.assertIn('"item_lookup_expr": "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());"', source_text)
+            self.assertIn('"valid_ammo_guard": "if(item != null && ammoTypes.containsKey(item)){"', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

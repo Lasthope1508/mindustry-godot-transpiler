@@ -8741,5 +8741,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_turret_build_read_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_turret_build_read_source"))
+        report = source_parity.verify_item_turret_build_read_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "public void read(Reads read, byte revision){",
+            "super_read": "super.read(read, revision);",
+            "clear_expr": "ammo.clear();",
+            "total_reset": "totalAmmo = 0;",
+            "amount_expr": "int amount = read.ub();",
+            "loop_expr": "for(int i = 0; i < amount; i++){",
+            "item_lookup": "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());",
+            "item_amount": "int itemAmount = Math.min(read.s(), maxAmmo);",
+            "valid_comment": "//only add ammo if this is a valid ammo type",
+            "valid_guard": "if(item != null && ammoTypes.containsKey(item)){",
+            "total_add": "totalAmmo += itemAmount;",
+            "ammo_add": "ammo.add(new ItemEntry(item, itemAmount));",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

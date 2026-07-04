@@ -26999,6 +26999,59 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_write_state",
       "rule": "Public runtime contract for ItemTurretBuild.write(Writes) ordered write-call state."
+    },
+    "PortGame.source_item_turret_build_read_state": {
+      "status": "source-backed",
+      "source_slice": "N1189",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurretBuild.read(Reads, byte)",
+      "params": [
+        {
+          "name": "revision",
+          "type": "int",
+          "schema": "source_item_turret_build_read_input.revision"
+        },
+        {
+          "name": "max_ammo",
+          "type": "int",
+          "schema": "source_item_turret_build_read_input.max_ammo"
+        },
+        {
+          "name": "read_entries",
+          "type": "Array",
+          "schema": "source_item_turret_build_read_input.read_entries"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "super_read_expr",
+        "clear_expr",
+        "total_reset_expr",
+        "amount_expr",
+        "loop_expr",
+        "item_lookup_expr",
+        "item_amount_expr",
+        "valid_comment",
+        "valid_ammo_guard",
+        "total_add_expr",
+        "ammo_add_expr",
+        "read_count",
+        "total_ammo_after",
+        "ammo_entries_after",
+        "read_calls"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Public runtime contract for ItemTurretBuild.read(Reads, byte) read-call state."
     }
   },
   "policy": {

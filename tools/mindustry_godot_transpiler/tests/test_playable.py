@@ -13639,5 +13639,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.write"', source)
         self.assertIn('"matches": result.get("write_calls", []) == canonical.get("write_calls", [])', source)
 
+    def test_port_game_exposes_source_item_turret_build_read_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_read_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public void read(Reads read, byte revision){"', source)
+        self.assertIn('"super_read_expr": "super.read(read, revision);"', source)
+        self.assertIn('"clear_expr": "ammo.clear();"', source)
+        self.assertIn('"total_reset_expr": "totalAmmo = 0;"', source)
+        self.assertIn('"amount_expr": "int amount = read.ub();"', source)
+        self.assertIn('"item_lookup_expr": "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());"', source)
+        self.assertIn('"item_amount_expr": "int itemAmount = Math.min(read.s(), maxAmmo);"', source)
+        self.assertIn('"valid_ammo_guard": "if(item != null && ammoTypes.containsKey(item)){"', source)
+        self.assertIn('read_calls.append({"call": "read.ub();", "target": "amount", "value": read_entries.size()})', source)
+
+    def test_port_game_exposes_generated_item_turret_build_read_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_read_bridge_state(revision: int, max_ammo: int, read_entries: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_read_11([revision, max_ammo, read_entries])", source)
+        self.assertIn("var canonical = source_item_turret_build_read_state(revision, max_ammo, read_entries)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_read_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.read"', source)
+        self.assertIn('"matches": result.get("read_calls", []) == canonical.get("read_calls", [])', source)
+
 if __name__ == "__main__":
     unittest.main()

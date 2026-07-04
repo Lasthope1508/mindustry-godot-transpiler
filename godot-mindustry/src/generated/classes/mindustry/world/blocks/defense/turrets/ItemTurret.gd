@@ -185,3 +185,29 @@ func java_inner_class_ItemTurretBuild_method_write_10(_args: Array = []) -> Vari
 		write_calls.append({"call": "write.s(i.item.id);", "value": int(entry_copy.get("item_id", 0))})
 		write_calls.append({"call": "write.s(i.amount);", "value": int(entry_copy.get("amount", 0))})
 	return {"source_owner": "PortGame.source_item_turret_build_write_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public void write(Writes write){", "override_expr": "@Override", "super_write_expr": "super.write(write);", "write_size_expr": "write.b(ammo.size);", "loop_expr": "for(AmmoEntry entry : ammo){", "entry_cast": "ItemEntry i = (ItemEntry)entry;", "write_item_id_expr": "write.s(i.item.id);", "write_amount_expr": "write.s(i.amount);", "ammo_size": ammo_entries.size(), "entry_writes": entry_writes, "write_calls": write_calls}
+
+func java_inner_class_ItemTurretBuild_method_read_11(_args: Array = []) -> Variant:
+	var revision: int = int(_args[0] if _args.size() > 0 else 0)
+	var max_ammo: int = int(_args[1] if _args.size() > 1 else 0)
+	var read_entries: Array = _args[2] if _args.size() > 2 and _args[2] is Array else []
+	var read_calls: Array = []
+	var ammo_entries_after: Array = []
+	var total_ammo_after: int = 0
+	read_calls.append({"call": "super.read(read, revision);", "revision": revision})
+	read_calls.append({"call": "ammo.clear();"})
+	read_calls.append({"call": "totalAmmo = 0;", "value": 0})
+	read_calls.append({"call": "read.ub();", "target": "amount", "value": read_entries.size()})
+	for entry in read_entries:
+		var entry_copy: Dictionary = entry.duplicate(true) if entry is Dictionary else {}
+		var item: Variant = entry_copy.get("item", null)
+		var ammo_type_valid: bool = bool(entry_copy.get("ammo_type_valid", false))
+		var item_read_call: String = "read.ub();" if revision < 2 else "read.s();"
+		read_calls.append({"call": item_read_call, "target": "item", "item": item})
+		var item_amount: int = min(int(entry_copy.get("amount", 0)), max_ammo)
+		read_calls.append({"call": "read.s();", "target": "itemAmount", "value": item_amount})
+		if item != null and ammo_type_valid:
+			total_ammo_after += item_amount
+			ammo_entries_after.append({"item": item, "amount": item_amount})
+			read_calls.append({"call": "totalAmmo += itemAmount;", "value": total_ammo_after})
+			read_calls.append({"call": "ammo.add(new ItemEntry(item, itemAmount));", "item": item, "amount": item_amount})
+	return {"source_owner": "PortGame.source_item_turret_build_read_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public void read(Reads read, byte revision){", "override_expr": "@Override", "super_read_expr": "super.read(read, revision);", "clear_expr": "ammo.clear();", "total_reset_expr": "totalAmmo = 0;", "amount_expr": "int amount = read.ub();", "loop_expr": "for(int i = 0; i < amount; i++){", "item_lookup_expr": "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());", "item_amount_expr": "int itemAmount = Math.min(read.s(), maxAmmo);", "valid_comment": "//only add ammo if this is a valid ammo type", "valid_ammo_guard": "if(item != null && ammoTypes.containsKey(item)){", "total_add_expr": "totalAmmo += itemAmount;", "ammo_add_expr": "ammo.add(new ItemEntry(item, itemAmount));", "read_count": read_entries.size(), "total_ammo_after": total_ammo_after, "ammo_entries_after": ammo_entries_after, "read_calls": read_calls}

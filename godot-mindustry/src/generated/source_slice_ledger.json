@@ -26583,6 +26583,62 @@
       ],
       "runtime_proof": "/root/Main.generated_item_turret_build_write_bridge_state",
       "rule": "ItemTurretBuild.write(Writes) writes superclass state, ammo size, then each ItemEntry item id and amount in ammo order."
+    },
+    "N1189": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public void read(Reads read, byte revision){",
+        "super.read(read, revision);",
+        "ammo.clear();",
+        "totalAmmo = 0;",
+        "int amount = read.ub();",
+        "for(int i = 0; i < amount; i++){",
+        "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());",
+        "int itemAmount = Math.min(read.s(), maxAmmo);",
+        "//only add ammo if this is a valid ammo type",
+        "if(item != null && ammoTypes.containsKey(item)){",
+        "totalAmmo += itemAmount;",
+        "ammo.add(new ItemEntry(item, itemAmount));"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "item_turret_build_read.inner_class",
+        "item_turret_build_read.override",
+        "item_turret_build_read.method",
+        "item_turret_build_read.super_read_expr",
+        "item_turret_build_read.clear_expr",
+        "item_turret_build_read.total_reset_expr",
+        "item_turret_build_read.amount_expr",
+        "item_turret_build_read.loop_expr",
+        "item_turret_build_read.item_lookup_expr",
+        "item_turret_build_read.item_amount_expr",
+        "item_turret_build_read.valid_comment",
+        "item_turret_build_read.valid_ammo_guard",
+        "item_turret_build_read.total_add_expr",
+        "item_turret_build_read.ammo_add_expr",
+        "item_turret_build_read.revision",
+        "item_turret_build_read.max_ammo",
+        "item_turret_build_read.read_entries",
+        "item_turret_build_read.read_count",
+        "item_turret_build_read.total_ammo_after",
+        "item_turret_build_read.ammo_entries_after",
+        "item_turret_build_read.read_calls"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_read_bridge_state",
+      "rule": "ItemTurretBuild.read(Reads, byte) resets ammo, reads count, resolves item ids by revision, clamps amount to maxAmmo, and adds only valid ammo entries."
     }
   },
   "version": 1

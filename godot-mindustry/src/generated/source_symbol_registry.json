@@ -84816,6 +84816,363 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_write_state",
       "rule": "Result records ordered Java write calls without inventing binary serialization internals."
+    },
+    "item_turret_build_read.inner_class": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "public class ItemTurretBuild extends TurretBuild{",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.inner_class",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Exact ItemTurretBuild inner class boundary."
+    },
+    "item_turret_build_read.override": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "@Override",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.override_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Override annotation preserved for ItemTurretBuild.read."
+    },
+    "item_turret_build_read.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "public void read(Reads read, byte revision){",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.method",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Method boundary comes from ItemTurretBuild.read(Reads, byte)."
+    },
+    "item_turret_build_read.super_read_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "super.read(read, revision);",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.super_read_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records superclass read dispatch."
+    },
+    "item_turret_build_read.clear_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "ammo.clear();",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.clear_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records ammo.clear reset."
+    },
+    "item_turret_build_read.total_reset_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "totalAmmo = 0;",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.total_reset_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records totalAmmo reset."
+    },
+    "item_turret_build_read.amount_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "int amount = read.ub();",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.amount_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records read count expression."
+    },
+    "item_turret_build_read.loop_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "for(int i = 0; i < amount; i++){",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.loop_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records read loop expression."
+    },
+    "item_turret_build_read.item_lookup_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.item_lookup_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records revision-dependent item lookup."
+    },
+    "item_turret_build_read.item_amount_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "int itemAmount = Math.min(read.s(), maxAmmo);",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.item_amount_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records read amount clamp expression."
+    },
+    "item_turret_build_read.valid_comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "//only add ammo if this is a valid ammo type",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.valid_comment",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records upstream ammo validity comment."
+    },
+    "item_turret_build_read.valid_ammo_guard": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "if(item != null && ammoTypes.containsKey(item)){",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.valid_ammo_guard",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records valid ammo guard."
+    },
+    "item_turret_build_read.total_add_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "totalAmmo += itemAmount;",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.total_add_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records total ammo accumulation expression."
+    },
+    "item_turret_build_read.ammo_add_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "ammo.add(new ItemEntry(item, itemAmount));",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.ammo_add_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records ItemEntry add expression."
+    },
+    "item_turret_build_read.revision": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "byte revision",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_input.revision",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Explicit input selects revision-dependent item-id read expression."
+    },
+    "item_turret_build_read.max_ammo": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "maxAmmo",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_input.max_ammo",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Explicit input supplies maxAmmo clamp bound."
+    },
+    "item_turret_build_read.read_entries": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "read.ub() / Vars.content.item(revision < 2 ? read.ub() : read.s()) / read.s()",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_input.read_entries",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Explicit input snapshots read stream entries without inventing Reads internals."
+    },
+    "item_turret_build_read.read_count": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "int amount = read.ub();",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.read_count",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records Java amount read count."
+    },
+    "item_turret_build_read.total_ammo_after": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "totalAmmo += itemAmount;",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.total_ammo_after",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records accumulated totalAmmo after valid entries."
+    },
+    "item_turret_build_read.ammo_entries_after": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "ammo.add(new ItemEntry(item, itemAmount));",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.ammo_entries_after",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records ItemEntry values added after read."
+    },
+    "item_turret_build_read.read_calls": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.read(Reads, byte)",
+      "java_expr": "super.read(read, revision); / ammo.clear(); / totalAmmo = 0; / int amount = read.ub(); / Vars.content.item(revision < 2 ? read.ub() : read.s()) / int itemAmount = Math.min(read.s(), maxAmmo);",
+      "godot_owner": "PortGame.source_item_turret_build_read_state",
+      "godot_symbol": "source_item_turret_build_read_result.read_calls",
+      "tests": [
+        "test_emit_bridges_item_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_read_state",
+        "test_port_game_exposes_generated_item_turret_build_read_bridge_state",
+        "test_item_turret_build_read_matches_upstream_source",
+        "test_generated_item_turret_build_read_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_read_state",
+      "rule": "Result records ordered Java read calls without inventing binary Reads internals."
     }
   },
   "version": 1
