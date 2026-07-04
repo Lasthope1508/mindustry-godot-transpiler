@@ -620,6 +620,24 @@ def verify_power_turret_build_sense_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_power_turret_build_use_ammo_source(upstream_root: Path) -> dict[str, Any]:
+    power_turret_path = Path(upstream_root) / POWER_TURRET_SOURCE
+    source = power_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class PowerTurretBuild extends TurretBuild{",
+        "override": "@Override",
+        "method": "public BulletType useAmmo(){",
+        "comment": "//nothing used directly",
+        "return_expr": "return shootType;",
+        "shoot_type_field": "public BulletType shootType;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": POWER_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

@@ -96519,6 +96519,105 @@
           "rule": "Result is selected by exact Java switch cases."
         }
       }
+    },
+    "source_power_turret_build_use_ammo_input": {
+      "status": "source-backed",
+      "source_slice": "N1170",
+      "rule": "Inputs accepted by PortGame.source_power_turret_build_use_ammo_state.",
+      "keys": {
+        "shoot_type": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_power_turret_build_use_ammo_input.shoot_type",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.useAmmo()",
+          "java_expr": "shootType",
+          "used_by": [
+            "PortGame.source_power_turret_build_use_ammo_state"
+          ],
+          "rule": "Input preserves the PowerTurret.shootType field value."
+        }
+      }
+    },
+    "source_power_turret_build_use_ammo_result": {
+      "status": "source-backed",
+      "source_slice": "N1170",
+      "rule": "Dictionary returned by PortGame.source_power_turret_build_use_ammo_state.",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_use_ammo_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.useAmmo()",
+          "java_expr": "public class PowerTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_power_turret_build_use_ammo_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_use_ammo_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.useAmmo()",
+          "java_expr": "public BulletType useAmmo(){",
+          "used_by": [
+            "PortGame.source_power_turret_build_use_ammo_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_use_ammo_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.useAmmo()",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_power_turret_build_use_ammo_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "comment": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_use_ammo_result.comment",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.useAmmo()",
+          "java_expr": "//nothing used directly",
+          "used_by": [
+            "PortGame.source_power_turret_build_use_ammo_state"
+          ],
+          "rule": "Result records exact source comment."
+        },
+        "return_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_use_ammo_result.return_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.useAmmo()",
+          "java_expr": "return shootType;",
+          "used_by": [
+            "PortGame.source_power_turret_build_use_ammo_state"
+          ],
+          "rule": "Result records exact return expression."
+        },
+        "shoot_type": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_power_turret_build_use_ammo_result.shoot_type",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.useAmmo()",
+          "java_expr": "return shootType;",
+          "used_by": [
+            "PortGame.source_power_turret_build_use_ammo_state"
+          ],
+          "rule": "Result returns the explicit shoot_type input.",
+          "alias_of": "source_power_turret_build_use_ammo_input.shoot_type"
+        }
+      }
     }
   },
   "version": 1

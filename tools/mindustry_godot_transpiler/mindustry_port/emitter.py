@@ -2809,6 +2809,13 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\tsense_value = super_sense_value",
                         "\treturn {\"source_owner\": \"PortGame.source_power_turret_build_sense_state\", \"inner_class\": \"public class PowerTurretBuild extends TurretBuild{\", \"method\": \"public double sense(LAccess sensor){\", \"override_expr\": \"@Override\", \"switch_return\": \"return switch(sensor){\", \"ammo_case\": \"case ammo -> power == null ? 0f : power.status;\", \"ammo_capacity_case\": \"case ammoCapacity -> 1;\", \"default_case\": \"default -> super.sense(sensor);\", \"sensor\": sensor, \"power_null\": power_null, \"power_status\": power_status, \"super_sense_value\": super_sense_value, \"sense_value\": sense_value}",
                     ])
+                elif method.get("name") == "useAmmo":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_PowerTurretBuild_method_useAmmo_{index}(_args: Array = []) -> Variant:",
+                        "\tvar shoot_type: Variant = _args[0] if _args.size() > 0 else null",
+                        "\treturn {\"source_owner\": \"PortGame.source_power_turret_build_use_ammo_state\", \"inner_class\": \"public class PowerTurretBuild extends TurretBuild{\", \"method\": \"public BulletType useAmmo(){\", \"override_expr\": \"@Override\", \"comment\": \"//nothing used directly\", \"return_expr\": \"return shootType;\", \"shoot_type\": shoot_type}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

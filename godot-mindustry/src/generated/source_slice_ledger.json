@@ -25861,6 +25861,39 @@
       "deferred_exprs": [
         "Inherited TurretBuild.sense internals remain owned by their own slices; default branch value is explicit input."
       ]
+    },
+    "N1170": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
+      "java_method": "PowerTurretBuild.useAmmo()",
+      "godot_owner": "PortGame.source_power_turret_build_use_ammo_state",
+      "exact_exprs": [
+        "public class PowerTurretBuild extends TurretBuild{",
+        "@Override",
+        "public BulletType useAmmo(){",
+        "//nothing used directly",
+        "return shootType;",
+        "public BulletType shootType;"
+      ],
+      "source_symbols": [
+        "power_turret_build_use_ammo.method",
+        "power_turret_build_use_ammo.comment",
+        "power_turret_build_use_ammo.shoot_type",
+        "power_turret_build_use_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_power_turret_build_use_ammo_bridge_state",
+        "test_power_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_power_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_build_use_ammo_bridge_state",
+      "rule": "PowerTurretBuild.useAmmo returns shootType unchanged; no ammo is consumed directly.",
+      "deferred_exprs": [
+        "Concrete BulletType internals remain represented by explicit shoot_type input."
+      ]
     }
   },
   "version": 1

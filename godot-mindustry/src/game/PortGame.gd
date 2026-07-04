@@ -17078,6 +17078,30 @@ func generated_power_turret_build_sense_bridge_state(sensor: String, power_null:
 		"matches": result.get("sense_value", null) == canonical.get("sense_value", null),
 	}
 
+func source_power_turret_build_use_ammo_state(shoot_type: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_power_turret_build_use_ammo_state",
+		"inner_class": "public class PowerTurretBuild extends TurretBuild{",
+		"method": "public BulletType useAmmo(){",
+		"override_expr": "@Override",
+		"comment": "//nothing used directly",
+		"return_expr": "return shootType;",
+		"shoot_type": shoot_type,
+	}
+
+func generated_power_turret_build_use_ammo_bridge_state(shoot_type: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_PowerTurretBuild_method_useAmmo_2([shoot_type])
+	var canonical = source_power_turret_build_use_ammo_state(shoot_type)
+	return {
+		"source_owner": "PortGame.source_power_turret_build_use_ammo_state",
+		"generated_owner": "PowerTurret.PowerTurretBuild.useAmmo",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("shoot_type", null) == canonical.get("shoot_type", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}
