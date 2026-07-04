@@ -26744,6 +26744,37 @@
       ],
       "runtime_proof": "/root/Main.generated_item_entry_to_string_bridge_state",
       "rule": "ItemEntry.toString concatenates item and amount exactly as upstream source."
+    },
+    "N1193": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret",
+      "java_method": "LiquidTurret.ammo(Object...)",
+      "godot_owner": "PortGame.source_liquid_turret_ammo_state",
+      "exact_exprs": [
+        "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+        "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
+        "public void ammo(Object... objects){",
+        "ammoTypes = ObjectMap.of(objects);"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "liquid_turret_ammo.field",
+        "liquid_turret_ammo.comment",
+        "liquid_turret_ammo.method",
+        "liquid_turret_ammo.assignment_expr",
+        "liquid_turret_ammo.objects",
+        "liquid_turret_ammo.ammo_types_after"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_ammo_bridge_state",
+        "test_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_ammo_bridge_state",
+      "rule": "LiquidTurret.ammo replaces ammoTypes with ObjectMap.of(objects); Godot bridge records explicit varargs snapshot only."
     }
   },
   "version": 1

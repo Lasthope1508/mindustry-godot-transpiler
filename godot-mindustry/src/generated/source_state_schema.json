@@ -100533,6 +100533,105 @@
         }
       },
       "rule": "Result schema for ItemEntry.toString return state."
+    },
+    "source_liquid_turret_ammo_input": {
+      "status": "explicit-input",
+      "source_slice": "N1193",
+      "keys": {
+        "objects": {
+          "status": "explicit-input",
+          "type": "Array",
+          "godot_symbol": "source_liquid_turret_ammo_input.objects",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.ammo(Object...)",
+          "java_expr": "Object... objects",
+          "used_by": [
+            "PortGame.source_liquid_turret_ammo_state"
+          ],
+          "rule": "Input supplies exact Java varargs array order: liquid1, bullet1, liquid2, bullet2..."
+        }
+      },
+      "rule": "Input schema for LiquidTurret.ammo bridge."
+    },
+    "source_liquid_turret_ammo_result": {
+      "status": "source-backed",
+      "source_slice": "N1193",
+      "keys": {
+        "field": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_ammo_result.field",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.ammo(Object...)",
+          "java_expr": "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+          "used_by": [
+            "PortGame.source_liquid_turret_ammo_state"
+          ],
+          "rule": "Result records exact ammoTypes field declaration."
+        },
+        "comment": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_ammo_result.comment",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.ammo(Object...)",
+          "java_expr": "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
+          "used_by": [
+            "PortGame.source_liquid_turret_ammo_state"
+          ],
+          "rule": "Result records exact ammo varargs comment."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_ammo_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.ammo(Object...)",
+          "java_expr": "public void ammo(Object... objects){",
+          "used_by": [
+            "PortGame.source_liquid_turret_ammo_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "assignment_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_ammo_result.assignment_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.ammo(Object...)",
+          "java_expr": "ammoTypes = ObjectMap.of(objects);",
+          "used_by": [
+            "PortGame.source_liquid_turret_ammo_state"
+          ],
+          "rule": "Result records exact ObjectMap assignment expression."
+        },
+        "objects": {
+          "status": "explicit-input",
+          "type": "Array",
+          "godot_symbol": "source_liquid_turret_ammo_result.objects",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.ammo(Object...)",
+          "java_expr": "Object... objects",
+          "used_by": [
+            "PortGame.source_liquid_turret_ammo_state"
+          ],
+          "alias_of": "source_liquid_turret_ammo_input.objects",
+          "rule": "Result echoes explicit input objects."
+        },
+        "ammo_types_after": {
+          "status": "source-backed",
+          "type": "Array",
+          "godot_symbol": "source_liquid_turret_ammo_result.ammo_types_after",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.ammo(Object...)",
+          "java_expr": "ObjectMap.of(objects)",
+          "used_by": [
+            "PortGame.source_liquid_turret_ammo_state"
+          ],
+          "rule": "Result records ammoTypes assignment output as explicit array snapshot."
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_liquid_turret_ammo_state."
     }
   },
   "version": 1

@@ -27168,6 +27168,37 @@
       ],
       "runtime_proof": "/root/Main.source_item_entry_to_string_state",
       "rule": "Public runtime contract for ItemEntry.toString state."
+    },
+    "PortGame.source_liquid_turret_ammo_state": {
+      "status": "source-backed",
+      "source_slice": "N1193",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurret.ammo(Object...)",
+      "params": [
+        {
+          "name": "objects",
+          "type": "Array",
+          "schema": "source_liquid_turret_ammo_input.objects"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "field",
+        "comment",
+        "method",
+        "assignment_expr",
+        "objects",
+        "ammo_types_after"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_ammo_bridge_state",
+        "test_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_ammo_state",
+      "rule": "Public runtime contract for LiquidTurret.ammo state; ObjectMap internals stay deferred."
     }
   },
   "policy": {

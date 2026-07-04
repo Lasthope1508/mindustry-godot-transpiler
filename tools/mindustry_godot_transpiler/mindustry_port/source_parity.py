@@ -29,6 +29,7 @@ TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/Turret.java"
 RELOAD_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java"
 POWER_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java"
 ITEM_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java"
+LIQUID_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 GAME_STATE_SOURCE = "core/src/mindustry/core/GameState.java"
@@ -1036,6 +1037,22 @@ def verify_item_entry_to_string_source(upstream_root: Path) -> dict[str, Any]:
     missing = [snippet for snippet in checked.values() if snippet not in source]
     return {
         "source": ITEM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_liquid_turret_ammo_source(upstream_root: Path) -> dict[str, Any]:
+    liquid_turret_path = Path(upstream_root) / LIQUID_TURRET_SOURCE
+    source = liquid_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+        "comment": "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
+        "method": "public void ammo(Object... objects){",
+        "assignment": "ammoTypes = ObjectMap.of(objects);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": LIQUID_TURRET_SOURCE,
         "checked": checked,
         "missing": missing,
     }

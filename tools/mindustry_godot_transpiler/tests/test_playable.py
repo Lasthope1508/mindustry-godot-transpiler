@@ -13744,5 +13744,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemEntry.toString"', source)
         self.assertIn('"matches": result.get("to_string", null) == canonical.get("to_string", null)', source)
 
+    def test_port_game_exposes_source_liquid_turret_ammo_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_liquid_turret_ammo_state(objects: Array) -> Dictionary:", source)
+        self.assertIn('"field": "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();"', source)
+        self.assertIn('"comment": "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */"', source)
+        self.assertIn('"method": "public void ammo(Object... objects){"', source)
+        self.assertIn('"assignment_expr": "ammoTypes = ObjectMap.of(objects);"', source)
+        self.assertIn('"objects": objects.duplicate(true)', source)
+        self.assertIn('"ammo_types_after": objects.duplicate(true)', source)
+
+    def test_port_game_exposes_generated_liquid_turret_ammo_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_liquid_turret_ammo_bridge_state(objects: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_ammo_0([objects])", source)
+        self.assertIn("var canonical = source_liquid_turret_ammo_state(objects)", source)
+        self.assertIn('"source_owner": "PortGame.source_liquid_turret_ammo_state"', source)
+        self.assertIn('"generated_owner": "LiquidTurret.ammo"', source)
+        self.assertIn('"matches": result.get("ammo_types_after", []) == canonical.get("ammo_types_after", [])', source)
+
 if __name__ == "__main__":
     unittest.main()

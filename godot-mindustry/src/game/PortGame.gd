@@ -17852,6 +17852,31 @@ func generated_item_entry_to_string_bridge_state(item_string: String, amount: in
 			and result.get("amount", null) == canonical.get("amount", null),
 	}
 
+func source_liquid_turret_ammo_state(objects: Array) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_liquid_turret_ammo_state",
+		"field": "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+		"comment": "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
+		"method": "public void ammo(Object... objects){",
+		"assignment_expr": "ammoTypes = ObjectMap.of(objects);",
+		"objects": objects.duplicate(true),
+		"ammo_types_after": objects.duplicate(true),
+	}
+
+func generated_liquid_turret_ammo_bridge_state(objects: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_ammo_0([objects])
+	var canonical = source_liquid_turret_ammo_state(objects)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_ammo_state",
+		"generated_owner": "LiquidTurret.ammo",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("ammo_types_after", []) == canonical.get("ammo_types_after", [])
+			and result.get("objects", []) == canonical.get("objects", []),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

@@ -1395,6 +1395,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_power_turret_limit_range_state\", \"method\": \"public void limitRange(float margin){\", \"dispatch_expr\": \"limitRange(shootType, margin);\", \"shoot_type\": shoot_type, \"margin\": margin, \"limit_range_called\": true, \"limit_range_call\": limit_range_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
+        and type_entry.get("name") == "LiquidTurret"
+        and method.get("name") == "ammo"
+    ):
+        return [
+            "\tvar objects: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_ammo_state\", \"field\": \"public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();\", \"comment\": \"/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */\", \"method\": \"public void ammo(Object... objects){\", \"assignment_expr\": \"ammoTypes = ObjectMap.of(objects);\", \"objects\": objects, \"ammo_types_after\": objects}",
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/ItemTurret.java"
         and type_entry.get("name") == "ItemTurret"
         and method.get("name") == "limitRange"
