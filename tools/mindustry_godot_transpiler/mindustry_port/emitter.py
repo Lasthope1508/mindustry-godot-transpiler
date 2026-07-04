@@ -1368,6 +1368,49 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "addBuild"
+        and len(method.get("parameters", [])) == 2
+    ):
+        return [
+            "\tvar plans: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar place: Dictionary = (_args[1] if _args.size() > 1 and _args[1] is Dictionary else {}).duplicate(true)",
+            "\tvar tail: bool = bool(_args[2] if _args.size() > 2 else true)",
+            "\tvar can_build: bool = bool(_args[3] if _args.size() > 3 else true)",
+            "\tvar world_tile_exists: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar tile_build_is_construct_build: bool = bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar construct_progress: float = float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar place_after: Dictionary = place.duplicate(true)",
+            "\tvar plans_after: Array = plans.duplicate(true)",
+            "\tvar replace_index: int = -1",
+            "\tvar removed_replace: bool = false",
+            "\tvar world_tile_call: Variant = null",
+            "\tvar progress_copied: bool = false",
+            "\tvar add_last_call: Variant = null",
+            "\tvar add_first_call: Variant = null",
+            "\tif can_build:",
+            "\t\tfor i in range(plans_after.size()):",
+            "\t\t\tvar plan: Dictionary = plans_after[i] if plans_after[i] is Dictionary else {}",
+            "\t\t\tif int(plan.get(\"x\", 0)) == int(place.get(\"x\", 0)) and int(plan.get(\"y\", 0)) == int(place.get(\"y\", 0)):",
+            "\t\t\t\treplace_index = i",
+            "\t\t\t\tbreak",
+            "\t\tif replace_index != -1:",
+            "\t\t\tplans_after.remove_at(replace_index)",
+            "\t\t\tremoved_replace = true",
+            "\t\tworld_tile_call = {\"call\": \"world.tile(place.x, place.y);\", \"x\": int(place.get(\"x\", 0)), \"y\": int(place.get(\"y\", 0))}",
+            "\t\tif world_tile_exists and tile_build_is_construct_build:",
+            "\t\t\tplace_after[\"progress\"] = construct_progress",
+            "\t\t\tprogress_copied = true",
+            "\t\tif tail:",
+            "\t\t\tplans_after.append(place_after)",
+            "\t\t\tadd_last_call = {\"call\": \"plans.addLast(place);\", \"place\": place_after}",
+            "\t\telse:",
+            "\t\t\tplans_after.insert(0, place_after)",
+            "\t\t\tadd_first_call = {\"call\": \"plans.addFirst(place);\", \"place\": place_after}",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_add_build_state\", \"method\": \"void addBuild(BuildPlan place, boolean tail){\", \"comment\": \"/** Add another build plans to the queue, if it doesn't exist there yet. */\", \"guard_expr\": \"if(!canBuild()) return;\", \"replace_init_expr\": \"BuildPlan replace = null;\", \"replace_match_expr\": \"plan.x == place.x && plan.y == place.y\", \"remove_replace_expr\": \"plans.remove(replace);\", \"tile_lookup_expr\": \"Tile tile = world.tile(place.x, place.y);\", \"construct_guard_expr\": \"if(tile != null && tile.build instanceof ConstructBuild cons){\", \"progress_expr\": \"place.progress = cons.progress;\", \"tail_guard_expr\": \"if(tail){\", \"add_last_expr\": \"plans.addLast(place);\", \"add_first_expr\": \"plans.addFirst(place);\", \"plans\": plans, \"place\": place, \"tail\": tail, \"can_build\": can_build, \"world_tile_exists\": world_tile_exists, \"tile_build_is_construct_build\": tile_build_is_construct_build, \"construct_progress\": construct_progress, \"returned_early\": not can_build, \"replace_index\": replace_index, \"removed_replace\": removed_replace, \"world_tile_call\": world_tile_call, \"progress_copied\": progress_copied, \"add_last_call\": add_last_call, \"add_first_call\": add_first_call, \"plans_after\": plans_after, \"place_after\": place_after}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "buildPlan"
     ):
         return [

@@ -7993,6 +7993,79 @@ func generated_builder_comp_add_build_tail_bridge_state(place: Variant) -> Dicti
 		"matches": result.get("add_build_call", null) == canonical.get("add_build_call", null) and result.get("add_build_called", null) == canonical.get("add_build_called", null),
 	}
 
+func source_builder_add_build_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:
+	var place_after: Dictionary = (place if place is Dictionary else {}).duplicate(true)
+	var place_value: Dictionary = place_after.duplicate(true)
+	var plans_after: Array = plans.duplicate(true)
+	var replace_index: int = -1
+	var removed_replace: bool = false
+	var world_tile_call: Variant = null
+	var progress_copied: bool = false
+	var add_last_call: Variant = null
+	var add_first_call: Variant = null
+	if can_build:
+		for i in range(plans_after.size()):
+			var plan: Dictionary = plans_after[i] if plans_after[i] is Dictionary else {}
+			if int(plan.get("x", 0)) == int(place_after.get("x", 0)) and int(plan.get("y", 0)) == int(place_after.get("y", 0)):
+				replace_index = i
+				break
+		if replace_index != -1:
+			plans_after.remove_at(replace_index)
+			removed_replace = true
+		world_tile_call = {"call": "world.tile(place.x, place.y);", "x": int(place_after.get("x", 0)), "y": int(place_after.get("y", 0))}
+		if world_tile_exists and tile_build_is_construct_build:
+			place_after["progress"] = construct_progress
+			progress_copied = true
+		if tail:
+			plans_after.append(place_after)
+			add_last_call = {"call": "plans.addLast(place);", "place": place_after}
+		else:
+			plans_after.insert(0, place_after)
+			add_first_call = {"call": "plans.addFirst(place);", "place": place_after}
+	return {
+		"method": "void addBuild(BuildPlan place, boolean tail){",
+		"comment": "/** Add another build plans to the queue, if it doesn't exist there yet. */",
+		"guard_expr": "if(!canBuild()) return;",
+		"replace_init_expr": "BuildPlan replace = null;",
+		"replace_match_expr": "plan.x == place.x && plan.y == place.y",
+		"remove_replace_expr": "plans.remove(replace);",
+		"tile_lookup_expr": "Tile tile = world.tile(place.x, place.y);",
+		"construct_guard_expr": "if(tile != null && tile.build instanceof ConstructBuild cons){",
+		"progress_expr": "place.progress = cons.progress;",
+		"tail_guard_expr": "if(tail){",
+		"add_last_expr": "plans.addLast(place);",
+		"add_first_expr": "plans.addFirst(place);",
+		"plans": plans,
+		"place": place_value,
+		"tail": tail,
+		"can_build": can_build,
+		"world_tile_exists": world_tile_exists,
+		"tile_build_is_construct_build": tile_build_is_construct_build,
+		"construct_progress": construct_progress,
+		"returned_early": not can_build,
+		"replace_index": replace_index,
+		"removed_replace": removed_replace,
+		"world_tile_call": world_tile_call,
+		"progress_copied": progress_copied,
+		"add_last_call": add_last_call,
+		"add_first_call": add_first_call,
+		"plans_after": plans_after,
+		"place_after": place_after,
+	}
+
+func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_addBuild_12([plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress])
+	var canonical = source_builder_add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)
+	return {
+		"source_owner": "PortGame.source_builder_add_build_state",
+		"generated_owner": "BuilderComp.java_method_addBuild_12",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("plans_after", null) == canonical.get("plans_after", null) and result.get("place_after", null) == canonical.get("place_after", null) and result.get("returned_early", null) == canonical.get("returned_early", null),
+	}
+
 func source_builder_build_plan_state(plans_size: int, plans_first: Variant) -> Dictionary:
 	var build_plan: Variant = null if plans_size == 0 else plans_first
 	return {

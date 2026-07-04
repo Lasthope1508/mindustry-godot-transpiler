@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 620)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 621)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 625)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 626)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -41727,6 +41727,86 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_add_build_tail_result["keys"]["tail"]["java_expr"], "true")
         self.assertEqual(source_builder_add_build_tail_result["keys"]["add_build_call"]["java_expr"], "addBuild(place, true);")
         self.assertEqual(source_builder_add_build_tail_result["keys"]["add_build_called"]["java_expr"], "addBuild(place, true);")
+
+    def test_generated_builder_comp_add_build_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_add_build.method")
+        self.assertEqual(method["java_expr"], "void addBuild(BuildPlan place, boolean tail){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "addBuild(BuildPlan place, boolean tail)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_add_build_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_add_build_state")
+
+        guard = source_symbols.source_symbol(registry, "builder_add_build.can_build_guard")
+        self.assertEqual(guard["java_expr"], "if(!canBuild()) return;")
+        self.assertEqual(guard["godot_symbol"], "source_builder_add_build_result.returned_early")
+        replace_match = source_symbols.source_symbol(registry, "builder_add_build.replace_match")
+        self.assertEqual(replace_match["java_expr"], "plan.x == place.x && plan.y == place.y")
+        self.assertEqual(replace_match["godot_symbol"], "source_builder_add_build_result.replace_index")
+        progress = source_symbols.source_symbol(registry, "builder_add_build.progress_assign")
+        self.assertEqual(progress["java_expr"], "place.progress = cons.progress;")
+        self.assertEqual(progress["godot_symbol"], "source_builder_add_build_result.progress_copied")
+        add_last = source_symbols.source_symbol(registry, "builder_add_build.add_last")
+        self.assertEqual(add_last["java_expr"], "plans.addLast(place);")
+        self.assertEqual(add_last["godot_symbol"], "source_builder_add_build_result.add_last_call")
+        add_first = source_symbols.source_symbol(registry, "builder_add_build.add_first")
+        self.assertEqual(add_first["java_expr"], "plans.addFirst(place);")
+        self.assertEqual(add_first["godot_symbol"], "source_builder_add_build_result.add_first_call")
+
+        add_build_slice = source_symbols.source_slice(ledger, "N1152")
+        self.assertEqual(add_build_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(add_build_slice["java_method"], "addBuild(BuildPlan place, boolean tail)")
+        self.assertEqual(add_build_slice["godot_owner"], "PortGame.source_builder_add_build_state")
+        self.assertEqual(add_build_slice["runtime_proof"], "/root/Main.generated_builder_comp_add_build_bridge_state")
+        for expr in [
+            "/** Add another build plans to the queue, if it doesn't exist there yet. */",
+            "void addBuild(BuildPlan place, boolean tail){",
+            "if(!canBuild()) return;",
+            "BuildPlan replace = null;",
+            "if(plan.x == place.x && plan.y == place.y){",
+            "plans.remove(replace);",
+            "Tile tile = world.tile(place.x, place.y);",
+            "if(tile != null && tile.build instanceof ConstructBuild cons){",
+            "place.progress = cons.progress;",
+            "plans.addLast(place);",
+            "plans.addFirst(place);",
+        ]:
+            self.assertIn(expr, add_build_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_add_build_state")
+        self.assertEqual(contract["params"], [
+            {"name": "plans", "schema": "source_builder_add_build_input.plans", "type": "Array"},
+            {"name": "place", "schema": "source_builder_add_build_input.place", "type": "Variant"},
+            {"name": "tail", "schema": "source_builder_add_build_input.tail", "type": "bool"},
+            {"name": "can_build", "schema": "source_builder_add_build_input.can_build", "type": "bool"},
+            {"name": "world_tile_exists", "schema": "source_builder_add_build_input.world_tile_exists", "type": "bool"},
+            {"name": "tile_build_is_construct_build", "schema": "source_builder_add_build_input.tile_build_is_construct_build", "type": "bool"},
+            {"name": "construct_progress", "schema": "source_builder_add_build_input.construct_progress", "type": "float"},
+        ])
+        for key in ["method", "comment", "guard_expr", "replace_init_expr", "replace_match_expr", "remove_replace_expr", "tile_lookup_expr", "construct_guard_expr", "progress_expr", "tail_guard_expr", "add_last_expr", "add_first_expr", "plans", "place", "tail", "can_build", "world_tile_exists", "tile_build_is_construct_build", "construct_progress", "returned_early", "replace_index", "removed_replace", "world_tile_call", "progress_copied", "add_last_call", "add_first_call", "plans_after", "place_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_add_build_input = source_symbols.state_schema(schema, "source_builder_add_build_input")
+        self.assertEqual(source_builder_add_build_input["keys"]["plans"]["java_expr"], "plans")
+        self.assertEqual(source_builder_add_build_input["keys"]["place"]["java_expr"], "place")
+        self.assertEqual(source_builder_add_build_input["keys"]["tail"]["java_expr"], "tail")
+        self.assertEqual(source_builder_add_build_input["keys"]["can_build"]["java_expr"], "canBuild()")
+        self.assertEqual(source_builder_add_build_input["keys"]["world_tile_exists"]["java_expr"], "tile != null")
+        self.assertEqual(source_builder_add_build_input["keys"]["tile_build_is_construct_build"]["java_expr"], "tile.build instanceof ConstructBuild cons")
+        self.assertEqual(source_builder_add_build_input["keys"]["construct_progress"]["java_expr"], "cons.progress")
+        source_builder_add_build_result = source_symbols.state_schema(schema, "source_builder_add_build_result")
+        self.assertEqual(source_builder_add_build_result["keys"]["method"]["java_expr"], "void addBuild(BuildPlan place, boolean tail){")
+        self.assertEqual(source_builder_add_build_result["keys"]["returned_early"]["java_expr"], "if(!canBuild()) return;")
+        self.assertEqual(source_builder_add_build_result["keys"]["replace_index"]["java_expr"], "plan.x == place.x && plan.y == place.y")
+        self.assertEqual(source_builder_add_build_result["keys"]["progress_copied"]["java_expr"], "place.progress = cons.progress;")
+        self.assertEqual(source_builder_add_build_result["keys"]["add_last_call"]["java_expr"], "plans.addLast(place);")
+        self.assertEqual(source_builder_add_build_result["keys"]["add_first_call"]["java_expr"], "plans.addFirst(place);")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

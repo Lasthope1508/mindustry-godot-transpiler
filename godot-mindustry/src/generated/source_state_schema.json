@@ -91688,6 +91688,436 @@
           ]
         }
       }
+    },
+    "source_builder_add_build_input": {
+      "status": "active",
+      "keys": {
+        "plans": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plans",
+          "godot_symbol": "source_builder_add_build_input.plans",
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "Existing plans queue snapshot.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "place": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "place",
+          "godot_symbol": "source_builder_add_build_input.place",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "BuildPlan place parameter.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "tail": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "tail",
+          "godot_symbol": "source_builder_add_build_input.tail",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Tail parameter.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "can_build": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "canBuild()",
+          "godot_symbol": "source_builder_add_build_input.can_build",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "canBuild() result, not inlined.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "world_tile_exists": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "tile != null",
+          "godot_symbol": "source_builder_add_build_input.world_tile_exists",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Tile null-check result.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "tile_build_is_construct_build": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "tile.build instanceof ConstructBuild cons",
+          "godot_symbol": "source_builder_add_build_input.tile_build_is_construct_build",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "ConstructBuild type-check result.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "construct_progress": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "cons.progress",
+          "godot_symbol": "source_builder_add_build_input.construct_progress",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "ConstructBuild progress value.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        }
+      }
+    },
+    "source_builder_add_build_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "void addBuild(BuildPlan place, boolean tail){",
+          "godot_symbol": "source_builder_add_build_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild method.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "comment": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "/** Add another build plans to the queue, if it doesn't exist there yet. */",
+          "godot_symbol": "source_builder_add_build_result.comment",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild comment.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "if(!canBuild()) return;",
+          "godot_symbol": "source_builder_add_build_result.guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild guard_expr.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "replace_init_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "BuildPlan replace = null;",
+          "godot_symbol": "source_builder_add_build_result.replace_init_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild replace_init_expr.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "replace_match_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plan.x == place.x && plan.y == place.y",
+          "godot_symbol": "source_builder_add_build_result.replace_match_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild replace_match_expr.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "remove_replace_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plans.remove(replace);",
+          "godot_symbol": "source_builder_add_build_result.remove_replace_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild remove_replace_expr.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "tile_lookup_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "Tile tile = world.tile(place.x, place.y);",
+          "godot_symbol": "source_builder_add_build_result.tile_lookup_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild tile_lookup_expr.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "construct_guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "if(tile != null && tile.build instanceof ConstructBuild cons){",
+          "godot_symbol": "source_builder_add_build_result.construct_guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild construct_guard_expr.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "progress_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "place.progress = cons.progress;",
+          "godot_symbol": "source_builder_add_build_result.progress_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild progress_expr.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "tail_guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "if(tail){",
+          "godot_symbol": "source_builder_add_build_result.tail_guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild tail_guard_expr.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "add_last_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plans.addLast(place);",
+          "godot_symbol": "source_builder_add_build_result.add_last_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild add_last_expr.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "add_first_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plans.addFirst(place);",
+          "godot_symbol": "source_builder_add_build_result.add_first_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild add_first_expr.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "plans": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plans",
+          "godot_symbol": "source_builder_add_build_result.plans",
+          "type": "Array",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.addBuild plans.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "place": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "place",
+          "godot_symbol": "source_builder_add_build_result.place",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.addBuild place.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "tail": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "tail",
+          "godot_symbol": "source_builder_add_build_result.tail",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.addBuild tail.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "can_build": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "canBuild()",
+          "godot_symbol": "source_builder_add_build_result.can_build",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.addBuild can_build.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "world_tile_exists": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "tile != null",
+          "godot_symbol": "source_builder_add_build_result.world_tile_exists",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.addBuild world_tile_exists.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "tile_build_is_construct_build": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "tile.build instanceof ConstructBuild cons",
+          "godot_symbol": "source_builder_add_build_result.tile_build_is_construct_build",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.addBuild tile_build_is_construct_build.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "construct_progress": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "cons.progress",
+          "godot_symbol": "source_builder_add_build_result.construct_progress",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.addBuild construct_progress.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "returned_early": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "if(!canBuild()) return;",
+          "godot_symbol": "source_builder_add_build_result.returned_early",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild returned_early.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "replace_index": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plan.x == place.x && plan.y == place.y",
+          "godot_symbol": "source_builder_add_build_result.replace_index",
+          "type": "int",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild replace_index.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "removed_replace": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plans.remove(replace);",
+          "godot_symbol": "source_builder_add_build_result.removed_replace",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild removed_replace.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "world_tile_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "Tile tile = world.tile(place.x, place.y);",
+          "godot_symbol": "source_builder_add_build_result.world_tile_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild world_tile_call.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "progress_copied": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "place.progress = cons.progress;",
+          "godot_symbol": "source_builder_add_build_result.progress_copied",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild progress_copied.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "add_last_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plans.addLast(place);",
+          "godot_symbol": "source_builder_add_build_result.add_last_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild add_last_call.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "add_first_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plans.addFirst(place);",
+          "godot_symbol": "source_builder_add_build_result.add_first_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild add_first_call.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "plans_after": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "plans.addLast(place); / plans.addFirst(place);",
+          "godot_symbol": "source_builder_add_build_result.plans_after",
+          "type": "Array",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild plans_after.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        },
+        "place_after": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "addBuild(BuildPlan place, boolean tail)",
+          "java_expr": "place.progress = cons.progress;",
+          "godot_symbol": "source_builder_add_build_result.place_after",
+          "type": "Dictionary",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.addBuild place_after.",
+          "used_by": [
+            "PortGame.source_builder_add_build_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

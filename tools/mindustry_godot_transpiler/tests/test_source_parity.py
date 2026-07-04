@@ -8126,6 +8126,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_builder_add_build_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_builder_add_build_source"))
+        report = source_parity.verify_builder_add_build_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(report["checked"], {
+            "comment": "/** Add another build plans to the queue, if it doesn't exist there yet. */",
+            "method": "void addBuild(BuildPlan place, boolean tail){",
+            "can_build_guard": "if(!canBuild()) return;",
+            "replace_init": "BuildPlan replace = null;",
+            "plans_loop": "for(BuildPlan plan : plans){",
+            "replace_match": "if(plan.x == place.x && plan.y == place.y){",
+            "replace_assign": "replace = plan;",
+            "replace_break": "break;",
+            "replace_guard": "if(replace != null){",
+            "remove_replace": "plans.remove(replace);",
+            "tile_lookup": "Tile tile = world.tile(place.x, place.y);",
+            "construct_guard": "if(tile != null && tile.build instanceof ConstructBuild cons){",
+            "progress_assign": "place.progress = cons.progress;",
+            "tail_guard": "if(tail){",
+            "add_last": "plans.addLast(place);",
+            "add_first": "plans.addFirst(place);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_builder_should_skip_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_builder_should_skip_source"))
         report = source_parity.verify_builder_should_skip_source(ROOT / "mindustry-upstream")

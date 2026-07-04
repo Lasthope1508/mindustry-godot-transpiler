@@ -12558,6 +12558,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_addBuild_11"', source)
         self.assertIn('"matches": result.get("add_build_call", null) == canonical.get("add_build_call", null) and result.get("add_build_called", null) == canonical.get("add_build_called", null)', source)
 
+    def test_port_game_exposes_source_builder_add_build_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_add_build_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:", source)
+        self.assertIn("var place_after: Dictionary = (place if place is Dictionary else {}).duplicate(true)", source)
+        self.assertIn("var replace_index: int = -1", source)
+        self.assertIn('if int(plan.get("x", 0)) == int(place_after.get("x", 0)) and int(plan.get("y", 0)) == int(place_after.get("y", 0)):', source)
+        self.assertIn("plans_after.remove_at(replace_index)", source)
+        self.assertIn('place_after["progress"] = construct_progress', source)
+        self.assertIn("plans_after.append(place_after)", source)
+        self.assertIn("plans_after.insert(0, place_after)", source)
+        self.assertIn('"method": "void addBuild(BuildPlan place, boolean tail){"', source)
+        self.assertIn('"guard_expr": "if(!canBuild()) return;"', source)
+        self.assertIn('"replace_match_expr": "plan.x == place.x && plan.y == place.y"', source)
+        self.assertIn('"progress_expr": "place.progress = cons.progress;"', source)
+        self.assertIn('"plans_after": plans_after', source)
+
+    def test_port_game_exposes_generated_builder_comp_add_build_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_add_build_bridge_state(plans: Array, place: Variant, tail: bool, can_build: bool, world_tile_exists: bool, tile_build_is_construct_build: bool, construct_progress: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_addBuild_12([plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress])", source)
+        self.assertIn("var canonical = source_builder_add_build_state(plans, place, tail, can_build, world_tile_exists, tile_build_is_construct_build, construct_progress)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_add_build_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_addBuild_12"', source)
+        self.assertIn('"matches": result.get("plans_after", null) == canonical.get("plans_after", null) and result.get("place_after", null) == canonical.get("place_after", null) and result.get("returned_early", null) == canonical.get("returned_early", null)', source)
+
     def test_port_game_exposes_source_builder_build_plan_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

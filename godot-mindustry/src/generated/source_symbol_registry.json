@@ -77914,6 +77914,550 @@
         "test_generated_builder_comp_draw_plan_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_builder_draw_plan_state"
       ]
+    },
+    "builder_add_build.method": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.method",
+      "java_expr": "void addBuild(BuildPlan place, boolean tail){",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Method boundary comes from BuilderComp.addBuild(BuildPlan place, boolean tail).",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.comment": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.comment",
+      "java_expr": "/** Add another build plans to the queue, if it doesn't exist there yet. */",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Comment comes from BuilderComp.addBuild two-argument overload.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.can_build_guard": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.returned_early",
+      "java_expr": "if(!canBuild()) return;",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves early return guard without guessing canBuild internals.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.replace_init": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.replace_index",
+      "java_expr": "BuildPlan replace = null;",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves replace sentinel as replace_index=-1 on snapshot.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.plans_loop": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.plans_after",
+      "java_expr": "for(BuildPlan plan : plans){",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves scan over plans snapshot.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.replace_match": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.replace_index",
+      "java_expr": "plan.x == place.x && plan.y == place.y",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves same x/y replacement predicate.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.replace_assign": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.replace_index",
+      "java_expr": "replace = plan;",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves first matching replacement selection.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.replace_break": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.replace_index",
+      "java_expr": "break;",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves first-match loop break.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.replace_guard": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.removed_replace",
+      "java_expr": "if(replace != null){",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves replace non-null guard.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.remove_replace": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.removed_replace",
+      "java_expr": "plans.remove(replace);",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves replacement removal mutation.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.tile_lookup": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.world_tile_call",
+      "java_expr": "Tile tile = world.tile(place.x, place.y);",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves world.tile(place.x, place.y) lookup as explicit call fact.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.construct_guard": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.progress_copied",
+      "java_expr": "if(tile != null && tile.build instanceof ConstructBuild cons){",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves ConstructBuild progress-copy guard as explicit input facts.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.progress_assign": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.progress_copied",
+      "java_expr": "place.progress = cons.progress;",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves ConstructBuild progress assignment.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.tail_guard": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.tail",
+      "java_expr": "if(tail){",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves tail branch guard.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.add_last": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.add_last_call",
+      "java_expr": "plans.addLast(place);",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves tail insertion call.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.add_first": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.add_first_call",
+      "java_expr": "plans.addFirst(place);",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Preserves head insertion call.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.plans": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_input.plans",
+      "java_expr": "plans",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves existing plans queue snapshot.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.place": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_input.place",
+      "java_expr": "place",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves BuildPlan place parameter.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.tail": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_input.tail",
+      "java_expr": "tail",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves boolean tail parameter.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.can_build": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_input.can_build",
+      "java_expr": "canBuild()",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves canBuild() result without inlining canBuild.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.world_tile_exists": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_input.world_tile_exists",
+      "java_expr": "tile != null",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves tile null check result.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.tile_build_is_construct_build": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_input.tile_build_is_construct_build",
+      "java_expr": "tile.build instanceof ConstructBuild cons",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves ConstructBuild type check result.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.construct_progress": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_input.construct_progress",
+      "java_expr": "cons.progress",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Input preserves ConstructBuild progress value.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.returned_early": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.returned_early",
+      "java_expr": "if(!canBuild()) return;",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Result records canBuild early return.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.replace_index": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.replace_index",
+      "java_expr": "plan.x == place.x && plan.y == place.y",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Result records first matching replace index from source predicate.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.removed_replace": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.removed_replace",
+      "java_expr": "plans.remove(replace);",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Result records whether replacement was removed.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.world_tile_call": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.world_tile_call",
+      "java_expr": "Tile tile = world.tile(place.x, place.y);",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Result records world tile lookup call.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.progress_copied": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.progress_copied",
+      "java_expr": "place.progress = cons.progress;",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Result records ConstructBuild progress copy.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.add_last_call": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.add_last_call",
+      "java_expr": "plans.addLast(place);",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Result records addLast call.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.add_first_call": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.add_first_call",
+      "java_expr": "plans.addFirst(place);",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Result records addFirst call.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.plans_after": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.plans_after",
+      "java_expr": "plans.addLast(place); / plans.addFirst(place);",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Result records source queue mutation over a snapshot.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "builder_add_build.place_after": {
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "godot_symbol": "source_builder_add_build_result.place_after",
+      "java_expr": "place.progress = cons.progress;",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Result records BuildPlan place after optional progress copy.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

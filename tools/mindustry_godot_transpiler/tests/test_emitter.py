@@ -6700,6 +6700,69 @@ class BuilderComp{
             self.assertIn('"add_build_call": add_build_call', source_text)
             self.assertIn('"add_build_called": true', source_text)
 
+    def test_emit_bridges_builder_comp_add_build_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    /** Add another build plans to the queue, if it doesn't exist there yet. */
+    void addBuild(BuildPlan place, boolean tail){
+        if(!canBuild()) return;
+
+        BuildPlan replace = null;
+        for(BuildPlan plan : plans){
+            if(plan.x == place.x && plan.y == place.y){
+                replace = plan;
+                break;
+            }
+        }
+        if(replace != null){
+            plans.remove(replace);
+        }
+        Tile tile = world.tile(place.x, place.y);
+        if(tile != null && tile.build instanceof ConstructBuild cons){
+            place.progress = cons.progress;
+        }
+        if(tail){
+            plans.addLast(place);
+        }else{
+            plans.addFirst(place);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_addBuild_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var plans: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var place: Dictionary = (_args[1] if _args.size() > 1 and _args[1] is Dictionary else {}).duplicate(true)", source_text)
+            self.assertIn("var tail: bool = bool(_args[2] if _args.size() > 2 else true)", source_text)
+            self.assertIn("var can_build: bool = bool(_args[3] if _args.size() > 3 else true)", source_text)
+            self.assertIn("var replace_index: int = -1", source_text)
+            self.assertIn('if int(plan.get("x", 0)) == int(place.get("x", 0)) and int(plan.get("y", 0)) == int(place.get("y", 0)):', source_text)
+            self.assertIn("plans_after.remove_at(replace_index)", source_text)
+            self.assertIn("place_after[\"progress\"] = construct_progress", source_text)
+            self.assertIn("plans_after.append(place_after)", source_text)
+            self.assertIn("plans_after.insert(0, place_after)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_add_build_state"', source_text)
+            self.assertIn('"method": "void addBuild(BuildPlan place, boolean tail){"', source_text)
+            self.assertIn('"guard_expr": "if(!canBuild()) return;"', source_text)
+            self.assertIn('"replace_match_expr": "plan.x == place.x && plan.y == place.y"', source_text)
+            self.assertIn('"progress_expr": "place.progress = cons.progress;"', source_text)
+            self.assertIn('"plans_after": plans_after', source_text)
+
     def test_emit_bridges_builder_comp_build_plan_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

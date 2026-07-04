@@ -121,7 +121,41 @@ func java_method_addBuild_11(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_builder_add_build_tail_state", "method": "void addBuild(BuildPlan place){", "place": place, "tail": tail, "add_build_call": add_build_call, "add_build_called": true}
 
 func java_method_addBuild_12(_args: Array = []) -> Variant:
-	return null
+	var plans: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []
+	var place: Dictionary = (_args[1] if _args.size() > 1 and _args[1] is Dictionary else {}).duplicate(true)
+	var tail: bool = bool(_args[2] if _args.size() > 2 else true)
+	var can_build: bool = bool(_args[3] if _args.size() > 3 else true)
+	var world_tile_exists: bool = bool(_args[4] if _args.size() > 4 else false)
+	var tile_build_is_construct_build: bool = bool(_args[5] if _args.size() > 5 else false)
+	var construct_progress: float = float(_args[6] if _args.size() > 6 else 0.0)
+	var place_after: Dictionary = place.duplicate(true)
+	var plans_after: Array = plans.duplicate(true)
+	var replace_index: int = -1
+	var removed_replace: bool = false
+	var world_tile_call: Variant = null
+	var progress_copied: bool = false
+	var add_last_call: Variant = null
+	var add_first_call: Variant = null
+	if can_build:
+		for i in range(plans_after.size()):
+			var plan: Dictionary = plans_after[i] if plans_after[i] is Dictionary else {}
+			if int(plan.get("x", 0)) == int(place.get("x", 0)) and int(plan.get("y", 0)) == int(place.get("y", 0)):
+				replace_index = i
+				break
+		if replace_index != -1:
+			plans_after.remove_at(replace_index)
+			removed_replace = true
+		world_tile_call = {"call": "world.tile(place.x, place.y);", "x": int(place.get("x", 0)), "y": int(place.get("y", 0))}
+		if world_tile_exists and tile_build_is_construct_build:
+			place_after["progress"] = construct_progress
+			progress_copied = true
+		if tail:
+			plans_after.append(place_after)
+			add_last_call = {"call": "plans.addLast(place);", "place": place_after}
+		else:
+			plans_after.insert(0, place_after)
+			add_first_call = {"call": "plans.addFirst(place);", "place": place_after}
+	return {"source_owner": "PortGame.source_builder_add_build_state", "method": "void addBuild(BuildPlan place, boolean tail){", "comment": "/** Add another build plans to the queue, if it doesn't exist there yet. */", "guard_expr": "if(!canBuild()) return;", "replace_init_expr": "BuildPlan replace = null;", "replace_match_expr": "plan.x == place.x && plan.y == place.y", "remove_replace_expr": "plans.remove(replace);", "tile_lookup_expr": "Tile tile = world.tile(place.x, place.y);", "construct_guard_expr": "if(tile != null && tile.build instanceof ConstructBuild cons){", "progress_expr": "place.progress = cons.progress;", "tail_guard_expr": "if(tail){", "add_last_expr": "plans.addLast(place);", "add_first_expr": "plans.addFirst(place);", "plans": plans, "place": place, "tail": tail, "can_build": can_build, "world_tile_exists": world_tile_exists, "tile_build_is_construct_build": tile_build_is_construct_build, "construct_progress": construct_progress, "returned_early": not can_build, "replace_index": replace_index, "removed_replace": removed_replace, "world_tile_call": world_tile_call, "progress_copied": progress_copied, "add_last_call": add_last_call, "add_first_call": add_first_call, "plans_after": plans_after, "place_after": place_after}
 
 func java_method_activelyBuilding_13(_args: Array = []) -> Variant:
 	var plans_size: int = int(_args[0] if _args.size() > 0 else 0)

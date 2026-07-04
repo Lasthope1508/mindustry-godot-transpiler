@@ -25059,6 +25059,88 @@
         "test_generated_builder_comp_draw_plan_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_builder_draw_plan_state"
       ]
+    },
+    "PortGame.source_builder_add_build_state": {
+      "source_slice": "N1152",
+      "source_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plans",
+          "type": "Array",
+          "schema": "source_builder_add_build_input.plans"
+        },
+        {
+          "name": "place",
+          "type": "Variant",
+          "schema": "source_builder_add_build_input.place"
+        },
+        {
+          "name": "tail",
+          "type": "bool",
+          "schema": "source_builder_add_build_input.tail"
+        },
+        {
+          "name": "can_build",
+          "type": "bool",
+          "schema": "source_builder_add_build_input.can_build"
+        },
+        {
+          "name": "world_tile_exists",
+          "type": "bool",
+          "schema": "source_builder_add_build_input.world_tile_exists"
+        },
+        {
+          "name": "tile_build_is_construct_build",
+          "type": "bool",
+          "schema": "source_builder_add_build_input.tile_build_is_construct_build"
+        },
+        {
+          "name": "construct_progress",
+          "type": "float",
+          "schema": "source_builder_add_build_input.construct_progress"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "guard_expr",
+        "replace_init_expr",
+        "replace_match_expr",
+        "remove_replace_expr",
+        "tile_lookup_expr",
+        "construct_guard_expr",
+        "progress_expr",
+        "tail_guard_expr",
+        "add_last_expr",
+        "add_first_expr",
+        "plans",
+        "place",
+        "tail",
+        "can_build",
+        "world_tile_exists",
+        "tile_build_is_construct_build",
+        "construct_progress",
+        "returned_early",
+        "replace_index",
+        "removed_replace",
+        "world_tile_call",
+        "progress_copied",
+        "add_last_call",
+        "add_first_call",
+        "plans_after",
+        "place_after"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.addBuild two-argument overload, preserving canBuild guard, replacement removal, ConstructBuild progress copy, and tail/front insertion.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

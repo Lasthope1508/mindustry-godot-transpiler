@@ -223,6 +223,34 @@ def verify_builder_remove_build_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_builder_add_build_source(upstream_root: Path) -> dict[str, Any]:
+    builder_comp_path = Path(upstream_root) / BUILDER_COMP_SOURCE
+    source = builder_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "/** Add another build plans to the queue, if it doesn't exist there yet. */",
+        "method": "void addBuild(BuildPlan place, boolean tail){",
+        "can_build_guard": "if(!canBuild()) return;",
+        "replace_init": "BuildPlan replace = null;",
+        "plans_loop": "for(BuildPlan plan : plans){",
+        "replace_match": "if(plan.x == place.x && plan.y == place.y){",
+        "replace_assign": "replace = plan;",
+        "replace_break": "break;",
+        "replace_guard": "if(replace != null){",
+        "remove_replace": "plans.remove(replace);",
+        "tile_lookup": "Tile tile = world.tile(place.x, place.y);",
+        "construct_guard": "if(tile != null && tile.build instanceof ConstructBuild cons){",
+        "progress_assign": "place.progress = cons.progress;",
+        "tail_guard": "if(tail){",
+        "add_last": "plans.addLast(place);",
+        "add_first": "plans.addFirst(place);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BUILDER_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_builder_should_skip_source(upstream_root: Path) -> dict[str, Any]:
     builder_comp_path = Path(upstream_root) / BUILDER_COMP_SOURCE
     source = builder_comp_path.read_text(encoding="utf-8", errors="replace")
