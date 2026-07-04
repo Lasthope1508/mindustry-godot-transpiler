@@ -640,6 +640,27 @@ def verify_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_turret_set_bars_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void setBars(){",
+        "super_set_bars": "super.setBars();",
+        "heat_requirement_guard": "if(heatRequirement > 0){",
+        "add_bar": "addBar(\"heat\", (TurretBuild entity) ->",
+        "bar_new": "new Bar(() ->",
+        "bar_text": "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100)),",
+        "bar_color": "() -> Pal.lightOrange,",
+        "bar_progress": "() -> entity.heatReq / heatRequirement));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_rotated_output_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

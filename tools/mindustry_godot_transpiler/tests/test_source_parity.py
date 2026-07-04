@@ -8474,6 +8474,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_turret_set_bars_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_turret_set_bars_source"))
+        report = source_parity.verify_turret_set_bars_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public void setBars(){",
+            "super_set_bars": "super.setBars();",
+            "heat_requirement_guard": "if(heatRequirement > 0){",
+            "add_bar": "addBar(\"heat\", (TurretBuild entity) ->",
+            "bar_new": "new Bar(() ->",
+            "bar_text": "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100)),",
+            "bar_color": "() -> Pal.lightOrange,",
+            "bar_progress": "() -> entity.heatReq / heatRequirement));",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_rotated_output_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_rotated_output_source"))
         report = source_parity.verify_turret_rotated_output_source(ROOT / "mindustry-upstream")

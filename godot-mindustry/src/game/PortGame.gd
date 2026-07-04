@@ -16975,6 +16975,55 @@ func generated_turret_set_stats_bridge_state(inaccuracy_value: float, reload_val
 		"matches": result.get("reload_stat_call", null) == canonical.get("reload_stat_call", null) and result.get("ammo_use_stat_call", null) == canonical.get("ammo_use_stat_call", null) and result.get("max_efficiency_stat_call", null) == canonical.get("max_efficiency_stat_call", null),
 	}
 
+func source_turret_set_bars_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:
+	var heat_bar_added: bool = heat_requirement > 0.0
+	var heat_bar_percent: int = 0
+	var heat_bar_fraction: float = 0.0
+	var heat_bar_text_call: Dictionary = {}
+	var heat_bar_color: String = ""
+	var heat_bar_call: Dictionary = {}
+	if heat_bar_added:
+		heat_bar_percent = int(min(entity_heat_req / heat_requirement, max_heat_efficiency) * 100.0)
+		heat_bar_fraction = entity_heat_req / heat_requirement
+		heat_bar_text_call = {"call": "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))", "key": "bar.heatpercent", "heat_req": int(entity_heat_req), "percent": heat_bar_percent}
+		heat_bar_color = "Pal.lightOrange"
+		heat_bar_call = {"call": "addBar(\"heat\", (TurretBuild entity) -> new Bar(...));", "name": "heat", "text_call": heat_bar_text_call, "color": heat_bar_color, "fraction": heat_bar_fraction}
+	return {
+		"source_owner": "PortGame.source_turret_set_bars_state",
+		"method": "public void setBars(){",
+		"override_expr": "@Override",
+		"super_set_bars_expr": "super.setBars();",
+		"heat_requirement_guard_expr": "if(heatRequirement > 0){",
+		"add_bar_expr": "addBar(\"heat\", (TurretBuild entity) ->",
+		"bar_new_expr": "new Bar(() ->",
+		"bar_text_format_expr": "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))",
+		"bar_color_expr": "() -> Pal.lightOrange",
+		"bar_progress_expr": "() -> entity.heatReq / heatRequirement",
+		"heat_requirement": heat_requirement,
+		"entity_heat_req": entity_heat_req,
+		"max_heat_efficiency": max_heat_efficiency,
+		"super_set_bars_called": true,
+		"heat_bar_added": heat_bar_added,
+		"heat_bar_percent": heat_bar_percent,
+		"heat_bar_fraction": heat_bar_fraction,
+		"heat_bar_text_call": heat_bar_text_call,
+		"heat_bar_color": heat_bar_color,
+		"heat_bar_call": heat_bar_call,
+	}
+
+func generated_turret_set_bars_bridge_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setBars_2([heat_requirement, entity_heat_req, max_heat_efficiency])
+	var canonical = source_turret_set_bars_state(heat_requirement, entity_heat_req, max_heat_efficiency)
+	return {
+		"source_owner": "PortGame.source_turret_set_bars_state",
+		"generated_owner": "Turret.java_method_setBars_2",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("heat_bar_call", null) == canonical.get("heat_bar_call", null) and result.get("heat_bar_added", null) == canonical.get("heat_bar_added", null),
+	}
+
 func source_turret_load_state() -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_turret_load_state",

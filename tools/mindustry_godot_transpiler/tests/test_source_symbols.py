@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 681)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 682)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 686)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 687)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42933,6 +42933,67 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void setStats(){")
         self.assertEqual(result_schema["keys"]["reload_stat_call"]["java_expr"], "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);")
         self.assertEqual(result_schema["keys"]["max_efficiency_stat_call"]["java_expr"], "if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);")
+
+    def test_generated_turret_set_bars_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_set_bars.method")
+        self.assertEqual(method["java_expr"], "public void setBars(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "setBars()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_set_bars_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_set_bars_state")
+
+        add_bar = source_symbols.source_symbol(registry, "turret_set_bars.add_bar")
+        self.assertEqual(add_bar["java_expr"], "addBar(\"heat\", (TurretBuild entity) ->")
+        self.assertEqual(add_bar["godot_symbol"], "source_turret_set_bars_result.heat_bar_call")
+        bar_text = source_symbols.source_symbol(registry, "turret_set_bars.bar_text")
+        self.assertEqual(bar_text["java_expr"], "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))")
+        self.assertEqual(bar_text["godot_symbol"], "source_turret_set_bars_result.heat_bar_text_call")
+        bar_progress = source_symbols.source_symbol(registry, "turret_set_bars.bar_progress")
+        self.assertEqual(bar_progress["java_expr"], "entity.heatReq / heatRequirement")
+        self.assertEqual(bar_progress["godot_symbol"], "source_turret_set_bars_result.heat_bar_fraction")
+
+        set_bars_slice = source_symbols.source_slice(ledger, "N1213")
+        self.assertEqual(set_bars_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(set_bars_slice["java_method"], "setBars()")
+        self.assertEqual(set_bars_slice["godot_owner"], "PortGame.source_turret_set_bars_state")
+        self.assertEqual(set_bars_slice["runtime_proof"], "/root/Main.generated_turret_set_bars_bridge_state")
+        for expr in [
+            "@Override",
+            "public void setBars(){",
+            "super.setBars();",
+            "if(heatRequirement > 0){",
+            "addBar(\"heat\", (TurretBuild entity) ->",
+            "new Bar(() ->",
+            "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100)),",
+            "() -> Pal.lightOrange,",
+            "() -> entity.heatReq / heatRequirement));",
+        ]:
+            self.assertIn(expr, set_bars_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_set_bars_state")
+        self.assertEqual(contract["params"], [
+            {"name": "heat_requirement", "schema": "source_turret_set_bars_input.heat_requirement", "type": "float"},
+            {"name": "entity_heat_req", "schema": "source_turret_set_bars_input.entity_heat_req", "type": "float"},
+            {"name": "max_heat_efficiency", "schema": "source_turret_set_bars_input.max_heat_efficiency", "type": "float"},
+        ])
+        for key in ["method", "override_expr", "super_set_bars_expr", "heat_requirement_guard_expr", "heat_bar_added", "heat_bar_text_call", "heat_bar_color", "heat_bar_fraction", "heat_bar_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_turret_set_bars_input")
+        self.assertEqual(input_schema["keys"]["heat_requirement"]["java_expr"], "heatRequirement")
+        self.assertEqual(input_schema["keys"]["entity_heat_req"]["java_expr"], "entity.heatReq")
+        self.assertEqual(input_schema["keys"]["max_heat_efficiency"]["java_expr"], "maxHeatEfficiency")
+        result_schema = source_symbols.state_schema(schema, "source_turret_set_bars_result")
+        self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void setBars(){")
+        self.assertEqual(result_schema["keys"]["heat_bar_text_call"]["java_expr"], "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))")
+        self.assertEqual(result_schema["keys"]["heat_bar_fraction"]["java_expr"], "entity.heatReq / heatRequirement")
 
     def test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

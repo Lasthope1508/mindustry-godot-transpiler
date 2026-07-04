@@ -13256,6 +13256,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_setStats_1"', source)
         self.assertIn('"matches": result.get("reload_stat_call", null) == canonical.get("reload_stat_call", null) and result.get("ammo_use_stat_call", null) == canonical.get("ammo_use_stat_call", null) and result.get("max_efficiency_stat_call", null) == canonical.get("max_efficiency_stat_call", null)', source)
 
+    def test_port_game_exposes_source_turret_set_bars_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_set_bars_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_set_bars_state"', source)
+        self.assertIn('"method": "public void setBars(){"', source)
+        self.assertIn('"super_set_bars_expr": "super.setBars();"', source)
+        self.assertIn('"heat_requirement_guard_expr": "if(heatRequirement > 0){"', source)
+        self.assertIn('"add_bar_expr": "addBar(\\"heat\\", (TurretBuild entity) ->"', source)
+        self.assertIn('"bar_text_format_expr": "Core.bundle.format(\\"bar.heatpercent\\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))"', source)
+        self.assertIn('"bar_color_expr": "() -> Pal.lightOrange"', source)
+        self.assertIn('"bar_progress_expr": "() -> entity.heatReq / heatRequirement"', source)
+        self.assertIn('"heat_bar_call": heat_bar_call', source)
+
+    def test_port_game_exposes_generated_turret_set_bars_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_set_bars_bridge_state(heat_requirement: float, entity_heat_req: float, max_heat_efficiency: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_setBars_2([heat_requirement, entity_heat_req, max_heat_efficiency])", source)
+        self.assertIn("var canonical = source_turret_set_bars_state(heat_requirement, entity_heat_req, max_heat_efficiency)", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_set_bars_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_setBars_2"', source)
+        self.assertIn('"matches": result.get("heat_bar_call", null) == canonical.get("heat_bar_call", null) and result.get("heat_bar_added", null) == canonical.get("heat_bar_added", null)', source)
+
     def test_port_game_exposes_source_reload_turret_set_stats_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

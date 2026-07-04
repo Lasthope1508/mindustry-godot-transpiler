@@ -48,7 +48,22 @@ func java_method_setStats_1(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_turret_set_stats_state", "method": "public void setStats(){", "override_expr": "@Override", "super_set_stats_expr": "super.setStats();", "inaccuracy_stat_expr": "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);", "reload_stat_expr": "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);", "targets_air_stat_expr": "stats.add(Stat.targetsAir, targetAir);", "targets_ground_stat_expr": "stats.add(Stat.targetsGround, targetGround);", "ammo_use_guard_expr": "if(ammoPerShot != 1)", "ammo_use_stat_expr": "stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);", "input_heat_guard_expr": "if(heatRequirement > 0)", "input_heat_stat_expr": "stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);", "max_efficiency_guard_expr": "if(heatRequirement > 0 && maxHeatEfficiency > 0)", "max_efficiency_stat_expr": "stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);", "inaccuracy_value": inaccuracy_value, "reload_value": reload_value, "reload_while_charging": reload_while_charging, "shoot_first_shot_delay": shoot_first_shot_delay, "shoot_shots": shoot_shots, "target_air": target_air, "target_ground": target_ground, "ammo_per_shot": ammo_per_shot, "heat_requirement": heat_requirement, "max_heat_efficiency": max_heat_efficiency, "reload_stat_denominator": reload_stat_denominator, "reload_stat_rate": reload_stat_rate, "super_set_stats_called": true, "inaccuracy_stat_call": inaccuracy_stat_call, "reload_stat_call": reload_stat_call, "targets_air_stat_call": targets_air_stat_call, "targets_ground_stat_call": targets_ground_stat_call, "ammo_use_stat_called": ammo_use_stat_called, "ammo_use_stat_call": ammo_use_stat_call, "input_heat_stat_called": input_heat_stat_called, "input_heat_stat_call": input_heat_stat_call, "max_efficiency_stat_called": max_efficiency_stat_called, "max_efficiency_stat_call": max_efficiency_stat_call}
 
 func java_method_setBars_2(_args: Array = []) -> Variant:
-	return null
+	var heat_requirement: float = float(_args[0] if _args.size() > 0 else -1.0)
+	var entity_heat_req: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var max_heat_efficiency: float = float(_args[2] if _args.size() > 2 else 3.0)
+	var heat_bar_added: bool = heat_requirement > 0.0
+	var heat_bar_percent: int = 0
+	var heat_bar_fraction: float = 0.0
+	var heat_bar_text_call: Dictionary = {}
+	var heat_bar_color: String = ""
+	var heat_bar_call: Dictionary = {}
+	if heat_bar_added:
+		heat_bar_percent = int(min(entity_heat_req / heat_requirement, max_heat_efficiency) * 100.0)
+		heat_bar_fraction = entity_heat_req / heat_requirement
+		heat_bar_text_call = {"call": "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))", "key": "bar.heatpercent", "heat_req": int(entity_heat_req), "percent": heat_bar_percent}
+		heat_bar_color = "Pal.lightOrange"
+		heat_bar_call = {"call": "addBar(\"heat\", (TurretBuild entity) -> new Bar(...));", "name": "heat", "text_call": heat_bar_text_call, "color": heat_bar_color, "fraction": heat_bar_fraction}
+	return {"source_owner": "PortGame.source_turret_set_bars_state", "method": "public void setBars(){", "override_expr": "@Override", "super_set_bars_expr": "super.setBars();", "heat_requirement_guard_expr": "if(heatRequirement > 0){", "add_bar_expr": "addBar(\"heat\", (TurretBuild entity) ->", "bar_new_expr": "new Bar(() ->", "bar_text_format_expr": "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))", "bar_color_expr": "() -> Pal.lightOrange", "bar_progress_expr": "() -> entity.heatReq / heatRequirement", "heat_requirement": heat_requirement, "entity_heat_req": entity_heat_req, "max_heat_efficiency": max_heat_efficiency, "super_set_bars_called": true, "heat_bar_added": heat_bar_added, "heat_bar_percent": heat_bar_percent, "heat_bar_fraction": heat_bar_fraction, "heat_bar_text_call": heat_bar_text_call, "heat_bar_color": heat_bar_color, "heat_bar_call": heat_bar_call}
 
 func java_method_init_3(_args: Array = []) -> Variant:
 	var shoot_y: float = float(_args[0] if _args.size() > 0 else 0.0)

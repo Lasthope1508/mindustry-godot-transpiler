@@ -1482,6 +1482,29 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
         and type_entry.get("name") == "Turret"
+        and method.get("name") == "setBars"
+    ):
+        return [
+            "\tvar heat_requirement: float = float(_args[0] if _args.size() > 0 else -1.0)",
+            "\tvar entity_heat_req: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar max_heat_efficiency: float = float(_args[2] if _args.size() > 2 else 3.0)",
+            "\tvar heat_bar_added: bool = heat_requirement > 0.0",
+            "\tvar heat_bar_percent: int = 0",
+            "\tvar heat_bar_fraction: float = 0.0",
+            "\tvar heat_bar_text_call: Dictionary = {}",
+            "\tvar heat_bar_color: String = \"\"",
+            "\tvar heat_bar_call: Dictionary = {}",
+            "\tif heat_bar_added:",
+            "\t\theat_bar_percent = int(min(entity_heat_req / heat_requirement, max_heat_efficiency) * 100.0)",
+            "\t\theat_bar_fraction = entity_heat_req / heat_requirement",
+            "\t\theat_bar_text_call = {\"call\": \"Core.bundle.format(\\\"bar.heatpercent\\\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))\", \"key\": \"bar.heatpercent\", \"heat_req\": int(entity_heat_req), \"percent\": heat_bar_percent}",
+            "\t\theat_bar_color = \"Pal.lightOrange\"",
+            "\t\theat_bar_call = {\"call\": \"addBar(\\\"heat\\\", (TurretBuild entity) -> new Bar(...));\", \"name\": \"heat\", \"text_call\": heat_bar_text_call, \"color\": heat_bar_color, \"fraction\": heat_bar_fraction}",
+            "\treturn {\"source_owner\": \"PortGame.source_turret_set_bars_state\", \"method\": \"public void setBars(){\", \"override_expr\": \"@Override\", \"super_set_bars_expr\": \"super.setBars();\", \"heat_requirement_guard_expr\": \"if(heatRequirement > 0){\", \"add_bar_expr\": \"addBar(\\\"heat\\\", (TurretBuild entity) ->\", \"bar_new_expr\": \"new Bar(() ->\", \"bar_text_format_expr\": \"Core.bundle.format(\\\"bar.heatpercent\\\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))\", \"bar_color_expr\": \"() -> Pal.lightOrange\", \"bar_progress_expr\": \"() -> entity.heatReq / heatRequirement\", \"heat_requirement\": heat_requirement, \"entity_heat_req\": entity_heat_req, \"max_heat_efficiency\": max_heat_efficiency, \"super_set_bars_called\": true, \"heat_bar_added\": heat_bar_added, \"heat_bar_percent\": heat_bar_percent, \"heat_bar_fraction\": heat_bar_fraction, \"heat_bar_text_call\": heat_bar_text_call, \"heat_bar_color\": heat_bar_color, \"heat_bar_call\": heat_bar_call}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+        and type_entry.get("name") == "Turret"
         and method.get("name") == "rotatedOutput"
     ):
         return [

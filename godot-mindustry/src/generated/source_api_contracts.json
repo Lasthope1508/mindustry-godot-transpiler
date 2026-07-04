@@ -28211,6 +28211,60 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
       "source_method": "setStats()",
       "rule": "Turret.setStats records source-backed stat calls and guarded stat additions without inventing Stats, Stat, StatUnit, or superclass internals."
+    },
+    "PortGame.source_turret_set_bars_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "heat_requirement",
+          "schema": "source_turret_set_bars_input.heat_requirement",
+          "type": "float"
+        },
+        {
+          "name": "entity_heat_req",
+          "schema": "source_turret_set_bars_input.entity_heat_req",
+          "type": "float"
+        },
+        {
+          "name": "max_heat_efficiency",
+          "schema": "source_turret_set_bars_input.max_heat_efficiency",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_set_bars_expr",
+        "heat_requirement_guard_expr",
+        "add_bar_expr",
+        "bar_new_expr",
+        "bar_text_format_expr",
+        "bar_color_expr",
+        "bar_progress_expr",
+        "heat_requirement",
+        "entity_heat_req",
+        "max_heat_efficiency",
+        "super_set_bars_called",
+        "heat_bar_added",
+        "heat_bar_percent",
+        "heat_bar_fraction",
+        "heat_bar_text_call",
+        "heat_bar_color",
+        "heat_bar_call"
+      ],
+      "rule": "Turret.setBars registers heat bar state only when heatRequirement is positive, preserving upstream text, color, and fraction expressions without inventing UI internals.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "source_method": "setBars()",
+      "source_slice": "N1213",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

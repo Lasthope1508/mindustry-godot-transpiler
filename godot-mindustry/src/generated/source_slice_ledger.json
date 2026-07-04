@@ -27450,6 +27450,46 @@
         "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
       ],
       "java_class": "Turret"
+    },
+    "N1213": {
+      "exact_exprs": [
+        "@Override",
+        "public void setBars(){",
+        "super.setBars();",
+        "if(heatRequirement > 0){",
+        "addBar(\"heat\", (TurretBuild entity) ->",
+        "new Bar(() ->",
+        "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100)),",
+        "() -> Pal.lightOrange,",
+        "() -> entity.heatReq / heatRequirement));"
+      ],
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "java_class": "Turret",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "notes": "Generated Turret.setBars bridge state records heat bar guard, text, color, and progress from upstream without inventing Bar/Core.bundle/Pal internals.",
+      "runtime_proof": "/root/Main.generated_turret_set_bars_bridge_state",
+      "source_symbols": [
+        "turret_set_bars.method",
+        "turret_set_bars.override",
+        "turret_set_bars.super_set_bars",
+        "turret_set_bars.heat_requirement",
+        "turret_set_bars.entity_heat_req",
+        "turret_set_bars.max_heat_efficiency",
+        "turret_set_bars.heat_requirement_guard",
+        "turret_set_bars.add_bar",
+        "turret_set_bars.bar_text",
+        "turret_set_bars.bar_color",
+        "turret_set_bars.bar_progress"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

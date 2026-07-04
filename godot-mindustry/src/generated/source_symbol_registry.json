@@ -87990,6 +87990,193 @@
         "test_turret_set_stats_matches_upstream_source",
         "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "turret_set_bars.method": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_result.method",
+      "java_expr": "public void setBars(){",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.setBars method boundary.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_set_bars.override": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_result.override_expr",
+      "java_expr": "@Override",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Override marker for Turret.setBars.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_set_bars.super_set_bars": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_result.super_set_bars_called",
+      "java_expr": "super.setBars();",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Records superclass setBars dispatch.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_set_bars.heat_requirement": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_input.heat_requirement",
+      "java_expr": "heatRequirement",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Runtime heatRequirement field input.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_set_bars.entity_heat_req": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_input.entity_heat_req",
+      "java_expr": "entity.heatReq",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Runtime TurretBuild.heatReq field input for heat bar lambdas.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_set_bars.max_heat_efficiency": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_input.max_heat_efficiency",
+      "java_expr": "maxHeatEfficiency",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Runtime maxHeatEfficiency field input.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_set_bars.heat_requirement_guard": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_result.heat_bar_added",
+      "java_expr": "if(heatRequirement > 0){",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Adds heat bar only when heatRequirement is positive.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_set_bars.add_bar": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_result.heat_bar_call",
+      "java_expr": "addBar(\"heat\", (TurretBuild entity) ->",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Records heat addBar registration when guard passes.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_set_bars.bar_text": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_result.heat_bar_text_call",
+      "java_expr": "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Records heat bar text format call.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_set_bars.bar_color": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_result.heat_bar_color",
+      "java_expr": "() -> Pal.lightOrange",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Records heat bar color lambda.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "turret_set_bars.bar_progress": {
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "godot_symbol": "source_turret_set_bars_result.heat_bar_fraction",
+      "java_expr": "entity.heatReq / heatRequirement",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Records heat bar progress fraction.",
+      "runtime_proof": "/root/Main.source_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
