@@ -80,4 +80,21 @@ func java_method_setStats_4(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_base_turret_set_stats_state", "method": "public void setStats(){", "override_expr": "@Override", "super_set_stats_expr": "super.setStats();", "shoot_range_stat_expr": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);", "activation_time_guard_expr": "if(activationTime > 0)", "activation_time_stat_expr": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);", "range": range_value, "tilesize": source_tilesize, "activation_time": activation_time, "shoot_range_blocks": shoot_range_blocks, "super_set_stats_called": true, "shoot_range_stat_call": shoot_range_stat_call, "activation_time_stat_called": activation_time_stat_called, "activation_time_stat_call": activation_time_stat_call}
 
 func java_method_setBars_5(_args: Array = []) -> Variant:
-	return null
+	var activation_time: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var entity_activation_timer: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var activation_bar_added: bool = activation_time > 0.0
+	var activation_timer_positive: bool = entity_activation_timer > 0.0
+	var activation_bar_fraction: float = 0.0
+	var activation_bar_text_call: Dictionary = {}
+	var activation_bar_color: String = ""
+	var activation_bar_call: Dictionary = {}
+	if activation_bar_added:
+		activation_bar_fraction = 1.0 - entity_activation_timer / activation_time
+		if activation_timer_positive:
+			activation_bar_text_call = {"call": "Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f))", "key": "bar.activationtimer", "seconds": ceil(entity_activation_timer / 60.0)}
+			activation_bar_color = "Pal.lightOrange"
+		else:
+			activation_bar_text_call = {"call": "Core.bundle.get(\"bar.activated\")", "key": "bar.activated"}
+			activation_bar_color = "Pal.techBlue"
+		activation_bar_call = {"call": "addBar(\"activationtimer\", (BaseTurretBuild entity) -> new Bar(...));", "name": "activationtimer", "text_call": activation_bar_text_call, "color": activation_bar_color, "fraction": activation_bar_fraction}
+	return {"source_owner": "PortGame.source_base_turret_set_bars_state", "method": "public void setBars(){", "override_expr": "@Override", "super_set_bars_expr": "super.setBars();", "activation_time_guard_expr": "if(activationTime > 0){", "add_bar_expr": "addBar(\"activationtimer\", (BaseTurretBuild entity) ->", "bar_new_expr": "new Bar(() ->", "bar_text_format_expr": "Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f))", "bar_text_get_expr": "Core.bundle.get(\"bar.activated\")", "bar_color_expr": "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue", "bar_progress_expr": "() -> 1 - entity.activationTimer / activationTime", "activation_time": activation_time, "entity_activation_timer": entity_activation_timer, "super_set_bars_called": true, "activation_bar_added": activation_bar_added, "activation_timer_positive": activation_timer_positive, "activation_bar_fraction": activation_bar_fraction, "activation_bar_text_call": activation_bar_text_call, "activation_bar_color": activation_bar_color, "activation_bar_call": activation_bar_call}

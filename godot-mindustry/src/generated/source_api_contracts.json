@@ -28056,6 +28056,55 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_base_turret_set_bars_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "params": [
+        {
+          "name": "activation_time",
+          "schema": "source_base_turret_set_bars_input.activation_time",
+          "type": "float"
+        },
+        {
+          "name": "entity_activation_timer",
+          "schema": "source_base_turret_set_bars_input.entity_activation_timer",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_set_bars_expr",
+        "activation_time_guard_expr",
+        "add_bar_expr",
+        "bar_new_expr",
+        "bar_text_format_expr",
+        "bar_text_get_expr",
+        "bar_color_expr",
+        "bar_progress_expr",
+        "activation_time",
+        "entity_activation_timer",
+        "super_set_bars_called",
+        "activation_bar_added",
+        "activation_timer_positive",
+        "activation_bar_fraction",
+        "activation_bar_text_call",
+        "activation_bar_color",
+        "activation_bar_call"
+      ],
+      "rule": "Public runtime contract for BaseTurret.setBars source-backed activation timer bar state.",
+      "runtime_proof": "/root/Main.source_base_turret_set_bars_state",
+      "source_method": "setBars()",
+      "source_slice": "N1211",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_bars_state",
+        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
+        "test_base_turret_set_bars_matches_upstream_source",
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 679)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 680)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 684)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 685)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42407,6 +42407,64 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void setStats(){")
         self.assertEqual(result_schema["keys"]["shoot_range_stat_call"]["java_expr"], "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);")
         self.assertEqual(result_schema["keys"]["activation_time_stat_call"]["java_expr"], "if(activationTime > 0) stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);")
+
+    def test_generated_base_turret_set_bars_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "base_turret_set_bars.method")
+        self.assertEqual(method["java_expr"], "public void setBars(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(method["java_method"], "setBars()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_base_turret_set_bars_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_base_turret_set_bars_state")
+
+        add_bar = source_symbols.source_symbol(registry, "base_turret_set_bars.add_bar")
+        self.assertEqual(add_bar["java_expr"], "addBar(\"activationtimer\", (BaseTurretBuild entity) ->")
+        self.assertEqual(add_bar["godot_symbol"], "source_base_turret_set_bars_result.activation_bar_call")
+        bar_text = source_symbols.source_symbol(registry, "base_turret_set_bars.bar_text")
+        self.assertEqual(bar_text["java_expr"], "(entity.activationTimer > 0)? Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f)) : Core.bundle.get(\"bar.activated\")")
+        self.assertEqual(bar_text["godot_symbol"], "source_base_turret_set_bars_result.activation_bar_text_call")
+        bar_progress = source_symbols.source_symbol(registry, "base_turret_set_bars.bar_progress")
+        self.assertEqual(bar_progress["java_expr"], "() -> 1 - entity.activationTimer / activationTime")
+        self.assertEqual(bar_progress["godot_symbol"], "source_base_turret_set_bars_result.activation_bar_fraction")
+
+        set_bars_slice = source_symbols.source_slice(ledger, "N1211")
+        self.assertEqual(set_bars_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(set_bars_slice["java_method"], "setBars()")
+        self.assertEqual(set_bars_slice["godot_owner"], "PortGame.source_base_turret_set_bars_state")
+        self.assertEqual(set_bars_slice["runtime_proof"], "/root/Main.generated_base_turret_set_bars_bridge_state")
+        for expr in [
+            "@Override",
+            "public void setBars(){",
+            "super.setBars();",
+            "if(activationTime > 0){",
+            "addBar(\"activationtimer\", (BaseTurretBuild entity) ->",
+            "(entity.activationTimer > 0)? Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f)) : Core.bundle.get(\"bar.activated\")",
+            "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue",
+            "() -> 1 - entity.activationTimer / activationTime",
+        ]:
+            self.assertIn(expr, set_bars_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_base_turret_set_bars_state")
+        self.assertEqual(contract["params"], [
+            {"name": "activation_time", "schema": "source_base_turret_set_bars_input.activation_time", "type": "float"},
+            {"name": "entity_activation_timer", "schema": "source_base_turret_set_bars_input.entity_activation_timer", "type": "float"},
+        ])
+        for key in ["method", "override_expr", "super_set_bars_expr", "activation_time_guard_expr", "add_bar_expr", "bar_text_format_expr", "bar_text_get_expr", "bar_color_expr", "bar_progress_expr", "super_set_bars_called", "activation_bar_added", "activation_timer_positive", "activation_bar_fraction", "activation_bar_text_call", "activation_bar_color", "activation_bar_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_base_turret_set_bars_input")
+        self.assertEqual(input_schema["keys"]["activation_time"]["java_expr"], "activationTime")
+        self.assertEqual(input_schema["keys"]["entity_activation_timer"]["java_expr"], "entity.activationTimer")
+        result_schema = source_symbols.state_schema(schema, "source_base_turret_set_bars_result")
+        self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void setBars(){")
+        self.assertEqual(result_schema["keys"]["activation_bar_call"]["java_expr"], "addBar(\"activationtimer\", (BaseTurretBuild entity) ->")
+        self.assertEqual(result_schema["keys"]["activation_bar_fraction"]["java_expr"], "1 - entity.activationTimer / activationTime")
 
     def test_generated_turret_load_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

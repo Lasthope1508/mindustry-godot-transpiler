@@ -13018,6 +13018,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BaseTurret.java_method_setStats_4"', source)
         self.assertIn('"matches": result.get("shoot_range_stat_call", null) == canonical.get("shoot_range_stat_call", null) and result.get("activation_time_stat_call", null) == canonical.get("activation_time_stat_call", null) and result.get("super_set_stats_called", null) == canonical.get("super_set_stats_called", null)', source)
 
+    def test_port_game_exposes_source_base_turret_set_bars_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_base_turret_set_bars_state(activation_time: float, entity_activation_timer: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_set_bars_state"', source)
+        self.assertIn('"method": "public void setBars(){"', source)
+        self.assertIn('"super_set_bars_expr": "super.setBars();"', source)
+        self.assertIn('"activation_time_guard_expr": "if(activationTime > 0){"', source)
+        self.assertIn('"add_bar_expr": "addBar(\\"activationtimer\\", (BaseTurretBuild entity) ->"', source)
+        self.assertIn('"bar_text_format_expr": "Core.bundle.format(\\"bar.activationtimer\\", Mathf.ceil(entity.activationTimer / 60f))"', source)
+        self.assertIn('"bar_text_get_expr": "Core.bundle.get(\\"bar.activated\\")"', source)
+        self.assertIn('"bar_color_expr": "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue"', source)
+        self.assertIn('"bar_progress_expr": "() -> 1 - entity.activationTimer / activationTime"', source)
+        self.assertIn('"activation_bar_call": activation_bar_call', source)
+
+    def test_port_game_exposes_generated_base_turret_set_bars_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_base_turret_set_bars_bridge_state(activation_time: float, entity_activation_timer: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_setBars_5([activation_time, entity_activation_timer])", source)
+        self.assertIn("var canonical = source_base_turret_set_bars_state(activation_time, entity_activation_timer)", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_set_bars_state"', source)
+        self.assertIn('"generated_owner": "BaseTurret.java_method_setBars_5"', source)
+        self.assertIn('"matches": result.get("activation_bar_call", null) == canonical.get("activation_bar_call", null) and result.get("activation_bar_added", null) == canonical.get("activation_bar_added", null) and result.get("super_set_bars_called", null) == canonical.get("super_set_bars_called", null)', source)
+
     def test_port_game_exposes_source_turret_load_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

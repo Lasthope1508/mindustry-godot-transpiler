@@ -16851,6 +16851,58 @@ func generated_base_turret_set_stats_bridge_state(range_value: float, source_til
 		"matches": result.get("shoot_range_stat_call", null) == canonical.get("shoot_range_stat_call", null) and result.get("activation_time_stat_call", null) == canonical.get("activation_time_stat_call", null) and result.get("super_set_stats_called", null) == canonical.get("super_set_stats_called", null),
 	}
 
+func source_base_turret_set_bars_state(activation_time: float, entity_activation_timer: float) -> Dictionary:
+	var activation_bar_added: bool = activation_time > 0.0
+	var activation_timer_positive: bool = entity_activation_timer > 0.0
+	var activation_bar_fraction: float = 0.0
+	var activation_bar_text_call: Dictionary = {}
+	var activation_bar_color: String = ""
+	var activation_bar_call: Dictionary = {}
+	if activation_bar_added:
+		activation_bar_fraction = 1.0 - entity_activation_timer / activation_time
+		if activation_timer_positive:
+			activation_bar_text_call = {"call": "Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f))", "key": "bar.activationtimer", "seconds": ceil(entity_activation_timer / 60.0)}
+			activation_bar_color = "Pal.lightOrange"
+		else:
+			activation_bar_text_call = {"call": "Core.bundle.get(\"bar.activated\")", "key": "bar.activated"}
+			activation_bar_color = "Pal.techBlue"
+		activation_bar_call = {"call": "addBar(\"activationtimer\", (BaseTurretBuild entity) -> new Bar(...));", "name": "activationtimer", "text_call": activation_bar_text_call, "color": activation_bar_color, "fraction": activation_bar_fraction}
+	return {
+		"source_owner": "PortGame.source_base_turret_set_bars_state",
+		"method": "public void setBars(){",
+		"override_expr": "@Override",
+		"super_set_bars_expr": "super.setBars();",
+		"activation_time_guard_expr": "if(activationTime > 0){",
+		"add_bar_expr": "addBar(\"activationtimer\", (BaseTurretBuild entity) ->",
+		"bar_new_expr": "new Bar(() ->",
+		"bar_text_format_expr": "Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f))",
+		"bar_text_get_expr": "Core.bundle.get(\"bar.activated\")",
+		"bar_color_expr": "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue",
+		"bar_progress_expr": "() -> 1 - entity.activationTimer / activationTime",
+		"activation_time": activation_time,
+		"entity_activation_timer": entity_activation_timer,
+		"super_set_bars_called": true,
+		"activation_bar_added": activation_bar_added,
+		"activation_timer_positive": activation_timer_positive,
+		"activation_bar_fraction": activation_bar_fraction,
+		"activation_bar_text_call": activation_bar_text_call,
+		"activation_bar_color": activation_bar_color,
+		"activation_bar_call": activation_bar_call,
+	}
+
+func generated_base_turret_set_bars_bridge_state(activation_time: float, entity_activation_timer: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setBars_5([activation_time, entity_activation_timer])
+	var canonical = source_base_turret_set_bars_state(activation_time, entity_activation_timer)
+	return {
+		"source_owner": "PortGame.source_base_turret_set_bars_state",
+		"generated_owner": "BaseTurret.java_method_setBars_5",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("activation_bar_call", null) == canonical.get("activation_bar_call", null) and result.get("activation_bar_added", null) == canonical.get("activation_bar_added", null) and result.get("super_set_bars_called", null) == canonical.get("super_set_bars_called", null),
+	}
+
 func source_turret_load_state() -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_turret_load_state",

@@ -103085,6 +103085,272 @@
         }
       },
       "status": "active"
+    },
+    "source_base_turret_set_bars_input": {
+      "keys": {
+        "activation_time": {
+          "godot_symbol": "source_base_turret_set_bars_input.activation_time",
+          "java_expr": "activationTime",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime BaseTurret.activationTime field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "entity_activation_timer": {
+          "godot_symbol": "source_base_turret_set_bars_input.entity_activation_timer",
+          "java_expr": "entity.activationTimer",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime BaseTurretBuild.activationTimer field for bar lambdas.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_base_turret_set_bars_state.",
+      "source_slice": "N1211",
+      "status": "source-backed"
+    },
+    "source_base_turret_set_bars_result": {
+      "keys": {
+        "activation_bar_added": {
+          "godot_symbol": "source_base_turret_set_bars_result.activation_bar_added",
+          "java_expr": "activationTime > 0",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "True when activation bar guard passes.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "activation_bar_call": {
+          "godot_symbol": "source_base_turret_set_bars_result.activation_bar_call",
+          "java_expr": "addBar(\"activationtimer\", (BaseTurretBuild entity) ->",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Recorded activation timer addBar call when guard passes.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "activation_bar_color": {
+          "godot_symbol": "source_base_turret_set_bars_result.activation_bar_color",
+          "java_expr": "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Recorded activation timer color branch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "activation_bar_fraction": {
+          "godot_symbol": "source_base_turret_set_bars_result.activation_bar_fraction",
+          "java_expr": "1 - entity.activationTimer / activationTime",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Computed activation timer progress fraction.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "activation_bar_text_call": {
+          "godot_symbol": "source_base_turret_set_bars_result.activation_bar_text_call",
+          "java_expr": "(entity.activationTimer > 0)? Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f)) : Core.bundle.get(\"bar.activated\")",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Recorded activation timer text branch.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "activation_time": {
+          "alias_of": "source_base_turret_set_bars_input.activation_time",
+          "rule": "Echoes activationTime input.",
+          "status": "generated",
+          "type": "float"
+        },
+        "activation_time_guard_expr": {
+          "godot_symbol": "source_base_turret_set_bars_result.activation_time_guard_expr",
+          "java_expr": "if(activationTime > 0){",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Activation timer bar guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "activation_timer_positive": {
+          "godot_symbol": "source_base_turret_set_bars_result.activation_timer_positive",
+          "java_expr": "entity.activationTimer > 0",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "True when active timer text/color branch passes.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "add_bar_expr": {
+          "godot_symbol": "source_base_turret_set_bars_result.add_bar_expr",
+          "java_expr": "addBar(\"activationtimer\", (BaseTurretBuild entity) ->",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Activation timer addBar expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "bar_color_expr": {
+          "godot_symbol": "source_base_turret_set_bars_result.bar_color_expr",
+          "java_expr": "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Activation timer color lambda expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "bar_new_expr": {
+          "godot_symbol": "source_base_turret_set_bars_result.bar_new_expr",
+          "java_expr": "new Bar(() ->",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Activation timer Bar constructor expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "bar_progress_expr": {
+          "godot_symbol": "source_base_turret_set_bars_result.bar_progress_expr",
+          "java_expr": "() -> 1 - entity.activationTimer / activationTime",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Activation timer progress lambda expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "bar_text_format_expr": {
+          "godot_symbol": "source_base_turret_set_bars_result.bar_text_format_expr",
+          "java_expr": "Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f))",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Activation timer positive text expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "bar_text_get_expr": {
+          "godot_symbol": "source_base_turret_set_bars_result.bar_text_get_expr",
+          "java_expr": "Core.bundle.get(\"bar.activated\")",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Activation timer completed text expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "entity_activation_timer": {
+          "alias_of": "source_base_turret_set_bars_input.entity_activation_timer",
+          "rule": "Echoes entity.activationTimer input.",
+          "status": "generated",
+          "type": "float"
+        },
+        "method": {
+          "godot_symbol": "source_base_turret_set_bars_result.method",
+          "java_expr": "public void setBars(){",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_base_turret_set_bars_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Override marker.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "source_owner": {
+          "godot_symbol": "source_base_turret_set_bars_result.source_owner",
+          "java_expr": "PortGame.source_base_turret_set_bars_state",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime owner marker.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "super_set_bars_called": {
+          "godot_symbol": "source_base_turret_set_bars_result.super_set_bars_called",
+          "java_expr": "super.setBars();",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Records superclass setBars dispatch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        },
+        "super_set_bars_expr": {
+          "godot_symbol": "source_base_turret_set_bars_result.super_set_bars_expr",
+          "java_expr": "super.setBars();",
+          "java_method": "setBars()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Superclass setBars dispatch expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_set_bars_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_base_turret_set_bars_state.",
+      "source_slice": "N1211",
+      "status": "source-backed"
     }
   },
   "version": 1

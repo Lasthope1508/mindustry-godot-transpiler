@@ -87505,6 +87505,151 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "base_turret_set_bars.method": {
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "godot_symbol": "source_base_turret_set_bars_result.method",
+      "java_expr": "public void setBars(){",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Method boundary for BaseTurret.setBars.",
+      "runtime_proof": "/root/Main.source_base_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_bars_state",
+        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
+        "test_base_turret_set_bars_matches_upstream_source",
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_bars.activation_time": {
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "godot_symbol": "source_base_turret_set_bars_input.activation_time",
+      "java_expr": "activationTime",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Runtime input for BaseTurret.activationTime.",
+      "runtime_proof": "/root/Main.source_base_turret_set_bars_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_bars.entity_activation_timer": {
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "godot_symbol": "source_base_turret_set_bars_input.entity_activation_timer",
+      "java_expr": "entity.activationTimer",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Runtime input for BaseTurretBuild.activationTimer.",
+      "runtime_proof": "/root/Main.source_base_turret_set_bars_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_bars.super_set_bars": {
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "godot_symbol": "source_base_turret_set_bars_result.super_set_bars_called",
+      "java_expr": "super.setBars();",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "BaseTurret.setBars delegates to superclass first.",
+      "runtime_proof": "/root/Main.source_base_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_bars_state",
+        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
+        "test_base_turret_set_bars_matches_upstream_source",
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_bars.activation_time_guard": {
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "godot_symbol": "source_base_turret_set_bars_result.activation_bar_added",
+      "java_expr": "if(activationTime > 0){",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Activation bar is added only when activationTime is positive.",
+      "runtime_proof": "/root/Main.source_base_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_bars_state",
+        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
+        "test_base_turret_set_bars_matches_upstream_source",
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_bars.add_bar": {
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "godot_symbol": "source_base_turret_set_bars_result.activation_bar_call",
+      "java_expr": "addBar(\"activationtimer\", (BaseTurretBuild entity) ->",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Registers the activation timer bar lambda.",
+      "runtime_proof": "/root/Main.source_base_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_bars_state",
+        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
+        "test_base_turret_set_bars_matches_upstream_source",
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_bars.bar_text": {
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "godot_symbol": "source_base_turret_set_bars_result.activation_bar_text_call",
+      "java_expr": "(entity.activationTimer > 0)? Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f)) : Core.bundle.get(\"bar.activated\")",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Activation timer bar text uses format while timer is positive and activated text otherwise.",
+      "runtime_proof": "/root/Main.source_base_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_bars_state",
+        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
+        "test_base_turret_set_bars_matches_upstream_source",
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_bars.bar_color": {
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "godot_symbol": "source_base_turret_set_bars_result.activation_bar_color",
+      "java_expr": "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Activation timer bar color follows activation timer ternary.",
+      "runtime_proof": "/root/Main.source_base_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_bars_state",
+        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
+        "test_base_turret_set_bars_matches_upstream_source",
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_bars.bar_progress": {
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "godot_symbol": "source_base_turret_set_bars_result.activation_bar_fraction",
+      "java_expr": "() -> 1 - entity.activationTimer / activationTime",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Activation timer bar progress follows Java lambda.",
+      "runtime_proof": "/root/Main.source_base_turret_set_bars_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_bars_state",
+        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
+        "test_base_turret_set_bars_matches_upstream_source",
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

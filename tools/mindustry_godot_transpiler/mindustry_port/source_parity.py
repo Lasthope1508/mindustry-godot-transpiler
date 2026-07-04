@@ -501,6 +501,27 @@ def verify_base_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_base_turret_set_bars_source(upstream_root: Path) -> dict[str, Any]:
+    base_turret_path = Path(upstream_root) / BASE_TURRET_SOURCE
+    source = base_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void setBars(){",
+        "super_set_bars": "super.setBars();",
+        "activation_time_guard": "if(activationTime > 0){",
+        "add_bar": "addBar(\"activationtimer\", (BaseTurretBuild entity) ->",
+        "bar_new": "new Bar(() ->",
+        "bar_text": "(entity.activationTimer > 0)? Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f)) : Core.bundle.get(\"bar.activated\"),",
+        "bar_color": "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue,",
+        "bar_progress": "() -> 1 - entity.activationTimer / activationTime));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BASE_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_load_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

@@ -1371,6 +1371,31 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
         and type_entry.get("name") == "BaseTurret"
+        and method.get("name") == "setBars"
+    ):
+        return [
+            "\tvar activation_time: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar entity_activation_timer: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar activation_bar_added: bool = activation_time > 0.0",
+            "\tvar activation_timer_positive: bool = entity_activation_timer > 0.0",
+            "\tvar activation_bar_fraction: float = 0.0",
+            "\tvar activation_bar_text_call: Dictionary = {}",
+            "\tvar activation_bar_color: String = \"\"",
+            "\tvar activation_bar_call: Dictionary = {}",
+            "\tif activation_bar_added:",
+            "\t\tactivation_bar_fraction = 1.0 - entity_activation_timer / activation_time",
+            "\t\tif activation_timer_positive:",
+            "\t\t\tactivation_bar_text_call = {\"call\": \"Core.bundle.format(\\\"bar.activationtimer\\\", Mathf.ceil(entity.activationTimer / 60f))\", \"key\": \"bar.activationtimer\", \"seconds\": ceil(entity_activation_timer / 60.0)}",
+            "\t\t\tactivation_bar_color = \"Pal.lightOrange\"",
+            "\t\telse:",
+            "\t\t\tactivation_bar_text_call = {\"call\": \"Core.bundle.get(\\\"bar.activated\\\")\", \"key\": \"bar.activated\"}",
+            "\t\t\tactivation_bar_color = \"Pal.techBlue\"",
+            "\t\tactivation_bar_call = {\"call\": \"addBar(\\\"activationtimer\\\", (BaseTurretBuild entity) -> new Bar(...));\", \"name\": \"activationtimer\", \"text_call\": activation_bar_text_call, \"color\": activation_bar_color, \"fraction\": activation_bar_fraction}",
+            "\treturn {\"source_owner\": \"PortGame.source_base_turret_set_bars_state\", \"method\": \"public void setBars(){\", \"override_expr\": \"@Override\", \"super_set_bars_expr\": \"super.setBars();\", \"activation_time_guard_expr\": \"if(activationTime > 0){\", \"add_bar_expr\": \"addBar(\\\"activationtimer\\\", (BaseTurretBuild entity) ->\", \"bar_new_expr\": \"new Bar(() ->\", \"bar_text_format_expr\": \"Core.bundle.format(\\\"bar.activationtimer\\\", Mathf.ceil(entity.activationTimer / 60f))\", \"bar_text_get_expr\": \"Core.bundle.get(\\\"bar.activated\\\")\", \"bar_color_expr\": \"() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue\", \"bar_progress_expr\": \"() -> 1 - entity.activationTimer / activationTime\", \"activation_time\": activation_time, \"entity_activation_timer\": entity_activation_timer, \"super_set_bars_called\": true, \"activation_bar_added\": activation_bar_added, \"activation_timer_positive\": activation_timer_positive, \"activation_bar_fraction\": activation_bar_fraction, \"activation_bar_text_call\": activation_bar_text_call, \"activation_bar_color\": activation_bar_color, \"activation_bar_call\": activation_bar_call}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
+        and type_entry.get("name") == "BaseTurret"
         and method.get("name") == "init"
     ):
         return [

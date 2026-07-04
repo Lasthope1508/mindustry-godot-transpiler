@@ -8359,6 +8359,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_base_turret_set_bars_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_base_turret_set_bars_source"))
+        report = source_parity.verify_base_turret_set_bars_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public void setBars(){",
+            "super_set_bars": "super.setBars();",
+            "activation_time_guard": "if(activationTime > 0){",
+            "add_bar": "addBar(\"activationtimer\", (BaseTurretBuild entity) ->",
+            "bar_new": "new Bar(() ->",
+            "bar_text": "(entity.activationTimer > 0)? Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f)) : Core.bundle.get(\"bar.activated\"),",
+            "bar_color": "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue,",
+            "bar_progress": "() -> 1 - entity.activationTimer / activationTime));",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_load_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_load_source"))
         report = source_parity.verify_turret_load_source(ROOT / "mindustry-upstream")

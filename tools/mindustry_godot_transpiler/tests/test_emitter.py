@@ -7528,6 +7528,19 @@ public class BaseTurret extends Block{
         stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);
         if(activationTime > 0) stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);
     }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        if(activationTime > 0){
+            addBar("activationtimer", (BaseTurretBuild entity) ->
+            new Bar(() ->
+            (entity.activationTimer > 0)? Core.bundle.format("bar.activationtimer", Mathf.ceil(entity.activationTimer / 60f)) : Core.bundle.get("bar.activated"),
+            () -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue,
+            () -> 1 - entity.activationTimer / activationTime));
+        }
+    }
 }
 """,
                 encoding="utf-8",
@@ -7547,6 +7560,70 @@ public class BaseTurret extends Block{
             self.assertIn('"shoot_range_stat_expr": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);"', source_text)
             self.assertIn('"activation_time_guard_expr": "if(activationTime > 0)"', source_text)
             self.assertIn('"activation_time_stat_expr": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);"', source_text)
+
+    def test_emit_bridges_base_turret_set_bars_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            base_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.java"
+            base_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            base_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class BaseTurret extends Block{
+    @Override
+    public void init(){
+    }
+
+    @Override
+    public void reinitializeConsumers(){
+    }
+
+    void checkInitCoolant(){
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+    }
+
+    @Override
+    public void setStats(){
+    }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        if(activationTime > 0){
+            addBar("activationtimer", (BaseTurretBuild entity) ->
+            new Bar(() ->
+            (entity.activationTimer > 0)? Core.bundle.format("bar.activationtimer", Mathf.ceil(entity.activationTimer / 60f)) : Core.bundle.get("bar.activated"),
+            () -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue,
+            () -> 1 - entity.activationTimer / activationTime));
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setBars_5(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var activation_bar_added: bool = activation_time > 0.0", source_text)
+            self.assertIn("var activation_timer_positive: bool = entity_activation_timer > 0.0", source_text)
+            self.assertIn("var activation_bar_fraction: float = 0.0", source_text)
+            self.assertIn("activation_bar_fraction = 1.0 - entity_activation_timer / activation_time", source_text)
+            self.assertIn('"source_owner": "PortGame.source_base_turret_set_bars_state"', source_text)
+            self.assertIn('"method": "public void setBars(){"', source_text)
+            self.assertIn('"super_set_bars_expr": "super.setBars();"', source_text)
+            self.assertIn('"activation_time_guard_expr": "if(activationTime > 0){"', source_text)
+            self.assertIn('"add_bar_expr": "addBar(\\"activationtimer\\", (BaseTurretBuild entity) ->"', source_text)
+            self.assertIn('"bar_progress_expr": "() -> 1 - entity.activationTimer / activationTime"', source_text)
 
     def test_emit_bridges_turret_load_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
