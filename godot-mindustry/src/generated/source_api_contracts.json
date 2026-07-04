@@ -28266,7 +28266,38 @@
         "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
       ]
     }
-  },
+  ,
+    "PortGame.source_item_turret_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "params": [
+        {
+          "name": "objects",
+          "schema": "source_item_turret_ammo_input.objects",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "field",
+        "comment",
+        "method",
+        "assignment_expr",
+        "objects",
+        "ammo_types_after"
+      ],
+      "rule": "Public runtime contract for ItemTurret.ammo state; OrderedMap internals stay deferred.",
+      "runtime_proof": "/root/Main.source_item_turret_ammo_state",
+      "source_method": "ItemTurret.ammo(Object...)",
+      "source_slice": "N1214",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_item_turret_ammo_state",
+        "test_port_game_exposes_generated_item_turret_ammo_bridge_state",
+        "test_item_turret_ammo_matches_upstream_source",
+        "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    }},
   "policy": {
     "newSourceOwnerRequiresApiContract": true
   },

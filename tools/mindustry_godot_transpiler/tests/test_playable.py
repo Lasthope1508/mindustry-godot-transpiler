@@ -13985,6 +13985,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "LiquidTurret.ammo"', source)
         self.assertIn('"matches": result.get("ammo_types_after", []) == canonical.get("ammo_types_after", [])', source)
 
+    def test_port_game_exposes_source_item_turret_ammo_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_ammo_state(objects: Array) -> Dictionary:", source)
+        self.assertIn('"field": "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();"', source)
+        self.assertIn('"comment": "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */"', source)
+        self.assertIn('"method": "public void ammo(Object... objects){"', source)
+        self.assertIn('"assignment_expr": "ammoTypes = OrderedMap.of(objects);"', source)
+        self.assertIn('"objects": objects.duplicate(true)', source)
+        self.assertIn('"ammo_types_after": objects.duplicate(true)', source)
+
+    def test_port_game_exposes_generated_item_turret_ammo_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_ammo_bridge_state(objects: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_ammo_0([objects])", source)
+        self.assertIn("var canonical = source_item_turret_ammo_state(objects)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_ammo_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ammo"', source)
+        self.assertIn('"matches": result.get("ammo_types_after", []) == canonical.get("ammo_types_after", [])', source)
+
     def test_port_game_exposes_source_liquid_turret_set_stats_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

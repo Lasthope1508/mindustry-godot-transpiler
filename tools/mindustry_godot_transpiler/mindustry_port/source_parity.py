@@ -1213,6 +1213,22 @@ def verify_liquid_turret_ammo_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_item_turret_ammo_source(upstream_root: Path) -> dict[str, Any]:
+    item_turret_path = Path(upstream_root) / ITEM_TURRET_SOURCE
+    source = item_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "field": "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();",
+        "comment": "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */",
+        "method": "public void ammo(Object... objects){",
+        "assignment": "ammoTypes = OrderedMap.of(objects);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": ITEM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_liquid_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
     liquid_turret_path = Path(upstream_root) / LIQUID_TURRET_SOURCE
     source = liquid_turret_path.read_text(encoding="utf-8", errors="replace")

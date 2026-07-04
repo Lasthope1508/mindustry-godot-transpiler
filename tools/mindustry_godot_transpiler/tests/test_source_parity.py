@@ -8951,6 +8951,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_turret_ammo_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_turret_ammo_source"))
+        report = source_parity.verify_item_turret_ammo_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "field": "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();",
+            "comment": "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */",
+            "method": "public void ammo(Object... objects){",
+            "assignment": "ammoTypes = OrderedMap.of(objects);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_liquid_turret_set_stats_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_liquid_turret_set_stats_source"))
         report = source_parity.verify_liquid_turret_set_stats_source(ROOT / "mindustry-upstream")

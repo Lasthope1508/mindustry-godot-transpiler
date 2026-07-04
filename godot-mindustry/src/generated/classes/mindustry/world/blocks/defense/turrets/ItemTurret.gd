@@ -14,7 +14,8 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "ammo", "parameters": [
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_ammo_0(_args: Array = []) -> Variant:
-	return null
+	var objects: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []
+	return {"source_owner": "PortGame.source_item_turret_ammo_state", "field": "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();", "comment": "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */", "method": "public void ammo(Object... objects){", "assignment_expr": "ammoTypes = OrderedMap.of(objects);", "objects": objects, "ammo_types_after": objects}
 
 func java_method_limitRange_1(_args: Array = []) -> Variant:
 	var margin: float = 9.0

@@ -103944,6 +103944,105 @@
       "source_slice": "N1213",
       "status": "source-backed"
     }
-  },
+  ,
+    "source_item_turret_ammo_input": {
+      "keys": {
+        "objects": {
+          "godot_symbol": "source_item_turret_ammo_input.objects",
+          "java_expr": "Object... objects",
+          "java_method": "ItemTurret.ammo(Object...)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "rule": "Input supplies exact Java varargs array order: item1, bullet1, item2, bullet2...",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_item_turret_ammo_state"
+          ]
+        }
+      },
+      "rule": "Input schema for ItemTurret.ammo bridge.",
+      "source_slice": "N1214",
+      "status": "explicit-input"
+    },
+    "source_item_turret_ammo_result": {
+      "keys": {
+        "ammo_types_after": {
+          "godot_symbol": "source_item_turret_ammo_result.ammo_types_after",
+          "java_expr": "OrderedMap.of(objects)",
+          "java_method": "ItemTurret.ammo(Object...)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "rule": "Result records ammoTypes assignment output as explicit array snapshot.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_item_turret_ammo_state"
+          ]
+        },
+        "assignment_expr": {
+          "godot_symbol": "source_item_turret_ammo_result.assignment_expr",
+          "java_expr": "ammoTypes = OrderedMap.of(objects);",
+          "java_method": "ItemTurret.ammo(Object...)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "rule": "Result records exact OrderedMap assignment expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_item_turret_ammo_state"
+          ]
+        },
+        "comment": {
+          "godot_symbol": "source_item_turret_ammo_result.comment",
+          "java_expr": "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */",
+          "java_method": "ItemTurret.ammo(Object...)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "rule": "Result records exact ammo varargs comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_item_turret_ammo_state"
+          ]
+        },
+        "field": {
+          "godot_symbol": "source_item_turret_ammo_result.field",
+          "java_expr": "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();",
+          "java_method": "ItemTurret.ammo(Object...)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "rule": "Result records exact ammoTypes field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_item_turret_ammo_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_item_turret_ammo_result.method",
+          "java_expr": "public void ammo(Object... objects){",
+          "java_method": "ItemTurret.ammo(Object...)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "rule": "Result records exact method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_item_turret_ammo_state"
+          ]
+        },
+        "objects": {
+          "alias_of": "source_item_turret_ammo_input.objects",
+          "godot_symbol": "source_item_turret_ammo_result.objects",
+          "java_expr": "Object... objects",
+          "java_method": "ItemTurret.ammo(Object...)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "rule": "Result echoes explicit input objects.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_item_turret_ammo_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_item_turret_ammo_state.",
+      "source_slice": "N1214",
+      "status": "source-backed"
+    }},
   "version": 1
 }

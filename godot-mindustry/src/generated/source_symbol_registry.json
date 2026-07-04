@@ -88178,6 +88178,108 @@
         "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
       ]
     }
-  },
+  ,
+    "item_turret_ammo.field": {
+      "godot_owner": "PortGame.source_item_turret_ammo_state",
+      "godot_symbol": "source_item_turret_ammo_result.field",
+      "java_expr": "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();",
+      "java_method": "ItemTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "Exact ItemTurret ammoTypes field backing ordered ammo map.",
+      "runtime_proof": "/root/Main.source_item_turret_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_item_turret_ammo_state",
+        "test_port_game_exposes_generated_item_turret_ammo_bridge_state",
+        "test_item_turret_ammo_matches_upstream_source",
+        "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "item_turret_ammo.comment": {
+      "godot_owner": "PortGame.source_item_turret_ammo_state",
+      "godot_symbol": "source_item_turret_ammo_result.comment",
+      "java_expr": "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */",
+      "java_method": "ItemTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "Exact upstream comment defining item/bullet varargs format.",
+      "runtime_proof": "/root/Main.source_item_turret_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_item_turret_ammo_state",
+        "test_port_game_exposes_generated_item_turret_ammo_bridge_state",
+        "test_item_turret_ammo_matches_upstream_source",
+        "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "item_turret_ammo.method": {
+      "godot_owner": "PortGame.source_item_turret_ammo_state",
+      "godot_symbol": "source_item_turret_ammo_result.method",
+      "java_expr": "public void ammo(Object... objects){",
+      "java_method": "ItemTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "Exact ItemTurret.ammo method boundary.",
+      "runtime_proof": "/root/Main.source_item_turret_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_item_turret_ammo_state",
+        "test_port_game_exposes_generated_item_turret_ammo_bridge_state",
+        "test_item_turret_ammo_matches_upstream_source",
+        "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "item_turret_ammo.assignment_expr": {
+      "godot_owner": "PortGame.source_item_turret_ammo_state",
+      "godot_symbol": "source_item_turret_ammo_result.assignment_expr",
+      "java_expr": "ammoTypes = OrderedMap.of(objects);",
+      "java_method": "ItemTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "Exact assignment from OrderedMap.of(objects).",
+      "runtime_proof": "/root/Main.source_item_turret_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_item_turret_ammo_state",
+        "test_port_game_exposes_generated_item_turret_ammo_bridge_state",
+        "test_item_turret_ammo_matches_upstream_source",
+        "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "item_turret_ammo.objects": {
+      "godot_owner": "PortGame.source_item_turret_ammo_state",
+      "godot_symbol": "source_item_turret_ammo_input.objects",
+      "java_expr": "Object... objects",
+      "java_method": "ItemTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "Input supplies Java varargs objects array without inventing OrderedMap internals.",
+      "runtime_proof": "/root/Main.source_item_turret_ammo_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_item_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_item_turret_ammo_state",
+        "test_port_game_exposes_generated_item_turret_ammo_bridge_state",
+        "test_item_turret_ammo_matches_upstream_source",
+        "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "item_turret_ammo.ammo_types_after": {
+      "godot_owner": "PortGame.source_item_turret_ammo_state",
+      "godot_symbol": "source_item_turret_ammo_result.ammo_types_after",
+      "java_expr": "OrderedMap.of(objects)",
+      "java_method": "ItemTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "Result records ammoTypes after OrderedMap.of(objects) as ordered explicit input snapshot.",
+      "runtime_proof": "/root/Main.source_item_turret_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_item_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_item_turret_ammo_state",
+        "test_port_game_exposes_generated_item_turret_ammo_bridge_state",
+        "test_item_turret_ammo_matches_upstream_source",
+        "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    }},
   "version": 1
 }

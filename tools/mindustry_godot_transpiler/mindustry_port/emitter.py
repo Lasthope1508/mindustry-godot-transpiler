@@ -1619,6 +1619,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/ItemTurret.java"
         and type_entry.get("name") == "ItemTurret"
+        and method.get("name") == "ammo"
+    ):
+        return [
+            "\tvar objects: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\treturn {\"source_owner\": \"PortGame.source_item_turret_ammo_state\", \"field\": \"public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();\", \"comment\": \"/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */\", \"method\": \"public void ammo(Object... objects){\", \"assignment_expr\": \"ammoTypes = OrderedMap.of(objects);\", \"objects\": objects, \"ammo_types_after\": objects}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ItemTurret.java"
+        and type_entry.get("name") == "ItemTurret"
         and method.get("name") == "limitRange"
         and len(method.get("parameters", [])) == 0
     ):

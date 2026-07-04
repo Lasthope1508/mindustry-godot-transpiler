@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 682)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 683)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 687)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 688)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44537,6 +44537,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["objects"]["java_expr"], "Object... objects")
         result_schema = source_symbols.state_schema(schema, "source_liquid_turret_ammo_result")
         self.assertEqual(result_schema["keys"]["ammo_types_after"]["java_expr"], "ObjectMap.of(objects)")
+
+    def test_generated_item_turret_ammo_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "item_turret_ammo.method")
+        self.assertEqual(method["java_expr"], "public void ammo(Object... objects){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(method["java_method"], "ItemTurret.ammo(Object...)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_item_turret_ammo_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_item_turret_ammo_state")
+
+        objects = source_symbols.source_symbol(registry, "item_turret_ammo.objects")
+        self.assertEqual(objects["java_expr"], "Object... objects")
+        self.assertEqual(objects["godot_symbol"], "source_item_turret_ammo_input.objects")
+        assignment = source_symbols.source_symbol(registry, "item_turret_ammo.assignment_expr")
+        self.assertEqual(assignment["java_expr"], "ammoTypes = OrderedMap.of(objects);")
+        self.assertEqual(assignment["godot_symbol"], "source_item_turret_ammo_result.assignment_expr")
+        ammo_types_after = source_symbols.source_symbol(registry, "item_turret_ammo.ammo_types_after")
+        self.assertEqual(ammo_types_after["java_expr"], "OrderedMap.of(objects)")
+        self.assertEqual(ammo_types_after["godot_symbol"], "source_item_turret_ammo_result.ammo_types_after")
+
+        ammo_slice = source_symbols.source_slice(ledger, "N1214")
+        self.assertEqual(ammo_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(ammo_slice["java_method"], "ItemTurret.ammo(Object...)")
+        self.assertEqual(ammo_slice["godot_owner"], "PortGame.source_item_turret_ammo_state")
+        self.assertEqual(ammo_slice["runtime_proof"], "/root/Main.generated_item_turret_ammo_bridge_state")
+        for expr in [
+            "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();",
+            "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */",
+            "public void ammo(Object... objects){",
+            "ammoTypes = OrderedMap.of(objects);",
+        ]:
+            self.assertIn(expr, ammo_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_item_turret_ammo_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["objects"])
+        for key in ["field", "comment", "method", "assignment_expr", "objects", "ammo_types_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_item_turret_ammo_input")
+        self.assertEqual(input_schema["keys"]["objects"]["java_expr"], "Object... objects")
+        result_schema = source_symbols.state_schema(schema, "source_item_turret_ammo_result")
+        self.assertEqual(result_schema["keys"]["ammo_types_after"]["java_expr"], "OrderedMap.of(objects)")
 
     def test_generated_liquid_turret_set_stats_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
