@@ -100107,6 +100107,152 @@
         }
       },
       "rule": "Result schema for ItemTurretBuild.read(Reads, byte) bridge."
+    },
+    "source_item_entry_constructor_input": {
+      "status": "explicit-input",
+      "source_slice": "N1190",
+      "keys": {
+        "item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_entry_constructor_input.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "Item item",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Input supplies constructor item parameter."
+        },
+        "amount": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_entry_constructor_input.amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "int amount",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Input supplies constructor amount parameter."
+        }
+      },
+      "rule": "Input schema for ItemEntry constructor bridge."
+    },
+    "source_item_entry_constructor_result": {
+      "status": "source-backed",
+      "source_slice": "N1190",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_constructor_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "public class ItemEntry extends AmmoEntry{",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "field": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_constructor_result.field",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "public Item item;",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Result records exact item field."
+        },
+        "constructor": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_constructor_result.constructor",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "ItemEntry(Item item, int amount){",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Result records exact constructor boundary."
+        },
+        "item_assign_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_constructor_result.item_assign_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "this.item = item;",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Result records exact item assignment."
+        },
+        "amount_assign_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_constructor_result.amount_assign_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "this.amount = amount;",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Result records exact amount assignment."
+        },
+        "item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_entry_constructor_result.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "Item item",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Result echoes constructor item input."
+        },
+        "amount": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_entry_constructor_result.amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "int amount",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Result echoes constructor amount input."
+        },
+        "item_after": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_item_entry_constructor_result.item_after",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "this.item = item;",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Result records item field after assignment."
+        },
+        "amount_after": {
+          "status": "source-backed",
+          "type": "int",
+          "godot_symbol": "source_item_entry_constructor_result.amount_after",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry(Item, int)",
+          "java_expr": "this.amount = amount;",
+          "used_by": [
+            "PortGame.source_item_entry_constructor_state"
+          ],
+          "rule": "Result records amount field after assignment."
+        }
+      },
+      "rule": "Result schema for ItemEntry constructor bridge."
     }
   },
   "version": 1

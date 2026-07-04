@@ -27052,6 +27052,45 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_read_state",
       "rule": "Public runtime contract for ItemTurretBuild.read(Reads, byte) read-call state."
+    },
+    "PortGame.source_item_entry_constructor_state": {
+      "status": "source-backed",
+      "source_slice": "N1190",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemEntry(Item, int)",
+      "params": [
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_item_entry_constructor_input.item"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_item_entry_constructor_input.amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "field",
+        "constructor",
+        "item_assign_expr",
+        "amount_assign_expr",
+        "item",
+        "amount",
+        "item_after",
+        "amount_after"
+      ],
+      "tests": [
+        "test_emit_bridges_item_entry_constructor_to_source_state",
+        "test_port_game_exposes_source_item_entry_constructor_state",
+        "test_port_game_exposes_generated_item_entry_constructor_bridge_state",
+        "test_item_entry_constructor_matches_upstream_source",
+        "test_generated_item_entry_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_entry_constructor_state",
+      "rule": "Public runtime contract for ItemEntry(Item, int) constructor field assignment state."
     }
   },
   "policy": {

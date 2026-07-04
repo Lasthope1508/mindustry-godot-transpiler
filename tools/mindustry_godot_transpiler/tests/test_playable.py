@@ -13666,5 +13666,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.read"', source)
         self.assertIn('"matches": result.get("read_calls", []) == canonical.get("read_calls", [])', source)
 
+    def test_port_game_exposes_source_item_entry_constructor_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_entry_constructor_state(item: Variant, amount: int) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ItemEntry extends AmmoEntry{"', source)
+        self.assertIn('"field": "public Item item;"', source)
+        self.assertIn('"constructor": "ItemEntry(Item item, int amount){"', source)
+        self.assertIn('"item_assign_expr": "this.item = item;"', source)
+        self.assertIn('"amount_assign_expr": "this.amount = amount;"', source)
+        self.assertIn('"item_after": item', source)
+        self.assertIn('"amount_after": amount', source)
+
+    def test_port_game_exposes_generated_item_entry_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_entry_constructor_bridge_state(item: Variant, amount: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemEntry_constructor_ItemEntry_0([item, amount])", source)
+        self.assertIn("var canonical = source_item_entry_constructor_state(item, amount)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_entry_constructor_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemEntry.constructor"', source)
+        self.assertIn('"matches": result.get("item_after", null) == canonical.get("item_after", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

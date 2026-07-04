@@ -8693,6 +8693,51 @@ public class ItemTurret extends Turret{
             self.assertIn('"item_lookup_expr": "Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());"', source_text)
             self.assertIn('"valid_ammo_guard": "if(item != null && ammoTypes.containsKey(item)){"', source_text)
 
+    def test_emit_bridges_item_entry_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public class ItemTurretBuild extends TurretBuild{
+        @Override
+        public void onProximityAdded(){ }
+    }
+
+    public class ItemEntry extends AmmoEntry{
+        public Item item;
+
+        ItemEntry(Item item, int amount){
+            this.item = item;
+            this.amount = amount;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ItemEntry_constructor_ItemEntry_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var item: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var amount: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn('"inner_class": "public class ItemEntry extends AmmoEntry{"', source_text)
+            self.assertIn('"field": "public Item item;"', source_text)
+            self.assertIn('"constructor": "ItemEntry(Item item, int amount){"', source_text)
+            self.assertIn('"item_assign_expr": "this.item = item;"', source_text)
+            self.assertIn('"amount_assign_expr": "this.amount = amount;"', source_text)
+            self.assertIn('"item_after": item', source_text)
+            self.assertIn('"amount_after": amount', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

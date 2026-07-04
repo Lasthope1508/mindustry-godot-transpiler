@@ -17767,6 +17767,34 @@ func generated_item_turret_build_read_bridge_state(revision: int, max_ammo: int,
 			and result.get("read_count", null) == canonical.get("read_count", null),
 	}
 
+func source_item_entry_constructor_state(item: Variant, amount: int) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_item_entry_constructor_state",
+		"inner_class": "public class ItemEntry extends AmmoEntry{",
+		"field": "public Item item;",
+		"constructor": "ItemEntry(Item item, int amount){",
+		"item_assign_expr": "this.item = item;",
+		"amount_assign_expr": "this.amount = amount;",
+		"item": item,
+		"amount": amount,
+		"item_after": item,
+		"amount_after": amount,
+	}
+
+func generated_item_entry_constructor_bridge_state(item: Variant, amount: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemEntry_constructor_ItemEntry_0([item, amount])
+	var canonical = source_item_entry_constructor_state(item, amount)
+	return {
+		"source_owner": "PortGame.source_item_entry_constructor_state",
+		"generated_owner": "ItemTurret.ItemEntry.constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("item_after", null) == canonical.get("item_after", null)
+			and result.get("amount_after", null) == canonical.get("amount_after", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

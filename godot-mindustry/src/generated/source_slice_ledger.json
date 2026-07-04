@@ -26639,6 +26639,41 @@
       ],
       "runtime_proof": "/root/Main.generated_item_turret_build_read_bridge_state",
       "rule": "ItemTurretBuild.read(Reads, byte) resets ammo, reads count, resolves item ids by revision, clamps amount to maxAmmo, and adds only valid ammo entries."
+    },
+    "N1190": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemEntry",
+      "java_method": "ItemEntry(Item, int)",
+      "godot_owner": "PortGame.source_item_entry_constructor_state",
+      "exact_exprs": [
+        "public class ItemEntry extends AmmoEntry{",
+        "public Item item;",
+        "ItemEntry(Item item, int amount){",
+        "this.item = item;",
+        "this.amount = amount;"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "item_entry_constructor.inner_class",
+        "item_entry_constructor.field",
+        "item_entry_constructor.constructor",
+        "item_entry_constructor.item_assign_expr",
+        "item_entry_constructor.amount_assign_expr",
+        "item_entry_constructor.item",
+        "item_entry_constructor.amount",
+        "item_entry_constructor.item_after",
+        "item_entry_constructor.amount_after"
+      ],
+      "tests": [
+        "test_emit_bridges_item_entry_constructor_to_source_state",
+        "test_port_game_exposes_source_item_entry_constructor_state",
+        "test_port_game_exposes_generated_item_entry_constructor_bridge_state",
+        "test_item_entry_constructor_matches_upstream_source",
+        "test_generated_item_entry_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_entry_constructor_bridge_state",
+      "rule": "ItemEntry constructor assigns item and amount directly from parameters."
     }
   },
   "version": 1

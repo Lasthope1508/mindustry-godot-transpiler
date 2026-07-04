@@ -3096,6 +3096,18 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\t\tread_calls.append({\"call\": \"ammo.add(new ItemEntry(item, itemAmount));\", \"item\": item, \"amount\": item_amount})",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_read_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public void read(Reads read, byte revision){\", \"override_expr\": \"@Override\", \"super_read_expr\": \"super.read(read, revision);\", \"clear_expr\": \"ammo.clear();\", \"total_reset_expr\": \"totalAmmo = 0;\", \"amount_expr\": \"int amount = read.ub();\", \"loop_expr\": \"for(int i = 0; i < amount; i++){\", \"item_lookup_expr\": \"Item item = Vars.content.item(revision < 2 ? read.ub() : read.s());\", \"item_amount_expr\": \"int itemAmount = Math.min(read.s(), maxAmmo);\", \"valid_comment\": \"//only add ammo if this is a valid ammo type\", \"valid_ammo_guard\": \"if(item != null && ammoTypes.containsKey(item)){\", \"total_add_expr\": \"totalAmmo += itemAmount;\", \"ammo_add_expr\": \"ammo.add(new ItemEntry(item, itemAmount));\", \"read_count\": read_entries.size(), \"total_ammo_after\": total_ammo_after, \"ammo_entries_after\": ammo_entries_after, \"read_calls\": read_calls}",
                     ])
+        for inner_class in type_entry.get("inner_classes", []):
+            if inner_class.get("name") != "ItemEntry":
+                continue
+            for index, constructor in enumerate(inner_class.get("constructors", [])):
+                if constructor.get("name") == "ItemEntry":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemEntry_constructor_ItemEntry_{index}(_args: Array = []) -> Variant:",
+                        "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar amount: int = int(_args[1] if _args.size() > 1 else 0)",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_entry_constructor_state\", \"inner_class\": \"public class ItemEntry extends AmmoEntry{\", \"field\": \"public Item item;\", \"constructor\": \"ItemEntry(Item item, int amount){\", \"item_assign_expr\": \"this.item = item;\", \"amount_assign_expr\": \"this.amount = amount;\", \"item\": item, \"amount\": amount, \"item_after\": item, \"amount_after\": amount}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:
