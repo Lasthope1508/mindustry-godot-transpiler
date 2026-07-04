@@ -1616,6 +1616,36 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"mirror_comment\": \"//mirror stats onto each bullet (purely visual)\", \"stat_liquid_consumed_expr\": \"ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);\", \"stats_replace_expr\": \"stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));\", \"ammo_types\": ammo_types, \"liquid_consumed\": liquid_consumed, \"super_set_stats_called\": true, \"stat_liquid_consumed_updates\": stat_liquid_consumed_updates, \"stats_replace_called\": true, \"ammo_values_call\": ammo_values_call, \"stats_replace_call\": stats_replace_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java"
+        and type_entry.get("name") == "ContinuousLiquidTurret"
+        and method.get("name") == "init"
+    ):
+        return [
+            "\tvar ammo_entries: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar target_ground: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar current_place_overlap_range: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar range_value: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar place_overlap_margin: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar liquid_consumed: float = float(_args[5] if _args.size() > 5 else 0.0)",
+            "\tvar current_liquid: Variant = _args[6] if _args.size() > 6 else null",
+            "\tvar current_ammo_multiplier: Variant = _args[7] if _args.size() > 7 else null",
+            "\tvar multiplier_result: float = 1.0 if current_ammo_multiplier == null else 1.0 / float(current_ammo_multiplier)",
+            "\tvar consume_call: Dictionary = {\"call\": \"consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){...});\", \"filter_expr\": \"i -> ammoTypes.containsKey(i)\", \"amount\": liquid_consumed, \"multiplier_expr\": \"multiplier = b -> {\", \"ammo_lookup_expr\": \"var ammo = ammoTypes.get(b.liquids.current());\", \"current_liquid\": current_liquid, \"current_ammo_multiplier\": current_ammo_multiplier, \"multiplier_return_expr\": \"return ammo == null ? 1f : 1f / ammo.ammoMultiplier;\", \"multiplier_result\": multiplier_result, \"display_override_noop\": true}",
+            "\tvar overlap_updates: Array = []",
+            "\tif target_ground:",
+            "\t\tfor entry in ammo_entries:",
+            "\t\t\tvar entry_dict: Dictionary = entry if entry is Dictionary else {}",
+            "\t\t\tvar type_state: Variant = entry_dict.get(\"type\", entry_dict.get(\"bullet\", {}))",
+            "\t\t\tvar range_change: float = 0.0",
+            "\t\t\tif type_state is Dictionary:",
+            "\t\t\t\trange_change = float(type_state.get(\"rangeChange\", 0.0))",
+            "\t\t\tvar before_range: float = current_place_overlap_range",
+            "\t\t\tvar candidate_range: float = range_value + range_change + place_overlap_margin",
+            "\t\t\tcurrent_place_overlap_range = max(current_place_overlap_range, candidate_range)",
+            "\t\t\toverlap_updates.append({\"liquid\": entry_dict.get(\"liquid\", entry_dict.get(\"item\", null)), \"type\": type_state, \"range_change\": range_change, \"candidate_range\": candidate_range, \"before\": before_range, \"after\": current_place_overlap_range})",
+            "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_init_state\", \"method\": \"public void init(){\", \"override_expr\": \"@Override\", \"consume_expr\": \"consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){\", \"filter_expr\": \"i -> ammoTypes.containsKey(i)\", \"consume_call\": consume_call, \"multiplier_expr\": \"multiplier = b -> {\", \"ammo_lookup_expr\": \"var ammo = ammoTypes.get(b.liquids.current());\", \"multiplier_return_expr\": \"return ammo == null ? 1f : 1f / ammo.ammoMultiplier;\", \"multiplier_result\": multiplier_result, \"display_override_noop\": true, \"target_ground_expr\": \"if(targetGround){\", \"overlap_expr\": \"ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));\", \"super_init_expr\": \"super.init();\", \"ammo_entries\": ammo_entries, \"target_ground\": target_ground, \"place_overlap_range_before\": float(_args[2] if _args.size() > 2 else 0.0), \"range_value\": range_value, \"place_overlap_margin\": place_overlap_margin, \"liquid_consumed\": liquid_consumed, \"current_liquid\": current_liquid, \"current_ammo_multiplier\": current_ammo_multiplier, \"overlap_updates\": overlap_updates, \"place_overlap_range_after\": current_place_overlap_range, \"super_init_called\": true}",
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
         and type_entry.get("name") == "LiquidTurret"
         and method.get("name") == "setStats"

@@ -104412,6 +104412,248 @@
       "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_set_stats_state.",
       "source_slice": "N1217",
       "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_init_input": {
+      "keys": {
+        "ammo_entries": {
+          "godot_symbol": "source_continuous_liquid_turret_init_input.ammo_entries",
+          "java_expr": "ammoTypes.each((item, type) -> ...)",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies source ammoTypes iteration entries.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "target_ground": {
+          "godot_symbol": "source_continuous_liquid_turret_init_input.target_ground",
+          "java_expr": "targetGround",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies source targetGround field.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "place_overlap_range": {
+          "godot_symbol": "source_continuous_liquid_turret_init_input.place_overlap_range",
+          "java_expr": "placeOverlapRange",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies pre-loop placeOverlapRange.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "range_value": {
+          "godot_symbol": "source_continuous_liquid_turret_init_input.range_value",
+          "java_expr": "range",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies source range.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "place_overlap_margin": {
+          "godot_symbol": "source_continuous_liquid_turret_init_input.place_overlap_margin",
+          "java_expr": "placeOverlapMargin",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies source placeOverlapMargin.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "liquid_consumed": {
+          "godot_symbol": "source_continuous_liquid_turret_init_input.liquid_consumed",
+          "java_expr": "liquidConsumed",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies source liquidConsumed.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "current_liquid": {
+          "godot_symbol": "source_continuous_liquid_turret_init_input.current_liquid",
+          "java_expr": "b.liquids.current()",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies source current liquid for multiplier lookup proof.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "current_ammo_multiplier": {
+          "godot_symbol": "source_continuous_liquid_turret_init_input.current_ammo_multiplier",
+          "java_expr": "ammo.ammoMultiplier",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies looked-up ammo multiplier; null represents source ammo == null branch.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        }
+      },
+      "rule": "Input schema for ContinuousLiquidTurret.init bridge.",
+      "source_slice": "N1218",
+      "status": "explicit-input"
+    },
+    "source_continuous_liquid_turret_init_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.method",
+          "java_expr": "public void init(){",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact override annotation.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "consume_call": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.consume_call",
+          "java_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records consume filter call payload.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "filter_expr": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.filter_expr",
+          "java_expr": "i -> ammoTypes.containsKey(i)",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact filter predicate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "multiplier_expr": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.multiplier_expr",
+          "java_expr": "multiplier = b -> {",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records multiplier assignment boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "ammo_lookup_expr": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.ammo_lookup_expr",
+          "java_expr": "var ammo = ammoTypes.get(b.liquids.current());",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact ammo lookup.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "multiplier_result": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.multiplier_result",
+          "java_expr": "ammo == null ? 1f : 1f / ammo.ammoMultiplier",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact multiplier branch output from explicit inputs.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "display_override_noop": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.display_override_noop",
+          "java_expr": "public void display(Stats stats){",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records empty display override.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "overlap_updates": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.overlap_updates",
+          "java_expr": "range + type.rangeChange + placeOverlapMargin",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records overlap loop update payloads.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "place_overlap_range_after": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.place_overlap_range_after",
+          "java_expr": "placeOverlapRange",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records final placeOverlapRange.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        },
+        "super_init_called": {
+          "godot_symbol": "source_continuous_liquid_turret_init_result.super_init_called",
+          "java_expr": "super.init();",
+          "java_method": "ContinuousLiquidTurret.init()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact super init dispatch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_init_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_init_state.",
+      "source_slice": "N1218",
+      "status": "source-backed"
     }
   },
   "version": 1

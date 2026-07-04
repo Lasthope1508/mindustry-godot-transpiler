@@ -28409,6 +28409,90 @@
         "test_continuous_liquid_turret_set_stats_matches_upstream_source",
         "test_generated_continuous_liquid_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_continuous_liquid_turret_init_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "ammo_entries",
+          "schema": "source_continuous_liquid_turret_init_input.ammo_entries",
+          "type": "Array"
+        },
+        {
+          "name": "target_ground",
+          "schema": "source_continuous_liquid_turret_init_input.target_ground",
+          "type": "bool"
+        },
+        {
+          "name": "place_overlap_range",
+          "schema": "source_continuous_liquid_turret_init_input.place_overlap_range",
+          "type": "float"
+        },
+        {
+          "name": "range_value",
+          "schema": "source_continuous_liquid_turret_init_input.range_value",
+          "type": "float"
+        },
+        {
+          "name": "place_overlap_margin",
+          "schema": "source_continuous_liquid_turret_init_input.place_overlap_margin",
+          "type": "float"
+        },
+        {
+          "name": "liquid_consumed",
+          "schema": "source_continuous_liquid_turret_init_input.liquid_consumed",
+          "type": "float"
+        },
+        {
+          "name": "current_liquid",
+          "schema": "source_continuous_liquid_turret_init_input.current_liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "current_ammo_multiplier",
+          "schema": "source_continuous_liquid_turret_init_input.current_ammo_multiplier",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "consume_expr",
+        "filter_expr",
+        "consume_call",
+        "multiplier_expr",
+        "ammo_lookup_expr",
+        "multiplier_return_expr",
+        "multiplier_result",
+        "display_override_noop",
+        "target_ground_expr",
+        "overlap_expr",
+        "super_init_expr",
+        "ammo_entries",
+        "target_ground",
+        "place_overlap_range_before",
+        "range_value",
+        "place_overlap_margin",
+        "liquid_consumed",
+        "current_liquid",
+        "current_ammo_multiplier",
+        "overlap_updates",
+        "place_overlap_range_after",
+        "super_init_called"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurret.init state; lookup internals are explicit inputs.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_init_state",
+      "source_method": "ContinuousLiquidTurret.init()",
+      "source_slice": "N1218",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_init_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_init_bridge_state",
+        "test_continuous_liquid_turret_init_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_init_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

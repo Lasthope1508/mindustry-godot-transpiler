@@ -27621,6 +27621,60 @@
         "test_continuous_liquid_turret_set_stats_matches_upstream_source",
         "test_generated_continuous_liquid_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1218": {
+      "deferred_exprs": [
+        "ConsumeLiquidFilter internals",
+        "ObjectMap lookup internals",
+        "Stats display internals"
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){",
+        "multiplier = b -> {",
+        "var ammo = ammoTypes.get(b.liquids.current());",
+        "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;",
+        "public void display(Stats stats){",
+        "if(targetGround){",
+        "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+        "super.init();"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_init_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret",
+      "java_method": "ContinuousLiquidTurret.init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurret.init installs a liquid filter using liquidConsumed, records multiplier branch from explicit lookup inputs, updates overlap range when targetGround, then calls super.init().",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_init_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_init.method",
+        "continuous_liquid_turret_init.override",
+        "continuous_liquid_turret_init.consume_filter",
+        "continuous_liquid_turret_init.filter_expr",
+        "continuous_liquid_turret_init.multiplier_assign",
+        "continuous_liquid_turret_init.ammo_lookup",
+        "continuous_liquid_turret_init.multiplier_return",
+        "continuous_liquid_turret_init.display_override",
+        "continuous_liquid_turret_init.target_ground",
+        "continuous_liquid_turret_init.ammo_entries",
+        "continuous_liquid_turret_init.place_overlap_range",
+        "continuous_liquid_turret_init.range_value",
+        "continuous_liquid_turret_init.place_overlap_margin",
+        "continuous_liquid_turret_init.liquid_consumed",
+        "continuous_liquid_turret_init.current_liquid",
+        "continuous_liquid_turret_init.current_ammo_multiplier",
+        "continuous_liquid_turret_init.overlap_each",
+        "continuous_liquid_turret_init.place_overlap_range_after",
+        "continuous_liquid_turret_init.super_init"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_init_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_init_bridge_state",
+        "test_continuous_liquid_turret_init_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_init_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

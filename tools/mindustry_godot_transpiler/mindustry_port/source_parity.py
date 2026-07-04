@@ -1319,6 +1319,28 @@ def verify_liquid_turret_init_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_continuous_liquid_turret_init_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / CONTINUOUS_LIQUID_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void init(){",
+        "consume_filter": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){",
+        "multiplier_assign": "multiplier = b -> {",
+        "ammo_lookup": "var ammo = ammoTypes.get(b.liquids.current());",
+        "multiplier_return": "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;",
+        "display_override": "public void display(Stats stats){",
+        "target_ground": "if(targetGround){",
+        "overlap_each": "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+        "super_init": "super.init();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": CONTINUOUS_LIQUID_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_liquid_turret_build_should_active_sound_source(upstream_root: Path) -> dict[str, Any]:
     liquid_turret_path = Path(upstream_root) / LIQUID_TURRET_SOURCE
     source = liquid_turret_path.read_text(encoding="utf-8", errors="replace")

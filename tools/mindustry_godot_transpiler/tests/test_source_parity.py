@@ -9037,6 +9037,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_continuous_liquid_turret_init_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_continuous_liquid_turret_init_source"))
+        report = source_parity.verify_continuous_liquid_turret_init_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public void init(){",
+            "consume_filter": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){",
+            "multiplier_assign": "multiplier = b -> {",
+            "ammo_lookup": "var ammo = ammoTypes.get(b.liquids.current());",
+            "multiplier_return": "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;",
+            "display_override": "public void display(Stats stats){",
+            "target_ground": "if(targetGround){",
+            "overlap_each": "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+            "super_init": "super.init();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_liquid_turret_build_should_active_sound_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_liquid_turret_build_should_active_sound_source"))
         report = source_parity.verify_liquid_turret_build_should_active_sound_source(ROOT / "mindustry-upstream")

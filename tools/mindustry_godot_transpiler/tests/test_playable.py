@@ -14139,6 +14139,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "LiquidTurret.init"', source)
         self.assertIn('"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)', source)
 
+    def test_port_game_exposes_source_continuous_liquid_turret_init_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_continuous_liquid_turret_init_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, liquid_consumed: float, current_liquid: Variant, current_ammo_multiplier: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_init_state"', source)
+        self.assertIn('"consume_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){"', source)
+        self.assertIn('"filter_expr": "i -> ammoTypes.containsKey(i)"', source)
+        self.assertIn('"multiplier_expr": "multiplier = b -> {"', source)
+        self.assertIn('"ammo_lookup_expr": "var ammo = ammoTypes.get(b.liquids.current());"', source)
+        self.assertIn('"multiplier_return_expr": "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;"', source)
+        self.assertIn('"multiplier_result": multiplier_result', source)
+        self.assertIn('"display_override_noop": true', source)
+        self.assertIn('"place_overlap_range_after": current_place_overlap_range', source)
+        self.assertIn('"super_init_called": true', source)
+
+    def test_port_game_exposes_generated_continuous_liquid_turret_init_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_continuous_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, liquid_consumed: float, current_liquid: Variant, current_ammo_multiplier: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier])", source)
+        self.assertIn("var canonical = source_continuous_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin, liquid_consumed, current_liquid, current_ammo_multiplier)", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_init_state"', source)
+        self.assertIn('"generated_owner": "ContinuousLiquidTurret.init"', source)
+        self.assertIn('"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)', source)
+
     def test_port_game_exposes_source_liquid_turret_build_should_active_sound_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

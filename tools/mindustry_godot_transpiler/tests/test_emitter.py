@@ -9571,6 +9571,65 @@ public class LiquidTurret extends Turret{
             self.assertIn('"super_init_expr": "super.init();"', source_text)
             self.assertIn('"super_init_called": true', source_text)
 
+    def test_emit_bridges_continuous_liquid_turret_init_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ContinuousLiquidTurret extends ContinuousTurret{
+    public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();
+    public float liquidConsumed = 1f / 60f;
+
+    @Override
+    public void init(){
+        consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){
+
+            {
+                multiplier = b -> {
+                    var ammo = ammoTypes.get(b.liquids.current());
+                    return ammo == null ? 1f : 1f / ammo.ammoMultiplier;
+                };
+            }
+
+            @Override
+            public void display(Stats stats){
+
+            }
+        });
+
+        if(targetGround){
+            ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));
+        }
+
+        super.init();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var ammo_entries: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var liquid_consumed: float = float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_init_state"', source_text)
+            self.assertIn('"consume_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){"', source_text)
+            self.assertIn('"multiplier_expr": "multiplier = b -> {"', source_text)
+            self.assertIn('"ammo_lookup_expr": "var ammo = ammoTypes.get(b.liquids.current());"', source_text)
+            self.assertIn('"multiplier_return_expr": "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;"', source_text)
+            self.assertIn('"display_override_noop": true', source_text)
+            self.assertIn('"overlap_expr": "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));"', source_text)
+            self.assertIn('"super_init_called": true', source_text)
+
     def test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

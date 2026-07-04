@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 686)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 687)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 691)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 692)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44845,6 +44845,65 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["target_ground"]["java_expr"], "targetGround")
         result_schema = source_symbols.state_schema(schema, "source_liquid_turret_init_result")
         self.assertEqual(result_schema["keys"]["place_overlap_range_after"]["java_expr"], "placeOverlapRange")
+        self.assertEqual(result_schema["keys"]["overlap_updates"]["java_expr"], "range + type.rangeChange + placeOverlapMargin")
+
+    def test_generated_continuous_liquid_turret_init_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "continuous_liquid_turret_init.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(method["java_method"], "ContinuousLiquidTurret.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_continuous_liquid_turret_init_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_continuous_liquid_turret_init_state")
+
+        consume_filter = source_symbols.source_symbol(registry, "continuous_liquid_turret_init.consume_filter")
+        self.assertEqual(consume_filter["java_expr"], "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){")
+        self.assertEqual(consume_filter["godot_symbol"], "source_continuous_liquid_turret_init_result.consume_call")
+        liquid_consumed = source_symbols.source_symbol(registry, "continuous_liquid_turret_init.liquid_consumed")
+        self.assertEqual(liquid_consumed["java_expr"], "liquidConsumed")
+        self.assertEqual(liquid_consumed["godot_symbol"], "source_continuous_liquid_turret_init_input.liquid_consumed")
+        multiplier_return = source_symbols.source_symbol(registry, "continuous_liquid_turret_init.multiplier_return")
+        self.assertEqual(multiplier_return["java_expr"], "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;")
+        self.assertEqual(multiplier_return["godot_symbol"], "source_continuous_liquid_turret_init_result.multiplier_result")
+        overlap = source_symbols.source_symbol(registry, "continuous_liquid_turret_init.overlap_each")
+        self.assertEqual(overlap["java_expr"], "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));")
+        self.assertEqual(overlap["godot_symbol"], "source_continuous_liquid_turret_init_result.overlap_updates")
+
+        init_slice = source_symbols.source_slice(ledger, "N1218")
+        self.assertEqual(init_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(init_slice["java_method"], "ContinuousLiquidTurret.init()")
+        self.assertEqual(init_slice["godot_owner"], "PortGame.source_continuous_liquid_turret_init_state")
+        self.assertEqual(init_slice["runtime_proof"], "/root/Main.generated_continuous_liquid_turret_init_bridge_state")
+        for expr in [
+            "@Override",
+            "public void init(){",
+            "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){",
+            "multiplier = b -> {",
+            "var ammo = ammoTypes.get(b.liquids.current());",
+            "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;",
+            "public void display(Stats stats){",
+            "if(targetGround){",
+            "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+            "super.init();",
+        ]:
+            self.assertIn(expr, init_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_continuous_liquid_turret_init_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["ammo_entries", "target_ground", "place_overlap_range", "range_value", "place_overlap_margin", "liquid_consumed", "current_liquid", "current_ammo_multiplier"])
+        for key in ["method", "consume_call", "multiplier_result", "target_ground", "place_overlap_range_before", "place_overlap_range_after", "overlap_updates", "super_init_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_init_input")
+        self.assertEqual(input_schema["keys"]["ammo_entries"]["java_expr"], "ammoTypes.each((item, type) -> ...)")
+        self.assertEqual(input_schema["keys"]["liquid_consumed"]["java_expr"], "liquidConsumed")
+        result_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_init_result")
+        self.assertEqual(result_schema["keys"]["multiplier_result"]["java_expr"], "ammo == null ? 1f : 1f / ammo.ammoMultiplier")
         self.assertEqual(result_schema["keys"]["overlap_updates"]["java_expr"], "range + type.rangeChange + placeOverlapMargin")
 
     def test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing(self):
