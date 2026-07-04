@@ -8004,6 +8004,55 @@ public class ItemTurret extends Turret{
             self.assertIn('"guard_expr": "if(!hasAmmo() && cheating() && ammoTypes.size > 0){"', source_text)
             self.assertIn('"handle_item_expr": "handleItem(this, ammoTypes.keys().next());"', source_text)
 
+    def test_emit_bridges_item_turret_build_sense_object_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public class ItemTurretBuild extends TurretBuild{
+        @Override
+        public void onProximityAdded(){
+            super.onProximityAdded();
+        }
+
+        @Override
+        public Object senseObject(LAccess sensor){
+            return switch(sensor){
+                case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;
+                default -> super.senseObject(sensor);
+            };
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ItemTurretBuild_method_senseObject_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var sensor: String = str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("var ammo_size: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var peek_item: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var super_sense_object_value: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn('if sensor == "currentAmmoType":', source_text)
+            self.assertIn("sense_object_value = peek_item if ammo_size > 0 else null", source_text)
+            self.assertIn("sense_object_value = super_sense_object_value", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_item_turret_build_sense_object_state"', source_text)
+            self.assertIn('"method": "public Object senseObject(LAccess sensor){"', source_text)
+            self.assertIn('"current_ammo_type_case": "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;"', source_text)
+            self.assertIn('"default_case": "default -> super.senseObject(sensor);"', source_text)
+            self.assertIn('"sense_object_value": sense_object_value', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

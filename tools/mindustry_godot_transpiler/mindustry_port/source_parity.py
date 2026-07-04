@@ -778,6 +778,24 @@ def verify_item_turret_build_on_proximity_added_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_item_turret_build_sense_object_source(upstream_root: Path) -> dict[str, Any]:
+    item_turret_path = Path(upstream_root) / ITEM_TURRET_SOURCE
+    source = item_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+        "override": "@Override",
+        "method": "public Object senseObject(LAccess sensor){",
+        "switch_return": "return switch(sensor){",
+        "current_ammo_type_case": "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;",
+        "default_case": "default -> super.senseObject(sensor);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": ITEM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

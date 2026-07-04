@@ -26538,6 +26538,57 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_on_proximity_added_state",
       "rule": "Public runtime contract for ItemTurretBuild.onProximityAdded() cheaty first-ammo branch."
+    },
+    "PortGame.source_item_turret_build_sense_object_state": {
+      "status": "source-backed",
+      "source_slice": "N1179",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_item_turret_build_sense_object_input.sensor"
+        },
+        {
+          "name": "ammo_size",
+          "type": "int",
+          "schema": "source_item_turret_build_sense_object_input.ammo_size"
+        },
+        {
+          "name": "peek_item",
+          "type": "Variant",
+          "schema": "source_item_turret_build_sense_object_input.peek_item"
+        },
+        {
+          "name": "super_sense_object_value",
+          "type": "Variant",
+          "schema": "source_item_turret_build_sense_object_input.super_sense_object_value"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "switch_return_expr",
+        "current_ammo_type_case",
+        "default_case",
+        "sensor",
+        "ammo_size",
+        "peek_item",
+        "super_sense_object_value",
+        "sense_object_value"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_item_turret_build_sense_object_bridge_state",
+        "test_item_turret_build_sense_object_matches_upstream_source",
+        "test_generated_item_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_sense_object_state",
+      "rule": "Public runtime contract for ItemTurretBuild.senseObject(LAccess sensor) currentAmmoType switch branch."
     }
   },
   "policy": {

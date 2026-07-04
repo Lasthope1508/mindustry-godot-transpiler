@@ -17359,6 +17359,40 @@ func generated_item_turret_build_on_proximity_added_bridge_state(has_ammo: bool,
 		"matches": result.get("handle_item_call", null) == canonical.get("handle_item_call", null) and result.get("should_handle_first_ammo", null) == canonical.get("should_handle_first_ammo", null),
 	}
 
+func source_item_turret_build_sense_object_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:
+	var sense_object_value: Variant = null
+	if sensor == "currentAmmoType":
+		sense_object_value = peek_item if ammo_size > 0 else null
+	else:
+		sense_object_value = super_sense_object_value
+	return {
+		"source_owner": "PortGame.source_item_turret_build_sense_object_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public Object senseObject(LAccess sensor){",
+		"override_expr": "@Override",
+		"switch_return_expr": "return switch(sensor){",
+		"current_ammo_type_case": "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;",
+		"default_case": "default -> super.senseObject(sensor);",
+		"sensor": sensor,
+		"ammo_size": ammo_size,
+		"peek_item": peek_item,
+		"super_sense_object_value": super_sense_object_value,
+		"sense_object_value": sense_object_value,
+	}
+
+func generated_item_turret_build_sense_object_bridge_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_senseObject_1([sensor, ammo_size, peek_item, super_sense_object_value])
+	var canonical = source_item_turret_build_sense_object_state(sensor, ammo_size, peek_item, super_sense_object_value)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_sense_object_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.senseObject",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

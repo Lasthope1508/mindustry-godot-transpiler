@@ -2929,6 +2929,21 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\thandle_item_call = {\"call\": \"handleItem(this, ammoTypes.keys().next());\", \"source\": \"this\", \"item\": first_ammo_item}",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_on_proximity_added_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public void onProximityAdded(){\", \"override_expr\": \"@Override\", \"super_on_proximity_added_expr\": \"super.onProximityAdded();\", \"comment\": \"//add first ammo item to cheaty blocks so they can shoot properly\", \"guard_expr\": \"if(!hasAmmo() && cheating() && ammoTypes.size > 0){\", \"handle_item_expr\": \"handleItem(this, ammoTypes.keys().next());\", \"has_ammo\": has_ammo, \"cheating\": cheating, \"ammo_types_size\": ammo_types_size, \"first_ammo_item\": first_ammo_item, \"should_handle_first_ammo\": should_handle_first_ammo, \"handle_item_call\": handle_item_call, \"super_on_proximity_added_called\": true}",
                     ])
+                elif method.get("name") == "senseObject":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemTurretBuild_method_senseObject_{index}(_args: Array = []) -> Variant:",
+                        "\tvar sensor: String = str(_args[0] if _args.size() > 0 else \"\")",
+                        "\tvar ammo_size: int = int(_args[1] if _args.size() > 1 else 0)",
+                        "\tvar peek_item: Variant = _args[2] if _args.size() > 2 else null",
+                        "\tvar super_sense_object_value: Variant = _args[3] if _args.size() > 3 else null",
+                        "\tvar sense_object_value: Variant = null",
+                        "\tif sensor == \"currentAmmoType\":",
+                        "\t\tsense_object_value = peek_item if ammo_size > 0 else null",
+                        "\telse:",
+                        "\t\tsense_object_value = super_sense_object_value",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_sense_object_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public Object senseObject(LAccess sensor){\", \"override_expr\": \"@Override\", \"switch_return_expr\": \"return switch(sensor){\", \"current_ammo_type_case\": \"case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;\", \"default_case\": \"default -> super.senseObject(sensor);\", \"sensor\": sensor, \"ammo_size\": ammo_size, \"peek_item\": peek_item, \"super_sense_object_value\": super_sense_object_value, \"sense_object_value\": sense_object_value}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

@@ -13400,5 +13400,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.onProximityAdded"', source)
         self.assertIn('"matches": result.get("handle_item_call", null) == canonical.get("handle_item_call", null)', source)
 
+    def test_port_game_exposes_source_item_turret_build_sense_object_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_sense_object_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ItemTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"method": "public Object senseObject(LAccess sensor){"', source)
+        self.assertIn('"current_ammo_type_case": "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;"', source)
+        self.assertIn('"default_case": "default -> super.senseObject(sensor);"', source)
+        self.assertIn('if sensor == "currentAmmoType":', source)
+        self.assertIn("sense_object_value = peek_item if ammo_size > 0 else null", source)
+        self.assertIn("sense_object_value = super_sense_object_value", source)
+        self.assertIn('"sense_object_value": sense_object_value', source)
+
+    def test_port_game_exposes_generated_item_turret_build_sense_object_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_sense_object_bridge_state(sensor: String, ammo_size: int, peek_item: Variant, super_sense_object_value: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_senseObject_1([sensor, ammo_size, peek_item, super_sense_object_value])", source)
+        self.assertIn("var canonical = source_item_turret_build_sense_object_state(sensor, ammo_size, peek_item, super_sense_object_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_sense_object_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.senseObject"', source)
+        self.assertIn('"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

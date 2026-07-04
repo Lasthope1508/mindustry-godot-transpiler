@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 647)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 648)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 652)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 653)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43234,6 +43234,70 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_item_turret_build_on_proximity_added_result = source_symbols.state_schema(schema, "source_item_turret_build_on_proximity_added_result")
         self.assertEqual(source_item_turret_build_on_proximity_added_result["keys"]["should_handle_first_ammo"]["java_expr"], "!hasAmmo() && cheating() && ammoTypes.size > 0")
         self.assertEqual(source_item_turret_build_on_proximity_added_result["keys"]["handle_item_call"]["java_expr"], "handleItem(this, ammoTypes.keys().next());")
+
+    def test_generated_item_turret_build_sense_object_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "item_turret_build_sense_object.method")
+        self.assertEqual(method["java_expr"], "public Object senseObject(LAccess sensor){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(method["java_method"], "ItemTurretBuild.senseObject(LAccess sensor)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_item_turret_build_sense_object_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_item_turret_build_sense_object_state")
+
+        sensor = source_symbols.source_symbol(registry, "item_turret_build_sense_object.sensor")
+        self.assertEqual(sensor["java_expr"], "sensor")
+        self.assertEqual(sensor["godot_symbol"], "source_item_turret_build_sense_object_input.sensor")
+        ammo_size = source_symbols.source_symbol(registry, "item_turret_build_sense_object.ammo_size")
+        self.assertEqual(ammo_size["java_expr"], "ammo.size")
+        self.assertEqual(ammo_size["godot_symbol"], "source_item_turret_build_sense_object_input.ammo_size")
+        peek_item = source_symbols.source_symbol(registry, "item_turret_build_sense_object.peek_item")
+        self.assertEqual(peek_item["java_expr"], "((ItemEntry)ammo.peek()).item")
+        self.assertEqual(peek_item["godot_symbol"], "source_item_turret_build_sense_object_input.peek_item")
+        super_value = source_symbols.source_symbol(registry, "item_turret_build_sense_object.super_sense_object_value")
+        self.assertEqual(super_value["java_expr"], "super.senseObject(sensor)")
+        self.assertEqual(super_value["godot_symbol"], "source_item_turret_build_sense_object_input.super_sense_object_value")
+        current_case = source_symbols.source_symbol(registry, "item_turret_build_sense_object.current_ammo_type_case")
+        self.assertEqual(current_case["java_expr"], "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;")
+        self.assertEqual(current_case["godot_symbol"], "source_item_turret_build_sense_object_result.current_ammo_type_case")
+        value = source_symbols.source_symbol(registry, "item_turret_build_sense_object.sense_object_value")
+        self.assertEqual(value["java_expr"], "ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null / super.senseObject(sensor)")
+        self.assertEqual(value["godot_symbol"], "source_item_turret_build_sense_object_result.sense_object_value")
+
+        sense_object_slice = source_symbols.source_slice(ledger, "N1179")
+        self.assertEqual(sense_object_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(sense_object_slice["java_method"], "ItemTurretBuild.senseObject(LAccess sensor)")
+        self.assertEqual(sense_object_slice["godot_owner"], "PortGame.source_item_turret_build_sense_object_state")
+        self.assertEqual(sense_object_slice["runtime_proof"], "/root/Main.generated_item_turret_build_sense_object_bridge_state")
+        for expr in [
+            "public class ItemTurretBuild extends TurretBuild{",
+            "@Override",
+            "public Object senseObject(LAccess sensor){",
+            "return switch(sensor){",
+            "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;",
+            "default -> super.senseObject(sensor);",
+        ]:
+            self.assertIn(expr, sense_object_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_item_turret_build_sense_object_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["sensor", "ammo_size", "peek_item", "super_sense_object_value"])
+        for key in ["inner_class", "method", "override_expr", "switch_return_expr", "current_ammo_type_case", "default_case", "sensor", "ammo_size", "peek_item", "super_sense_object_value", "sense_object_value"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_item_turret_build_sense_object_input = source_symbols.state_schema(schema, "source_item_turret_build_sense_object_input")
+        self.assertEqual(source_item_turret_build_sense_object_input["keys"]["sensor"]["java_expr"], "sensor")
+        self.assertEqual(source_item_turret_build_sense_object_input["keys"]["ammo_size"]["java_expr"], "ammo.size")
+        self.assertEqual(source_item_turret_build_sense_object_input["keys"]["peek_item"]["java_expr"], "((ItemEntry)ammo.peek()).item")
+        self.assertEqual(source_item_turret_build_sense_object_input["keys"]["super_sense_object_value"]["java_expr"], "super.senseObject(sensor)")
+        source_item_turret_build_sense_object_result = source_symbols.state_schema(schema, "source_item_turret_build_sense_object_result")
+        self.assertEqual(source_item_turret_build_sense_object_result["keys"]["current_ammo_type_case"]["java_expr"], "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;")
+        self.assertEqual(source_item_turret_build_sense_object_result["keys"]["default_case"]["java_expr"], "default -> super.senseObject(sensor);")
+        self.assertEqual(source_item_turret_build_sense_object_result["keys"]["sense_object_value"]["java_expr"], "ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null / super.senseObject(sensor)")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

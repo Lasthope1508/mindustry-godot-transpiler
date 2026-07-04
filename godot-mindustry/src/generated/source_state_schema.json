@@ -97976,6 +97976,204 @@
           "rule": "Result records super call execution."
         }
       }
+    },
+    "source_item_turret_build_sense_object_input": {
+      "status": "source-backed",
+      "source_slice": "N1179",
+      "keys": {
+        "sensor": {
+          "status": "explicit-input",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_sense_object_input.sensor",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "sensor",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Carries Java LAccess sensor input into bridge."
+        },
+        "ammo_size": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_sense_object_input.ammo_size",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "ammo.size",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Carries Java ammo.size input into bridge."
+        },
+        "peek_item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_sense_object_input.peek_item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "((ItemEntry)ammo.peek()).item",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Carries explicit ammo.peek item value into bridge without inventing ItemEntry internals."
+        },
+        "super_sense_object_value": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_sense_object_input.super_sense_object_value",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "super.senseObject(sensor)",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Carries explicit superclass senseObject result for default branch."
+        }
+      },
+      "rule": "Input schema for ItemTurretBuild.senseObject(LAccess sensor) bridge."
+    },
+    "source_item_turret_build_sense_object_result": {
+      "status": "source-backed",
+      "source_slice": "N1179",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_sense_object_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "public class ItemTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_sense_object_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_sense_object_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "switch_return_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_sense_object_result.switch_return_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "return switch(sensor){",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Result records exact switch return expression."
+        },
+        "current_ammo_type_case": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_sense_object_result.current_ammo_type_case",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "case currentAmmoType -> ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null;",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Result records exact currentAmmoType branch."
+        },
+        "default_case": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_sense_object_result.default_case",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "default -> super.senseObject(sensor);",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Result records exact default branch."
+        },
+        "sensor": {
+          "status": "explicit-input",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_sense_object_result.sensor",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "sensor",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Carries sensor into result schema.",
+          "alias_of": "source_item_turret_build_sense_object_input.sensor"
+        },
+        "ammo_size": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_sense_object_result.ammo_size",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "ammo.size",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Carries ammo.size into result schema.",
+          "alias_of": "source_item_turret_build_sense_object_input.ammo_size"
+        },
+        "peek_item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_sense_object_result.peek_item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "((ItemEntry)ammo.peek()).item",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Carries peek item into result schema.",
+          "alias_of": "source_item_turret_build_sense_object_input.peek_item"
+        },
+        "super_sense_object_value": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_sense_object_result.super_sense_object_value",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "super.senseObject(sensor)",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Carries super sense object value into result schema.",
+          "alias_of": "source_item_turret_build_sense_object_input.super_sense_object_value"
+        },
+        "sense_object_value": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_sense_object_result.sense_object_value",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.senseObject(LAccess sensor)",
+          "java_expr": "ammo.size > 0 ? ((ItemEntry)ammo.peek()).item : null / super.senseObject(sensor)",
+          "used_by": [
+            "PortGame.source_item_turret_build_sense_object_state"
+          ],
+          "rule": "Result records selected branch value from Java switch."
+        }
+      },
+      "rule": "Result schema for ItemTurretBuild.senseObject(LAccess sensor) bridge."
     }
   },
   "version": 1
