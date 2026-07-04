@@ -13551,6 +13551,338 @@
       "source_slice": "N1207",
       "status": "source-backed"
     },
+    "source_base_turret_draw_place_input": {
+      "keys": {
+        "fog_radius_multiplier": {
+          "godot_symbol": "source_base_turret_draw_place_input.fog_radius_multiplier",
+          "java_expr": "fogRadiusMultiplier",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime BaseTurret.fogRadiusMultiplier field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "offset": {
+          "godot_symbol": "source_base_turret_draw_place_input.offset",
+          "java_expr": "offset",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime Block.offset field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "range": {
+          "godot_symbol": "source_base_turret_draw_place_input.range",
+          "java_expr": "range",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime BaseTurret.range field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "rotation": {
+          "godot_symbol": "source_base_turret_draw_place_input.rotation",
+          "java_expr": "rotation",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime drawPlace rotation argument.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "rules_fog": {
+          "godot_symbol": "source_base_turret_draw_place_input.rules_fog",
+          "java_expr": "state.rules.fog",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime fog rules flag.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "tilesize": {
+          "godot_symbol": "source_base_turret_draw_place_input.tilesize",
+          "java_expr": "tilesize",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime Vars.tilesize static value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "valid": {
+          "godot_symbol": "source_base_turret_draw_place_input.valid",
+          "java_expr": "valid",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime drawPlace valid argument.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_base_turret_draw_place_input.x",
+          "java_expr": "x",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime drawPlace x argument.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_base_turret_draw_place_input.y",
+          "java_expr": "y",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime drawPlace y argument.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_base_turret_draw_place_state.",
+      "source_slice": "N1209",
+      "status": "source-backed"
+    },
+    "source_base_turret_draw_place_result": {
+      "keys": {
+        "block_offset": {
+          "alias_of": "source_base_turret_draw_place_input.offset",
+          "rule": "Echoes Block.offset input.",
+          "status": "generated",
+          "type": "float"
+        },
+        "dash_circle_call": {
+          "godot_symbol": "source_base_turret_draw_place_result.dash_circle_call",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Recorded primary Drawf.dashCircle call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "dash_circle_expr": {
+          "godot_symbol": "source_base_turret_draw_place_result.dash_circle_expr",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Source primary range circle expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "dash_circle_x": {
+          "godot_symbol": "source_base_turret_draw_place_result.dash_circle_x",
+          "java_expr": "x * tilesize + offset",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Computed x coordinate used by both circle draws.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "dash_circle_y": {
+          "godot_symbol": "source_base_turret_draw_place_result.dash_circle_y",
+          "java_expr": "y * tilesize + offset",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Computed y coordinate used by both circle draws.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "fog_dash_circle_call": {
+          "godot_symbol": "source_base_turret_draw_place_result.fog_dash_circle_call",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Recorded fog Drawf.dashCircle call when guard passes.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "fog_dash_circle_called": {
+          "godot_symbol": "source_base_turret_draw_place_result.fog_dash_circle_called",
+          "java_expr": "fogRadiusMultiplier < 0.99f && state.rules.fog",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "True when fog circle guard passes.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "fog_dash_circle_expr": {
+          "godot_symbol": "source_base_turret_draw_place_result.fog_dash_circle_expr",
+          "java_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Source fog circle expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "fog_guard_expr": {
+          "godot_symbol": "source_base_turret_draw_place_result.fog_guard_expr",
+          "java_expr": "if(fogRadiusMultiplier < 0.99f && state.rules.fog){",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Source fog circle guard.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "fog_radius_multiplier": {
+          "alias_of": "source_base_turret_draw_place_input.fog_radius_multiplier",
+          "rule": "Echoes fogRadiusMultiplier input.",
+          "status": "generated",
+          "type": "float"
+        },
+        "method": {
+          "godot_symbol": "source_base_turret_draw_place_result.method",
+          "java_expr": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_base_turret_draw_place_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Override marker.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "range": {
+          "alias_of": "source_base_turret_draw_place_input.range",
+          "rule": "Echoes range input.",
+          "status": "generated",
+          "type": "float"
+        },
+        "rotation": {
+          "alias_of": "source_base_turret_draw_place_input.rotation",
+          "rule": "Echoes rotation argument.",
+          "status": "generated",
+          "type": "int"
+        },
+        "rules_fog": {
+          "alias_of": "source_base_turret_draw_place_input.rules_fog",
+          "rule": "Echoes rules_fog input.",
+          "status": "generated",
+          "type": "bool"
+        },
+        "source_owner": {
+          "godot_symbol": "source_base_turret_draw_place_result.source_owner",
+          "java_expr": "PortGame.source_base_turret_draw_place_state",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Runtime owner marker.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "source_tilesize": {
+          "alias_of": "source_base_turret_draw_place_input.tilesize",
+          "rule": "Echoes tilesize input.",
+          "status": "generated",
+          "type": "float"
+        },
+        "super_draw_place_called": {
+          "godot_symbol": "source_base_turret_draw_place_result.super_draw_place_called",
+          "java_expr": "super.drawPlace(x, y, rotation, valid);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Records superclass drawPlace dispatch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "super_draw_place_expr": {
+          "godot_symbol": "source_base_turret_draw_place_result.super_draw_place_expr",
+          "java_expr": "super.drawPlace(x, y, rotation, valid);",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+          "rule": "Source superclass drawPlace dispatch.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_base_turret_draw_place_state"
+          ]
+        },
+        "tile_x": {
+          "alias_of": "source_base_turret_draw_place_input.x",
+          "rule": "Echoes x argument.",
+          "status": "generated",
+          "type": "int"
+        },
+        "tile_y": {
+          "alias_of": "source_base_turret_draw_place_input.y",
+          "rule": "Echoes y argument.",
+          "status": "generated",
+          "type": "int"
+        },
+        "valid": {
+          "alias_of": "source_base_turret_draw_place_input.valid",
+          "rule": "Echoes valid argument.",
+          "status": "generated",
+          "type": "bool"
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_base_turret_draw_place_state.",
+      "source_slice": "N1209",
+      "status": "source-backed"
+    },
     "source_base_turret_init_input": {
       "keys": {
         "coolant_present": {

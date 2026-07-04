@@ -8330,6 +8330,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_base_turret_draw_place_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_base_turret_draw_place_source"))
+        report = source_parity.verify_base_turret_draw_place_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+            "super_draw_place": "super.drawPlace(x, y, rotation, valid);",
+            "dash_circle": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+            "fog_guard": "if(fogRadiusMultiplier < 0.99f && state.rules.fog){",
+            "fog_dash_circle": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_load_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_load_source"))
         report = source_parity.verify_turret_load_source(ROOT / "mindustry-upstream")

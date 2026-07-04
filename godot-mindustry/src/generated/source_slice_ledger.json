@@ -6647,6 +6647,51 @@
         "test_generated_base_turret_init_slice_is_registered_with_source_backing"
       ]
     },
+    "N1209": {
+      "deferred_exprs": [
+        "super.drawPlace(x, y, rotation, valid) internals stay deferred to Block superclass source.",
+        "Drawf.dashCircle rendering side effects stay deferred to rendering source.",
+        "Pal color internals stay deferred to palette source."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void drawPlace(int x, int y, int rotation, boolean valid){",
+        "super.drawPlace(x, y, rotation, valid);",
+        "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+        "if(fogRadiusMultiplier < 0.99f && state.rules.fog){",
+        "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);"
+      ],
+      "godot_owner": "PortGame.source_base_turret_draw_place_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "BaseTurret.drawPlace delegates to super, always draws range circle, and draws fog radius circle when fog radius multiplier and rules fog guard pass.",
+      "runtime_proof": "/root/Main.generated_base_turret_draw_place_bridge_state",
+      "source_symbols": [
+        "base_turret_draw_place.method",
+        "base_turret_draw_place.x",
+        "base_turret_draw_place.y",
+        "base_turret_draw_place.rotation",
+        "base_turret_draw_place.valid",
+        "base_turret_draw_place.tilesize",
+        "base_turret_draw_place.offset",
+        "base_turret_draw_place.range",
+        "base_turret_draw_place.fog_radius_multiplier",
+        "base_turret_draw_place.rules_fog",
+        "base_turret_draw_place.super_draw_place",
+        "base_turret_draw_place.dash_circle",
+        "base_turret_draw_place.fog_guard",
+        "base_turret_draw_place.fog_dash_circle"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_base_turret_draw_place_to_source_state",
+        "test_port_game_exposes_source_base_turret_draw_place_state",
+        "test_port_game_exposes_generated_base_turret_draw_place_bridge_state",
+        "test_base_turret_draw_place_matches_upstream_source",
+        "test_generated_base_turret_draw_place_slice_is_registered_with_source_backing"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

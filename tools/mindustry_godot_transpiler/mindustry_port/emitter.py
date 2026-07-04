@@ -1330,6 +1330,30 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
         and type_entry.get("name") == "BaseTurret"
+        and method.get("name") == "drawPlace"
+    ):
+        return [
+            "\tvar tile_x: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar tile_y: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar valid: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar source_tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar block_offset: float = float(_args[5] if _args.size() > 5 else 0.0)",
+            "\tvar range_value: float = float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else 1.0)",
+            "\tvar rules_fog: bool = bool(_args[8] if _args.size() > 8 else false)",
+            "\tvar dash_circle_x: float = float(tile_x) * source_tilesize + block_offset",
+            "\tvar dash_circle_y: float = float(tile_y) * source_tilesize + block_offset",
+            "\tvar dash_circle_call: Dictionary = {\"call\": \"Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);\", \"x\": dash_circle_x, \"y\": dash_circle_y, \"radius\": range_value, \"color\": \"Pal.placing\"}",
+            "\tvar fog_dash_circle_called: bool = fog_radius_multiplier < 0.99 and rules_fog",
+            "\tvar fog_dash_circle_call: Dictionary = {}",
+            "\tif fog_dash_circle_called:",
+            "\t\tfog_dash_circle_call = {\"call\": \"Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);\", \"x\": dash_circle_x, \"y\": dash_circle_y, \"radius\": range_value * fog_radius_multiplier, \"color\": \"Pal.lightishGray\"}",
+            "\treturn {\"source_owner\": \"PortGame.source_base_turret_draw_place_state\", \"method\": \"public void drawPlace(int x, int y, int rotation, boolean valid){\", \"override_expr\": \"@Override\", \"super_draw_place_expr\": \"super.drawPlace(x, y, rotation, valid);\", \"dash_circle_expr\": \"Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);\", \"fog_guard_expr\": \"if(fogRadiusMultiplier < 0.99f && state.rules.fog){\", \"fog_dash_circle_expr\": \"Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);\", \"tile_x\": tile_x, \"tile_y\": tile_y, \"rotation\": rotation, \"valid\": valid, \"source_tilesize\": source_tilesize, \"block_offset\": block_offset, \"range\": range_value, \"fog_radius_multiplier\": fog_radius_multiplier, \"rules_fog\": rules_fog, \"dash_circle_x\": dash_circle_x, \"dash_circle_y\": dash_circle_y, \"super_draw_place_called\": true, \"dash_circle_call\": dash_circle_call, \"fog_dash_circle_called\": fog_dash_circle_called, \"fog_dash_circle_call\": fog_dash_circle_call}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
+        and type_entry.get("name") == "BaseTurret"
         and method.get("name") == "init"
     ):
         return [

@@ -12965,6 +12965,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BaseTurret.java_method_checkInitCoolant_2"', source)
         self.assertIn('"matches": result.get("consume_called", null) == canonical.get("consume_called", null) and result.get("update_after", null) == canonical.get("update_after", null) and result.get("booster_after", null) == canonical.get("booster_after", null) and result.get("optional_after", null) == canonical.get("optional_after", null)', source)
 
+    def test_port_game_exposes_source_base_turret_draw_place_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_base_turret_draw_place_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool, source_tilesize: float, block_offset: float, range_value: float, fog_radius_multiplier: float, rules_fog: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_draw_place_state"', source)
+        self.assertIn('"method": "public void drawPlace(int x, int y, int rotation, boolean valid){"', source)
+        self.assertIn('"super_draw_place_expr": "super.drawPlace(x, y, rotation, valid);"', source)
+        self.assertIn('"dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);"', source)
+        self.assertIn('"fog_guard_expr": "if(fogRadiusMultiplier < 0.99f && state.rules.fog){"', source)
+        self.assertIn('"fog_dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);"', source)
+        self.assertIn('"super_draw_place_called": true', source)
+        self.assertIn('"dash_circle_call": dash_circle_call', source)
+        self.assertIn('"fog_dash_circle_call": fog_dash_circle_call', source)
+
+    def test_port_game_exposes_generated_base_turret_draw_place_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_base_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rotation_value: int, valid: bool, source_tilesize: float, block_offset: float, range_value: float, fog_radius_multiplier: float, rules_fog: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_drawPlace_3([tile_x, tile_y, rotation_value, valid, source_tilesize, block_offset, range_value, fog_radius_multiplier, rules_fog])", source)
+        self.assertIn("var canonical = source_base_turret_draw_place_state(tile_x, tile_y, rotation_value, valid, source_tilesize, block_offset, range_value, fog_radius_multiplier, rules_fog)", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_draw_place_state"', source)
+        self.assertIn('"generated_owner": "BaseTurret.java_method_drawPlace_3"', source)
+        self.assertIn('"matches": result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null) and result.get("fog_dash_circle_call", null) == canonical.get("fog_dash_circle_call", null) and result.get("super_draw_place_called", null) == canonical.get("super_draw_place_called", null)', source)
+
     def test_port_game_exposes_source_turret_load_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

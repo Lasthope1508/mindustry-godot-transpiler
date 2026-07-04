@@ -889,6 +889,92 @@
         "test_generated_base_turret_check_init_coolant_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_base_turret_draw_place_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "params": [
+        {
+          "name": "tile_x",
+          "schema": "source_base_turret_draw_place_input.x",
+          "type": "int"
+        },
+        {
+          "name": "tile_y",
+          "schema": "source_base_turret_draw_place_input.y",
+          "type": "int"
+        },
+        {
+          "name": "rotation_value",
+          "schema": "source_base_turret_draw_place_input.rotation",
+          "type": "int"
+        },
+        {
+          "name": "valid",
+          "schema": "source_base_turret_draw_place_input.valid",
+          "type": "bool"
+        },
+        {
+          "name": "source_tilesize",
+          "schema": "source_base_turret_draw_place_input.tilesize",
+          "type": "float"
+        },
+        {
+          "name": "block_offset",
+          "schema": "source_base_turret_draw_place_input.offset",
+          "type": "float"
+        },
+        {
+          "name": "range_value",
+          "schema": "source_base_turret_draw_place_input.range",
+          "type": "float"
+        },
+        {
+          "name": "fog_radius_multiplier",
+          "schema": "source_base_turret_draw_place_input.fog_radius_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "rules_fog",
+          "schema": "source_base_turret_draw_place_input.rules_fog",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_draw_place_expr",
+        "dash_circle_expr",
+        "fog_guard_expr",
+        "fog_dash_circle_expr",
+        "tile_x",
+        "tile_y",
+        "rotation",
+        "valid",
+        "source_tilesize",
+        "block_offset",
+        "range",
+        "fog_radius_multiplier",
+        "rules_fog",
+        "dash_circle_x",
+        "dash_circle_y",
+        "super_draw_place_called",
+        "dash_circle_call",
+        "fog_dash_circle_called",
+        "fog_dash_circle_call"
+      ],
+      "rule": "Public runtime contract for BaseTurret.drawPlace source-backed placement range circles.",
+      "runtime_proof": "/root/Main.source_base_turret_draw_place_state",
+      "source_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "source_slice": "N1209",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_draw_place_to_source_state",
+        "test_port_game_exposes_source_base_turret_draw_place_state",
+        "test_port_game_exposes_generated_base_turret_draw_place_bridge_state",
+        "test_base_turret_draw_place_matches_upstream_source",
+        "test_generated_base_turret_draw_place_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_base_turret_init_state": {
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
       "params": [

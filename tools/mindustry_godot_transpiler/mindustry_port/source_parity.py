@@ -466,6 +466,24 @@ def verify_base_turret_check_init_coolant_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_base_turret_draw_place_source(upstream_root: Path) -> dict[str, Any]:
+    base_turret_path = Path(upstream_root) / BASE_TURRET_SOURCE
+    source = base_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+        "super_draw_place": "super.drawPlace(x, y, rotation, valid);",
+        "dash_circle": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+        "fog_guard": "if(fogRadiusMultiplier < 0.99f && state.rules.fog){",
+        "fog_dash_circle": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BASE_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_load_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

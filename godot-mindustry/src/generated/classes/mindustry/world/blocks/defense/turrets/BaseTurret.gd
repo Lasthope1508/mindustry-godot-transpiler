@@ -49,7 +49,23 @@ func java_method_checkInitCoolant_2(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_base_turret_check_init_coolant_state", "method": "void checkInitCoolant(){", "coolant_guard_expr": "if(coolant != null){", "update_assign_expr": "coolant.update = false;", "booster_assign_expr": "coolant.booster = true;", "optional_assign_expr": "coolant.optional = true;", "json_comment": "//json parsing does not add to consumes", "consume_guard_expr": "if(!hasConsumer(coolant)) consume(coolant);", "coolant_present": coolant_present, "has_consumer": has_consumer, "update_after": update_after, "booster_after": booster_after, "optional_after": optional_after, "consume_called": consume_called}
 
 func java_method_drawPlace_3(_args: Array = []) -> Variant:
-	return null
+	var tile_x: int = int(_args[0] if _args.size() > 0 else 0)
+	var tile_y: int = int(_args[1] if _args.size() > 1 else 0)
+	var rotation: int = int(_args[2] if _args.size() > 2 else 0)
+	var valid: bool = bool(_args[3] if _args.size() > 3 else false)
+	var source_tilesize: float = float(_args[4] if _args.size() > 4 else 0.0)
+	var block_offset: float = float(_args[5] if _args.size() > 5 else 0.0)
+	var range_value: float = float(_args[6] if _args.size() > 6 else 0.0)
+	var fog_radius_multiplier: float = float(_args[7] if _args.size() > 7 else 1.0)
+	var rules_fog: bool = bool(_args[8] if _args.size() > 8 else false)
+	var dash_circle_x: float = float(tile_x) * source_tilesize + block_offset
+	var dash_circle_y: float = float(tile_y) * source_tilesize + block_offset
+	var dash_circle_call: Dictionary = {"call": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);", "x": dash_circle_x, "y": dash_circle_y, "radius": range_value, "color": "Pal.placing"}
+	var fog_dash_circle_called: bool = fog_radius_multiplier < 0.99 and rules_fog
+	var fog_dash_circle_call: Dictionary = {}
+	if fog_dash_circle_called:
+		fog_dash_circle_call = {"call": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);", "x": dash_circle_x, "y": dash_circle_y, "radius": range_value * fog_radius_multiplier, "color": "Pal.lightishGray"}
+	return {"source_owner": "PortGame.source_base_turret_draw_place_state", "method": "public void drawPlace(int x, int y, int rotation, boolean valid){", "override_expr": "@Override", "super_draw_place_expr": "super.drawPlace(x, y, rotation, valid);", "dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);", "fog_guard_expr": "if(fogRadiusMultiplier < 0.99f && state.rules.fog){", "fog_dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);", "tile_x": tile_x, "tile_y": tile_y, "rotation": rotation, "valid": valid, "source_tilesize": source_tilesize, "block_offset": block_offset, "range": range_value, "fog_radius_multiplier": fog_radius_multiplier, "rules_fog": rules_fog, "dash_circle_x": dash_circle_x, "dash_circle_y": dash_circle_y, "super_draw_place_called": true, "dash_circle_call": dash_circle_call, "fog_dash_circle_called": fog_dash_circle_called, "fog_dash_circle_call": fog_dash_circle_call}
 
 func java_method_setStats_4(_args: Array = []) -> Variant:
 	return null

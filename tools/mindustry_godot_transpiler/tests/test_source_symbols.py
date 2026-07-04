@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 677)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 678)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 682)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 683)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42280,6 +42280,76 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_base_turret_check_init_coolant_result")
         self.assertEqual(result_schema["keys"]["method"]["java_expr"], "void checkInitCoolant(){")
         self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "if(!hasConsumer(coolant)) consume(coolant);")
+
+    def test_generated_base_turret_draw_place_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "base_turret_draw_place.method")
+        self.assertEqual(method["java_expr"], "public void drawPlace(int x, int y, int rotation, boolean valid){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(method["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_base_turret_draw_place_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_base_turret_draw_place_state")
+
+        super_call = source_symbols.source_symbol(registry, "base_turret_draw_place.super_draw_place")
+        self.assertEqual(super_call["java_expr"], "super.drawPlace(x, y, rotation, valid);")
+        self.assertEqual(super_call["godot_symbol"], "source_base_turret_draw_place_result.super_draw_place_called")
+        dash_circle = source_symbols.source_symbol(registry, "base_turret_draw_place.dash_circle")
+        self.assertEqual(dash_circle["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);")
+        self.assertEqual(dash_circle["godot_symbol"], "source_base_turret_draw_place_result.dash_circle_call")
+        fog_guard = source_symbols.source_symbol(registry, "base_turret_draw_place.fog_guard")
+        self.assertEqual(fog_guard["java_expr"], "if(fogRadiusMultiplier < 0.99f && state.rules.fog){")
+        self.assertEqual(fog_guard["godot_symbol"], "source_base_turret_draw_place_result.fog_dash_circle_called")
+        fog_dash_circle = source_symbols.source_symbol(registry, "base_turret_draw_place.fog_dash_circle")
+        self.assertEqual(fog_dash_circle["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);")
+        self.assertEqual(fog_dash_circle["godot_symbol"], "source_base_turret_draw_place_result.fog_dash_circle_call")
+
+        draw_place_slice = source_symbols.source_slice(ledger, "N1209")
+        self.assertEqual(draw_place_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(draw_place_slice["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+        self.assertEqual(draw_place_slice["godot_owner"], "PortGame.source_base_turret_draw_place_state")
+        self.assertEqual(draw_place_slice["runtime_proof"], "/root/Main.generated_base_turret_draw_place_bridge_state")
+        for expr in [
+            "@Override",
+            "public void drawPlace(int x, int y, int rotation, boolean valid){",
+            "super.drawPlace(x, y, rotation, valid);",
+            "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);",
+            "if(fogRadiusMultiplier < 0.99f && state.rules.fog){",
+            "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);",
+        ]:
+            self.assertIn(expr, draw_place_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_base_turret_draw_place_state")
+        self.assertEqual(contract["params"], [
+            {"name": "tile_x", "schema": "source_base_turret_draw_place_input.x", "type": "int"},
+            {"name": "tile_y", "schema": "source_base_turret_draw_place_input.y", "type": "int"},
+            {"name": "rotation_value", "schema": "source_base_turret_draw_place_input.rotation", "type": "int"},
+            {"name": "valid", "schema": "source_base_turret_draw_place_input.valid", "type": "bool"},
+            {"name": "source_tilesize", "schema": "source_base_turret_draw_place_input.tilesize", "type": "float"},
+            {"name": "block_offset", "schema": "source_base_turret_draw_place_input.offset", "type": "float"},
+            {"name": "range_value", "schema": "source_base_turret_draw_place_input.range", "type": "float"},
+            {"name": "fog_radius_multiplier", "schema": "source_base_turret_draw_place_input.fog_radius_multiplier", "type": "float"},
+            {"name": "rules_fog", "schema": "source_base_turret_draw_place_input.rules_fog", "type": "bool"},
+        ])
+        for key in ["method", "override_expr", "super_draw_place_expr", "dash_circle_expr", "fog_guard_expr", "fog_dash_circle_expr", "super_draw_place_called", "dash_circle_call", "fog_dash_circle_called", "fog_dash_circle_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_base_turret_draw_place_input")
+        self.assertEqual(input_schema["keys"]["x"]["java_expr"], "x")
+        self.assertEqual(input_schema["keys"]["y"]["java_expr"], "y")
+        self.assertEqual(input_schema["keys"]["tilesize"]["java_expr"], "tilesize")
+        self.assertEqual(input_schema["keys"]["offset"]["java_expr"], "offset")
+        self.assertEqual(input_schema["keys"]["range"]["java_expr"], "range")
+        self.assertEqual(input_schema["keys"]["rules_fog"]["java_expr"], "state.rules.fog")
+        result_schema = source_symbols.state_schema(schema, "source_base_turret_draw_place_result")
+        self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void drawPlace(int x, int y, int rotation, boolean valid){")
+        self.assertEqual(result_schema["keys"]["dash_circle_call"]["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);")
+        self.assertEqual(result_schema["keys"]["fog_dash_circle_call"]["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);")
 
     def test_generated_turret_load_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

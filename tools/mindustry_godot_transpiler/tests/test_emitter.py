@@ -7442,6 +7442,59 @@ public class BaseTurret extends Block{
             self.assertIn('"json_comment": "//json parsing does not add to consumes"', source_text)
             self.assertIn('"consume_guard_expr": "if(!hasConsumer(coolant)) consume(coolant);"', source_text)
 
+    def test_emit_bridges_base_turret_draw_place_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            base_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.java"
+            base_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            base_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class BaseTurret extends Block{
+    @Override
+    public void init(){
+    }
+
+    @Override
+    public void reinitializeConsumers(){
+    }
+
+    void checkInitCoolant(){
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        super.drawPlace(x, y, rotation, valid);
+
+        Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);
+
+        if(fogRadiusMultiplier < 0.99f && state.rules.fog){
+            Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawPlace_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_x: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var dash_circle_x: float = float(tile_x) * source_tilesize + block_offset", source_text)
+            self.assertIn("var fog_dash_circle_called: bool = fog_radius_multiplier < 0.99 and rules_fog", source_text)
+            self.assertIn('"source_owner": "PortGame.source_base_turret_draw_place_state"', source_text)
+            self.assertIn('"method": "public void drawPlace(int x, int y, int rotation, boolean valid){"', source_text)
+            self.assertIn('"super_draw_place_expr": "super.drawPlace(x, y, rotation, valid);"', source_text)
+            self.assertIn('"dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);"', source_text)
+            self.assertIn('"fog_guard_expr": "if(fogRadiusMultiplier < 0.99f && state.rules.fog){"', source_text)
+            self.assertIn('"fog_dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);"', source_text)
+
     def test_emit_bridges_turret_load_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
