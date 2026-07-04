@@ -3044,6 +3044,13 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar accept_item: bool = not ammo_type_null and total_ammo + ammo_multiplier <= max_ammo",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_accept_item_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public boolean acceptItem(Building source, Item item){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;\", \"item\": item, \"total_ammo\": total_ammo, \"max_ammo\": max_ammo, \"ammo_multiplier\": ammo_multiplier, \"ammo_type_null\": ammo_type_null, \"accept_item\": accept_item}",
                     ])
+                elif method.get("name") == "version":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemTurretBuild_method_version_{index}(_args: Array = []) -> Variant:",
+                        "\tvar version_value: int = 2",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_version_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public byte version(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return 2;\", \"version\": version_value}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

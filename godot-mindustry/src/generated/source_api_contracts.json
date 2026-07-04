@@ -26938,6 +26938,30 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
       "rule": "Public runtime contract for ItemTurretBuild.acceptItem() boolean acceptance expression."
+    },
+    "PortGame.source_item_turret_build_version_state": {
+      "status": "source-backed",
+      "source_slice": "N1187",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurretBuild.version()",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "version"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_version_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_version_state",
+        "test_port_game_exposes_generated_item_turret_build_version_bridge_state",
+        "test_item_turret_build_version_matches_upstream_source",
+        "test_generated_item_turret_build_version_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_version_state",
+      "rule": "Public runtime contract for ItemTurretBuild.version() byte return."
     }
   },
   "policy": {

@@ -8710,5 +8710,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_turret_build_version_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_turret_build_version_source"))
+        report = source_parity.verify_item_turret_build_version_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "public byte version(){",
+            "return_expr": "return 2;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

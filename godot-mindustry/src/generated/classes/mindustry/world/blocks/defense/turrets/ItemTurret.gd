@@ -168,3 +168,7 @@ func java_inner_class_ItemTurretBuild_method_acceptItem_8(_args: Array = []) -> 
 	var ammo_type_null: bool = bool(_args[4] if _args.size() > 4 else false)
 	var accept_item: bool = not ammo_type_null and total_ammo + ammo_multiplier <= max_ammo
 	return {"source_owner": "PortGame.source_item_turret_build_accept_item_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public boolean acceptItem(Building source, Item item){", "override_expr": "@Override", "return_expr": "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;", "item": item, "total_ammo": total_ammo, "max_ammo": max_ammo, "ammo_multiplier": ammo_multiplier, "ammo_type_null": ammo_type_null, "accept_item": accept_item}
+
+func java_inner_class_ItemTurretBuild_method_version_9(_args: Array = []) -> Variant:
+	var version_value: int = 2
+	return {"source_owner": "PortGame.source_item_turret_build_version_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public byte version(){", "override_expr": "@Override", "return_expr": "return 2;", "version": version_value}

@@ -17643,6 +17643,30 @@ func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_a
 		"matches": result.get("accept_item", null) == canonical.get("accept_item", null),
 	}
 
+func source_item_turret_build_version_state() -> Dictionary:
+	var version_value: int = 2
+	return {
+		"source_owner": "PortGame.source_item_turret_build_version_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public byte version(){",
+		"override_expr": "@Override",
+		"return_expr": "return 2;",
+		"version": version_value,
+	}
+
+func generated_item_turret_build_version_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_version_9([])
+	var canonical = source_item_turret_build_version_state()
+	return {
+		"source_owner": "PortGame.source_item_turret_build_version_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.version",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("version", null) == canonical.get("version", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

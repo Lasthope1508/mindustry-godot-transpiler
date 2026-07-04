@@ -13593,5 +13593,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.acceptItem"', source)
         self.assertIn('"matches": result.get("accept_item", null) == canonical.get("accept_item", null)', source)
 
+    def test_port_game_exposes_source_item_turret_build_version_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_version_state() -> Dictionary:", source)
+        self.assertIn('"method": "public byte version(){"', source)
+        self.assertIn('"return_expr": "return 2;"', source)
+        self.assertIn("var version_value: int = 2", source)
+
+    def test_port_game_exposes_generated_item_turret_build_version_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_version_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_version_9([])", source)
+        self.assertIn("var canonical = source_item_turret_build_version_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_version_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.version"', source)
+        self.assertIn('"matches": result.get("version", null) == canonical.get("version", null)', source)
+
 if __name__ == "__main__":
     unittest.main()
