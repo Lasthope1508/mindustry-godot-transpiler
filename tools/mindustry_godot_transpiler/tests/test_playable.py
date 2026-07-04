@@ -13497,5 +13497,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.acceptStack"', source)
         self.assertIn('"matches": result.get("accept_stack", null) == canonical.get("accept_stack", null)', source)
 
+    def test_port_game_exposes_source_item_turret_build_handle_stack_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_handle_stack_state(item: Variant, amount: int) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ItemTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"method": "public void handleStack(Item item, int amount, Teamc source){"', source)
+        self.assertIn('"loop_expr": "for(int i = 0; i < amount; i++){"', source)
+        self.assertIn('"handle_item_expr": "handleItem(null, item);"', source)
+        self.assertIn('handle_item_calls.append({"call": "handleItem(null, item);", "source": null, "item": item})', source)
+        self.assertIn('"handle_item_call_count": handle_item_calls.size()', source)
+
+    def test_port_game_exposes_generated_item_turret_build_handle_stack_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_handle_stack_bridge_state(item: Variant, amount: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_handleStack_5([item, amount])", source)
+        self.assertIn("var canonical = source_item_turret_build_handle_stack_state(item, amount)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_handle_stack_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.handleStack"', source)
+        self.assertIn('"matches": result.get("handle_item_calls", []) == canonical.get("handle_item_calls", [])', source)
+
 if __name__ == "__main__":
     unittest.main()

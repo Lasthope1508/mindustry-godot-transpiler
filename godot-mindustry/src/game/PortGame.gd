@@ -17477,6 +17477,36 @@ func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount
 		"matches": result.get("accept_stack", null) == canonical.get("accept_stack", null),
 	}
 
+func source_item_turret_build_handle_stack_state(item: Variant, amount: int) -> Dictionary:
+	var handle_item_calls: Array = []
+	for _i in range(amount):
+		handle_item_calls.append({"call": "handleItem(null, item);", "source": null, "item": item})
+	return {
+		"source_owner": "PortGame.source_item_turret_build_handle_stack_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public void handleStack(Item item, int amount, Teamc source){",
+		"override_expr": "@Override",
+		"loop_expr": "for(int i = 0; i < amount; i++){",
+		"handle_item_expr": "handleItem(null, item);",
+		"item": item,
+		"amount": amount,
+		"handle_item_calls": handle_item_calls,
+		"handle_item_call_count": handle_item_calls.size(),
+	}
+
+func generated_item_turret_build_handle_stack_bridge_state(item: Variant, amount: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_handleStack_5([item, amount])
+	var canonical = source_item_turret_build_handle_stack_state(item, amount)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_handle_stack_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.handleStack",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("handle_item_calls", []) == canonical.get("handle_item_calls", []),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

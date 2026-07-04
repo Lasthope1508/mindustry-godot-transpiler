@@ -2975,6 +2975,17 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar accept_stack: int = 0 if ammo_type_null else min(int((max_ammo - total_ammo) / ammo_multiplier), amount)",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_accept_stack_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public int acceptStack(Item item, int amount, Teamc source){\", \"override_expr\": \"@Override\", \"type_lookup\": \"BulletType type = ammoTypes.get(item);\", \"null_guard\": \"if(type == null) return 0;\", \"return_expr\": \"return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);\", \"item\": item, \"amount\": amount, \"max_ammo\": max_ammo, \"total_ammo\": total_ammo, \"ammo_multiplier\": ammo_multiplier, \"ammo_type_null\": ammo_type_null, \"accept_stack\": accept_stack}",
                     ])
+                elif method.get("name") == "handleStack":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemTurretBuild_method_handleStack_{index}(_args: Array = []) -> Variant:",
+                        "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar amount: int = int(_args[1] if _args.size() > 1 else 0)",
+                        "\tvar handle_item_calls: Array = []",
+                        "\tfor _i in range(amount):",
+                        "\t\thandle_item_calls.append({\"call\": \"handleItem(null, item);\", \"source\": null, \"item\": item})",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_handle_stack_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public void handleStack(Item item, int amount, Teamc source){\", \"override_expr\": \"@Override\", \"loop_expr\": \"for(int i = 0; i < amount; i++){\", \"handle_item_expr\": \"handleItem(null, item);\", \"item\": item, \"amount\": amount, \"handle_item_calls\": handle_item_calls, \"handle_item_call_count\": handle_item_calls.size()}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

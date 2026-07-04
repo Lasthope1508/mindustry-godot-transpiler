@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 651)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 652)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 656)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 657)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43467,6 +43467,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_item_turret_build_accept_stack_result["keys"]["null_guard"]["java_expr"], "if(type == null) return 0;")
         self.assertEqual(source_item_turret_build_accept_stack_result["keys"]["return_expr"]["java_expr"], "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);")
         self.assertEqual(source_item_turret_build_accept_stack_result["keys"]["accept_stack"]["java_expr"], "Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount)")
+
+    def test_generated_item_turret_build_handle_stack_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "item_turret_build_handle_stack.method")
+        self.assertEqual(method["java_expr"], "public void handleStack(Item item, int amount, Teamc source){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(method["java_method"], "ItemTurretBuild.handleStack(Item,int,Teamc)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_item_turret_build_handle_stack_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_item_turret_build_handle_stack_state")
+
+        item = source_symbols.source_symbol(registry, "item_turret_build_handle_stack.item")
+        self.assertEqual(item["java_expr"], "item")
+        self.assertEqual(item["godot_symbol"], "source_item_turret_build_handle_stack_input.item")
+        amount = source_symbols.source_symbol(registry, "item_turret_build_handle_stack.amount")
+        self.assertEqual(amount["java_expr"], "amount")
+        self.assertEqual(amount["godot_symbol"], "source_item_turret_build_handle_stack_input.amount")
+        handle_item_calls = source_symbols.source_symbol(registry, "item_turret_build_handle_stack.handle_item_calls")
+        self.assertEqual(handle_item_calls["java_expr"], "handleItem(null, item)")
+        self.assertEqual(handle_item_calls["godot_symbol"], "source_item_turret_build_handle_stack_result.handle_item_calls")
+
+        handle_stack_slice = source_symbols.source_slice(ledger, "N1183")
+        self.assertEqual(handle_stack_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(handle_stack_slice["java_method"], "ItemTurretBuild.handleStack(Item,int,Teamc)")
+        self.assertEqual(handle_stack_slice["godot_owner"], "PortGame.source_item_turret_build_handle_stack_state")
+        self.assertEqual(handle_stack_slice["runtime_proof"], "/root/Main.generated_item_turret_build_handle_stack_bridge_state")
+        for expr in [
+            "public class ItemTurretBuild extends TurretBuild{",
+            "@Override",
+            "public void handleStack(Item item, int amount, Teamc source){",
+            "for(int i = 0; i < amount; i++){",
+            "handleItem(null, item);",
+        ]:
+            self.assertIn(expr, handle_stack_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_item_turret_build_handle_stack_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["item", "amount"])
+        for key in ["inner_class", "method", "override_expr", "loop_expr", "handle_item_expr", "item", "amount", "handle_item_calls", "handle_item_call_count"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_item_turret_build_handle_stack_input = source_symbols.state_schema(schema, "source_item_turret_build_handle_stack_input")
+        self.assertEqual(source_item_turret_build_handle_stack_input["keys"]["item"]["java_expr"], "item")
+        self.assertEqual(source_item_turret_build_handle_stack_input["keys"]["amount"]["java_expr"], "amount")
+        source_item_turret_build_handle_stack_result = source_symbols.state_schema(schema, "source_item_turret_build_handle_stack_result")
+        self.assertEqual(source_item_turret_build_handle_stack_result["keys"]["loop_expr"]["java_expr"], "for(int i = 0; i < amount; i++){")
+        self.assertEqual(source_item_turret_build_handle_stack_result["keys"]["handle_item_expr"]["java_expr"], "handleItem(null, item);")
+        self.assertEqual(source_item_turret_build_handle_stack_result["keys"]["handle_item_calls"]["java_expr"], "handleItem(null, item)")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

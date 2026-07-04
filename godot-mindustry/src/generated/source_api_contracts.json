@@ -26726,6 +26726,45 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_accept_stack_state",
       "rule": "Public runtime contract for ItemTurretBuild.acceptStack() accepted item count."
+    },
+    "PortGame.source_item_turret_build_handle_stack_state": {
+      "status": "source-backed",
+      "source_slice": "N1183",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+      "params": [
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_item_turret_build_handle_stack_input.item"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_item_turret_build_handle_stack_input.amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "loop_expr",
+        "handle_item_expr",
+        "item",
+        "amount",
+        "handle_item_calls",
+        "handle_item_call_count"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_handle_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_handle_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_handle_stack_bridge_state",
+        "test_item_turret_build_handle_stack_matches_upstream_source",
+        "test_generated_item_turret_build_handle_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_handle_stack_state",
+      "rule": "Public runtime contract for ItemTurretBuild.handleStack() handleItem dispatch records."
     }
   },
   "policy": {

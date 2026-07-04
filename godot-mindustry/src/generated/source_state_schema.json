@@ -98670,6 +98670,154 @@
         }
       },
       "rule": "Result schema for ItemTurretBuild.acceptStack() bridge."
+    },
+    "source_item_turret_build_handle_stack_input": {
+      "status": "source-backed",
+      "source_slice": "N1183",
+      "keys": {
+        "item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_handle_stack_input.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "item",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Carries Java item parameter into bridge."
+        },
+        "amount": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_handle_stack_input.amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "amount",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Carries Java amount parameter into bridge."
+        }
+      },
+      "rule": "Input schema for ItemTurretBuild.handleStack() bridge."
+    },
+    "source_item_turret_build_handle_stack_result": {
+      "status": "source-backed",
+      "source_slice": "N1183",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_stack_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "public class ItemTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_stack_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "public void handleStack(Item item, int amount, Teamc source){",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_stack_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "loop_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_stack_result.loop_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "for(int i = 0; i < amount; i++){",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Result records exact loop expression."
+        },
+        "handle_item_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_stack_result.handle_item_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "handleItem(null, item);",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Result records exact handleItem dispatch expression."
+        },
+        "item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_handle_stack_result.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "item",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Carries item into result schema.",
+          "alias_of": "source_item_turret_build_handle_stack_input.item"
+        },
+        "amount": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_handle_stack_result.amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "amount",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Carries amount into result schema.",
+          "alias_of": "source_item_turret_build_handle_stack_input.amount"
+        },
+        "handle_item_calls": {
+          "status": "source-backed",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_build_handle_stack_result.handle_item_calls",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "handleItem(null, item)",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Carries one dispatch record per loop iteration."
+        },
+        "handle_item_call_count": {
+          "status": "source-backed",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_handle_stack_result.handle_item_call_count",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleStack(Item,int,Teamc)",
+          "java_expr": "for loop iteration count",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_stack_state"
+          ],
+          "rule": "Counts Java loop dispatches."
+        }
+      },
+      "rule": "Result schema for ItemTurretBuild.handleStack() bridge."
     }
   },
   "version": 1

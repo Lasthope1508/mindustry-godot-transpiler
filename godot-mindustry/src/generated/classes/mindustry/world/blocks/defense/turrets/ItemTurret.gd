@@ -111,3 +111,11 @@ func java_inner_class_ItemTurretBuild_method_acceptStack_4(_args: Array = []) ->
 	var ammo_type_null: bool = bool(_args[5] if _args.size() > 5 else false)
 	var accept_stack: int = 0 if ammo_type_null else min(int((max_ammo - total_ammo) / ammo_multiplier), amount)
 	return {"source_owner": "PortGame.source_item_turret_build_accept_stack_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public int acceptStack(Item item, int amount, Teamc source){", "override_expr": "@Override", "type_lookup": "BulletType type = ammoTypes.get(item);", "null_guard": "if(type == null) return 0;", "return_expr": "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);", "item": item, "amount": amount, "max_ammo": max_ammo, "total_ammo": total_ammo, "ammo_multiplier": ammo_multiplier, "ammo_type_null": ammo_type_null, "accept_stack": accept_stack}
+
+func java_inner_class_ItemTurretBuild_method_handleStack_5(_args: Array = []) -> Variant:
+	var item: Variant = _args[0] if _args.size() > 0 else null
+	var amount: int = int(_args[1] if _args.size() > 1 else 0)
+	var handle_item_calls: Array = []
+	for _i in range(amount):
+		handle_item_calls.append({"call": "handleItem(null, item);", "source": null, "item": item})
+	return {"source_owner": "PortGame.source_item_turret_build_handle_stack_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public void handleStack(Item item, int amount, Teamc source){", "override_expr": "@Override", "loop_expr": "for(int i = 0; i < amount; i++){", "handle_item_expr": "handleItem(null, item);", "item": item, "amount": amount, "handle_item_calls": handle_item_calls, "handle_item_call_count": handle_item_calls.size()}
