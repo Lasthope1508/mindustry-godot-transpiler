@@ -1251,6 +1251,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_turret_init_state\", \"method\": \"public void init(){\", \"override_expr\": \"@Override\", \"shoot_y_guard_expr\": \"if(shootY == Float.NEGATIVE_INFINITY) shootY = size * tilesize / 2f;\", \"shoot_y_expr\": \"shootY = size * tilesize / 2f\", \"elevation_guard_expr\": \"if(elevation < 0) elevation = size / 2f;\", \"elevation_expr\": \"elevation = size / 2f\", \"recoil_time_guard_expr\": \"if(recoilTime < 0f) recoilTime = reload;\", \"recoil_time_expr\": \"recoilTime = reload\", \"cooldown_time_guard_expr\": \"if(cooldownTime < 0f) cooldownTime = reload;\", \"cooldown_time_expr\": \"cooldownTime = reload\", \"new_target_interval_guard_expr\": \"if(newTargetInterval <= 0f) newTargetInterval = targetInterval;\", \"new_target_interval_expr\": \"newTargetInterval = targetInterval\", \"target_ground_guard_expr\": \"if(!targetGround){\", \"disable_overlap_check_expr\": \"disableOverlapCheck = true;\", \"super_init_expr\": \"super.init();\", \"tracking_range_expr\": \"trackingRange = Math.max(range, trackingRange);\", \"shoot_y\": shoot_y, \"shoot_y_is_negative_infinity\": shoot_y_is_negative_infinity, \"size\": size, \"source_tilesize\": source_tilesize, \"elevation\": elevation, \"recoil_time\": recoil_time, \"reload\": reload, \"cooldown_time\": cooldown_time, \"new_target_interval\": new_target_interval, \"target_interval\": target_interval, \"target_ground\": target_ground, \"disable_overlap_check\": disable_overlap_check, \"range\": range_value, \"tracking_range\": tracking_range, \"shoot_y_after\": shoot_y_after, \"elevation_after\": elevation_after, \"recoil_time_after\": recoil_time_after, \"cooldown_time_after\": cooldown_time_after, \"new_target_interval_after\": new_target_interval_after, \"disable_overlap_check_after\": disable_overlap_check_after, \"tracking_range_after\": tracking_range_after}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+        and type_entry.get("name") == "Turret"
+        and method.get("name") == "load"
+    ):
+        return [
+            "\treturn {\"source_owner\": \"PortGame.source_turret_load_state\", \"method\": \"public void load(){\", \"override_expr\": \"@Override\", \"super_load_expr\": \"super.load();\", \"drawer_load_expr\": \"drawer.load(this);\", \"super_load_called\": true, \"drawer_load_called\": true}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

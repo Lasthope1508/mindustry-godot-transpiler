@@ -25408,6 +25408,37 @@
         "test_turret_init_matches_upstream_source",
         "test_generated_turret_init_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1157": {
+      "deferred_exprs": [
+        "ReloadTurret.super.load() internals and DrawBlock drawer texture loading internals remain owned by their source classes; this slice preserves Turret.load call order markers only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void load(){",
+        "super.load();",
+        "drawer.load(this);"
+      ],
+      "godot_owner": "PortGame.source_turret_load_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "load()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.load preserves superclass load dispatch followed by drawer.load(this).",
+      "runtime_proof": "/root/Main.generated_turret_load_bridge_state",
+      "source_symbols": [
+        "turret_load.method",
+        "turret_load.override",
+        "turret_load.super_load",
+        "turret_load.drawer_load"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_load_to_source_state",
+        "test_port_game_exposes_source_turret_load_state",
+        "test_port_game_exposes_generated_turret_load_bridge_state",
+        "test_turret_load_matches_upstream_source",
+        "test_generated_turret_load_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

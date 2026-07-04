@@ -25629,6 +25629,30 @@
         "test_turret_init_matches_upstream_source",
         "test_generated_turret_init_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_turret_load_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_load_expr",
+        "drawer_load_expr",
+        "super_load_called",
+        "drawer_load_called"
+      ],
+      "rule": "Public runtime contract for Turret.load call marker state.",
+      "runtime_proof": "/root/Main.source_turret_load_state",
+      "source_method": "load()",
+      "source_slice": "N1157",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_load_to_source_state",
+        "test_port_game_exposes_source_turret_load_state",
+        "test_port_game_exposes_generated_turret_load_bridge_state",
+        "test_turret_load_matches_upstream_source",
+        "test_generated_turret_load_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

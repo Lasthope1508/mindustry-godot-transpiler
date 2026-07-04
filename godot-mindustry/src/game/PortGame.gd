@@ -16657,6 +16657,30 @@ func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infi
 		"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null),
 	}
 
+func source_turret_load_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_turret_load_state",
+		"method": "public void load(){",
+		"override_expr": "@Override",
+		"super_load_expr": "super.load();",
+		"drawer_load_expr": "drawer.load(this);",
+		"super_load_called": true,
+		"drawer_load_called": true,
+	}
+
+func generated_turret_load_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_load_4([])
+	var canonical = source_turret_load_state()
+	return {
+		"source_owner": "PortGame.source_turret_load_state",
+		"generated_owner": "Turret.java_method_load_4",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("drawer_load_called", null) == canonical.get("drawer_load_called", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

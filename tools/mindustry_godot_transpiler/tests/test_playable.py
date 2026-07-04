@@ -12884,5 +12884,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_init_3"', source)
         self.assertIn('"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null)', source)
 
+    def test_port_game_exposes_source_turret_load_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_load_state() -> Dictionary:", source)
+        self.assertIn('"method": "public void load(){"', source)
+        self.assertIn('"super_load_expr": "super.load();"', source)
+        self.assertIn('"drawer_load_expr": "drawer.load(this);"', source)
+        self.assertIn('"drawer_load_called": true', source)
+
+    def test_port_game_exposes_generated_turret_load_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_load_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_load_4([])", source)
+        self.assertIn("var canonical = source_turret_load_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_load_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_load_4"', source)
+        self.assertIn('"matches": result.get("drawer_load_called", null) == canonical.get("drawer_load_called", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 625)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 626)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 630)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 631)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42098,6 +42098,48 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_init_result["keys"]["method"]["java_expr"], "public void init(){")
         self.assertEqual(source_turret_init_result["keys"]["shoot_y_after"]["java_expr"], "shootY = size * tilesize / 2f")
         self.assertEqual(source_turret_init_result["keys"]["tracking_range_after"]["java_expr"], "Math.max(range, trackingRange)")
+
+    def test_generated_turret_load_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_load.method")
+        self.assertEqual(method["java_expr"], "public void load(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "load()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_load_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_load_state")
+
+        drawer_load = source_symbols.source_symbol(registry, "turret_load.drawer_load")
+        self.assertEqual(drawer_load["java_expr"], "drawer.load(this);")
+        self.assertEqual(drawer_load["godot_symbol"], "source_turret_load_result.drawer_load_called")
+
+        load_slice = source_symbols.source_slice(ledger, "N1157")
+        self.assertEqual(load_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(load_slice["java_method"], "load()")
+        self.assertEqual(load_slice["godot_owner"], "PortGame.source_turret_load_state")
+        self.assertEqual(load_slice["runtime_proof"], "/root/Main.generated_turret_load_bridge_state")
+        for expr in [
+            "@Override",
+            "public void load(){",
+            "super.load();",
+            "drawer.load(this);",
+        ]:
+            self.assertIn(expr, load_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_load_state")
+        self.assertEqual(contract["params"], [])
+        for key in ["method", "override_expr", "super_load_expr", "drawer_load_expr", "super_load_called", "drawer_load_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_turret_load_result = source_symbols.state_schema(schema, "source_turret_load_result")
+        self.assertEqual(source_turret_load_result["keys"]["method"]["java_expr"], "public void load(){")
+        self.assertEqual(source_turret_load_result["keys"]["super_load_called"]["java_expr"], "super.load();")
+        self.assertEqual(source_turret_load_result["keys"]["drawer_load_called"]["java_expr"], "drawer.load(this);")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

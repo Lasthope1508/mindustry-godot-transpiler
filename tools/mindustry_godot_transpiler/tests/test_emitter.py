@@ -7295,5 +7295,39 @@ public class Turret extends ReloadTurret{
             self.assertIn('"method": "public void init(){"', source_text)
             self.assertIn('"tracking_range_expr": "trackingRange = Math.max(range, trackingRange);"', source_text)
 
+    def test_emit_bridges_turret_load_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class Turret extends ReloadTurret{
+    @Override
+    public void load(){
+        super.load();
+
+        drawer.load(this);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_load_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_turret_load_state"', source_text)
+            self.assertIn('"method": "public void load(){"', source_text)
+            self.assertIn('"super_load_expr": "super.load();"', source_text)
+            self.assertIn('"drawer_load_expr": "drawer.load(this);"', source_text)
+            self.assertIn('"drawer_load_called": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

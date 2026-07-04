@@ -94397,6 +94397,85 @@
         }
       },
       "rule": "Result schema for Turret.init default assignment state."
+    },
+    "source_turret_load_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_turret_load_result.method",
+          "java_expr": "public void load(){",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves method boundary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_load_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_turret_load_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves override annotation.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_load_state"
+          ]
+        },
+        "super_load_expr": {
+          "godot_symbol": "source_turret_load_result.super_load_expr",
+          "java_expr": "super.load();",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves superclass load call string.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_load_state"
+          ]
+        },
+        "drawer_load_expr": {
+          "godot_symbol": "source_turret_load_result.drawer_load_expr",
+          "java_expr": "drawer.load(this);",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves drawer load call string.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_load_state"
+          ]
+        },
+        "super_load_called": {
+          "godot_symbol": "source_turret_load_result.super_load_called",
+          "java_expr": "super.load();",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records superclass load dispatch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_load_state"
+          ]
+        },
+        "drawer_load_called": {
+          "godot_symbol": "source_turret_load_result.drawer_load_called",
+          "java_expr": "drawer.load(this);",
+          "java_method": "load()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records drawer load dispatch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_load_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_turret_load_state.",
+      "source_slice": "N1157",
+      "status": "source-backed"
     }
   },
   "version": 1
