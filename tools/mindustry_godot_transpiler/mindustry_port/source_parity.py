@@ -1021,6 +1021,25 @@ def verify_item_entry_type_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_item_entry_to_string_source(upstream_root: Path) -> dict[str, Any]:
+    item_turret_path = Path(upstream_root) / ITEM_TURRET_SOURCE
+    source = item_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class ItemEntry extends AmmoEntry{",
+        "override": "@Override",
+        "method": "public String toString(){",
+        "return_start": "return \"ItemEntry{\" +",
+        "item_concat": "\"item=\" + item +",
+        "amount_concat": "\", amount=\" + amount +",
+        "return_end": "'}';",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": ITEM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

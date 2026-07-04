@@ -8777,6 +8777,56 @@ public class ItemTurret extends Turret{
             self.assertIn('"return_expr": "return ammoTypes.get(item);"', source_text)
             self.assertIn('"type": ammo_type', source_text)
 
+    def test_emit_bridges_item_entry_to_string_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public class ItemEntry extends AmmoEntry{
+        public Item item;
+
+        @Override
+        public BulletType type(){
+            return ammoTypes.get(item);
+        }
+
+        @Override
+        public String toString(){
+            return "ItemEntry{" +
+            "item=" + item +
+            ", amount=" + amount +
+            '}';
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ItemEntry_method_toString_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var item_string: String = str(_args[0] if _args.size() > 0 else "null")', source_text)
+            self.assertIn("var amount: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn('var to_string_value: String = "ItemEntry{item=" + item_string + ", amount=" + str(amount) + "}"', source_text)
+            self.assertNotIn("var to_string: String", source_text)
+            self.assertIn('"source_owner": "PortGame.source_item_entry_to_string_state"', source_text)
+            self.assertIn('"method": "public String toString(){"', source_text)
+            self.assertIn('"return_start_expr": "return \\"ItemEntry{\\" +"', source_text)
+            self.assertIn('"item_concat_expr": "\\"item=\\" + item +"', source_text)
+            self.assertIn('"amount_concat_expr": "\\", amount=\\" + amount +"', source_text)
+            self.assertIn('"return_end_expr": "\'}\';"', source_text)
+            self.assertIn('"to_string": to_string_value', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

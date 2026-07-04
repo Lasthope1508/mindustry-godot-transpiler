@@ -8791,5 +8791,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_entry_to_string_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_entry_to_string_source"))
+        report = source_parity.verify_item_entry_to_string_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class ItemEntry extends AmmoEntry{",
+            "override": "@Override",
+            "method": "public String toString(){",
+            "return_start": "return \"ItemEntry{\" +",
+            "item_concat": "\"item=\" + item +",
+            "amount_concat": "\", amount=\" + amount +",
+            "return_end": "'}';",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

@@ -100375,6 +100375,164 @@
         }
       },
       "rule": "Result schema for ItemEntry.type return state."
+    },
+    "source_item_entry_to_string_input": {
+      "status": "explicit-input",
+      "source_slice": "N1192",
+      "keys": {
+        "item_string": {
+          "status": "explicit-input",
+          "type": "String",
+          "godot_symbol": "source_item_entry_to_string_input.item_string",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "\"item=\" + item",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Input supplies Java string-concat representation of item."
+        },
+        "amount": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_entry_to_string_input.amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "amount",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Input supplies inherited amount field."
+        }
+      },
+      "rule": "Input schema for ItemEntry.toString bridge."
+    },
+    "source_item_entry_to_string_result": {
+      "status": "source-backed",
+      "source_slice": "N1192",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_to_string_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "public class ItemEntry extends AmmoEntry{",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_to_string_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_to_string_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "public String toString(){",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Result records method boundary."
+        },
+        "return_start_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_to_string_result.return_start_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "return \"ItemEntry{\" +",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Result records return prefix."
+        },
+        "item_concat_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_to_string_result.item_concat_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "\"item=\" + item +",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Result records item concatenation expression."
+        },
+        "amount_concat_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_to_string_result.amount_concat_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "\", amount=\" + amount +",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Result records amount concatenation expression."
+        },
+        "return_end_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_to_string_result.return_end_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "'}';",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Result records return suffix."
+        },
+        "item_string": {
+          "status": "explicit-input",
+          "type": "String",
+          "godot_symbol": "source_item_entry_to_string_result.item_string",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "\"item=\" + item",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Result echoes item string-concat input."
+        },
+        "amount": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_entry_to_string_result.amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "amount",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Result echoes amount input."
+        },
+        "to_string": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_entry_to_string_result.to_string",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemEntry.toString()",
+          "java_expr": "return \"ItemEntry{\" + \"item=\" + item + \", amount=\" + amount + '}';",
+          "used_by": [
+            "PortGame.source_item_entry_to_string_state"
+          ],
+          "rule": "Result records full Java toString concatenation output."
+        }
+      },
+      "rule": "Result schema for ItemEntry.toString return state."
     }
   },
   "version": 1

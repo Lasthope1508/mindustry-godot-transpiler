@@ -27128,6 +27128,46 @@
       ],
       "runtime_proof": "/root/Main.source_item_entry_type_state",
       "rule": "Public runtime contract for ItemEntry.type return state."
+    },
+    "PortGame.source_item_entry_to_string_state": {
+      "status": "source-backed",
+      "source_slice": "N1192",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemEntry.toString()",
+      "params": [
+        {
+          "name": "item_string",
+          "type": "String",
+          "schema": "source_item_entry_to_string_input.item_string"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_item_entry_to_string_input.amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "override_expr",
+        "method",
+        "return_start_expr",
+        "item_concat_expr",
+        "amount_concat_expr",
+        "return_end_expr",
+        "item_string",
+        "amount",
+        "to_string"
+      ],
+      "tests": [
+        "test_emit_bridges_item_entry_to_string_to_source_state",
+        "test_port_game_exposes_source_item_entry_to_string_state",
+        "test_port_game_exposes_generated_item_entry_to_string_bridge_state",
+        "test_item_entry_to_string_matches_upstream_source",
+        "test_generated_item_entry_to_string_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_entry_to_string_state",
+      "rule": "Public runtime contract for ItemEntry.toString state."
     }
   },
   "policy": {

@@ -3117,6 +3117,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar ammo_type: Variant = _args[1] if _args.size() > 1 else null",
                         "\treturn {\"source_owner\": \"PortGame.source_item_entry_type_state\", \"inner_class\": \"public class ItemEntry extends AmmoEntry{\", \"override_expr\": \"@Override\", \"method\": \"public BulletType type(){\", \"return_expr\": \"return ammoTypes.get(item);\", \"item\": item, \"ammo_type\": ammo_type, \"type\": ammo_type}",
                     ])
+                if method.get("name") == "toString":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemEntry_method_toString_{index}(_args: Array = []) -> Variant:",
+                        "\tvar item_string: String = str(_args[0] if _args.size() > 0 else \"null\")",
+                        "\tvar amount: int = int(_args[1] if _args.size() > 1 else 0)",
+                        "\tvar to_string_value: String = \"ItemEntry{item=\" + item_string + \", amount=\" + str(amount) + \"}\"",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_entry_to_string_state\", \"inner_class\": \"public class ItemEntry extends AmmoEntry{\", \"override_expr\": \"@Override\", \"method\": \"public String toString(){\", \"return_start_expr\": \"return \\\"ItemEntry{\\\" +\", \"item_concat_expr\": \"\\\"item=\\\" + item +\", \"amount_concat_expr\": \"\\\", amount=\\\" + amount +\", \"return_end_expr\": \"'}';\", \"item_string\": item_string, \"amount\": amount, \"to_string\": to_string_value}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

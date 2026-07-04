@@ -13716,5 +13716,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemEntry.type"', source)
         self.assertIn('"matches": result.get("type", null) == canonical.get("type", null)', source)
 
+    def test_port_game_exposes_source_item_entry_to_string_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_entry_to_string_state(item_string: String, amount: int) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ItemEntry extends AmmoEntry{"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public String toString(){"', source)
+        self.assertIn('"return_start_expr": "return \\"ItemEntry{\\" +"', source)
+        self.assertIn('"item_concat_expr": "\\"item=\\" + item +"', source)
+        self.assertIn('"amount_concat_expr": "\\", amount=\\" + amount +"', source)
+        self.assertIn('"return_end_expr": "\'}\';"', source)
+        self.assertIn('var to_string_value: String = "ItemEntry{item=" + item_string + ", amount=" + str(amount) + "}"', source)
+        self.assertNotIn("var to_string: String", source)
+        self.assertIn('"to_string": to_string_value', source)
+
+    def test_port_game_exposes_generated_item_entry_to_string_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_entry_to_string_bridge_state(item_string: String, amount: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemEntry_method_toString_1([item_string, amount])", source)
+        self.assertIn("var canonical = source_item_entry_to_string_state(item_string, amount)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_entry_to_string_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemEntry.toString"', source)
+        self.assertIn('"matches": result.get("to_string", null) == canonical.get("to_string", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

@@ -26706,6 +26706,44 @@
       ],
       "runtime_proof": "/root/Main.generated_item_entry_type_bridge_state",
       "rule": "ItemEntry.type returns ammoTypes.get(item) directly."
+    },
+    "N1192": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemEntry",
+      "java_method": "ItemEntry.toString()",
+      "godot_owner": "PortGame.source_item_entry_to_string_state",
+      "exact_exprs": [
+        "public class ItemEntry extends AmmoEntry{",
+        "@Override",
+        "public String toString(){",
+        "return \"ItemEntry{\" +",
+        "\"item=\" + item +",
+        "\", amount=\" + amount +",
+        "'}';"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "item_entry_to_string.inner_class",
+        "item_entry_to_string.override_expr",
+        "item_entry_to_string.method",
+        "item_entry_to_string.return_start_expr",
+        "item_entry_to_string.item_concat_expr",
+        "item_entry_to_string.amount_concat_expr",
+        "item_entry_to_string.return_end_expr",
+        "item_entry_to_string.item_string",
+        "item_entry_to_string.amount",
+        "item_entry_to_string.to_string"
+      ],
+      "tests": [
+        "test_emit_bridges_item_entry_to_string_to_source_state",
+        "test_port_game_exposes_source_item_entry_to_string_state",
+        "test_port_game_exposes_generated_item_entry_to_string_bridge_state",
+        "test_item_entry_to_string_matches_upstream_source",
+        "test_generated_item_entry_to_string_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_entry_to_string_bridge_state",
+      "rule": "ItemEntry.toString concatenates item and amount exactly as upstream source."
     }
   },
   "version": 1

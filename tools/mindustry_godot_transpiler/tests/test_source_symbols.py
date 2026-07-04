@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 660)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 661)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 665)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 666)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43946,6 +43946,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["ammo_type"]["java_expr"], "ammoTypes.get(item)")
         result_schema = source_symbols.state_schema(schema, "source_item_entry_type_result")
         self.assertEqual(result_schema["keys"]["type"]["java_expr"], "return ammoTypes.get(item);")
+
+    def test_generated_item_entry_to_string_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "item_entry_to_string.method")
+        self.assertEqual(method["java_expr"], "public String toString(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(method["java_method"], "ItemEntry.toString()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_item_entry_to_string_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_item_entry_to_string_state")
+
+        item_string = source_symbols.source_symbol(registry, "item_entry_to_string.item_string")
+        self.assertEqual(item_string["java_expr"], "\"item=\" + item")
+        self.assertEqual(item_string["godot_symbol"], "source_item_entry_to_string_input.item_string")
+        amount_input = source_symbols.source_symbol(registry, "item_entry_to_string.amount")
+        self.assertEqual(amount_input["java_expr"], "amount")
+        self.assertEqual(amount_input["godot_symbol"], "source_item_entry_to_string_input.amount")
+        to_string = source_symbols.source_symbol(registry, "item_entry_to_string.to_string")
+        self.assertEqual(to_string["java_expr"], "return \"ItemEntry{\" + \"item=\" + item + \", amount=\" + amount + '}';")
+        self.assertEqual(to_string["godot_symbol"], "source_item_entry_to_string_result.to_string")
+
+        item_entry_slice = source_symbols.source_slice(ledger, "N1192")
+        self.assertEqual(item_entry_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(item_entry_slice["java_method"], "ItemEntry.toString()")
+        self.assertEqual(item_entry_slice["godot_owner"], "PortGame.source_item_entry_to_string_state")
+        self.assertEqual(item_entry_slice["runtime_proof"], "/root/Main.generated_item_entry_to_string_bridge_state")
+        for expr in [
+            "public class ItemEntry extends AmmoEntry{",
+            "@Override",
+            "public String toString(){",
+            "return \"ItemEntry{\" +",
+            "\"item=\" + item +",
+            "\", amount=\" + amount +",
+            "'}';",
+        ]:
+            self.assertIn(expr, item_entry_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_item_entry_to_string_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["item_string", "amount"])
+        for key in ["inner_class", "override_expr", "method", "return_start_expr", "item_concat_expr", "amount_concat_expr", "return_end_expr", "item_string", "amount", "to_string"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_item_entry_to_string_input")
+        self.assertEqual(input_schema["keys"]["item_string"]["java_expr"], "\"item=\" + item")
+        self.assertEqual(input_schema["keys"]["amount"]["java_expr"], "amount")
+        result_schema = source_symbols.state_schema(schema, "source_item_entry_to_string_result")
+        self.assertEqual(result_schema["keys"]["to_string"]["java_expr"], "return \"ItemEntry{\" + \"item=\" + item + \", amount=\" + amount + '}';")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
