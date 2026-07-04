@@ -8500,5 +8500,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_turret_limit_range_default_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_turret_limit_range_default_source"))
+        report = source_parity.verify_item_turret_limit_range_default_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "comment": "/** Limits bullet range to this turret's range value. */",
+            "method": "public void limitRange(){",
+            "dispatch_expr": "limitRange(9f);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

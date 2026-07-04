@@ -7954,5 +7954,39 @@ public class PowerTurret extends Turret{
             self.assertIn('"return_expr": "return shootType;"', source_text)
             self.assertIn('"shoot_type": shoot_type', source_text)
 
+    def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    /** Limits bullet range to this turret's range value. */
+    public void limitRange(){
+        limitRange(9f);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_limitRange_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_item_turret_limit_range_default_state"', source_text)
+            self.assertIn('"method": "public void limitRange(){"', source_text)
+            self.assertIn('"comment": "/** Limits bullet range to this turret\'s range value. */"', source_text)
+            self.assertIn('"dispatch_expr": "limitRange(9f);"', source_text)
+            self.assertIn("var margin: float = 9.0", source_text)
+            self.assertIn('"margin": margin', source_text)
+            self.assertIn('"limit_range_called": true', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -17,7 +17,9 @@ func java_method_ammo_0(_args: Array = []) -> Variant:
 	return null
 
 func java_method_limitRange_1(_args: Array = []) -> Variant:
-	return null
+	var margin: float = 9.0
+	var limit_range_call: Dictionary = {"call": "limitRange(9f);", "margin": margin}
+	return {"source_owner": "PortGame.source_item_turret_limit_range_default_state", "method": "public void limitRange(){", "comment": "/** Limits bullet range to this turret's range value. */", "dispatch_expr": "limitRange(9f);", "margin": margin, "limit_range_called": true, "limit_range_call": limit_range_call}
 
 func java_method_limitRange_2(_args: Array = []) -> Variant:
 	return null

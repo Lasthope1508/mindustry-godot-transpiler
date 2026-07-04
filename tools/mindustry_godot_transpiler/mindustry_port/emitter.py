@@ -1395,6 +1395,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_power_turret_limit_range_state\", \"method\": \"public void limitRange(float margin){\", \"dispatch_expr\": \"limitRange(shootType, margin);\", \"shoot_type\": shoot_type, \"margin\": margin, \"limit_range_called\": true, \"limit_range_call\": limit_range_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ItemTurret.java"
+        and type_entry.get("name") == "ItemTurret"
+        and method.get("name") == "limitRange"
+        and len(method.get("parameters", [])) == 0
+    ):
+        return [
+            "\tvar margin: float = 9.0",
+            "\tvar limit_range_call: Dictionary = {\"call\": \"limitRange(9f);\", \"margin\": margin}",
+            "\treturn {\"source_owner\": \"PortGame.source_item_turret_limit_range_default_state\", \"method\": \"public void limitRange(){\", \"comment\": \"/** Limits bullet range to this turret's range value. */\", \"dispatch_expr\": \"limitRange(9f);\", \"margin\": margin, \"limit_range_called\": true, \"limit_range_call\": limit_range_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

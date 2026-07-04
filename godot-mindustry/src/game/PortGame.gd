@@ -17149,6 +17149,32 @@ func generated_power_turret_build_peek_ammo_bridge_state(shoot_type: Variant) ->
 		"matches": result.get("shoot_type", null) == canonical.get("shoot_type", null),
 	}
 
+func source_item_turret_limit_range_default_state() -> Dictionary:
+	var margin: float = 9.0
+	var limit_range_call: Dictionary = {"call": "limitRange(9f);", "margin": margin}
+	return {
+		"source_owner": "PortGame.source_item_turret_limit_range_default_state",
+		"method": "public void limitRange(){",
+		"comment": "/** Limits bullet range to this turret's range value. */",
+		"dispatch_expr": "limitRange(9f);",
+		"margin": margin,
+		"limit_range_called": true,
+		"limit_range_call": limit_range_call,
+	}
+
+func generated_item_turret_limit_range_default_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_limitRange_1([])
+	var canonical = source_item_turret_limit_range_default_state()
+	return {
+		"source_owner": "PortGame.source_item_turret_limit_range_default_state",
+		"generated_owner": "ItemTurret.java_method_limitRange_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("margin", null) == canonical.get("margin", null) and result.get("limit_range_called", null) == canonical.get("limit_range_called", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

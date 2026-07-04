@@ -26265,6 +26265,30 @@
       ],
       "runtime_proof": "/root/Main.source_power_turret_build_peek_ammo_state",
       "rule": "Public runtime contract for PowerTurretBuild.peekAmmo state."
+    },
+    "PortGame.source_item_turret_limit_range_default_state": {
+      "status": "source-backed",
+      "source_slice": "N1173",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurret.limitRange()",
+      "params": [],
+      "return_keys": [
+        "method",
+        "comment",
+        "dispatch_expr",
+        "margin",
+        "limit_range_called",
+        "limit_range_call"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_default_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_default_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state",
+        "test_item_turret_limit_range_default_matches_upstream_source",
+        "test_generated_item_turret_limit_range_default_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_default_state",
+      "rule": "Public runtime contract for ItemTurret.limitRange() default margin dispatch."
     }
   },
   "policy": {

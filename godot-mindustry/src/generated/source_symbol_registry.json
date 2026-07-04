@@ -82045,6 +82045,57 @@
       "godot_symbol": "source_power_turret_build_peek_ammo_result.shoot_type",
       "java_expr": "return shootType;",
       "rule": "PowerTurretBuild.peekAmmo returns shootType unchanged."
+    },
+    "item_turret_limit_range_default.method": {
+      "godot_owner": "PortGame.source_item_turret_limit_range_default_state",
+      "java_method": "ItemTurret.limitRange()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_default_state",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_default_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_default_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state",
+        "test_item_turret_limit_range_default_matches_upstream_source",
+        "test_generated_item_turret_limit_range_default_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_limit_range_default_result.method",
+      "java_expr": "public void limitRange(){",
+      "rule": "Method boundary comes from ItemTurret.limitRange()."
+    },
+    "item_turret_limit_range_default.comment": {
+      "godot_owner": "PortGame.source_item_turret_limit_range_default_state",
+      "java_method": "ItemTurret.limitRange()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_default_state",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_default_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_default_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state",
+        "test_item_turret_limit_range_default_matches_upstream_source",
+        "test_generated_item_turret_limit_range_default_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_limit_range_default_result.comment",
+      "java_expr": "/** Limits bullet range to this turret's range value. */",
+      "rule": "Comment records Java range-limiting intent."
+    },
+    "item_turret_limit_range_default.dispatch_expr": {
+      "godot_owner": "PortGame.source_item_turret_limit_range_default_state",
+      "java_method": "ItemTurret.limitRange()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_default_state",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_default_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_default_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state",
+        "test_item_turret_limit_range_default_matches_upstream_source",
+        "test_generated_item_turret_limit_range_default_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_limit_range_default_result.margin",
+      "java_expr": "limitRange(9f);",
+      "rule": "Zero-arg overload delegates to limitRange with margin 9f."
     }
   },
   "version": 1

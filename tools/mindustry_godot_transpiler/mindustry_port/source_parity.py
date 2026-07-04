@@ -28,6 +28,7 @@ BUILDER_COMP_SOURCE = "core/src/mindustry/entities/comp/BuilderComp.java"
 TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/Turret.java"
 RELOAD_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java"
 POWER_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java"
+ITEM_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 GAME_STATE_SOURCE = "core/src/mindustry/core/GameState.java"
@@ -668,6 +669,21 @@ def verify_power_turret_build_peek_ammo_source(upstream_root: Path) -> dict[str,
     missing = [snippet for snippet in checked.values() if snippet not in source]
     return {
         "source": POWER_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_item_turret_limit_range_default_source(upstream_root: Path) -> dict[str, Any]:
+    item_turret_path = Path(upstream_root) / ITEM_TURRET_SOURCE
+    source = item_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "/** Limits bullet range to this turret's range value. */",
+        "method": "public void limitRange(){",
+        "dispatch_expr": "limitRange(9f);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": ITEM_TURRET_SOURCE,
         "checked": checked,
         "missing": missing,
     }

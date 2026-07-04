@@ -13249,5 +13249,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "PowerTurret.PowerTurretBuild.peekAmmo"', source)
         self.assertIn('"matches": result.get("shoot_type", null) == canonical.get("shoot_type", null)', source)
 
+    def test_port_game_exposes_source_item_turret_limit_range_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_limit_range_default_state() -> Dictionary:", source)
+        self.assertIn('"method": "public void limitRange(){"', source)
+        self.assertIn('"comment": "/** Limits bullet range to this turret\'s range value. */"', source)
+        self.assertIn('"dispatch_expr": "limitRange(9f);"', source)
+        self.assertIn("var margin: float = 9.0", source)
+        self.assertIn('"margin": margin', source)
+        self.assertIn('"limit_range_called": true', source)
+
+    def test_port_game_exposes_generated_item_turret_limit_range_default_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_limit_range_default_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_limitRange_1([])", source)
+        self.assertIn("var canonical = source_item_turret_limit_range_default_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_limit_range_default_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.java_method_limitRange_1"', source)
+        self.assertIn('"matches": result.get("margin", null) == canonical.get("margin", null)', source)
+
 if __name__ == "__main__":
     unittest.main()
