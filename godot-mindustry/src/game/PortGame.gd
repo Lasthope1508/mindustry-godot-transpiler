@@ -16944,6 +16944,48 @@ func generated_reload_turret_set_stats_bridge_state(coolant_present: bool, reloa
 		"matches": result.get("booster_replace_called", null) == canonical.get("booster_replace_called", null) and result.get("booster_replace_call", null) == canonical.get("booster_replace_call", null),
 	}
 
+func source_power_turret_set_stats_state(shoot_type: Variant) -> Dictionary:
+	var object_map_call: Dictionary = {
+		"call": "ObjectMap.of(this, shootType)",
+		"owner": "this",
+		"shoot_type": shoot_type,
+	}
+	var ammo_values_call: Dictionary = {
+		"call": "StatValues.ammo(ObjectMap.of(this, shootType))",
+		"object_map_call": object_map_call,
+	}
+	var stats_add_call: Dictionary = {
+		"call": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+		"stat": "Stat.ammo",
+		"ammo_values_call": ammo_values_call,
+	}
+	return {
+		"source_owner": "PortGame.source_power_turret_set_stats_state",
+		"method": "public void setStats(){",
+		"override_expr": "@Override",
+		"super_set_stats_expr": "super.setStats();",
+		"stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+		"shoot_type": shoot_type,
+		"super_set_stats_called": true,
+		"stats_add_called": true,
+		"object_map_call": object_map_call,
+		"ammo_values_call": ammo_values_call,
+		"stats_add_call": stats_add_call,
+	}
+
+func generated_power_turret_set_stats_bridge_state(shoot_type: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setStats_0([shoot_type])
+	var canonical = source_power_turret_set_stats_state(shoot_type)
+	return {
+		"source_owner": "PortGame.source_power_turret_set_stats_state",
+		"generated_owner": "PowerTurret.java_method_setStats_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("shoot_type", null) == canonical.get("shoot_type", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

@@ -95926,6 +95926,153 @@
       "rule": "Dictionary returned by PortGame.source_reload_turret_set_stats_state.",
       "source_slice": "N1165",
       "status": "source-backed"
+    },
+    "source_power_turret_set_stats_input": {
+      "keys": {
+        "shoot_type": {
+          "godot_symbol": "source_power_turret_set_stats_input.shoot_type",
+          "java_expr": "shootType",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Input preserves PowerTurret.shootType for the stat call record.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Inputs accepted by PortGame.source_power_turret_set_stats_state.",
+      "source_slice": "N1166",
+      "status": "source-backed"
+    },
+    "source_power_turret_set_stats_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_power_turret_set_stats_result.method",
+          "java_expr": "public void setStats(){",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Result records exact method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_power_turret_set_stats_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Result records exact override annotation.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ]
+        },
+        "super_set_stats_expr": {
+          "godot_symbol": "source_power_turret_set_stats_result.super_set_stats_expr",
+          "java_expr": "super.setStats();",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Result records exact superclass call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ]
+        },
+        "stats_add_expr": {
+          "godot_symbol": "source_power_turret_set_stats_result.stats_add_expr",
+          "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Result records exact stats add expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ]
+        },
+        "shoot_type": {
+          "godot_symbol": "source_power_turret_set_stats_result.shoot_type",
+          "java_expr": "shootType",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Result echoes shoot type input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ],
+          "alias_of": "source_power_turret_set_stats_input.shoot_type"
+        },
+        "super_set_stats_called": {
+          "godot_symbol": "source_power_turret_set_stats_result.super_set_stats_called",
+          "java_expr": "super.setStats();",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Super call marker is always true for this source method.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ]
+        },
+        "stats_add_called": {
+          "godot_symbol": "source_power_turret_set_stats_result.stats_add_called",
+          "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Stats add marker is always true for this source method.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ]
+        },
+        "object_map_call": {
+          "godot_symbol": "source_power_turret_set_stats_result.object_map_call",
+          "java_expr": "ObjectMap.of(this, shootType)",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Call record preserves exact ObjectMap expression.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ]
+        },
+        "ammo_values_call": {
+          "godot_symbol": "source_power_turret_set_stats_result.ammo_values_call",
+          "java_expr": "StatValues.ammo(ObjectMap.of(this, shootType))",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Call record preserves exact StatValues.ammo expression.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ]
+        },
+        "stats_add_call": {
+          "godot_symbol": "source_power_turret_set_stats_result.stats_add_call",
+          "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Call record preserves exact stats add expression and explicit shootType input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_power_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_power_turret_set_stats_state.",
+      "source_slice": "N1166",
+      "status": "source-backed"
     }
   },
   "version": 1

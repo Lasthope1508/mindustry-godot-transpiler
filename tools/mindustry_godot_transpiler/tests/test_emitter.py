@@ -7614,5 +7614,42 @@ public class ReloadTurret extends BaseTurret{
             self.assertIn('"coolant_gate": "if(coolant != null){"', source_text)
             self.assertIn('"booster_replace_expr": "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));"', source_text)
 
+    def test_emit_bridges_power_turret_set_stats_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "PowerTurret.java"
+            power_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            power_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class PowerTurret extends Turret{
+    public BulletType shootType;
+
+    @Override
+    public void setStats(){
+        super.setStats();
+        stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "PowerTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var shoot_type: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var object_map_call: Dictionary = {\"call\": \"ObjectMap.of(this, shootType)\", \"owner\": \"this\", \"shoot_type\": shoot_type}", source_text)
+            self.assertIn("var stats_add_call: Dictionary = {\"call\": \"stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));\", \"stat\": \"Stat.ammo\", \"ammo_values_call\": ammo_values_call}", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_power_turret_set_stats_state"', source_text)
+            self.assertIn('"method": "public void setStats(){"', source_text)
+            self.assertIn('"super_set_stats_expr": "super.setStats();"', source_text)
+            self.assertIn('"stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

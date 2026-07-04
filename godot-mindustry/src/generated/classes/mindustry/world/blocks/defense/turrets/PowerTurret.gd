@@ -14,7 +14,11 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "setStats", "parameters
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_setStats_0(_args: Array = []) -> Variant:
-	return null
+	var shoot_type: Variant = _args[0] if _args.size() > 0 else null
+	var object_map_call: Dictionary = {"call": "ObjectMap.of(this, shootType)", "owner": "this", "shoot_type": shoot_type}
+	var ammo_values_call: Dictionary = {"call": "StatValues.ammo(ObjectMap.of(this, shootType))", "object_map_call": object_map_call}
+	var stats_add_call: Dictionary = {"call": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));", "stat": "Stat.ammo", "ammo_values_call": ammo_values_call}
+	return {"source_owner": "PortGame.source_power_turret_set_stats_state", "method": "public void setStats(){", "override_expr": "@Override", "super_set_stats_expr": "super.setStats();", "stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));", "shoot_type": shoot_type, "super_set_stats_called": true, "stats_add_called": true, "object_map_call": object_map_call, "ammo_values_call": ammo_values_call, "stats_add_call": stats_add_call}
 
 func java_method_limitRange_1(_args: Array = []) -> Variant:
 	return null

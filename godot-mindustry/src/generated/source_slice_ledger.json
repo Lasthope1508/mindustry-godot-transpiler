@@ -25725,6 +25725,42 @@
         "test_reload_turret_set_stats_matches_upstream_source",
         "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1166": {
+      "deferred_exprs": [
+        "Superclass setStats internals remain deferred; this slice records the exact super call marker only.",
+        "ObjectMap.of, StatValues.ammo, and stats.add internals remain deferred; this slice records exact call markers and explicit shootType input."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+        "public BulletType shootType;"
+      ],
+      "godot_owner": "PortGame.source_power_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "rule": "PowerTurret.setStats delegates to super and adds Stat.ammo with StatValues.ammo(ObjectMap.of(this, shootType)).",
+      "runtime_proof": "/root/Main.generated_power_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "power_turret_set_stats.method",
+        "power_turret_set_stats.override",
+        "power_turret_set_stats.shoot_type",
+        "power_turret_set_stats.super_set_stats",
+        "power_turret_set_stats.object_map",
+        "power_turret_set_stats.ammo_values",
+        "power_turret_set_stats.stats_add"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

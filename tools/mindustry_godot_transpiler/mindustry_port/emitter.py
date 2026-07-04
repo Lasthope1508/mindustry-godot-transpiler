@@ -1372,6 +1372,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_reload_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"coolant_gate\": \"if(coolant != null){\", \"booster_replace_expr\": \"stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));\", \"coolant_present\": coolant_present, \"reload_value\": reload_value, \"coolant_amount\": coolant_amount, \"coolant_multiplier\": coolant_multiplier, \"super_set_stats_called\": true, \"booster_replace_called\": booster_replace_called, \"booster_replace_call\": booster_replace_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
+        and type_entry.get("name") == "PowerTurret"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar shoot_type: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar object_map_call: Dictionary = {\"call\": \"ObjectMap.of(this, shootType)\", \"owner\": \"this\", \"shoot_type\": shoot_type}",
+            "\tvar ammo_values_call: Dictionary = {\"call\": \"StatValues.ammo(ObjectMap.of(this, shootType))\", \"object_map_call\": object_map_call}",
+            "\tvar stats_add_call: Dictionary = {\"call\": \"stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));\", \"stat\": \"Stat.ammo\", \"ammo_values_call\": ammo_values_call}",
+            "\treturn {\"source_owner\": \"PortGame.source_power_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"stats_add_expr\": \"stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));\", \"shoot_type\": shoot_type, \"super_set_stats_called\": true, \"stats_add_called\": true, \"object_map_call\": object_map_call, \"ammo_values_call\": ammo_values_call, \"stats_add_call\": stats_add_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

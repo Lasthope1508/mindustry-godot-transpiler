@@ -13089,5 +13089,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ReloadTurret.java_method_setStats_0"', source)
         self.assertIn('"matches": result.get("booster_replace_called", null) == canonical.get("booster_replace_called", null) and result.get("booster_replace_call", null) == canonical.get("booster_replace_call", null)', source)
 
+    def test_port_game_exposes_source_power_turret_set_stats_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_turret_set_stats_state(shoot_type: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public void setStats(){"', source)
+        self.assertIn('"super_set_stats_expr": "super.setStats();"', source)
+        self.assertIn('"stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));"', source)
+        self.assertIn('"object_map_call": object_map_call', source)
+        self.assertIn('"stats_add_call": stats_add_call', source)
+
+    def test_port_game_exposes_generated_power_turret_set_stats_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_power_turret_set_stats_bridge_state(shoot_type: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_setStats_0([shoot_type])", source)
+        self.assertIn("var canonical = source_power_turret_set_stats_state(shoot_type)", source)
+        self.assertIn('"source_owner": "PortGame.source_power_turret_set_stats_state"', source)
+        self.assertIn('"generated_owner": "PowerTurret.java_method_setStats_0"', source)
+        self.assertIn('"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("shoot_type", null) == canonical.get("shoot_type", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

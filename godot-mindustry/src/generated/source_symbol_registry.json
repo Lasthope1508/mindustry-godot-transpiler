@@ -81484,6 +81484,125 @@
       "godot_symbol": "source_reload_turret_set_stats_result.booster_replace_call",
       "java_expr": "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));",
       "rule": "Stats replace call is recorded only when coolant is present; StatValues.boosters internals remain deferred."
+    },
+    "power_turret_set_stats.method": {
+      "godot_owner": "PortGame.source_power_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_set_stats_result.method",
+      "java_expr": "public void setStats(){",
+      "rule": "Method boundary comes from PowerTurret.setStats."
+    },
+    "power_turret_set_stats.override": {
+      "godot_owner": "PortGame.source_power_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_set_stats_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "Override annotation comes from PowerTurret.setStats."
+    },
+    "power_turret_set_stats.shoot_type": {
+      "godot_owner": "PortGame.source_power_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_set_stats_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_set_stats_input.shoot_type",
+      "java_expr": "shootType",
+      "rule": "Shoot type is supplied explicitly for the ObjectMap.of(this, shootType) call record."
+    },
+    "power_turret_set_stats.super_set_stats": {
+      "godot_owner": "PortGame.source_power_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_set_stats_result.super_set_stats_expr",
+      "java_expr": "super.setStats();",
+      "rule": "Superclass setStats internals are deferred; this slice records the exact call marker."
+    },
+    "power_turret_set_stats.object_map": {
+      "godot_owner": "PortGame.source_power_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_set_stats_result.object_map_call",
+      "java_expr": "ObjectMap.of(this, shootType)",
+      "rule": "ObjectMap creation is recorded as an exact call marker without modeling ObjectMap internals."
+    },
+    "power_turret_set_stats.ammo_values": {
+      "godot_owner": "PortGame.source_power_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_set_stats_result.ammo_values_call",
+      "java_expr": "StatValues.ammo(ObjectMap.of(this, shootType))",
+      "rule": "StatValues.ammo call is recorded without modeling stat table internals."
+    },
+    "power_turret_set_stats.stats_add": {
+      "godot_owner": "PortGame.source_power_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_set_stats_result.stats_add_call",
+      "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+      "rule": "Stats add call is recorded exactly; Stats internals remain deferred."
     }
   },
   "version": 1

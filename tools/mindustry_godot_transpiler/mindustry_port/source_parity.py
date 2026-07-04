@@ -27,6 +27,7 @@ PAYLOAD_COMP_SOURCE = "core/src/mindustry/entities/comp/PayloadComp.java"
 BUILDER_COMP_SOURCE = "core/src/mindustry/entities/comp/BuilderComp.java"
 TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/Turret.java"
 RELOAD_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java"
+POWER_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 GAME_STATE_SOURCE = "core/src/mindustry/core/GameState.java"
@@ -548,6 +549,23 @@ def verify_reload_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]
     missing = [snippet for snippet in checked.values() if snippet not in source]
     return {
         "source": RELOAD_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_power_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
+    power_turret_path = Path(upstream_root) / POWER_TURRET_SOURCE
+    source = power_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void setStats(){",
+        "super_set_stats": "super.setStats();",
+        "stats_add": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+        "shoot_type_field": "public BulletType shootType;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": POWER_TURRET_SOURCE,
         "checked": checked,
         "missing": missing,
     }

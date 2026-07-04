@@ -26026,6 +26026,40 @@
         "test_reload_turret_set_stats_matches_upstream_source",
         "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_turret_set_stats_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "params": [
+        {
+          "name": "shoot_type",
+          "schema": "source_power_turret_set_stats_input.shoot_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "stats_add_expr",
+        "shoot_type",
+        "super_set_stats_called",
+        "stats_add_called",
+        "object_map_call",
+        "ammo_values_call",
+        "stats_add_call"
+      ],
+      "rule": "Public runtime contract for PowerTurret.setStats ammo stats branch state.",
+      "runtime_proof": "/root/Main.source_power_turret_set_stats_state",
+      "source_method": "setStats()",
+      "source_slice": "N1166",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_power_turret_set_stats_state",
+        "test_port_game_exposes_generated_power_turret_set_stats_bridge_state",
+        "test_power_turret_set_stats_matches_upstream_source",
+        "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
