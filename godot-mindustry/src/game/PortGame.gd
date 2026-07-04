@@ -17973,6 +17973,33 @@ func generated_liquid_turret_init_bridge_state(ammo_entries: Array, target_groun
 			and result.get("super_init_called", false) == canonical.get("super_init_called", false),
 	}
 
+func source_liquid_turret_build_should_active_sound_state(was_shooting: bool, enabled: bool) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
+		"inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+		"method": "public boolean shouldActiveSound(){",
+		"override_expr": "@Override",
+		"return_expr": "return wasShooting && enabled;",
+		"was_shooting": was_shooting,
+		"enabled": enabled,
+		"should_active_sound": was_shooting and enabled,
+	}
+
+func generated_liquid_turret_build_should_active_sound_bridge_state(was_shooting: bool, enabled: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_LiquidTurretBuild_method_shouldActiveSound_0([was_shooting, enabled])
+	var canonical = source_liquid_turret_build_should_active_sound_state(was_shooting, enabled)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
+		"generated_owner": "LiquidTurret.LiquidTurretBuild.shouldActiveSound",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("should_active_sound", null) == canonical.get("should_active_sound", null)
+			and result.get("was_shooting", null) == canonical.get("was_shooting", null)
+			and result.get("enabled", null) == canonical.get("enabled", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

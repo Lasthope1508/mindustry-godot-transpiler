@@ -85904,6 +85904,74 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_init_state",
       "rule": "Result records ConsumeLiquidFilter registration without simulating filter internals."
+    },
+    "liquid_turret_build_should_active_sound.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.shouldActiveSound()",
+      "java_expr": "public boolean shouldActiveSound(){",
+      "godot_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
+      "godot_symbol": "source_liquid_turret_build_should_active_sound_result.method",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state",
+        "test_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_should_active_sound_state",
+      "rule": "Method boundary for LiquidTurretBuild.shouldActiveSound."
+    },
+    "liquid_turret_build_should_active_sound.was_shooting": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.shouldActiveSound()",
+      "java_expr": "wasShooting",
+      "godot_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
+      "godot_symbol": "source_liquid_turret_build_should_active_sound_input.was_shooting",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state",
+        "test_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_should_active_sound_state",
+      "rule": "Input supplies wasShooting field."
+    },
+    "liquid_turret_build_should_active_sound.enabled": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.shouldActiveSound()",
+      "java_expr": "enabled",
+      "godot_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
+      "godot_symbol": "source_liquid_turret_build_should_active_sound_input.enabled",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state",
+        "test_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_should_active_sound_state",
+      "rule": "Input supplies enabled field."
+    },
+    "liquid_turret_build_should_active_sound.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.shouldActiveSound()",
+      "java_expr": "return wasShooting && enabled;",
+      "godot_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
+      "godot_symbol": "source_liquid_turret_build_should_active_sound_result.should_active_sound",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state",
+        "test_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_should_active_sound_state",
+      "rule": "Result records exact boolean conjunction."
     }
   },
   "version": 1

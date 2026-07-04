@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 664)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 665)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 669)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 670)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44149,6 +44149,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_liquid_turret_init_result")
         self.assertEqual(result_schema["keys"]["place_overlap_range_after"]["java_expr"], "placeOverlapRange")
         self.assertEqual(result_schema["keys"]["overlap_updates"]["java_expr"], "range + type.rangeChange + placeOverlapMargin")
+
+    def test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "liquid_turret_build_should_active_sound.method")
+        self.assertEqual(method["java_expr"], "public boolean shouldActiveSound(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(method["java_method"], "LiquidTurretBuild.shouldActiveSound()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_liquid_turret_build_should_active_sound_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_liquid_turret_build_should_active_sound_state")
+
+        was_shooting = source_symbols.source_symbol(registry, "liquid_turret_build_should_active_sound.was_shooting")
+        self.assertEqual(was_shooting["java_expr"], "wasShooting")
+        self.assertEqual(was_shooting["godot_symbol"], "source_liquid_turret_build_should_active_sound_input.was_shooting")
+        enabled = source_symbols.source_symbol(registry, "liquid_turret_build_should_active_sound.enabled")
+        self.assertEqual(enabled["java_expr"], "enabled")
+        self.assertEqual(enabled["godot_symbol"], "source_liquid_turret_build_should_active_sound_input.enabled")
+        return_expr = source_symbols.source_symbol(registry, "liquid_turret_build_should_active_sound.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return wasShooting && enabled;")
+        self.assertEqual(return_expr["godot_symbol"], "source_liquid_turret_build_should_active_sound_result.should_active_sound")
+
+        active_sound_slice = source_symbols.source_slice(ledger, "N1196")
+        self.assertEqual(active_sound_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(active_sound_slice["java_method"], "LiquidTurretBuild.shouldActiveSound()")
+        self.assertEqual(active_sound_slice["godot_owner"], "PortGame.source_liquid_turret_build_should_active_sound_state")
+        self.assertEqual(active_sound_slice["runtime_proof"], "/root/Main.generated_liquid_turret_build_should_active_sound_bridge_state")
+        for expr in [
+            "public class LiquidTurretBuild extends TurretBuild{",
+            "@Override",
+            "public boolean shouldActiveSound(){",
+            "return wasShooting && enabled;",
+        ]:
+            self.assertIn(expr, active_sound_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_liquid_turret_build_should_active_sound_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["was_shooting", "enabled"])
+        for key in ["inner_class", "method", "override_expr", "return_expr", "was_shooting", "enabled", "should_active_sound"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_liquid_turret_build_should_active_sound_input")
+        self.assertEqual(input_schema["keys"]["was_shooting"]["java_expr"], "wasShooting")
+        self.assertEqual(input_schema["keys"]["enabled"]["java_expr"], "enabled")
+        result_schema = source_symbols.state_schema(schema, "source_liquid_turret_build_should_active_sound_result")
+        self.assertEqual(result_schema["keys"]["should_active_sound"]["java_expr"], "wasShooting && enabled")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

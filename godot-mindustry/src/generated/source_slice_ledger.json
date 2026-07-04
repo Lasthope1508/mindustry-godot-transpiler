@@ -26842,6 +26842,35 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_init_bridge_state",
       "rule": "LiquidTurret.init records consume filter, targetGround overlap Math.max updates, and super.init without inventing ConsumeLiquidFilter internals."
+    },
+    "N1196": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.shouldActiveSound()",
+      "godot_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean shouldActiveSound(){",
+        "return wasShooting && enabled;"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "liquid_turret_build_should_active_sound.method",
+        "liquid_turret_build_should_active_sound.was_shooting",
+        "liquid_turret_build_should_active_sound.enabled",
+        "liquid_turret_build_should_active_sound.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_liquid_turret_build_should_active_sound_bridge_state",
+        "test_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_should_active_sound_bridge_state",
+      "rule": "LiquidTurretBuild.shouldActiveSound returns exact wasShooting && enabled state."
     }
   },
   "version": 1

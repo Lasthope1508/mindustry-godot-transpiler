@@ -8850,5 +8850,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_liquid_turret_build_should_active_sound_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_liquid_turret_build_should_active_sound_source"))
+        report = source_parity.verify_liquid_turret_build_should_active_sound_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "public boolean shouldActiveSound(){",
+            "return_expr": "return wasShooting && enabled;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

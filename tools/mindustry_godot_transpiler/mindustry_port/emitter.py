@@ -2901,6 +2901,22 @@ def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
 def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
     lines: list[str] = []
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
+        and type_entry.get("name") == "LiquidTurret"
+    ):
+        for inner_class in type_entry.get("inner_classes", []):
+            if inner_class.get("name") != "LiquidTurretBuild":
+                continue
+            for index, method in enumerate(inner_class.get("methods", [])):
+                if method.get("name") == "shouldActiveSound":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_LiquidTurretBuild_method_shouldActiveSound_{index}(_args: Array = []) -> Variant:",
+                        "\tvar was_shooting: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar enabled: bool = bool(_args[1] if _args.size() > 1 else false)",
+                        "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_build_should_active_sound_state\", \"inner_class\": \"public class LiquidTurretBuild extends TurretBuild{\", \"method\": \"public boolean shouldActiveSound(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return wasShooting && enabled;\", \"was_shooting\": was_shooting, \"enabled\": enabled, \"should_active_sound\": was_shooting and enabled}",
+                    ])
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"
     ):
