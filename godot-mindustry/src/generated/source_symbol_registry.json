@@ -84340,6 +84340,176 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_handle_item_state",
       "rule": "Result records whether Java swap path runs."
+    },
+    "item_turret_build_accept_item.inner_class": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_expr": "public class ItemTurretBuild extends TurretBuild{",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "godot_symbol": "source_item_turret_build_accept_item_result.inner_class",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "rule": "Exact ItemTurretBuild inner class boundary."
+    },
+    "item_turret_build_accept_item.override": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_expr": "@Override",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "godot_symbol": "source_item_turret_build_accept_item_result.override_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "rule": "Override annotation preserved for ItemTurretBuild.acceptItem."
+    },
+    "item_turret_build_accept_item.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_expr": "public boolean acceptItem(Building source, Item item){",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "godot_symbol": "source_item_turret_build_accept_item_result.method",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "rule": "Method boundary comes from ItemTurretBuild.acceptItem(Building,Item)."
+    },
+    "item_turret_build_accept_item.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_expr": "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "godot_symbol": "source_item_turret_build_accept_item_result.return_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "rule": "Return expression comes from upstream Java."
+    },
+    "item_turret_build_accept_item.item": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_expr": "item",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "godot_symbol": "source_item_turret_build_accept_item_input.item",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "rule": "Explicit Java item parameter supplied to bridge."
+    },
+    "item_turret_build_accept_item.total_ammo": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_expr": "totalAmmo",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "godot_symbol": "source_item_turret_build_accept_item_input.total_ammo",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "rule": "Explicit totalAmmo field supplied to bridge."
+    },
+    "item_turret_build_accept_item.max_ammo": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_expr": "maxAmmo",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "godot_symbol": "source_item_turret_build_accept_item_input.max_ammo",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "rule": "Explicit maxAmmo field supplied to bridge."
+    },
+    "item_turret_build_accept_item.ammo_multiplier": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_expr": "ammoTypes.get(item).ammoMultiplier",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "godot_symbol": "source_item_turret_build_accept_item_input.ammo_multiplier",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "rule": "Explicit ammo multiplier from the second ammoTypes.get(item) supplied to bridge."
+    },
+    "item_turret_build_accept_item.ammo_type_null": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_expr": "ammoTypes.get(item) == null",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "godot_symbol": "source_item_turret_build_accept_item_input.ammo_type_null",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "rule": "Explicit result of ammoTypes.get(item) null check supplied to bridge."
+    },
+    "item_turret_build_accept_item.accept_item": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "java_expr": "ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "godot_symbol": "source_item_turret_build_accept_item_result.accept_item",
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_accept_item_state",
+      "rule": "Result records Java boolean acceptItem expression."
     }
   },
   "version": 1

@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 654)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 655)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 659)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 660)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43638,6 +43638,62 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["type_null_guard"]["java_expr"], "if(type == null) return;")
         self.assertEqual(result_schema["keys"]["total_ammo_after"]["java_expr"], "totalAmmo += type.ammoMultiplier;")
         self.assertEqual(result_schema["keys"]["ammo_entries_after"]["java_expr"], "entry.amount += type.ammoMultiplier; / ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));")
+
+    def test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "item_turret_build_accept_item.method")
+        self.assertEqual(method["java_expr"], "public boolean acceptItem(Building source, Item item){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(method["java_method"], "ItemTurretBuild.acceptItem(Building,Item)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_item_turret_build_accept_item_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_item_turret_build_accept_item_state")
+
+        item = source_symbols.source_symbol(registry, "item_turret_build_accept_item.item")
+        self.assertEqual(item["java_expr"], "item")
+        self.assertEqual(item["godot_symbol"], "source_item_turret_build_accept_item_input.item")
+        total_ammo = source_symbols.source_symbol(registry, "item_turret_build_accept_item.total_ammo")
+        self.assertEqual(total_ammo["java_expr"], "totalAmmo")
+        self.assertEqual(total_ammo["godot_symbol"], "source_item_turret_build_accept_item_input.total_ammo")
+        ammo_multiplier = source_symbols.source_symbol(registry, "item_turret_build_accept_item.ammo_multiplier")
+        self.assertEqual(ammo_multiplier["java_expr"], "ammoTypes.get(item).ammoMultiplier")
+        self.assertEqual(ammo_multiplier["godot_symbol"], "source_item_turret_build_accept_item_input.ammo_multiplier")
+        accept_item = source_symbols.source_symbol(registry, "item_turret_build_accept_item.accept_item")
+        self.assertEqual(accept_item["java_expr"], "ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo")
+        self.assertEqual(accept_item["godot_symbol"], "source_item_turret_build_accept_item_result.accept_item")
+
+        accept_item_slice = source_symbols.source_slice(ledger, "N1186")
+        self.assertEqual(accept_item_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(accept_item_slice["java_method"], "ItemTurretBuild.acceptItem(Building,Item)")
+        self.assertEqual(accept_item_slice["godot_owner"], "PortGame.source_item_turret_build_accept_item_state")
+        self.assertEqual(accept_item_slice["runtime_proof"], "/root/Main.generated_item_turret_build_accept_item_bridge_state")
+        for expr in [
+            "public class ItemTurretBuild extends TurretBuild{",
+            "@Override",
+            "public boolean acceptItem(Building source, Item item){",
+            "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;",
+        ]:
+            self.assertIn(expr, accept_item_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_item_turret_build_accept_item_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["item", "total_ammo", "max_ammo", "ammo_multiplier", "ammo_type_null"])
+        for key in ["inner_class", "method", "override_expr", "return_expr", "item", "total_ammo", "max_ammo", "ammo_multiplier", "ammo_type_null", "accept_item"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_item_turret_build_accept_item_input")
+        self.assertEqual(input_schema["keys"]["item"]["java_expr"], "item")
+        self.assertEqual(input_schema["keys"]["total_ammo"]["java_expr"], "totalAmmo")
+        self.assertEqual(input_schema["keys"]["max_ammo"]["java_expr"], "maxAmmo")
+        self.assertEqual(input_schema["keys"]["ammo_multiplier"]["java_expr"], "ammoTypes.get(item).ammoMultiplier")
+        self.assertEqual(input_schema["keys"]["ammo_type_null"]["java_expr"], "ammoTypes.get(item) == null")
+        result_schema = source_symbols.state_schema(schema, "source_item_turret_build_accept_item_result")
+        self.assertEqual(result_schema["keys"]["return_expr"]["java_expr"], "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;")
+        self.assertEqual(result_schema["keys"]["accept_item"]["java_expr"], "ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

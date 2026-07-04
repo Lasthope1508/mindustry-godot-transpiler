@@ -3032,6 +3032,18 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\t\tentry_added = true",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_handle_item_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public void handleItem(Building source, Item item){\", \"override_expr\": \"@Override\", \"todo_comment\": \"//TODO instead of all this \\\"entry\\\" crap, turrets could just accept only one type of ammo at a time - simpler for both users and the code\", \"pyratite_guard\": \"if(item == Items.pyratite){\", \"flame_event_expr\": \"Events.fire(Trigger.flameAmmo);\", \"resupply_guard\": \"if(totalAmmo == 0){\", \"resupply_event_expr\": \"Events.fire(Trigger.resupplyTurret);\", \"type_lookup\": \"BulletType type = ammoTypes.get(item);\", \"type_null_guard\": \"if(type == null) return;\", \"total_ammo_update_expr\": \"totalAmmo += type.ammoMultiplier;\", \"loop_expr\": \"for(int i = 0; i < ammo.size; i++){\", \"entry_cast\": \"ItemEntry entry = (ItemEntry)ammo.get(i);\", \"found_guard\": \"if(entry.item == item){\", \"entry_update_expr\": \"entry.amount += type.ammoMultiplier;\", \"swap_expr\": \"ammo.swap(i, ammo.size - 1);\", \"add_expr\": \"ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));\", \"item\": item, \"item_is_pyratite\": item_is_pyratite, \"total_ammo\": total_ammo, \"ammo_multiplier\": ammo_multiplier, \"ammo_type_null\": ammo_type_null, \"flame_ammo_event_fired\": flame_ammo_event_fired, \"resupply_turret_event_fired\": resupply_turret_event_fired, \"type_null_returned\": type_null_returned, \"total_ammo_after\": total_ammo_after, \"ammo_entries_after\": ammo_entries_after, \"entry_found\": entry_found, \"entry_added\": entry_added, \"swapped\": swapped}",
                     ])
+                elif method.get("name") == "acceptItem":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemTurretBuild_method_acceptItem_{index}(_args: Array = []) -> Variant:",
+                        "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar total_ammo: int = int(_args[1] if _args.size() > 1 else 0)",
+                        "\tvar max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)",
+                        "\tvar ammo_multiplier: float = float(_args[3] if _args.size() > 3 else 0.0)",
+                        "\tvar ammo_type_null: bool = bool(_args[4] if _args.size() > 4 else false)",
+                        "\tvar accept_item: bool = not ammo_type_null and total_ammo + ammo_multiplier <= max_ammo",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_accept_item_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public boolean acceptItem(Building source, Item item){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;\", \"item\": item, \"total_ammo\": total_ammo, \"max_ammo\": max_ammo, \"ammo_multiplier\": ammo_multiplier, \"ammo_type_null\": ammo_type_null, \"accept_item\": accept_item}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

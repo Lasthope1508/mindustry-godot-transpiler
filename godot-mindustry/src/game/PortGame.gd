@@ -17614,6 +17614,35 @@ func generated_item_turret_build_handle_item_bridge_state(item: Variant, item_is
 			and result.get("swapped", null) == canonical.get("swapped", null),
 	}
 
+func source_item_turret_build_accept_item_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
+	var accept_item: bool = not ammo_type_null and total_ammo + ammo_multiplier <= max_ammo
+	return {
+		"source_owner": "PortGame.source_item_turret_build_accept_item_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public boolean acceptItem(Building source, Item item){",
+		"override_expr": "@Override",
+		"return_expr": "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;",
+		"item": item,
+		"total_ammo": total_ammo,
+		"max_ammo": max_ammo,
+		"ammo_multiplier": ammo_multiplier,
+		"ammo_type_null": ammo_type_null,
+		"accept_item": accept_item,
+	}
+
+func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_acceptItem_8([item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null])
+	var canonical = source_item_turret_build_accept_item_state(item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_accept_item_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.acceptItem",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("accept_item", null) == canonical.get("accept_item", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

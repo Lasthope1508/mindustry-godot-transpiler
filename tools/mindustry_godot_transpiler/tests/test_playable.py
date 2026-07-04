@@ -13572,5 +13572,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.handleItem"', source)
         self.assertIn('"matches": result.get("total_ammo_after", null) == canonical.get("total_ammo_after", null)', source)
 
+    def test_port_game_exposes_source_item_turret_build_accept_item_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_accept_item_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean acceptItem(Building source, Item item){"', source)
+        self.assertIn('"return_expr": "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;"', source)
+        self.assertIn("var accept_item: bool = not ammo_type_null and total_ammo + ammo_multiplier <= max_ammo", source)
+
+    def test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_accept_item_bridge_state(item: Variant, total_ammo: int, max_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_acceptItem_8([item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null])", source)
+        self.assertIn("var canonical = source_item_turret_build_accept_item_state(item, total_ammo, max_ammo, ammo_multiplier, ammo_type_null)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_accept_item_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.acceptItem"', source)
+        self.assertIn('"matches": result.get("accept_item", null) == canonical.get("accept_item", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

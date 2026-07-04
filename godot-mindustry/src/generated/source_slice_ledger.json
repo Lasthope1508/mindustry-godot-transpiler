@@ -26473,6 +26473,43 @@
       ],
       "runtime_proof": "/root/Main.generated_item_turret_build_handle_item_bridge_state",
       "rule": "ItemTurretBuild.handleItem() updates ammo stacks and event branch state exactly from upstream Java with explicit ammo type inputs."
+    },
+    "N1186": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.acceptItem(Building,Item)",
+      "godot_owner": "PortGame.source_item_turret_build_accept_item_state",
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean acceptItem(Building source, Item item){",
+        "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;"
+      ],
+      "deferred_exprs": [
+        "Building source parameter is not read by upstream acceptItem and is not modeled in this bridge slice."
+      ],
+      "source_symbols": [
+        "item_turret_build_accept_item.inner_class",
+        "item_turret_build_accept_item.override",
+        "item_turret_build_accept_item.method",
+        "item_turret_build_accept_item.return_expr",
+        "item_turret_build_accept_item.item",
+        "item_turret_build_accept_item.total_ammo",
+        "item_turret_build_accept_item.max_ammo",
+        "item_turret_build_accept_item.ammo_multiplier",
+        "item_turret_build_accept_item.ammo_type_null",
+        "item_turret_build_accept_item.accept_item"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_item_bridge_state",
+        "test_item_turret_build_accept_item_matches_upstream_source",
+        "test_generated_item_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_accept_item_bridge_state",
+      "rule": "ItemTurretBuild.acceptItem() accepts only known ammo items whose ammoMultiplier keeps totalAmmo within maxAmmo."
     }
   },
   "version": 1

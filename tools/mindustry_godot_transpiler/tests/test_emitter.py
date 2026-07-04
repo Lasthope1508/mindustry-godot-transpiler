@@ -8445,6 +8445,61 @@ public class ItemTurret extends Turret{
             self.assertIn('"type_null_guard": "if(type == null) return;"', source_text)
             self.assertIn('"add_expr": "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));"', source_text)
 
+    def test_emit_bridges_item_turret_build_accept_item_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public class ItemTurretBuild extends TurretBuild{
+        @Override
+        public void onProximityAdded(){ }
+        @Override
+        public Object senseObject(LAccess sensor){ return null; }
+        @Override
+        public UnlockableContent getAmmoContent(){ return null; }
+        @Override
+        public float getAmmoFraction(){ return 0f; }
+        @Override
+        public int acceptStack(Item item, int amount, Teamc source){ return 0; }
+        @Override
+        public void handleStack(Item item, int amount, Teamc source){ }
+        @Override
+        public int removeStack(Item item, int amount){ return 0; }
+        @Override
+        public void handleItem(Building source, Item item){ }
+
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ItemTurretBuild_method_acceptItem_8(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var item: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var total_ammo: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var ammo_multiplier: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var ammo_type_null: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var accept_item: bool = not ammo_type_null and total_ammo + ammo_multiplier <= max_ammo", source_text)
+            self.assertIn('"method": "public boolean acceptItem(Building source, Item item){"', source_text)
+            self.assertIn('"return_expr": "return ammoTypes.get(item) != null && totalAmmo + ammoTypes.get(item).ammoMultiplier <= maxAmmo;"', source_text)
+            self.assertIn('"accept_item": accept_item', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
