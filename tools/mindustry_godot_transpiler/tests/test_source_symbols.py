@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 632)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 633)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 637)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 638)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42445,6 +42445,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_turret_rotated_output_result = source_symbols.state_schema(schema, "source_turret_rotated_output_result")
         self.assertEqual(source_turret_rotated_output_result["keys"]["method"]["java_expr"], "public boolean rotatedOutput(int x, int y){")
         self.assertEqual(source_turret_rotated_output_result["keys"]["rotated_output"]["java_expr"], "return false;")
+
+    def test_generated_turret_place_ended_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_place_ended.method")
+        self.assertEqual(method["java_expr"], "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_place_ended_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_place_ended_state")
+
+        rotate = source_symbols.source_symbol(registry, "turret_place_ended.rotate")
+        self.assertEqual(rotate["java_expr"], "rotate")
+        self.assertEqual(rotate["godot_symbol"], "source_turret_place_ended_input.rotate")
+        turret_build = source_symbols.source_symbol(registry, "turret_place_ended.tile_build_turret_build")
+        self.assertEqual(turret_build["java_expr"], "tile.build instanceof TurretBuild turret")
+        self.assertEqual(turret_build["godot_symbol"], "source_turret_place_ended_input.tile_build_is_turret_build")
+        assign = source_symbols.source_symbol(registry, "turret_place_ended.rotation_assign")
+        self.assertEqual(assign["java_expr"], "turret.rotation = tile.build.rotdeg();")
+        self.assertEqual(assign["godot_symbol"], "source_turret_place_ended_result.turret_rotation_after")
+
+        place_ended_slice = source_symbols.source_slice(ledger, "N1164")
+        self.assertEqual(place_ended_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(place_ended_slice["java_method"], "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)")
+        self.assertEqual(place_ended_slice["godot_owner"], "PortGame.source_turret_place_ended_state")
+        self.assertEqual(place_ended_slice["runtime_proof"], "/root/Main.generated_turret_place_ended_bridge_state")
+        for expr in [
+            "@Override",
+            "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){",
+            "super.placeEnded(tile, builder, rotation, config);",
+            "if(rotate && tile.build instanceof TurretBuild turret){",
+            "turret.rotation = tile.build.rotdeg();",
+        ]:
+            self.assertIn(expr, place_ended_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_place_ended_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["tile", "builder", "rotation", "config", "rotate", "tile_build_is_turret_build", "turret_rotation", "tile_build_rotdeg"])
+        for key in ["method", "override_expr", "super_place_ended_expr", "place_ended_gate", "rotation_assign_expr", "rotation_assigned", "turret_rotation_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_turret_place_ended_input = source_symbols.state_schema(schema, "source_turret_place_ended_input")
+        self.assertEqual(source_turret_place_ended_input["keys"]["tile"]["java_expr"], "Tile tile")
+        self.assertEqual(source_turret_place_ended_input["keys"]["rotate"]["java_expr"], "rotate")
+        self.assertEqual(source_turret_place_ended_input["keys"]["tile_build_is_turret_build"]["java_expr"], "tile.build instanceof TurretBuild turret")
+        source_turret_place_ended_result = source_symbols.state_schema(schema, "source_turret_place_ended_result")
+        self.assertEqual(source_turret_place_ended_result["keys"]["super_place_ended_expr"]["java_expr"], "super.placeEnded(tile, builder, rotation, config);")
+        self.assertEqual(source_turret_place_ended_result["keys"]["turret_rotation_after"]["java_expr"], "turret.rotation = tile.build.rotdeg();")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

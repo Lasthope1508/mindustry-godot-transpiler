@@ -13042,5 +13042,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_rotatedOutput_10"', source)
         self.assertIn('"matches": result.get("rotated_output", null) == canonical.get("rotated_output", null)', source)
 
+    def test_port_game_exposes_source_turret_place_ended_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_place_ended_state(tile: Variant, builder: Variant, rotation: int, config: Variant, rotate: bool, tile_build_is_turret_build: bool, turret_rotation: float, tile_build_rotdeg: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){"', source)
+        self.assertIn('"super_place_ended_expr": "super.placeEnded(tile, builder, rotation, config);"', source)
+        self.assertIn('"place_ended_gate": "if(rotate && tile.build instanceof TurretBuild turret){"', source)
+        self.assertIn('"rotation_assign_expr": "turret.rotation = tile.build.rotdeg();"', source)
+        self.assertIn('"rotation_assigned": rotation_assigned', source)
+        self.assertIn('"turret_rotation_after": turret_rotation_after', source)
+
+    def test_port_game_exposes_generated_turret_place_ended_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_place_ended_bridge_state(tile: Variant, builder: Variant, rotation: int, config: Variant, rotate: bool, tile_build_is_turret_build: bool, turret_rotation: float, tile_build_rotdeg: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_placeEnded_11([tile, builder, rotation, config, rotate, tile_build_is_turret_build, turret_rotation, tile_build_rotdeg])", source)
+        self.assertIn("var canonical = source_turret_place_ended_state(tile, builder, rotation, config, rotate, tile_build_is_turret_build, turret_rotation, tile_build_rotdeg)", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_place_ended_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_placeEnded_11"', source)
+        self.assertIn('"matches": result.get("rotation_assigned", null) == canonical.get("rotation_assigned", null) and result.get("turret_rotation_after", null) == canonical.get("turret_rotation_after", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

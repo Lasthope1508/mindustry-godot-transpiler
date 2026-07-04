@@ -516,6 +516,23 @@ def verify_turret_rotated_output_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_turret_place_ended_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){",
+        "super_place_ended": "super.placeEnded(tile, builder, rotation, config);",
+        "place_ended_gate": "if(rotate && tile.build instanceof TurretBuild turret){",
+        "rotation_assign": "turret.rotation = tile.build.rotdeg();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

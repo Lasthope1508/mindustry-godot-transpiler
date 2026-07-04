@@ -16862,6 +16862,46 @@ func generated_turret_rotated_output_bridge_state(tile_x: int, tile_y: int) -> D
 		"matches": result.get("rotated_output", null) == canonical.get("rotated_output", null),
 	}
 
+@warning_ignore("shadowed_variable_base_class")
+@warning_ignore("shadowed_variable")
+func source_turret_place_ended_state(tile: Variant, builder: Variant, rotation: int, config: Variant, rotate: bool, tile_build_is_turret_build: bool, turret_rotation: float, tile_build_rotdeg: float) -> Dictionary:
+	var rotation_assigned: bool = rotate and tile_build_is_turret_build
+	var turret_rotation_after: float = tile_build_rotdeg if rotation_assigned else turret_rotation
+	return {
+		"source_owner": "PortGame.source_turret_place_ended_state",
+		"method": "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){",
+		"override_expr": "@Override",
+		"super_place_ended_expr": "super.placeEnded(tile, builder, rotation, config);",
+		"place_ended_gate": "if(rotate && tile.build instanceof TurretBuild turret){",
+		"rotation_assign_expr": "turret.rotation = tile.build.rotdeg();",
+		"tile": tile,
+		"builder": builder,
+		"rotation": rotation,
+		"config": config,
+		"rotate": rotate,
+		"tile_build_is_turret_build": tile_build_is_turret_build,
+		"turret_rotation": turret_rotation,
+		"tile_build_rotdeg": tile_build_rotdeg,
+		"super_place_ended_called": true,
+		"rotation_assigned": rotation_assigned,
+		"turret_rotation_after": turret_rotation_after,
+	}
+
+@warning_ignore("shadowed_variable_base_class")
+@warning_ignore("shadowed_variable")
+func generated_turret_place_ended_bridge_state(tile: Variant, builder: Variant, rotation: int, config: Variant, rotate: bool, tile_build_is_turret_build: bool, turret_rotation: float, tile_build_rotdeg: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_placeEnded_11([tile, builder, rotation, config, rotate, tile_build_is_turret_build, turret_rotation, tile_build_rotdeg])
+	var canonical = source_turret_place_ended_state(tile, builder, rotation, config, rotate, tile_build_is_turret_build, turret_rotation, tile_build_rotdeg)
+	return {
+		"source_owner": "PortGame.source_turret_place_ended_state",
+		"generated_owner": "Turret.java_method_placeEnded_11",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("rotation_assigned", null) == canonical.get("rotation_assigned", null) and result.get("turret_rotation_after", null) == canonical.get("turret_rotation_after", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

@@ -95406,6 +95406,316 @@
       "rule": "Dictionary returned by PortGame.source_turret_rotated_output_state.",
       "source_slice": "N1163",
       "status": "source-backed"
+    },
+    "source_turret_place_ended_input": {
+      "keys": {
+        "tile": {
+          "godot_symbol": "source_turret_place_ended_input.tile",
+          "java_expr": "Tile tile",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves Tile tile parameter.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "builder": {
+          "godot_symbol": "source_turret_place_ended_input.builder",
+          "java_expr": "@Nullable Unit builder",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves nullable Unit builder parameter.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "rotation": {
+          "godot_symbol": "source_turret_place_ended_input.rotation",
+          "java_expr": "int rotation",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves int rotation parameter.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "config": {
+          "godot_symbol": "source_turret_place_ended_input.config",
+          "java_expr": "@Nullable Object config",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves nullable Object config parameter.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "rotate": {
+          "godot_symbol": "source_turret_place_ended_input.rotate",
+          "java_expr": "rotate",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves Turret rotate field used by branch gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "tile_build_is_turret_build": {
+          "godot_symbol": "source_turret_place_ended_input.tile_build_is_turret_build",
+          "java_expr": "tile.build instanceof TurretBuild turret",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves TurretBuild type check from branch gate.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "turret_rotation": {
+          "godot_symbol": "source_turret_place_ended_input.turret_rotation",
+          "java_expr": "turret.rotation",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves prior turret.rotation value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "tile_build_rotdeg": {
+          "godot_symbol": "source_turret_place_ended_input.tile_build_rotdeg",
+          "java_expr": "tile.build.rotdeg()",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves tile.build.rotdeg() assignment source.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        }
+      },
+      "rule": "Inputs accepted by PortGame.source_turret_place_ended_state.",
+      "source_slice": "N1164",
+      "status": "source-backed"
+    },
+    "source_turret_place_ended_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_turret_place_ended_result.method",
+          "java_expr": "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves method boundary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_turret_place_ended_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves override annotation.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "super_place_ended_expr": {
+          "godot_symbol": "source_turret_place_ended_result.super_place_ended_expr",
+          "java_expr": "super.placeEnded(tile, builder, rotation, config);",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves super call expression.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "place_ended_gate": {
+          "godot_symbol": "source_turret_place_ended_result.place_ended_gate",
+          "java_expr": "if(rotate && tile.build instanceof TurretBuild turret){",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves branch gate expression.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "rotation_assign_expr": {
+          "godot_symbol": "source_turret_place_ended_result.rotation_assign_expr",
+          "java_expr": "turret.rotation = tile.build.rotdeg();",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves rotation assignment expression.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "tile": {
+          "alias_of": "source_turret_place_ended_input.tile",
+          "godot_symbol": "source_turret_place_ended_result.tile",
+          "java_expr": "Tile tile",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries tile input.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "builder": {
+          "alias_of": "source_turret_place_ended_input.builder",
+          "godot_symbol": "source_turret_place_ended_result.builder",
+          "java_expr": "@Nullable Unit builder",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries builder input.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "rotation": {
+          "alias_of": "source_turret_place_ended_input.rotation",
+          "godot_symbol": "source_turret_place_ended_result.rotation",
+          "java_expr": "int rotation",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries rotation input.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "config": {
+          "alias_of": "source_turret_place_ended_input.config",
+          "godot_symbol": "source_turret_place_ended_result.config",
+          "java_expr": "@Nullable Object config",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries config input.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "rotate": {
+          "alias_of": "source_turret_place_ended_input.rotate",
+          "godot_symbol": "source_turret_place_ended_result.rotate",
+          "java_expr": "rotate",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries rotate input.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "tile_build_is_turret_build": {
+          "alias_of": "source_turret_place_ended_input.tile_build_is_turret_build",
+          "godot_symbol": "source_turret_place_ended_result.tile_build_is_turret_build",
+          "java_expr": "tile.build instanceof TurretBuild turret",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries TurretBuild type-check input.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "turret_rotation": {
+          "alias_of": "source_turret_place_ended_input.turret_rotation",
+          "godot_symbol": "source_turret_place_ended_result.turret_rotation",
+          "java_expr": "turret.rotation",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries prior turret rotation input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "tile_build_rotdeg": {
+          "alias_of": "source_turret_place_ended_input.tile_build_rotdeg",
+          "godot_symbol": "source_turret_place_ended_result.tile_build_rotdeg",
+          "java_expr": "tile.build.rotdeg()",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries tile.build.rotdeg() input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "super_place_ended_called": {
+          "godot_symbol": "source_turret_place_ended_result.super_place_ended_called",
+          "java_expr": "super.placeEnded(tile, builder, rotation, config);",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records super call marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "rotation_assigned": {
+          "godot_symbol": "source_turret_place_ended_result.rotation_assigned",
+          "java_expr": "if(rotate && tile.build instanceof TurretBuild turret){",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records whether branch gate was true.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        },
+        "turret_rotation_after": {
+          "godot_symbol": "source_turret_place_ended_result.turret_rotation_after",
+          "java_expr": "turret.rotation = tile.build.rotdeg();",
+          "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records turret rotation after source assignment branch.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_place_ended_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_turret_place_ended_state.",
+      "source_slice": "N1164",
+      "status": "source-backed"
     }
   },
   "version": 1

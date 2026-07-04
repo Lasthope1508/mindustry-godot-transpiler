@@ -8373,5 +8373,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_turret_place_ended_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_turret_place_ended_source"))
+        report = source_parity.verify_turret_place_ended_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){",
+            "super_place_ended": "super.placeEnded(tile, builder, rotation, config);",
+            "place_ended_gate": "if(rotate && tile.build instanceof TurretBuild turret){",
+            "rotation_assign": "turret.rotation = tile.build.rotdeg();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

@@ -25644,6 +25644,48 @@
         "test_turret_rotated_output_matches_upstream_source",
         "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1164": {
+      "deferred_exprs": [
+        "Superclass placeEnded internals remain deferred; this slice records the exact super call marker and Turret rotation assignment branch only.",
+        "Concrete Tile, Building, and TurretBuild object internals remain deferred; this slice accepts explicit source-backed branch inputs."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){",
+        "super.placeEnded(tile, builder, rotation, config);",
+        "if(rotate && tile.build instanceof TurretBuild turret){",
+        "turret.rotation = tile.build.rotdeg();"
+      ],
+      "godot_owner": "PortGame.source_turret_place_ended_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.placeEnded delegates to super and assigns TurretBuild rotation from tile.build.rotdeg() when rotate is true and tile.build is TurretBuild.",
+      "runtime_proof": "/root/Main.generated_turret_place_ended_bridge_state",
+      "source_symbols": [
+        "turret_place_ended.method",
+        "turret_place_ended.override",
+        "turret_place_ended.tile",
+        "turret_place_ended.builder",
+        "turret_place_ended.rotation",
+        "turret_place_ended.config",
+        "turret_place_ended.rotate",
+        "turret_place_ended.tile_build_turret_build",
+        "turret_place_ended.turret_rotation",
+        "turret_place_ended.tile_build_rotdeg",
+        "turret_place_ended.super_place_ended",
+        "turret_place_ended.place_ended_gate",
+        "turret_place_ended.rotation_assign"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_place_ended_to_source_state",
+        "test_port_game_exposes_source_turret_place_ended_state",
+        "test_port_game_exposes_generated_turret_place_ended_bridge_state",
+        "test_turret_place_ended_matches_upstream_source",
+        "test_generated_turret_place_ended_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

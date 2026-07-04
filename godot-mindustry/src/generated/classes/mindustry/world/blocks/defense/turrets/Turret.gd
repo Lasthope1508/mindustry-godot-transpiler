@@ -99,4 +99,14 @@ func java_method_rotatedOutput_10(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_turret_rotated_output_state", "method": "public boolean rotatedOutput(int x, int y){", "override_expr": "@Override", "return_expr": "return false;", "tile_x": tile_x, "tile_y": tile_y, "rotated_output": false}
 
 func java_method_placeEnded_11(_args: Array = []) -> Variant:
-	return null
+	var tile: Variant = _args[0] if _args.size() > 0 else null
+	var builder: Variant = _args[1] if _args.size() > 1 else null
+	var rotation: int = int(_args[2] if _args.size() > 2 else 0)
+	var config: Variant = _args[3] if _args.size() > 3 else null
+	var rotate: bool = bool(_args[4] if _args.size() > 4 else false)
+	var tile_build_is_turret_build: bool = bool(_args[5] if _args.size() > 5 else false)
+	var turret_rotation: float = float(_args[6] if _args.size() > 6 else 0.0)
+	var tile_build_rotdeg: float = float(_args[7] if _args.size() > 7 else 0.0)
+	var rotation_assigned: bool = rotate and tile_build_is_turret_build
+	var turret_rotation_after: float = tile_build_rotdeg if rotation_assigned else turret_rotation
+	return {"source_owner": "PortGame.source_turret_place_ended_state", "method": "public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){", "override_expr": "@Override", "super_place_ended_expr": "super.placeEnded(tile, builder, rotation, config);", "place_ended_gate": "if(rotate && tile.build instanceof TurretBuild turret){", "rotation_assign_expr": "turret.rotation = tile.build.rotdeg();", "tile": tile, "builder": builder, "rotation": rotation, "config": config, "rotate": rotate, "tile_build_is_turret_build": tile_build_is_turret_build, "turret_rotation": turret_rotation, "tile_build_rotdeg": tile_build_rotdeg, "super_place_ended_called": true, "rotation_assigned": rotation_assigned, "turret_rotation_after": turret_rotation_after}
