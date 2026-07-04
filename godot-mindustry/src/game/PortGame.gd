@@ -17249,6 +17249,37 @@ func generated_item_turret_set_stats_bridge_state(ammo_types: Variant, name_valu
 		"matches": result.get("stats_ammo_capacity_add_call", null) == canonical.get("stats_ammo_capacity_add_call", null) and result.get("stats_ammo_add_call", null) == canonical.get("stats_ammo_add_call", null) and result.get("stats_item_capacity_remove_call", null) == canonical.get("stats_item_capacity_remove_call", null) and result.get("ammo_capacity", null) == canonical.get("ammo_capacity", null),
 	}
 
+func source_item_turret_set_bars_state(total_ammo: float, max_ammo: float) -> Dictionary:
+	var ammo_bar_fraction: float = total_ammo / max_ammo
+	var bar_call: Dictionary = {"call": "addBar(\"ammo\", (ItemTurretBuild entity) -> new Bar(...));", "name": "ammo", "bar_text": "stat.ammo", "color": "Pal.ammo", "fraction": ammo_bar_fraction}
+	return {
+		"source_owner": "PortGame.source_item_turret_set_bars_state",
+		"method": "public void setBars(){",
+		"override_expr": "@Override",
+		"super_set_bars_expr": "super.setBars();",
+		"add_bar_expr": "addBar(\"ammo\", (ItemTurretBuild entity) -> new Bar(\"stat.ammo\", Pal.ammo, () -> (float)entity.totalAmmo / maxAmmo));",
+		"bar_fraction_expr": "() -> (float)entity.totalAmmo / maxAmmo",
+		"total_ammo": total_ammo,
+		"max_ammo": max_ammo,
+		"ammo_bar_fraction": ammo_bar_fraction,
+		"super_set_bars_called": true,
+		"bar_added": true,
+		"bar_call": bar_call,
+	}
+
+func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setBars_4([total_ammo, max_ammo])
+	var canonical = source_item_turret_set_bars_state(total_ammo, max_ammo)
+	return {
+		"source_owner": "PortGame.source_item_turret_set_bars_state",
+		"generated_owner": "ItemTurret.java_method_setBars_4",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("bar_call", null) == canonical.get("bar_call", null) and result.get("ammo_bar_fraction", null) == canonical.get("ammo_bar_fraction", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

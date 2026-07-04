@@ -97298,6 +97298,176 @@
           "rule": "Result records ammo capacity stat add payload."
         }
       }
+    },
+    "source_item_turret_set_bars_input": {
+      "status": "source-backed",
+      "source_slice": "N1176",
+      "rule": "Explicit input state for ItemTurret.setBars().",
+      "keys": {
+        "total_ammo": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_item_turret_set_bars_input.total_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "entity.totalAmmo",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Exact Java entity field supplied to the bridge."
+        },
+        "max_ammo": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_item_turret_set_bars_input.max_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "maxAmmo",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Exact Java maxAmmo field supplied to the bridge."
+        }
+      }
+    },
+    "source_item_turret_set_bars_result": {
+      "status": "source-backed",
+      "source_slice": "N1176",
+      "rule": "Dictionary returned by PortGame.source_item_turret_set_bars_state.",
+      "keys": {
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_set_bars_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "public void setBars(){",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_set_bars_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result records exact override marker."
+        },
+        "super_set_bars_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_set_bars_result.super_set_bars_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "super.setBars();",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result records exact super call."
+        },
+        "add_bar_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_set_bars_result.add_bar_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "addBar(\"ammo\", (ItemTurretBuild entity) -> new Bar(\"stat.ammo\", Pal.ammo, () -> (float)entity.totalAmmo / maxAmmo));",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result records normalized addBar expression."
+        },
+        "bar_fraction_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_set_bars_result.bar_fraction_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "() -> (float)entity.totalAmmo / maxAmmo",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result records exact fraction supplier."
+        },
+        "total_ammo": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_item_turret_set_bars_result.total_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "entity.totalAmmo",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result echoes totalAmmo input."
+        },
+        "max_ammo": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_item_turret_set_bars_result.max_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "maxAmmo",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result echoes maxAmmo input."
+        },
+        "ammo_bar_fraction": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_item_turret_set_bars_result.ammo_bar_fraction",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "(float)entity.totalAmmo / maxAmmo",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result records source ammo bar fraction."
+        },
+        "super_set_bars_called": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_set_bars_result.super_set_bars_called",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "super.setBars();",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result records super call execution."
+        },
+        "bar_added": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_set_bars_result.bar_added",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "addBar(\"ammo\", (ItemTurretBuild entity) ->",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result records that the ammo bar is added."
+        },
+        "bar_call": {
+          "status": "source-backed",
+          "type": "Dictionary",
+          "godot_symbol": "source_item_turret_set_bars_result.bar_call",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.setBars()",
+          "java_expr": "addBar(\"ammo\", (ItemTurretBuild entity) -> new Bar(\"stat.ammo\", Pal.ammo, () -> (float)entity.totalAmmo / maxAmmo));",
+          "used_by": [
+            "PortGame.source_item_turret_set_bars_state"
+          ],
+          "rule": "Result records ammo bar call payload."
+        }
+      }
     }
   },
   "version": 1

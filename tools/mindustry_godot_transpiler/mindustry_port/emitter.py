@@ -1439,6 +1439,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_item_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"stats_remove_expr\": \"stats.remove(Stat.itemCapacity);\", \"stats_ammo_add_expr\": \"stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));\", \"stats_ammo_capacity_add_expr\": \"stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);\", \"ammo_types\": ammo_types, \"name_value\": name_value, \"max_ammo\": max_ammo, \"ammo_per_shot\": ammo_per_shot, \"ammo_capacity_divisor\": ammo_capacity_divisor, \"ammo_capacity\": ammo_capacity, \"super_set_stats_called\": true, \"stats_item_capacity_removed\": true, \"stats_ammo_added\": true, \"stats_ammo_capacity_added\": true, \"stats_item_capacity_remove_call\": stats_item_capacity_remove_call, \"ammo_values_call\": ammo_values_call, \"stats_ammo_add_call\": stats_ammo_add_call, \"stats_ammo_capacity_add_call\": stats_ammo_capacity_add_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ItemTurret.java"
+        and type_entry.get("name") == "ItemTurret"
+        and method.get("name") == "setBars"
+    ):
+        return [
+            "\tvar total_ammo: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)",
+            "\tvar ammo_bar_fraction: float = total_ammo / max_ammo",
+            "\tvar bar_call: Dictionary = {\"call\": \"addBar(\\\"ammo\\\", (ItemTurretBuild entity) -> new Bar(...));\", \"name\": \"ammo\", \"bar_text\": \"stat.ammo\", \"color\": \"Pal.ammo\", \"fraction\": ammo_bar_fraction}",
+            "\treturn {\"source_owner\": \"PortGame.source_item_turret_set_bars_state\", \"method\": \"public void setBars(){\", \"override_expr\": \"@Override\", \"super_set_bars_expr\": \"super.setBars();\", \"add_bar_expr\": \"addBar(\\\"ammo\\\", (ItemTurretBuild entity) -> new Bar(\\\"stat.ammo\\\", Pal.ammo, () -> (float)entity.totalAmmo / maxAmmo));\", \"bar_fraction_expr\": \"() -> (float)entity.totalAmmo / maxAmmo\", \"total_ammo\": total_ammo, \"max_ammo\": max_ammo, \"ammo_bar_fraction\": ammo_bar_fraction, \"super_set_bars_called\": true, \"bar_added\": true, \"bar_call\": bar_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

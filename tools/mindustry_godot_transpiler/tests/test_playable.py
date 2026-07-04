@@ -13324,5 +13324,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.java_method_setStats_3"', source)
         self.assertIn('"matches": result.get("stats_ammo_capacity_add_call", null) == canonical.get("stats_ammo_capacity_add_call", null)', source)
 
+    def test_port_game_exposes_source_item_turret_set_bars_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_set_bars_state(total_ammo: float, max_ammo: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void setBars(){"', source)
+        self.assertIn('"super_set_bars_expr": "super.setBars();"', source)
+        self.assertIn('"add_bar_expr": "addBar(\\"ammo\\", (ItemTurretBuild entity) -> new Bar(\\"stat.ammo\\", Pal.ammo, () -> (float)entity.totalAmmo / maxAmmo));"', source)
+        self.assertIn('"bar_fraction_expr": "() -> (float)entity.totalAmmo / maxAmmo"', source)
+        self.assertIn("var ammo_bar_fraction: float = total_ammo / max_ammo", source)
+        self.assertIn('"bar_call": bar_call', source)
+
+    def test_port_game_exposes_generated_item_turret_set_bars_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_set_bars_bridge_state(total_ammo: float, max_ammo: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_setBars_4([total_ammo, max_ammo])", source)
+        self.assertIn("var canonical = source_item_turret_set_bars_state(total_ammo, max_ammo)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_set_bars_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.java_method_setBars_4"', source)
+        self.assertIn('"matches": result.get("bar_call", null) == canonical.get("bar_call", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

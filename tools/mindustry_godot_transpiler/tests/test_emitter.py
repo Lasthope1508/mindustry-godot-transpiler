@@ -8102,5 +8102,77 @@ public class ItemTurret extends Turret{
             self.assertIn('"stats_ammo_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));"', source_text)
             self.assertIn('"stats_ammo_capacity_add_expr": "stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);"', source_text)
 
+    def test_emit_bridges_item_turret_set_bars_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();
+
+    /** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */
+    public void ammo(Object... objects){
+        ammoTypes = OrderedMap.of(objects);
+    }
+
+    /** Limits bullet range to this turret's range value. */
+    public void limitRange(){
+        limitRange(9f);
+    }
+
+    /** Limits bullet range to this turret's range value. */
+    public void limitRange(float margin){
+        for(var entry : ammoTypes.entries()){
+            limitRange(entry.value, margin);
+        }
+    }
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.remove(Stat.itemCapacity);
+        stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));
+        stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);
+    }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        addBar("ammo", (ItemTurretBuild entity) ->
+            new Bar(
+                "stat.ammo",
+                Pal.ammo,
+                () -> (float)entity.totalAmmo / maxAmmo
+            )
+        );
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setBars_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var total_ammo: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)", source_text)
+            self.assertIn("var ammo_bar_fraction: float = total_ammo / max_ammo", source_text)
+            self.assertIn("var bar_call: Dictionary = {\"call\": \"addBar(\\\"ammo\\\", (ItemTurretBuild entity) -> new Bar(...));\", \"name\": \"ammo\", \"bar_text\": \"stat.ammo\", \"color\": \"Pal.ammo\", \"fraction\": ammo_bar_fraction}", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_item_turret_set_bars_state"', source_text)
+            self.assertIn('"method": "public void setBars(){"', source_text)
+            self.assertIn('"super_set_bars_expr": "super.setBars();"', source_text)
+            self.assertIn('"add_bar_expr": "addBar(\\"ammo\\", (ItemTurretBuild entity) -> new Bar(\\"', source_text)
+            self.assertIn('"bar_fraction_expr": "() -> (float)entity.totalAmmo / maxAmmo"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

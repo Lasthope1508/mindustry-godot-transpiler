@@ -26056,6 +26056,43 @@
       "deferred_exprs": [
         "StatValues.ammo internals and Stats storage internals are not expanded in this slice."
       ]
+    },
+    "N1176": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
+      "java_method": "ItemTurret.setBars()",
+      "godot_owner": "PortGame.source_item_turret_set_bars_state",
+      "exact_exprs": [
+        "@Override",
+        "public void setBars(){",
+        "super.setBars();",
+        "addBar(\"ammo\", (ItemTurretBuild entity) ->",
+        "\"stat.ammo\",",
+        "Pal.ammo,",
+        "() -> (float)entity.totalAmmo / maxAmmo"
+      ],
+      "source_symbols": [
+        "item_turret_set_bars.method",
+        "item_turret_set_bars.override",
+        "item_turret_set_bars.super_set_bars",
+        "item_turret_set_bars.total_ammo",
+        "item_turret_set_bars.max_ammo",
+        "item_turret_set_bars.add_bar",
+        "item_turret_set_bars.bar_fraction"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_item_turret_set_bars_state",
+        "test_port_game_exposes_generated_item_turret_set_bars_bridge_state",
+        "test_item_turret_set_bars_matches_upstream_source",
+        "test_generated_item_turret_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_set_bars_bridge_state",
+      "rule": "ItemTurret.setBars() adds the ammo bar and exposes the source fraction entity.totalAmmo / maxAmmo.",
+      "deferred_exprs": [
+        "Bar rendering and addBar UI storage internals are not expanded in this slice."
+      ]
     }
   },
   "version": 1

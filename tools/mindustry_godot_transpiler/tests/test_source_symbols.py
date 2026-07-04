@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 644)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 645)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 649)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 650)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43060,6 +43060,62 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_item_turret_set_stats_result = source_symbols.state_schema(schema, "source_item_turret_set_stats_result")
         self.assertEqual(source_item_turret_set_stats_result["keys"]["super_set_stats_expr"]["java_expr"], "super.setStats();")
         self.assertEqual(source_item_turret_set_stats_result["keys"]["stats_ammo_capacity_add_call"]["java_expr"], "stats.add(Stat.ammoCapacity, maxAmmo / Math.max(ammoPerShot, 1), StatUnit.shots);")
+
+    def test_generated_item_turret_set_bars_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "item_turret_set_bars.method")
+        self.assertEqual(method["java_expr"], "public void setBars(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(method["java_method"], "ItemTurret.setBars()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_item_turret_set_bars_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_item_turret_set_bars_state")
+
+        total_ammo = source_symbols.source_symbol(registry, "item_turret_set_bars.total_ammo")
+        self.assertEqual(total_ammo["java_expr"], "entity.totalAmmo")
+        self.assertEqual(total_ammo["godot_symbol"], "source_item_turret_set_bars_input.total_ammo")
+        max_ammo = source_symbols.source_symbol(registry, "item_turret_set_bars.max_ammo")
+        self.assertEqual(max_ammo["java_expr"], "maxAmmo")
+        self.assertEqual(max_ammo["godot_symbol"], "source_item_turret_set_bars_input.max_ammo")
+        add_bar = source_symbols.source_symbol(registry, "item_turret_set_bars.add_bar")
+        self.assertEqual(add_bar["java_expr"], 'addBar("ammo", (ItemTurretBuild entity) -> new Bar("stat.ammo", Pal.ammo, () -> (float)entity.totalAmmo / maxAmmo));')
+        self.assertEqual(add_bar["godot_symbol"], "source_item_turret_set_bars_result.bar_call")
+        fraction = source_symbols.source_symbol(registry, "item_turret_set_bars.bar_fraction")
+        self.assertEqual(fraction["java_expr"], "() -> (float)entity.totalAmmo / maxAmmo")
+        self.assertEqual(fraction["godot_symbol"], "source_item_turret_set_bars_result.ammo_bar_fraction")
+
+        set_bars_slice = source_symbols.source_slice(ledger, "N1176")
+        self.assertEqual(set_bars_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(set_bars_slice["java_method"], "ItemTurret.setBars()")
+        self.assertEqual(set_bars_slice["godot_owner"], "PortGame.source_item_turret_set_bars_state")
+        self.assertEqual(set_bars_slice["runtime_proof"], "/root/Main.generated_item_turret_set_bars_bridge_state")
+        for expr in [
+            "@Override",
+            "public void setBars(){",
+            "super.setBars();",
+            'addBar("ammo", (ItemTurretBuild entity) ->',
+            '"stat.ammo",',
+            "Pal.ammo,",
+            "() -> (float)entity.totalAmmo / maxAmmo",
+        ]:
+            self.assertIn(expr, set_bars_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_item_turret_set_bars_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["total_ammo", "max_ammo"])
+        for key in ["method", "override_expr", "super_set_bars_expr", "add_bar_expr", "bar_fraction_expr", "total_ammo", "max_ammo", "ammo_bar_fraction", "bar_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_item_turret_set_bars_input = source_symbols.state_schema(schema, "source_item_turret_set_bars_input")
+        self.assertEqual(source_item_turret_set_bars_input["keys"]["total_ammo"]["java_expr"], "entity.totalAmmo")
+        self.assertEqual(source_item_turret_set_bars_input["keys"]["max_ammo"]["java_expr"], "maxAmmo")
+        source_item_turret_set_bars_result = source_symbols.state_schema(schema, "source_item_turret_set_bars_result")
+        self.assertEqual(source_item_turret_set_bars_result["keys"]["super_set_bars_expr"]["java_expr"], "super.setBars();")
+        self.assertEqual(source_item_turret_set_bars_result["keys"]["ammo_bar_fraction"]["java_expr"], "(float)entity.totalAmmo / maxAmmo")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
