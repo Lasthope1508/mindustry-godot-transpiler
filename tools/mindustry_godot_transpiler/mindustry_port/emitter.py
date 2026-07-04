@@ -1356,6 +1356,22 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_turret_place_ended_state\", \"method\": \"public void placeEnded(Tile tile, @Nullable Unit builder, int rotation, @Nullable Object config){\", \"override_expr\": \"@Override\", \"super_place_ended_expr\": \"super.placeEnded(tile, builder, rotation, config);\", \"place_ended_gate\": \"if(rotate && tile.build instanceof TurretBuild turret){\", \"rotation_assign_expr\": \"turret.rotation = tile.build.rotdeg();\", \"tile\": tile, \"builder\": builder, \"rotation\": rotation, \"config\": config, \"rotate\": rotate, \"tile_build_is_turret_build\": tile_build_is_turret_build, \"turret_rotation\": turret_rotation, \"tile_build_rotdeg\": tile_build_rotdeg, \"super_place_ended_called\": true, \"rotation_assigned\": rotation_assigned, \"turret_rotation_after\": turret_rotation_after}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ReloadTurret.java"
+        and type_entry.get("name") == "ReloadTurret"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar coolant_present: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar reload_value: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar coolant_amount: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar booster_replace_called: bool = coolant_present",
+            "\tvar booster_replace_call: Dictionary = {}",
+            "\tif booster_replace_called:",
+            "\t\tbooster_replace_call = {\"call\": \"stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));\", \"stat\": \"Stat.booster\", \"reload\": reload_value, \"coolant_amount\": coolant_amount, \"coolant_multiplier\": coolant_multiplier, \"base\": true, \"consumes\": \"coolant::consumes\"}",
+            "\treturn {\"source_owner\": \"PortGame.source_reload_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"coolant_gate\": \"if(coolant != null){\", \"booster_replace_expr\": \"stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));\", \"coolant_present\": coolant_present, \"reload_value\": reload_value, \"coolant_amount\": coolant_amount, \"coolant_multiplier\": coolant_multiplier, \"super_set_stats_called\": true, \"booster_replace_called\": booster_replace_called, \"booster_replace_call\": booster_replace_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

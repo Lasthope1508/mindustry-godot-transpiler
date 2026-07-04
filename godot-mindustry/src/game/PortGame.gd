@@ -16902,6 +16902,48 @@ func generated_turret_place_ended_bridge_state(tile: Variant, builder: Variant, 
 		"matches": result.get("rotation_assigned", null) == canonical.get("rotation_assigned", null) and result.get("turret_rotation_after", null) == canonical.get("turret_rotation_after", null),
 	}
 
+func source_reload_turret_set_stats_state(coolant_present: bool, reload_value: float, coolant_amount: float, coolant_multiplier: float) -> Dictionary:
+	var booster_replace_called: bool = coolant_present
+	var booster_replace_call: Dictionary = {}
+	if booster_replace_called:
+		booster_replace_call = {
+			"call": "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));",
+			"stat": "Stat.booster",
+			"reload": reload_value,
+			"coolant_amount": coolant_amount,
+			"coolant_multiplier": coolant_multiplier,
+			"base": true,
+			"consumes": "coolant::consumes",
+		}
+	return {
+		"source_owner": "PortGame.source_reload_turret_set_stats_state",
+		"method": "public void setStats(){",
+		"override_expr": "@Override",
+		"super_set_stats_expr": "super.setStats();",
+		"coolant_gate": "if(coolant != null){",
+		"booster_replace_expr": "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));",
+		"coolant_present": coolant_present,
+		"reload_value": reload_value,
+		"coolant_amount": coolant_amount,
+		"coolant_multiplier": coolant_multiplier,
+		"super_set_stats_called": true,
+		"booster_replace_called": booster_replace_called,
+		"booster_replace_call": booster_replace_call,
+	}
+
+func generated_reload_turret_set_stats_bridge_state(coolant_present: bool, reload_value: float, coolant_amount: float, coolant_multiplier: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ReloadTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setStats_0([coolant_present, reload_value, coolant_amount, coolant_multiplier])
+	var canonical = source_reload_turret_set_stats_state(coolant_present, reload_value, coolant_amount, coolant_multiplier)
+	return {
+		"source_owner": "PortGame.source_reload_turret_set_stats_state",
+		"generated_owner": "ReloadTurret.java_method_setStats_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("booster_replace_called", null) == canonical.get("booster_replace_called", null) and result.get("booster_replace_call", null) == canonical.get("booster_replace_call", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

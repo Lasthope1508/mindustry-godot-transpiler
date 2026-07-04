@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 633)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 634)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 638)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 639)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42497,6 +42497,66 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_turret_place_ended_result = source_symbols.state_schema(schema, "source_turret_place_ended_result")
         self.assertEqual(source_turret_place_ended_result["keys"]["super_place_ended_expr"]["java_expr"], "super.placeEnded(tile, builder, rotation, config);")
         self.assertEqual(source_turret_place_ended_result["keys"]["turret_rotation_after"]["java_expr"], "turret.rotation = tile.build.rotdeg();")
+
+    def test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "reload_turret_set_stats.method")
+        self.assertEqual(method["java_expr"], "public void setStats(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java")
+        self.assertEqual(method["java_method"], "setStats()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_reload_turret_set_stats_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_reload_turret_set_stats_state")
+
+        reload_symbol = source_symbols.source_symbol(registry, "reload_turret_set_stats.reload")
+        self.assertEqual(reload_symbol["java_expr"], "reload")
+        self.assertEqual(reload_symbol["godot_symbol"], "source_reload_turret_set_stats_input.reload_value")
+        coolant = source_symbols.source_symbol(registry, "reload_turret_set_stats.coolant")
+        self.assertEqual(coolant["java_expr"], "coolant")
+        self.assertEqual(coolant["godot_symbol"], "source_reload_turret_set_stats_input.coolant_present")
+        coolant_amount = source_symbols.source_symbol(registry, "reload_turret_set_stats.coolant_amount")
+        self.assertEqual(coolant_amount["java_expr"], "coolant.amount")
+        self.assertEqual(coolant_amount["godot_symbol"], "source_reload_turret_set_stats_input.coolant_amount")
+        coolant_multiplier = source_symbols.source_symbol(registry, "reload_turret_set_stats.coolant_multiplier")
+        self.assertEqual(coolant_multiplier["java_expr"], "coolantMultiplier")
+        self.assertEqual(coolant_multiplier["godot_symbol"], "source_reload_turret_set_stats_input.coolant_multiplier")
+        booster_replace = source_symbols.source_symbol(registry, "reload_turret_set_stats.booster_replace")
+        self.assertEqual(booster_replace["java_expr"], "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));")
+        self.assertEqual(booster_replace["godot_symbol"], "source_reload_turret_set_stats_result.booster_replace_call")
+
+        set_stats_slice = source_symbols.source_slice(ledger, "N1165")
+        self.assertEqual(set_stats_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java")
+        self.assertEqual(set_stats_slice["java_method"], "setStats()")
+        self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_reload_turret_set_stats_state")
+        self.assertEqual(set_stats_slice["runtime_proof"], "/root/Main.generated_reload_turret_set_stats_bridge_state")
+        for expr in [
+            "@Override",
+            "public void setStats(){",
+            "super.setStats();",
+            "if(coolant != null){",
+            "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));",
+            "public float reload = 10f;",
+        ]:
+            self.assertIn(expr, set_stats_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_reload_turret_set_stats_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["coolant_present", "reload_value", "coolant_amount", "coolant_multiplier"])
+        for key in ["method", "override_expr", "super_set_stats_expr", "coolant_gate", "booster_replace_expr", "super_set_stats_called", "booster_replace_called", "booster_replace_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_reload_turret_set_stats_input = source_symbols.state_schema(schema, "source_reload_turret_set_stats_input")
+        self.assertEqual(source_reload_turret_set_stats_input["keys"]["coolant_present"]["java_expr"], "coolant != null")
+        self.assertEqual(source_reload_turret_set_stats_input["keys"]["reload_value"]["java_expr"], "reload")
+        self.assertEqual(source_reload_turret_set_stats_input["keys"]["coolant_amount"]["java_expr"], "coolant.amount")
+        self.assertEqual(source_reload_turret_set_stats_input["keys"]["coolant_multiplier"]["java_expr"], "coolantMultiplier")
+        source_reload_turret_set_stats_result = source_symbols.state_schema(schema, "source_reload_turret_set_stats_result")
+        self.assertEqual(source_reload_turret_set_stats_result["keys"]["super_set_stats_expr"]["java_expr"], "super.setStats();")
+        self.assertEqual(source_reload_turret_set_stats_result["keys"]["booster_replace_call"]["java_expr"], "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

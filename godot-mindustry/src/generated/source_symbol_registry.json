@@ -81331,6 +81331,159 @@
       "godot_symbol": "source_turret_place_ended_result.turret_rotation_after",
       "java_expr": "turret.rotation = tile.build.rotdeg();",
       "rule": "Turret.placeEnded assigns turret.rotation from tile.build.rotdeg()."
+    },
+    "reload_turret_set_stats.method": {
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_reload_turret_set_stats_result.method",
+      "java_expr": "public void setStats(){",
+      "rule": "Method boundary comes from ReloadTurret.setStats."
+    },
+    "reload_turret_set_stats.override": {
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_reload_turret_set_stats_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "Override annotation comes from ReloadTurret.setStats."
+    },
+    "reload_turret_set_stats.reload": {
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_reload_turret_set_stats_input.reload_value",
+      "java_expr": "reload",
+      "rule": "Reload field value is an explicit runtime input backed by ReloadTurret.reload."
+    },
+    "reload_turret_set_stats.coolant": {
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_reload_turret_set_stats_input.coolant_present",
+      "java_expr": "coolant",
+      "rule": "Coolant presence models the source null check without inventing Consume internals."
+    },
+    "reload_turret_set_stats.coolant_amount": {
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_reload_turret_set_stats_input.coolant_amount",
+      "java_expr": "coolant.amount",
+      "rule": "Coolant amount is supplied explicitly for the StatValues.boosters call record."
+    },
+    "reload_turret_set_stats.coolant_multiplier": {
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_reload_turret_set_stats_input.coolant_multiplier",
+      "java_expr": "coolantMultiplier",
+      "rule": "Coolant multiplier is supplied explicitly for the StatValues.boosters call record."
+    },
+    "reload_turret_set_stats.super_set_stats": {
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_reload_turret_set_stats_result.super_set_stats_expr",
+      "java_expr": "super.setStats();",
+      "rule": "Superclass setStats internals are deferred; this slice records the exact call marker."
+    },
+    "reload_turret_set_stats.coolant_gate": {
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_reload_turret_set_stats_result.coolant_gate",
+      "java_expr": "if(coolant != null){",
+      "rule": "Gate is true only when coolant is present."
+    },
+    "reload_turret_set_stats.booster_replace": {
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_reload_turret_set_stats_result.booster_replace_call",
+      "java_expr": "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));",
+      "rule": "Stats replace call is recorded only when coolant is present; StatValues.boosters internals remain deferred."
     }
   },
   "version": 1

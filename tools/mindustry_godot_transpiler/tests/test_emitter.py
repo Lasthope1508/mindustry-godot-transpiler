@@ -7576,5 +7576,43 @@ public class Turret extends ReloadTurret{
             self.assertIn('"super_place_ended_expr": "super.placeEnded(tile, builder, rotation, config);"', source_text)
             self.assertIn('"rotation_assign_expr": "turret.rotation = tile.build.rotdeg();"', source_text)
 
+    def test_emit_bridges_reload_turret_set_stats_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            reload_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ReloadTurret.java"
+            reload_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            reload_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ReloadTurret extends BaseTurret{
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        if(coolant != null){
+            stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ReloadTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var coolant_present: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var booster_replace_called: bool = coolant_present", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_reload_turret_set_stats_state"', source_text)
+            self.assertIn('"method": "public void setStats(){"', source_text)
+            self.assertIn('"super_set_stats_expr": "super.setStats();"', source_text)
+            self.assertIn('"coolant_gate": "if(coolant != null){"', source_text)
+            self.assertIn('"booster_replace_expr": "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

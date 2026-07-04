@@ -25975,6 +25975,57 @@
         "test_turret_place_ended_matches_upstream_source",
         "test_generated_turret_place_ended_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_reload_turret_set_stats_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "params": [
+        {
+          "name": "coolant_present",
+          "schema": "source_reload_turret_set_stats_input.coolant_present",
+          "type": "bool"
+        },
+        {
+          "name": "reload_value",
+          "schema": "source_reload_turret_set_stats_input.reload_value",
+          "type": "float"
+        },
+        {
+          "name": "coolant_amount",
+          "schema": "source_reload_turret_set_stats_input.coolant_amount",
+          "type": "float"
+        },
+        {
+          "name": "coolant_multiplier",
+          "schema": "source_reload_turret_set_stats_input.coolant_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "coolant_gate",
+        "booster_replace_expr",
+        "coolant_present",
+        "reload_value",
+        "coolant_amount",
+        "coolant_multiplier",
+        "super_set_stats_called",
+        "booster_replace_called",
+        "booster_replace_call"
+      ],
+      "rule": "Public runtime contract for ReloadTurret.setStats coolant booster stats branch state.",
+      "runtime_proof": "/root/Main.source_reload_turret_set_stats_state",
+      "source_method": "setStats()",
+      "source_slice": "N1165",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

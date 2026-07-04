@@ -13066,5 +13066,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_placeEnded_11"', source)
         self.assertIn('"matches": result.get("rotation_assigned", null) == canonical.get("rotation_assigned", null) and result.get("turret_rotation_after", null) == canonical.get("turret_rotation_after", null)', source)
 
+    def test_port_game_exposes_source_reload_turret_set_stats_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_reload_turret_set_stats_state(coolant_present: bool, reload_value: float, coolant_amount: float, coolant_multiplier: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void setStats(){"', source)
+        self.assertIn('"super_set_stats_expr": "super.setStats();"', source)
+        self.assertIn('"coolant_gate": "if(coolant != null){"', source)
+        self.assertIn('"booster_replace_expr": "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));"', source)
+        self.assertIn('"booster_replace_called": booster_replace_called', source)
+
+    def test_port_game_exposes_generated_reload_turret_set_stats_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_reload_turret_set_stats_bridge_state(coolant_present: bool, reload_value: float, coolant_amount: float, coolant_multiplier: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ReloadTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_setStats_0([coolant_present, reload_value, coolant_amount, coolant_multiplier])", source)
+        self.assertIn("var canonical = source_reload_turret_set_stats_state(coolant_present, reload_value, coolant_amount, coolant_multiplier)", source)
+        self.assertIn('"source_owner": "PortGame.source_reload_turret_set_stats_state"', source)
+        self.assertIn('"generated_owner": "ReloadTurret.java_method_setStats_0"', source)
+        self.assertIn('"matches": result.get("booster_replace_called", null) == canonical.get("booster_replace_called", null) and result.get("booster_replace_call", null) == canonical.get("booster_replace_call", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

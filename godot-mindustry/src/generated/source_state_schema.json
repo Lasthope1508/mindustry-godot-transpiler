@@ -95716,6 +95716,216 @@
       "rule": "Dictionary returned by PortGame.source_turret_place_ended_state.",
       "source_slice": "N1164",
       "status": "source-backed"
+    },
+    "source_reload_turret_set_stats_input": {
+      "keys": {
+        "coolant_present": {
+          "godot_symbol": "source_reload_turret_set_stats_input.coolant_present",
+          "java_expr": "coolant != null",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Boolean input preserves the coolant null-check result.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        },
+        "reload_value": {
+          "godot_symbol": "source_reload_turret_set_stats_input.reload_value",
+          "java_expr": "reload",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Float input preserves ReloadTurret.reload for StatValues.boosters.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        },
+        "coolant_amount": {
+          "godot_symbol": "source_reload_turret_set_stats_input.coolant_amount",
+          "java_expr": "coolant.amount",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Float input preserves coolant.amount for StatValues.boosters.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        },
+        "coolant_multiplier": {
+          "godot_symbol": "source_reload_turret_set_stats_input.coolant_multiplier",
+          "java_expr": "coolantMultiplier",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Float input preserves coolantMultiplier for StatValues.boosters.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Inputs accepted by PortGame.source_reload_turret_set_stats_state.",
+      "source_slice": "N1165",
+      "status": "source-backed"
+    },
+    "source_reload_turret_set_stats_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_reload_turret_set_stats_result.method",
+          "java_expr": "public void setStats(){",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Result records exact method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_reload_turret_set_stats_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Result records exact override annotation.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        },
+        "super_set_stats_expr": {
+          "godot_symbol": "source_reload_turret_set_stats_result.super_set_stats_expr",
+          "java_expr": "super.setStats();",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Result records exact superclass call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        },
+        "coolant_gate": {
+          "godot_symbol": "source_reload_turret_set_stats_result.coolant_gate",
+          "java_expr": "if(coolant != null){",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Result records exact coolant gate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        },
+        "booster_replace_expr": {
+          "godot_symbol": "source_reload_turret_set_stats_result.booster_replace_expr",
+          "java_expr": "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Result records exact stats replacement expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        },
+        "coolant_present": {
+          "godot_symbol": "source_reload_turret_set_stats_result.coolant_present",
+          "java_expr": "coolant != null",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Result echoes coolant presence input.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ],
+          "alias_of": "source_reload_turret_set_stats_input.coolant_present"
+        },
+        "reload_value": {
+          "godot_symbol": "source_reload_turret_set_stats_result.reload_value",
+          "java_expr": "reload",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Result echoes reload input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ],
+          "alias_of": "source_reload_turret_set_stats_input.reload_value"
+        },
+        "coolant_amount": {
+          "godot_symbol": "source_reload_turret_set_stats_result.coolant_amount",
+          "java_expr": "coolant.amount",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Result echoes coolant amount input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ],
+          "alias_of": "source_reload_turret_set_stats_input.coolant_amount"
+        },
+        "coolant_multiplier": {
+          "godot_symbol": "source_reload_turret_set_stats_result.coolant_multiplier",
+          "java_expr": "coolantMultiplier",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Result echoes coolant multiplier input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ],
+          "alias_of": "source_reload_turret_set_stats_input.coolant_multiplier"
+        },
+        "super_set_stats_called": {
+          "godot_symbol": "source_reload_turret_set_stats_result.super_set_stats_called",
+          "java_expr": "super.setStats();",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Super call marker is always true for this source method.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        },
+        "booster_replace_called": {
+          "godot_symbol": "source_reload_turret_set_stats_result.booster_replace_called",
+          "java_expr": "if(coolant != null){",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Stats replacement is called only when coolant is present.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        },
+        "booster_replace_call": {
+          "godot_symbol": "source_reload_turret_set_stats_result.booster_replace_call",
+          "java_expr": "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));",
+          "java_method": "setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+          "rule": "Call record preserves exact booster replacement expression and explicit inputs.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_reload_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_reload_turret_set_stats_state.",
+      "source_slice": "N1165",
+      "status": "source-backed"
     }
   },
   "version": 1

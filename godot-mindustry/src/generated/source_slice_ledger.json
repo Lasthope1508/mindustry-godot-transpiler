@@ -25686,6 +25686,45 @@
         "test_turret_place_ended_matches_upstream_source",
         "test_generated_turret_place_ended_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1165": {
+      "deferred_exprs": [
+        "Superclass setStats internals remain deferred; this slice records the exact super call marker only.",
+        "StatValues.boosters internals, stats.replace internals, and coolant::consumes behavior remain deferred; this slice records the exact call and explicit inputs."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "if(coolant != null){",
+        "stats.replace(Stat.booster, StatValues.boosters(reload, coolant.amount, coolantMultiplier, true, coolant::consumes));",
+        "public float reload = 10f;"
+      ],
+      "godot_owner": "PortGame.source_reload_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ReloadTurret",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java",
+      "rule": "ReloadTurret.setStats delegates to super and replaces Stat.booster with StatValues.boosters only when coolant is not null.",
+      "runtime_proof": "/root/Main.generated_reload_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "reload_turret_set_stats.method",
+        "reload_turret_set_stats.override",
+        "reload_turret_set_stats.reload",
+        "reload_turret_set_stats.coolant",
+        "reload_turret_set_stats.coolant_amount",
+        "reload_turret_set_stats.coolant_multiplier",
+        "reload_turret_set_stats.super_set_stats",
+        "reload_turret_set_stats.coolant_gate",
+        "reload_turret_set_stats.booster_replace"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_reload_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_reload_turret_set_stats_state",
+        "test_port_game_exposes_generated_reload_turret_set_stats_bridge_state",
+        "test_reload_turret_set_stats_matches_upstream_source",
+        "test_generated_reload_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
