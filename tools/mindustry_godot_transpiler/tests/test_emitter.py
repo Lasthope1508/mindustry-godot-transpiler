@@ -8917,6 +8917,74 @@ public class LiquidTurret extends Turret{
             self.assertIn('"name_value": name_value', source_text)
             self.assertIn('"stats_added": true', source_text)
 
+    def test_emit_bridges_liquid_turret_init_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            liquid_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.java"
+            liquid_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            liquid_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class LiquidTurret extends Turret{
+    public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();
+
+    /** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */
+    public void ammo(Object... objects){
+        ammoTypes = ObjectMap.of(objects);
+    }
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));
+    }
+
+    @Override
+    public void init(){
+        consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){
+
+            @Override
+            public void update(Building build){
+
+            }
+
+            @Override
+            public void display(Stats stats){
+
+            }
+        });
+
+        if(targetGround){
+            ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));
+        }
+
+        super.init();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_init_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var ammo_entries: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var target_ground: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_liquid_turret_init_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"consume_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){"', source_text)
+            self.assertIn('"filter_expr": "i -> ammoTypes.containsKey(i)"', source_text)
+            self.assertIn('"target_ground_expr": "if(targetGround){"', source_text)
+            self.assertIn('"overlap_expr": "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));"', source_text)
+            self.assertIn('"super_init_expr": "super.init();"', source_text)
+            self.assertIn('"super_init_called": true', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

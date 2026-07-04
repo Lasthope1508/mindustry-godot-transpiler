@@ -13793,5 +13793,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "LiquidTurret.setStats"', source)
         self.assertIn('"matches": result.get("stats_add_call", {}) == canonical.get("stats_add_call", {})', source)
 
+    def test_port_game_exposes_source_liquid_turret_init_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_liquid_turret_init_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"consume_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){"', source)
+        self.assertIn('"filter_expr": "i -> ammoTypes.containsKey(i)"', source)
+        self.assertIn('"update_override_noop": true', source)
+        self.assertIn('"display_override_noop": true', source)
+        self.assertIn('"target_ground_expr": "if(targetGround){"', source)
+        self.assertIn('"overlap_expr": "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));"', source)
+        self.assertIn('"place_overlap_range_after": current_place_overlap_range', source)
+        self.assertIn('"super_init_called": true', source)
+
+    def test_port_game_exposes_generated_liquid_turret_init_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin])", source)
+        self.assertIn("var canonical = source_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin)", source)
+        self.assertIn('"source_owner": "PortGame.source_liquid_turret_init_state"', source)
+        self.assertIn('"generated_owner": "LiquidTurret.init"', source)
+        self.assertIn('"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

@@ -17909,6 +17909,70 @@ func generated_liquid_turret_set_stats_bridge_state(ammo_types: Variant, name_va
 			and result.get("super_set_stats_called", false) == canonical.get("super_set_stats_called", false),
 	}
 
+func source_liquid_turret_init_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float) -> Dictionary:
+	var consume_call: Dictionary = {
+		"call": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){...});",
+		"filter_expr": "i -> ammoTypes.containsKey(i)",
+		"amount": 1.0,
+		"update_override_noop": true,
+		"display_override_noop": true,
+	}
+	var current_place_overlap_range := place_overlap_range
+	var overlap_updates: Array = []
+	if target_ground:
+		for entry in ammo_entries:
+			var entry_dict: Dictionary = entry if entry is Dictionary else {}
+			var type_state: Variant = entry_dict.get("type", {})
+			var range_change := 0.0
+			if type_state is Dictionary:
+				range_change = float(type_state.get("rangeChange", 0.0))
+			var before_range := current_place_overlap_range
+			var candidate_range := range_value + range_change + place_overlap_margin
+			current_place_overlap_range = max(current_place_overlap_range, candidate_range)
+			overlap_updates.append({
+				"item": entry_dict.get("item", null),
+				"type": type_state,
+				"range_change": range_change,
+				"candidate_range": candidate_range,
+				"before": before_range,
+				"after": current_place_overlap_range,
+			})
+	return {
+		"source_owner": "PortGame.source_liquid_turret_init_state",
+		"method": "public void init(){",
+		"override_expr": "@Override",
+		"consume_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){",
+		"filter_expr": "i -> ammoTypes.containsKey(i)",
+		"consume_call": consume_call,
+		"target_ground_expr": "if(targetGround){",
+		"overlap_expr": "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+		"super_init_expr": "super.init();",
+		"ammo_entries": ammo_entries.duplicate(true),
+		"target_ground": target_ground,
+		"place_overlap_range_before": place_overlap_range,
+		"range_value": range_value,
+		"place_overlap_margin": place_overlap_margin,
+		"overlap_updates": overlap_updates,
+		"place_overlap_range_after": current_place_overlap_range,
+		"super_init_called": true,
+	}
+
+func generated_liquid_turret_init_bridge_state(ammo_entries: Array, target_ground: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_2([ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin])
+	var canonical = source_liquid_turret_init_state(ammo_entries, target_ground, place_overlap_range, range_value, place_overlap_margin)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_init_state",
+		"generated_owner": "LiquidTurret.init",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null)
+			and result.get("overlap_updates", []) == canonical.get("overlap_updates", [])
+			and result.get("consume_call", {}) == canonical.get("consume_call", {})
+			and result.get("super_init_called", false) == canonical.get("super_init_called", false),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

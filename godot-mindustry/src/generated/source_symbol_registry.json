@@ -85836,6 +85836,74 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_set_stats_state",
       "rule": "Result records exact StatValues.ammo call."
+    },
+    "liquid_turret_init.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret.init()",
+      "java_expr": "public void init(){",
+      "godot_owner": "PortGame.source_liquid_turret_init_state",
+      "godot_symbol": "source_liquid_turret_init_result.method",
+      "tests": [
+        "test_emit_bridges_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_init_state",
+        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
+        "test_liquid_turret_init_matches_upstream_source",
+        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_init_state",
+      "rule": "Method boundary for LiquidTurret.init."
+    },
+    "liquid_turret_init.ammo_entries": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret.init()",
+      "java_expr": "ammoTypes.each((item, type) -> ...)",
+      "godot_owner": "PortGame.source_liquid_turret_init_state",
+      "godot_symbol": "source_liquid_turret_init_input.ammo_entries",
+      "tests": [
+        "test_emit_bridges_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_init_state",
+        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
+        "test_liquid_turret_init_matches_upstream_source",
+        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_init_state",
+      "rule": "Explicit input supplies ObjectMap iteration entries."
+    },
+    "liquid_turret_init.overlap_each": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret.init()",
+      "java_expr": "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+      "godot_owner": "PortGame.source_liquid_turret_init_state",
+      "godot_symbol": "source_liquid_turret_init_result.overlap_updates",
+      "tests": [
+        "test_emit_bridges_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_init_state",
+        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
+        "test_liquid_turret_init_matches_upstream_source",
+        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_init_state",
+      "rule": "Result records each Math.max overlap update."
+    },
+    "liquid_turret_init.consume_filter": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurret.init()",
+      "java_expr": "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){",
+      "godot_owner": "PortGame.source_liquid_turret_init_state",
+      "godot_symbol": "source_liquid_turret_init_result.consume_call",
+      "tests": [
+        "test_emit_bridges_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_init_state",
+        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
+        "test_liquid_turret_init_matches_upstream_source",
+        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_init_state",
+      "rule": "Result records ConsumeLiquidFilter registration without simulating filter internals."
     }
   },
   "version": 1

@@ -27239,6 +27239,67 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_set_stats_state",
       "rule": "Public runtime contract for LiquidTurret.setStats state."
+    },
+    "PortGame.source_liquid_turret_init_state": {
+      "status": "source-backed",
+      "source_slice": "N1195",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurret.init()",
+      "params": [
+        {
+          "name": "ammo_entries",
+          "type": "Array",
+          "schema": "source_liquid_turret_init_input.ammo_entries"
+        },
+        {
+          "name": "target_ground",
+          "type": "bool",
+          "schema": "source_liquid_turret_init_input.target_ground"
+        },
+        {
+          "name": "place_overlap_range",
+          "type": "float",
+          "schema": "source_liquid_turret_init_input.place_overlap_range"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_liquid_turret_init_input.range_value"
+        },
+        {
+          "name": "place_overlap_margin",
+          "type": "float",
+          "schema": "source_liquid_turret_init_input.place_overlap_margin"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "consume_expr",
+        "filter_expr",
+        "consume_call",
+        "target_ground_expr",
+        "overlap_expr",
+        "super_init_expr",
+        "ammo_entries",
+        "target_ground",
+        "place_overlap_range_before",
+        "range_value",
+        "place_overlap_margin",
+        "overlap_updates",
+        "place_overlap_range_after",
+        "super_init_called"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_init_state",
+        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
+        "test_liquid_turret_init_matches_upstream_source",
+        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_init_state",
+      "rule": "Public runtime contract for LiquidTurret.init state."
     }
   },
   "policy": {

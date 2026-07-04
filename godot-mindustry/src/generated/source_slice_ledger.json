@@ -26807,6 +26807,41 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_set_stats_bridge_state",
       "rule": "LiquidTurret.setStats adds ammo stats from ammoTypes and name; Godot records exact calls without StatValues internals."
+    },
+    "N1195": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret",
+      "java_method": "LiquidTurret.init()",
+      "godot_owner": "PortGame.source_liquid_turret_init_state",
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), 1f){",
+        "public void update(Building build){",
+        "public void display(Stats stats){",
+        "if(targetGround){",
+        "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+        "super.init();"
+      ],
+      "deferred_exprs": [
+        "ConsumeLiquidFilter update/display concrete side effects stay no-op per anonymous override bodies."
+      ],
+      "source_symbols": [
+        "liquid_turret_init.method",
+        "liquid_turret_init.ammo_entries",
+        "liquid_turret_init.overlap_each",
+        "liquid_turret_init.consume_filter"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_init_state",
+        "test_port_game_exposes_generated_liquid_turret_init_bridge_state",
+        "test_liquid_turret_init_matches_upstream_source",
+        "test_generated_liquid_turret_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_init_bridge_state",
+      "rule": "LiquidTurret.init records consume filter, targetGround overlap Math.max updates, and super.init without inventing ConsumeLiquidFilter internals."
     }
   },
   "version": 1
