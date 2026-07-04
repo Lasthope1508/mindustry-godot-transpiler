@@ -426,6 +426,27 @@ def verify_base_turret_reinitialize_consumers_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_base_turret_init_source(upstream_root: Path) -> dict[str, Any]:
+    base_turret_path = Path(upstream_root) / BASE_TURRET_SOURCE
+    source = base_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void init(){",
+        "coolant_null_guard": "if(coolant == null){",
+        "find_consumer": "coolant = findConsumer(c -> c instanceof ConsumeCoolant);",
+        "check_init_coolant": "checkInitCoolant();",
+        "overlap_guard": "if(!disableOverlapCheck){",
+        "place_overlap_range": "placeOverlapRange = Math.max(placeOverlapRange, range + placeOverlapMargin);",
+        "fog_radius": "fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);",
+        "super_init": "super.init();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BASE_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_base_turret_check_init_coolant_source(upstream_root: Path) -> dict[str, Any]:
     base_turret_path = Path(upstream_root) / BASE_TURRET_SOURCE
     source = base_turret_path.read_text(encoding="utf-8", errors="replace")

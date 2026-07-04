@@ -6605,6 +6605,48 @@
         "test_generated_base_turret_check_init_coolant_slice_is_registered_with_source_backing"
       ]
     },
+    "N1208": {
+      "deferred_exprs": [
+        "findConsumer(c -> c instanceof ConsumeCoolant) internals stay deferred to Block consumer source.",
+        "checkInitCoolant() internals are owned by N1207.",
+        "super.init() internals stay deferred to Block superclass source."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "if(coolant == null){",
+        "coolant = findConsumer(c -> c instanceof ConsumeCoolant);",
+        "checkInitCoolant();",
+        "if(!disableOverlapCheck){",
+        "placeOverlapRange = Math.max(placeOverlapRange, range + placeOverlapMargin);",
+        "fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);",
+        "super.init();"
+      ],
+      "godot_owner": "PortGame.source_base_turret_init_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "BaseTurret.init resolves coolant if absent, dispatches checkInitCoolant, updates overlap/fog radius, then delegates super.init().",
+      "runtime_proof": "/root/Main.generated_base_turret_init_bridge_state",
+      "source_symbols": [
+        "base_turret_init.method",
+        "base_turret_init.coolant_null_guard",
+        "base_turret_init.find_consumer",
+        "base_turret_init.check_init_coolant",
+        "base_turret_init.overlap_guard",
+        "base_turret_init.place_overlap_range",
+        "base_turret_init.fog_radius",
+        "base_turret_init.super_init"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

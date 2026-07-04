@@ -12884,6 +12884,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_init_3"', source)
         self.assertIn('"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null)', source)
 
+    def test_port_game_exposes_source_base_turret_init_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_base_turret_init_state(coolant_present: bool, found_consume_coolant: bool, disable_overlap_check: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, source_tilesize: float, fog_radius_multiplier: float, fog_radius: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_init_state"', source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"coolant_null_guard_expr": "if(coolant == null){"', source)
+        self.assertIn('"find_consumer_expr": "coolant = findConsumer(c -> c instanceof ConsumeCoolant);"', source)
+        self.assertIn('"check_init_coolant_expr": "checkInitCoolant();"', source)
+        self.assertIn('"overlap_guard_expr": "if(!disableOverlapCheck){"', source)
+        self.assertIn('"place_overlap_range_expr": "placeOverlapRange = Math.max(placeOverlapRange, range + placeOverlapMargin);"', source)
+        self.assertIn('"fog_radius_expr": "fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);"', source)
+        self.assertIn('"super_init_expr": "super.init();"', source)
+        self.assertIn('"find_consumer_called": not coolant_present', source)
+        self.assertIn('"coolant_present_after": coolant_present or found_consume_coolant', source)
+
+    def test_port_game_exposes_generated_base_turret_init_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_base_turret_init_bridge_state(coolant_present: bool, found_consume_coolant: bool, disable_overlap_check: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, source_tilesize: float, fog_radius_multiplier: float, fog_radius: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_init_0([coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius])", source)
+        self.assertIn("var canonical = source_base_turret_init_state(coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius)", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_init_state"', source)
+        self.assertIn('"generated_owner": "BaseTurret.java_method_init_0"', source)
+        self.assertIn('"matches": result.get("coolant_present_after", null) == canonical.get("coolant_present_after", null) and result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null) and result.get("fog_radius_after", null) == canonical.get("fog_radius_after", null)', source)
+
     def test_port_game_exposes_source_base_turret_reinitialize_consumers_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

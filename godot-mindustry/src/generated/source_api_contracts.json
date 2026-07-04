@@ -889,6 +889,96 @@
         "test_generated_base_turret_check_init_coolant_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_base_turret_init_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "params": [
+        {
+          "name": "coolant_present",
+          "schema": "source_base_turret_init_input.coolant_present",
+          "type": "bool"
+        },
+        {
+          "name": "found_consume_coolant",
+          "schema": "source_base_turret_init_input.found_consume_coolant",
+          "type": "bool"
+        },
+        {
+          "name": "disable_overlap_check",
+          "schema": "source_base_turret_init_input.disable_overlap_check",
+          "type": "bool"
+        },
+        {
+          "name": "place_overlap_range",
+          "schema": "source_base_turret_init_input.place_overlap_range",
+          "type": "float"
+        },
+        {
+          "name": "range_value",
+          "schema": "source_base_turret_init_input.range",
+          "type": "float"
+        },
+        {
+          "name": "place_overlap_margin",
+          "schema": "source_base_turret_init_input.place_overlap_margin",
+          "type": "float"
+        },
+        {
+          "name": "source_tilesize",
+          "schema": "source_base_turret_init_input.tilesize",
+          "type": "float"
+        },
+        {
+          "name": "fog_radius_multiplier",
+          "schema": "source_base_turret_init_input.fog_radius_multiplier",
+          "type": "float"
+        },
+        {
+          "name": "fog_radius",
+          "schema": "source_base_turret_init_input.fog_radius",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "coolant_null_guard_expr",
+        "find_consumer_expr",
+        "check_init_coolant_expr",
+        "overlap_guard_expr",
+        "place_overlap_range_expr",
+        "fog_radius_expr",
+        "super_init_expr",
+        "coolant_present",
+        "found_consume_coolant",
+        "find_consumer_called",
+        "coolant_present_after",
+        "check_init_coolant_called",
+        "disable_overlap_check",
+        "place_overlap_range",
+        "range",
+        "place_overlap_margin",
+        "place_overlap_range_after",
+        "tilesize",
+        "fog_radius_multiplier",
+        "fog_radius",
+        "computed_fog_radius",
+        "fog_radius_after",
+        "super_init_called"
+      ],
+      "rule": "Public runtime contract for BaseTurret.init source-backed state.",
+      "runtime_proof": "/root/Main.source_base_turret_init_state",
+      "source_method": "init()",
+      "source_slice": "N1208",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_base_turret_reinitialize_consumers_state": {
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
       "params": [],

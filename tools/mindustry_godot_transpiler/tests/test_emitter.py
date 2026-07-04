@@ -7295,6 +7295,59 @@ public class Turret extends ReloadTurret{
             self.assertIn('"method": "public void init(){"', source_text)
             self.assertIn('"tracking_range_expr": "trackingRange = Math.max(range, trackingRange);"', source_text)
 
+    def test_emit_bridges_base_turret_init_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            base_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.java"
+            base_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            base_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class BaseTurret extends Block{
+    @Override
+    public void init(){
+        if(coolant == null){
+            coolant = findConsumer(c -> c instanceof ConsumeCoolant);
+        }
+
+        checkInitCoolant();
+
+        if(!disableOverlapCheck){
+            placeOverlapRange = Math.max(placeOverlapRange, range + placeOverlapMargin);
+        }
+        fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);
+        super.init();
+    }
+
+    @Override
+    public void reinitializeConsumers(){
+    }
+
+    void checkInitCoolant(){
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('"source_owner": "PortGame.source_base_turret_init_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"coolant_null_guard_expr": "if(coolant == null){"', source_text)
+            self.assertIn('"find_consumer_expr": "coolant = findConsumer(c -> c instanceof ConsumeCoolant);"', source_text)
+            self.assertIn('"check_init_coolant_expr": "checkInitCoolant();"', source_text)
+            self.assertIn('"overlap_guard_expr": "if(!disableOverlapCheck){"', source_text)
+            self.assertIn('"place_overlap_range_expr": "placeOverlapRange = Math.max(placeOverlapRange, range + placeOverlapMargin);"', source_text)
+            self.assertIn('"fog_radius_expr": "fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);"', source_text)
+            self.assertIn('"super_init_expr": "super.init();"', source_text)
+
     def test_emit_bridges_base_turret_reinitialize_consumers_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

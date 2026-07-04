@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 676)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 677)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 681)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 682)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42104,6 +42104,75 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_init_result["keys"]["method"]["java_expr"], "public void init(){")
         self.assertEqual(source_turret_init_result["keys"]["shoot_y_after"]["java_expr"], "shootY = size * tilesize / 2f")
         self.assertEqual(source_turret_init_result["keys"]["tracking_range_after"]["java_expr"], "Math.max(range, trackingRange)")
+
+    def test_generated_base_turret_init_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "base_turret_init.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(method["java_method"], "init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_base_turret_init_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_base_turret_init_state")
+
+        coolant_guard = source_symbols.source_symbol(registry, "base_turret_init.coolant_null_guard")
+        self.assertEqual(coolant_guard["java_expr"], "if(coolant == null){")
+        self.assertEqual(coolant_guard["godot_symbol"], "source_base_turret_init_input.coolant_present")
+        find_consumer = source_symbols.source_symbol(registry, "base_turret_init.find_consumer")
+        self.assertEqual(find_consumer["java_expr"], "coolant = findConsumer(c -> c instanceof ConsumeCoolant);")
+        self.assertEqual(find_consumer["godot_symbol"], "source_base_turret_init_input.found_consume_coolant")
+        overlap = source_symbols.source_symbol(registry, "base_turret_init.place_overlap_range")
+        self.assertEqual(overlap["java_expr"], "placeOverlapRange = Math.max(placeOverlapRange, range + placeOverlapMargin);")
+        self.assertEqual(overlap["godot_symbol"], "source_base_turret_init_result.place_overlap_range_after")
+        fog = source_symbols.source_symbol(registry, "base_turret_init.fog_radius")
+        self.assertEqual(fog["java_expr"], "fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);")
+        self.assertEqual(fog["godot_symbol"], "source_base_turret_init_result.fog_radius_after")
+
+        init_slice = source_symbols.source_slice(ledger, "N1208")
+        self.assertEqual(init_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(init_slice["java_method"], "init()")
+        self.assertEqual(init_slice["godot_owner"], "PortGame.source_base_turret_init_state")
+        self.assertEqual(init_slice["runtime_proof"], "/root/Main.generated_base_turret_init_bridge_state")
+        for expr in [
+            "@Override",
+            "public void init(){",
+            "if(coolant == null){",
+            "coolant = findConsumer(c -> c instanceof ConsumeCoolant);",
+            "checkInitCoolant();",
+            "if(!disableOverlapCheck){",
+            "placeOverlapRange = Math.max(placeOverlapRange, range + placeOverlapMargin);",
+            "fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);",
+            "super.init();",
+        ]:
+            self.assertIn(expr, init_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_base_turret_init_state")
+        self.assertEqual(contract["params"], [
+            {"name": "coolant_present", "schema": "source_base_turret_init_input.coolant_present", "type": "bool"},
+            {"name": "found_consume_coolant", "schema": "source_base_turret_init_input.found_consume_coolant", "type": "bool"},
+            {"name": "disable_overlap_check", "schema": "source_base_turret_init_input.disable_overlap_check", "type": "bool"},
+            {"name": "place_overlap_range", "schema": "source_base_turret_init_input.place_overlap_range", "type": "float"},
+            {"name": "range_value", "schema": "source_base_turret_init_input.range", "type": "float"},
+            {"name": "place_overlap_margin", "schema": "source_base_turret_init_input.place_overlap_margin", "type": "float"},
+            {"name": "source_tilesize", "schema": "source_base_turret_init_input.tilesize", "type": "float"},
+            {"name": "fog_radius_multiplier", "schema": "source_base_turret_init_input.fog_radius_multiplier", "type": "float"},
+            {"name": "fog_radius", "schema": "source_base_turret_init_input.fog_radius", "type": "int"},
+        ])
+        for key in ["method", "override_expr", "coolant_null_guard_expr", "find_consumer_expr", "check_init_coolant_expr", "overlap_guard_expr", "place_overlap_range_expr", "fog_radius_expr", "super_init_expr", "coolant_present_after", "place_overlap_range_after", "fog_radius_after", "super_init_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_base_turret_init_input")
+        self.assertEqual(input_schema["keys"]["coolant_present"]["java_expr"], "coolant != null")
+        self.assertEqual(input_schema["keys"]["found_consume_coolant"]["java_expr"], "findConsumer(c -> c instanceof ConsumeCoolant)")
+        result_schema = source_symbols.state_schema(schema, "source_base_turret_init_result")
+        self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void init(){")
+        self.assertEqual(result_schema["keys"]["place_overlap_range_after"]["java_expr"], "Math.max(placeOverlapRange, range + placeOverlapMargin)")
+        self.assertEqual(result_schema["keys"]["fog_radius_after"]["java_expr"], "Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius)")
 
     def test_generated_base_turret_reinitialize_consumers_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

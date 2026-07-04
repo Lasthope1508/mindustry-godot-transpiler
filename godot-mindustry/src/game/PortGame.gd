@@ -16657,6 +16657,54 @@ func generated_turret_init_bridge_state(shoot_y: float, shoot_y_is_negative_infi
 		"matches": result.get("shoot_y_after", null) == canonical.get("shoot_y_after", null) and result.get("tracking_range_after", null) == canonical.get("tracking_range_after", null) and result.get("disable_overlap_check_after", null) == canonical.get("disable_overlap_check_after", null),
 	}
 
+func source_base_turret_init_state(coolant_present: bool, found_consume_coolant: bool, disable_overlap_check: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, source_tilesize: float, fog_radius_multiplier: float, fog_radius: int) -> Dictionary:
+	var place_overlap_range_after := place_overlap_range
+	if not disable_overlap_check:
+		place_overlap_range_after = max(place_overlap_range, range_value + place_overlap_margin)
+	var computed_fog_radius := int(round(range_value / source_tilesize * fog_radius_multiplier))
+	var fog_radius_after: int = max(computed_fog_radius, fog_radius)
+	return {
+		"source_owner": "PortGame.source_base_turret_init_state",
+		"method": "public void init(){",
+		"override_expr": "@Override",
+		"coolant_null_guard_expr": "if(coolant == null){",
+		"find_consumer_expr": "coolant = findConsumer(c -> c instanceof ConsumeCoolant);",
+		"check_init_coolant_expr": "checkInitCoolant();",
+		"overlap_guard_expr": "if(!disableOverlapCheck){",
+		"place_overlap_range_expr": "placeOverlapRange = Math.max(placeOverlapRange, range + placeOverlapMargin);",
+		"fog_radius_expr": "fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);",
+		"super_init_expr": "super.init();",
+		"coolant_present": coolant_present,
+		"found_consume_coolant": found_consume_coolant,
+		"find_consumer_called": not coolant_present,
+		"coolant_present_after": coolant_present or found_consume_coolant,
+		"check_init_coolant_called": true,
+		"disable_overlap_check": disable_overlap_check,
+		"place_overlap_range": place_overlap_range,
+		"range": range_value,
+		"place_overlap_margin": place_overlap_margin,
+		"place_overlap_range_after": place_overlap_range_after,
+		"tilesize": source_tilesize,
+		"fog_radius_multiplier": fog_radius_multiplier,
+		"fog_radius": fog_radius,
+		"computed_fog_radius": computed_fog_radius,
+		"fog_radius_after": fog_radius_after,
+		"super_init_called": true,
+	}
+
+func generated_base_turret_init_bridge_state(coolant_present: bool, found_consume_coolant: bool, disable_overlap_check: bool, place_overlap_range: float, range_value: float, place_overlap_margin: float, source_tilesize: float, fog_radius_multiplier: float, fog_radius: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_0([coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius])
+	var canonical = source_base_turret_init_state(coolant_present, found_consume_coolant, disable_overlap_check, place_overlap_range, range_value, place_overlap_margin, source_tilesize, fog_radius_multiplier, fog_radius)
+	return {
+		"source_owner": "PortGame.source_base_turret_init_state",
+		"generated_owner": "BaseTurret.java_method_init_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("coolant_present_after", null) == canonical.get("coolant_present_after", null) and result.get("place_overlap_range_after", null) == canonical.get("place_overlap_range_after", null) and result.get("fog_radius_after", null) == canonical.get("fog_radius_after", null),
+	}
+
 func source_base_turret_reinitialize_consumers_state() -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_base_turret_reinitialize_consumers_state",

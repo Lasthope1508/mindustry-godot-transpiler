@@ -2546,6 +2546,142 @@
         "test_generated_base_turret_check_init_coolant_slice_is_registered_with_source_backing"
       ]
     },
+    "base_turret_init.check_init_coolant": {
+      "godot_owner": "PortGame.source_base_turret_init_state",
+      "godot_symbol": "source_base_turret_init_result.check_init_coolant_called",
+      "java_expr": "checkInitCoolant();",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "BaseTurret.init dispatches checkInitCoolant after coolant lookup.",
+      "runtime_proof": "/root/Main.source_base_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_init.coolant_null_guard": {
+      "godot_owner": "PortGame.source_base_turret_init_state",
+      "godot_symbol": "source_base_turret_init_input.coolant_present",
+      "java_expr": "if(coolant == null){",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Runtime coolant_present supplies inverse of coolant == null guard.",
+      "runtime_proof": "/root/Main.source_base_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_init.find_consumer": {
+      "godot_owner": "PortGame.source_base_turret_init_state",
+      "godot_symbol": "source_base_turret_init_input.found_consume_coolant",
+      "java_expr": "coolant = findConsumer(c -> c instanceof ConsumeCoolant);",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Runtime found_consume_coolant supplies result of findConsumer(c -> c instanceof ConsumeCoolant).",
+      "runtime_proof": "/root/Main.source_base_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_init.fog_radius": {
+      "godot_owner": "PortGame.source_base_turret_init_state",
+      "godot_symbol": "source_base_turret_init_result.fog_radius_after",
+      "java_expr": "fogRadius = Math.max(Mathf.round(range / tilesize * fogRadiusMultiplier), fogRadius);",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Updates fogRadius from rounded range over tilesize times multiplier.",
+      "runtime_proof": "/root/Main.source_base_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_init.method": {
+      "godot_owner": "PortGame.source_base_turret_init_state",
+      "godot_symbol": "source_base_turret_init_result.method",
+      "java_expr": "public void init(){",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Method boundary for BaseTurret.init.",
+      "runtime_proof": "/root/Main.source_base_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_init.overlap_guard": {
+      "godot_owner": "PortGame.source_base_turret_init_state",
+      "godot_symbol": "source_base_turret_init_input.disable_overlap_check",
+      "java_expr": "if(!disableOverlapCheck){",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Runtime disable_overlap_check supplies overlap guard.",
+      "runtime_proof": "/root/Main.source_base_turret_init_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_init.place_overlap_range": {
+      "godot_owner": "PortGame.source_base_turret_init_state",
+      "godot_symbol": "source_base_turret_init_result.place_overlap_range_after",
+      "java_expr": "placeOverlapRange = Math.max(placeOverlapRange, range + placeOverlapMargin);",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Updates placeOverlapRange when overlap check remains enabled.",
+      "runtime_proof": "/root/Main.source_base_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_init.super_init": {
+      "godot_owner": "PortGame.source_base_turret_init_state",
+      "godot_symbol": "source_base_turret_init_result.super_init_called",
+      "java_expr": "super.init();",
+      "java_method": "init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "BaseTurret.init delegates to superclass init at method end.",
+      "runtime_proof": "/root/Main.source_base_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_init_to_source_state",
+        "test_port_game_exposes_source_base_turret_init_state",
+        "test_port_game_exposes_generated_base_turret_init_bridge_state",
+        "test_base_turret_init_matches_upstream_source",
+        "test_generated_base_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
     "base_turret_reinitialize_consumers.check_init_coolant": {
       "godot_owner": "PortGame.source_base_turret_reinitialize_consumers_state",
       "godot_symbol": "source_base_turret_reinitialize_consumers_result.check_init_coolant_called",
