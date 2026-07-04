@@ -13972,5 +13972,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.useAmmo"', source)
         self.assertIn('"matches": result.get("returned_ammo", null) == canonical.get("returned_ammo", null)', source)
 
+    def test_port_game_exposes_source_liquid_turret_build_peek_ammo_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_liquid_turret_build_peek_ammo_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class LiquidTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"method": "public BulletType peekAmmo(){"', source)
+        self.assertIn('"return_expr": "return ammoTypes.get(liquids.current());"', source)
+        self.assertIn('"current_liquid": current_liquid', source)
+        self.assertIn('"peek_ammo": ammo_type', source)
+
+    def test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_peekAmmo_6([current_liquid, ammo_type])", source)
+        self.assertIn("var canonical = source_liquid_turret_build_peek_ammo_state(current_liquid, ammo_type)", source)
+        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_peek_ammo_state"', source)
+        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.peekAmmo"', source)
+        self.assertIn('"matches": result.get("peek_ammo", null) == canonical.get("peek_ammo", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

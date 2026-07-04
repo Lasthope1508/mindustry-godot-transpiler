@@ -27566,6 +27566,42 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
       "rule": "Public runtime contract for LiquidTurretBuild.useAmmo state."
+    },
+    "PortGame.source_liquid_turret_build_peek_ammo_state": {
+      "status": "source-backed",
+      "source_slice": "N1202",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurretBuild.peekAmmo()",
+      "params": [
+        {
+          "name": "current_liquid",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_peek_ammo_input.current_liquid"
+        },
+        {
+          "name": "ammo_type",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_peek_ammo_input.ammo_type"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "current_liquid",
+        "peek_ammo"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
+        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_peek_ammo_state",
+      "rule": "Public runtime contract for LiquidTurretBuild.peekAmmo state."
     }
   },
   "policy": {

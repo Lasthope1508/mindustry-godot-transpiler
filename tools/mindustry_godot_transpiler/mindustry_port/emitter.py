@@ -2982,6 +2982,14 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\tremove_liquid_call = {\"call\": \"liquids.remove(liquids.current(), 1f / type.ammoMultiplier);\", \"liquid\": current_liquid, \"amount\": liquid_remove_amount}",
                         "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_build_use_ammo_state\", \"inner_class\": \"public class LiquidTurretBuild extends TurretBuild{\", \"method\": \"public BulletType useAmmo(){\", \"override_expr\": \"@Override\", \"cheating_return_expr\": \"if(cheating()) return ammoTypes.get(liquids.current());\", \"type_lookup_expr\": \"BulletType type = ammoTypes.get(liquids.current());\", \"remove_expr\": \"liquids.remove(liquids.current(), 1f / type.ammoMultiplier);\", \"return_expr\": \"return type;\", \"cheating\": cheating, \"current_liquid\": current_liquid, \"ammo_type\": ammo_type, \"ammo_multiplier\": ammo_multiplier, \"liquid_remove_amount\": liquid_remove_amount, \"remove_liquid_call\": remove_liquid_call, \"returned_ammo\": returned_ammo}",
                     ])
+                elif method.get("name") == "peekAmmo":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_LiquidTurretBuild_method_peekAmmo_{index}(_args: Array = []) -> Variant:",
+                        "\tvar current_liquid: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar ammo_type: Variant = _args[1] if _args.size() > 1 else null",
+                        "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_build_peek_ammo_state\", \"inner_class\": \"public class LiquidTurretBuild extends TurretBuild{\", \"method\": \"public BulletType peekAmmo(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammoTypes.get(liquids.current());\", \"current_liquid\": current_liquid, \"peek_ammo\": ammo_type}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

@@ -86482,6 +86482,74 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_use_ammo_state",
       "rule": "Non-cheating branch returns looked-up BulletType."
+    },
+    "liquid_turret_build_peek_ammo.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.peekAmmo()",
+      "java_expr": "public BulletType peekAmmo(){",
+      "godot_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_peek_ammo_result.method",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
+        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_peek_ammo_state",
+      "rule": "Method boundary for LiquidTurretBuild.peekAmmo."
+    },
+    "liquid_turret_build_peek_ammo.current_liquid": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.peekAmmo()",
+      "java_expr": "liquids.current()",
+      "godot_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_peek_ammo_input.current_liquid",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
+        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_peek_ammo_state",
+      "rule": "Input supplies current liquid."
+    },
+    "liquid_turret_build_peek_ammo.ammo_type": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.peekAmmo()",
+      "java_expr": "ammoTypes.get(liquids.current())",
+      "godot_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_peek_ammo_input.ammo_type",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
+        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_peek_ammo_state",
+      "rule": "Input supplies ammoTypes lookup result."
+    },
+    "liquid_turret_build_peek_ammo.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.peekAmmo()",
+      "java_expr": "return ammoTypes.get(liquids.current());",
+      "godot_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_peek_ammo_result.peek_ammo",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
+        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_peek_ammo_state",
+      "rule": "peekAmmo returns ammoTypes.get(liquids.current())."
     }
   },
   "version": 1

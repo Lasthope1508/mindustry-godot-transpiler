@@ -27045,6 +27045,37 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_build_use_ammo_bridge_state",
       "rule": "LiquidTurretBuild.useAmmo returns ammo type immediately when cheating; otherwise removes 1f / type.ammoMultiplier from current liquid and returns type."
+    },
+    "N1202": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.peekAmmo()",
+      "godot_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public BulletType peekAmmo(){",
+        "return ammoTypes.get(liquids.current());"
+      ],
+      "deferred_exprs": [
+        "ObjectMap ammoTypes lookup internals stay deferred; this slice records peekAmmo return state using explicit current liquid and lookup result inputs."
+      ],
+      "source_symbols": [
+        "liquid_turret_build_peek_ammo.method",
+        "liquid_turret_build_peek_ammo.current_liquid",
+        "liquid_turret_build_peek_ammo.ammo_type",
+        "liquid_turret_build_peek_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_peek_ammo_bridge_state",
+        "test_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_peek_ammo_bridge_state",
+      "rule": "LiquidTurretBuild.peekAmmo returns ammoTypes.get(liquids.current())."
     }
   },
   "version": 1

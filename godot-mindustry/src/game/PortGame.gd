@@ -18179,6 +18179,30 @@ func generated_liquid_turret_build_use_ammo_bridge_state(cheating: bool, current
 			and result.get("cheating", null) == canonical.get("cheating", null),
 	}
 
+func source_liquid_turret_build_peek_ammo_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
+		"inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+		"method": "public BulletType peekAmmo(){",
+		"override_expr": "@Override",
+		"return_expr": "return ammoTypes.get(liquids.current());",
+		"current_liquid": current_liquid,
+		"peek_ammo": ammo_type,
+	}
+
+func generated_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_LiquidTurretBuild_method_peekAmmo_6([current_liquid, ammo_type])
+	var canonical = source_liquid_turret_build_peek_ammo_state(current_liquid, ammo_type)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_peek_ammo_state",
+		"generated_owner": "LiquidTurret.LiquidTurretBuild.peekAmmo",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("peek_ammo", null) == canonical.get("peek_ammo", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}
