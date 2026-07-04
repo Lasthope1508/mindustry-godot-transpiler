@@ -1440,6 +1440,57 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_builder_actively_building_state\", \"method\": \"boolean activelyBuilding(){\", \"comment\": \"//not actively building when not near the build plan\", \"guard_expr\": \"if(isBuilding()){\", \"plan_assignment\": \"var plan = buildPlan();\", \"range_expr\": \"state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange\", \"return_false_expr\": \"return false;\", \"return_expr\": \"return isBuilding() && updateBuilding;\", \"plans_size\": plans_size, \"plans_first\": plans_first, \"is_building\": is_building, \"build_plan\": build_plan, \"state_is_editor\": state_is_editor, \"state_rules_infinite_resources\": state_rules_infinite_resources, \"type_build_range\": type_build_range, \"final_place_dst\": final_place_dst, \"within_plan\": within_plan, \"update_building\": update_building, \"outside_range_blocked\": outside_range_blocked, \"actively_building\": actively_building}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
+        and type_entry.get("name") == "BuilderComp"
+        and method.get("name") == "drawBuilding"
+    ):
+        return [
+            "\tvar active: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar last_active: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar build_plan: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar tile_exists: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar core_exists: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar within_plan: bool = bool(_args[5] if _args.size() > 5 else false)",
+            "\tvar state_rules_infinite_resources: bool = bool(_args[6] if _args.size() > 6 else false)",
+            "\tvar type_build_range: float = float(_args[7] if _args.size() > 7 else 0.0)",
+            "\tvar is_local: bool = bool(_args[8] if _args.size() > 8 else false)",
+            "\tvar tile_block_is_construct_block: bool = bool(_args[9] if _args.size() > 9 else false)",
+            "\tvar state_is_paused: bool = bool(_args[10] if _args.size() > 10 else false)",
+            "\tvar type_draw_build_beam: bool = bool(_args[11] if _args.size() > 11 else false)",
+            "\tvar type_build_beam_offset: float = float(_args[12] if _args.size() > 12 else 0.0)",
+            "\tvar mathf_absin_time_3_0_6: float = float(_args[13] if _args.size() > 13 else 0.0)",
+            "\tvar x: float = float(_args[14] if _args.size() > 14 else 0.0)",
+            "\tvar y: float = float(_args[15] if _args.size() > 15 else 0.0)",
+            "\tvar rotation: float = float(_args[16] if _args.size() > 16 else 0.0)",
+            "\tvar angles_trnsx_rotation_focus_len: float = float(_args[17] if _args.size() > 17 else 0.0)",
+            "\tvar angles_trnsy_rotation_focus_len: float = float(_args[18] if _args.size() > 18 else 0.0)",
+            "\tvar inactive_without_last_active: bool = not active and last_active == null",
+            "\tvar plan: Variant = build_plan if active else last_active",
+            "\tvar z_flying_unit_call: Variant = null",
+            "\tvar outside_range_blocked: bool = not tile_exists or not within_plan",
+            "\tvar remote_plan_draw: bool = false",
+            "\tvar z_plans_call: Variant = null",
+            "\tvar draw_plan_call: Variant = null",
+            "\tvar draw_plan_top_call: Variant = null",
+            "\tvar z_restore_call: Variant = null",
+            "\tvar focus_len: float = type_build_beam_offset + mathf_absin_time_3_0_6",
+            "\tvar px: float = x + angles_trnsx_rotation_focus_len",
+            "\tvar py: float = y + angles_trnsy_rotation_focus_len",
+            "\tvar draw_building_beam_call: Variant = null",
+            "\tif not inactive_without_last_active:",
+            "\t\tz_flying_unit_call = {\"call\": \"Draw.z(Layer.flyingUnit);\", \"layer\": \"Layer.flyingUnit\"}",
+            "\t\tif not outside_range_blocked:",
+            "\t\t\tremote_plan_draw = core_exists and active and not is_local and not tile_block_is_construct_block and not state_is_paused",
+            "\t\t\tif remote_plan_draw:",
+            "\t\t\t\tz_plans_call = {\"call\": \"Draw.z(Layer.plans - 1f);\", \"layer\": \"Layer.plans - 1f\"}",
+            "\t\t\t\tdraw_plan_call = {\"call\": \"drawPlan(plan, 0.5f);\", \"plan\": plan, \"alpha\": 0.5}",
+            "\t\t\t\tdraw_plan_top_call = {\"call\": \"drawPlanTop(plan, 0.5f);\", \"plan\": plan, \"alpha\": 0.5}",
+            "\t\t\t\tz_restore_call = {\"call\": \"Draw.z(Layer.flyingUnit);\", \"layer\": \"Layer.flyingUnit\"}",
+            "\t\t\tif type_draw_build_beam:",
+            "\t\t\t\tdraw_building_beam_call = {\"call\": \"drawBuildingBeam(px, py);\", \"px\": px, \"py\": py}",
+            "\treturn {\"source_owner\": \"PortGame.source_builder_draw_building_state\", \"method\": \"public void drawBuilding(){\", \"todo_comment\": \"//TODO make this more generic so it works with builder \\\"weapons\\\"\", \"active_expr\": \"boolean active = activelyBuilding();\", \"inactive_guard_expr\": \"if(!active && lastActive == null) return;\", \"z_flying_expr\": \"Draw.z(Layer.flyingUnit);\", \"plan_expr\": \"BuildPlan plan = active ? buildPlan() : lastActive;\", \"tile_expr\": \"Tile tile = plan.tile();\", \"core_expr\": \"var core = team.core();\", \"range_guard_expr\": \"if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){\", \"remote_comment\": \"//draw remote plans.\", \"remote_guard_expr\": \"if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){\", \"z_plans_expr\": \"Draw.z(Layer.plans - 1f);\", \"draw_plan_expr\": \"drawPlan(plan, 0.5f);\", \"draw_plan_top_expr\": \"drawPlanTop(plan, 0.5f);\", \"beam_guard_expr\": \"if(type.drawBuildBeam){\", \"focus_len_expr\": \"float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);\", \"px_expr\": \"float px = x + Angles.trnsx(rotation, focusLen);\", \"py_expr\": \"float py = y + Angles.trnsy(rotation, focusLen);\", \"draw_beam_expr\": \"drawBuildingBeam(px, py);\", \"active\": active, \"last_active\": last_active, \"build_plan\": build_plan, \"plan\": plan, \"tile_exists\": tile_exists, \"core_exists\": core_exists, \"within_plan\": within_plan, \"state_rules_infinite_resources\": state_rules_infinite_resources, \"type_build_range\": type_build_range, \"is_local\": is_local, \"tile_block_is_construct_block\": tile_block_is_construct_block, \"state_is_paused\": state_is_paused, \"type_draw_build_beam\": type_draw_build_beam, \"type_build_beam_offset\": type_build_beam_offset, \"mathf_absin_time_3_0_6\": mathf_absin_time_3_0_6, \"x\": x, \"y\": y, \"rotation\": rotation, \"angles_trnsx_rotation_focus_len\": angles_trnsx_rotation_focus_len, \"angles_trnsy_rotation_focus_len\": angles_trnsy_rotation_focus_len, \"inactive_without_last_active\": inactive_without_last_active, \"z_flying_unit_call\": z_flying_unit_call, \"outside_range_blocked\": outside_range_blocked, \"remote_plan_draw\": remote_plan_draw, \"z_plans_call\": z_plans_call, \"draw_plan_call\": draw_plan_call, \"draw_plan_top_call\": draw_plan_top_call, \"z_restore_call\": z_restore_call, \"focus_len\": focus_len, \"px\": px, \"py\": py, \"draw_building_beam_call\": draw_building_beam_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "add"

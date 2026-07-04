@@ -7851,6 +7851,98 @@ func generated_builder_comp_draw_plan_bridge_state(plan: Variant, all_plans: Arr
 		"matches": result.get("draw_breaking_call", null) == canonical.get("draw_breaking_call", null) and result.get("draw_plan_call", null) == canonical.get("draw_plan_call", null),
 	}
 
+func source_builder_draw_building_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:
+	var inactive_without_last_active: bool = not active and last_active == null
+	var plan: Variant = build_plan if active else last_active
+	var z_flying_unit_call: Variant = null
+	var outside_range_blocked: bool = not tile_exists or not within_plan
+	var remote_plan_draw: bool = false
+	var z_plans_call: Variant = null
+	var draw_plan_call: Variant = null
+	var draw_plan_top_call: Variant = null
+	var z_restore_call: Variant = null
+	var focus_len: float = type_build_beam_offset + mathf_absin_time_3_0_6
+	var px: float = x + angles_trnsx_rotation_focus_len
+	var py: float = y + angles_trnsy_rotation_focus_len
+	var draw_building_beam_call: Variant = null
+	if not inactive_without_last_active:
+		z_flying_unit_call = {"call": "Draw.z(Layer.flyingUnit);", "layer": "Layer.flyingUnit"}
+		if not outside_range_blocked:
+			remote_plan_draw = core_exists and active and not is_local and not tile_block_is_construct_block and not state_is_paused
+			if remote_plan_draw:
+				z_plans_call = {"call": "Draw.z(Layer.plans - 1f);", "layer": "Layer.plans - 1f"}
+				draw_plan_call = {"call": "drawPlan(plan, 0.5f);", "plan": plan, "alpha": 0.5}
+				draw_plan_top_call = {"call": "drawPlanTop(plan, 0.5f);", "plan": plan, "alpha": 0.5}
+				z_restore_call = {"call": "Draw.z(Layer.flyingUnit);", "layer": "Layer.flyingUnit"}
+			if type_draw_build_beam:
+				draw_building_beam_call = {"call": "drawBuildingBeam(px, py);", "px": px, "py": py}
+	return {
+		"method": "public void drawBuilding(){",
+		"todo_comment": "//TODO make this more generic so it works with builder \"weapons\"",
+		"active_expr": "boolean active = activelyBuilding();",
+		"inactive_guard_expr": "if(!active && lastActive == null) return;",
+		"z_flying_expr": "Draw.z(Layer.flyingUnit);",
+		"plan_expr": "BuildPlan plan = active ? buildPlan() : lastActive;",
+		"tile_expr": "Tile tile = plan.tile();",
+		"core_expr": "var core = team.core();",
+		"range_guard_expr": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+		"remote_comment": "//draw remote plans.",
+		"remote_guard_expr": "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){",
+		"z_plans_expr": "Draw.z(Layer.plans - 1f);",
+		"draw_plan_expr": "drawPlan(plan, 0.5f);",
+		"draw_plan_top_expr": "drawPlanTop(plan, 0.5f);",
+		"beam_guard_expr": "if(type.drawBuildBeam){",
+		"focus_len_expr": "float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);",
+		"px_expr": "float px = x + Angles.trnsx(rotation, focusLen);",
+		"py_expr": "float py = y + Angles.trnsy(rotation, focusLen);",
+		"draw_beam_expr": "drawBuildingBeam(px, py);",
+		"active": active,
+		"last_active": last_active,
+		"build_plan": build_plan,
+		"plan": plan,
+		"tile_exists": tile_exists,
+		"core_exists": core_exists,
+		"within_plan": within_plan,
+		"state_rules_infinite_resources": state_rules_infinite_resources,
+		"type_build_range": type_build_range,
+		"is_local": is_local,
+		"tile_block_is_construct_block": tile_block_is_construct_block,
+		"state_is_paused": state_is_paused,
+		"type_draw_build_beam": type_draw_build_beam,
+		"type_build_beam_offset": type_build_beam_offset,
+		"mathf_absin_time_3_0_6": mathf_absin_time_3_0_6,
+		"x": x,
+		"y": y,
+		"rotation": rotation_value,
+		"angles_trnsx_rotation_focus_len": angles_trnsx_rotation_focus_len,
+		"angles_trnsy_rotation_focus_len": angles_trnsy_rotation_focus_len,
+		"inactive_without_last_active": inactive_without_last_active,
+		"z_flying_unit_call": z_flying_unit_call,
+		"outside_range_blocked": outside_range_blocked,
+		"remote_plan_draw": remote_plan_draw,
+		"z_plans_call": z_plans_call,
+		"draw_plan_call": draw_plan_call,
+		"draw_plan_top_call": draw_plan_top_call,
+		"z_restore_call": z_restore_call,
+		"focus_len": focus_len,
+		"px": px,
+		"py": py,
+		"draw_building_beam_call": draw_building_beam_call,
+	}
+
+func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawBuilding_15([active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len])
+	var canonical = source_builder_draw_building_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)
+	return {
+		"source_owner": "PortGame.source_builder_draw_building_state",
+		"generated_owner": "BuilderComp.java_method_drawBuilding_15",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("remote_plan_draw", null) == canonical.get("remote_plan_draw", null) and result.get("draw_building_beam_call", null) == canonical.get("draw_building_beam_call", null),
+	}
+
 func source_builder_draw_plan_top_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
 	var draw_top: bool = not plan_breaking
 	var mixcol_alpha: float = 0.24 + mathf_absin_time_global_6_0_28

@@ -179,7 +179,50 @@ func java_method_buildPlan_14(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_builder_build_plan_state", "method": "BuildPlan buildPlan(){", "return_expr": "return plans.size == 0 ? null : plans.first();", "plans_size": plans_size, "plans_first": plans_first, "build_plan": build_plan}
 
 func java_method_drawBuilding_15(_args: Array = []) -> Variant:
-	return null
+	var active: bool = bool(_args[0] if _args.size() > 0 else false)
+	var last_active: Variant = _args[1] if _args.size() > 1 else null
+	var build_plan: Variant = _args[2] if _args.size() > 2 else null
+	var tile_exists: bool = bool(_args[3] if _args.size() > 3 else false)
+	var core_exists: bool = bool(_args[4] if _args.size() > 4 else false)
+	var within_plan: bool = bool(_args[5] if _args.size() > 5 else false)
+	var state_rules_infinite_resources: bool = bool(_args[6] if _args.size() > 6 else false)
+	var type_build_range: float = float(_args[7] if _args.size() > 7 else 0.0)
+	var is_local: bool = bool(_args[8] if _args.size() > 8 else false)
+	var tile_block_is_construct_block: bool = bool(_args[9] if _args.size() > 9 else false)
+	var state_is_paused: bool = bool(_args[10] if _args.size() > 10 else false)
+	var type_draw_build_beam: bool = bool(_args[11] if _args.size() > 11 else false)
+	var type_build_beam_offset: float = float(_args[12] if _args.size() > 12 else 0.0)
+	var mathf_absin_time_3_0_6: float = float(_args[13] if _args.size() > 13 else 0.0)
+	var x: float = float(_args[14] if _args.size() > 14 else 0.0)
+	var y: float = float(_args[15] if _args.size() > 15 else 0.0)
+	var rotation: float = float(_args[16] if _args.size() > 16 else 0.0)
+	var angles_trnsx_rotation_focus_len: float = float(_args[17] if _args.size() > 17 else 0.0)
+	var angles_trnsy_rotation_focus_len: float = float(_args[18] if _args.size() > 18 else 0.0)
+	var inactive_without_last_active: bool = not active and last_active == null
+	var plan: Variant = build_plan if active else last_active
+	var z_flying_unit_call: Variant = null
+	var outside_range_blocked: bool = not tile_exists or not within_plan
+	var remote_plan_draw: bool = false
+	var z_plans_call: Variant = null
+	var draw_plan_call: Variant = null
+	var draw_plan_top_call: Variant = null
+	var z_restore_call: Variant = null
+	var focus_len: float = type_build_beam_offset + mathf_absin_time_3_0_6
+	var px: float = x + angles_trnsx_rotation_focus_len
+	var py: float = y + angles_trnsy_rotation_focus_len
+	var draw_building_beam_call: Variant = null
+	if not inactive_without_last_active:
+		z_flying_unit_call = {"call": "Draw.z(Layer.flyingUnit);", "layer": "Layer.flyingUnit"}
+		if not outside_range_blocked:
+			remote_plan_draw = core_exists and active and not is_local and not tile_block_is_construct_block and not state_is_paused
+			if remote_plan_draw:
+				z_plans_call = {"call": "Draw.z(Layer.plans - 1f);", "layer": "Layer.plans - 1f"}
+				draw_plan_call = {"call": "drawPlan(plan, 0.5f);", "plan": plan, "alpha": 0.5}
+				draw_plan_top_call = {"call": "drawPlanTop(plan, 0.5f);", "plan": plan, "alpha": 0.5}
+				z_restore_call = {"call": "Draw.z(Layer.flyingUnit);", "layer": "Layer.flyingUnit"}
+			if type_draw_build_beam:
+				draw_building_beam_call = {"call": "drawBuildingBeam(px, py);", "px": px, "py": py}
+	return {"source_owner": "PortGame.source_builder_draw_building_state", "method": "public void drawBuilding(){", "todo_comment": "//TODO make this more generic so it works with builder \"weapons\"", "active_expr": "boolean active = activelyBuilding();", "inactive_guard_expr": "if(!active && lastActive == null) return;", "z_flying_expr": "Draw.z(Layer.flyingUnit);", "plan_expr": "BuildPlan plan = active ? buildPlan() : lastActive;", "tile_expr": "Tile tile = plan.tile();", "core_expr": "var core = team.core();", "range_guard_expr": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){", "remote_comment": "//draw remote plans.", "remote_guard_expr": "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){", "z_plans_expr": "Draw.z(Layer.plans - 1f);", "draw_plan_expr": "drawPlan(plan, 0.5f);", "draw_plan_top_expr": "drawPlanTop(plan, 0.5f);", "beam_guard_expr": "if(type.drawBuildBeam){", "focus_len_expr": "float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);", "px_expr": "float px = x + Angles.trnsx(rotation, focusLen);", "py_expr": "float py = y + Angles.trnsy(rotation, focusLen);", "draw_beam_expr": "drawBuildingBeam(px, py);", "active": active, "last_active": last_active, "build_plan": build_plan, "plan": plan, "tile_exists": tile_exists, "core_exists": core_exists, "within_plan": within_plan, "state_rules_infinite_resources": state_rules_infinite_resources, "type_build_range": type_build_range, "is_local": is_local, "tile_block_is_construct_block": tile_block_is_construct_block, "state_is_paused": state_is_paused, "type_draw_build_beam": type_draw_build_beam, "type_build_beam_offset": type_build_beam_offset, "mathf_absin_time_3_0_6": mathf_absin_time_3_0_6, "x": x, "y": y, "rotation": rotation, "angles_trnsx_rotation_focus_len": angles_trnsx_rotation_focus_len, "angles_trnsy_rotation_focus_len": angles_trnsy_rotation_focus_len, "inactive_without_last_active": inactive_without_last_active, "z_flying_unit_call": z_flying_unit_call, "outside_range_blocked": outside_range_blocked, "remote_plan_draw": remote_plan_draw, "z_plans_call": z_plans_call, "draw_plan_call": draw_plan_call, "draw_plan_top_call": draw_plan_top_call, "z_restore_call": z_restore_call, "focus_len": focus_len, "px": px, "py": py, "draw_building_beam_call": draw_building_beam_call}
 
 func java_method_drawBuildingBeam_16(_args: Array = []) -> Variant:
 	return null

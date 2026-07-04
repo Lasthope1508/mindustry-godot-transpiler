@@ -25141,6 +25141,171 @@
         "test_builder_add_build_matches_upstream_source",
         "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_builder_draw_building_state": {
+      "source_slice": "N1153",
+      "source_method": "drawBuilding()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "active",
+          "type": "bool",
+          "schema": "source_builder_draw_building_input.active"
+        },
+        {
+          "name": "last_active",
+          "type": "Variant",
+          "schema": "source_builder_draw_building_input.last_active"
+        },
+        {
+          "name": "build_plan",
+          "type": "Variant",
+          "schema": "source_builder_draw_building_input.build_plan"
+        },
+        {
+          "name": "tile_exists",
+          "type": "bool",
+          "schema": "source_builder_draw_building_input.tile_exists"
+        },
+        {
+          "name": "core_exists",
+          "type": "bool",
+          "schema": "source_builder_draw_building_input.core_exists"
+        },
+        {
+          "name": "within_plan",
+          "type": "bool",
+          "schema": "source_builder_draw_building_input.within_plan"
+        },
+        {
+          "name": "state_rules_infinite_resources",
+          "type": "bool",
+          "schema": "source_builder_draw_building_input.state_rules_infinite_resources"
+        },
+        {
+          "name": "type_build_range",
+          "type": "float",
+          "schema": "source_builder_draw_building_input.type_build_range"
+        },
+        {
+          "name": "is_local",
+          "type": "bool",
+          "schema": "source_builder_draw_building_input.is_local"
+        },
+        {
+          "name": "tile_block_is_construct_block",
+          "type": "bool",
+          "schema": "source_builder_draw_building_input.tile_block_is_construct_block"
+        },
+        {
+          "name": "state_is_paused",
+          "type": "bool",
+          "schema": "source_builder_draw_building_input.state_is_paused"
+        },
+        {
+          "name": "type_draw_build_beam",
+          "type": "bool",
+          "schema": "source_builder_draw_building_input.type_draw_build_beam"
+        },
+        {
+          "name": "type_build_beam_offset",
+          "type": "float",
+          "schema": "source_builder_draw_building_input.type_build_beam_offset"
+        },
+        {
+          "name": "mathf_absin_time_3_0_6",
+          "type": "float",
+          "schema": "source_builder_draw_building_input.mathf_absin_time_3_0_6"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_builder_draw_building_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_builder_draw_building_input.y"
+        },
+        {
+          "name": "rotation_value",
+          "type": "float",
+          "schema": "source_builder_draw_building_input.rotation"
+        },
+        {
+          "name": "angles_trnsx_rotation_focus_len",
+          "type": "float",
+          "schema": "source_builder_draw_building_input.angles_trnsx_rotation_focus_len"
+        },
+        {
+          "name": "angles_trnsy_rotation_focus_len",
+          "type": "float",
+          "schema": "source_builder_draw_building_input.angles_trnsy_rotation_focus_len"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "todo_comment",
+        "active_expr",
+        "inactive_guard_expr",
+        "z_flying_expr",
+        "plan_expr",
+        "tile_expr",
+        "core_expr",
+        "range_guard_expr",
+        "remote_comment",
+        "remote_guard_expr",
+        "z_plans_expr",
+        "draw_plan_expr",
+        "draw_plan_top_expr",
+        "beam_guard_expr",
+        "focus_len_expr",
+        "px_expr",
+        "py_expr",
+        "draw_beam_expr",
+        "active",
+        "last_active",
+        "build_plan",
+        "plan",
+        "tile_exists",
+        "core_exists",
+        "within_plan",
+        "state_rules_infinite_resources",
+        "type_build_range",
+        "is_local",
+        "tile_block_is_construct_block",
+        "state_is_paused",
+        "type_draw_build_beam",
+        "type_build_beam_offset",
+        "mathf_absin_time_3_0_6",
+        "x",
+        "y",
+        "rotation",
+        "angles_trnsx_rotation_focus_len",
+        "angles_trnsy_rotation_focus_len",
+        "inactive_without_last_active",
+        "z_flying_unit_call",
+        "outside_range_blocked",
+        "remote_plan_draw",
+        "z_plans_call",
+        "draw_plan_call",
+        "draw_plan_top_call",
+        "z_restore_call",
+        "focus_len",
+        "px",
+        "py",
+        "draw_building_beam_call"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for BuilderComp.drawBuilding branch/call state, preserving source expressions without inlining renderer, distance, or trig internals.",
+      "runtime_proof": "/root/Main.source_builder_draw_building_state",
+      "tests": [
+        "test_emit_bridges_builder_comp_draw_building_to_source_state",
+        "test_port_game_exposes_source_builder_draw_building_state",
+        "test_port_game_exposes_generated_builder_comp_draw_building_bridge_state",
+        "test_builder_draw_building_matches_upstream_source",
+        "test_generated_builder_comp_draw_building_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

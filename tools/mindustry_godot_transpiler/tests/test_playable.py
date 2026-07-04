@@ -12779,5 +12779,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_drawPlan_5"', source)
         self.assertIn('"matches": result.get("draw_breaking_call", null) == canonical.get("draw_breaking_call", null) and result.get("draw_plan_call", null) == canonical.get("draw_plan_call", null)', source)
 
+    def test_port_game_exposes_source_builder_draw_building_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_draw_building_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:", source)
+        self.assertIn("var inactive_without_last_active: bool = not active and last_active == null", source)
+        self.assertIn("var plan: Variant = build_plan if active else last_active", source)
+        self.assertIn("var outside_range_blocked: bool = not tile_exists or not within_plan", source)
+        self.assertIn("var remote_plan_draw: bool = false", source)
+        self.assertIn("remote_plan_draw = core_exists and active and not is_local and not tile_block_is_construct_block and not state_is_paused", source)
+        self.assertIn("var focus_len: float = type_build_beam_offset + mathf_absin_time_3_0_6", source)
+        self.assertIn("var px: float = x + angles_trnsx_rotation_focus_len", source)
+        self.assertIn("var py: float = y + angles_trnsy_rotation_focus_len", source)
+        self.assertIn('"method": "public void drawBuilding(){"', source)
+        self.assertIn('"todo_comment": "//TODO make this more generic so it works with builder \\"weapons\\""', source)
+        self.assertIn('"range_guard_expr": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){"', source)
+        self.assertIn('"remote_guard_expr": "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){"', source)
+        self.assertIn('"draw_building_beam_call": draw_building_beam_call', source)
+
+    def test_port_game_exposes_generated_builder_comp_draw_building_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_draw_building_bridge_state(active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, core_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, is_local: bool, tile_block_is_construct_block: bool, state_is_paused: bool, type_draw_build_beam: bool, type_build_beam_offset: float, mathf_absin_time_3_0_6: float, x: float, y: float, rotation_value: float, angles_trnsx_rotation_focus_len: float, angles_trnsy_rotation_focus_len: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_drawBuilding_15([active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len])", source)
+        self.assertIn("var canonical = source_builder_draw_building_state(active, last_active, build_plan, tile_exists, core_exists, within_plan, state_rules_infinite_resources, type_build_range, is_local, tile_block_is_construct_block, state_is_paused, type_draw_build_beam, type_build_beam_offset, mathf_absin_time_3_0_6, x, y, rotation_value, angles_trnsx_rotation_focus_len, angles_trnsy_rotation_focus_len)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_draw_building_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_drawBuilding_15"', source)
+        self.assertIn('"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("remote_plan_draw", null) == canonical.get("remote_plan_draw", null) and result.get("draw_building_beam_call", null) == canonical.get("draw_building_beam_call", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

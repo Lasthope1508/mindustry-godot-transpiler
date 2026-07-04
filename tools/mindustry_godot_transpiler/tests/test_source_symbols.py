@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 621)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 622)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 626)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 627)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -41807,6 +41807,100 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_builder_add_build_result["keys"]["progress_copied"]["java_expr"], "place.progress = cons.progress;")
         self.assertEqual(source_builder_add_build_result["keys"]["add_last_call"]["java_expr"], "plans.addLast(place);")
         self.assertEqual(source_builder_add_build_result["keys"]["add_first_call"]["java_expr"], "plans.addFirst(place);")
+
+    def test_generated_builder_comp_draw_building_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "builder_draw_building.method")
+        self.assertEqual(method["java_expr"], "public void drawBuilding(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(method["java_method"], "drawBuilding()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_builder_draw_building_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_builder_draw_building_state")
+
+        active = source_symbols.source_symbol(registry, "builder_draw_building.active")
+        self.assertEqual(active["java_expr"], "activelyBuilding()")
+        self.assertEqual(active["godot_symbol"], "source_builder_draw_building_input.active")
+        plan = source_symbols.source_symbol(registry, "builder_draw_building.plan")
+        self.assertEqual(plan["java_expr"], "BuildPlan plan = active ? buildPlan() : lastActive;")
+        self.assertEqual(plan["godot_symbol"], "source_builder_draw_building_result.plan")
+        remote_guard = source_symbols.source_symbol(registry, "builder_draw_building.remote_guard")
+        self.assertEqual(remote_guard["java_expr"], "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){")
+        self.assertEqual(remote_guard["godot_symbol"], "source_builder_draw_building_result.remote_plan_draw")
+        draw_beam = source_symbols.source_symbol(registry, "builder_draw_building.draw_beam")
+        self.assertEqual(draw_beam["java_expr"], "drawBuildingBeam(px, py);")
+        self.assertEqual(draw_beam["godot_symbol"], "source_builder_draw_building_result.draw_building_beam_call")
+
+        draw_building_slice = source_symbols.source_slice(ledger, "N1153")
+        self.assertEqual(draw_building_slice["java_source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(draw_building_slice["java_method"], "drawBuilding()")
+        self.assertEqual(draw_building_slice["godot_owner"], "PortGame.source_builder_draw_building_state")
+        self.assertEqual(draw_building_slice["runtime_proof"], "/root/Main.generated_builder_comp_draw_building_bridge_state")
+        for expr in [
+            "public void drawBuilding(){",
+            "//TODO make this more generic so it works with builder \"weapons\"",
+            "boolean active = activelyBuilding();",
+            "if(!active && lastActive == null) return;",
+            "Draw.z(Layer.flyingUnit);",
+            "BuildPlan plan = active ? buildPlan() : lastActive;",
+            "Tile tile = plan.tile();",
+            "var core = team.core();",
+            "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+            "//draw remote plans.",
+            "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){",
+            "Draw.z(Layer.plans - 1f);",
+            "drawPlan(plan, 0.5f);",
+            "drawPlanTop(plan, 0.5f);",
+            "if(type.drawBuildBeam){",
+            "float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);",
+            "float px = x + Angles.trnsx(rotation, focusLen);",
+            "float py = y + Angles.trnsy(rotation, focusLen);",
+            "drawBuildingBeam(px, py);",
+        ]:
+            self.assertIn(expr, draw_building_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_builder_draw_building_state")
+        self.assertEqual(contract["params"], [
+            {"name": "active", "schema": "source_builder_draw_building_input.active", "type": "bool"},
+            {"name": "last_active", "schema": "source_builder_draw_building_input.last_active", "type": "Variant"},
+            {"name": "build_plan", "schema": "source_builder_draw_building_input.build_plan", "type": "Variant"},
+            {"name": "tile_exists", "schema": "source_builder_draw_building_input.tile_exists", "type": "bool"},
+            {"name": "core_exists", "schema": "source_builder_draw_building_input.core_exists", "type": "bool"},
+            {"name": "within_plan", "schema": "source_builder_draw_building_input.within_plan", "type": "bool"},
+            {"name": "state_rules_infinite_resources", "schema": "source_builder_draw_building_input.state_rules_infinite_resources", "type": "bool"},
+            {"name": "type_build_range", "schema": "source_builder_draw_building_input.type_build_range", "type": "float"},
+            {"name": "is_local", "schema": "source_builder_draw_building_input.is_local", "type": "bool"},
+            {"name": "tile_block_is_construct_block", "schema": "source_builder_draw_building_input.tile_block_is_construct_block", "type": "bool"},
+            {"name": "state_is_paused", "schema": "source_builder_draw_building_input.state_is_paused", "type": "bool"},
+            {"name": "type_draw_build_beam", "schema": "source_builder_draw_building_input.type_draw_build_beam", "type": "bool"},
+            {"name": "type_build_beam_offset", "schema": "source_builder_draw_building_input.type_build_beam_offset", "type": "float"},
+            {"name": "mathf_absin_time_3_0_6", "schema": "source_builder_draw_building_input.mathf_absin_time_3_0_6", "type": "float"},
+            {"name": "x", "schema": "source_builder_draw_building_input.x", "type": "float"},
+            {"name": "y", "schema": "source_builder_draw_building_input.y", "type": "float"},
+            {"name": "rotation_value", "schema": "source_builder_draw_building_input.rotation", "type": "float"},
+            {"name": "angles_trnsx_rotation_focus_len", "schema": "source_builder_draw_building_input.angles_trnsx_rotation_focus_len", "type": "float"},
+            {"name": "angles_trnsy_rotation_focus_len", "schema": "source_builder_draw_building_input.angles_trnsy_rotation_focus_len", "type": "float"},
+        ])
+        for key in ["method", "todo_comment", "active_expr", "inactive_guard_expr", "z_flying_expr", "plan_expr", "tile_expr", "core_expr", "range_guard_expr", "remote_comment", "remote_guard_expr", "z_plans_expr", "draw_plan_expr", "draw_plan_top_expr", "beam_guard_expr", "focus_len_expr", "px_expr", "py_expr", "draw_beam_expr", "active", "last_active", "build_plan", "plan", "tile_exists", "core_exists", "within_plan", "state_rules_infinite_resources", "type_build_range", "is_local", "tile_block_is_construct_block", "state_is_paused", "type_draw_build_beam", "type_build_beam_offset", "mathf_absin_time_3_0_6", "x", "y", "rotation", "angles_trnsx_rotation_focus_len", "angles_trnsy_rotation_focus_len", "inactive_without_last_active", "z_flying_unit_call", "outside_range_blocked", "remote_plan_draw", "z_plans_call", "draw_plan_call", "draw_plan_top_call", "z_restore_call", "focus_len", "px", "py", "draw_building_beam_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_builder_draw_building_input = source_symbols.state_schema(schema, "source_builder_draw_building_input")
+        self.assertEqual(source_builder_draw_building_input["keys"]["active"]["java_expr"], "activelyBuilding()")
+        self.assertEqual(source_builder_draw_building_input["keys"]["last_active"]["java_expr"], "lastActive")
+        self.assertEqual(source_builder_draw_building_input["keys"]["within_plan"]["java_expr"], "within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)")
+        self.assertEqual(source_builder_draw_building_input["keys"]["mathf_absin_time_3_0_6"]["java_expr"], "Mathf.absin(Time.time, 3f, 0.6f)")
+        source_builder_draw_building_result = source_symbols.state_schema(schema, "source_builder_draw_building_result")
+        self.assertEqual(source_builder_draw_building_result["keys"]["method"]["java_expr"], "public void drawBuilding(){")
+        self.assertEqual(source_builder_draw_building_result["keys"]["inactive_without_last_active"]["java_expr"], "if(!active && lastActive == null) return;")
+        self.assertEqual(source_builder_draw_building_result["keys"]["outside_range_blocked"]["java_expr"], "tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)")
+        self.assertEqual(source_builder_draw_building_result["keys"]["remote_plan_draw"]["java_expr"], "core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()")
+        self.assertEqual(source_builder_draw_building_result["keys"]["focus_len"]["java_expr"], "type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f)")
+        self.assertEqual(source_builder_draw_building_result["keys"]["draw_building_beam_call"]["java_expr"], "drawBuildingBeam(px, py);")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

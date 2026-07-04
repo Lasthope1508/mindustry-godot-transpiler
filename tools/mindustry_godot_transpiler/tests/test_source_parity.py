@@ -8196,5 +8196,33 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_builder_draw_building_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_builder_draw_building_source"))
+        report = source_parity.verify_builder_draw_building_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void drawBuilding(){",
+            "todo_comment": "//TODO make this more generic so it works with builder \"weapons\"",
+            "active_expr": "boolean active = activelyBuilding();",
+            "inactive_guard": "if(!active && lastActive == null) return;",
+            "z_flying": "Draw.z(Layer.flyingUnit);",
+            "plan_expr": "BuildPlan plan = active ? buildPlan() : lastActive;",
+            "tile_expr": "Tile tile = plan.tile();",
+            "core_expr": "var core = team.core();",
+            "range_guard": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+            "remote_comment": "//draw remote plans.",
+            "remote_guard": "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){",
+            "z_plans": "Draw.z(Layer.plans - 1f);",
+            "draw_plan": "drawPlan(plan, 0.5f);",
+            "draw_plan_top": "drawPlanTop(plan, 0.5f);",
+            "beam_guard": "if(type.drawBuildBeam){",
+            "focus_len": "float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);",
+            "px_expr": "float px = x + Angles.trnsx(rotation, focusLen);",
+            "py_expr": "float py = y + Angles.trnsy(rotation, focusLen);",
+            "draw_beam": "drawBuildingBeam(px, py);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

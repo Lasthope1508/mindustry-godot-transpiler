@@ -7073,5 +7073,77 @@ class BuilderComp{
             self.assertIn('"draw_plan_valid_expr": "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan)"', source_text)
             self.assertIn('"draw_plan_call": draw_plan_call', source_text)
 
+    def test_emit_bridges_builder_comp_draw_building_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    public void drawBuilding(){
+        //TODO make this more generic so it works with builder "weapons"
+        boolean active = activelyBuilding();
+        if(!active && lastActive == null) return;
+
+        Draw.z(Layer.flyingUnit);
+
+        BuildPlan plan = active ? buildPlan() : lastActive;
+        Tile tile = plan.tile();
+        var core = team.core();
+
+        if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){
+            return;
+        }
+
+        //draw remote plans.
+        if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){
+            Draw.z(Layer.plans - 1f);
+            drawPlan(plan, 0.5f);
+            drawPlanTop(plan, 0.5f);
+            Draw.z(Layer.flyingUnit);
+        }
+
+        if(type.drawBuildBeam){
+            float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);
+            float px = x + Angles.trnsx(rotation, focusLen);
+            float py = y + Angles.trnsy(rotation, focusLen);
+
+            drawBuildingBeam(px, py);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawBuilding_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var active: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var last_active: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var build_plan: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var plan: Variant = build_plan if active else last_active", source_text)
+            self.assertIn("var inactive_without_last_active: bool = not active and last_active == null", source_text)
+            self.assertIn("var outside_range_blocked: bool = not tile_exists or not within_plan", source_text)
+            self.assertIn("var remote_plan_draw: bool = false", source_text)
+            self.assertIn("remote_plan_draw = core_exists and active and not is_local and not tile_block_is_construct_block and not state_is_paused", source_text)
+            self.assertIn("var focus_len: float = type_build_beam_offset + mathf_absin_time_3_0_6", source_text)
+            self.assertIn("var px: float = x + angles_trnsx_rotation_focus_len", source_text)
+            self.assertIn("var py: float = y + angles_trnsy_rotation_focus_len", source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_draw_building_state"', source_text)
+            self.assertIn('"method": "public void drawBuilding(){"', source_text)
+            self.assertIn('"active_expr": "boolean active = activelyBuilding();"', source_text)
+            self.assertIn('"plan_expr": "BuildPlan plan = active ? buildPlan() : lastActive;"', source_text)
+            self.assertIn('"range_guard_expr": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){"', source_text)
+            self.assertIn('"remote_guard_expr": "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){"', source_text)
+            self.assertIn('"draw_building_beam_call": draw_building_beam_call', source_text)
+
 if __name__ == "__main__":
     unittest.main()

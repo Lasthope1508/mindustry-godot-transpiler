@@ -305,6 +305,37 @@ def verify_builder_draw_plan_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_builder_draw_building_source(upstream_root: Path) -> dict[str, Any]:
+    builder_comp_path = Path(upstream_root) / BUILDER_COMP_SOURCE
+    source = builder_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void drawBuilding(){",
+        "todo_comment": "//TODO make this more generic so it works with builder \"weapons\"",
+        "active_expr": "boolean active = activelyBuilding();",
+        "inactive_guard": "if(!active && lastActive == null) return;",
+        "z_flying": "Draw.z(Layer.flyingUnit);",
+        "plan_expr": "BuildPlan plan = active ? buildPlan() : lastActive;",
+        "tile_expr": "Tile tile = plan.tile();",
+        "core_expr": "var core = team.core();",
+        "range_guard": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+        "remote_comment": "//draw remote plans.",
+        "remote_guard": "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){",
+        "z_plans": "Draw.z(Layer.plans - 1f);",
+        "draw_plan": "drawPlan(plan, 0.5f);",
+        "draw_plan_top": "drawPlanTop(plan, 0.5f);",
+        "beam_guard": "if(type.drawBuildBeam){",
+        "focus_len": "float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);",
+        "px_expr": "float px = x + Angles.trnsx(rotation, focusLen);",
+        "py_expr": "float py = y + Angles.trnsy(rotation, focusLen);",
+        "draw_beam": "drawBuildingBeam(px, py);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BUILDER_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

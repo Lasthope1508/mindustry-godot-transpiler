@@ -92118,6 +92118,856 @@
           ]
         }
       }
+    },
+    "source_builder_draw_building_input": {
+      "status": "active",
+      "keys": {
+        "active": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "activelyBuilding()",
+          "godot_symbol": "source_builder_draw_building_input.active",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding active.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "last_active": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "lastActive",
+          "godot_symbol": "source_builder_draw_building_input.last_active",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding last_active.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "build_plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "buildPlan()",
+          "godot_symbol": "source_builder_draw_building_input.build_plan",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding build_plan.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "tile_exists": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "tile != null",
+          "godot_symbol": "source_builder_draw_building_input.tile_exists",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding tile_exists.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "core_exists": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "core != null",
+          "godot_symbol": "source_builder_draw_building_input.core_exists",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding core_exists.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "within_plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)",
+          "godot_symbol": "source_builder_draw_building_input.within_plan",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding within_plan.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "state_rules_infinite_resources": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "state.rules.infiniteResources",
+          "godot_symbol": "source_builder_draw_building_input.state_rules_infinite_resources",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding state_rules_infinite_resources.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "type_build_range": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "type.buildRange",
+          "godot_symbol": "source_builder_draw_building_input.type_build_range",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding type_build_range.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "is_local": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "isLocal()",
+          "godot_symbol": "source_builder_draw_building_input.is_local",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding is_local.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "tile_block_is_construct_block": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "tile.block() instanceof ConstructBlock",
+          "godot_symbol": "source_builder_draw_building_input.tile_block_is_construct_block",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding tile_block_is_construct_block.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "state_is_paused": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "state.isPaused()",
+          "godot_symbol": "source_builder_draw_building_input.state_is_paused",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding state_is_paused.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "type_draw_build_beam": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "type.drawBuildBeam",
+          "godot_symbol": "source_builder_draw_building_input.type_draw_build_beam",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding type_draw_build_beam.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "type_build_beam_offset": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "type.buildBeamOffset",
+          "godot_symbol": "source_builder_draw_building_input.type_build_beam_offset",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding type_build_beam_offset.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "mathf_absin_time_3_0_6": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Mathf.absin(Time.time, 3f, 0.6f)",
+          "godot_symbol": "source_builder_draw_building_input.mathf_absin_time_3_0_6",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding mathf_absin_time_3_0_6.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "x": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "x",
+          "godot_symbol": "source_builder_draw_building_input.x",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding x.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "y": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "y",
+          "godot_symbol": "source_builder_draw_building_input.y",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding y.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "rotation": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "rotation",
+          "godot_symbol": "source_builder_draw_building_input.rotation",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding rotation.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "angles_trnsx_rotation_focus_len": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Angles.trnsx(rotation, focusLen)",
+          "godot_symbol": "source_builder_draw_building_input.angles_trnsx_rotation_focus_len",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding angles_trnsx_rotation_focus_len.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "angles_trnsy_rotation_focus_len": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Angles.trnsy(rotation, focusLen)",
+          "godot_symbol": "source_builder_draw_building_input.angles_trnsy_rotation_focus_len",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Input preserves BuilderComp.drawBuilding angles_trnsy_rotation_focus_len.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        }
+      }
+    },
+    "source_builder_draw_building_result": {
+      "status": "active",
+      "keys": {
+        "method": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "public void drawBuilding(){",
+          "godot_symbol": "source_builder_draw_building_result.method",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding method.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "todo_comment": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "//TODO make this more generic so it works with builder \"weapons\"",
+          "godot_symbol": "source_builder_draw_building_result.todo_comment",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding todo_comment.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "active_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "boolean active = activelyBuilding();",
+          "godot_symbol": "source_builder_draw_building_result.active_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding active_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "inactive_guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "if(!active && lastActive == null) return;",
+          "godot_symbol": "source_builder_draw_building_result.inactive_guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding inactive_guard_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "z_flying_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Draw.z(Layer.flyingUnit);",
+          "godot_symbol": "source_builder_draw_building_result.z_flying_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding z_flying_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "plan_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "BuildPlan plan = active ? buildPlan() : lastActive;",
+          "godot_symbol": "source_builder_draw_building_result.plan_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding plan_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "tile_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Tile tile = plan.tile();",
+          "godot_symbol": "source_builder_draw_building_result.tile_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding tile_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "core_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "var core = team.core();",
+          "godot_symbol": "source_builder_draw_building_result.core_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding core_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "range_guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+          "godot_symbol": "source_builder_draw_building_result.range_guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding range_guard_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "remote_comment": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "//draw remote plans.",
+          "godot_symbol": "source_builder_draw_building_result.remote_comment",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding remote_comment.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "remote_guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){",
+          "godot_symbol": "source_builder_draw_building_result.remote_guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding remote_guard_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "z_plans_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Draw.z(Layer.plans - 1f);",
+          "godot_symbol": "source_builder_draw_building_result.z_plans_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding z_plans_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "draw_plan_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "drawPlan(plan, 0.5f);",
+          "godot_symbol": "source_builder_draw_building_result.draw_plan_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding draw_plan_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "draw_plan_top_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "drawPlanTop(plan, 0.5f);",
+          "godot_symbol": "source_builder_draw_building_result.draw_plan_top_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding draw_plan_top_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "beam_guard_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "if(type.drawBuildBeam){",
+          "godot_symbol": "source_builder_draw_building_result.beam_guard_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding beam_guard_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "focus_len_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);",
+          "godot_symbol": "source_builder_draw_building_result.focus_len_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding focus_len_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "px_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "float px = x + Angles.trnsx(rotation, focusLen);",
+          "godot_symbol": "source_builder_draw_building_result.px_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding px_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "py_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "float py = y + Angles.trnsy(rotation, focusLen);",
+          "godot_symbol": "source_builder_draw_building_result.py_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding py_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "draw_beam_expr": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "drawBuildingBeam(px, py);",
+          "godot_symbol": "source_builder_draw_building_result.draw_beam_expr",
+          "type": "String",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding draw_beam_expr.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "active": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "activelyBuilding()",
+          "godot_symbol": "source_builder_draw_building_result.active",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding active.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "last_active": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "lastActive",
+          "godot_symbol": "source_builder_draw_building_result.last_active",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding last_active.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "build_plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "buildPlan()",
+          "godot_symbol": "source_builder_draw_building_result.build_plan",
+          "type": "Variant",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding build_plan.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "BuildPlan plan = active ? buildPlan() : lastActive;",
+          "godot_symbol": "source_builder_draw_building_result.plan",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding plan.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "tile_exists": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "tile != null",
+          "godot_symbol": "source_builder_draw_building_result.tile_exists",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding tile_exists.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "core_exists": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "core != null",
+          "godot_symbol": "source_builder_draw_building_result.core_exists",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding core_exists.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "within_plan": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)",
+          "godot_symbol": "source_builder_draw_building_result.within_plan",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding within_plan.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "state_rules_infinite_resources": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "state.rules.infiniteResources",
+          "godot_symbol": "source_builder_draw_building_result.state_rules_infinite_resources",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding state_rules_infinite_resources.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "type_build_range": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "type.buildRange",
+          "godot_symbol": "source_builder_draw_building_result.type_build_range",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding type_build_range.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "is_local": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "isLocal()",
+          "godot_symbol": "source_builder_draw_building_result.is_local",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding is_local.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "tile_block_is_construct_block": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "tile.block() instanceof ConstructBlock",
+          "godot_symbol": "source_builder_draw_building_result.tile_block_is_construct_block",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding tile_block_is_construct_block.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "state_is_paused": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "state.isPaused()",
+          "godot_symbol": "source_builder_draw_building_result.state_is_paused",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding state_is_paused.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "type_draw_build_beam": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "type.drawBuildBeam",
+          "godot_symbol": "source_builder_draw_building_result.type_draw_build_beam",
+          "type": "bool",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding type_draw_build_beam.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "type_build_beam_offset": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "type.buildBeamOffset",
+          "godot_symbol": "source_builder_draw_building_result.type_build_beam_offset",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding type_build_beam_offset.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "mathf_absin_time_3_0_6": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Mathf.absin(Time.time, 3f, 0.6f)",
+          "godot_symbol": "source_builder_draw_building_result.mathf_absin_time_3_0_6",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding mathf_absin_time_3_0_6.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "x": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "x",
+          "godot_symbol": "source_builder_draw_building_result.x",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding x.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "y": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "y",
+          "godot_symbol": "source_builder_draw_building_result.y",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding y.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "rotation": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "rotation",
+          "godot_symbol": "source_builder_draw_building_result.rotation",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding rotation.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "angles_trnsx_rotation_focus_len": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Angles.trnsx(rotation, focusLen)",
+          "godot_symbol": "source_builder_draw_building_result.angles_trnsx_rotation_focus_len",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding angles_trnsx_rotation_focus_len.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "angles_trnsy_rotation_focus_len": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Angles.trnsy(rotation, focusLen)",
+          "godot_symbol": "source_builder_draw_building_result.angles_trnsy_rotation_focus_len",
+          "type": "float",
+          "status": "explicit-input",
+          "rule": "Result key preserves BuilderComp.drawBuilding angles_trnsy_rotation_focus_len.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "inactive_without_last_active": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "if(!active && lastActive == null) return;",
+          "godot_symbol": "source_builder_draw_building_result.inactive_without_last_active",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding inactive_without_last_active.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "z_flying_unit_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Draw.z(Layer.flyingUnit);",
+          "godot_symbol": "source_builder_draw_building_result.z_flying_unit_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding z_flying_unit_call.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "outside_range_blocked": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)",
+          "godot_symbol": "source_builder_draw_building_result.outside_range_blocked",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding outside_range_blocked.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "remote_plan_draw": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()",
+          "godot_symbol": "source_builder_draw_building_result.remote_plan_draw",
+          "type": "bool",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding remote_plan_draw.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "z_plans_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Draw.z(Layer.plans - 1f);",
+          "godot_symbol": "source_builder_draw_building_result.z_plans_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding z_plans_call.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "draw_plan_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "drawPlan(plan, 0.5f);",
+          "godot_symbol": "source_builder_draw_building_result.draw_plan_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding draw_plan_call.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "draw_plan_top_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "drawPlanTop(plan, 0.5f);",
+          "godot_symbol": "source_builder_draw_building_result.draw_plan_top_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding draw_plan_top_call.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "z_restore_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "Draw.z(Layer.flyingUnit);",
+          "godot_symbol": "source_builder_draw_building_result.z_restore_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding z_restore_call.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "focus_len": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f)",
+          "godot_symbol": "source_builder_draw_building_result.focus_len",
+          "type": "float",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding focus_len.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "px": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "x + Angles.trnsx(rotation, focusLen)",
+          "godot_symbol": "source_builder_draw_building_result.px",
+          "type": "float",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding px.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "py": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "y + Angles.trnsy(rotation, focusLen)",
+          "godot_symbol": "source_builder_draw_building_result.py",
+          "type": "float",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding py.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        },
+        "draw_building_beam_call": {
+          "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+          "java_method": "drawBuilding()",
+          "java_expr": "drawBuildingBeam(px, py);",
+          "godot_symbol": "source_builder_draw_building_result.draw_building_beam_call",
+          "type": "Variant",
+          "status": "source-backed",
+          "rule": "Result key preserves BuilderComp.drawBuilding draw_building_beam_call.",
+          "used_by": [
+            "PortGame.source_builder_draw_building_state"
+          ]
+        }
+      }
     }
   },
   "version": 1
