@@ -16681,6 +16681,32 @@ func generated_turret_load_bridge_state() -> Dictionary:
 		"matches": result.get("drawer_load_called", null) == canonical.get("drawer_load_called", null),
 	}
 
+func source_turret_draw_plan_region_state(plan: Variant, list: Variant) -> Dictionary:
+	var drawer_draw_plan_call: Dictionary = {"call": "drawer.drawPlan(this, plan, list);", "plan": plan, "list": list}
+	return {
+		"source_owner": "PortGame.source_turret_draw_plan_region_state",
+		"method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+		"override_expr": "@Override",
+		"drawer_draw_plan_expr": "drawer.drawPlan(this, plan, list);",
+		"plan": plan,
+		"list": list,
+		"drawer_draw_plan_call": drawer_draw_plan_call,
+		"drawer_draw_plan_called": true,
+	}
+
+func generated_turret_draw_plan_region_bridge_state(plan: Variant, list: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawPlanRegion_5([plan, list])
+	var canonical = source_turret_draw_plan_region_state(plan, list)
+	return {
+		"source_owner": "PortGame.source_turret_draw_plan_region_state",
+		"generated_owner": "Turret.java_method_drawPlanRegion_5",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("drawer_draw_plan_called", null) == canonical.get("drawer_draw_plan_called", null) and result.get("plan", null) == canonical.get("plan", null) and result.get("list", null) == canonical.get("list", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

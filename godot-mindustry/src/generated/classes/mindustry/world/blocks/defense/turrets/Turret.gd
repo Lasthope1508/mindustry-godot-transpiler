@@ -50,7 +50,10 @@ func java_method_load_4(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_turret_load_state", "method": "public void load(){", "override_expr": "@Override", "super_load_expr": "super.load();", "drawer_load_expr": "drawer.load(this);", "super_load_called": true, "drawer_load_called": true}
 
 func java_method_drawPlanRegion_5(_args: Array = []) -> Variant:
-	return null
+	var plan: Variant = _args[0] if _args.size() > 0 else null
+	var list: Variant = _args[1] if _args.size() > 1 else null
+	var drawer_draw_plan_call: Dictionary = {"call": "drawer.drawPlan(this, plan, list);", "plan": plan, "list": list}
+	return {"source_owner": "PortGame.source_turret_draw_plan_region_state", "method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){", "override_expr": "@Override", "drawer_draw_plan_expr": "drawer.drawPlan(this, plan, list);", "plan": plan, "list": list, "drawer_draw_plan_call": drawer_draw_plan_call, "drawer_draw_plan_called": true}
 
 func java_method_icons_6(_args: Array = []) -> Variant:
 	return null

@@ -94476,6 +94476,128 @@
       "rule": "Dictionary returned by PortGame.source_turret_load_state.",
       "source_slice": "N1157",
       "status": "source-backed"
+    },
+    "source_turret_draw_plan_region_input": {
+      "keys": {
+        "plan": {
+          "godot_symbol": "source_turret_draw_plan_region_input.plan",
+          "java_expr": "BuildPlan plan",
+          "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves draw plan parameter.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_draw_plan_region_state"
+          ]
+        },
+        "list": {
+          "godot_symbol": "source_turret_draw_plan_region_input.list",
+          "java_expr": "Eachable<BuildPlan> list",
+          "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves draw plan list parameter.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_draw_plan_region_state"
+          ]
+        }
+      },
+      "rule": "Dictionary input for PortGame.source_turret_draw_plan_region_state.",
+      "source_slice": "N1158",
+      "status": "source-backed"
+    },
+    "source_turret_draw_plan_region_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_turret_draw_plan_region_result.method",
+          "java_expr": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+          "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves method boundary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_draw_plan_region_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_turret_draw_plan_region_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves override annotation.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_draw_plan_region_state"
+          ]
+        },
+        "drawer_draw_plan_expr": {
+          "godot_symbol": "source_turret_draw_plan_region_result.drawer_draw_plan_expr",
+          "java_expr": "drawer.drawPlan(this, plan, list);",
+          "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves drawer draw plan call string.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_draw_plan_region_state"
+          ]
+        },
+        "drawer_draw_plan_called": {
+          "godot_symbol": "source_turret_draw_plan_region_result.drawer_draw_plan_called",
+          "java_expr": "drawer.drawPlan(this, plan, list);",
+          "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records drawer draw plan dispatch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_draw_plan_region_state"
+          ]
+        },
+        "plan": {
+          "godot_symbol": "source_turret_draw_plan_region_result.plan",
+          "java_expr": "BuildPlan plan",
+          "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries plan parameter.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_draw_plan_region_state"
+          ]
+        },
+        "list": {
+          "godot_symbol": "source_turret_draw_plan_region_result.list",
+          "java_expr": "Eachable<BuildPlan> list",
+          "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries list parameter.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_draw_plan_region_state"
+          ]
+        },
+        "drawer_draw_plan_call": {
+          "godot_symbol": "source_turret_draw_plan_region_result.drawer_draw_plan_call",
+          "java_expr": "drawer.drawPlan(this, plan, list);",
+          "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records drawer draw plan call payload.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_draw_plan_region_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_turret_draw_plan_region_state.",
+      "source_slice": "N1158",
+      "status": "source-backed"
     }
   },
   "version": 1

@@ -1259,6 +1259,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_turret_load_state\", \"method\": \"public void load(){\", \"override_expr\": \"@Override\", \"super_load_expr\": \"super.load();\", \"drawer_load_expr\": \"drawer.load(this);\", \"super_load_called\": true, \"drawer_load_called\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+        and type_entry.get("name") == "Turret"
+        and method.get("name") == "drawPlanRegion"
+    ):
+        return [
+            "\tvar plan: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar list: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar drawer_draw_plan_call: Dictionary = {\"call\": \"drawer.drawPlan(this, plan, list);\", \"plan\": plan, \"list\": list}",
+            "\treturn {\"source_owner\": \"PortGame.source_turret_draw_plan_region_state\", \"method\": \"public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){\", \"override_expr\": \"@Override\", \"drawer_draw_plan_expr\": \"drawer.drawPlan(this, plan, list);\", \"plan\": plan, \"list\": list, \"drawer_draw_plan_call\": drawer_draw_plan_call, \"drawer_draw_plan_called\": true}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

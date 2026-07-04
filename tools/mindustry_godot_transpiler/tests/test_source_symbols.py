@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 626)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 627)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 631)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 632)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42140,6 +42140,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_load_result["keys"]["method"]["java_expr"], "public void load(){")
         self.assertEqual(source_turret_load_result["keys"]["super_load_called"]["java_expr"], "super.load();")
         self.assertEqual(source_turret_load_result["keys"]["drawer_load_called"]["java_expr"], "drawer.load(this);")
+
+    def test_generated_turret_draw_plan_region_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_draw_plan_region.method")
+        self.assertEqual(method["java_expr"], "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_draw_plan_region_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_draw_plan_region_state")
+
+        drawer_draw_plan = source_symbols.source_symbol(registry, "turret_draw_plan_region.drawer_draw_plan")
+        self.assertEqual(drawer_draw_plan["java_expr"], "drawer.drawPlan(this, plan, list);")
+        self.assertEqual(drawer_draw_plan["godot_symbol"], "source_turret_draw_plan_region_result.drawer_draw_plan_called")
+
+        draw_plan_slice = source_symbols.source_slice(ledger, "N1158")
+        self.assertEqual(draw_plan_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(draw_plan_slice["java_method"], "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)")
+        self.assertEqual(draw_plan_slice["godot_owner"], "PortGame.source_turret_draw_plan_region_state")
+        self.assertEqual(draw_plan_slice["runtime_proof"], "/root/Main.generated_turret_draw_plan_region_bridge_state")
+        for expr in [
+            "@Override",
+            "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+            "drawer.drawPlan(this, plan, list);",
+        ]:
+            self.assertIn(expr, draw_plan_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_draw_plan_region_state")
+        self.assertEqual(contract["params"], [
+            {"name": "plan", "schema": "source_turret_draw_plan_region_input.plan", "type": "Variant"},
+            {"name": "list", "schema": "source_turret_draw_plan_region_input.list", "type": "Variant"},
+        ])
+        for key in ["method", "override_expr", "drawer_draw_plan_expr", "drawer_draw_plan_called", "plan", "list", "drawer_draw_plan_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_turret_draw_plan_region_input = source_symbols.state_schema(schema, "source_turret_draw_plan_region_input")
+        self.assertEqual(source_turret_draw_plan_region_input["keys"]["plan"]["java_expr"], "BuildPlan plan")
+        self.assertEqual(source_turret_draw_plan_region_input["keys"]["list"]["java_expr"], "Eachable<BuildPlan> list")
+        source_turret_draw_plan_region_result = source_symbols.state_schema(schema, "source_turret_draw_plan_region_result")
+        self.assertEqual(source_turret_draw_plan_region_result["keys"]["method"]["java_expr"], "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){")
+        self.assertEqual(source_turret_draw_plan_region_result["keys"]["drawer_draw_plan_called"]["java_expr"], "drawer.drawPlan(this, plan, list);")
+        self.assertEqual(source_turret_draw_plan_region_result["keys"]["drawer_draw_plan_call"]["java_expr"], "drawer.drawPlan(this, plan, list);")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

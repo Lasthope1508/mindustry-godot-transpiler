@@ -25439,6 +25439,37 @@
         "test_turret_load_matches_upstream_source",
         "test_generated_turret_load_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1158": {
+      "deferred_exprs": [
+        "DrawBlock.drawPlan rendering internals and Eachable iteration remain owned by drawer/source rendering slices; this slice preserves Turret.drawPlanRegion dispatch only."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+        "drawer.drawPlan(this, plan, list);"
+      ],
+      "godot_owner": "PortGame.source_turret_draw_plan_region_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.drawPlanRegion preserves drawer.drawPlan(this, plan, list) dispatch with explicit plan/list parameters.",
+      "runtime_proof": "/root/Main.generated_turret_draw_plan_region_bridge_state",
+      "source_symbols": [
+        "turret_draw_plan_region.method",
+        "turret_draw_plan_region.override",
+        "turret_draw_plan_region.plan",
+        "turret_draw_plan_region.list",
+        "turret_draw_plan_region.drawer_draw_plan"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_turret_draw_plan_region_state",
+        "test_port_game_exposes_generated_turret_draw_plan_region_bridge_state",
+        "test_turret_draw_plan_region_matches_upstream_source",
+        "test_generated_turret_draw_plan_region_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

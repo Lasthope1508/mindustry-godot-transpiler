@@ -12906,5 +12906,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_load_4"', source)
         self.assertIn('"matches": result.get("drawer_load_called", null) == canonical.get("drawer_load_called", null)', source)
 
+    def test_port_game_exposes_source_turret_draw_plan_region_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_draw_plan_region_state(plan: Variant, list: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){"', source)
+        self.assertIn('"drawer_draw_plan_expr": "drawer.drawPlan(this, plan, list);"', source)
+        self.assertIn('"drawer_draw_plan_called": true', source)
+        self.assertIn('"plan": plan', source)
+        self.assertIn('"list": list', source)
+
+    def test_port_game_exposes_generated_turret_draw_plan_region_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_draw_plan_region_bridge_state(plan: Variant, list: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_drawPlanRegion_5([plan, list])", source)
+        self.assertIn("var canonical = source_turret_draw_plan_region_state(plan, list)", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_draw_plan_region_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_drawPlanRegion_5"', source)
+        self.assertIn('"matches": result.get("drawer_draw_plan_called", null) == canonical.get("drawer_draw_plan_called", null) and result.get("plan", null) == canonical.get("plan", null) and result.get("list", null) == canonical.get("list", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

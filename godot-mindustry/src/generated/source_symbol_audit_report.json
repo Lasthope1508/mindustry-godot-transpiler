@@ -4,8 +4,8 @@
     "newSourceOwnerRequiresRegistry": true,
     "legacyBackfillStatus": "tracked"
   },
-  "totalSourceFunctions": 631,
-  "registeredSourceOwnerCount": 626,
+  "totalSourceFunctions": 632,
+  "registeredSourceOwnerCount": 627,
   "exemptSourceOwnerCount": 5,
   "legacyUnregisteredOwnerCount": 0,
   "registeredSourceOwners": [
@@ -481,6 +481,7 @@
     "PortGame.source_thermal_generator_update_tile_state",
     "PortGame.source_turret_ammo_data",
     "PortGame.source_turret_bullet_origin",
+    "PortGame.source_turret_draw_plan_region_state",
     "PortGame.source_turret_inaccuracy",
     "PortGame.source_turret_init_state",
     "PortGame.source_turret_load_state",
@@ -3653,6 +3654,11 @@
     {
       "owner": "PortGame.source_turret_load_state",
       "function": "source_turret_load_state",
+      "gdscript_path": "src/game/PortGame.gd"
+    },
+    {
+      "owner": "PortGame.source_turret_draw_plan_region_state",
+      "function": "source_turret_draw_plan_region_state",
       "gdscript_path": "src/game/PortGame.gd"
     },
     {
