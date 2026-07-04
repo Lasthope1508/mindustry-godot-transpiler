@@ -7495,6 +7495,59 @@ public class BaseTurret extends Block{
             self.assertIn('"fog_guard_expr": "if(fogRadiusMultiplier < 0.99f && state.rules.fog){"', source_text)
             self.assertIn('"fog_dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);"', source_text)
 
+    def test_emit_bridges_base_turret_set_stats_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            base_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.java"
+            base_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            base_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class BaseTurret extends Block{
+    @Override
+    public void init(){
+    }
+
+    @Override
+    public void reinitializeConsumers(){
+    }
+
+    void checkInitCoolant(){
+    }
+
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+    }
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);
+        if(activationTime > 0) stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "BaseTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setStats_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var shoot_range_blocks: float = range_value / source_tilesize", source_text)
+            self.assertIn("var activation_time_stat_called: bool = activation_time > 0.0", source_text)
+            self.assertIn('"source_owner": "PortGame.source_base_turret_set_stats_state"', source_text)
+            self.assertIn('"method": "public void setStats(){"', source_text)
+            self.assertIn('"super_set_stats_expr": "super.setStats();"', source_text)
+            self.assertIn('"shoot_range_stat_expr": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);"', source_text)
+            self.assertIn('"activation_time_guard_expr": "if(activationTime > 0)"', source_text)
+            self.assertIn('"activation_time_stat_expr": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);"', source_text)
+
     def test_emit_bridges_turret_load_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

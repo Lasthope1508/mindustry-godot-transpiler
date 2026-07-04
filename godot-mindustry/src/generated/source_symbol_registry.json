@@ -2748,6 +2748,113 @@
         "test_generated_base_turret_draw_place_slice_is_registered_with_source_backing"
       ]
     },
+    "base_turret_set_stats.activation_time": {
+      "godot_owner": "PortGame.source_base_turret_set_stats_state",
+      "godot_symbol": "source_base_turret_set_stats_input.activation_time",
+      "java_expr": "activationTime",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Runtime input for BaseTurret.activationTime.",
+      "runtime_proof": "/root/Main.source_base_turret_set_stats_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_stats.activation_time_stat": {
+      "godot_owner": "PortGame.source_base_turret_set_stats_state",
+      "godot_symbol": "source_base_turret_set_stats_result.activation_time_stat_call",
+      "java_expr": "if(activationTime > 0) stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Activation time stat is added only when activationTime is positive.",
+      "runtime_proof": "/root/Main.source_base_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_stats_state",
+        "test_port_game_exposes_generated_base_turret_set_stats_bridge_state",
+        "test_base_turret_set_stats_matches_upstream_source",
+        "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_stats.method": {
+      "godot_owner": "PortGame.source_base_turret_set_stats_state",
+      "godot_symbol": "source_base_turret_set_stats_result.method",
+      "java_expr": "public void setStats(){",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Method boundary for BaseTurret.setStats.",
+      "runtime_proof": "/root/Main.source_base_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_stats_state",
+        "test_port_game_exposes_generated_base_turret_set_stats_bridge_state",
+        "test_base_turret_set_stats_matches_upstream_source",
+        "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_stats.range": {
+      "godot_owner": "PortGame.source_base_turret_set_stats_state",
+      "godot_symbol": "source_base_turret_set_stats_input.range",
+      "java_expr": "range",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Runtime input for BaseTurret.range.",
+      "runtime_proof": "/root/Main.source_base_turret_set_stats_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_stats.shoot_range_stat": {
+      "godot_owner": "PortGame.source_base_turret_set_stats_state",
+      "godot_symbol": "source_base_turret_set_stats_result.shoot_range_stat_call",
+      "java_expr": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Shoot range stat is always added as range / tilesize in blocks.",
+      "runtime_proof": "/root/Main.source_base_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_stats_state",
+        "test_port_game_exposes_generated_base_turret_set_stats_bridge_state",
+        "test_base_turret_set_stats_matches_upstream_source",
+        "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_stats.super_set_stats": {
+      "godot_owner": "PortGame.source_base_turret_set_stats_state",
+      "godot_symbol": "source_base_turret_set_stats_result.super_set_stats_called",
+      "java_expr": "super.setStats();",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "BaseTurret.setStats delegates to superclass first.",
+      "runtime_proof": "/root/Main.source_base_turret_set_stats_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_stats_state",
+        "test_port_game_exposes_generated_base_turret_set_stats_bridge_state",
+        "test_base_turret_set_stats_matches_upstream_source",
+        "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "base_turret_set_stats.tilesize": {
+      "godot_owner": "PortGame.source_base_turret_set_stats_state",
+      "godot_symbol": "source_base_turret_set_stats_input.tilesize",
+      "java_expr": "tilesize",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "Runtime input for Vars.tilesize static value.",
+      "runtime_proof": "/root/Main.source_base_turret_set_stats_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
     "base_turret_init.check_init_coolant": {
       "godot_owner": "PortGame.source_base_turret_init_state",
       "godot_symbol": "source_base_turret_init_result.check_init_coolant_called",

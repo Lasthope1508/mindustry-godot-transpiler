@@ -16813,6 +16813,44 @@ func generated_base_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rot
 		"matches": result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null) and result.get("fog_dash_circle_call", null) == canonical.get("fog_dash_circle_call", null) and result.get("super_draw_place_called", null) == canonical.get("super_draw_place_called", null),
 	}
 
+func source_base_turret_set_stats_state(range_value: float, source_tilesize: float, activation_time: float) -> Dictionary:
+	var shoot_range_blocks: float = range_value / source_tilesize
+	var shoot_range_stat_call: Dictionary = {"call": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);", "stat": "Stat.shootRange", "value": shoot_range_blocks, "unit": "StatUnit.blocks"}
+	var activation_time_stat_called: bool = activation_time > 0.0
+	var activation_time_stat_call: Dictionary = {}
+	if activation_time_stat_called:
+		activation_time_stat_call = {"call": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);", "stat": "Stat.activationTime", "value": activation_time / 60.0, "unit": "StatUnit.seconds"}
+	return {
+		"source_owner": "PortGame.source_base_turret_set_stats_state",
+		"method": "public void setStats(){",
+		"override_expr": "@Override",
+		"super_set_stats_expr": "super.setStats();",
+		"shoot_range_stat_expr": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);",
+		"activation_time_guard_expr": "if(activationTime > 0)",
+		"activation_time_stat_expr": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);",
+		"range": range_value,
+		"tilesize": source_tilesize,
+		"activation_time": activation_time,
+		"shoot_range_blocks": shoot_range_blocks,
+		"super_set_stats_called": true,
+		"shoot_range_stat_call": shoot_range_stat_call,
+		"activation_time_stat_called": activation_time_stat_called,
+		"activation_time_stat_call": activation_time_stat_call,
+	}
+
+func generated_base_turret_set_stats_bridge_state(range_value: float, source_tilesize: float, activation_time: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setStats_4([range_value, source_tilesize, activation_time])
+	var canonical = source_base_turret_set_stats_state(range_value, source_tilesize, activation_time)
+	return {
+		"source_owner": "PortGame.source_base_turret_set_stats_state",
+		"generated_owner": "BaseTurret.java_method_setStats_4",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("shoot_range_stat_call", null) == canonical.get("shoot_range_stat_call", null) and result.get("activation_time_stat_call", null) == canonical.get("activation_time_stat_call", null) and result.get("super_set_stats_called", null) == canonical.get("super_set_stats_called", null),
+	}
+
 func source_turret_load_state() -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_turret_load_state",

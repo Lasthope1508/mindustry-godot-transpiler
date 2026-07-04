@@ -1354,6 +1354,23 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
         and type_entry.get("name") == "BaseTurret"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar range_value: float = float(_args[0] if _args.size() > 0 else 80.0)",
+            "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)",
+            "\tvar activation_time: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar shoot_range_blocks: float = range_value / source_tilesize",
+            "\tvar shoot_range_stat_call: Dictionary = {\"call\": \"stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);\", \"stat\": \"Stat.shootRange\", \"value\": shoot_range_blocks, \"unit\": \"StatUnit.blocks\"}",
+            "\tvar activation_time_stat_called: bool = activation_time > 0.0",
+            "\tvar activation_time_stat_call: Dictionary = {}",
+            "\tif activation_time_stat_called:",
+            "\t\tactivation_time_stat_call = {\"call\": \"stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);\", \"stat\": \"Stat.activationTime\", \"value\": activation_time / 60.0, \"unit\": \"StatUnit.seconds\"}",
+            "\treturn {\"source_owner\": \"PortGame.source_base_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"shoot_range_stat_expr\": \"stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);\", \"activation_time_guard_expr\": \"if(activationTime > 0)\", \"activation_time_stat_expr\": \"stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);\", \"range\": range_value, \"tilesize\": source_tilesize, \"activation_time\": activation_time, \"shoot_range_blocks\": shoot_range_blocks, \"super_set_stats_called\": true, \"shoot_range_stat_call\": shoot_range_stat_call, \"activation_time_stat_called\": activation_time_stat_called, \"activation_time_stat_call\": activation_time_stat_call}",
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/BaseTurret.java"
+        and type_entry.get("name") == "BaseTurret"
         and method.get("name") == "init"
     ):
         return [

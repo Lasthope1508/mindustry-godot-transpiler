@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 678)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 679)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 683)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 684)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42350,6 +42350,63 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void drawPlace(int x, int y, int rotation, boolean valid){")
         self.assertEqual(result_schema["keys"]["dash_circle_call"]["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);")
         self.assertEqual(result_schema["keys"]["fog_dash_circle_call"]["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);")
+
+    def test_generated_base_turret_set_stats_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "base_turret_set_stats.method")
+        self.assertEqual(method["java_expr"], "public void setStats(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(method["java_method"], "setStats()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_base_turret_set_stats_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_base_turret_set_stats_state")
+
+        super_call = source_symbols.source_symbol(registry, "base_turret_set_stats.super_set_stats")
+        self.assertEqual(super_call["java_expr"], "super.setStats();")
+        self.assertEqual(super_call["godot_symbol"], "source_base_turret_set_stats_result.super_set_stats_called")
+        shoot_range = source_symbols.source_symbol(registry, "base_turret_set_stats.shoot_range_stat")
+        self.assertEqual(shoot_range["java_expr"], "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);")
+        self.assertEqual(shoot_range["godot_symbol"], "source_base_turret_set_stats_result.shoot_range_stat_call")
+        activation = source_symbols.source_symbol(registry, "base_turret_set_stats.activation_time_stat")
+        self.assertEqual(activation["java_expr"], "if(activationTime > 0) stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);")
+        self.assertEqual(activation["godot_symbol"], "source_base_turret_set_stats_result.activation_time_stat_call")
+
+        set_stats_slice = source_symbols.source_slice(ledger, "N1210")
+        self.assertEqual(set_stats_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java")
+        self.assertEqual(set_stats_slice["java_method"], "setStats()")
+        self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_base_turret_set_stats_state")
+        self.assertEqual(set_stats_slice["runtime_proof"], "/root/Main.generated_base_turret_set_stats_bridge_state")
+        for expr in [
+            "@Override",
+            "public void setStats(){",
+            "super.setStats();",
+            "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);",
+            "if(activationTime > 0) stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);",
+        ]:
+            self.assertIn(expr, set_stats_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_base_turret_set_stats_state")
+        self.assertEqual(contract["params"], [
+            {"name": "range_value", "schema": "source_base_turret_set_stats_input.range", "type": "float"},
+            {"name": "source_tilesize", "schema": "source_base_turret_set_stats_input.tilesize", "type": "float"},
+            {"name": "activation_time", "schema": "source_base_turret_set_stats_input.activation_time", "type": "float"},
+        ])
+        for key in ["method", "override_expr", "super_set_stats_expr", "shoot_range_stat_expr", "activation_time_guard_expr", "activation_time_stat_expr", "super_set_stats_called", "shoot_range_stat_call", "activation_time_stat_called", "activation_time_stat_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_base_turret_set_stats_input")
+        self.assertEqual(input_schema["keys"]["range"]["java_expr"], "range")
+        self.assertEqual(input_schema["keys"]["tilesize"]["java_expr"], "tilesize")
+        self.assertEqual(input_schema["keys"]["activation_time"]["java_expr"], "activationTime")
+        result_schema = source_symbols.state_schema(schema, "source_base_turret_set_stats_result")
+        self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void setStats(){")
+        self.assertEqual(result_schema["keys"]["shoot_range_stat_call"]["java_expr"], "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);")
+        self.assertEqual(result_schema["keys"]["activation_time_stat_call"]["java_expr"], "if(activationTime > 0) stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);")
 
     def test_generated_turret_load_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

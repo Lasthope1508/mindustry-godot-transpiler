@@ -12992,6 +12992,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BaseTurret.java_method_drawPlace_3"', source)
         self.assertIn('"matches": result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null) and result.get("fog_dash_circle_call", null) == canonical.get("fog_dash_circle_call", null) and result.get("super_draw_place_called", null) == canonical.get("super_draw_place_called", null)', source)
 
+    def test_port_game_exposes_source_base_turret_set_stats_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_base_turret_set_stats_state(range_value: float, source_tilesize: float, activation_time: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_set_stats_state"', source)
+        self.assertIn('"method": "public void setStats(){"', source)
+        self.assertIn('"super_set_stats_expr": "super.setStats();"', source)
+        self.assertIn('"shoot_range_stat_expr": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);"', source)
+        self.assertIn('"activation_time_guard_expr": "if(activationTime > 0)"', source)
+        self.assertIn('"activation_time_stat_expr": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);"', source)
+        self.assertIn('"shoot_range_stat_call": shoot_range_stat_call', source)
+        self.assertIn('"activation_time_stat_call": activation_time_stat_call', source)
+
+    def test_port_game_exposes_generated_base_turret_set_stats_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_base_turret_set_stats_bridge_state(range_value: float, source_tilesize: float, activation_time: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/BaseTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_setStats_4([range_value, source_tilesize, activation_time])", source)
+        self.assertIn("var canonical = source_base_turret_set_stats_state(range_value, source_tilesize, activation_time)", source)
+        self.assertIn('"source_owner": "PortGame.source_base_turret_set_stats_state"', source)
+        self.assertIn('"generated_owner": "BaseTurret.java_method_setStats_4"', source)
+        self.assertIn('"matches": result.get("shoot_range_stat_call", null) == canonical.get("shoot_range_stat_call", null) and result.get("activation_time_stat_call", null) == canonical.get("activation_time_stat_call", null) and result.get("super_set_stats_called", null) == canonical.get("super_set_stats_called", null)', source)
+
     def test_port_game_exposes_source_turret_load_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

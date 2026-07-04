@@ -484,6 +484,23 @@ def verify_base_turret_draw_place_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_base_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
+    base_turret_path = Path(upstream_root) / BASE_TURRET_SOURCE
+    source = base_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void setStats(){",
+        "super_set_stats": "super.setStats();",
+        "shoot_range_stat": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);",
+        "activation_time_guard": "if(activationTime > 0) stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BASE_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_load_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

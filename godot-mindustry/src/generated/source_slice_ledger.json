@@ -6692,6 +6692,42 @@
         "test_generated_base_turret_draw_place_slice_is_registered_with_source_backing"
       ]
     },
+    "N1210": {
+      "deferred_exprs": [
+        "super.setStats() internals stay deferred to Block superclass source.",
+        "Stats storage and StatUnit display internals stay deferred to stats/UI source."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);",
+        "if(activationTime > 0) stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);"
+      ],
+      "godot_owner": "PortGame.source_base_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "BaseTurret.setStats delegates to super, adds shoot range in blocks, and adds activation time in seconds only when activationTime is positive.",
+      "runtime_proof": "/root/Main.generated_base_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "base_turret_set_stats.method",
+        "base_turret_set_stats.range",
+        "base_turret_set_stats.tilesize",
+        "base_turret_set_stats.activation_time",
+        "base_turret_set_stats.super_set_stats",
+        "base_turret_set_stats.shoot_range_stat",
+        "base_turret_set_stats.activation_time_stat"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_base_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_stats_state",
+        "test_port_game_exposes_generated_base_turret_set_stats_bridge_state",
+        "test_base_turret_set_stats_matches_upstream_source",
+        "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

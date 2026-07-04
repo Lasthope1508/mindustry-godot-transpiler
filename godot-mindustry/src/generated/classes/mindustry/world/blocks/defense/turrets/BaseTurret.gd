@@ -68,7 +68,16 @@ func java_method_drawPlace_3(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_base_turret_draw_place_state", "method": "public void drawPlace(int x, int y, int rotation, boolean valid){", "override_expr": "@Override", "super_draw_place_expr": "super.drawPlace(x, y, rotation, valid);", "dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, Pal.placing);", "fog_guard_expr": "if(fogRadiusMultiplier < 0.99f && state.rules.fog){", "fog_dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range * fogRadiusMultiplier, Pal.lightishGray);", "tile_x": tile_x, "tile_y": tile_y, "rotation": rotation, "valid": valid, "source_tilesize": source_tilesize, "block_offset": block_offset, "range": range_value, "fog_radius_multiplier": fog_radius_multiplier, "rules_fog": rules_fog, "dash_circle_x": dash_circle_x, "dash_circle_y": dash_circle_y, "super_draw_place_called": true, "dash_circle_call": dash_circle_call, "fog_dash_circle_called": fog_dash_circle_called, "fog_dash_circle_call": fog_dash_circle_call}
 
 func java_method_setStats_4(_args: Array = []) -> Variant:
-	return null
+	var range_value: float = float(_args[0] if _args.size() > 0 else 80.0)
+	var source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)
+	var activation_time: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var shoot_range_blocks: float = range_value / source_tilesize
+	var shoot_range_stat_call: Dictionary = {"call": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);", "stat": "Stat.shootRange", "value": shoot_range_blocks, "unit": "StatUnit.blocks"}
+	var activation_time_stat_called: bool = activation_time > 0.0
+	var activation_time_stat_call: Dictionary = {}
+	if activation_time_stat_called:
+		activation_time_stat_call = {"call": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);", "stat": "Stat.activationTime", "value": activation_time / 60.0, "unit": "StatUnit.seconds"}
+	return {"source_owner": "PortGame.source_base_turret_set_stats_state", "method": "public void setStats(){", "override_expr": "@Override", "super_set_stats_expr": "super.setStats();", "shoot_range_stat_expr": "stats.add(Stat.shootRange, range / tilesize, StatUnit.blocks);", "activation_time_guard_expr": "if(activationTime > 0)", "activation_time_stat_expr": "stats.add(Stat.activationTime, activationTime / 60f, StatUnit.seconds);", "range": range_value, "tilesize": source_tilesize, "activation_time": activation_time, "shoot_range_blocks": shoot_range_blocks, "super_set_stats_called": true, "shoot_range_stat_call": shoot_range_stat_call, "activation_time_stat_called": activation_time_stat_called, "activation_time_stat_call": activation_time_stat_call}
 
 func java_method_setBars_5(_args: Array = []) -> Variant:
 	return null

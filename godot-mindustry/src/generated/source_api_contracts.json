@@ -975,6 +975,55 @@
         "test_generated_base_turret_draw_place_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_base_turret_set_stats_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "params": [
+        {
+          "name": "range_value",
+          "schema": "source_base_turret_set_stats_input.range",
+          "type": "float"
+        },
+        {
+          "name": "source_tilesize",
+          "schema": "source_base_turret_set_stats_input.tilesize",
+          "type": "float"
+        },
+        {
+          "name": "activation_time",
+          "schema": "source_base_turret_set_stats_input.activation_time",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "shoot_range_stat_expr",
+        "activation_time_guard_expr",
+        "activation_time_stat_expr",
+        "range",
+        "tilesize",
+        "activation_time",
+        "shoot_range_blocks",
+        "super_set_stats_called",
+        "shoot_range_stat_call",
+        "activation_time_stat_called",
+        "activation_time_stat_call"
+      ],
+      "rule": "Public runtime contract for BaseTurret.setStats source-backed stat additions.",
+      "runtime_proof": "/root/Main.source_base_turret_set_stats_state",
+      "source_method": "setStats()",
+      "source_slice": "N1210",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_base_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_stats_state",
+        "test_port_game_exposes_generated_base_turret_set_stats_bridge_state",
+        "test_base_turret_set_stats_matches_upstream_source",
+        "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_base_turret_init_state": {
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
       "params": [
