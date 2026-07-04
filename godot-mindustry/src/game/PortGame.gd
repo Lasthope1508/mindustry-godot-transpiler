@@ -17175,6 +17175,36 @@ func generated_item_turret_limit_range_default_bridge_state() -> Dictionary:
 		"matches": result.get("margin", null) == canonical.get("margin", null) and result.get("limit_range_called", null) == canonical.get("limit_range_called", null),
 	}
 
+func source_item_turret_limit_range_entries_state(margin: float, ammo_entries: Array) -> Dictionary:
+	var limit_range_calls: Array = []
+	for entry in ammo_entries:
+		var entry_value: Variant = entry.get("value", null) if entry is Dictionary else entry
+		limit_range_calls.append({"call": "limitRange(entry.value, margin);", "entry_value": entry_value, "margin": margin})
+	return {
+		"source_owner": "PortGame.source_item_turret_limit_range_entries_state",
+		"method": "public void limitRange(float margin){",
+		"comment": "/** Limits bullet range to this turret's range value. */",
+		"loop_expr": "for(var entry : ammoTypes.entries()){",
+		"dispatch_expr": "limitRange(entry.value, margin);",
+		"margin": margin,
+		"ammo_entries": ammo_entries,
+		"limit_range_calls": limit_range_calls,
+		"limit_range_call_count": limit_range_calls.size(),
+	}
+
+func generated_item_turret_limit_range_entries_bridge_state(margin: float, ammo_entries: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_limitRange_2([margin, ammo_entries])
+	var canonical = source_item_turret_limit_range_entries_state(margin, ammo_entries)
+	return {
+		"source_owner": "PortGame.source_item_turret_limit_range_entries_state",
+		"generated_owner": "ItemTurret.java_method_limitRange_2",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("limit_range_calls", null) == canonical.get("limit_range_calls", null) and result.get("limit_range_call_count", null) == canonical.get("limit_range_call_count", null) and result.get("margin", null) == canonical.get("margin", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

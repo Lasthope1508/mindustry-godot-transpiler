@@ -13273,5 +13273,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.java_method_limitRange_1"', source)
         self.assertIn('"matches": result.get("margin", null) == canonical.get("margin", null)', source)
 
+    def test_port_game_exposes_source_item_turret_limit_range_entries_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_limit_range_entries_state(margin: float, ammo_entries: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public void limitRange(float margin){"', source)
+        self.assertIn('"loop_expr": "for(var entry : ammoTypes.entries()){"', source)
+        self.assertIn('"dispatch_expr": "limitRange(entry.value, margin);"', source)
+        self.assertIn("for entry in ammo_entries:", source)
+        self.assertIn('var entry_value: Variant = entry.get("value", null) if entry is Dictionary else entry', source)
+        self.assertIn('"limit_range_calls": limit_range_calls', source)
+        self.assertIn('"limit_range_call_count": limit_range_calls.size()', source)
+
+    def test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_limit_range_entries_bridge_state(margin: float, ammo_entries: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_limitRange_2([margin, ammo_entries])", source)
+        self.assertIn("var canonical = source_item_turret_limit_range_entries_state(margin, ammo_entries)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_limit_range_entries_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.java_method_limitRange_2"', source)
+        self.assertIn('"matches": result.get("limit_range_calls", null) == canonical.get("limit_range_calls", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

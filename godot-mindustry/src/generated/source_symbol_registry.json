@@ -82096,6 +82096,91 @@
       "godot_symbol": "source_item_turret_limit_range_default_result.margin",
       "java_expr": "limitRange(9f);",
       "rule": "Zero-arg overload delegates to limitRange with margin 9f."
+    },
+    "item_turret_limit_range_entries.method": {
+      "godot_owner": "PortGame.source_item_turret_limit_range_entries_state",
+      "java_method": "ItemTurret.limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_entries_state",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
+        "test_item_turret_limit_range_entries_matches_upstream_source",
+        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_limit_range_entries_result.method",
+      "java_expr": "public void limitRange(float margin){",
+      "rule": "Method boundary comes from ItemTurret.limitRange(float margin)."
+    },
+    "item_turret_limit_range_entries.comment": {
+      "godot_owner": "PortGame.source_item_turret_limit_range_entries_state",
+      "java_method": "ItemTurret.limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_entries_state",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
+        "test_item_turret_limit_range_entries_matches_upstream_source",
+        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_limit_range_entries_result.comment",
+      "java_expr": "/** Limits bullet range to this turret's range value. */",
+      "rule": "Comment comes from ItemTurret.limitRange(float margin)."
+    },
+    "item_turret_limit_range_entries.loop_expr": {
+      "godot_owner": "PortGame.source_item_turret_limit_range_entries_state",
+      "java_method": "ItemTurret.limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_entries_state",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
+        "test_item_turret_limit_range_entries_matches_upstream_source",
+        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_limit_range_entries_input.ammo_entries",
+      "java_expr": "for(var entry : ammoTypes.entries()){",
+      "rule": "Loop source is the ammoTypes.entries() iteration."
+    },
+    "item_turret_limit_range_entries.dispatch_expr": {
+      "godot_owner": "PortGame.source_item_turret_limit_range_entries_state",
+      "java_method": "ItemTurret.limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_entries_state",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
+        "test_item_turret_limit_range_entries_matches_upstream_source",
+        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_limit_range_entries_result.limit_range_calls",
+      "java_expr": "limitRange(entry.value, margin);",
+      "rule": "Each ammo entry delegates to inherited limitRange with entry.value and margin."
+    },
+    "item_turret_limit_range_entries.margin": {
+      "godot_owner": "PortGame.source_item_turret_limit_range_entries_state",
+      "java_method": "ItemTurret.limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "runtime_proof": "/root/Main.source_item_turret_limit_range_entries_state",
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
+        "test_item_turret_limit_range_entries_matches_upstream_source",
+        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_item_turret_limit_range_entries_input.margin",
+      "java_expr": "margin",
+      "rule": "Margin is the explicit Java method parameter."
     }
   },
   "version": 1

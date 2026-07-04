@@ -25985,6 +25985,38 @@
       "deferred_exprs": [
         "Per-ammo iteration and BulletType lifetime math remain owned by ItemTurret.limitRange(float) and Turret.limitRange(BulletType,float)."
       ]
+    },
+    "N1174": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
+      "java_method": "ItemTurret.limitRange(float margin)",
+      "godot_owner": "PortGame.source_item_turret_limit_range_entries_state",
+      "exact_exprs": [
+        "/** Limits bullet range to this turret's range value. */",
+        "public void limitRange(float margin){",
+        "for(var entry : ammoTypes.entries()){",
+        "limitRange(entry.value, margin);"
+      ],
+      "source_symbols": [
+        "item_turret_limit_range_entries.method",
+        "item_turret_limit_range_entries.comment",
+        "item_turret_limit_range_entries.loop_expr",
+        "item_turret_limit_range_entries.dispatch_expr",
+        "item_turret_limit_range_entries.margin"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_limit_range_entries_to_source_state",
+        "test_port_game_exposes_source_item_turret_limit_range_entries_state",
+        "test_port_game_exposes_generated_item_turret_limit_range_entries_bridge_state",
+        "test_item_turret_limit_range_entries_matches_upstream_source",
+        "test_generated_item_turret_limit_range_entries_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_limit_range_entries_bridge_state",
+      "rule": "ItemTurret.limitRange(float margin) loops ammoTypes.entries() and dispatches entry.value with the explicit margin parameter.",
+      "deferred_exprs": [
+        "BulletType lifetime math remains owned by Turret.limitRange(BulletType,float)."
+      ]
     }
   },
   "version": 1

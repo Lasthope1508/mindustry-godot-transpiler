@@ -1406,6 +1406,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_item_turret_limit_range_default_state\", \"method\": \"public void limitRange(){\", \"comment\": \"/** Limits bullet range to this turret's range value. */\", \"dispatch_expr\": \"limitRange(9f);\", \"margin\": margin, \"limit_range_called\": true, \"limit_range_call\": limit_range_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ItemTurret.java"
+        and type_entry.get("name") == "ItemTurret"
+        and method.get("name") == "limitRange"
+        and len(method.get("parameters", [])) == 1
+    ):
+        return [
+            "\tvar margin: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar ammo_entries: Array = _args[1] if _args.size() > 1 else []",
+            "\tvar limit_range_calls: Array = []",
+            "\tfor entry in ammo_entries:",
+            "\t\tvar entry_value: Variant = entry.get(\"value\", null) if entry is Dictionary else entry",
+            "\t\tlimit_range_calls.append({\"call\": \"limitRange(entry.value, margin);\", \"entry_value\": entry_value, \"margin\": margin})",
+            "\treturn {\"source_owner\": \"PortGame.source_item_turret_limit_range_entries_state\", \"method\": \"public void limitRange(float margin){\", \"comment\": \"/** Limits bullet range to this turret's range value. */\", \"loop_expr\": \"for(var entry : ammoTypes.entries()){\", \"dispatch_expr\": \"limitRange(entry.value, margin);\", \"margin\": margin, \"ammo_entries\": ammo_entries, \"limit_range_calls\": limit_range_calls, \"limit_range_call_count\": limit_range_calls.size()}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

@@ -96862,6 +96862,140 @@
           "rule": "Result records the delegated call payload."
         }
       }
+    },
+    "source_item_turret_limit_range_entries_input": {
+      "status": "source-backed",
+      "source_slice": "N1174",
+      "rule": "Explicit input state for ItemTurret.limitRange(float margin).",
+      "keys": {
+        "margin": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_item_turret_limit_range_entries_input.margin",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.limitRange(float margin)",
+          "java_expr": "margin",
+          "used_by": [
+            "PortGame.source_item_turret_limit_range_entries_state"
+          ],
+          "rule": "Exact Java method parameter supplied to the bridge."
+        },
+        "ammo_entries": {
+          "status": "explicit-input",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_limit_range_entries_input.ammo_entries",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.limitRange(float margin)",
+          "java_expr": "ammoTypes.entries()",
+          "used_by": [
+            "PortGame.source_item_turret_limit_range_entries_state"
+          ],
+          "rule": "Explicit stand-in for ObjectMap entries iteration; no BulletType internals are invented here."
+        }
+      }
+    },
+    "source_item_turret_limit_range_entries_result": {
+      "status": "source-backed",
+      "source_slice": "N1174",
+      "rule": "Dictionary returned by PortGame.source_item_turret_limit_range_entries_state.",
+      "keys": {
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_limit_range_entries_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.limitRange(float margin)",
+          "java_expr": "public void limitRange(float margin){",
+          "used_by": [
+            "PortGame.source_item_turret_limit_range_entries_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "comment": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_limit_range_entries_result.comment",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.limitRange(float margin)",
+          "java_expr": "/** Limits bullet range to this turret's range value. */",
+          "used_by": [
+            "PortGame.source_item_turret_limit_range_entries_state"
+          ],
+          "rule": "Result records exact Java comment."
+        },
+        "loop_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_limit_range_entries_result.loop_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.limitRange(float margin)",
+          "java_expr": "for(var entry : ammoTypes.entries()){",
+          "used_by": [
+            "PortGame.source_item_turret_limit_range_entries_state"
+          ],
+          "rule": "Result records exact Java loop expression."
+        },
+        "dispatch_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_limit_range_entries_result.dispatch_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.limitRange(float margin)",
+          "java_expr": "limitRange(entry.value, margin);",
+          "used_by": [
+            "PortGame.source_item_turret_limit_range_entries_state"
+          ],
+          "rule": "Result records exact Java dispatch expression."
+        },
+        "margin": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_item_turret_limit_range_entries_result.margin",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.limitRange(float margin)",
+          "java_expr": "margin",
+          "used_by": [
+            "PortGame.source_item_turret_limit_range_entries_state"
+          ],
+          "rule": "Result echoes explicit margin parameter."
+        },
+        "ammo_entries": {
+          "status": "source-backed",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_limit_range_entries_result.ammo_entries",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.limitRange(float margin)",
+          "java_expr": "ammoTypes.entries()",
+          "used_by": [
+            "PortGame.source_item_turret_limit_range_entries_state"
+          ],
+          "rule": "Result echoes explicit ammo entries input."
+        },
+        "limit_range_calls": {
+          "status": "source-backed",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_limit_range_entries_result.limit_range_calls",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.limitRange(float margin)",
+          "java_expr": "limitRange(entry.value, margin);",
+          "used_by": [
+            "PortGame.source_item_turret_limit_range_entries_state"
+          ],
+          "rule": "Result records one delegated call per entry."
+        },
+        "limit_range_call_count": {
+          "status": "source-backed",
+          "type": "int",
+          "godot_symbol": "source_item_turret_limit_range_entries_result.limit_range_call_count",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurret.limitRange(float margin)",
+          "java_expr": "for(var entry : ammoTypes.entries()){",
+          "used_by": [
+            "PortGame.source_item_turret_limit_range_entries_state"
+          ],
+          "rule": "Result records loop dispatch count."
+        }
+      }
     }
   },
   "version": 1

@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 642,
+  "registeredSourceOwnerCount": 643,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -395,6 +395,7 @@
     "PortGame.source_dump_payload_state",
     "PortGame.source_increment_dump_cursor",
     "PortGame.source_item_turret_limit_range_default_state",
+    "PortGame.source_item_turret_limit_range_entries_state",
     "PortGame.source_lerp_delta",
     "PortGame.source_mathf_approach_delta",
     "PortGame.source_mathf_dst",
@@ -3750,6 +3751,11 @@
       "owner": "PortGame.source_item_turret_limit_range_default_state"
     },
     {
+      "function": "source_item_turret_limit_range_entries_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_item_turret_limit_range_entries_state"
+    },
+    {
       "function": "source_turret_ammo_data",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_turret_ammo_data"
@@ -3895,6 +3901,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 647,
+  "totalSourceFunctions": 648,
   "version": 1
 }

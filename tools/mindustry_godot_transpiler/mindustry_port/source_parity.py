@@ -688,6 +688,22 @@ def verify_item_turret_limit_range_default_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_item_turret_limit_range_entries_source(upstream_root: Path) -> dict[str, Any]:
+    item_turret_path = Path(upstream_root) / ITEM_TURRET_SOURCE
+    source = item_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "/** Limits bullet range to this turret's range value. */",
+        "method": "public void limitRange(float margin){",
+        "loop_expr": "for(var entry : ammoTypes.entries()){",
+        "dispatch_expr": "limitRange(entry.value, margin);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": ITEM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"
