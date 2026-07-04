@@ -13545,5 +13545,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.removeStack"', source)
         self.assertIn('"matches": result.get("removed_stack", null) == canonical.get("removed_stack", null)', source)
 
+    def test_port_game_exposes_source_item_turret_build_handle_item_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_handle_item_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public void handleItem(Building source, Item item){"', source)
+        self.assertIn('"flame_event_expr": "Events.fire(Trigger.flameAmmo);"', source)
+        self.assertIn('"resupply_event_expr": "Events.fire(Trigger.resupplyTurret);"', source)
+        self.assertIn('"type_null_guard": "if(type == null) return;"', source)
+        self.assertIn('"total_ammo_update_expr": "totalAmmo += type.ammoMultiplier;"', source)
+        self.assertIn('"swap_expr": "ammo.swap(i, ammo.size - 1);"', source)
+        self.assertIn('"add_expr": "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));"', source)
+        self.assertIn("var flame_ammo_event_fired: bool = item_is_pyratite", source)
+        self.assertIn("var resupply_turret_event_fired: bool = total_ammo == 0", source)
+
+    def test_port_game_exposes_generated_item_turret_build_handle_item_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_handle_item_bridge_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_handleItem_7([item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries])", source)
+        self.assertIn("var canonical = source_item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_handle_item_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.handleItem"', source)
+        self.assertIn('"matches": result.get("total_ammo_after", null) == canonical.get("total_ammo_after", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

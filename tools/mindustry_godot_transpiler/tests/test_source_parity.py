@@ -8671,5 +8671,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_turret_build_handle_item_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_turret_build_handle_item_source"))
+        report = source_parity.verify_item_turret_build_handle_item_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "public void handleItem(Building source, Item item){",
+            "todo_comment": "//TODO instead of all this \"entry\" crap, turrets could just accept only one type of ammo at a time - simpler for both users and the code",
+            "pyratite_guard": "if(item == Items.pyratite){",
+            "flame_event": "Events.fire(Trigger.flameAmmo);",
+            "resupply_guard": "if(totalAmmo == 0){",
+            "resupply_event": "Events.fire(Trigger.resupplyTurret);",
+            "type_lookup": "BulletType type = ammoTypes.get(item);",
+            "type_null_guard": "if(type == null) return;",
+            "total_ammo_update": "totalAmmo += type.ammoMultiplier;",
+            "loop_expr": "for(int i = 0; i < ammo.size; i++){",
+            "entry_cast": "ItemEntry entry = (ItemEntry)ammo.get(i);",
+            "found_guard": "if(entry.item == item){",
+            "entry_update": "entry.amount += type.ammoMultiplier;",
+            "swap_expr": "ammo.swap(i, ammo.size - 1);",
+            "add_expr": "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

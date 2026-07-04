@@ -17534,6 +17534,86 @@ func generated_item_turret_build_remove_stack_bridge_state(item: Variant, amount
 		"matches": result.get("removed_stack", null) == canonical.get("removed_stack", null),
 	}
 
+func source_item_turret_build_handle_item_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:
+	var ammo_entries_after: Array = ammo_entries.duplicate(true)
+	var flame_ammo_event_fired: bool = item_is_pyratite
+	var resupply_turret_event_fired: bool = total_ammo == 0
+	var total_ammo_after: int = total_ammo
+	var type_null_returned: bool = ammo_type_null
+	var entry_found: bool = false
+	var entry_added: bool = false
+	var swapped: bool = false
+	if not ammo_type_null:
+		total_ammo_after = int(total_ammo + ammo_multiplier)
+		for i in range(ammo_entries_after.size()):
+			var entry_copy: Dictionary = ammo_entries_after[i] if ammo_entries_after[i] is Dictionary else {}
+			if entry_copy.get("item", null) == item:
+				entry_copy["amount"] = int(entry_copy.get("amount", 0)) + int(ammo_multiplier)
+				ammo_entries_after[i] = entry_copy
+				var last_index: int = ammo_entries_after.size() - 1
+				var last_entry: Variant = ammo_entries_after[last_index]
+				ammo_entries_after[last_index] = ammo_entries_after[i]
+				ammo_entries_after[i] = last_entry
+				entry_found = true
+				swapped = true
+				break
+		if not entry_found:
+			ammo_entries_after.append({"item": item, "amount": int(ammo_multiplier)})
+			entry_added = true
+	return {
+		"source_owner": "PortGame.source_item_turret_build_handle_item_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public void handleItem(Building source, Item item){",
+		"override_expr": "@Override",
+		"todo_comment": "//TODO instead of all this \"entry\" crap, turrets could just accept only one type of ammo at a time - simpler for both users and the code",
+		"pyratite_guard": "if(item == Items.pyratite){",
+		"flame_event_expr": "Events.fire(Trigger.flameAmmo);",
+		"resupply_guard": "if(totalAmmo == 0){",
+		"resupply_event_expr": "Events.fire(Trigger.resupplyTurret);",
+		"type_lookup": "BulletType type = ammoTypes.get(item);",
+		"type_null_guard": "if(type == null) return;",
+		"total_ammo_update_expr": "totalAmmo += type.ammoMultiplier;",
+		"loop_expr": "for(int i = 0; i < ammo.size; i++){",
+		"entry_cast": "ItemEntry entry = (ItemEntry)ammo.get(i);",
+		"found_guard": "if(entry.item == item){",
+		"entry_update_expr": "entry.amount += type.ammoMultiplier;",
+		"swap_expr": "ammo.swap(i, ammo.size - 1);",
+		"add_expr": "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));",
+		"item": item,
+		"item_is_pyratite": item_is_pyratite,
+		"total_ammo": total_ammo,
+		"ammo_multiplier": ammo_multiplier,
+		"ammo_type_null": ammo_type_null,
+		"flame_ammo_event_fired": flame_ammo_event_fired,
+		"resupply_turret_event_fired": resupply_turret_event_fired,
+		"type_null_returned": type_null_returned,
+		"total_ammo_after": total_ammo_after,
+		"ammo_entries_after": ammo_entries_after,
+		"entry_found": entry_found,
+		"entry_added": entry_added,
+		"swapped": swapped,
+	}
+
+func generated_item_turret_build_handle_item_bridge_state(item: Variant, item_is_pyratite: bool, total_ammo: int, ammo_multiplier: float, ammo_type_null: bool, ammo_entries: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_handleItem_7([item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries])
+	var canonical = source_item_turret_build_handle_item_state(item, item_is_pyratite, total_ammo, ammo_multiplier, ammo_type_null, ammo_entries)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_handle_item_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.handleItem",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("total_ammo_after", null) == canonical.get("total_ammo_after", null)
+			and result.get("ammo_entries_after", []) == canonical.get("ammo_entries_after", [])
+			and result.get("flame_ammo_event_fired", null) == canonical.get("flame_ammo_event_fired", null)
+			and result.get("resupply_turret_event_fired", null) == canonical.get("resupply_turret_event_fired", null)
+			and result.get("type_null_returned", null) == canonical.get("type_null_returned", null)
+			and result.get("entry_found", null) == canonical.get("entry_found", null)
+			and result.get("entry_added", null) == canonical.get("entry_added", null)
+			and result.get("swapped", null) == canonical.get("swapped", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

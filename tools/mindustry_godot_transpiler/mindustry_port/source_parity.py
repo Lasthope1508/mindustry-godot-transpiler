@@ -880,6 +880,35 @@ def verify_item_turret_build_remove_stack_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_item_turret_build_handle_item_source(upstream_root: Path) -> dict[str, Any]:
+    item_turret_path = Path(upstream_root) / ITEM_TURRET_SOURCE
+    source = item_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+        "override": "@Override",
+        "method": "public void handleItem(Building source, Item item){",
+        "todo_comment": "//TODO instead of all this \"entry\" crap, turrets could just accept only one type of ammo at a time - simpler for both users and the code",
+        "pyratite_guard": "if(item == Items.pyratite){",
+        "flame_event": "Events.fire(Trigger.flameAmmo);",
+        "resupply_guard": "if(totalAmmo == 0){",
+        "resupply_event": "Events.fire(Trigger.resupplyTurret);",
+        "type_lookup": "BulletType type = ammoTypes.get(item);",
+        "type_null_guard": "if(type == null) return;",
+        "total_ammo_update": "totalAmmo += type.ammoMultiplier;",
+        "loop_expr": "for(int i = 0; i < ammo.size; i++){",
+        "entry_cast": "ItemEntry entry = (ItemEntry)ammo.get(i);",
+        "found_guard": "if(entry.item == item){",
+        "entry_update": "entry.amount += type.ammoMultiplier;",
+        "swap_expr": "ammo.swap(i, ammo.size - 1);",
+        "add_expr": "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": ITEM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

@@ -125,3 +125,37 @@ func java_inner_class_ItemTurretBuild_method_removeStack_6(_args: Array = []) ->
 	var amount: int = int(_args[1] if _args.size() > 1 else 0)
 	var removed_stack: int = 0
 	return {"source_owner": "PortGame.source_item_turret_build_remove_stack_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "comment": "//currently can't remove items from turrets.", "method": "public int removeStack(Item item, int amount){", "override_expr": "@Override", "return_expr": "return 0;", "item": item, "amount": amount, "removed_stack": removed_stack}
+
+func java_inner_class_ItemTurretBuild_method_handleItem_7(_args: Array = []) -> Variant:
+	var item: Variant = _args[0] if _args.size() > 0 else null
+	var item_is_pyratite: bool = bool(_args[1] if _args.size() > 1 else false)
+	var total_ammo: int = int(_args[2] if _args.size() > 2 else 0)
+	var ammo_multiplier: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var ammo_type_null: bool = bool(_args[4] if _args.size() > 4 else false)
+	var ammo_entries: Array = _args[5] if _args.size() > 5 and _args[5] is Array else []
+	var ammo_entries_after: Array = ammo_entries.duplicate(true)
+	var flame_ammo_event_fired: bool = item_is_pyratite
+	var resupply_turret_event_fired: bool = total_ammo == 0
+	var total_ammo_after: int = total_ammo
+	var type_null_returned: bool = ammo_type_null
+	var entry_found: bool = false
+	var entry_added: bool = false
+	var swapped: bool = false
+	if not ammo_type_null:
+		total_ammo_after = int(total_ammo + ammo_multiplier)
+		for i in range(ammo_entries_after.size()):
+			var entry_copy: Dictionary = ammo_entries_after[i] if ammo_entries_after[i] is Dictionary else {}
+			if entry_copy.get("item", null) == item:
+				entry_copy["amount"] = int(entry_copy.get("amount", 0)) + int(ammo_multiplier)
+				ammo_entries_after[i] = entry_copy
+				var last_index: int = ammo_entries_after.size() - 1
+				var last_entry: Variant = ammo_entries_after[last_index]
+				ammo_entries_after[last_index] = ammo_entries_after[i]
+				ammo_entries_after[i] = last_entry
+				entry_found = true
+				swapped = true
+				break
+		if not entry_found:
+			ammo_entries_after.append({"item": item, "amount": int(ammo_multiplier)})
+			entry_added = true
+	return {"source_owner": "PortGame.source_item_turret_build_handle_item_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public void handleItem(Building source, Item item){", "override_expr": "@Override", "todo_comment": "//TODO instead of all this \"entry\" crap, turrets could just accept only one type of ammo at a time - simpler for both users and the code", "pyratite_guard": "if(item == Items.pyratite){", "flame_event_expr": "Events.fire(Trigger.flameAmmo);", "resupply_guard": "if(totalAmmo == 0){", "resupply_event_expr": "Events.fire(Trigger.resupplyTurret);", "type_lookup": "BulletType type = ammoTypes.get(item);", "type_null_guard": "if(type == null) return;", "total_ammo_update_expr": "totalAmmo += type.ammoMultiplier;", "loop_expr": "for(int i = 0; i < ammo.size; i++){", "entry_cast": "ItemEntry entry = (ItemEntry)ammo.get(i);", "found_guard": "if(entry.item == item){", "entry_update_expr": "entry.amount += type.ammoMultiplier;", "swap_expr": "ammo.swap(i, ammo.size - 1);", "add_expr": "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));", "item": item, "item_is_pyratite": item_is_pyratite, "total_ammo": total_ammo, "ammo_multiplier": ammo_multiplier, "ammo_type_null": ammo_type_null, "flame_ammo_event_fired": flame_ammo_event_fired, "resupply_turret_event_fired": resupply_turret_event_fired, "type_null_returned": type_null_returned, "total_ammo_after": total_ammo_after, "ammo_entries_after": ammo_entries_after, "entry_found": entry_found, "entry_added": entry_added, "swapped": swapped}

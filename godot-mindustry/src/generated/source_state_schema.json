@@ -98954,6 +98954,457 @@
         }
       },
       "rule": "Result schema for ItemTurretBuild.removeStack() bridge."
+    },
+    "source_item_turret_build_handle_item_input": {
+      "status": "source-backed",
+      "source_slice": "N1185",
+      "keys": {
+        "item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_handle_item_input.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "item",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries Java item parameter into bridge."
+        },
+        "item_is_pyratite": {
+          "status": "explicit-input",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_handle_item_input.item_is_pyratite",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "item == Items.pyratite",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries pyratite guard result into bridge."
+        },
+        "total_ammo": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_handle_item_input.total_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "totalAmmo",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries Java totalAmmo field into bridge."
+        },
+        "ammo_multiplier": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_item_turret_build_handle_item_input.ammo_multiplier",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "type.ammoMultiplier",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries looked-up BulletType ammoMultiplier into bridge."
+        },
+        "ammo_type_null": {
+          "status": "explicit-input",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_handle_item_input.ammo_type_null",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "type == null",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries Java null type guard result into bridge."
+        },
+        "ammo_entries": {
+          "status": "explicit-input",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_build_handle_item_input.ammo_entries",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "ammo",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries Java ammo Seq snapshot into bridge."
+        }
+      },
+      "rule": "Input schema for ItemTurretBuild.handleItem() bridge."
+    },
+    "source_item_turret_build_handle_item_result": {
+      "status": "source-backed",
+      "source_slice": "N1185",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "public class ItemTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "public void handleItem(Building source, Item item){",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "todo_comment": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.todo_comment",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "//TODO instead of all this \"entry\" crap, turrets could just accept only one type of ammo at a time - simpler for both users and the code",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records exact upstream TODO comment."
+        },
+        "pyratite_guard": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.pyratite_guard",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "if(item == Items.pyratite){",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records pyratite guard."
+        },
+        "flame_event_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.flame_event_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "Events.fire(Trigger.flameAmmo);",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records flame ammo event expression."
+        },
+        "resupply_guard": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.resupply_guard",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "if(totalAmmo == 0){",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records resupply guard."
+        },
+        "resupply_event_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.resupply_event_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "Events.fire(Trigger.resupplyTurret);",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records resupply event expression."
+        },
+        "type_lookup": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.type_lookup",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "BulletType type = ammoTypes.get(item);",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records ammo type lookup."
+        },
+        "type_null_guard": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.type_null_guard",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "if(type == null) return;",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records null type guard."
+        },
+        "total_ammo_update_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.total_ammo_update_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "totalAmmo += type.ammoMultiplier;",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records total ammo update expression."
+        },
+        "loop_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.loop_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "for(int i = 0; i < ammo.size; i++){",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records ammo loop expression."
+        },
+        "entry_cast": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.entry_cast",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "ItemEntry entry = (ItemEntry)ammo.get(i);",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records entry cast expression."
+        },
+        "found_guard": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.found_guard",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "if(entry.item == item){",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records entry match guard."
+        },
+        "entry_update_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.entry_update_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "entry.amount += type.ammoMultiplier;",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records entry amount update."
+        },
+        "swap_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.swap_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "ammo.swap(i, ammo.size - 1);",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records ammo swap expression."
+        },
+        "add_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_handle_item_result.add_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records add expression."
+        },
+        "item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_handle_item_result.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "item",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries item into result schema.",
+          "alias_of": "source_item_turret_build_handle_item_input.item"
+        },
+        "item_is_pyratite": {
+          "status": "explicit-input",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_handle_item_result.item_is_pyratite",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "item == Items.pyratite",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries guard input into result schema.",
+          "alias_of": "source_item_turret_build_handle_item_input.item_is_pyratite"
+        },
+        "total_ammo": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_handle_item_result.total_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "totalAmmo",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries totalAmmo input into result schema.",
+          "alias_of": "source_item_turret_build_handle_item_input.total_ammo"
+        },
+        "ammo_multiplier": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_item_turret_build_handle_item_result.ammo_multiplier",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "type.ammoMultiplier",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries ammoMultiplier input into result schema.",
+          "alias_of": "source_item_turret_build_handle_item_input.ammo_multiplier"
+        },
+        "ammo_type_null": {
+          "status": "explicit-input",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_handle_item_result.ammo_type_null",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "type == null",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Carries null guard input into result schema.",
+          "alias_of": "source_item_turret_build_handle_item_input.ammo_type_null"
+        },
+        "flame_ammo_event_fired": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_handle_item_result.flame_ammo_event_fired",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "Events.fire(Trigger.flameAmmo);",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records flame event branch."
+        },
+        "resupply_turret_event_fired": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_handle_item_result.resupply_turret_event_fired",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "Events.fire(Trigger.resupplyTurret);",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records resupply event branch."
+        },
+        "type_null_returned": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_handle_item_result.type_null_returned",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "if(type == null) return;",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records null-type early return."
+        },
+        "total_ammo_after": {
+          "status": "source-backed",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_handle_item_result.total_ammo_after",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "totalAmmo += type.ammoMultiplier;",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records Java totalAmmo compound update."
+        },
+        "ammo_entries_after": {
+          "status": "source-backed",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_build_handle_item_result.ammo_entries_after",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "entry.amount += type.ammoMultiplier; / ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records ammo Seq after Java update/add path."
+        },
+        "entry_found": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_handle_item_result.entry_found",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "if(entry.item == item){",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records whether an existing entry matched."
+        },
+        "entry_added": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_handle_item_result.entry_added",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "ammo.add(new ItemEntry(item, (int)type.ammoMultiplier));",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records whether the add path ran."
+        },
+        "swapped": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_item_turret_build_handle_item_result.swapped",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.handleItem(Building,Item)",
+          "java_expr": "ammo.swap(i, ammo.size - 1);",
+          "used_by": [
+            "PortGame.source_item_turret_build_handle_item_state"
+          ],
+          "rule": "Result records whether swap path ran."
+        }
+      },
+      "rule": "Result schema for ItemTurretBuild.handleItem() bridge."
     }
   },
   "version": 1
