@@ -17445,6 +17445,38 @@ func generated_item_turret_build_get_ammo_fraction_bridge_state(total_ammo: floa
 		"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null),
 	}
 
+func source_item_turret_build_accept_stack_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
+	var accept_stack: int = 0 if ammo_type_null else min(int((max_ammo - total_ammo) / ammo_multiplier), amount)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_accept_stack_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public int acceptStack(Item item, int amount, Teamc source){",
+		"override_expr": "@Override",
+		"type_lookup": "BulletType type = ammoTypes.get(item);",
+		"null_guard": "if(type == null) return 0;",
+		"return_expr": "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);",
+		"item": item,
+		"amount": amount,
+		"max_ammo": max_ammo,
+		"total_ammo": total_ammo,
+		"ammo_multiplier": ammo_multiplier,
+		"ammo_type_null": ammo_type_null,
+		"accept_stack": accept_stack,
+	}
+
+func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_acceptStack_4([item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null])
+	var canonical = source_item_turret_build_accept_stack_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_accept_stack_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.acceptStack",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("accept_stack", null) == canonical.get("accept_stack", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

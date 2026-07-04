@@ -26284,6 +26284,49 @@
       ],
       "runtime_proof": "/root/Main.generated_item_turret_build_get_ammo_fraction_bridge_state",
       "rule": "ItemTurretBuild.getAmmoFraction() returns (float)totalAmmo / maxAmmo exactly as upstream Java."
+    },
+    "N1182": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.acceptStack(Item,int,Teamc)",
+      "godot_owner": "PortGame.source_item_turret_build_accept_stack_state",
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public int acceptStack(Item item, int amount, Teamc source){",
+        "BulletType type = ammoTypes.get(item);",
+        "if(type == null) return 0;",
+        "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);"
+      ],
+      "deferred_exprs": [
+        "Teamc source is not read by the upstream method body.",
+        "BulletType internals beyond ammoMultiplier remain owned by later slices."
+      ],
+      "source_symbols": [
+        "item_turret_build_accept_stack.inner_class",
+        "item_turret_build_accept_stack.method",
+        "item_turret_build_accept_stack.override",
+        "item_turret_build_accept_stack.type_lookup",
+        "item_turret_build_accept_stack.null_guard",
+        "item_turret_build_accept_stack.return_expr",
+        "item_turret_build_accept_stack.item",
+        "item_turret_build_accept_stack.amount",
+        "item_turret_build_accept_stack.max_ammo",
+        "item_turret_build_accept_stack.total_ammo",
+        "item_turret_build_accept_stack.ammo_multiplier",
+        "item_turret_build_accept_stack.ammo_type_null",
+        "item_turret_build_accept_stack.accept_stack"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_accept_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_accept_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_accept_stack_bridge_state",
+        "test_item_turret_build_accept_stack_matches_upstream_source",
+        "test_generated_item_turret_build_accept_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_accept_stack_bridge_state",
+      "rule": "ItemTurretBuild.acceptStack() returns 0 for null ammo type, otherwise clamps accepted stack by Java ammo capacity expression."
     }
   },
   "version": 1

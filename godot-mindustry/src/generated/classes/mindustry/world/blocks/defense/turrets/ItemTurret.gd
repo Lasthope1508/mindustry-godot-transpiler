@@ -101,3 +101,13 @@ func java_inner_class_ItemTurretBuild_method_getAmmoFraction_3(_args: Array = []
 	var max_ammo: float = float(_args[1] if _args.size() > 1 else 1.0)
 	var ammo_fraction: float = total_ammo / max_ammo
 	return {"source_owner": "PortGame.source_item_turret_build_get_ammo_fraction_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public float getAmmoFraction(){", "override_expr": "@Override", "return_expr": "return (float)totalAmmo / maxAmmo;", "total_ammo": total_ammo, "max_ammo": max_ammo, "ammo_fraction": ammo_fraction}
+
+func java_inner_class_ItemTurretBuild_method_acceptStack_4(_args: Array = []) -> Variant:
+	var item: Variant = _args[0] if _args.size() > 0 else null
+	var amount: int = int(_args[1] if _args.size() > 1 else 0)
+	var max_ammo: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var total_ammo: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var ammo_multiplier: float = float(_args[4] if _args.size() > 4 else 1.0)
+	var ammo_type_null: bool = bool(_args[5] if _args.size() > 5 else false)
+	var accept_stack: int = 0 if ammo_type_null else min(int((max_ammo - total_ammo) / ammo_multiplier), amount)
+	return {"source_owner": "PortGame.source_item_turret_build_accept_stack_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public int acceptStack(Item item, int amount, Teamc source){", "override_expr": "@Override", "type_lookup": "BulletType type = ammoTypes.get(item);", "null_guard": "if(type == null) return 0;", "return_expr": "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);", "item": item, "amount": amount, "max_ammo": max_ammo, "total_ammo": total_ammo, "ammo_multiplier": ammo_multiplier, "ammo_type_null": ammo_type_null, "accept_stack": accept_stack}

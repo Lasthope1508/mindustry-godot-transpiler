@@ -13472,5 +13472,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.getAmmoFraction"', source)
         self.assertIn('"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)', source)
 
+    def test_port_game_exposes_source_item_turret_build_accept_stack_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_accept_stack_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ItemTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"method": "public int acceptStack(Item item, int amount, Teamc source){"', source)
+        self.assertIn('"type_lookup": "BulletType type = ammoTypes.get(item);"', source)
+        self.assertIn('"null_guard": "if(type == null) return 0;"', source)
+        self.assertIn('"return_expr": "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);"', source)
+        self.assertIn("var accept_stack: int = 0 if ammo_type_null else min(int((max_ammo - total_ammo) / ammo_multiplier), amount)", source)
+        self.assertIn('"accept_stack": accept_stack', source)
+
+    def test_port_game_exposes_generated_item_turret_build_accept_stack_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_accept_stack_bridge_state(item: Variant, amount: int, max_ammo: float, total_ammo: float, ammo_multiplier: float, ammo_type_null: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_acceptStack_4([item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null])", source)
+        self.assertIn("var canonical = source_item_turret_build_accept_stack_state(item, amount, max_ammo, total_ammo, ammo_multiplier, ammo_type_null)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_accept_stack_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.acceptStack"', source)
+        self.assertIn('"matches": result.get("accept_stack", null) == canonical.get("accept_stack", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

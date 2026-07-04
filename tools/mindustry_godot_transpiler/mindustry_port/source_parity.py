@@ -828,6 +828,24 @@ def verify_item_turret_build_get_ammo_fraction_source(upstream_root: Path) -> di
         "missing": missing,
     }
 
+def verify_item_turret_build_accept_stack_source(upstream_root: Path) -> dict[str, Any]:
+    item_turret_path = Path(upstream_root) / ITEM_TURRET_SOURCE
+    source = item_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+        "override": "@Override",
+        "method": "public int acceptStack(Item item, int amount, Teamc source){",
+        "type_lookup": "BulletType type = ammoTypes.get(item);",
+        "null_guard": "if(type == null) return 0;",
+        "return_expr": "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": ITEM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

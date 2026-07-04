@@ -8628,5 +8628,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_turret_build_accept_stack_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_turret_build_accept_stack_source"))
+        report = source_parity.verify_item_turret_build_accept_stack_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "public int acceptStack(Item item, int amount, Teamc source){",
+            "type_lookup": "BulletType type = ammoTypes.get(item);",
+            "null_guard": "if(type == null) return 0;",
+            "return_expr": "return Math.min((int)((maxAmmo - totalAmmo) / ammoTypes.get(item).ammoMultiplier), amount);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
