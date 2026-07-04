@@ -28336,6 +28336,37 @@
         "test_continuous_turret_set_stats_matches_upstream_source",
         "test_generated_continuous_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_continuous_liquid_turret_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "objects",
+          "schema": "source_continuous_liquid_turret_ammo_input.objects",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "field",
+        "comment",
+        "method",
+        "assignment_expr",
+        "objects",
+        "ammo_types_after"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurret.ammo state; ObjectMap internals stay deferred.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_ammo_state",
+      "source_method": "ContinuousLiquidTurret.ammo(Object...)",
+      "source_slice": "N1216",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
+        "test_continuous_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
     }},
   "policy": {
     "newSourceOwnerRequiresApiContract": true

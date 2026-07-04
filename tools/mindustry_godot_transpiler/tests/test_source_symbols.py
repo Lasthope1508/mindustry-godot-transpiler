@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 684)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 685)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 689)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 690)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44591,6 +44591,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         input_schema = source_symbols.state_schema(schema, "source_liquid_turret_ammo_input")
         self.assertEqual(input_schema["keys"]["objects"]["java_expr"], "Object... objects")
         result_schema = source_symbols.state_schema(schema, "source_liquid_turret_ammo_result")
+        self.assertEqual(result_schema["keys"]["ammo_types_after"]["java_expr"], "ObjectMap.of(objects)")
+
+    def test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "continuous_liquid_turret_ammo.method")
+        self.assertEqual(method["java_expr"], "public void ammo(Object... objects){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(method["java_method"], "ContinuousLiquidTurret.ammo(Object...)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_continuous_liquid_turret_ammo_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_continuous_liquid_turret_ammo_state")
+
+        objects = source_symbols.source_symbol(registry, "continuous_liquid_turret_ammo.objects")
+        self.assertEqual(objects["java_expr"], "Object... objects")
+        self.assertEqual(objects["godot_symbol"], "source_continuous_liquid_turret_ammo_input.objects")
+        assignment = source_symbols.source_symbol(registry, "continuous_liquid_turret_ammo.assignment_expr")
+        self.assertEqual(assignment["java_expr"], "ammoTypes = ObjectMap.of(objects);")
+        self.assertEqual(assignment["godot_symbol"], "source_continuous_liquid_turret_ammo_result.assignment_expr")
+        ammo_types_after = source_symbols.source_symbol(registry, "continuous_liquid_turret_ammo.ammo_types_after")
+        self.assertEqual(ammo_types_after["java_expr"], "ObjectMap.of(objects)")
+        self.assertEqual(ammo_types_after["godot_symbol"], "source_continuous_liquid_turret_ammo_result.ammo_types_after")
+
+        ammo_slice = source_symbols.source_slice(ledger, "N1216")
+        self.assertEqual(ammo_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(ammo_slice["java_method"], "ContinuousLiquidTurret.ammo(Object...)")
+        self.assertEqual(ammo_slice["godot_owner"], "PortGame.source_continuous_liquid_turret_ammo_state")
+        self.assertEqual(ammo_slice["runtime_proof"], "/root/Main.generated_continuous_liquid_turret_ammo_bridge_state")
+        for expr in [
+            "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+            "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
+            "public void ammo(Object... objects){",
+            "ammoTypes = ObjectMap.of(objects);",
+        ]:
+            self.assertIn(expr, ammo_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_continuous_liquid_turret_ammo_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["objects"])
+        for key in ["field", "comment", "method", "assignment_expr", "objects", "ammo_types_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_ammo_input")
+        self.assertEqual(input_schema["keys"]["objects"]["java_expr"], "Object... objects")
+        result_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_ammo_result")
         self.assertEqual(result_schema["keys"]["ammo_types_after"]["java_expr"], "ObjectMap.of(objects)")
 
     def test_generated_item_turret_ammo_slice_is_registered_with_source_backing(self):

@@ -88399,6 +88399,108 @@
         "test_continuous_turret_set_stats_matches_upstream_source",
         "test_generated_continuous_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "continuous_liquid_turret_ammo.field": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_ammo_state",
+      "godot_symbol": "source_continuous_liquid_turret_ammo_result.field",
+      "java_expr": "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+      "java_method": "ContinuousLiquidTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Exact ContinuousLiquidTurret ammoTypes field backing ammo map.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
+        "test_continuous_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_ammo.comment": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_ammo_state",
+      "godot_symbol": "source_continuous_liquid_turret_ammo_result.comment",
+      "java_expr": "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
+      "java_method": "ContinuousLiquidTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Exact upstream comment defining liquid/bullet varargs format.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
+        "test_continuous_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_ammo.method": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_ammo_state",
+      "godot_symbol": "source_continuous_liquid_turret_ammo_result.method",
+      "java_expr": "public void ammo(Object... objects){",
+      "java_method": "ContinuousLiquidTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Exact ContinuousLiquidTurret.ammo method boundary.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
+        "test_continuous_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_ammo.assignment_expr": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_ammo_state",
+      "godot_symbol": "source_continuous_liquid_turret_ammo_result.assignment_expr",
+      "java_expr": "ammoTypes = ObjectMap.of(objects);",
+      "java_method": "ContinuousLiquidTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Exact assignment from ObjectMap.of(objects).",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
+        "test_continuous_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_ammo.objects": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_ammo_state",
+      "godot_symbol": "source_continuous_liquid_turret_ammo_input.objects",
+      "java_expr": "Object... objects",
+      "java_method": "ContinuousLiquidTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Input supplies Java varargs objects array without inventing ObjectMap internals.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_ammo_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
+        "test_continuous_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_ammo.ammo_types_after": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_ammo_state",
+      "godot_symbol": "source_continuous_liquid_turret_ammo_result.ammo_types_after",
+      "java_expr": "ObjectMap.of(objects)",
+      "java_method": "ContinuousLiquidTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Result records ammoTypes after ObjectMap.of(objects) as explicit input snapshot.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
+        "test_continuous_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
     }},
   "version": 1
 }

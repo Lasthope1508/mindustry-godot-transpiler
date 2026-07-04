@@ -27556,6 +27556,37 @@
         "test_continuous_turret_set_stats_matches_upstream_source",
         "test_generated_continuous_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1216": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+        "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
+        "public void ammo(Object... objects){",
+        "ammoTypes = ObjectMap.of(objects);"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret",
+      "java_method": "ContinuousLiquidTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurret.ammo replaces ammoTypes with ObjectMap.of(objects); Godot bridge records explicit varargs snapshot only.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_ammo_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_ammo.field",
+        "continuous_liquid_turret_ammo.comment",
+        "continuous_liquid_turret_ammo.method",
+        "continuous_liquid_turret_ammo.assignment_expr",
+        "continuous_liquid_turret_ammo.objects",
+        "continuous_liquid_turret_ammo.ammo_types_after"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
+        "test_continuous_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
     }},
   "version": 1
 }
