@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 652)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 653)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 657)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 658)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43519,6 +43519,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_item_turret_build_handle_stack_result["keys"]["loop_expr"]["java_expr"], "for(int i = 0; i < amount; i++){")
         self.assertEqual(source_item_turret_build_handle_stack_result["keys"]["handle_item_expr"]["java_expr"], "handleItem(null, item);")
         self.assertEqual(source_item_turret_build_handle_stack_result["keys"]["handle_item_calls"]["java_expr"], "handleItem(null, item)")
+
+    def test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "item_turret_build_remove_stack.method")
+        self.assertEqual(method["java_expr"], "public int removeStack(Item item, int amount){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(method["java_method"], "ItemTurretBuild.removeStack(Item,int)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_item_turret_build_remove_stack_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_item_turret_build_remove_stack_state")
+
+        item = source_symbols.source_symbol(registry, "item_turret_build_remove_stack.item")
+        self.assertEqual(item["java_expr"], "item")
+        self.assertEqual(item["godot_symbol"], "source_item_turret_build_remove_stack_input.item")
+        amount = source_symbols.source_symbol(registry, "item_turret_build_remove_stack.amount")
+        self.assertEqual(amount["java_expr"], "amount")
+        self.assertEqual(amount["godot_symbol"], "source_item_turret_build_remove_stack_input.amount")
+        removed_stack = source_symbols.source_symbol(registry, "item_turret_build_remove_stack.removed_stack")
+        self.assertEqual(removed_stack["java_expr"], "return 0;")
+        self.assertEqual(removed_stack["godot_symbol"], "source_item_turret_build_remove_stack_result.removed_stack")
+
+        remove_stack_slice = source_symbols.source_slice(ledger, "N1184")
+        self.assertEqual(remove_stack_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(remove_stack_slice["java_method"], "ItemTurretBuild.removeStack(Item,int)")
+        self.assertEqual(remove_stack_slice["godot_owner"], "PortGame.source_item_turret_build_remove_stack_state")
+        self.assertEqual(remove_stack_slice["runtime_proof"], "/root/Main.generated_item_turret_build_remove_stack_bridge_state")
+        for expr in [
+            "public class ItemTurretBuild extends TurretBuild{",
+            "//currently can't remove items from turrets.",
+            "@Override",
+            "public int removeStack(Item item, int amount){",
+            "return 0;",
+        ]:
+            self.assertIn(expr, remove_stack_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_item_turret_build_remove_stack_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["item", "amount"])
+        for key in ["inner_class", "comment", "method", "override_expr", "return_expr", "item", "amount", "removed_stack"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_item_turret_build_remove_stack_input = source_symbols.state_schema(schema, "source_item_turret_build_remove_stack_input")
+        self.assertEqual(source_item_turret_build_remove_stack_input["keys"]["item"]["java_expr"], "item")
+        self.assertEqual(source_item_turret_build_remove_stack_input["keys"]["amount"]["java_expr"], "amount")
+        source_item_turret_build_remove_stack_result = source_symbols.state_schema(schema, "source_item_turret_build_remove_stack_result")
+        self.assertEqual(source_item_turret_build_remove_stack_result["keys"]["comment"]["java_expr"], "//currently can't remove items from turrets.")
+        self.assertEqual(source_item_turret_build_remove_stack_result["keys"]["return_expr"]["java_expr"], "return 0;")
+        self.assertEqual(source_item_turret_build_remove_stack_result["keys"]["removed_stack"]["java_expr"], "return 0;")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

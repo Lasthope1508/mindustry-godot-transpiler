@@ -13521,5 +13521,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.handleStack"', source)
         self.assertIn('"matches": result.get("handle_item_calls", []) == canonical.get("handle_item_calls", [])', source)
 
+    def test_port_game_exposes_source_item_turret_build_remove_stack_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_remove_stack_state(item: Variant, amount: int) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ItemTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"comment": "//currently can\'t remove items from turrets."', source)
+        self.assertIn('"method": "public int removeStack(Item item, int amount){"', source)
+        self.assertIn('"return_expr": "return 0;"', source)
+        self.assertIn("var removed_stack: int = 0", source)
+        self.assertIn('"removed_stack": removed_stack', source)
+
+    def test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_remove_stack_bridge_state(item: Variant, amount: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_removeStack_6([item, amount])", source)
+        self.assertIn("var canonical = source_item_turret_build_remove_stack_state(item, amount)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_remove_stack_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.removeStack"', source)
+        self.assertIn('"matches": result.get("removed_stack", null) == canonical.get("removed_stack", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

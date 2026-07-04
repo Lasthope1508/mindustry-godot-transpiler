@@ -8657,5 +8657,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_turret_build_remove_stack_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_turret_build_remove_stack_source"))
+        report = source_parity.verify_item_turret_build_remove_stack_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+            "comment": "//currently can't remove items from turrets.",
+            "override": "@Override",
+            "method": "public int removeStack(Item item, int amount){",
+            "return_expr": "return 0;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

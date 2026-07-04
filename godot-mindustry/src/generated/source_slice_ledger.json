@@ -26365,6 +26365,42 @@
       ],
       "runtime_proof": "/root/Main.generated_item_turret_build_handle_stack_bridge_state",
       "rule": "ItemTurretBuild.handleStack() delegates handleItem(null,item) once per Java loop iteration."
+    },
+    "N1184": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "//currently can't remove items from turrets.",
+        "@Override",
+        "public int removeStack(Item item, int amount){",
+        "return 0;"
+      ],
+      "deferred_exprs": [
+        "No item removal state exists in upstream removeStack; the method always returns 0."
+      ],
+      "source_symbols": [
+        "item_turret_build_remove_stack.inner_class",
+        "item_turret_build_remove_stack.comment",
+        "item_turret_build_remove_stack.method",
+        "item_turret_build_remove_stack.override",
+        "item_turret_build_remove_stack.return_expr",
+        "item_turret_build_remove_stack.item",
+        "item_turret_build_remove_stack.amount",
+        "item_turret_build_remove_stack.removed_stack"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_remove_stack_bridge_state",
+      "rule": "ItemTurretBuild.removeStack() currently cannot remove items from turrets and returns zero exactly as upstream Java."
     }
   },
   "version": 1

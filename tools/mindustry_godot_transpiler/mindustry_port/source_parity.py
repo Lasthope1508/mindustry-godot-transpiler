@@ -863,6 +863,23 @@ def verify_item_turret_build_handle_stack_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_item_turret_build_remove_stack_source(upstream_root: Path) -> dict[str, Any]:
+    item_turret_path = Path(upstream_root) / ITEM_TURRET_SOURCE
+    source = item_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+        "comment": "//currently can't remove items from turrets.",
+        "override": "@Override",
+        "method": "public int removeStack(Item item, int amount){",
+        "return_expr": "return 0;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": ITEM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

@@ -83677,6 +83677,142 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_handle_stack_state",
       "rule": "Result records Java loop dispatch count."
+    },
+    "item_turret_build_remove_stack.inner_class": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "java_expr": "public class ItemTurretBuild extends TurretBuild{",
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "godot_symbol": "source_item_turret_build_remove_stack_result.inner_class",
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
+      "rule": "Exact ItemTurretBuild inner class boundary."
+    },
+    "item_turret_build_remove_stack.comment": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "java_expr": "//currently can't remove items from turrets.",
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "godot_symbol": "source_item_turret_build_remove_stack_result.comment",
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
+      "rule": "Exact source comment preserved."
+    },
+    "item_turret_build_remove_stack.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "java_expr": "public int removeStack(Item item, int amount){",
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "godot_symbol": "source_item_turret_build_remove_stack_result.method",
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
+      "rule": "Method boundary comes from ItemTurretBuild.removeStack(Item,int)."
+    },
+    "item_turret_build_remove_stack.override": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "java_expr": "@Override",
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "godot_symbol": "source_item_turret_build_remove_stack_result.override_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
+      "rule": "Override annotation preserved for ItemTurretBuild.removeStack."
+    },
+    "item_turret_build_remove_stack.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "java_expr": "return 0;",
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "godot_symbol": "source_item_turret_build_remove_stack_result.return_expr",
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
+      "rule": "Exact return expression preserved."
+    },
+    "item_turret_build_remove_stack.item": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "java_expr": "item",
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "godot_symbol": "source_item_turret_build_remove_stack_input.item",
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
+      "rule": "Explicit item input supplied to bridge."
+    },
+    "item_turret_build_remove_stack.amount": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "java_expr": "amount",
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "godot_symbol": "source_item_turret_build_remove_stack_input.amount",
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
+      "rule": "Explicit amount input supplied to bridge."
+    },
+    "item_turret_build_remove_stack.removed_stack": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_method": "ItemTurretBuild.removeStack(Item,int)",
+      "java_expr": "return 0;",
+      "godot_owner": "PortGame.source_item_turret_build_remove_stack_state",
+      "godot_symbol": "source_item_turret_build_remove_stack_result.removed_stack",
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
+      "rule": "Result is always zero per upstream Java."
     }
   },
   "version": 1

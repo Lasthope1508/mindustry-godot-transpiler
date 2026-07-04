@@ -2986,6 +2986,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\thandle_item_calls.append({\"call\": \"handleItem(null, item);\", \"source\": null, \"item\": item})",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_handle_stack_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public void handleStack(Item item, int amount, Teamc source){\", \"override_expr\": \"@Override\", \"loop_expr\": \"for(int i = 0; i < amount; i++){\", \"handle_item_expr\": \"handleItem(null, item);\", \"item\": item, \"amount\": amount, \"handle_item_calls\": handle_item_calls, \"handle_item_call_count\": handle_item_calls.size()}",
                     ])
+                elif method.get("name") == "removeStack":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemTurretBuild_method_removeStack_{index}(_args: Array = []) -> Variant:",
+                        "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar amount: int = int(_args[1] if _args.size() > 1 else 0)",
+                        "\tvar removed_stack: int = 0",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_remove_stack_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"comment\": \"//currently can't remove items from turrets.\", \"method\": \"public int removeStack(Item item, int amount){\", \"override_expr\": \"@Override\", \"return_expr\": \"return 0;\", \"item\": item, \"amount\": amount, \"removed_stack\": removed_stack}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

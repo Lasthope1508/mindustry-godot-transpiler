@@ -119,3 +119,9 @@ func java_inner_class_ItemTurretBuild_method_handleStack_5(_args: Array = []) ->
 	for _i in range(amount):
 		handle_item_calls.append({"call": "handleItem(null, item);", "source": null, "item": item})
 	return {"source_owner": "PortGame.source_item_turret_build_handle_stack_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "method": "public void handleStack(Item item, int amount, Teamc source){", "override_expr": "@Override", "loop_expr": "for(int i = 0; i < amount; i++){", "handle_item_expr": "handleItem(null, item);", "item": item, "amount": amount, "handle_item_calls": handle_item_calls, "handle_item_call_count": handle_item_calls.size()}
+
+func java_inner_class_ItemTurretBuild_method_removeStack_6(_args: Array = []) -> Variant:
+	var item: Variant = _args[0] if _args.size() > 0 else null
+	var amount: int = int(_args[1] if _args.size() > 1 else 0)
+	var removed_stack: int = 0
+	return {"source_owner": "PortGame.source_item_turret_build_remove_stack_state", "inner_class": "public class ItemTurretBuild extends TurretBuild{", "comment": "//currently can't remove items from turrets.", "method": "public int removeStack(Item item, int amount){", "override_expr": "@Override", "return_expr": "return 0;", "item": item, "amount": amount, "removed_stack": removed_stack}

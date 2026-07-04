@@ -26765,6 +26765,44 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_handle_stack_state",
       "rule": "Public runtime contract for ItemTurretBuild.handleStack() handleItem dispatch records."
+    },
+    "PortGame.source_item_turret_build_remove_stack_state": {
+      "status": "source-backed",
+      "source_slice": "N1184",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurretBuild.removeStack(Item,int)",
+      "params": [
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_item_turret_build_remove_stack_input.item"
+        },
+        {
+          "name": "amount",
+          "type": "int",
+          "schema": "source_item_turret_build_remove_stack_input.amount"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "comment",
+        "method",
+        "override_expr",
+        "return_expr",
+        "item",
+        "amount",
+        "removed_stack"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_remove_stack_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_remove_stack_state",
+        "test_port_game_exposes_generated_item_turret_build_remove_stack_bridge_state",
+        "test_item_turret_build_remove_stack_matches_upstream_source",
+        "test_generated_item_turret_build_remove_stack_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_remove_stack_state",
+      "rule": "Public runtime contract for ItemTurretBuild.removeStack() zero removal result."
     }
   },
   "policy": {

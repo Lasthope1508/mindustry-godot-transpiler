@@ -17507,6 +17507,33 @@ func generated_item_turret_build_handle_stack_bridge_state(item: Variant, amount
 		"matches": result.get("handle_item_calls", []) == canonical.get("handle_item_calls", []),
 	}
 
+func source_item_turret_build_remove_stack_state(item: Variant, amount: int) -> Dictionary:
+	var removed_stack: int = 0
+	return {
+		"source_owner": "PortGame.source_item_turret_build_remove_stack_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"comment": "//currently can't remove items from turrets.",
+		"method": "public int removeStack(Item item, int amount){",
+		"override_expr": "@Override",
+		"return_expr": "return 0;",
+		"item": item,
+		"amount": amount,
+		"removed_stack": removed_stack,
+	}
+
+func generated_item_turret_build_remove_stack_bridge_state(item: Variant, amount: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_removeStack_6([item, amount])
+	var canonical = source_item_turret_build_remove_stack_state(item, amount)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_remove_stack_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.removeStack",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("removed_stack", null) == canonical.get("removed_stack", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

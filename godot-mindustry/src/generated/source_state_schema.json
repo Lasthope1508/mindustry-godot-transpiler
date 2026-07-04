@@ -98818,6 +98818,142 @@
         }
       },
       "rule": "Result schema for ItemTurretBuild.handleStack() bridge."
+    },
+    "source_item_turret_build_remove_stack_input": {
+      "status": "source-backed",
+      "source_slice": "N1184",
+      "keys": {
+        "item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_remove_stack_input.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.removeStack(Item,int)",
+          "java_expr": "item",
+          "used_by": [
+            "PortGame.source_item_turret_build_remove_stack_state"
+          ],
+          "rule": "Carries Java item parameter into bridge."
+        },
+        "amount": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_remove_stack_input.amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.removeStack(Item,int)",
+          "java_expr": "amount",
+          "used_by": [
+            "PortGame.source_item_turret_build_remove_stack_state"
+          ],
+          "rule": "Carries Java amount parameter into bridge."
+        }
+      },
+      "rule": "Input schema for ItemTurretBuild.removeStack() bridge."
+    },
+    "source_item_turret_build_remove_stack_result": {
+      "status": "source-backed",
+      "source_slice": "N1184",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_remove_stack_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.removeStack(Item,int)",
+          "java_expr": "public class ItemTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_item_turret_build_remove_stack_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "comment": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_remove_stack_result.comment",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.removeStack(Item,int)",
+          "java_expr": "//currently can't remove items from turrets.",
+          "used_by": [
+            "PortGame.source_item_turret_build_remove_stack_state"
+          ],
+          "rule": "Result records exact source comment."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_remove_stack_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.removeStack(Item,int)",
+          "java_expr": "public int removeStack(Item item, int amount){",
+          "used_by": [
+            "PortGame.source_item_turret_build_remove_stack_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_remove_stack_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.removeStack(Item,int)",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_item_turret_build_remove_stack_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "return_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_remove_stack_result.return_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.removeStack(Item,int)",
+          "java_expr": "return 0;",
+          "used_by": [
+            "PortGame.source_item_turret_build_remove_stack_state"
+          ],
+          "rule": "Result records exact return expression."
+        },
+        "item": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_item_turret_build_remove_stack_result.item",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.removeStack(Item,int)",
+          "java_expr": "item",
+          "used_by": [
+            "PortGame.source_item_turret_build_remove_stack_state"
+          ],
+          "rule": "Carries item into result schema.",
+          "alias_of": "source_item_turret_build_remove_stack_input.item"
+        },
+        "amount": {
+          "status": "explicit-input",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_remove_stack_result.amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.removeStack(Item,int)",
+          "java_expr": "amount",
+          "used_by": [
+            "PortGame.source_item_turret_build_remove_stack_state"
+          ],
+          "rule": "Carries amount into result schema.",
+          "alias_of": "source_item_turret_build_remove_stack_input.amount"
+        },
+        "removed_stack": {
+          "status": "source-backed",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_remove_stack_result.removed_stack",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.removeStack(Item,int)",
+          "java_expr": "return 0;",
+          "used_by": [
+            "PortGame.source_item_turret_build_remove_stack_state"
+          ],
+          "rule": "Result records Java zero removal return."
+        }
+      },
+      "rule": "Result schema for ItemTurretBuild.removeStack() bridge."
     }
   },
   "version": 1
