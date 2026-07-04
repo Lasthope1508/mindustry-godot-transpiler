@@ -3602,6 +3602,1084 @@
         "test_source_slice_ledger_tracks_registered_source_owners"
       ]
     },
+    "N1126": {
+      "exact_exprs": [
+        "void handleSyncHidden(){",
+        "void handleSyncHidden(){\n\n}"
+      ],
+      "godot_owner": "PortGame.source_sync_handle_sync_hidden_state",
+      "java_class": "mindustry.entities.comp.SyncComp",
+      "java_method": "handleSyncHidden()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Registers SyncComp.handleSyncHidden() empty body and wires generated SyncComp.java_method_handleSyncHidden_9 plus PortGame generated bridge to canonical source_sync_handle_sync_hidden_state.",
+      "runtime_proof": "/root/Main.generated_sync_comp_handle_sync_hidden_bridge_state",
+      "source_symbols": [
+        "sync_handle_sync_hidden.method",
+        "sync_handle_sync_hidden.empty_body",
+        "sync_handle_sync_hidden.no_op"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_sync_comp_handle_sync_hidden_to_source_state",
+        "test_generated_sync_comp_bridges_handle_sync_hidden_to_source_state",
+        "test_port_game_exposes_source_sync_handle_sync_hidden_state",
+        "test_port_game_exposes_generated_sync_comp_handle_sync_hidden_bridge_state",
+        "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1127": {
+      "exact_exprs": [
+        "public void update(){",
+        "//interpolate the player if:",
+        "//- this is a client and the entity is everything except the local player",
+        "//- this is a server and the entity is a remote player",
+        "if((Vars.net.client() && !isLocal()) || isRemote()){",
+        "interpolate();"
+      ],
+      "godot_owner": "PortGame.source_sync_update_interpolate_state",
+      "java_class": "mindustry.entities.comp.SyncComp",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Registers SyncComp.update() interpolation gate and wires generated SyncComp.java_method_update_10 plus PortGame generated bridge to canonical source_sync_update_interpolate_state.",
+      "runtime_proof": "/root/Main.generated_sync_comp_update_interpolate_bridge_state",
+      "source_symbols": [
+        "sync_update_interpolate.method",
+        "sync_update_interpolate.condition",
+        "sync_update_interpolate.interpolate_call",
+        "sync_update_interpolate.net_client",
+        "sync_update_interpolate.is_local",
+        "sync_update_interpolate.is_remote",
+        "sync_update_interpolate.interpolate_called",
+        "sync_update_interpolate.interpolate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_sync_comp_update_interpolate_gate_to_source_state",
+        "test_generated_sync_comp_bridges_update_interpolate_gate_to_source_state",
+        "test_port_game_exposes_source_sync_update_interpolate_state",
+        "test_port_game_exposes_generated_sync_comp_update_interpolate_bridge_state",
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1128": {
+      "exact_exprs": [
+        "public void remove(){",
+        "//notify client of removal",
+        "if(Vars.net.client()){",
+        "Vars.netClient.addRemovedEntity(id());"
+      ],
+      "godot_owner": "PortGame.source_sync_remove_client_removed_entity_state",
+      "java_class": "mindustry.entities.comp.SyncComp",
+      "java_method": "remove()",
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "rule": "Registers SyncComp.remove() client removed-entity notification and wires generated SyncComp.java_method_remove_11 plus PortGame generated bridge to canonical source_sync_remove_client_removed_entity_state.",
+      "runtime_proof": "/root/Main.generated_sync_comp_remove_client_removed_entity_bridge_state",
+      "source_symbols": [
+        "sync_remove_client_removed_entity.method",
+        "sync_remove_client_removed_entity.condition",
+        "sync_remove_client_removed_entity.add_removed_entity_call",
+        "sync_remove_client_removed_entity.net_client",
+        "sync_remove_client_removed_entity.entity_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_sync_comp_remove_client_removed_entity_to_source_state",
+        "test_generated_sync_comp_bridges_remove_client_removed_entity_to_source_state",
+        "test_port_game_exposes_source_sync_remove_client_removed_entity_state",
+        "test_port_game_exposes_generated_sync_comp_remove_client_removed_entity_bridge_state",
+        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1129": {
+      "exact_exprs": [
+        "@Replace",
+        "public float ammof(){",
+        "return ammo;"
+      ],
+      "godot_owner": "PortGame.source_block_unit_ammof_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "ammof()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.ammof() direct ammo return and wires generated BlockUnitComp.java_method_ammof_4 plus PortGame generated bridge to canonical source_block_unit_ammof_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_ammof_bridge_state",
+      "source_symbols": [
+        "block_unit_ammof.method",
+        "block_unit_ammof.return_expr",
+        "block_unit_ammof.ammo"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_ammof_to_source_state",
+        "test_generated_block_unit_comp_bridges_ammof_to_source_state",
+        "test_port_game_exposes_source_block_unit_ammof_state",
+        "test_port_game_exposes_generated_block_unit_comp_ammof_bridge_state",
+        "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1130": {
+      "exact_exprs": [
+        "@Replace",
+        "@Override",
+        "public TextureRegion icon(){",
+        "return tile.block.uiIcon;"
+      ],
+      "godot_owner": "PortGame.source_block_unit_icon_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "icon()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.icon() direct tile.block.uiIcon return and wires generated BlockUnitComp.java_method_icon_3 plus PortGame generated bridge to canonical source_block_unit_icon_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_icon_bridge_state",
+      "source_symbols": [
+        "block_unit_icon.method",
+        "block_unit_icon.return_expr",
+        "block_unit_icon.tile_block_ui_icon"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_icon_to_source_state",
+        "test_generated_block_unit_comp_bridges_icon_to_source_state",
+        "test_port_game_exposes_source_block_unit_icon_state",
+        "test_port_game_exposes_generated_block_unit_comp_icon_bridge_state",
+        "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1131": {
+      "exact_exprs": [
+        "@Replace",
+        "public boolean dead(){",
+        "return tile == null || tile.dead();"
+      ],
+      "godot_owner": "PortGame.source_block_unit_dead_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "dead()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.dead() tile null/dead return and wires generated BlockUnitComp.java_method_dead_7 plus PortGame generated bridge to canonical source_block_unit_dead_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_dead_bridge_state",
+      "source_symbols": [
+        "block_unit_dead.method",
+        "block_unit_dead.return_expr",
+        "block_unit_dead.tile_null",
+        "block_unit_dead.tile_dead",
+        "block_unit_dead.dead"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_dead_to_source_state",
+        "test_generated_block_unit_comp_bridges_dead_to_source_state",
+        "test_port_game_exposes_source_block_unit_dead_state",
+        "test_port_game_exposes_generated_block_unit_comp_dead_bridge_state",
+        "test_generated_block_unit_comp_dead_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1132": {
+      "exact_exprs": [
+        "@Replace",
+        "public boolean isValid(){",
+        "return tile != null && tile.isValid();"
+      ],
+      "godot_owner": "PortGame.source_block_unit_is_valid_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "isValid()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.isValid() tile exists/isValid return and wires generated BlockUnitComp.java_method_isValid_8 plus PortGame generated bridge to canonical source_block_unit_is_valid_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_is_valid_bridge_state",
+      "source_symbols": [
+        "block_unit_is_valid.method",
+        "block_unit_is_valid.return_expr",
+        "block_unit_is_valid.tile_exists",
+        "block_unit_is_valid.tile_is_valid",
+        "block_unit_is_valid.is_valid"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_is_valid_to_source_state",
+        "test_generated_block_unit_comp_bridges_is_valid_to_source_state",
+        "test_port_game_exposes_source_block_unit_is_valid_state",
+        "test_port_game_exposes_generated_block_unit_comp_is_valid_bridge_state",
+        "test_generated_block_unit_comp_is_valid_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1133": {
+      "exact_exprs": [
+        "@Replace",
+        "public boolean isAdded(){",
+        "return tile != null && tile.isValid();"
+      ],
+      "godot_owner": "PortGame.source_block_unit_is_added_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "isAdded()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.isAdded() tile exists/isValid return and wires generated BlockUnitComp.java_method_isAdded_9 plus PortGame generated bridge to canonical source_block_unit_is_added_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_is_added_bridge_state",
+      "source_symbols": [
+        "block_unit_is_added.method",
+        "block_unit_is_added.return_expr",
+        "block_unit_is_added.tile_exists",
+        "block_unit_is_added.tile_is_valid",
+        "block_unit_is_added.is_added"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_is_added_to_source_state",
+        "test_generated_block_unit_comp_bridges_is_added_to_source_state",
+        "test_port_game_exposes_source_block_unit_is_added_state",
+        "test_port_game_exposes_generated_block_unit_comp_is_added_bridge_state",
+        "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1134": {
+      "exact_exprs": [
+        "@Override",
+        "public void killed(){",
+        "tile.kill();"
+      ],
+      "godot_owner": "PortGame.source_block_unit_killed_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "killed()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.killed() tile.kill() delegation and wires generated BlockUnitComp.java_method_killed_5 plus PortGame generated bridge to canonical source_block_unit_killed_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_killed_bridge_state",
+      "source_symbols": [
+        "block_unit_killed.method",
+        "block_unit_killed.tile_kill_call",
+        "block_unit_killed.tile_kill_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_killed_to_source_state",
+        "test_port_game_exposes_source_block_unit_killed_state",
+        "test_port_game_exposes_generated_block_unit_comp_killed_bridge_state",
+        "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1135": {
+      "exact_exprs": [
+        "@Replace",
+        "public void damage(float v, boolean b){",
+        "tile.damage(v, b);"
+      ],
+      "godot_owner": "PortGame.source_block_unit_damage_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "damage(float v, boolean b)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.damage(float v, boolean b) tile.damage(v, b) delegation and wires generated BlockUnitComp.java_method_damage_6 plus PortGame generated bridge to canonical source_block_unit_damage_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_damage_bridge_state",
+      "source_symbols": [
+        "block_unit_damage.method",
+        "block_unit_damage.v",
+        "block_unit_damage.b",
+        "block_unit_damage.tile_damage_call",
+        "block_unit_damage.tile_damage_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_damage_to_source_state",
+        "test_port_game_exposes_source_block_unit_damage_state",
+        "test_port_game_exposes_generated_block_unit_comp_damage_bridge_state",
+        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1136": {
+      "exact_exprs": [
+        "@Replace",
+        "public void team(Team team){",
+        "if(tile != null && this.team != team){",
+        "this.team = team;",
+        "if(tile.team != team){",
+        "tile.changeTeam(team);"
+      ],
+      "godot_owner": "PortGame.source_block_unit_team_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "team(Team team)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.team(Team team) guard, this.team assignment, inner tile.team guard, and tile.changeTeam(team) delegation; wires generated BlockUnitComp.java_method_team_10 plus PortGame generated bridge to canonical source_block_unit_team_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_team_bridge_state",
+      "source_symbols": [
+        "block_unit_team.method",
+        "block_unit_team.tile_exists",
+        "block_unit_team.this_team",
+        "block_unit_team.team",
+        "block_unit_team.tile_team",
+        "block_unit_team.outer_guard",
+        "block_unit_team.this_team_assignment",
+        "block_unit_team.inner_guard",
+        "block_unit_team.tile_change_team_call",
+        "block_unit_team.tile_change_team_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_team_to_source_state",
+        "test_port_game_exposes_source_block_unit_team_state",
+        "test_port_game_exposes_generated_block_unit_comp_team_bridge_state",
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1137": {
+      "exact_exprs": [
+        "@Override",
+        "public void update(){",
+        "if(tile != null){",
+        "team = tile.team;"
+      ],
+      "godot_owner": "PortGame.source_block_unit_update_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.update() tile non-null guard and team = tile.team assignment; wires generated BlockUnitComp.java_method_update_2 plus PortGame generated bridge to canonical source_block_unit_update_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_update_bridge_state",
+      "source_symbols": [
+        "block_unit_update.method",
+        "block_unit_update.tile_exists",
+        "block_unit_update.team",
+        "block_unit_update.tile_team",
+        "block_unit_update.tile_guard",
+        "block_unit_update.team_assignment",
+        "block_unit_update.team_after"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_update_to_source_state",
+        "test_port_game_exposes_source_block_unit_update_state",
+        "test_port_game_exposes_generated_block_unit_comp_update_bridge_state",
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1138": {
+      "exact_exprs": [
+        "@Override",
+        "public void add(){",
+        "if(tile == null){",
+        "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");"
+      ],
+      "godot_owner": "PortGame.source_block_unit_add_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "add()",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.add() tile null guard and RuntimeException throw; wires generated BlockUnitComp.java_method_add_1 plus PortGame generated bridge to canonical source_block_unit_add_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_add_bridge_state",
+      "source_symbols": [
+        "block_unit_add.method",
+        "block_unit_add.tile_null",
+        "block_unit_add.guard",
+        "block_unit_add.throw_expr",
+        "block_unit_add.runtime_exception_thrown",
+        "block_unit_add.runtime_exception_message"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_add_to_source_state",
+        "test_port_game_exposes_source_block_unit_add_state",
+        "test_port_game_exposes_generated_block_unit_comp_add_bridge_state",
+        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1139": {
+      "exact_exprs": [
+        "public void tile(Building tile){",
+        "this.tile = tile;",
+        "//sets up block stats",
+        "maxHealth(tile.block.health);",
+        "health(tile.health);",
+        "hitSize(tile.block.size * tilesize * 0.7f);",
+        "set(tile);"
+      ],
+      "godot_owner": "PortGame.source_block_unit_tile_state",
+      "java_class": "mindustry.entities.comp.BlockUnitComp",
+      "java_method": "tile(Building tile)",
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "rule": "Registers BlockUnitComp.tile(Building tile) tile assignment and block stat setup calls; wires generated BlockUnitComp.java_method_tile_0 plus PortGame generated bridge to canonical source_block_unit_tile_state.",
+      "runtime_proof": "/root/Main.generated_block_unit_comp_tile_bridge_state",
+      "source_symbols": [
+        "block_unit_tile.method",
+        "block_unit_tile.tile",
+        "block_unit_tile.tile_block_health",
+        "block_unit_tile.tile_health",
+        "block_unit_tile.tile_block_size",
+        "block_unit_tile.tilesize",
+        "block_unit_tile.tile_assignment",
+        "block_unit_tile.comment",
+        "block_unit_tile.max_health_call",
+        "block_unit_tile.health_call",
+        "block_unit_tile.hit_size_call",
+        "block_unit_tile.set_call",
+        "block_unit_tile.this_tile_after",
+        "block_unit_tile.hit_size"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_unit_comp_tile_to_source_state",
+        "test_port_game_exposes_source_block_unit_tile_state",
+        "test_port_game_exposes_generated_block_unit_comp_tile_bridge_state",
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1140": {
+      "exact_exprs": [
+        "public boolean canBuild(){",
+        "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;"
+      ],
+      "godot_owner": "PortGame.source_builder_can_build_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "canBuild()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Registers BuilderComp.canBuild() type.buildSpeed/buildSpeedMultiplier predicates; wires generated BuilderComp.java_method_canBuild_0 plus PortGame generated bridge to canonical source_builder_can_build_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_can_build_bridge_state",
+      "source_symbols": [
+        "builder_can_build.method",
+        "builder_can_build.return_expr",
+        "builder_can_build.type_build_speed",
+        "builder_can_build.build_speed_multiplier",
+        "builder_can_build.type_build_speed_positive",
+        "builder_can_build.build_speed_multiplier_positive",
+        "builder_can_build.can_build"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_builder_comp_can_build_to_source_state",
+        "test_port_game_exposes_source_builder_can_build_state",
+        "test_port_game_exposes_generated_builder_comp_can_build_bridge_state",
+        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1141": {
+      "exact_exprs": [
+        "@Override",
+        "public void update(){",
+        "updateBuildLogic();"
+      ],
+      "godot_owner": "PortGame.source_builder_update_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "update()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Registers BuilderComp.update() updateBuildLogic() dispatch; wires generated BuilderComp.java_method_update_1 plus PortGame generated bridge to canonical source_builder_update_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_update_bridge_state",
+      "source_symbols": [
+        "builder_update.method",
+        "builder_update.update_build_logic_call",
+        "builder_update.update_build_logic_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_builder_comp_update_to_source_state",
+        "test_port_game_exposes_source_builder_update_state",
+        "test_port_game_exposes_generated_builder_comp_update_bridge_state",
+        "test_generated_builder_comp_update_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1142": {
+      "exact_exprs": [
+        "/** Return whether this builder's place queue contains items. */",
+        "boolean isBuilding(){",
+        "return plans.size != 0;"
+      ],
+      "godot_owner": "PortGame.source_builder_is_building_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "isBuilding()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Registers BuilderComp.isBuilding() plans.size predicate; wires generated BuilderComp.java_method_isBuilding_9 plus PortGame generated bridge to canonical source_builder_is_building_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_is_building_bridge_state",
+      "source_symbols": [
+        "builder_is_building.method",
+        "builder_is_building.plans_size",
+        "builder_is_building.is_building"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_builder_comp_is_building_to_source_state",
+        "test_port_game_exposes_source_builder_is_building_state",
+        "test_port_game_exposes_generated_builder_comp_is_building_bridge_state",
+        "test_generated_builder_comp_is_building_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1143": {
+      "exact_exprs": [
+        "/** Clears the placement queue. */",
+        "void clearBuilding(){",
+        "plans.clear();"
+      ],
+      "godot_owner": "PortGame.source_builder_clear_building_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "clearBuilding()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Registers BuilderComp.clearBuilding() plans.clear() call; wires generated BuilderComp.java_method_clearBuilding_10 plus PortGame generated bridge to canonical source_builder_clear_building_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_clear_building_bridge_state",
+      "source_symbols": [
+        "builder_clear_building.method",
+        "builder_clear_building.plans_clear_call",
+        "builder_clear_building.plans_clear_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_builder_comp_clear_building_to_source_state",
+        "test_port_game_exposes_source_builder_clear_building_state",
+        "test_port_game_exposes_generated_builder_comp_clear_building_bridge_state",
+        "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1144": {
+      "exact_exprs": [
+        "/** Add another build plans to the tail of the queue, if it doesn't exist there yet. */",
+        "void addBuild(BuildPlan place){",
+        "addBuild(place, true);"
+      ],
+      "godot_owner": "PortGame.source_builder_add_build_tail_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "addBuild(BuildPlan place)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Registers BuilderComp.addBuild(BuildPlan place) delegate to addBuild(place, true); wires generated BuilderComp.java_method_addBuild_11 plus PortGame generated bridge to canonical source_builder_add_build_tail_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_add_build_tail_bridge_state",
+      "source_symbols": [
+        "builder_add_build_tail.method",
+        "builder_add_build_tail.place",
+        "builder_add_build_tail.tail",
+        "builder_add_build_tail.add_build_call",
+        "builder_add_build_tail.add_build_called"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_tail_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_tail_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_tail_bridge_state",
+        "test_generated_builder_comp_add_build_tail_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1145": {
+      "deferred_exprs": [
+        "Queue mutation and active-range selection remain owned by addBuild(BuildPlan place, boolean tail) and activelyBuilding(); this slice only preserves buildPlan() return selection."
+      ],
+      "exact_exprs": [
+        "/** @return  the build plan currently active, or the one at the top of the queue.*/",
+        "@Nullable BuildPlan buildPlan(){",
+        "return plans.size == 0 ? null : plans.first();"
+      ],
+      "godot_owner": "PortGame.source_builder_build_plan_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "buildPlan()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Registers BuilderComp.buildPlan() plans.size ternary and wires generated BuilderComp.java_method_buildPlan_14 plus PortGame generated bridge to canonical source_builder_build_plan_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_build_plan_bridge_state",
+      "source_symbols": [
+        "builder_build_plan.method",
+        "builder_build_plan.plans_size",
+        "builder_build_plan.plans_first",
+        "builder_build_plan.build_plan"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_builder_comp_build_plan_to_source_state",
+        "test_port_game_exposes_source_builder_build_plan_state",
+        "test_port_game_exposes_generated_builder_comp_build_plan_bridge_state",
+        "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1146": {
+      "deferred_exprs": [
+        "Concrete Queue object identity and serialization lifecycle remain engine integration work; this slice preserves only the null guard and Queue<>(1) reset contract."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void afterRead(){",
+        "//why would this happen?",
+        "if(plans == null){",
+        "plans = new Queue<>(1);"
+      ],
+      "godot_owner": "PortGame.source_builder_after_read_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "afterRead()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Registers BuilderComp.afterRead() null plans guard and Queue<>(1) reset; wires generated BuilderComp.java_method_afterRead_2 plus PortGame generated bridge to canonical source_builder_after_read_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_after_read_bridge_state",
+      "source_symbols": [
+        "builder_after_read.method",
+        "builder_after_read.plans_null",
+        "builder_after_read.queue_constructor",
+        "builder_after_read.queue_reset",
+        "builder_after_read.plans_capacity"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_builder_comp_after_read_to_source_state",
+        "test_port_game_exposes_source_builder_after_read_state",
+        "test_port_game_exposes_generated_builder_comp_after_read_bridge_state",
+        "test_generated_builder_comp_after_read_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1147": {
+      "deferred_exprs": [
+        "This slice preserves activelyBuilding() branch logic with explicit within(plan, range) input; concrete Position.within distance math remains owned by later spatial integration slices."
+      ],
+      "exact_exprs": [
+        "boolean activelyBuilding(){",
+        "//not actively building when not near the build plan",
+        "if(isBuilding()){",
+        "var plan = buildPlan();",
+        "if(!state.isEditor() && plan != null && !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+        "return false;",
+        "return isBuilding() && updateBuilding;"
+      ],
+      "godot_owner": "PortGame.source_builder_actively_building_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "activelyBuilding()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Registers BuilderComp.activelyBuilding() range guard and updateBuilding return; wires generated BuilderComp.java_method_activelyBuilding_13 plus PortGame generated bridge to canonical source_builder_actively_building_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_actively_building_bridge_state",
+      "source_symbols": [
+        "builder_actively_building.method",
+        "builder_actively_building.comment",
+        "builder_actively_building.guard",
+        "builder_actively_building.plan_assignment",
+        "builder_actively_building.range_guard",
+        "builder_actively_building.range_expr",
+        "builder_actively_building.return_false",
+        "builder_actively_building.return_expr",
+        "builder_actively_building.plans_size",
+        "builder_actively_building.plans_first",
+        "builder_actively_building.state_is_editor",
+        "builder_actively_building.state_rules_infinite_resources",
+        "builder_actively_building.type_build_range",
+        "builder_actively_building.within_plan",
+        "builder_actively_building.update_building",
+        "builder_actively_building.is_building",
+        "builder_actively_building.build_plan",
+        "builder_actively_building.final_place_dst",
+        "builder_actively_building.outside_range_blocked",
+        "builder_actively_building.actively_building"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_builder_comp_actively_building_to_source_state",
+        "test_port_game_exposes_source_builder_actively_building_state",
+        "test_port_game_exposes_generated_builder_comp_actively_building_bridge_state",
+        "test_builder_actively_building_matches_upstream_source",
+        "test_generated_builder_comp_actively_building_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1148": {
+      "deferred_exprs": [
+        "This slice preserves removeBuild matching and removeIndex mutation on an explicit plans snapshot; live Queue object integration remains owned by later BuilderComp queue slices."
+      ],
+      "exact_exprs": [
+        "void removeBuild(int x, int y, boolean breaking){",
+        "//remove matching plan",
+        "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);",
+        "if(idx != -1){",
+        "plans.removeIndex(idx);"
+      ],
+      "godot_owner": "PortGame.source_builder_remove_build_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "removeBuild(int x, int y, boolean breaking)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "Registers BuilderComp.removeBuild(int x, int y, boolean breaking) indexOf predicate and removeIndex guard; wires generated BuilderComp.java_method_removeBuild_8 plus PortGame generated bridge to canonical source_builder_remove_build_state.",
+      "runtime_proof": "/root/Main.generated_builder_comp_remove_build_bridge_state",
+      "source_symbols": [
+        "builder_remove_build.method",
+        "builder_remove_build.comment",
+        "builder_remove_build.index_expr",
+        "builder_remove_build.guard",
+        "builder_remove_build.remove_index_expr",
+        "builder_remove_build.plans",
+        "builder_remove_build.x",
+        "builder_remove_build.y",
+        "builder_remove_build.breaking",
+        "builder_remove_build.idx",
+        "builder_remove_build.removed",
+        "builder_remove_build.remove_index_call",
+        "builder_remove_build.plans_after"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_builder_comp_remove_build_to_source_state",
+        "test_port_game_exposes_source_builder_remove_build_state",
+        "test_port_game_exposes_generated_builder_comp_remove_build_bridge_state",
+        "test_builder_remove_build_matches_upstream_source",
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing",
+        "test_source_slice_ledger_tracks_registered_source_owners"
+      ]
+    },
+    "N1149": {
+      "exact_exprs": [
+        "/** @return whether this plan should be skipped, in favor of the next one. */",
+        "boolean shouldSkip(BuildPlan plan, @Nullable Building core){",
+        "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
+        "return (plan.stuck && !core.items.has(plan.block.requirements)) ||",
+        "(Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));"
+      ],
+      "godot_owner": "PortGame.source_builder_should_skip_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "BuilderComp.shouldSkip returns false for exact guard cases, otherwise returns stuck missing requirements or Structs.contains missing capped requirement predicate.",
+      "runtime_proof": "/root/Main.generated_builder_comp_should_skip_bridge_state",
+      "source_symbols": [
+        "builder_should_skip.method",
+        "builder_should_skip.comment",
+        "builder_should_skip.guard",
+        "builder_should_skip.return_expr",
+        "builder_should_skip.state_rules_infinite_resources",
+        "builder_should_skip.team_rules_infinite_resources",
+        "builder_should_skip.plan_breaking",
+        "builder_should_skip.core_null",
+        "builder_should_skip.plan_is_rotation",
+        "builder_should_skip.plan_is_derelict_repair",
+        "builder_should_skip.plan_stuck",
+        "builder_should_skip.core_items_has_plan_block_requirements",
+        "builder_should_skip.structs_contains_missing_requirement",
+        "builder_should_skip.guard_returns_false",
+        "builder_should_skip.stuck_missing_requirements",
+        "builder_should_skip.should_skip"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_builder_comp_should_skip_to_source_state",
+        "test_port_game_exposes_source_builder_should_skip_state",
+        "test_port_game_exposes_generated_builder_comp_should_skip_bridge_state",
+        "test_builder_should_skip_matches_upstream_source",
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1150": {
+      "exact_exprs": [
+        "void drawPlanTop(BuildPlan plan, float alpha){",
+        "if(!plan.breaking){",
+        "Draw.reset();",
+        "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));",
+        "Draw.alpha(alpha);",
+        "plan.block.drawPlanConfigTop(plan, plans);"
+      ],
+      "godot_owner": "PortGame.source_builder_draw_plan_top_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "BuilderComp.drawPlanTop records top-plan draw calls only when !plan.breaking, preserving Draw.reset, Draw.mixcol, Draw.alpha, and drawPlanConfigTop calls.",
+      "runtime_proof": "/root/Main.generated_builder_comp_draw_plan_top_bridge_state",
+      "source_symbols": [
+        "builder_draw_plan_top.method",
+        "builder_draw_plan_top.guard",
+        "builder_draw_plan_top.draw_reset_expr",
+        "builder_draw_plan_top.mixcol_expr",
+        "builder_draw_plan_top.draw_alpha_expr",
+        "builder_draw_plan_top.draw_plan_config_top_expr",
+        "builder_draw_plan_top.plan",
+        "builder_draw_plan_top.plans",
+        "builder_draw_plan_top.plan_breaking",
+        "builder_draw_plan_top.alpha",
+        "builder_draw_plan_top.mathf_absin_time_global_6_0_28",
+        "builder_draw_plan_top.draw_top",
+        "builder_draw_plan_top.mixcol_alpha",
+        "builder_draw_plan_top.draw_reset_called",
+        "builder_draw_plan_top.draw_alpha_call",
+        "builder_draw_plan_top.draw_plan_config_top_call"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_builder_comp_draw_plan_top_to_source_state",
+        "test_port_game_exposes_source_builder_draw_plan_top_state",
+        "test_port_game_exposes_generated_builder_comp_draw_plan_top_bridge_state",
+        "test_builder_draw_plan_top_matches_upstream_source",
+        "test_generated_builder_comp_draw_plan_top_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1151": {
+      "exact_exprs": [
+        "void drawPlan(BuildPlan plan, float alpha){",
+        "plan.animScale = 1f;",
+        "if(plan.breaking){",
+        "control.input.drawBreaking(plan);",
+        "}else{",
+        "plan.block.drawPlan(plan, control.input.allPlans(),",
+        "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan),",
+        "alpha);"
+      ],
+      "godot_owner": "PortGame.source_builder_draw_plan_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "drawPlan(BuildPlan plan, float alpha)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "BuilderComp.drawPlan sets plan.animScale, calls drawBreaking for breaking plans, otherwise calls plan.block.drawPlan with control.input.allPlans(), Build.validPlace(...) || control.input.planMatches(plan), and alpha.",
+      "runtime_proof": "/root/Main.generated_builder_comp_draw_plan_bridge_state",
+      "source_symbols": [
+        "builder_draw_plan.method",
+        "builder_draw_plan.anim_scale",
+        "builder_draw_plan.breaking_guard",
+        "builder_draw_plan.draw_breaking_expr",
+        "builder_draw_plan.draw_plan_expr",
+        "builder_draw_plan.draw_plan_valid_expr",
+        "builder_draw_plan.plan",
+        "builder_draw_plan.all_plans",
+        "builder_draw_plan.plan_breaking",
+        "builder_draw_plan.alpha",
+        "builder_draw_plan.build_valid_place",
+        "builder_draw_plan.control_input_plan_matches",
+        "builder_draw_plan.plan_anim_scale",
+        "builder_draw_plan.draw_plan_valid",
+        "builder_draw_plan.draw_breaking_call",
+        "builder_draw_plan.draw_plan_call"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_builder_comp_draw_plan_to_source_state",
+        "test_port_game_exposes_source_builder_draw_plan_state",
+        "test_port_game_exposes_generated_builder_comp_draw_plan_bridge_state",
+        "test_builder_draw_plan_matches_upstream_source",
+        "test_generated_builder_comp_draw_plan_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1152": {
+      "deferred_exprs": [
+        "This slice preserves addBuild queue mutation over an explicit plans snapshot; live Queue identity, world Tile lookup, and ConstructBuild object plumbing remain engine integration work and are represented only by source-backed input facts."
+      ],
+      "exact_exprs": [
+        "/** Add another build plans to the queue, if it doesn't exist there yet. */",
+        "void addBuild(BuildPlan place, boolean tail){",
+        "if(!canBuild()) return;",
+        "BuildPlan replace = null;",
+        "for(BuildPlan plan : plans){",
+        "if(plan.x == place.x && plan.y == place.y){",
+        "replace = plan;",
+        "break;",
+        "if(replace != null){",
+        "plans.remove(replace);",
+        "Tile tile = world.tile(place.x, place.y);",
+        "if(tile != null && tile.build instanceof ConstructBuild cons){",
+        "place.progress = cons.progress;",
+        "if(tail){",
+        "plans.addLast(place);",
+        "plans.addFirst(place);"
+      ],
+      "godot_owner": "PortGame.source_builder_add_build_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "addBuild(BuildPlan place, boolean tail)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "BuilderComp.addBuild(BuildPlan place, boolean tail) returns early when !canBuild(), removes a same-x/y existing plan, copies ConstructBuild progress from world.tile(place.x, place.y), and inserts at tail or front from the tail flag.",
+      "runtime_proof": "/root/Main.generated_builder_comp_add_build_bridge_state",
+      "source_symbols": [
+        "builder_add_build.method",
+        "builder_add_build.comment",
+        "builder_add_build.can_build_guard",
+        "builder_add_build.replace_init",
+        "builder_add_build.plans_loop",
+        "builder_add_build.replace_match",
+        "builder_add_build.replace_assign",
+        "builder_add_build.replace_break",
+        "builder_add_build.replace_guard",
+        "builder_add_build.remove_replace",
+        "builder_add_build.tile_lookup",
+        "builder_add_build.construct_guard",
+        "builder_add_build.progress_assign",
+        "builder_add_build.tail_guard",
+        "builder_add_build.add_last",
+        "builder_add_build.add_first",
+        "builder_add_build.plans",
+        "builder_add_build.place",
+        "builder_add_build.tail",
+        "builder_add_build.can_build",
+        "builder_add_build.world_tile_exists",
+        "builder_add_build.tile_build_is_construct_build",
+        "builder_add_build.construct_progress",
+        "builder_add_build.returned_early",
+        "builder_add_build.replace_index",
+        "builder_add_build.removed_replace",
+        "builder_add_build.world_tile_call",
+        "builder_add_build.progress_copied",
+        "builder_add_build.add_last_call",
+        "builder_add_build.add_first_call",
+        "builder_add_build.plans_after",
+        "builder_add_build.place_after"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1153": {
+      "deferred_exprs": [
+        "Concrete Draw rendering, Position.within distance math, Tile/ConstructBlock objects, and Angles trig implementations remain owned by their existing/later source-backed helpers; this slice preserves drawBuilding branch/call state only."
+      ],
+      "exact_exprs": [
+        "public void drawBuilding(){",
+        "//TODO make this more generic so it works with builder \"weapons\"",
+        "boolean active = activelyBuilding();",
+        "if(!active && lastActive == null) return;",
+        "Draw.z(Layer.flyingUnit);",
+        "BuildPlan plan = active ? buildPlan() : lastActive;",
+        "Tile tile = plan.tile();",
+        "var core = team.core();",
+        "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+        "//draw remote plans.",
+        "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){",
+        "Draw.z(Layer.plans - 1f);",
+        "drawPlan(plan, 0.5f);",
+        "drawPlanTop(plan, 0.5f);",
+        "if(type.drawBuildBeam){",
+        "float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);",
+        "float px = x + Angles.trnsx(rotation, focusLen);",
+        "float py = y + Angles.trnsy(rotation, focusLen);",
+        "drawBuildingBeam(px, py);"
+      ],
+      "godot_owner": "PortGame.source_builder_draw_building_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "drawBuilding()",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "BuilderComp.drawBuilding preserves active/lastActive early return, flying layer setup, active buildPlan vs lastActive selection, tile/range guard, remote plan draw calls, and optional build beam focus/dispatch.",
+      "runtime_proof": "/root/Main.generated_builder_comp_draw_building_bridge_state",
+      "source_symbols": [
+        "builder_draw_building.method",
+        "builder_draw_building.todo_comment",
+        "builder_draw_building.active_expr",
+        "builder_draw_building.inactive_guard",
+        "builder_draw_building.z_flying",
+        "builder_draw_building.plan",
+        "builder_draw_building.tile_expr",
+        "builder_draw_building.core_expr",
+        "builder_draw_building.range_guard",
+        "builder_draw_building.remote_comment",
+        "builder_draw_building.remote_guard",
+        "builder_draw_building.z_plans",
+        "builder_draw_building.draw_plan",
+        "builder_draw_building.draw_plan_top",
+        "builder_draw_building.z_restore",
+        "builder_draw_building.beam_guard",
+        "builder_draw_building.focus_len",
+        "builder_draw_building.px_expr",
+        "builder_draw_building.py_expr",
+        "builder_draw_building.draw_beam",
+        "builder_draw_building.active",
+        "builder_draw_building.last_active",
+        "builder_draw_building.build_plan",
+        "builder_draw_building.tile_exists",
+        "builder_draw_building.core_exists",
+        "builder_draw_building.within_plan",
+        "builder_draw_building.state_rules_infinite_resources",
+        "builder_draw_building.type_build_range",
+        "builder_draw_building.is_local",
+        "builder_draw_building.tile_block_is_construct_block",
+        "builder_draw_building.state_is_paused",
+        "builder_draw_building.type_draw_build_beam",
+        "builder_draw_building.type_build_beam_offset",
+        "builder_draw_building.mathf_absin_time_3_0_6",
+        "builder_draw_building.x",
+        "builder_draw_building.y",
+        "builder_draw_building.rotation",
+        "builder_draw_building.angles_trnsx_rotation_focus_len",
+        "builder_draw_building.angles_trnsy_rotation_focus_len",
+        "builder_draw_building.inactive_without_last_active",
+        "builder_draw_building.outside_range_blocked",
+        "builder_draw_building.remote_plan_draw",
+        "builder_draw_building.draw_building_beam_call"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_builder_comp_draw_building_to_source_state",
+        "test_port_game_exposes_source_builder_draw_building_state",
+        "test_port_game_exposes_generated_builder_comp_draw_building_bridge_state",
+        "test_builder_draw_building_matches_upstream_source",
+        "test_generated_builder_comp_draw_building_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1154": {
+      "deferred_exprs": [
+        "Concrete Draw/Lines/Fill rendering, world tile lookup internals, Position.within distance math, ConstructBuild objects, and Mathf.absin implementation remain owned by existing/later helpers; this slice preserves drawBuildingBeam branch/call state only."
+      ],
+      "exact_exprs": [
+        "public void drawBuildingBeam(float px, float py){",
+        "boolean active = activelyBuilding();",
+        "if(!active && lastActive == null) return;",
+        "Draw.z(Layer.flyingUnit);",
+        "BuildPlan plan = active ? buildPlan() : lastActive;",
+        "Tile tile = world.tile(plan.x, plan.y);",
+        "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+        "int size = plan.breaking ? active ? tile.block().size : lastSize : plan.block.size;",
+        "float tx = plan.drawx(), ty = plan.drawy();",
+        "Lines.stroke(1f, plan.breaking ? Pal.remove : Pal.accent);",
+        "Draw.z(Layer.buildBeam);",
+        "Draw.alpha(buildAlpha);",
+        "if(!active && !(tile.build instanceof ConstructBuild)){",
+        "Fill.square(plan.drawx(), plan.drawy(), size * tilesize/2f);",
+        "Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);",
+        "Fill.square(px, py, 1.8f + Mathf.absin(Time.time, 2.2f, 1.1f), rotation + 45);",
+        "Draw.reset();",
+        "Draw.z(Layer.flyingUnit);"
+      ],
+      "godot_owner": "PortGame.source_builder_draw_building_beam_state",
+      "java_class": "mindustry.entities.comp.BuilderComp",
+      "java_method": "drawBuildingBeam(float px, float py)",
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "rule": "BuilderComp.drawBuildingBeam preserves active/lastActive guard, flying/buildBeam layer calls, world tile and range guard, source size ternary, stroke/alpha/fill/buildBeam/focus-square draw calls, reset, and flying layer restore.",
+      "runtime_proof": "/root/Main.generated_builder_comp_draw_building_beam_bridge_state",
+      "source_symbols": [
+        "builder_draw_building_beam.method",
+        "builder_draw_building_beam.active_expr",
+        "builder_draw_building_beam.inactive_guard",
+        "builder_draw_building_beam.z_flying",
+        "builder_draw_building_beam.plan",
+        "builder_draw_building_beam.tile_expr",
+        "builder_draw_building_beam.range_guard",
+        "builder_draw_building_beam.size_expr",
+        "builder_draw_building_beam.draw_xy",
+        "builder_draw_building_beam.stroke",
+        "builder_draw_building_beam.z_build_beam",
+        "builder_draw_building_beam.alpha",
+        "builder_draw_building_beam.fill_last_active",
+        "builder_draw_building_beam.fill_last_active_square",
+        "builder_draw_building_beam.build_beam",
+        "builder_draw_building_beam.focus_square",
+        "builder_draw_building_beam.draw_reset",
+        "builder_draw_building_beam.z_restore",
+        "builder_draw_building_beam.px",
+        "builder_draw_building_beam.py",
+        "builder_draw_building_beam.active",
+        "builder_draw_building_beam.last_active",
+        "builder_draw_building_beam.build_plan",
+        "builder_draw_building_beam.tile_exists",
+        "builder_draw_building_beam.within_plan",
+        "builder_draw_building_beam.state_rules_infinite_resources",
+        "builder_draw_building_beam.type_build_range",
+        "builder_draw_building_beam.plan_breaking",
+        "builder_draw_building_beam.tile_block_size",
+        "builder_draw_building_beam.last_size",
+        "builder_draw_building_beam.plan_block_size",
+        "builder_draw_building_beam.plan_drawx",
+        "builder_draw_building_beam.plan_drawy",
+        "builder_draw_building_beam.build_alpha",
+        "builder_draw_building_beam.tile_build_is_construct_build",
+        "builder_draw_building_beam.source_tilesize",
+        "builder_draw_building_beam.mathf_absin_time_2_2_1_1",
+        "builder_draw_building_beam.rotation"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_builder_comp_draw_building_beam_to_source_state",
+        "test_port_game_exposes_source_builder_draw_building_beam_state",
+        "test_port_game_exposes_generated_builder_comp_draw_building_beam_bridge_state",
+        "test_builder_draw_building_beam_matches_upstream_source",
+        "test_generated_builder_comp_draw_building_beam_slice_is_registered_with_source_backing"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
@@ -24242,1005 +25320,6 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
-    },
-    "N1126": {
-      "exact_exprs": [
-        "void handleSyncHidden(){",
-        "void handleSyncHidden(){\n\n}"
-      ],
-      "godot_owner": "PortGame.source_sync_handle_sync_hidden_state",
-      "java_class": "mindustry.entities.comp.SyncComp",
-      "java_method": "handleSyncHidden()",
-      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
-      "rule": "Registers SyncComp.handleSyncHidden() empty body and wires generated SyncComp.java_method_handleSyncHidden_9 plus PortGame generated bridge to canonical source_sync_handle_sync_hidden_state.",
-      "runtime_proof": "/root/Main.generated_sync_comp_handle_sync_hidden_bridge_state",
-      "source_symbols": [
-        "sync_handle_sync_hidden.method",
-        "sync_handle_sync_hidden.empty_body",
-        "sync_handle_sync_hidden.no_op"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_sync_comp_handle_sync_hidden_to_source_state",
-        "test_generated_sync_comp_bridges_handle_sync_hidden_to_source_state",
-        "test_port_game_exposes_source_sync_handle_sync_hidden_state",
-        "test_port_game_exposes_generated_sync_comp_handle_sync_hidden_bridge_state",
-        "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1127": {
-      "exact_exprs": [
-        "public void update(){",
-        "//interpolate the player if:",
-        "//- this is a client and the entity is everything except the local player",
-        "//- this is a server and the entity is a remote player",
-        "if((Vars.net.client() && !isLocal()) || isRemote()){",
-        "interpolate();"
-      ],
-      "godot_owner": "PortGame.source_sync_update_interpolate_state",
-      "java_class": "mindustry.entities.comp.SyncComp",
-      "java_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
-      "rule": "Registers SyncComp.update() interpolation gate and wires generated SyncComp.java_method_update_10 plus PortGame generated bridge to canonical source_sync_update_interpolate_state.",
-      "runtime_proof": "/root/Main.generated_sync_comp_update_interpolate_bridge_state",
-      "source_symbols": [
-        "sync_update_interpolate.method",
-        "sync_update_interpolate.condition",
-        "sync_update_interpolate.interpolate_call",
-        "sync_update_interpolate.net_client",
-        "sync_update_interpolate.is_local",
-        "sync_update_interpolate.is_remote",
-        "sync_update_interpolate.interpolate_called",
-        "sync_update_interpolate.interpolate"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_sync_comp_update_interpolate_gate_to_source_state",
-        "test_generated_sync_comp_bridges_update_interpolate_gate_to_source_state",
-        "test_port_game_exposes_source_sync_update_interpolate_state",
-        "test_port_game_exposes_generated_sync_comp_update_interpolate_bridge_state",
-        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1128": {
-      "exact_exprs": [
-        "public void remove(){",
-        "//notify client of removal",
-        "if(Vars.net.client()){",
-        "Vars.netClient.addRemovedEntity(id());"
-      ],
-      "godot_owner": "PortGame.source_sync_remove_client_removed_entity_state",
-      "java_class": "mindustry.entities.comp.SyncComp",
-      "java_method": "remove()",
-      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
-      "rule": "Registers SyncComp.remove() client removed-entity notification and wires generated SyncComp.java_method_remove_11 plus PortGame generated bridge to canonical source_sync_remove_client_removed_entity_state.",
-      "runtime_proof": "/root/Main.generated_sync_comp_remove_client_removed_entity_bridge_state",
-      "source_symbols": [
-        "sync_remove_client_removed_entity.method",
-        "sync_remove_client_removed_entity.condition",
-        "sync_remove_client_removed_entity.add_removed_entity_call",
-        "sync_remove_client_removed_entity.net_client",
-        "sync_remove_client_removed_entity.entity_id"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_sync_comp_remove_client_removed_entity_to_source_state",
-        "test_generated_sync_comp_bridges_remove_client_removed_entity_to_source_state",
-        "test_port_game_exposes_source_sync_remove_client_removed_entity_state",
-        "test_port_game_exposes_generated_sync_comp_remove_client_removed_entity_bridge_state",
-        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1129": {
-      "exact_exprs": [
-        "@Replace",
-        "public float ammof(){",
-        "return ammo;"
-      ],
-      "godot_owner": "PortGame.source_block_unit_ammof_state",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "ammof()",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "rule": "Registers BlockUnitComp.ammof() direct ammo return and wires generated BlockUnitComp.java_method_ammof_4 plus PortGame generated bridge to canonical source_block_unit_ammof_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_ammof_bridge_state",
-      "source_symbols": [
-        "block_unit_ammof.method",
-        "block_unit_ammof.return_expr",
-        "block_unit_ammof.ammo"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_ammof_to_source_state",
-        "test_generated_block_unit_comp_bridges_ammof_to_source_state",
-        "test_port_game_exposes_source_block_unit_ammof_state",
-        "test_port_game_exposes_generated_block_unit_comp_ammof_bridge_state",
-        "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1130": {
-      "exact_exprs": [
-        "@Replace",
-        "@Override",
-        "public TextureRegion icon(){",
-        "return tile.block.uiIcon;"
-      ],
-      "godot_owner": "PortGame.source_block_unit_icon_state",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "icon()",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "rule": "Registers BlockUnitComp.icon() direct tile.block.uiIcon return and wires generated BlockUnitComp.java_method_icon_3 plus PortGame generated bridge to canonical source_block_unit_icon_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_icon_bridge_state",
-      "source_symbols": [
-        "block_unit_icon.method",
-        "block_unit_icon.return_expr",
-        "block_unit_icon.tile_block_ui_icon"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_icon_to_source_state",
-        "test_generated_block_unit_comp_bridges_icon_to_source_state",
-        "test_port_game_exposes_source_block_unit_icon_state",
-        "test_port_game_exposes_generated_block_unit_comp_icon_bridge_state",
-        "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1131": {
-      "exact_exprs": [
-        "@Replace",
-        "public boolean dead(){",
-        "return tile == null || tile.dead();"
-      ],
-      "godot_owner": "PortGame.source_block_unit_dead_state",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "dead()",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "rule": "Registers BlockUnitComp.dead() tile null/dead return and wires generated BlockUnitComp.java_method_dead_7 plus PortGame generated bridge to canonical source_block_unit_dead_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_dead_bridge_state",
-      "source_symbols": [
-        "block_unit_dead.method",
-        "block_unit_dead.return_expr",
-        "block_unit_dead.tile_null",
-        "block_unit_dead.tile_dead",
-        "block_unit_dead.dead"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_dead_to_source_state",
-        "test_generated_block_unit_comp_bridges_dead_to_source_state",
-        "test_port_game_exposes_source_block_unit_dead_state",
-        "test_port_game_exposes_generated_block_unit_comp_dead_bridge_state",
-        "test_generated_block_unit_comp_dead_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1132": {
-      "exact_exprs": [
-        "@Replace",
-        "public boolean isValid(){",
-        "return tile != null && tile.isValid();"
-      ],
-      "godot_owner": "PortGame.source_block_unit_is_valid_state",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "isValid()",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "rule": "Registers BlockUnitComp.isValid() tile exists/isValid return and wires generated BlockUnitComp.java_method_isValid_8 plus PortGame generated bridge to canonical source_block_unit_is_valid_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_is_valid_bridge_state",
-      "source_symbols": [
-        "block_unit_is_valid.method",
-        "block_unit_is_valid.return_expr",
-        "block_unit_is_valid.tile_exists",
-        "block_unit_is_valid.tile_is_valid",
-        "block_unit_is_valid.is_valid"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_is_valid_to_source_state",
-        "test_generated_block_unit_comp_bridges_is_valid_to_source_state",
-        "test_port_game_exposes_source_block_unit_is_valid_state",
-        "test_port_game_exposes_generated_block_unit_comp_is_valid_bridge_state",
-        "test_generated_block_unit_comp_is_valid_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1133": {
-      "exact_exprs": [
-        "@Replace",
-        "public boolean isAdded(){",
-        "return tile != null && tile.isValid();"
-      ],
-      "godot_owner": "PortGame.source_block_unit_is_added_state",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "isAdded()",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "rule": "Registers BlockUnitComp.isAdded() tile exists/isValid return and wires generated BlockUnitComp.java_method_isAdded_9 plus PortGame generated bridge to canonical source_block_unit_is_added_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_is_added_bridge_state",
-      "source_symbols": [
-        "block_unit_is_added.method",
-        "block_unit_is_added.return_expr",
-        "block_unit_is_added.tile_exists",
-        "block_unit_is_added.tile_is_valid",
-        "block_unit_is_added.is_added"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_is_added_to_source_state",
-        "test_generated_block_unit_comp_bridges_is_added_to_source_state",
-        "test_port_game_exposes_source_block_unit_is_added_state",
-        "test_port_game_exposes_generated_block_unit_comp_is_added_bridge_state",
-        "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1134": {
-      "exact_exprs": [
-        "@Override",
-        "public void killed(){",
-        "tile.kill();"
-      ],
-      "godot_owner": "PortGame.source_block_unit_killed_state",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "killed()",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "rule": "Registers BlockUnitComp.killed() tile.kill() delegation and wires generated BlockUnitComp.java_method_killed_5 plus PortGame generated bridge to canonical source_block_unit_killed_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_killed_bridge_state",
-      "source_symbols": [
-        "block_unit_killed.method",
-        "block_unit_killed.tile_kill_call",
-        "block_unit_killed.tile_kill_called"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_killed_to_source_state",
-        "test_port_game_exposes_source_block_unit_killed_state",
-        "test_port_game_exposes_generated_block_unit_comp_killed_bridge_state",
-        "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1135": {
-      "exact_exprs": [
-        "@Replace",
-        "public void damage(float v, boolean b){",
-        "tile.damage(v, b);"
-      ],
-      "godot_owner": "PortGame.source_block_unit_damage_state",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "damage(float v, boolean b)",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "rule": "Registers BlockUnitComp.damage(float v, boolean b) tile.damage(v, b) delegation and wires generated BlockUnitComp.java_method_damage_6 plus PortGame generated bridge to canonical source_block_unit_damage_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_damage_bridge_state",
-      "source_symbols": [
-        "block_unit_damage.method",
-        "block_unit_damage.v",
-        "block_unit_damage.b",
-        "block_unit_damage.tile_damage_call",
-        "block_unit_damage.tile_damage_called"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_damage_to_source_state",
-        "test_port_game_exposes_source_block_unit_damage_state",
-        "test_port_game_exposes_generated_block_unit_comp_damage_bridge_state",
-        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1136": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "team(Team team)",
-      "godot_owner": "PortGame.source_block_unit_team_state",
-      "source_symbols": [
-        "block_unit_team.method",
-        "block_unit_team.tile_exists",
-        "block_unit_team.this_team",
-        "block_unit_team.team",
-        "block_unit_team.tile_team",
-        "block_unit_team.outer_guard",
-        "block_unit_team.this_team_assignment",
-        "block_unit_team.inner_guard",
-        "block_unit_team.tile_change_team_call",
-        "block_unit_team.tile_change_team_called"
-      ],
-      "exact_exprs": [
-        "@Replace",
-        "public void team(Team team){",
-        "if(tile != null && this.team != team){",
-        "this.team = team;",
-        "if(tile.team != team){",
-        "tile.changeTeam(team);"
-      ],
-      "status": "done",
-      "rule": "Registers BlockUnitComp.team(Team team) guard, this.team assignment, inner tile.team guard, and tile.changeTeam(team) delegation; wires generated BlockUnitComp.java_method_team_10 plus PortGame generated bridge to canonical source_block_unit_team_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_team_bridge_state",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_team_to_source_state",
-        "test_port_game_exposes_source_block_unit_team_state",
-        "test_port_game_exposes_generated_block_unit_comp_team_bridge_state",
-        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1137": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "update()",
-      "godot_owner": "PortGame.source_block_unit_update_state",
-      "source_symbols": [
-        "block_unit_update.method",
-        "block_unit_update.tile_exists",
-        "block_unit_update.team",
-        "block_unit_update.tile_team",
-        "block_unit_update.tile_guard",
-        "block_unit_update.team_assignment",
-        "block_unit_update.team_after"
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void update(){",
-        "if(tile != null){",
-        "team = tile.team;"
-      ],
-      "status": "done",
-      "rule": "Registers BlockUnitComp.update() tile non-null guard and team = tile.team assignment; wires generated BlockUnitComp.java_method_update_2 plus PortGame generated bridge to canonical source_block_unit_update_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_update_bridge_state",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_update_to_source_state",
-        "test_port_game_exposes_source_block_unit_update_state",
-        "test_port_game_exposes_generated_block_unit_comp_update_bridge_state",
-        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1138": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "add()",
-      "godot_owner": "PortGame.source_block_unit_add_state",
-      "source_symbols": [
-        "block_unit_add.method",
-        "block_unit_add.tile_null",
-        "block_unit_add.guard",
-        "block_unit_add.throw_expr",
-        "block_unit_add.runtime_exception_thrown",
-        "block_unit_add.runtime_exception_message"
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void add(){",
-        "if(tile == null){",
-        "throw new RuntimeException(\"Do not add BlockUnit entities to the game, they will simply crash. Internal use only.\");"
-      ],
-      "status": "done",
-      "rule": "Registers BlockUnitComp.add() tile null guard and RuntimeException throw; wires generated BlockUnitComp.java_method_add_1 plus PortGame generated bridge to canonical source_block_unit_add_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_add_bridge_state",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_add_to_source_state",
-        "test_port_game_exposes_source_block_unit_add_state",
-        "test_port_game_exposes_generated_block_unit_comp_add_bridge_state",
-        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1139": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "java_class": "mindustry.entities.comp.BlockUnitComp",
-      "java_method": "tile(Building tile)",
-      "godot_owner": "PortGame.source_block_unit_tile_state",
-      "source_symbols": [
-        "block_unit_tile.method",
-        "block_unit_tile.tile",
-        "block_unit_tile.tile_block_health",
-        "block_unit_tile.tile_health",
-        "block_unit_tile.tile_block_size",
-        "block_unit_tile.tilesize",
-        "block_unit_tile.tile_assignment",
-        "block_unit_tile.comment",
-        "block_unit_tile.max_health_call",
-        "block_unit_tile.health_call",
-        "block_unit_tile.hit_size_call",
-        "block_unit_tile.set_call",
-        "block_unit_tile.this_tile_after",
-        "block_unit_tile.hit_size"
-      ],
-      "exact_exprs": [
-        "public void tile(Building tile){",
-        "this.tile = tile;",
-        "//sets up block stats",
-        "maxHealth(tile.block.health);",
-        "health(tile.health);",
-        "hitSize(tile.block.size * tilesize * 0.7f);",
-        "set(tile);"
-      ],
-      "status": "done",
-      "rule": "Registers BlockUnitComp.tile(Building tile) tile assignment and block stat setup calls; wires generated BlockUnitComp.java_method_tile_0 plus PortGame generated bridge to canonical source_block_unit_tile_state.",
-      "runtime_proof": "/root/Main.generated_block_unit_comp_tile_bridge_state",
-      "tests": [
-        "test_emit_bridges_block_unit_comp_tile_to_source_state",
-        "test_port_game_exposes_source_block_unit_tile_state",
-        "test_port_game_exposes_generated_block_unit_comp_tile_bridge_state",
-        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1140": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "canBuild()",
-      "godot_owner": "PortGame.source_builder_can_build_state",
-      "source_symbols": [
-        "builder_can_build.method",
-        "builder_can_build.return_expr",
-        "builder_can_build.type_build_speed",
-        "builder_can_build.build_speed_multiplier",
-        "builder_can_build.type_build_speed_positive",
-        "builder_can_build.build_speed_multiplier_positive",
-        "builder_can_build.can_build"
-      ],
-      "exact_exprs": [
-        "public boolean canBuild(){",
-        "return type.buildSpeed > 0 && buildSpeedMultiplier > 0;"
-      ],
-      "status": "done",
-      "rule": "Registers BuilderComp.canBuild() type.buildSpeed/buildSpeedMultiplier predicates; wires generated BuilderComp.java_method_canBuild_0 plus PortGame generated bridge to canonical source_builder_can_build_state.",
-      "runtime_proof": "/root/Main.generated_builder_comp_can_build_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_can_build_to_source_state",
-        "test_port_game_exposes_source_builder_can_build_state",
-        "test_port_game_exposes_generated_builder_comp_can_build_bridge_state",
-        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1141": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "update()",
-      "godot_owner": "PortGame.source_builder_update_state",
-      "source_symbols": [
-        "builder_update.method",
-        "builder_update.update_build_logic_call",
-        "builder_update.update_build_logic_called"
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void update(){",
-        "updateBuildLogic();"
-      ],
-      "status": "done",
-      "rule": "Registers BuilderComp.update() updateBuildLogic() dispatch; wires generated BuilderComp.java_method_update_1 plus PortGame generated bridge to canonical source_builder_update_state.",
-      "runtime_proof": "/root/Main.generated_builder_comp_update_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_update_to_source_state",
-        "test_port_game_exposes_source_builder_update_state",
-        "test_port_game_exposes_generated_builder_comp_update_bridge_state",
-        "test_generated_builder_comp_update_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1142": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "isBuilding()",
-      "godot_owner": "PortGame.source_builder_is_building_state",
-      "source_symbols": [
-        "builder_is_building.method",
-        "builder_is_building.plans_size",
-        "builder_is_building.is_building"
-      ],
-      "exact_exprs": [
-        "/** Return whether this builder's place queue contains items. */",
-        "boolean isBuilding(){",
-        "return plans.size != 0;"
-      ],
-      "status": "done",
-      "rule": "Registers BuilderComp.isBuilding() plans.size predicate; wires generated BuilderComp.java_method_isBuilding_9 plus PortGame generated bridge to canonical source_builder_is_building_state.",
-      "runtime_proof": "/root/Main.generated_builder_comp_is_building_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_is_building_to_source_state",
-        "test_port_game_exposes_source_builder_is_building_state",
-        "test_port_game_exposes_generated_builder_comp_is_building_bridge_state",
-        "test_generated_builder_comp_is_building_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1143": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "clearBuilding()",
-      "godot_owner": "PortGame.source_builder_clear_building_state",
-      "source_symbols": [
-        "builder_clear_building.method",
-        "builder_clear_building.plans_clear_call",
-        "builder_clear_building.plans_clear_called"
-      ],
-      "exact_exprs": [
-        "/** Clears the placement queue. */",
-        "void clearBuilding(){",
-        "plans.clear();"
-      ],
-      "status": "done",
-      "rule": "Registers BuilderComp.clearBuilding() plans.clear() call; wires generated BuilderComp.java_method_clearBuilding_10 plus PortGame generated bridge to canonical source_builder_clear_building_state.",
-      "runtime_proof": "/root/Main.generated_builder_comp_clear_building_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_clear_building_to_source_state",
-        "test_port_game_exposes_source_builder_clear_building_state",
-        "test_port_game_exposes_generated_builder_comp_clear_building_bridge_state",
-        "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1144": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "addBuild(BuildPlan place)",
-      "godot_owner": "PortGame.source_builder_add_build_tail_state",
-      "source_symbols": [
-        "builder_add_build_tail.method",
-        "builder_add_build_tail.place",
-        "builder_add_build_tail.tail",
-        "builder_add_build_tail.add_build_call",
-        "builder_add_build_tail.add_build_called"
-      ],
-      "exact_exprs": [
-        "/** Add another build plans to the tail of the queue, if it doesn't exist there yet. */",
-        "void addBuild(BuildPlan place){",
-        "addBuild(place, true);"
-      ],
-      "status": "done",
-      "rule": "Registers BuilderComp.addBuild(BuildPlan place) delegate to addBuild(place, true); wires generated BuilderComp.java_method_addBuild_11 plus PortGame generated bridge to canonical source_builder_add_build_tail_state.",
-      "runtime_proof": "/root/Main.generated_builder_comp_add_build_tail_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_add_build_tail_to_source_state",
-        "test_port_game_exposes_source_builder_add_build_tail_state",
-        "test_port_game_exposes_generated_builder_comp_add_build_tail_bridge_state",
-        "test_generated_builder_comp_add_build_tail_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1145": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "buildPlan()",
-      "godot_owner": "PortGame.source_builder_build_plan_state",
-      "source_symbols": [
-        "builder_build_plan.method",
-        "builder_build_plan.plans_size",
-        "builder_build_plan.plans_first",
-        "builder_build_plan.build_plan"
-      ],
-      "exact_exprs": [
-        "/** @return  the build plan currently active, or the one at the top of the queue.*/",
-        "@Nullable BuildPlan buildPlan(){",
-        "return plans.size == 0 ? null : plans.first();"
-      ],
-      "deferred_exprs": [
-        "Queue mutation and active-range selection remain owned by addBuild(BuildPlan place, boolean tail) and activelyBuilding(); this slice only preserves buildPlan() return selection."
-      ],
-      "status": "done",
-      "rule": "Registers BuilderComp.buildPlan() plans.size ternary and wires generated BuilderComp.java_method_buildPlan_14 plus PortGame generated bridge to canonical source_builder_build_plan_state.",
-      "runtime_proof": "/root/Main.generated_builder_comp_build_plan_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_build_plan_to_source_state",
-        "test_port_game_exposes_source_builder_build_plan_state",
-        "test_port_game_exposes_generated_builder_comp_build_plan_bridge_state",
-        "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1146": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "afterRead()",
-      "godot_owner": "PortGame.source_builder_after_read_state",
-      "source_symbols": [
-        "builder_after_read.method",
-        "builder_after_read.plans_null",
-        "builder_after_read.queue_constructor",
-        "builder_after_read.queue_reset",
-        "builder_after_read.plans_capacity"
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void afterRead(){",
-        "//why would this happen?",
-        "if(plans == null){",
-        "plans = new Queue<>(1);"
-      ],
-      "deferred_exprs": [
-        "Concrete Queue object identity and serialization lifecycle remain engine integration work; this slice preserves only the null guard and Queue<>(1) reset contract."
-      ],
-      "status": "done",
-      "rule": "Registers BuilderComp.afterRead() null plans guard and Queue<>(1) reset; wires generated BuilderComp.java_method_afterRead_2 plus PortGame generated bridge to canonical source_builder_after_read_state.",
-      "runtime_proof": "/root/Main.generated_builder_comp_after_read_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_after_read_to_source_state",
-        "test_port_game_exposes_source_builder_after_read_state",
-        "test_port_game_exposes_generated_builder_comp_after_read_bridge_state",
-        "test_generated_builder_comp_after_read_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1147": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "activelyBuilding()",
-      "godot_owner": "PortGame.source_builder_actively_building_state",
-      "source_symbols": [
-        "builder_actively_building.method",
-        "builder_actively_building.comment",
-        "builder_actively_building.guard",
-        "builder_actively_building.plan_assignment",
-        "builder_actively_building.range_guard",
-        "builder_actively_building.range_expr",
-        "builder_actively_building.return_false",
-        "builder_actively_building.return_expr",
-        "builder_actively_building.plans_size",
-        "builder_actively_building.plans_first",
-        "builder_actively_building.state_is_editor",
-        "builder_actively_building.state_rules_infinite_resources",
-        "builder_actively_building.type_build_range",
-        "builder_actively_building.within_plan",
-        "builder_actively_building.update_building",
-        "builder_actively_building.is_building",
-        "builder_actively_building.build_plan",
-        "builder_actively_building.final_place_dst",
-        "builder_actively_building.outside_range_blocked",
-        "builder_actively_building.actively_building"
-      ],
-      "exact_exprs": [
-        "boolean activelyBuilding(){",
-        "//not actively building when not near the build plan",
-        "if(isBuilding()){",
-        "var plan = buildPlan();",
-        "if(!state.isEditor() && plan != null && !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
-        "return false;",
-        "return isBuilding() && updateBuilding;"
-      ],
-      "deferred_exprs": [
-        "This slice preserves activelyBuilding() branch logic with explicit within(plan, range) input; concrete Position.within distance math remains owned by later spatial integration slices."
-      ],
-      "status": "done",
-      "rule": "Registers BuilderComp.activelyBuilding() range guard and updateBuilding return; wires generated BuilderComp.java_method_activelyBuilding_13 plus PortGame generated bridge to canonical source_builder_actively_building_state.",
-      "runtime_proof": "/root/Main.generated_builder_comp_actively_building_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_actively_building_to_source_state",
-        "test_port_game_exposes_source_builder_actively_building_state",
-        "test_port_game_exposes_generated_builder_comp_actively_building_bridge_state",
-        "test_builder_actively_building_matches_upstream_source",
-        "test_generated_builder_comp_actively_building_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1148": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "removeBuild(int x, int y, boolean breaking)",
-      "godot_owner": "PortGame.source_builder_remove_build_state",
-      "source_symbols": [
-        "builder_remove_build.method",
-        "builder_remove_build.comment",
-        "builder_remove_build.index_expr",
-        "builder_remove_build.guard",
-        "builder_remove_build.remove_index_expr",
-        "builder_remove_build.plans",
-        "builder_remove_build.x",
-        "builder_remove_build.y",
-        "builder_remove_build.breaking",
-        "builder_remove_build.idx",
-        "builder_remove_build.removed",
-        "builder_remove_build.remove_index_call",
-        "builder_remove_build.plans_after"
-      ],
-      "exact_exprs": [
-        "void removeBuild(int x, int y, boolean breaking){",
-        "//remove matching plan",
-        "int idx = plans.indexOf(req -> req.breaking == breaking && req.x == x && req.y == y);",
-        "if(idx != -1){",
-        "plans.removeIndex(idx);"
-      ],
-      "deferred_exprs": [
-        "This slice preserves removeBuild matching and removeIndex mutation on an explicit plans snapshot; live Queue object integration remains owned by later BuilderComp queue slices."
-      ],
-      "status": "done",
-      "rule": "Registers BuilderComp.removeBuild(int x, int y, boolean breaking) indexOf predicate and removeIndex guard; wires generated BuilderComp.java_method_removeBuild_8 plus PortGame generated bridge to canonical source_builder_remove_build_state.",
-      "runtime_proof": "/root/Main.generated_builder_comp_remove_build_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_remove_build_to_source_state",
-        "test_port_game_exposes_source_builder_remove_build_state",
-        "test_port_game_exposes_generated_builder_comp_remove_build_bridge_state",
-        "test_builder_remove_build_matches_upstream_source",
-        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing",
-        "test_source_slice_ledger_tracks_registered_source_owners"
-      ]
-    },
-    "N1149": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
-      "godot_owner": "PortGame.source_builder_should_skip_state",
-      "source_symbols": [
-        "builder_should_skip.method",
-        "builder_should_skip.comment",
-        "builder_should_skip.guard",
-        "builder_should_skip.return_expr",
-        "builder_should_skip.state_rules_infinite_resources",
-        "builder_should_skip.team_rules_infinite_resources",
-        "builder_should_skip.plan_breaking",
-        "builder_should_skip.core_null",
-        "builder_should_skip.plan_is_rotation",
-        "builder_should_skip.plan_is_derelict_repair",
-        "builder_should_skip.plan_stuck",
-        "builder_should_skip.core_items_has_plan_block_requirements",
-        "builder_should_skip.structs_contains_missing_requirement",
-        "builder_should_skip.guard_returns_false",
-        "builder_should_skip.stuck_missing_requirements",
-        "builder_should_skip.should_skip"
-      ],
-      "exact_exprs": [
-        "/** @return whether this plan should be skipped, in favor of the next one. */",
-        "boolean shouldSkip(BuildPlan plan, @Nullable Building core){",
-        "if(state.rules.infiniteResources || team.rules().infiniteResources || plan.breaking || core == null || plan.isRotation(team) || plan.isDerelictRepair()) return false;",
-        "return (plan.stuck && !core.items.has(plan.block.requirements)) ||",
-        "(Structs.contains(plan.block.requirements, i -> !core.items.has(i.item, Math.min(i.amount, 15)) && Mathf.round(i.amount * state.rules.buildCostMultiplier) > 0));"
-      ],
-      "runtime_proof": "/root/Main.generated_builder_comp_should_skip_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_should_skip_to_source_state",
-        "test_port_game_exposes_source_builder_should_skip_state",
-        "test_port_game_exposes_generated_builder_comp_should_skip_bridge_state",
-        "test_builder_should_skip_matches_upstream_source",
-        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing"
-      ],
-      "status": "active",
-      "rule": "BuilderComp.shouldSkip returns false for exact guard cases, otherwise returns stuck missing requirements or Structs.contains missing capped requirement predicate."
-    },
-    "N1150": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "drawPlanTop(BuildPlan plan, float alpha)",
-      "godot_owner": "PortGame.source_builder_draw_plan_top_state",
-      "source_symbols": [
-        "builder_draw_plan_top.method",
-        "builder_draw_plan_top.guard",
-        "builder_draw_plan_top.draw_reset_expr",
-        "builder_draw_plan_top.mixcol_expr",
-        "builder_draw_plan_top.draw_alpha_expr",
-        "builder_draw_plan_top.draw_plan_config_top_expr",
-        "builder_draw_plan_top.plan",
-        "builder_draw_plan_top.plans",
-        "builder_draw_plan_top.plan_breaking",
-        "builder_draw_plan_top.alpha",
-        "builder_draw_plan_top.mathf_absin_time_global_6_0_28",
-        "builder_draw_plan_top.draw_top",
-        "builder_draw_plan_top.mixcol_alpha",
-        "builder_draw_plan_top.draw_reset_called",
-        "builder_draw_plan_top.draw_alpha_call",
-        "builder_draw_plan_top.draw_plan_config_top_call"
-      ],
-      "exact_exprs": [
-        "void drawPlanTop(BuildPlan plan, float alpha){",
-        "if(!plan.breaking){",
-        "Draw.reset();",
-        "Draw.mixcol(Color.white, 0.24f + Mathf.absin(Time.globalTime, 6f, 0.28f));",
-        "Draw.alpha(alpha);",
-        "plan.block.drawPlanConfigTop(plan, plans);"
-      ],
-      "runtime_proof": "/root/Main.generated_builder_comp_draw_plan_top_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_draw_plan_top_to_source_state",
-        "test_port_game_exposes_source_builder_draw_plan_top_state",
-        "test_port_game_exposes_generated_builder_comp_draw_plan_top_bridge_state",
-        "test_builder_draw_plan_top_matches_upstream_source",
-        "test_generated_builder_comp_draw_plan_top_slice_is_registered_with_source_backing"
-      ],
-      "status": "active",
-      "rule": "BuilderComp.drawPlanTop records top-plan draw calls only when !plan.breaking, preserving Draw.reset, Draw.mixcol, Draw.alpha, and drawPlanConfigTop calls."
-    },
-    "N1151": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "drawPlan(BuildPlan plan, float alpha)",
-      "godot_owner": "PortGame.source_builder_draw_plan_state",
-      "source_symbols": [
-        "builder_draw_plan.method",
-        "builder_draw_plan.anim_scale",
-        "builder_draw_plan.breaking_guard",
-        "builder_draw_plan.draw_breaking_expr",
-        "builder_draw_plan.draw_plan_expr",
-        "builder_draw_plan.draw_plan_valid_expr",
-        "builder_draw_plan.plan",
-        "builder_draw_plan.all_plans",
-        "builder_draw_plan.plan_breaking",
-        "builder_draw_plan.alpha",
-        "builder_draw_plan.build_valid_place",
-        "builder_draw_plan.control_input_plan_matches",
-        "builder_draw_plan.plan_anim_scale",
-        "builder_draw_plan.draw_plan_valid",
-        "builder_draw_plan.draw_breaking_call",
-        "builder_draw_plan.draw_plan_call"
-      ],
-      "exact_exprs": [
-        "void drawPlan(BuildPlan plan, float alpha){",
-        "plan.animScale = 1f;",
-        "if(plan.breaking){",
-        "control.input.drawBreaking(plan);",
-        "}else{",
-        "plan.block.drawPlan(plan, control.input.allPlans(),",
-        "Build.validPlace(plan.block, team, plan.x, plan.y, plan.rotation) || control.input.planMatches(plan),",
-        "alpha);"
-      ],
-      "runtime_proof": "/root/Main.generated_builder_comp_draw_plan_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_draw_plan_to_source_state",
-        "test_port_game_exposes_source_builder_draw_plan_state",
-        "test_port_game_exposes_generated_builder_comp_draw_plan_bridge_state",
-        "test_builder_draw_plan_matches_upstream_source",
-        "test_generated_builder_comp_draw_plan_slice_is_registered_with_source_backing"
-      ],
-      "status": "active",
-      "rule": "BuilderComp.drawPlan sets plan.animScale, calls drawBreaking for breaking plans, otherwise calls plan.block.drawPlan with control.input.allPlans(), Build.validPlace(...) || control.input.planMatches(plan), and alpha."
-    },
-    "N1152": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "addBuild(BuildPlan place, boolean tail)",
-      "godot_owner": "PortGame.source_builder_add_build_state",
-      "source_symbols": [
-        "builder_add_build.method",
-        "builder_add_build.comment",
-        "builder_add_build.can_build_guard",
-        "builder_add_build.replace_init",
-        "builder_add_build.plans_loop",
-        "builder_add_build.replace_match",
-        "builder_add_build.replace_assign",
-        "builder_add_build.replace_break",
-        "builder_add_build.replace_guard",
-        "builder_add_build.remove_replace",
-        "builder_add_build.tile_lookup",
-        "builder_add_build.construct_guard",
-        "builder_add_build.progress_assign",
-        "builder_add_build.tail_guard",
-        "builder_add_build.add_last",
-        "builder_add_build.add_first",
-        "builder_add_build.plans",
-        "builder_add_build.place",
-        "builder_add_build.tail",
-        "builder_add_build.can_build",
-        "builder_add_build.world_tile_exists",
-        "builder_add_build.tile_build_is_construct_build",
-        "builder_add_build.construct_progress",
-        "builder_add_build.returned_early",
-        "builder_add_build.replace_index",
-        "builder_add_build.removed_replace",
-        "builder_add_build.world_tile_call",
-        "builder_add_build.progress_copied",
-        "builder_add_build.add_last_call",
-        "builder_add_build.add_first_call",
-        "builder_add_build.plans_after",
-        "builder_add_build.place_after"
-      ],
-      "exact_exprs": [
-        "/** Add another build plans to the queue, if it doesn't exist there yet. */",
-        "void addBuild(BuildPlan place, boolean tail){",
-        "if(!canBuild()) return;",
-        "BuildPlan replace = null;",
-        "for(BuildPlan plan : plans){",
-        "if(plan.x == place.x && plan.y == place.y){",
-        "replace = plan;",
-        "break;",
-        "if(replace != null){",
-        "plans.remove(replace);",
-        "Tile tile = world.tile(place.x, place.y);",
-        "if(tile != null && tile.build instanceof ConstructBuild cons){",
-        "place.progress = cons.progress;",
-        "if(tail){",
-        "plans.addLast(place);",
-        "plans.addFirst(place);"
-      ],
-      "deferred_exprs": [
-        "This slice preserves addBuild queue mutation over an explicit plans snapshot; live Queue identity, world Tile lookup, and ConstructBuild object plumbing remain engine integration work and are represented only by source-backed input facts."
-      ],
-      "runtime_proof": "/root/Main.generated_builder_comp_add_build_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_add_build_to_source_state",
-        "test_port_game_exposes_source_builder_add_build_state",
-        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
-        "test_builder_add_build_matches_upstream_source",
-        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
-      ],
-      "status": "active",
-      "rule": "BuilderComp.addBuild(BuildPlan place, boolean tail) returns early when !canBuild(), removes a same-x/y existing plan, copies ConstructBuild progress from world.tile(place.x, place.y), and inserts at tail or front from the tail flag."
-    },
-    "N1153": {
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "java_class": "mindustry.entities.comp.BuilderComp",
-      "java_method": "drawBuilding()",
-      "godot_owner": "PortGame.source_builder_draw_building_state",
-      "source_symbols": [
-        "builder_draw_building.method",
-        "builder_draw_building.todo_comment",
-        "builder_draw_building.active_expr",
-        "builder_draw_building.inactive_guard",
-        "builder_draw_building.z_flying",
-        "builder_draw_building.plan",
-        "builder_draw_building.tile_expr",
-        "builder_draw_building.core_expr",
-        "builder_draw_building.range_guard",
-        "builder_draw_building.remote_comment",
-        "builder_draw_building.remote_guard",
-        "builder_draw_building.z_plans",
-        "builder_draw_building.draw_plan",
-        "builder_draw_building.draw_plan_top",
-        "builder_draw_building.z_restore",
-        "builder_draw_building.beam_guard",
-        "builder_draw_building.focus_len",
-        "builder_draw_building.px_expr",
-        "builder_draw_building.py_expr",
-        "builder_draw_building.draw_beam",
-        "builder_draw_building.active",
-        "builder_draw_building.last_active",
-        "builder_draw_building.build_plan",
-        "builder_draw_building.tile_exists",
-        "builder_draw_building.core_exists",
-        "builder_draw_building.within_plan",
-        "builder_draw_building.state_rules_infinite_resources",
-        "builder_draw_building.type_build_range",
-        "builder_draw_building.is_local",
-        "builder_draw_building.tile_block_is_construct_block",
-        "builder_draw_building.state_is_paused",
-        "builder_draw_building.type_draw_build_beam",
-        "builder_draw_building.type_build_beam_offset",
-        "builder_draw_building.mathf_absin_time_3_0_6",
-        "builder_draw_building.x",
-        "builder_draw_building.y",
-        "builder_draw_building.rotation",
-        "builder_draw_building.angles_trnsx_rotation_focus_len",
-        "builder_draw_building.angles_trnsy_rotation_focus_len",
-        "builder_draw_building.inactive_without_last_active",
-        "builder_draw_building.outside_range_blocked",
-        "builder_draw_building.remote_plan_draw",
-        "builder_draw_building.draw_building_beam_call"
-      ],
-      "exact_exprs": [
-        "public void drawBuilding(){",
-        "//TODO make this more generic so it works with builder \"weapons\"",
-        "boolean active = activelyBuilding();",
-        "if(!active && lastActive == null) return;",
-        "Draw.z(Layer.flyingUnit);",
-        "BuildPlan plan = active ? buildPlan() : lastActive;",
-        "Tile tile = plan.tile();",
-        "var core = team.core();",
-        "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
-        "//draw remote plans.",
-        "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){",
-        "Draw.z(Layer.plans - 1f);",
-        "drawPlan(plan, 0.5f);",
-        "drawPlanTop(plan, 0.5f);",
-        "if(type.drawBuildBeam){",
-        "float focusLen = type.buildBeamOffset + Mathf.absin(Time.time, 3f, 0.6f);",
-        "float px = x + Angles.trnsx(rotation, focusLen);",
-        "float py = y + Angles.trnsy(rotation, focusLen);",
-        "drawBuildingBeam(px, py);"
-      ],
-      "deferred_exprs": [
-        "Concrete Draw rendering, Position.within distance math, Tile/ConstructBlock objects, and Angles trig implementations remain owned by their existing/later source-backed helpers; this slice preserves drawBuilding branch/call state only."
-      ],
-      "runtime_proof": "/root/Main.generated_builder_comp_draw_building_bridge_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_draw_building_to_source_state",
-        "test_port_game_exposes_source_builder_draw_building_state",
-        "test_port_game_exposes_generated_builder_comp_draw_building_bridge_state",
-        "test_builder_draw_building_matches_upstream_source",
-        "test_generated_builder_comp_draw_building_slice_is_registered_with_source_backing"
-      ],
-      "status": "active",
-      "rule": "BuilderComp.drawBuilding preserves active/lastActive early return, flying layer setup, active buildPlan vs lastActive selection, tile/range guard, remote plan draw calls, and optional build beam focus/dispatch."
     }
   },
   "version": 1

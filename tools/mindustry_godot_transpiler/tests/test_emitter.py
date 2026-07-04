@@ -7145,5 +7145,76 @@ class BuilderComp{
             self.assertIn('"remote_guard_expr": "if(core != null && active && !isLocal() && !(tile.block() instanceof ConstructBlock) && !state.isPaused()){"', source_text)
             self.assertIn('"draw_building_beam_call": draw_building_beam_call', source_text)
 
+    def test_emit_bridges_builder_comp_draw_building_beam_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "src"
+            comp_dir = source_root / "mindustry" / "entities" / "comp"
+            comp_dir.mkdir(parents=True)
+            (comp_dir / "BuilderComp.java").write_text(
+                """
+package mindustry.entities.comp;
+
+class BuilderComp{
+    public void drawBuildingBeam(float px, float py){
+        boolean active = activelyBuilding();
+        if(!active && lastActive == null) return;
+
+        Draw.z(Layer.flyingUnit);
+
+        BuildPlan plan = active ? buildPlan() : lastActive;
+        Tile tile = world.tile(plan.x, plan.y);
+
+        if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){
+            return;
+        }
+
+        int size = plan.breaking ? active ? tile.block().size : lastSize : plan.block.size;
+        float tx = plan.drawx(), ty = plan.drawy();
+
+        Lines.stroke(1f, plan.breaking ? Pal.remove : Pal.accent);
+        Draw.z(Layer.buildBeam);
+
+        Draw.alpha(buildAlpha);
+
+        if(!active && !(tile.build instanceof ConstructBuild)){
+            Fill.square(plan.drawx(), plan.drawy(), size * tilesize/2f);
+        }
+
+        Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);
+
+        Fill.square(px, py, 1.8f + Mathf.absin(Time.time, 2.2f, 1.1f), rotation + 45);
+
+        Draw.reset();
+        Draw.z(Layer.flyingUnit);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "comp" / "BuilderComp.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawBuildingBeam_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var px: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var py: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var inactive_without_last_active: bool = not active and last_active == null", source_text)
+            self.assertIn("var plan: Variant = build_plan if active else last_active", source_text)
+            self.assertIn("var outside_range_blocked: bool = not tile_exists or not within_plan", source_text)
+            self.assertIn("var size: int = tile_block_size if plan_breaking and active else last_size if plan_breaking else plan_block_size", source_text)
+            self.assertIn("var tx: float = plan_drawx", source_text)
+            self.assertIn("var ty: float = plan_drawy", source_text)
+            self.assertIn("var stroke_color: String = \"Pal.remove\" if plan_breaking else \"Pal.accent\"", source_text)
+            self.assertIn("fill_last_active_square_call = {\"call\": \"Fill.square(plan.drawx(), plan.drawy(), size * tilesize/2f);\"", source_text)
+            self.assertIn("build_beam_call = {\"call\": \"Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);\"", source_text)
+            self.assertIn("focus_square_radius: float = 1.8 + mathf_absin_time_2_2_1_1", source_text)
+            self.assertIn("focus_square_rotation: float = rotation_value + 45.0", source_text)
+            self.assertIn('"source_owner": "PortGame.source_builder_draw_building_beam_state"', source_text)
+            self.assertIn('"method": "public void drawBuildingBeam(float px, float py){"', source_text)
+            self.assertIn('"size_expr": "int size = plan.breaking ? active ? tile.block().size : lastSize : plan.block.size;"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

@@ -8224,5 +8224,32 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_builder_draw_building_beam_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_builder_draw_building_beam_source"))
+        report = source_parity.verify_builder_draw_building_beam_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/comp/BuilderComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void drawBuildingBeam(float px, float py){",
+            "active_expr": "boolean active = activelyBuilding();",
+            "inactive_guard": "if(!active && lastActive == null) return;",
+            "z_flying": "Draw.z(Layer.flyingUnit);",
+            "plan_expr": "BuildPlan plan = active ? buildPlan() : lastActive;",
+            "tile_expr": "Tile tile = world.tile(plan.x, plan.y);",
+            "range_guard": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+            "size_expr": "int size = plan.breaking ? active ? tile.block().size : lastSize : plan.block.size;",
+            "draw_xy": "float tx = plan.drawx(), ty = plan.drawy();",
+            "stroke": "Lines.stroke(1f, plan.breaking ? Pal.remove : Pal.accent);",
+            "z_build_beam": "Draw.z(Layer.buildBeam);",
+            "alpha": "Draw.alpha(buildAlpha);",
+            "fill_last_active": "if(!active && !(tile.build instanceof ConstructBuild)){",
+            "fill_last_active_square": "Fill.square(plan.drawx(), plan.drawy(), size * tilesize/2f);",
+            "build_beam": "Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);",
+            "focus_square": "Fill.square(px, py, 1.8f + Mathf.absin(Time.time, 2.2f, 1.1f), rotation + 45);",
+            "draw_reset": "Draw.reset();",
+            "z_restore": "Draw.z(Layer.flyingUnit);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

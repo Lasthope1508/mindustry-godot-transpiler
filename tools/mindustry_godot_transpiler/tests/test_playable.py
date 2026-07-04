@@ -12810,5 +12810,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuilderComp.java_method_drawBuilding_15"', source)
         self.assertIn('"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("remote_plan_draw", null) == canonical.get("remote_plan_draw", null) and result.get("draw_building_beam_call", null) == canonical.get("draw_building_beam_call", null)', source)
 
+    def test_port_game_exposes_source_builder_draw_building_beam_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_builder_draw_building_beam_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:", source)
+        self.assertIn("var inactive_without_last_active: bool = not active and last_active == null", source)
+        self.assertIn("var outside_range_blocked: bool = not tile_exists or not within_plan", source)
+        self.assertIn("var size: int = tile_block_size if plan_breaking and active else last_size if plan_breaking else plan_block_size", source)
+        self.assertIn("var stroke_color: String = \"Pal.remove\" if plan_breaking else \"Pal.accent\"", source)
+        self.assertIn("fill_last_active_square_call = {\"call\": \"Fill.square(plan.drawx(), plan.drawy(), size * tilesize/2f);\"", source)
+        self.assertIn("build_beam_call = {\"call\": \"Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);\"", source)
+        self.assertIn("focus_square_rotation: float = rotation_value + 45.0", source)
+        self.assertIn('"method": "public void drawBuildingBeam(float px, float py){"', source)
+        self.assertIn('"draw_reset_call": draw_reset_call', source)
+
+    def test_port_game_exposes_generated_builder_comp_draw_building_beam_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")', source)
+        self.assertIn("var result = instance.java_method_drawBuildingBeam_16([px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value])", source)
+        self.assertIn("var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_builder_draw_building_beam_state"', source)
+        self.assertIn('"generated_owner": "BuilderComp.java_method_drawBuildingBeam_16"', source)
+        self.assertIn('"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null) and result.get("build_beam_call", null) == canonical.get("build_beam_call", null) and result.get("focus_square_call", null) == canonical.get("focus_square_call", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

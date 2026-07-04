@@ -336,6 +336,36 @@ def verify_builder_draw_building_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_builder_draw_building_beam_source(upstream_root: Path) -> dict[str, Any]:
+    builder_comp_path = Path(upstream_root) / BUILDER_COMP_SOURCE
+    source = builder_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void drawBuildingBeam(float px, float py){",
+        "active_expr": "boolean active = activelyBuilding();",
+        "inactive_guard": "if(!active && lastActive == null) return;",
+        "z_flying": "Draw.z(Layer.flyingUnit);",
+        "plan_expr": "BuildPlan plan = active ? buildPlan() : lastActive;",
+        "tile_expr": "Tile tile = world.tile(plan.x, plan.y);",
+        "range_guard": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+        "size_expr": "int size = plan.breaking ? active ? tile.block().size : lastSize : plan.block.size;",
+        "draw_xy": "float tx = plan.drawx(), ty = plan.drawy();",
+        "stroke": "Lines.stroke(1f, plan.breaking ? Pal.remove : Pal.accent);",
+        "z_build_beam": "Draw.z(Layer.buildBeam);",
+        "alpha": "Draw.alpha(buildAlpha);",
+        "fill_last_active": "if(!active && !(tile.build instanceof ConstructBuild)){",
+        "fill_last_active_square": "Fill.square(plan.drawx(), plan.drawy(), size * tilesize/2f);",
+        "build_beam": "Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);",
+        "focus_square": "Fill.square(px, py, 1.8f + Mathf.absin(Time.time, 2.2f, 1.1f), rotation + 45);",
+        "draw_reset": "Draw.reset();",
+        "z_restore": "Draw.z(Layer.flyingUnit);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BUILDER_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

@@ -7943,6 +7943,109 @@ func generated_builder_comp_draw_building_bridge_state(active: bool, last_active
 		"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("remote_plan_draw", null) == canonical.get("remote_plan_draw", null) and result.get("draw_building_beam_call", null) == canonical.get("draw_building_beam_call", null),
 	}
 
+func source_builder_draw_building_beam_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:
+	var inactive_without_last_active: bool = not active and last_active == null
+	var plan: Variant = build_plan if active else last_active
+	var outside_range_blocked: bool = not tile_exists or not within_plan
+	var size: int = tile_block_size if plan_breaking and active else last_size if plan_breaking else plan_block_size
+	var tx: float = plan_drawx
+	var ty: float = plan_drawy
+	var stroke_color: String = "Pal.remove" if plan_breaking else "Pal.accent"
+	var z_flying_unit_call: Variant = null
+	var stroke_call: Variant = null
+	var z_build_beam_call: Variant = null
+	var draw_alpha_call: Variant = null
+	var fill_last_active_square_call: Variant = null
+	var build_beam_call: Variant = null
+	var focus_square_radius: float = 1.8 + mathf_absin_time_2_2_1_1
+	var focus_square_rotation: float = rotation_value + 45.0
+	var focus_square_call: Variant = null
+	var draw_reset_call: Variant = null
+	var z_restore_call: Variant = null
+	if not inactive_without_last_active:
+		z_flying_unit_call = {"call": "Draw.z(Layer.flyingUnit);", "layer": "Layer.flyingUnit"}
+		if not outside_range_blocked:
+			stroke_call = {"call": "Lines.stroke(1f, plan.breaking ? Pal.remove : Pal.accent);", "width": 1.0, "color": stroke_color}
+			z_build_beam_call = {"call": "Draw.z(Layer.buildBeam);", "layer": "Layer.buildBeam"}
+			draw_alpha_call = {"call": "Draw.alpha(buildAlpha);", "alpha": build_alpha}
+			if not active and not tile_build_is_construct_build:
+				fill_last_active_square_call = {"call": "Fill.square(plan.drawx(), plan.drawy(), size * tilesize/2f);", "x": plan_drawx, "y": plan_drawy, "radius": float(size) * source_tilesize / 2.0}
+			build_beam_call = {"call": "Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);", "px": px, "py": py, "tx": tx, "ty": ty, "radius": source_tilesize * float(size) / 2.0}
+			focus_square_call = {"call": "Fill.square(px, py, 1.8f + Mathf.absin(Time.time, 2.2f, 1.1f), rotation + 45);", "x": px, "y": py, "radius": focus_square_radius, "rotation": focus_square_rotation}
+			draw_reset_call = {"call": "Draw.reset();"}
+			z_restore_call = {"call": "Draw.z(Layer.flyingUnit);", "layer": "Layer.flyingUnit"}
+	return {
+		"method": "public void drawBuildingBeam(float px, float py){",
+		"active_expr": "boolean active = activelyBuilding();",
+		"inactive_guard_expr": "if(!active && lastActive == null) return;",
+		"z_flying_expr": "Draw.z(Layer.flyingUnit);",
+		"plan_expr": "BuildPlan plan = active ? buildPlan() : lastActive;",
+		"tile_expr": "Tile tile = world.tile(plan.x, plan.y);",
+		"range_guard_expr": "if(tile == null || !within(plan, state.rules.infiniteResources ? Float.MAX_VALUE : type.buildRange)){",
+		"size_expr": "int size = plan.breaking ? active ? tile.block().size : lastSize : plan.block.size;",
+		"draw_xy_expr": "float tx = plan.drawx(), ty = plan.drawy();",
+		"stroke_expr": "Lines.stroke(1f, plan.breaking ? Pal.remove : Pal.accent);",
+		"z_build_beam_expr": "Draw.z(Layer.buildBeam);",
+		"alpha_expr": "Draw.alpha(buildAlpha);",
+		"fill_last_active_guard_expr": "if(!active && !(tile.build instanceof ConstructBuild)){",
+		"fill_last_active_square_expr": "Fill.square(plan.drawx(), plan.drawy(), size * tilesize/2f);",
+		"build_beam_expr": "Drawf.buildBeam(px, py, tx, ty, Vars.tilesize * size / 2f);",
+		"focus_square_expr": "Fill.square(px, py, 1.8f + Mathf.absin(Time.time, 2.2f, 1.1f), rotation + 45);",
+		"draw_reset_expr": "Draw.reset();",
+		"z_restore_expr": "Draw.z(Layer.flyingUnit);",
+		"px": px,
+		"py": py,
+		"active": active,
+		"last_active": last_active,
+		"build_plan": build_plan,
+		"plan": plan,
+		"tile_exists": tile_exists,
+		"within_plan": within_plan,
+		"state_rules_infinite_resources": state_rules_infinite_resources,
+		"type_build_range": type_build_range,
+		"plan_breaking": plan_breaking,
+		"tile_block_size": tile_block_size,
+		"last_size": last_size,
+		"plan_block_size": plan_block_size,
+		"plan_drawx": plan_drawx,
+		"plan_drawy": plan_drawy,
+		"build_alpha": build_alpha,
+		"tile_build_is_construct_build": tile_build_is_construct_build,
+		"source_tilesize": source_tilesize,
+		"mathf_absin_time_2_2_1_1": mathf_absin_time_2_2_1_1,
+		"rotation": rotation_value,
+		"inactive_without_last_active": inactive_without_last_active,
+		"outside_range_blocked": outside_range_blocked,
+		"size": size,
+		"tx": tx,
+		"ty": ty,
+		"stroke_color": stroke_color,
+		"z_flying_unit_call": z_flying_unit_call,
+		"stroke_call": stroke_call,
+		"z_build_beam_call": z_build_beam_call,
+		"draw_alpha_call": draw_alpha_call,
+		"fill_last_active_square_call": fill_last_active_square_call,
+		"build_beam_call": build_beam_call,
+		"focus_square_radius": focus_square_radius,
+		"focus_square_rotation": focus_square_rotation,
+		"focus_square_call": focus_square_call,
+		"draw_reset_call": draw_reset_call,
+		"z_restore_call": z_restore_call,
+	}
+
+func generated_builder_comp_draw_building_beam_bridge_state(px: float, py: float, active: bool, last_active: Variant, build_plan: Variant, tile_exists: bool, within_plan: bool, state_rules_infinite_resources: bool, type_build_range: float, plan_breaking: bool, tile_block_size: int, last_size: int, plan_block_size: int, plan_drawx: float, plan_drawy: float, build_alpha: float, tile_build_is_construct_build: bool, source_tilesize: float, mathf_absin_time_2_2_1_1: float, rotation_value: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/comp/BuilderComp.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawBuildingBeam_16([px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value])
+	var canonical = source_builder_draw_building_beam_state(px, py, active, last_active, build_plan, tile_exists, within_plan, state_rules_infinite_resources, type_build_range, plan_breaking, tile_block_size, last_size, plan_block_size, plan_drawx, plan_drawy, build_alpha, tile_build_is_construct_build, source_tilesize, mathf_absin_time_2_2_1_1, rotation_value)
+	return {
+		"source_owner": "PortGame.source_builder_draw_building_beam_state",
+		"generated_owner": "BuilderComp.java_method_drawBuildingBeam_16",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("inactive_without_last_active", null) == canonical.get("inactive_without_last_active", null) and result.get("outside_range_blocked", null) == canonical.get("outside_range_blocked", null) and result.get("build_beam_call", null) == canonical.get("build_beam_call", null) and result.get("focus_square_call", null) == canonical.get("focus_square_call", null),
+	}
+
 func source_builder_draw_plan_top_state(plan: Variant, plans: Array, plan_breaking: bool, alpha: float, mathf_absin_time_global_6_0_28: float) -> Dictionary:
 	var draw_top: bool = not plan_breaking
 	var mixcol_alpha: float = 0.24 + mathf_absin_time_global_6_0_28

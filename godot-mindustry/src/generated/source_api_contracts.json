@@ -1156,6 +1156,1283 @@
         "test_block_time_scale_duration_at_cell_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_unit_add_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_null",
+          "schema": "source_block_unit_add_input.tile_null",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard_expr",
+        "throw_expr",
+        "tile_null",
+        "runtime_exception_thrown",
+        "runtime_exception_message"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.add() tile null RuntimeException state.",
+      "runtime_proof": "/root/Main.source_block_unit_add_state",
+      "source_method": "add()",
+      "source_slice": "N1138",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_add_state"
+      ]
+    },
+    "PortGame.source_block_unit_ammof_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "ammo",
+          "schema": "source_block_unit_ammof_input.ammo",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "ammo"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.ammof() direct ammo return state.",
+      "runtime_proof": "/root/Main.source_block_unit_ammof_state",
+      "source_method": "ammof()",
+      "source_slice": "N1129",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_ammof_state"
+      ]
+    },
+    "PortGame.source_block_unit_damage_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "v",
+          "schema": "source_block_unit_damage_input.v",
+          "type": "float"
+        },
+        {
+          "name": "b",
+          "schema": "source_block_unit_damage_input.b",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "tile_damage_call",
+        "tile_damage_called",
+        "v",
+        "b"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.damage(float v, boolean b) tile.damage(v, b) delegation state.",
+      "runtime_proof": "/root/Main.source_block_unit_damage_state",
+      "source_method": "damage(float v, boolean b)",
+      "source_slice": "N1135",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_damage_state"
+      ]
+    },
+    "PortGame.source_block_unit_dead_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_null",
+          "schema": "source_block_unit_dead_input.tile_null",
+          "type": "bool"
+        },
+        {
+          "name": "tile_dead",
+          "schema": "source_block_unit_dead_input.tile_dead",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "tile_null",
+        "tile_dead",
+        "dead"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.dead() tile null/dead return state.",
+      "runtime_proof": "/root/Main.source_block_unit_dead_state",
+      "source_method": "dead()",
+      "source_slice": "N1131",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_dead_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_dead_state"
+      ]
+    },
+    "PortGame.source_block_unit_icon_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_block_ui_icon",
+          "schema": "source_block_unit_icon_input.tile_block_ui_icon",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "tile_block_ui_icon"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.icon() direct tile.block.uiIcon return state.",
+      "runtime_proof": "/root/Main.source_block_unit_icon_state",
+      "source_method": "icon()",
+      "source_slice": "N1130",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_icon_state"
+      ]
+    },
+    "PortGame.source_block_unit_is_added_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_block_unit_is_added_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "tile_is_valid",
+          "schema": "source_block_unit_is_added_input.tile_is_valid",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "tile_exists",
+        "tile_is_valid",
+        "is_added"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.isAdded() tile exists/isValid return state.",
+      "runtime_proof": "/root/Main.source_block_unit_is_added_state",
+      "source_method": "isAdded()",
+      "source_slice": "N1133",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_is_added_state"
+      ]
+    },
+    "PortGame.source_block_unit_is_valid_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_block_unit_is_valid_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "tile_is_valid",
+          "schema": "source_block_unit_is_valid_input.tile_is_valid",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "tile_exists",
+        "tile_is_valid",
+        "is_valid"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.isValid() tile exists/isValid return state.",
+      "runtime_proof": "/root/Main.source_block_unit_is_valid_state",
+      "source_method": "isValid()",
+      "source_slice": "N1132",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_is_valid_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_is_valid_state"
+      ]
+    },
+    "PortGame.source_block_unit_killed_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "tile_kill_call",
+        "tile_kill_called"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.killed() tile.kill() delegation state.",
+      "runtime_proof": "/root/Main.source_block_unit_killed_state",
+      "source_method": "killed()",
+      "source_slice": "N1134",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_killed_state"
+      ]
+    },
+    "PortGame.source_block_unit_team_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_block_unit_team_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "this_team",
+          "schema": "source_block_unit_team_input.this_team",
+          "type": "Variant"
+        },
+        {
+          "name": "team",
+          "schema": "source_block_unit_team_input.team",
+          "type": "Variant"
+        },
+        {
+          "name": "tile_team",
+          "schema": "source_block_unit_team_input.tile_team",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "outer_guard_expr",
+        "this_team_assignment_expr",
+        "inner_guard_expr",
+        "tile_change_team_call_expr",
+        "tile_exists",
+        "this_team",
+        "team",
+        "tile_team",
+        "outer_guard",
+        "inner_guard",
+        "this_team_after",
+        "tile_change_team_call",
+        "tile_change_team_called"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.team(Team team) guarded assignment and tile.changeTeam(team) delegation state.",
+      "runtime_proof": "/root/Main.source_block_unit_team_state",
+      "source_method": "team(Team team)",
+      "source_slice": "N1136",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_team_state"
+      ]
+    },
+    "PortGame.source_block_unit_tile_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile",
+          "schema": "source_block_unit_tile_input.tile",
+          "type": "Variant"
+        },
+        {
+          "name": "tile_block_health",
+          "schema": "source_block_unit_tile_input.tile_block_health",
+          "type": "float"
+        },
+        {
+          "name": "tile_health",
+          "schema": "source_block_unit_tile_input.tile_health",
+          "type": "float"
+        },
+        {
+          "name": "tile_block_size",
+          "schema": "source_block_unit_tile_input.tile_block_size",
+          "type": "float"
+        },
+        {
+          "name": "tilesize",
+          "schema": "source_block_unit_tile_input.tilesize",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "tile_assignment_expr",
+        "comment",
+        "max_health_call",
+        "health_call",
+        "hit_size_call",
+        "set_call",
+        "tile",
+        "tile_block_health",
+        "tile_health",
+        "tile_block_size",
+        "tilesize",
+        "this_tile_after",
+        "hit_size"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.tile(Building tile) tile assignment and block stat setup calls.",
+      "runtime_proof": "/root/Main.source_block_unit_tile_state",
+      "source_method": "tile(Building tile)",
+      "source_slice": "N1139",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_tile_state"
+      ]
+    },
+    "PortGame.source_block_unit_update_state": {
+      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
+      "params": [
+        {
+          "name": "tile_exists",
+          "schema": "source_block_unit_update_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "team",
+          "schema": "source_block_unit_update_input.team",
+          "type": "Variant"
+        },
+        {
+          "name": "tile_team",
+          "schema": "source_block_unit_update_input.tile_team",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard_expr",
+        "team_assignment_expr",
+        "tile_exists",
+        "team",
+        "tile_team",
+        "tile_guard",
+        "team_after"
+      ],
+      "rule": "Public runtime contract for BlockUnitComp.update() guarded team = tile.team assignment state.",
+      "runtime_proof": "/root/Main.source_block_unit_update_state",
+      "source_method": "update()",
+      "source_slice": "N1137",
+      "status": "active",
+      "tests": [
+        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_block_unit_update_state"
+      ]
+    },
+    "PortGame.source_builder_actively_building_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plans_size",
+          "schema": "source_builder_actively_building_input.plans_size",
+          "type": "int"
+        },
+        {
+          "name": "plans_first",
+          "schema": "source_builder_actively_building_input.plans_first",
+          "type": "Variant"
+        },
+        {
+          "name": "state_is_editor",
+          "schema": "source_builder_actively_building_input.state_is_editor",
+          "type": "bool"
+        },
+        {
+          "name": "state_rules_infinite_resources",
+          "schema": "source_builder_actively_building_input.state_rules_infinite_resources",
+          "type": "bool"
+        },
+        {
+          "name": "type_build_range",
+          "schema": "source_builder_actively_building_input.type_build_range",
+          "type": "float"
+        },
+        {
+          "name": "within_plan",
+          "schema": "source_builder_actively_building_input.within_plan",
+          "type": "bool"
+        },
+        {
+          "name": "update_building",
+          "schema": "source_builder_actively_building_input.update_building",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "guard_expr",
+        "plan_assignment",
+        "range_expr",
+        "return_false_expr",
+        "return_expr",
+        "plans_size",
+        "plans_first",
+        "is_building",
+        "build_plan",
+        "state_is_editor",
+        "state_rules_infinite_resources",
+        "type_build_range",
+        "final_place_dst",
+        "within_plan",
+        "update_building",
+        "outside_range_blocked",
+        "actively_building"
+      ],
+      "rule": "Public runtime contract for BuilderComp.activelyBuilding() source range guard and updateBuilding predicate.",
+      "runtime_proof": "/root/Main.source_builder_actively_building_state",
+      "source_method": "activelyBuilding()",
+      "source_slice": "N1147",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_actively_building_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_actively_building_state"
+      ]
+    },
+    "PortGame.source_builder_add_build_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plans",
+          "schema": "source_builder_add_build_input.plans",
+          "type": "Array"
+        },
+        {
+          "name": "place",
+          "schema": "source_builder_add_build_input.place",
+          "type": "Variant"
+        },
+        {
+          "name": "tail",
+          "schema": "source_builder_add_build_input.tail",
+          "type": "bool"
+        },
+        {
+          "name": "can_build",
+          "schema": "source_builder_add_build_input.can_build",
+          "type": "bool"
+        },
+        {
+          "name": "world_tile_exists",
+          "schema": "source_builder_add_build_input.world_tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "tile_build_is_construct_build",
+          "schema": "source_builder_add_build_input.tile_build_is_construct_build",
+          "type": "bool"
+        },
+        {
+          "name": "construct_progress",
+          "schema": "source_builder_add_build_input.construct_progress",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "guard_expr",
+        "replace_init_expr",
+        "replace_match_expr",
+        "remove_replace_expr",
+        "tile_lookup_expr",
+        "construct_guard_expr",
+        "progress_expr",
+        "tail_guard_expr",
+        "add_last_expr",
+        "add_first_expr",
+        "plans",
+        "place",
+        "tail",
+        "can_build",
+        "world_tile_exists",
+        "tile_build_is_construct_build",
+        "construct_progress",
+        "returned_early",
+        "replace_index",
+        "removed_replace",
+        "world_tile_call",
+        "progress_copied",
+        "add_last_call",
+        "add_first_call",
+        "plans_after",
+        "place_after"
+      ],
+      "rule": "Public runtime contract for BuilderComp.addBuild two-argument overload, preserving canBuild guard, replacement removal, ConstructBuild progress copy, and tail/front insertion.",
+      "runtime_proof": "/root/Main.source_builder_add_build_state",
+      "source_method": "addBuild(BuildPlan place, boolean tail)",
+      "source_slice": "N1152",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_builder_comp_add_build_to_source_state",
+        "test_port_game_exposes_source_builder_add_build_state",
+        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
+        "test_builder_add_build_matches_upstream_source",
+        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_builder_add_build_tail_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "place",
+          "schema": "source_builder_add_build_tail_input.place",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "place",
+        "tail",
+        "add_build_call",
+        "add_build_called"
+      ],
+      "rule": "Public runtime contract for BuilderComp.addBuild(BuildPlan place) delegate state.",
+      "runtime_proof": "/root/Main.source_builder_add_build_tail_state",
+      "source_method": "addBuild(BuildPlan place)",
+      "source_slice": "N1144",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_add_build_tail_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_add_build_tail_state"
+      ]
+    },
+    "PortGame.source_builder_after_read_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plans_null",
+          "schema": "source_builder_after_read_input.plans_null",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "guard_expr",
+        "queue_constructor",
+        "plans_null",
+        "queue_reset",
+        "plans_capacity"
+      ],
+      "rule": "Public runtime contract for BuilderComp.afterRead() null plans queue reset state.",
+      "runtime_proof": "/root/Main.source_builder_after_read_state",
+      "source_method": "afterRead()",
+      "source_slice": "N1146",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_after_read_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_after_read_state"
+      ]
+    },
+    "PortGame.source_builder_build_plan_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plans_size",
+          "schema": "source_builder_build_plan_input.plans_size",
+          "type": "int"
+        },
+        {
+          "name": "plans_first",
+          "schema": "source_builder_build_plan_input.plans_first",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "plans_size",
+        "plans_first",
+        "build_plan"
+      ],
+      "rule": "Public runtime contract for BuilderComp.buildPlan() source ternary state.",
+      "runtime_proof": "/root/Main.source_builder_build_plan_state",
+      "source_method": "buildPlan()",
+      "source_slice": "N1145",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_build_plan_state"
+      ]
+    },
+    "PortGame.source_builder_can_build_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "type_build_speed",
+          "schema": "source_builder_can_build_input.type_build_speed",
+          "type": "float"
+        },
+        {
+          "name": "build_speed_multiplier",
+          "schema": "source_builder_can_build_input.build_speed_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "type_build_speed",
+        "build_speed_multiplier",
+        "type_build_speed_positive",
+        "build_speed_multiplier_positive",
+        "can_build"
+      ],
+      "rule": "Public runtime contract for BuilderComp.canBuild() source return predicate.",
+      "runtime_proof": "/root/Main.source_builder_can_build_state",
+      "source_method": "canBuild()",
+      "source_slice": "N1140",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_can_build_state"
+      ]
+    },
+    "PortGame.source_builder_clear_building_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "plans_clear_call",
+        "plans_clear_called"
+      ],
+      "rule": "Public runtime contract for BuilderComp.clearBuilding() plans.clear() call state.",
+      "runtime_proof": "/root/Main.source_builder_clear_building_state",
+      "source_method": "clearBuilding()",
+      "source_slice": "N1143",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_clear_building_state"
+      ]
+    },
+    "PortGame.source_builder_draw_building_beam_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "px",
+          "schema": "source_builder_draw_building_beam_input.px",
+          "type": "float"
+        },
+        {
+          "name": "py",
+          "schema": "source_builder_draw_building_beam_input.py",
+          "type": "float"
+        },
+        {
+          "name": "active",
+          "schema": "source_builder_draw_building_beam_input.active",
+          "type": "bool"
+        },
+        {
+          "name": "last_active",
+          "schema": "source_builder_draw_building_beam_input.last_active",
+          "type": "Variant"
+        },
+        {
+          "name": "build_plan",
+          "schema": "source_builder_draw_building_beam_input.build_plan",
+          "type": "Variant"
+        },
+        {
+          "name": "tile_exists",
+          "schema": "source_builder_draw_building_beam_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "within_plan",
+          "schema": "source_builder_draw_building_beam_input.within_plan",
+          "type": "bool"
+        },
+        {
+          "name": "state_rules_infinite_resources",
+          "schema": "source_builder_draw_building_beam_input.state_rules_infinite_resources",
+          "type": "bool"
+        },
+        {
+          "name": "type_build_range",
+          "schema": "source_builder_draw_building_beam_input.type_build_range",
+          "type": "float"
+        },
+        {
+          "name": "plan_breaking",
+          "schema": "source_builder_draw_building_beam_input.plan_breaking",
+          "type": "bool"
+        },
+        {
+          "name": "tile_block_size",
+          "schema": "source_builder_draw_building_beam_input.tile_block_size",
+          "type": "int"
+        },
+        {
+          "name": "last_size",
+          "schema": "source_builder_draw_building_beam_input.last_size",
+          "type": "int"
+        },
+        {
+          "name": "plan_block_size",
+          "schema": "source_builder_draw_building_beam_input.plan_block_size",
+          "type": "int"
+        },
+        {
+          "name": "plan_drawx",
+          "schema": "source_builder_draw_building_beam_input.plan_drawx",
+          "type": "float"
+        },
+        {
+          "name": "plan_drawy",
+          "schema": "source_builder_draw_building_beam_input.plan_drawy",
+          "type": "float"
+        },
+        {
+          "name": "build_alpha",
+          "schema": "source_builder_draw_building_beam_input.build_alpha",
+          "type": "float"
+        },
+        {
+          "name": "tile_build_is_construct_build",
+          "schema": "source_builder_draw_building_beam_input.tile_build_is_construct_build",
+          "type": "bool"
+        },
+        {
+          "name": "source_tilesize",
+          "schema": "source_builder_draw_building_beam_input.source_tilesize",
+          "type": "float"
+        },
+        {
+          "name": "mathf_absin_time_2_2_1_1",
+          "schema": "source_builder_draw_building_beam_input.mathf_absin_time_2_2_1_1",
+          "type": "float"
+        },
+        {
+          "name": "rotation_value",
+          "schema": "source_builder_draw_building_beam_input.rotation",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "active_expr",
+        "inactive_guard_expr",
+        "z_flying_expr",
+        "plan_expr",
+        "tile_expr",
+        "range_guard_expr",
+        "size_expr",
+        "draw_xy_expr",
+        "stroke_expr",
+        "z_build_beam_expr",
+        "alpha_expr",
+        "fill_last_active_guard_expr",
+        "fill_last_active_square_expr",
+        "build_beam_expr",
+        "focus_square_expr",
+        "draw_reset_expr",
+        "z_restore_expr",
+        "px",
+        "py",
+        "active",
+        "last_active",
+        "build_plan",
+        "plan",
+        "tile_exists",
+        "within_plan",
+        "state_rules_infinite_resources",
+        "type_build_range",
+        "plan_breaking",
+        "tile_block_size",
+        "last_size",
+        "plan_block_size",
+        "plan_drawx",
+        "plan_drawy",
+        "build_alpha",
+        "tile_build_is_construct_build",
+        "source_tilesize",
+        "mathf_absin_time_2_2_1_1",
+        "rotation",
+        "inactive_without_last_active",
+        "outside_range_blocked",
+        "size",
+        "tx",
+        "ty",
+        "stroke_color",
+        "z_flying_unit_call",
+        "stroke_call",
+        "z_build_beam_call",
+        "draw_alpha_call",
+        "fill_last_active_square_call",
+        "build_beam_call",
+        "focus_square_radius",
+        "focus_square_rotation",
+        "focus_square_call",
+        "draw_reset_call",
+        "z_restore_call"
+      ],
+      "rule": "Public runtime contract for BuilderComp.drawBuildingBeam branch/call state.",
+      "runtime_proof": "/root/Main.source_builder_draw_building_beam_state",
+      "source_method": "drawBuildingBeam(float px, float py)",
+      "source_slice": "N1154",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_builder_comp_draw_building_beam_to_source_state",
+        "test_port_game_exposes_source_builder_draw_building_beam_state",
+        "test_port_game_exposes_generated_builder_comp_draw_building_beam_bridge_state",
+        "test_builder_draw_building_beam_matches_upstream_source",
+        "test_generated_builder_comp_draw_building_beam_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_builder_draw_building_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "active",
+          "schema": "source_builder_draw_building_input.active",
+          "type": "bool"
+        },
+        {
+          "name": "last_active",
+          "schema": "source_builder_draw_building_input.last_active",
+          "type": "Variant"
+        },
+        {
+          "name": "build_plan",
+          "schema": "source_builder_draw_building_input.build_plan",
+          "type": "Variant"
+        },
+        {
+          "name": "tile_exists",
+          "schema": "source_builder_draw_building_input.tile_exists",
+          "type": "bool"
+        },
+        {
+          "name": "core_exists",
+          "schema": "source_builder_draw_building_input.core_exists",
+          "type": "bool"
+        },
+        {
+          "name": "within_plan",
+          "schema": "source_builder_draw_building_input.within_plan",
+          "type": "bool"
+        },
+        {
+          "name": "state_rules_infinite_resources",
+          "schema": "source_builder_draw_building_input.state_rules_infinite_resources",
+          "type": "bool"
+        },
+        {
+          "name": "type_build_range",
+          "schema": "source_builder_draw_building_input.type_build_range",
+          "type": "float"
+        },
+        {
+          "name": "is_local",
+          "schema": "source_builder_draw_building_input.is_local",
+          "type": "bool"
+        },
+        {
+          "name": "tile_block_is_construct_block",
+          "schema": "source_builder_draw_building_input.tile_block_is_construct_block",
+          "type": "bool"
+        },
+        {
+          "name": "state_is_paused",
+          "schema": "source_builder_draw_building_input.state_is_paused",
+          "type": "bool"
+        },
+        {
+          "name": "type_draw_build_beam",
+          "schema": "source_builder_draw_building_input.type_draw_build_beam",
+          "type": "bool"
+        },
+        {
+          "name": "type_build_beam_offset",
+          "schema": "source_builder_draw_building_input.type_build_beam_offset",
+          "type": "float"
+        },
+        {
+          "name": "mathf_absin_time_3_0_6",
+          "schema": "source_builder_draw_building_input.mathf_absin_time_3_0_6",
+          "type": "float"
+        },
+        {
+          "name": "x",
+          "schema": "source_builder_draw_building_input.x",
+          "type": "float"
+        },
+        {
+          "name": "y",
+          "schema": "source_builder_draw_building_input.y",
+          "type": "float"
+        },
+        {
+          "name": "rotation_value",
+          "schema": "source_builder_draw_building_input.rotation",
+          "type": "float"
+        },
+        {
+          "name": "angles_trnsx_rotation_focus_len",
+          "schema": "source_builder_draw_building_input.angles_trnsx_rotation_focus_len",
+          "type": "float"
+        },
+        {
+          "name": "angles_trnsy_rotation_focus_len",
+          "schema": "source_builder_draw_building_input.angles_trnsy_rotation_focus_len",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "todo_comment",
+        "active_expr",
+        "inactive_guard_expr",
+        "z_flying_expr",
+        "plan_expr",
+        "tile_expr",
+        "core_expr",
+        "range_guard_expr",
+        "remote_comment",
+        "remote_guard_expr",
+        "z_plans_expr",
+        "draw_plan_expr",
+        "draw_plan_top_expr",
+        "beam_guard_expr",
+        "focus_len_expr",
+        "px_expr",
+        "py_expr",
+        "draw_beam_expr",
+        "active",
+        "last_active",
+        "build_plan",
+        "plan",
+        "tile_exists",
+        "core_exists",
+        "within_plan",
+        "state_rules_infinite_resources",
+        "type_build_range",
+        "is_local",
+        "tile_block_is_construct_block",
+        "state_is_paused",
+        "type_draw_build_beam",
+        "type_build_beam_offset",
+        "mathf_absin_time_3_0_6",
+        "x",
+        "y",
+        "rotation",
+        "angles_trnsx_rotation_focus_len",
+        "angles_trnsy_rotation_focus_len",
+        "inactive_without_last_active",
+        "z_flying_unit_call",
+        "outside_range_blocked",
+        "remote_plan_draw",
+        "z_plans_call",
+        "draw_plan_call",
+        "draw_plan_top_call",
+        "z_restore_call",
+        "focus_len",
+        "px",
+        "py",
+        "draw_building_beam_call"
+      ],
+      "rule": "Public runtime contract for BuilderComp.drawBuilding branch/call state, preserving source expressions without inlining renderer, distance, or trig internals.",
+      "runtime_proof": "/root/Main.source_builder_draw_building_state",
+      "source_method": "drawBuilding()",
+      "source_slice": "N1153",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_builder_comp_draw_building_to_source_state",
+        "test_port_game_exposes_source_builder_draw_building_state",
+        "test_port_game_exposes_generated_builder_comp_draw_building_bridge_state",
+        "test_builder_draw_building_matches_upstream_source",
+        "test_generated_builder_comp_draw_building_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_builder_draw_plan_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plan",
+          "schema": "source_builder_draw_plan_input.plan",
+          "type": "Variant"
+        },
+        {
+          "name": "all_plans",
+          "schema": "source_builder_draw_plan_input.all_plans",
+          "type": "Array"
+        },
+        {
+          "name": "plan_breaking",
+          "schema": "source_builder_draw_plan_input.plan_breaking",
+          "type": "bool"
+        },
+        {
+          "name": "alpha",
+          "schema": "source_builder_draw_plan_input.alpha",
+          "type": "float"
+        },
+        {
+          "name": "build_valid_place",
+          "schema": "source_builder_draw_plan_input.build_valid_place",
+          "type": "bool"
+        },
+        {
+          "name": "control_input_plan_matches",
+          "schema": "source_builder_draw_plan_input.control_input_plan_matches",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "anim_scale_expr",
+        "breaking_guard_expr",
+        "draw_breaking_expr",
+        "draw_plan_expr",
+        "draw_plan_valid_expr",
+        "plan",
+        "all_plans",
+        "plan_breaking",
+        "alpha",
+        "build_valid_place",
+        "control_input_plan_matches",
+        "plan_anim_scale",
+        "draw_plan_valid",
+        "draw_breaking_call",
+        "draw_plan_call"
+      ],
+      "rule": "Public runtime contract for BuilderComp.drawPlan() preserving animScale, breaking branch, non-breaking drawPlan call, and valid predicate.",
+      "runtime_proof": "/root/Main.source_builder_draw_plan_state",
+      "source_method": "drawPlan(BuildPlan plan, float alpha)",
+      "source_slice": "N1151",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_draw_plan_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_draw_plan_state"
+      ]
+    },
+    "PortGame.source_builder_draw_plan_top_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plan",
+          "schema": "source_builder_draw_plan_top_input.plan",
+          "type": "Variant"
+        },
+        {
+          "name": "plans",
+          "schema": "source_builder_draw_plan_top_input.plans",
+          "type": "Array"
+        },
+        {
+          "name": "plan_breaking",
+          "schema": "source_builder_draw_plan_top_input.plan_breaking",
+          "type": "bool"
+        },
+        {
+          "name": "alpha",
+          "schema": "source_builder_draw_plan_top_input.alpha",
+          "type": "float"
+        },
+        {
+          "name": "mathf_absin_time_global_6_0_28",
+          "schema": "source_builder_draw_plan_top_input.mathf_absin_time_global_6_0_28",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "guard_expr",
+        "draw_reset_expr",
+        "mixcol_expr",
+        "draw_alpha_expr",
+        "draw_plan_config_top_expr",
+        "plan",
+        "plans",
+        "plan_breaking",
+        "alpha",
+        "mathf_absin_time_global_6_0_28",
+        "draw_top",
+        "mixcol_alpha",
+        "draw_reset_called",
+        "draw_alpha_call",
+        "draw_plan_config_top_call"
+      ],
+      "rule": "Public runtime contract for BuilderComp.drawPlanTop() preserving non-breaking guard and draw call state.",
+      "runtime_proof": "/root/Main.source_builder_draw_plan_top_state",
+      "source_method": "drawPlanTop(BuildPlan plan, float alpha)",
+      "source_slice": "N1150",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_draw_plan_top_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_draw_plan_top_state"
+      ]
+    },
+    "PortGame.source_builder_is_building_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plans_size",
+          "schema": "source_builder_is_building_input.plans_size",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "return_expr",
+        "plans_size",
+        "is_building"
+      ],
+      "rule": "Public runtime contract for BuilderComp.isBuilding() plans.size predicate.",
+      "runtime_proof": "/root/Main.source_builder_is_building_state",
+      "source_method": "isBuilding()",
+      "source_slice": "N1142",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_is_building_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_is_building_state"
+      ]
+    },
+    "PortGame.source_builder_remove_build_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "plans",
+          "schema": "source_builder_remove_build_input.plans",
+          "type": "Array"
+        },
+        {
+          "name": "x",
+          "schema": "source_builder_remove_build_input.x",
+          "type": "int"
+        },
+        {
+          "name": "y",
+          "schema": "source_builder_remove_build_input.y",
+          "type": "int"
+        },
+        {
+          "name": "breaking",
+          "schema": "source_builder_remove_build_input.breaking",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "index_expr",
+        "guard_expr",
+        "remove_index_expr",
+        "plans",
+        "x",
+        "y",
+        "breaking",
+        "idx",
+        "removed",
+        "remove_index_call",
+        "plans_after"
+      ],
+      "rule": "Public runtime contract for BuilderComp.removeBuild() matching index and removeIndex mutation state.",
+      "runtime_proof": "/root/Main.source_builder_remove_build_state",
+      "source_method": "removeBuild(int x, int y, boolean breaking)",
+      "source_slice": "N1148",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_remove_build_state"
+      ]
+    },
+    "PortGame.source_builder_should_skip_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [
+        {
+          "name": "state_rules_infinite_resources",
+          "schema": "source_builder_should_skip_input.state_rules_infinite_resources",
+          "type": "bool"
+        },
+        {
+          "name": "team_rules_infinite_resources",
+          "schema": "source_builder_should_skip_input.team_rules_infinite_resources",
+          "type": "bool"
+        },
+        {
+          "name": "plan_breaking",
+          "schema": "source_builder_should_skip_input.plan_breaking",
+          "type": "bool"
+        },
+        {
+          "name": "core_null",
+          "schema": "source_builder_should_skip_input.core_null",
+          "type": "bool"
+        },
+        {
+          "name": "plan_is_rotation",
+          "schema": "source_builder_should_skip_input.plan_is_rotation",
+          "type": "bool"
+        },
+        {
+          "name": "plan_is_derelict_repair",
+          "schema": "source_builder_should_skip_input.plan_is_derelict_repair",
+          "type": "bool"
+        },
+        {
+          "name": "plan_stuck",
+          "schema": "source_builder_should_skip_input.plan_stuck",
+          "type": "bool"
+        },
+        {
+          "name": "core_items_has_plan_block_requirements",
+          "schema": "source_builder_should_skip_input.core_items_has_plan_block_requirements",
+          "type": "bool"
+        },
+        {
+          "name": "structs_contains_missing_requirement",
+          "schema": "source_builder_should_skip_input.structs_contains_missing_requirement",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "comment",
+        "guard_expr",
+        "return_expr",
+        "state_rules_infinite_resources",
+        "team_rules_infinite_resources",
+        "plan_breaking",
+        "core_null",
+        "plan_is_rotation",
+        "plan_is_derelict_repair",
+        "plan_stuck",
+        "core_items_has_plan_block_requirements",
+        "structs_contains_missing_requirement",
+        "guard_returns_false",
+        "stuck_missing_requirements",
+        "should_skip"
+      ],
+      "rule": "Public runtime contract for BuilderComp.shouldSkip() preserving guard false return and final skip predicate.",
+      "runtime_proof": "/root/Main.source_builder_should_skip_state",
+      "source_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
+      "source_slice": "N1149",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_should_skip_state"
+      ]
+    },
+    "PortGame.source_builder_update_state": {
+      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "update_build_logic_call",
+        "update_build_logic_called"
+      ],
+      "rule": "Public runtime contract for BuilderComp.update() updateBuildLogic() dispatch state.",
+      "runtime_proof": "/root/Main.source_builder_update_state",
+      "source_method": "update()",
+      "source_slice": "N1141",
+      "status": "active",
+      "tests": [
+        "test_generated_builder_comp_update_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_builder_update_state"
+      ]
+    },
     "PortGame.source_building_absorb_lasers_state": {
       "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
       "params": [
@@ -16362,6 +17639,24 @@
         "test_port_game_exposes_source_sync_after_sync_state"
       ]
     },
+    "PortGame.source_sync_handle_sync_hidden_state": {
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "empty_body",
+        "no_op"
+      ],
+      "rule": "Public runtime contract for SyncComp.handleSyncHidden() empty no-op state.",
+      "runtime_proof": "/root/Main.source_sync_handle_sync_hidden_state",
+      "source_method": "handleSyncHidden()",
+      "source_slice": "N1126",
+      "status": "active",
+      "tests": [
+        "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_sync_handle_sync_hidden_state"
+      ]
+    },
     "PortGame.source_sync_interpolate_state": {
       "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
       "params": [],
@@ -16441,6 +17736,38 @@
         "test_port_game_exposes_source_sync_read_sync_state"
       ]
     },
+    "PortGame.source_sync_remove_client_removed_entity_state": {
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "params": [
+        {
+          "name": "net_client",
+          "schema": "source_sync_remove_client_removed_entity_input.net_client",
+          "type": "bool"
+        },
+        {
+          "name": "entity_id",
+          "schema": "source_sync_remove_client_removed_entity_input.entity_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "condition",
+        "add_removed_entity_call",
+        "id_call",
+        "net_client",
+        "entity_id"
+      ],
+      "rule": "Public runtime contract for SyncComp.remove() client removed-entity notification state.",
+      "runtime_proof": "/root/Main.source_sync_remove_client_removed_entity_state",
+      "source_method": "remove()",
+      "source_slice": "N1128",
+      "status": "active",
+      "tests": [
+        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_sync_remove_client_removed_entity_state"
+      ]
+    },
     "PortGame.source_sync_snap_interpolation_state": {
       "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
       "params": [],
@@ -16475,6 +17802,45 @@
       "tests": [
         "test_generated_sync_comp_snap_sync_slice_is_registered_with_source_backing",
         "test_port_game_exposes_source_sync_snap_sync_state"
+      ]
+    },
+    "PortGame.source_sync_update_interpolate_state": {
+      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
+      "params": [
+        {
+          "name": "net_client",
+          "schema": "source_sync_update_interpolate_input.net_client",
+          "type": "bool"
+        },
+        {
+          "name": "is_local",
+          "schema": "source_sync_update_interpolate_input.is_local",
+          "type": "bool"
+        },
+        {
+          "name": "is_remote",
+          "schema": "source_sync_update_interpolate_input.is_remote",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "condition",
+        "interpolate_call",
+        "net_client",
+        "is_local",
+        "is_remote",
+        "interpolate_called",
+        "interpolate"
+      ],
+      "rule": "Public runtime contract for SyncComp.update() interpolation gate state.",
+      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
+      "source_method": "update()",
+      "source_slice": "N1127",
+      "status": "active",
+      "tests": [
+        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing",
+        "test_port_game_exposes_source_sync_update_interpolate_state"
       ]
     },
     "PortGame.source_sync_write_sync_manual_state": {
@@ -24114,1197 +25480,6 @@
         "test_weapons_update_dispatch_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
-      ]
-    },
-    "PortGame.source_sync_handle_sync_hidden_state": {
-      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
-      "params": [],
-      "return_keys": [
-        "method",
-        "empty_body",
-        "no_op"
-      ],
-      "rule": "Public runtime contract for SyncComp.handleSyncHidden() empty no-op state.",
-      "runtime_proof": "/root/Main.source_sync_handle_sync_hidden_state",
-      "source_method": "handleSyncHidden()",
-      "source_slice": "N1126",
-      "status": "active",
-      "tests": [
-        "test_generated_sync_comp_handle_sync_hidden_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_sync_handle_sync_hidden_state"
-      ]
-    },
-    "PortGame.source_sync_update_interpolate_state": {
-      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
-      "params": [
-        {
-          "name": "net_client",
-          "schema": "source_sync_update_interpolate_input.net_client",
-          "type": "bool"
-        },
-        {
-          "name": "is_local",
-          "schema": "source_sync_update_interpolate_input.is_local",
-          "type": "bool"
-        },
-        {
-          "name": "is_remote",
-          "schema": "source_sync_update_interpolate_input.is_remote",
-          "type": "bool"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "condition",
-        "interpolate_call",
-        "net_client",
-        "is_local",
-        "is_remote",
-        "interpolate_called",
-        "interpolate"
-      ],
-      "rule": "Public runtime contract for SyncComp.update() interpolation gate state.",
-      "runtime_proof": "/root/Main.source_sync_update_interpolate_state",
-      "source_method": "update()",
-      "source_slice": "N1127",
-      "status": "active",
-      "tests": [
-        "test_generated_sync_comp_update_interpolate_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_sync_update_interpolate_state"
-      ]
-    },
-    "PortGame.source_sync_remove_client_removed_entity_state": {
-      "java_source": "core/src/mindustry/entities/comp/SyncComp.java",
-      "params": [
-        {
-          "name": "net_client",
-          "schema": "source_sync_remove_client_removed_entity_input.net_client",
-          "type": "bool"
-        },
-        {
-          "name": "entity_id",
-          "schema": "source_sync_remove_client_removed_entity_input.entity_id",
-          "type": "int"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "condition",
-        "add_removed_entity_call",
-        "id_call",
-        "net_client",
-        "entity_id"
-      ],
-      "rule": "Public runtime contract for SyncComp.remove() client removed-entity notification state.",
-      "runtime_proof": "/root/Main.source_sync_remove_client_removed_entity_state",
-      "source_method": "remove()",
-      "source_slice": "N1128",
-      "status": "active",
-      "tests": [
-        "test_generated_sync_comp_remove_client_removed_entity_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_sync_remove_client_removed_entity_state"
-      ]
-    },
-    "PortGame.source_block_unit_ammof_state": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [
-        {
-          "name": "ammo",
-          "schema": "source_block_unit_ammof_input.ammo",
-          "type": "float"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "return_expr",
-        "ammo"
-      ],
-      "rule": "Public runtime contract for BlockUnitComp.ammof() direct ammo return state.",
-      "runtime_proof": "/root/Main.source_block_unit_ammof_state",
-      "source_method": "ammof()",
-      "source_slice": "N1129",
-      "status": "active",
-      "tests": [
-        "test_generated_block_unit_comp_ammof_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_ammof_state"
-      ]
-    },
-    "PortGame.source_block_unit_icon_state": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [
-        {
-          "name": "tile_block_ui_icon",
-          "schema": "source_block_unit_icon_input.tile_block_ui_icon",
-          "type": "Variant"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "return_expr",
-        "tile_block_ui_icon"
-      ],
-      "rule": "Public runtime contract for BlockUnitComp.icon() direct tile.block.uiIcon return state.",
-      "runtime_proof": "/root/Main.source_block_unit_icon_state",
-      "source_method": "icon()",
-      "source_slice": "N1130",
-      "status": "active",
-      "tests": [
-        "test_generated_block_unit_comp_icon_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_icon_state"
-      ]
-    },
-    "PortGame.source_block_unit_dead_state": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [
-        {
-          "name": "tile_null",
-          "schema": "source_block_unit_dead_input.tile_null",
-          "type": "bool"
-        },
-        {
-          "name": "tile_dead",
-          "schema": "source_block_unit_dead_input.tile_dead",
-          "type": "bool"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "return_expr",
-        "tile_null",
-        "tile_dead",
-        "dead"
-      ],
-      "rule": "Public runtime contract for BlockUnitComp.dead() tile null/dead return state.",
-      "runtime_proof": "/root/Main.source_block_unit_dead_state",
-      "source_method": "dead()",
-      "source_slice": "N1131",
-      "status": "active",
-      "tests": [
-        "test_generated_block_unit_comp_dead_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_dead_state"
-      ]
-    },
-    "PortGame.source_block_unit_is_valid_state": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [
-        {
-          "name": "tile_exists",
-          "schema": "source_block_unit_is_valid_input.tile_exists",
-          "type": "bool"
-        },
-        {
-          "name": "tile_is_valid",
-          "schema": "source_block_unit_is_valid_input.tile_is_valid",
-          "type": "bool"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "return_expr",
-        "tile_exists",
-        "tile_is_valid",
-        "is_valid"
-      ],
-      "rule": "Public runtime contract for BlockUnitComp.isValid() tile exists/isValid return state.",
-      "runtime_proof": "/root/Main.source_block_unit_is_valid_state",
-      "source_method": "isValid()",
-      "source_slice": "N1132",
-      "status": "active",
-      "tests": [
-        "test_generated_block_unit_comp_is_valid_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_is_valid_state"
-      ]
-    },
-    "PortGame.source_block_unit_is_added_state": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [
-        {
-          "name": "tile_exists",
-          "schema": "source_block_unit_is_added_input.tile_exists",
-          "type": "bool"
-        },
-        {
-          "name": "tile_is_valid",
-          "schema": "source_block_unit_is_added_input.tile_is_valid",
-          "type": "bool"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "return_expr",
-        "tile_exists",
-        "tile_is_valid",
-        "is_added"
-      ],
-      "rule": "Public runtime contract for BlockUnitComp.isAdded() tile exists/isValid return state.",
-      "runtime_proof": "/root/Main.source_block_unit_is_added_state",
-      "source_method": "isAdded()",
-      "source_slice": "N1133",
-      "status": "active",
-      "tests": [
-        "test_generated_block_unit_comp_is_added_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_is_added_state"
-      ]
-    },
-    "PortGame.source_block_unit_killed_state": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [],
-      "return_keys": [
-        "method",
-        "tile_kill_call",
-        "tile_kill_called"
-      ],
-      "rule": "Public runtime contract for BlockUnitComp.killed() tile.kill() delegation state.",
-      "runtime_proof": "/root/Main.source_block_unit_killed_state",
-      "source_method": "killed()",
-      "source_slice": "N1134",
-      "status": "active",
-      "tests": [
-        "test_generated_block_unit_comp_killed_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_killed_state"
-      ]
-    },
-    "PortGame.source_block_unit_damage_state": {
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [
-        {
-          "name": "v",
-          "schema": "source_block_unit_damage_input.v",
-          "type": "float"
-        },
-        {
-          "name": "b",
-          "schema": "source_block_unit_damage_input.b",
-          "type": "bool"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "tile_damage_call",
-        "tile_damage_called",
-        "v",
-        "b"
-      ],
-      "rule": "Public runtime contract for BlockUnitComp.damage(float v, boolean b) tile.damage(v, b) delegation state.",
-      "runtime_proof": "/root/Main.source_block_unit_damage_state",
-      "source_method": "damage(float v, boolean b)",
-      "source_slice": "N1135",
-      "status": "active",
-      "tests": [
-        "test_generated_block_unit_comp_damage_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_damage_state"
-      ]
-    },
-    "PortGame.source_block_unit_team_state": {
-      "source_slice": "N1136",
-      "source_method": "team(Team team)",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [
-        {
-          "name": "tile_exists",
-          "type": "bool",
-          "schema": "source_block_unit_team_input.tile_exists"
-        },
-        {
-          "name": "this_team",
-          "type": "Variant",
-          "schema": "source_block_unit_team_input.this_team"
-        },
-        {
-          "name": "team",
-          "type": "Variant",
-          "schema": "source_block_unit_team_input.team"
-        },
-        {
-          "name": "tile_team",
-          "type": "Variant",
-          "schema": "source_block_unit_team_input.tile_team"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "outer_guard_expr",
-        "this_team_assignment_expr",
-        "inner_guard_expr",
-        "tile_change_team_call_expr",
-        "tile_exists",
-        "this_team",
-        "team",
-        "tile_team",
-        "outer_guard",
-        "inner_guard",
-        "this_team_after",
-        "tile_change_team_call",
-        "tile_change_team_called"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BlockUnitComp.team(Team team) guarded assignment and tile.changeTeam(team) delegation state.",
-      "runtime_proof": "/root/Main.source_block_unit_team_state",
-      "tests": [
-        "test_generated_block_unit_comp_team_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_team_state"
-      ]
-    },
-    "PortGame.source_block_unit_update_state": {
-      "source_slice": "N1137",
-      "source_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [
-        {
-          "name": "tile_exists",
-          "type": "bool",
-          "schema": "source_block_unit_update_input.tile_exists"
-        },
-        {
-          "name": "team",
-          "type": "Variant",
-          "schema": "source_block_unit_update_input.team"
-        },
-        {
-          "name": "tile_team",
-          "type": "Variant",
-          "schema": "source_block_unit_update_input.tile_team"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "guard_expr",
-        "team_assignment_expr",
-        "tile_exists",
-        "team",
-        "tile_team",
-        "tile_guard",
-        "team_after"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BlockUnitComp.update() guarded team = tile.team assignment state.",
-      "runtime_proof": "/root/Main.source_block_unit_update_state",
-      "tests": [
-        "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_update_state"
-      ]
-    },
-    "PortGame.source_block_unit_add_state": {
-      "source_slice": "N1138",
-      "source_method": "add()",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [
-        {
-          "name": "tile_null",
-          "type": "bool",
-          "schema": "source_block_unit_add_input.tile_null"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "guard_expr",
-        "throw_expr",
-        "tile_null",
-        "runtime_exception_thrown",
-        "runtime_exception_message"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BlockUnitComp.add() tile null RuntimeException state.",
-      "runtime_proof": "/root/Main.source_block_unit_add_state",
-      "tests": [
-        "test_generated_block_unit_comp_add_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_add_state"
-      ]
-    },
-    "PortGame.source_block_unit_tile_state": {
-      "source_slice": "N1139",
-      "source_method": "tile(Building tile)",
-      "java_source": "core/src/mindustry/entities/comp/BlockUnitComp.java",
-      "params": [
-        {
-          "name": "tile",
-          "type": "Variant",
-          "schema": "source_block_unit_tile_input.tile"
-        },
-        {
-          "name": "tile_block_health",
-          "type": "float",
-          "schema": "source_block_unit_tile_input.tile_block_health"
-        },
-        {
-          "name": "tile_health",
-          "type": "float",
-          "schema": "source_block_unit_tile_input.tile_health"
-        },
-        {
-          "name": "tile_block_size",
-          "type": "float",
-          "schema": "source_block_unit_tile_input.tile_block_size"
-        },
-        {
-          "name": "tilesize",
-          "type": "float",
-          "schema": "source_block_unit_tile_input.tilesize"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "tile_assignment_expr",
-        "comment",
-        "max_health_call",
-        "health_call",
-        "hit_size_call",
-        "set_call",
-        "tile",
-        "tile_block_health",
-        "tile_health",
-        "tile_block_size",
-        "tilesize",
-        "this_tile_after",
-        "hit_size"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BlockUnitComp.tile(Building tile) tile assignment and block stat setup calls.",
-      "runtime_proof": "/root/Main.source_block_unit_tile_state",
-      "tests": [
-        "test_generated_block_unit_comp_tile_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_block_unit_tile_state"
-      ]
-    },
-    "PortGame.source_builder_can_build_state": {
-      "source_slice": "N1140",
-      "source_method": "canBuild()",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "type_build_speed",
-          "type": "float",
-          "schema": "source_builder_can_build_input.type_build_speed"
-        },
-        {
-          "name": "build_speed_multiplier",
-          "type": "float",
-          "schema": "source_builder_can_build_input.build_speed_multiplier"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "return_expr",
-        "type_build_speed",
-        "build_speed_multiplier",
-        "type_build_speed_positive",
-        "build_speed_multiplier_positive",
-        "can_build"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.canBuild() source return predicate.",
-      "runtime_proof": "/root/Main.source_builder_can_build_state",
-      "tests": [
-        "test_generated_builder_comp_can_build_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_can_build_state"
-      ]
-    },
-    "PortGame.source_builder_update_state": {
-      "source_slice": "N1141",
-      "source_method": "update()",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [],
-      "return_keys": [
-        "method",
-        "update_build_logic_call",
-        "update_build_logic_called"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.update() updateBuildLogic() dispatch state.",
-      "runtime_proof": "/root/Main.source_builder_update_state",
-      "tests": [
-        "test_generated_builder_comp_update_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_update_state"
-      ]
-    },
-    "PortGame.source_builder_is_building_state": {
-      "source_slice": "N1142",
-      "source_method": "isBuilding()",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "plans_size",
-          "type": "int",
-          "schema": "source_builder_is_building_input.plans_size"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "return_expr",
-        "plans_size",
-        "is_building"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.isBuilding() plans.size predicate.",
-      "runtime_proof": "/root/Main.source_builder_is_building_state",
-      "tests": [
-        "test_generated_builder_comp_is_building_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_is_building_state"
-      ]
-    },
-    "PortGame.source_builder_clear_building_state": {
-      "source_slice": "N1143",
-      "source_method": "clearBuilding()",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [],
-      "return_keys": [
-        "method",
-        "plans_clear_call",
-        "plans_clear_called"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.clearBuilding() plans.clear() call state.",
-      "runtime_proof": "/root/Main.source_builder_clear_building_state",
-      "tests": [
-        "test_generated_builder_comp_clear_building_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_clear_building_state"
-      ]
-    },
-    "PortGame.source_builder_add_build_tail_state": {
-      "source_slice": "N1144",
-      "source_method": "addBuild(BuildPlan place)",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "place",
-          "type": "Variant",
-          "schema": "source_builder_add_build_tail_input.place"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "place",
-        "tail",
-        "add_build_call",
-        "add_build_called"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.addBuild(BuildPlan place) delegate state.",
-      "runtime_proof": "/root/Main.source_builder_add_build_tail_state",
-      "tests": [
-        "test_generated_builder_comp_add_build_tail_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_add_build_tail_state"
-      ]
-    },
-    "PortGame.source_builder_after_read_state": {
-      "source_slice": "N1146",
-      "source_method": "afterRead()",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "plans_null",
-          "type": "bool",
-          "schema": "source_builder_after_read_input.plans_null"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "comment",
-        "guard_expr",
-        "queue_constructor",
-        "plans_null",
-        "queue_reset",
-        "plans_capacity"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.afterRead() null plans queue reset state.",
-      "runtime_proof": "/root/Main.source_builder_after_read_state",
-      "tests": [
-        "test_generated_builder_comp_after_read_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_after_read_state"
-      ]
-    },
-    "PortGame.source_builder_build_plan_state": {
-      "source_slice": "N1145",
-      "source_method": "buildPlan()",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "plans_size",
-          "type": "int",
-          "schema": "source_builder_build_plan_input.plans_size"
-        },
-        {
-          "name": "plans_first",
-          "type": "Variant",
-          "schema": "source_builder_build_plan_input.plans_first"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "return_expr",
-        "plans_size",
-        "plans_first",
-        "build_plan"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.buildPlan() source ternary state.",
-      "runtime_proof": "/root/Main.source_builder_build_plan_state",
-      "tests": [
-        "test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_build_plan_state"
-      ]
-    },
-    "PortGame.source_builder_actively_building_state": {
-      "source_slice": "N1147",
-      "source_method": "activelyBuilding()",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "plans_size",
-          "type": "int",
-          "schema": "source_builder_actively_building_input.plans_size"
-        },
-        {
-          "name": "plans_first",
-          "type": "Variant",
-          "schema": "source_builder_actively_building_input.plans_first"
-        },
-        {
-          "name": "state_is_editor",
-          "type": "bool",
-          "schema": "source_builder_actively_building_input.state_is_editor"
-        },
-        {
-          "name": "state_rules_infinite_resources",
-          "type": "bool",
-          "schema": "source_builder_actively_building_input.state_rules_infinite_resources"
-        },
-        {
-          "name": "type_build_range",
-          "type": "float",
-          "schema": "source_builder_actively_building_input.type_build_range"
-        },
-        {
-          "name": "within_plan",
-          "type": "bool",
-          "schema": "source_builder_actively_building_input.within_plan"
-        },
-        {
-          "name": "update_building",
-          "type": "bool",
-          "schema": "source_builder_actively_building_input.update_building"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "comment",
-        "guard_expr",
-        "plan_assignment",
-        "range_expr",
-        "return_false_expr",
-        "return_expr",
-        "plans_size",
-        "plans_first",
-        "is_building",
-        "build_plan",
-        "state_is_editor",
-        "state_rules_infinite_resources",
-        "type_build_range",
-        "final_place_dst",
-        "within_plan",
-        "update_building",
-        "outside_range_blocked",
-        "actively_building"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.activelyBuilding() source range guard and updateBuilding predicate.",
-      "runtime_proof": "/root/Main.source_builder_actively_building_state",
-      "tests": [
-        "test_generated_builder_comp_actively_building_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_actively_building_state"
-      ]
-    },
-    "PortGame.source_builder_remove_build_state": {
-      "source_slice": "N1148",
-      "source_method": "removeBuild(int x, int y, boolean breaking)",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "plans",
-          "type": "Array",
-          "schema": "source_builder_remove_build_input.plans"
-        },
-        {
-          "name": "x",
-          "type": "int",
-          "schema": "source_builder_remove_build_input.x"
-        },
-        {
-          "name": "y",
-          "type": "int",
-          "schema": "source_builder_remove_build_input.y"
-        },
-        {
-          "name": "breaking",
-          "type": "bool",
-          "schema": "source_builder_remove_build_input.breaking"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "comment",
-        "index_expr",
-        "guard_expr",
-        "remove_index_expr",
-        "plans",
-        "x",
-        "y",
-        "breaking",
-        "idx",
-        "removed",
-        "remove_index_call",
-        "plans_after"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.removeBuild() matching index and removeIndex mutation state.",
-      "runtime_proof": "/root/Main.source_builder_remove_build_state",
-      "tests": [
-        "test_generated_builder_comp_remove_build_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_remove_build_state"
-      ]
-    },
-    "PortGame.source_builder_should_skip_state": {
-      "source_slice": "N1149",
-      "source_method": "shouldSkip(BuildPlan plan, @Nullable Building core)",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "state_rules_infinite_resources",
-          "type": "bool",
-          "schema": "source_builder_should_skip_input.state_rules_infinite_resources"
-        },
-        {
-          "name": "team_rules_infinite_resources",
-          "type": "bool",
-          "schema": "source_builder_should_skip_input.team_rules_infinite_resources"
-        },
-        {
-          "name": "plan_breaking",
-          "type": "bool",
-          "schema": "source_builder_should_skip_input.plan_breaking"
-        },
-        {
-          "name": "core_null",
-          "type": "bool",
-          "schema": "source_builder_should_skip_input.core_null"
-        },
-        {
-          "name": "plan_is_rotation",
-          "type": "bool",
-          "schema": "source_builder_should_skip_input.plan_is_rotation"
-        },
-        {
-          "name": "plan_is_derelict_repair",
-          "type": "bool",
-          "schema": "source_builder_should_skip_input.plan_is_derelict_repair"
-        },
-        {
-          "name": "plan_stuck",
-          "type": "bool",
-          "schema": "source_builder_should_skip_input.plan_stuck"
-        },
-        {
-          "name": "core_items_has_plan_block_requirements",
-          "type": "bool",
-          "schema": "source_builder_should_skip_input.core_items_has_plan_block_requirements"
-        },
-        {
-          "name": "structs_contains_missing_requirement",
-          "type": "bool",
-          "schema": "source_builder_should_skip_input.structs_contains_missing_requirement"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "comment",
-        "guard_expr",
-        "return_expr",
-        "state_rules_infinite_resources",
-        "team_rules_infinite_resources",
-        "plan_breaking",
-        "core_null",
-        "plan_is_rotation",
-        "plan_is_derelict_repair",
-        "plan_stuck",
-        "core_items_has_plan_block_requirements",
-        "structs_contains_missing_requirement",
-        "guard_returns_false",
-        "stuck_missing_requirements",
-        "should_skip"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.shouldSkip() preserving guard false return and final skip predicate.",
-      "runtime_proof": "/root/Main.source_builder_should_skip_state",
-      "tests": [
-        "test_generated_builder_comp_should_skip_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_should_skip_state"
-      ]
-    },
-    "PortGame.source_builder_draw_plan_top_state": {
-      "source_slice": "N1150",
-      "source_method": "drawPlanTop(BuildPlan plan, float alpha)",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "plan",
-          "type": "Variant",
-          "schema": "source_builder_draw_plan_top_input.plan"
-        },
-        {
-          "name": "plans",
-          "type": "Array",
-          "schema": "source_builder_draw_plan_top_input.plans"
-        },
-        {
-          "name": "plan_breaking",
-          "type": "bool",
-          "schema": "source_builder_draw_plan_top_input.plan_breaking"
-        },
-        {
-          "name": "alpha",
-          "type": "float",
-          "schema": "source_builder_draw_plan_top_input.alpha"
-        },
-        {
-          "name": "mathf_absin_time_global_6_0_28",
-          "type": "float",
-          "schema": "source_builder_draw_plan_top_input.mathf_absin_time_global_6_0_28"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "guard_expr",
-        "draw_reset_expr",
-        "mixcol_expr",
-        "draw_alpha_expr",
-        "draw_plan_config_top_expr",
-        "plan",
-        "plans",
-        "plan_breaking",
-        "alpha",
-        "mathf_absin_time_global_6_0_28",
-        "draw_top",
-        "mixcol_alpha",
-        "draw_reset_called",
-        "draw_alpha_call",
-        "draw_plan_config_top_call"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.drawPlanTop() preserving non-breaking guard and draw call state.",
-      "runtime_proof": "/root/Main.source_builder_draw_plan_top_state",
-      "tests": [
-        "test_generated_builder_comp_draw_plan_top_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_draw_plan_top_state"
-      ]
-    },
-    "PortGame.source_builder_draw_plan_state": {
-      "source_slice": "N1151",
-      "source_method": "drawPlan(BuildPlan plan, float alpha)",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "plan",
-          "type": "Variant",
-          "schema": "source_builder_draw_plan_input.plan"
-        },
-        {
-          "name": "all_plans",
-          "type": "Array",
-          "schema": "source_builder_draw_plan_input.all_plans"
-        },
-        {
-          "name": "plan_breaking",
-          "type": "bool",
-          "schema": "source_builder_draw_plan_input.plan_breaking"
-        },
-        {
-          "name": "alpha",
-          "type": "float",
-          "schema": "source_builder_draw_plan_input.alpha"
-        },
-        {
-          "name": "build_valid_place",
-          "type": "bool",
-          "schema": "source_builder_draw_plan_input.build_valid_place"
-        },
-        {
-          "name": "control_input_plan_matches",
-          "type": "bool",
-          "schema": "source_builder_draw_plan_input.control_input_plan_matches"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "anim_scale_expr",
-        "breaking_guard_expr",
-        "draw_breaking_expr",
-        "draw_plan_expr",
-        "draw_plan_valid_expr",
-        "plan",
-        "all_plans",
-        "plan_breaking",
-        "alpha",
-        "build_valid_place",
-        "control_input_plan_matches",
-        "plan_anim_scale",
-        "draw_plan_valid",
-        "draw_breaking_call",
-        "draw_plan_call"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.drawPlan() preserving animScale, breaking branch, non-breaking drawPlan call, and valid predicate.",
-      "runtime_proof": "/root/Main.source_builder_draw_plan_state",
-      "tests": [
-        "test_generated_builder_comp_draw_plan_slice_is_registered_with_source_backing",
-        "test_port_game_exposes_source_builder_draw_plan_state"
-      ]
-    },
-    "PortGame.source_builder_add_build_state": {
-      "source_slice": "N1152",
-      "source_method": "addBuild(BuildPlan place, boolean tail)",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "plans",
-          "type": "Array",
-          "schema": "source_builder_add_build_input.plans"
-        },
-        {
-          "name": "place",
-          "type": "Variant",
-          "schema": "source_builder_add_build_input.place"
-        },
-        {
-          "name": "tail",
-          "type": "bool",
-          "schema": "source_builder_add_build_input.tail"
-        },
-        {
-          "name": "can_build",
-          "type": "bool",
-          "schema": "source_builder_add_build_input.can_build"
-        },
-        {
-          "name": "world_tile_exists",
-          "type": "bool",
-          "schema": "source_builder_add_build_input.world_tile_exists"
-        },
-        {
-          "name": "tile_build_is_construct_build",
-          "type": "bool",
-          "schema": "source_builder_add_build_input.tile_build_is_construct_build"
-        },
-        {
-          "name": "construct_progress",
-          "type": "float",
-          "schema": "source_builder_add_build_input.construct_progress"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "comment",
-        "guard_expr",
-        "replace_init_expr",
-        "replace_match_expr",
-        "remove_replace_expr",
-        "tile_lookup_expr",
-        "construct_guard_expr",
-        "progress_expr",
-        "tail_guard_expr",
-        "add_last_expr",
-        "add_first_expr",
-        "plans",
-        "place",
-        "tail",
-        "can_build",
-        "world_tile_exists",
-        "tile_build_is_construct_build",
-        "construct_progress",
-        "returned_early",
-        "replace_index",
-        "removed_replace",
-        "world_tile_call",
-        "progress_copied",
-        "add_last_call",
-        "add_first_call",
-        "plans_after",
-        "place_after"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.addBuild two-argument overload, preserving canBuild guard, replacement removal, ConstructBuild progress copy, and tail/front insertion.",
-      "runtime_proof": "/root/Main.source_builder_add_build_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_add_build_to_source_state",
-        "test_port_game_exposes_source_builder_add_build_state",
-        "test_port_game_exposes_generated_builder_comp_add_build_bridge_state",
-        "test_builder_add_build_matches_upstream_source",
-        "test_generated_builder_comp_add_build_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_builder_draw_building_state": {
-      "source_slice": "N1153",
-      "source_method": "drawBuilding()",
-      "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
-      "params": [
-        {
-          "name": "active",
-          "type": "bool",
-          "schema": "source_builder_draw_building_input.active"
-        },
-        {
-          "name": "last_active",
-          "type": "Variant",
-          "schema": "source_builder_draw_building_input.last_active"
-        },
-        {
-          "name": "build_plan",
-          "type": "Variant",
-          "schema": "source_builder_draw_building_input.build_plan"
-        },
-        {
-          "name": "tile_exists",
-          "type": "bool",
-          "schema": "source_builder_draw_building_input.tile_exists"
-        },
-        {
-          "name": "core_exists",
-          "type": "bool",
-          "schema": "source_builder_draw_building_input.core_exists"
-        },
-        {
-          "name": "within_plan",
-          "type": "bool",
-          "schema": "source_builder_draw_building_input.within_plan"
-        },
-        {
-          "name": "state_rules_infinite_resources",
-          "type": "bool",
-          "schema": "source_builder_draw_building_input.state_rules_infinite_resources"
-        },
-        {
-          "name": "type_build_range",
-          "type": "float",
-          "schema": "source_builder_draw_building_input.type_build_range"
-        },
-        {
-          "name": "is_local",
-          "type": "bool",
-          "schema": "source_builder_draw_building_input.is_local"
-        },
-        {
-          "name": "tile_block_is_construct_block",
-          "type": "bool",
-          "schema": "source_builder_draw_building_input.tile_block_is_construct_block"
-        },
-        {
-          "name": "state_is_paused",
-          "type": "bool",
-          "schema": "source_builder_draw_building_input.state_is_paused"
-        },
-        {
-          "name": "type_draw_build_beam",
-          "type": "bool",
-          "schema": "source_builder_draw_building_input.type_draw_build_beam"
-        },
-        {
-          "name": "type_build_beam_offset",
-          "type": "float",
-          "schema": "source_builder_draw_building_input.type_build_beam_offset"
-        },
-        {
-          "name": "mathf_absin_time_3_0_6",
-          "type": "float",
-          "schema": "source_builder_draw_building_input.mathf_absin_time_3_0_6"
-        },
-        {
-          "name": "x",
-          "type": "float",
-          "schema": "source_builder_draw_building_input.x"
-        },
-        {
-          "name": "y",
-          "type": "float",
-          "schema": "source_builder_draw_building_input.y"
-        },
-        {
-          "name": "rotation_value",
-          "type": "float",
-          "schema": "source_builder_draw_building_input.rotation"
-        },
-        {
-          "name": "angles_trnsx_rotation_focus_len",
-          "type": "float",
-          "schema": "source_builder_draw_building_input.angles_trnsx_rotation_focus_len"
-        },
-        {
-          "name": "angles_trnsy_rotation_focus_len",
-          "type": "float",
-          "schema": "source_builder_draw_building_input.angles_trnsy_rotation_focus_len"
-        }
-      ],
-      "return_keys": [
-        "method",
-        "todo_comment",
-        "active_expr",
-        "inactive_guard_expr",
-        "z_flying_expr",
-        "plan_expr",
-        "tile_expr",
-        "core_expr",
-        "range_guard_expr",
-        "remote_comment",
-        "remote_guard_expr",
-        "z_plans_expr",
-        "draw_plan_expr",
-        "draw_plan_top_expr",
-        "beam_guard_expr",
-        "focus_len_expr",
-        "px_expr",
-        "py_expr",
-        "draw_beam_expr",
-        "active",
-        "last_active",
-        "build_plan",
-        "plan",
-        "tile_exists",
-        "core_exists",
-        "within_plan",
-        "state_rules_infinite_resources",
-        "type_build_range",
-        "is_local",
-        "tile_block_is_construct_block",
-        "state_is_paused",
-        "type_draw_build_beam",
-        "type_build_beam_offset",
-        "mathf_absin_time_3_0_6",
-        "x",
-        "y",
-        "rotation",
-        "angles_trnsx_rotation_focus_len",
-        "angles_trnsy_rotation_focus_len",
-        "inactive_without_last_active",
-        "z_flying_unit_call",
-        "outside_range_blocked",
-        "remote_plan_draw",
-        "z_plans_call",
-        "draw_plan_call",
-        "draw_plan_top_call",
-        "z_restore_call",
-        "focus_len",
-        "px",
-        "py",
-        "draw_building_beam_call"
-      ],
-      "status": "active",
-      "rule": "Public runtime contract for BuilderComp.drawBuilding branch/call state, preserving source expressions without inlining renderer, distance, or trig internals.",
-      "runtime_proof": "/root/Main.source_builder_draw_building_state",
-      "tests": [
-        "test_emit_bridges_builder_comp_draw_building_to_source_state",
-        "test_port_game_exposes_source_builder_draw_building_state",
-        "test_port_game_exposes_generated_builder_comp_draw_building_bridge_state",
-        "test_builder_draw_building_matches_upstream_source",
-        "test_generated_builder_comp_draw_building_slice_is_registered_with_source_backing"
       ]
     }
   },
