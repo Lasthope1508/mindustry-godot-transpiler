@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 662)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 663)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 667)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 668)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44046,6 +44046,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["objects"]["java_expr"], "Object... objects")
         result_schema = source_symbols.state_schema(schema, "source_liquid_turret_ammo_result")
         self.assertEqual(result_schema["keys"]["ammo_types_after"]["java_expr"], "ObjectMap.of(objects)")
+
+    def test_generated_liquid_turret_set_stats_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "liquid_turret_set_stats.method")
+        self.assertEqual(method["java_expr"], "public void setStats(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(method["java_method"], "LiquidTurret.setStats()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_liquid_turret_set_stats_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_liquid_turret_set_stats_state")
+
+        ammo_types = source_symbols.source_symbol(registry, "liquid_turret_set_stats.ammo_types")
+        self.assertEqual(ammo_types["java_expr"], "ammoTypes")
+        self.assertEqual(ammo_types["godot_symbol"], "source_liquid_turret_set_stats_input.ammo_types")
+        name_value = source_symbols.source_symbol(registry, "liquid_turret_set_stats.name")
+        self.assertEqual(name_value["java_expr"], "name")
+        self.assertEqual(name_value["godot_symbol"], "source_liquid_turret_set_stats_input.name_value")
+        stats_add = source_symbols.source_symbol(registry, "liquid_turret_set_stats.stats_add")
+        self.assertEqual(stats_add["java_expr"], "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));")
+        self.assertEqual(stats_add["godot_symbol"], "source_liquid_turret_set_stats_result.stats_add_call")
+
+        set_stats_slice = source_symbols.source_slice(ledger, "N1194")
+        self.assertEqual(set_stats_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(set_stats_slice["java_method"], "LiquidTurret.setStats()")
+        self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_liquid_turret_set_stats_state")
+        self.assertEqual(set_stats_slice["runtime_proof"], "/root/Main.generated_liquid_turret_set_stats_bridge_state")
+        for expr in [
+            "@Override",
+            "public void setStats(){",
+            "super.setStats();",
+            "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
+        ]:
+            self.assertIn(expr, set_stats_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_liquid_turret_set_stats_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["ammo_types", "name_value"])
+        for key in ["method", "override_expr", "super_set_stats_expr", "stats_add_expr", "ammo_types", "name_value", "stats_added", "ammo_values_call", "stats_add_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_liquid_turret_set_stats_input")
+        self.assertEqual(input_schema["keys"]["ammo_types"]["java_expr"], "ammoTypes")
+        self.assertEqual(input_schema["keys"]["name_value"]["java_expr"], "name")
+        result_schema = source_symbols.state_schema(schema, "source_liquid_turret_set_stats_result")
+        self.assertEqual(result_schema["keys"]["stats_add_call"]["java_expr"], "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

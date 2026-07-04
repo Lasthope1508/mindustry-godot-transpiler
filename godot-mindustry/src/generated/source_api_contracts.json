@@ -27199,6 +27199,46 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_ammo_state",
       "rule": "Public runtime contract for LiquidTurret.ammo state; ObjectMap internals stay deferred."
+    },
+    "PortGame.source_liquid_turret_set_stats_state": {
+      "status": "source-backed",
+      "source_slice": "N1194",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurret.setStats()",
+      "params": [
+        {
+          "name": "ammo_types",
+          "type": "Variant",
+          "schema": "source_liquid_turret_set_stats_input.ammo_types"
+        },
+        {
+          "name": "name_value",
+          "type": "String",
+          "schema": "source_liquid_turret_set_stats_input.name_value"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "stats_add_expr",
+        "ammo_types",
+        "name_value",
+        "super_set_stats_called",
+        "stats_added",
+        "ammo_values_call",
+        "stats_add_call"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_set_stats_state",
+        "test_port_game_exposes_generated_liquid_turret_set_stats_bridge_state",
+        "test_liquid_turret_set_stats_matches_upstream_source",
+        "test_generated_liquid_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_set_stats_state",
+      "rule": "Public runtime contract for LiquidTurret.setStats state."
     }
   },
   "policy": {

@@ -1404,6 +1404,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_ammo_state\", \"field\": \"public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();\", \"comment\": \"/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */\", \"method\": \"public void ammo(Object... objects){\", \"assignment_expr\": \"ammoTypes = ObjectMap.of(objects);\", \"objects\": objects, \"ammo_types_after\": objects}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
+        and type_entry.get("name") == "LiquidTurret"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar ammo_types: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar name_value: String = str(_args[1] if _args.size() > 1 else \"\")",
+            "\tvar ammo_values_call: Dictionary = {\"call\": \"StatValues.ammo(ammoTypes, name)\", \"ammo_types\": ammo_types, \"name\": name_value}",
+            "\tvar stats_add_call: Dictionary = {\"call\": \"stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));\", \"stat\": \"Stat.ammo\", \"ammo_values_call\": ammo_values_call}",
+            "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"stats_add_expr\": \"stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));\", \"ammo_types\": ammo_types, \"name_value\": name_value, \"super_set_stats_called\": true, \"stats_added\": true, \"ammo_values_call\": ammo_values_call, \"stats_add_call\": stats_add_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/ItemTurret.java"
         and type_entry.get("name") == "ItemTurret"
         and method.get("name") == "limitRange"

@@ -13768,5 +13768,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "LiquidTurret.ammo"', source)
         self.assertIn('"matches": result.get("ammo_types_after", []) == canonical.get("ammo_types_after", [])', source)
 
+    def test_port_game_exposes_source_liquid_turret_set_stats_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_liquid_turret_set_stats_state(ammo_types: Variant, name_value: String) -> Dictionary:", source)
+        self.assertIn('"method": "public void setStats(){"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"super_set_stats_expr": "super.setStats();"', source)
+        self.assertIn('"stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));"', source)
+        self.assertIn('"ammo_types": ammo_types', source)
+        self.assertIn('"name_value": name_value', source)
+        self.assertIn('"stats_added": true', source)
+
+    def test_port_game_exposes_generated_liquid_turret_set_stats_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_liquid_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_setStats_1([ammo_types, name_value])", source)
+        self.assertIn("var canonical = source_liquid_turret_set_stats_state(ammo_types, name_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_liquid_turret_set_stats_state"', source)
+        self.assertIn('"generated_owner": "LiquidTurret.setStats"', source)
+        self.assertIn('"matches": result.get("stats_add_call", {}) == canonical.get("stats_add_call", {})', source)
+
 if __name__ == "__main__":
     unittest.main()

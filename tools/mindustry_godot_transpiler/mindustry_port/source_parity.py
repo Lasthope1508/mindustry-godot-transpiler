@@ -1057,6 +1057,22 @@ def verify_liquid_turret_ammo_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_liquid_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
+    liquid_turret_path = Path(upstream_root) / LIQUID_TURRET_SOURCE
+    source = liquid_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void setStats(){",
+        "super_set_stats": "super.setStats();",
+        "stats_add": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": LIQUID_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

@@ -100632,6 +100632,166 @@
         }
       },
       "rule": "Dictionary returned by PortGame.source_liquid_turret_ammo_state."
+    },
+    "source_liquid_turret_set_stats_input": {
+      "status": "explicit-input",
+      "source_slice": "N1194",
+      "keys": {
+        "ammo_types": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_set_stats_input.ammo_types",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "ammoTypes",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "rule": "Input supplies ammoTypes value passed to StatValues.ammo."
+        },
+        "name_value": {
+          "status": "explicit-input",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_set_stats_input.name_value",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "name",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "rule": "Input supplies LiquidTurret name field passed to StatValues.ammo."
+        }
+      },
+      "rule": "Input schema for LiquidTurret.setStats bridge."
+    },
+    "source_liquid_turret_set_stats_result": {
+      "status": "source-backed",
+      "source_slice": "N1194",
+      "keys": {
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_set_stats_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "public void setStats(){",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_set_stats_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "super_set_stats_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_set_stats_result.super_set_stats_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "super.setStats();",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "rule": "Result records superclass stats dispatch."
+        },
+        "stats_add_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_set_stats_result.stats_add_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "rule": "Result records exact stats.add expression."
+        },
+        "ammo_types": {
+          "status": "explicit-input",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_set_stats_result.ammo_types",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "ammoTypes",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "alias_of": "source_liquid_turret_set_stats_input.ammo_types",
+          "rule": "Result echoes ammoTypes input."
+        },
+        "name_value": {
+          "status": "explicit-input",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_set_stats_result.name_value",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "name",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "alias_of": "source_liquid_turret_set_stats_input.name_value",
+          "rule": "Result echoes name input."
+        },
+        "super_set_stats_called": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_liquid_turret_set_stats_result.super_set_stats_called",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "super.setStats();",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "rule": "Result records superclass dispatch occurred."
+        },
+        "stats_added": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_liquid_turret_set_stats_result.stats_added",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "rule": "Result records ammo stat add occurred."
+        },
+        "ammo_values_call": {
+          "status": "source-backed",
+          "type": "Dictionary",
+          "godot_symbol": "source_liquid_turret_set_stats_result.ammo_values_call",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "StatValues.ammo(ammoTypes, name)",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "rule": "Result records StatValues.ammo call."
+        },
+        "stats_add_call": {
+          "status": "source-backed",
+          "type": "Dictionary",
+          "godot_symbol": "source_liquid_turret_set_stats_result.stats_add_call",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurret.setStats()",
+          "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
+          "used_by": [
+            "PortGame.source_liquid_turret_set_stats_state"
+          ],
+          "rule": "Result records stats.add call object."
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_liquid_turret_set_stats_state."
     }
   },
   "version": 1

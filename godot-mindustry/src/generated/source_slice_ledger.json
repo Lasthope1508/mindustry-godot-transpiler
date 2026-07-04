@@ -26775,6 +26775,38 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_ammo_bridge_state",
       "rule": "LiquidTurret.ammo replaces ammoTypes with ObjectMap.of(objects); Godot bridge records explicit varargs snapshot only."
+    },
+    "N1194": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret",
+      "java_method": "LiquidTurret.setStats()",
+      "godot_owner": "PortGame.source_liquid_turret_set_stats_state",
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "liquid_turret_set_stats.override_expr",
+        "liquid_turret_set_stats.method",
+        "liquid_turret_set_stats.super_set_stats",
+        "liquid_turret_set_stats.stats_add",
+        "liquid_turret_set_stats.ammo_types",
+        "liquid_turret_set_stats.name",
+        "liquid_turret_set_stats.ammo_values_call"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_set_stats_state",
+        "test_port_game_exposes_generated_liquid_turret_set_stats_bridge_state",
+        "test_liquid_turret_set_stats_matches_upstream_source",
+        "test_generated_liquid_turret_set_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_set_stats_bridge_state",
+      "rule": "LiquidTurret.setStats adds ammo stats from ammoTypes and name; Godot records exact calls without StatValues internals."
     }
   },
   "version": 1

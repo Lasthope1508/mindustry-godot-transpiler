@@ -8844,6 +8844,13 @@ public class LiquidTurret extends Turret{
     public void ammo(Object... objects){
         ammoTypes = ObjectMap.of(objects);
     }
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));
+    }
 }
 """,
                 encoding="utf-8",
@@ -8863,6 +8870,52 @@ public class LiquidTurret extends Turret{
             self.assertIn('"assignment_expr": "ammoTypes = ObjectMap.of(objects);"', source_text)
             self.assertIn('"objects": objects', source_text)
             self.assertIn('"ammo_types_after": objects', source_text)
+
+    def test_emit_bridges_liquid_turret_set_stats_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            liquid_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.java"
+            liquid_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            liquid_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class LiquidTurret extends Turret{
+    public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();
+
+    /** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */
+    public void ammo(Object... objects){
+        ammoTypes = ObjectMap.of(objects);
+    }
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setStats_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var ammo_types: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('var name_value: String = str(_args[1] if _args.size() > 1 else "")', source_text)
+            self.assertIn('"source_owner": "PortGame.source_liquid_turret_set_stats_state"', source_text)
+            self.assertIn('"method": "public void setStats(){"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"super_set_stats_expr": "super.setStats();"', source_text)
+            self.assertIn('"stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));"', source_text)
+            self.assertIn('"ammo_types": ammo_types', source_text)
+            self.assertIn('"name_value": name_value', source_text)
+            self.assertIn('"stats_added": true', source_text)
 
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

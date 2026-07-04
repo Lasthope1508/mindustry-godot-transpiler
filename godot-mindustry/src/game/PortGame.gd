@@ -17877,6 +17877,38 @@ func generated_liquid_turret_ammo_bridge_state(objects: Array) -> Dictionary:
 			and result.get("objects", []) == canonical.get("objects", []),
 	}
 
+func source_liquid_turret_set_stats_state(ammo_types: Variant, name_value: String) -> Dictionary:
+	var ammo_values_call: Dictionary = {"call": "StatValues.ammo(ammoTypes, name)", "ammo_types": ammo_types, "name": name_value}
+	var stats_add_call: Dictionary = {"call": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));", "stat": "Stat.ammo", "ammo_values_call": ammo_values_call}
+	return {
+		"source_owner": "PortGame.source_liquid_turret_set_stats_state",
+		"method": "public void setStats(){",
+		"override_expr": "@Override",
+		"super_set_stats_expr": "super.setStats();",
+		"stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));",
+		"ammo_types": ammo_types,
+		"name_value": name_value,
+		"super_set_stats_called": true,
+		"stats_added": true,
+		"ammo_values_call": ammo_values_call,
+		"stats_add_call": stats_add_call,
+	}
+
+func generated_liquid_turret_set_stats_bridge_state(ammo_types: Variant, name_value: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setStats_1([ammo_types, name_value])
+	var canonical = source_liquid_turret_set_stats_state(ammo_types, name_value)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_set_stats_state",
+		"generated_owner": "LiquidTurret.setStats",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("stats_add_call", {}) == canonical.get("stats_add_call", {})
+			and result.get("ammo_values_call", {}) == canonical.get("ammo_values_call", {})
+			and result.get("super_set_stats_called", false) == canonical.get("super_set_stats_called", false),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}
