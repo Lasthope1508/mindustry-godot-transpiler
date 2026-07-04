@@ -1600,6 +1600,22 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_ammo_state\", \"field\": \"public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();\", \"comment\": \"/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */\", \"method\": \"public void ammo(Object... objects){\", \"assignment_expr\": \"ammoTypes = ObjectMap.of(objects);\", \"objects\": objects, \"ammo_types_after\": objects}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java"
+        and type_entry.get("name") == "ContinuousLiquidTurret"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar ammo_types: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar liquid_consumed: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar stat_liquid_consumed_updates: Array = []",
+            "\tfor entry in ammo_types:",
+            "\t\tvar entry_dict: Dictionary = entry if entry is Dictionary else {}",
+            "\t\tstat_liquid_consumed_updates.append({\"call\": \"b.statLiquidConsumed = liquidConsumed\", \"liquid\": entry_dict.get(\"liquid\", null), \"bullet\": entry_dict.get(\"bullet\", null), \"stat_liquid_consumed\": liquid_consumed})",
+            "\tvar ammo_values_call: Dictionary = {\"call\": \"StatValues.ammo(ammoTypes)\", \"ammo_types\": ammo_types}",
+            "\tvar stats_replace_call: Dictionary = {\"call\": \"stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));\", \"stat\": \"Stat.ammo\", \"ammo_values_call\": ammo_values_call}",
+            "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"mirror_comment\": \"//mirror stats onto each bullet (purely visual)\", \"stat_liquid_consumed_expr\": \"ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);\", \"stats_replace_expr\": \"stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));\", \"ammo_types\": ammo_types, \"liquid_consumed\": liquid_consumed, \"super_set_stats_called\": true, \"stat_liquid_consumed_updates\": stat_liquid_consumed_updates, \"stats_replace_called\": true, \"ammo_values_call\": ammo_values_call, \"stats_replace_call\": stats_replace_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
         and type_entry.get("name") == "LiquidTurret"
         and method.get("name") == "setStats"

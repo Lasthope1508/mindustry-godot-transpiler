@@ -27490,8 +27490,7 @@
         "test_turret_set_bars_matches_upstream_source",
         "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
       ]
-    }
-  ,
+    },
     "N1214": {
       "deferred_exprs": [],
       "exact_exprs": [
@@ -27587,6 +27586,42 @@
         "test_continuous_liquid_turret_ammo_matches_upstream_source",
         "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
       ]
-    }},
+    },
+    "N1217": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "//mirror stats onto each bullet (purely visual)",
+        "ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);",
+        "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret",
+      "java_method": "ContinuousLiquidTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurret.setStats mirrors liquidConsumed onto each ammo bullet and replaces Stat.ammo with StatValues.ammo(ammoTypes).",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_set_stats.method",
+        "continuous_liquid_turret_set_stats.override",
+        "continuous_liquid_turret_set_stats.super_set_stats",
+        "continuous_liquid_turret_set_stats.mirror_comment",
+        "continuous_liquid_turret_set_stats.ammo_types",
+        "continuous_liquid_turret_set_stats.liquid_consumed",
+        "continuous_liquid_turret_set_stats.stat_liquid_consumed",
+        "continuous_liquid_turret_set_stats.stats_replace"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_set_stats_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_set_stats_bridge_state",
+        "test_continuous_liquid_turret_set_stats_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    }
+  },
   "version": 1
 }

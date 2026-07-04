@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 685)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 686)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 690)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 691)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44640,6 +44640,61 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["objects"]["java_expr"], "Object... objects")
         result_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_ammo_result")
         self.assertEqual(result_schema["keys"]["ammo_types_after"]["java_expr"], "ObjectMap.of(objects)")
+
+    def test_generated_continuous_liquid_turret_set_stats_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "continuous_liquid_turret_set_stats.method")
+        self.assertEqual(method["java_expr"], "public void setStats(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(method["java_method"], "ContinuousLiquidTurret.setStats()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_continuous_liquid_turret_set_stats_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_continuous_liquid_turret_set_stats_state")
+
+        ammo_types = source_symbols.source_symbol(registry, "continuous_liquid_turret_set_stats.ammo_types")
+        self.assertEqual(ammo_types["java_expr"], "ammoTypes")
+        self.assertEqual(ammo_types["godot_symbol"], "source_continuous_liquid_turret_set_stats_input.ammo_types")
+        liquid_consumed = source_symbols.source_symbol(registry, "continuous_liquid_turret_set_stats.liquid_consumed")
+        self.assertEqual(liquid_consumed["java_expr"], "liquidConsumed")
+        self.assertEqual(liquid_consumed["godot_symbol"], "source_continuous_liquid_turret_set_stats_input.liquid_consumed")
+        stat_update = source_symbols.source_symbol(registry, "continuous_liquid_turret_set_stats.stat_liquid_consumed")
+        self.assertEqual(stat_update["java_expr"], "b.statLiquidConsumed = liquidConsumed")
+        self.assertEqual(stat_update["godot_symbol"], "source_continuous_liquid_turret_set_stats_result.stat_liquid_consumed_updates")
+        stats_replace = source_symbols.source_symbol(registry, "continuous_liquid_turret_set_stats.stats_replace")
+        self.assertEqual(stats_replace["java_expr"], "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));")
+        self.assertEqual(stats_replace["godot_symbol"], "source_continuous_liquid_turret_set_stats_result.stats_replace_call")
+
+        set_stats_slice = source_symbols.source_slice(ledger, "N1217")
+        self.assertEqual(set_stats_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(set_stats_slice["java_method"], "ContinuousLiquidTurret.setStats()")
+        self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_continuous_liquid_turret_set_stats_state")
+        self.assertEqual(set_stats_slice["runtime_proof"], "/root/Main.generated_continuous_liquid_turret_set_stats_bridge_state")
+        for expr in [
+            "@Override",
+            "public void setStats(){",
+            "super.setStats();",
+            "//mirror stats onto each bullet (purely visual)",
+            "ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);",
+            "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));",
+        ]:
+            self.assertIn(expr, set_stats_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_continuous_liquid_turret_set_stats_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["ammo_types", "liquid_consumed"])
+        for key in ["method", "override_expr", "super_set_stats_expr", "mirror_comment", "stat_liquid_consumed_expr", "stats_replace_expr", "ammo_types", "liquid_consumed", "stat_liquid_consumed_updates", "stats_replace_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_set_stats_input")
+        self.assertEqual(input_schema["keys"]["ammo_types"]["java_expr"], "ammoTypes")
+        self.assertEqual(input_schema["keys"]["liquid_consumed"]["java_expr"], "liquidConsumed")
+        result_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_set_stats_result")
+        self.assertEqual(result_schema["keys"]["stat_liquid_consumed_updates"]["java_expr"], "b.statLiquidConsumed = liquidConsumed")
+        self.assertEqual(result_schema["keys"]["stats_replace_call"]["java_expr"], "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));")
 
     def test_generated_item_turret_ammo_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

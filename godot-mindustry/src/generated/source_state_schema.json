@@ -103943,8 +103943,7 @@
       "rule": "Dictionary returned by PortGame.source_turret_set_bars_state.",
       "source_slice": "N1213",
       "status": "source-backed"
-    }
-  ,
+    },
     "source_item_turret_ammo_input": {
       "keys": {
         "objects": {
@@ -104253,6 +104252,167 @@
       "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_ammo_state.",
       "source_slice": "N1216",
       "status": "source-backed"
-    }},
+    },
+    "source_continuous_liquid_turret_set_stats_input": {
+      "keys": {
+        "ammo_types": {
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_input.ammo_types",
+          "java_expr": "ammoTypes",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies current ammoTypes entries as explicit runtime snapshot.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        },
+        "liquid_consumed": {
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_input.liquid_consumed",
+          "java_expr": "liquidConsumed",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies source liquidConsumed field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Input schema for ContinuousLiquidTurret.setStats bridge.",
+      "source_slice": "N1217",
+      "status": "explicit-input"
+    },
+    "source_continuous_liquid_turret_set_stats_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_result.method",
+          "java_expr": "public void setStats(){",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact override annotation.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        },
+        "super_set_stats_expr": {
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_result.super_set_stats_expr",
+          "java_expr": "super.setStats();",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact superclass stats call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        },
+        "mirror_comment": {
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_result.mirror_comment",
+          "java_expr": "//mirror stats onto each bullet (purely visual)",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact mirror comment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        },
+        "stat_liquid_consumed_expr": {
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_result.stat_liquid_consumed_expr",
+          "java_expr": "ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact each-loop assignment expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        },
+        "stats_replace_expr": {
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_result.stats_replace_expr",
+          "java_expr": "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records exact stats replace expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        },
+        "ammo_types": {
+          "alias_of": "source_continuous_liquid_turret_set_stats_input.ammo_types",
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_result.ammo_types",
+          "java_expr": "ammoTypes",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result echoes explicit ammoTypes input snapshot.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        },
+        "liquid_consumed": {
+          "alias_of": "source_continuous_liquid_turret_set_stats_input.liquid_consumed",
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_result.liquid_consumed",
+          "java_expr": "liquidConsumed",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result echoes explicit liquidConsumed input.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        },
+        "stat_liquid_consumed_updates": {
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_result.stat_liquid_consumed_updates",
+          "java_expr": "b.statLiquidConsumed = liquidConsumed",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records each bullet statLiquidConsumed assignment.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        },
+        "stats_replace_call": {
+          "godot_symbol": "source_continuous_liquid_turret_set_stats_result.stats_replace_call",
+          "java_expr": "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));",
+          "java_method": "ContinuousLiquidTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result records stats.replace call payload.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_set_stats_state.",
+      "source_slice": "N1217",
+      "status": "source-backed"
+    }
+  },
   "version": 1
 }

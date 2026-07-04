@@ -28265,8 +28265,7 @@
         "test_turret_set_bars_matches_upstream_source",
         "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
       ]
-    }
-  ,
+    },
     "PortGame.source_item_turret_ammo_state": {
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
       "params": [
@@ -28367,7 +28366,51 @@
         "test_continuous_liquid_turret_ammo_matches_upstream_source",
         "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
       ]
-    }},
+    },
+    "PortGame.source_continuous_liquid_turret_set_stats_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "ammo_types",
+          "schema": "source_continuous_liquid_turret_set_stats_input.ammo_types",
+          "type": "Array"
+        },
+        {
+          "name": "liquid_consumed",
+          "schema": "source_continuous_liquid_turret_set_stats_input.liquid_consumed",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "mirror_comment",
+        "stat_liquid_consumed_expr",
+        "stats_replace_expr",
+        "ammo_types",
+        "liquid_consumed",
+        "super_set_stats_called",
+        "stat_liquid_consumed_updates",
+        "stats_replace_called",
+        "ammo_values_call",
+        "stats_replace_call"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurret.setStats state; ObjectMap/StatValues internals stay deferred.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_set_stats_state",
+      "source_method": "ContinuousLiquidTurret.setStats()",
+      "source_slice": "N1217",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_set_stats_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_set_stats_bridge_state",
+        "test_continuous_liquid_turret_set_stats_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    }
+  },
   "policy": {
     "newSourceOwnerRequiresApiContract": true
   },

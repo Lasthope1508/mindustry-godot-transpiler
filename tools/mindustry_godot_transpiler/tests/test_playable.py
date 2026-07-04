@@ -14060,6 +14060,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ammo"', source)
         self.assertIn('"matches": result.get("ammo_types_after", []) == canonical.get("ammo_types_after", [])', source)
 
+    def test_port_game_exposes_source_continuous_liquid_turret_set_stats_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_continuous_liquid_turret_set_stats_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_set_stats_state"', source)
+        self.assertIn('"method": "public void setStats(){"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"super_set_stats_expr": "super.setStats();"', source)
+        self.assertIn('"mirror_comment": "//mirror stats onto each bullet (purely visual)"', source)
+        self.assertIn('"stat_liquid_consumed_expr": "ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);"', source)
+        self.assertIn('"stats_replace_expr": "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));"', source)
+        self.assertIn('"stat_liquid_consumed_updates": stat_liquid_consumed_updates', source)
+        self.assertIn('"stats_replace_call": stats_replace_call', source)
+
+    def test_port_game_exposes_generated_continuous_liquid_turret_set_stats_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_continuous_liquid_turret_set_stats_bridge_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_setStats_1([ammo_types, liquid_consumed])", source)
+        self.assertIn("var canonical = source_continuous_liquid_turret_set_stats_state(ammo_types, liquid_consumed)", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_set_stats_state"', source)
+        self.assertIn('"generated_owner": "ContinuousLiquidTurret.setStats"', source)
+        self.assertIn('"matches": result.get("stat_liquid_consumed_updates", []) == canonical.get("stat_liquid_consumed_updates", [])', source)
+
     def test_port_game_exposes_source_liquid_turret_set_stats_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

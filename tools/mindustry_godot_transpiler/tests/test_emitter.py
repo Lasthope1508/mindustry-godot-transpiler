@@ -9408,6 +9408,55 @@ public class ContinuousLiquidTurret extends ContinuousTurret{
             self.assertIn('"objects": objects', source_text)
             self.assertIn('"ammo_types_after": objects', source_text)
 
+    def test_emit_bridges_continuous_liquid_turret_set_stats_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ContinuousLiquidTurret extends ContinuousTurret{
+    public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();
+    public float liquidConsumed = 1f / 60f;
+
+    public void ammo(Object... objects){
+        ammoTypes = ObjectMap.of(objects);
+    }
+
+    @Override
+    public void setStats(){
+        super.setStats();
+        //mirror stats onto each bullet (purely visual)
+        ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);
+
+        stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setStats_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var ammo_types: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var liquid_consumed: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_set_stats_state"', source_text)
+            self.assertIn('"method": "public void setStats(){"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"super_set_stats_expr": "super.setStats();"', source_text)
+            self.assertIn('"mirror_comment": "//mirror stats onto each bullet (purely visual)"', source_text)
+            self.assertIn('"stat_liquid_consumed_expr": "ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);"', source_text)
+            self.assertIn('"stats_replace_expr": "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));"', source_text)
+            self.assertIn('"stat_liquid_consumed_updates": stat_liquid_consumed_updates', source_text)
+            self.assertIn('"stats_replace_call": stats_replace_call', source_text)
+
     def test_emit_bridges_liquid_turret_set_stats_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

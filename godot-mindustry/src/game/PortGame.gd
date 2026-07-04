@@ -18340,6 +18340,50 @@ func generated_continuous_liquid_turret_ammo_bridge_state(objects: Array) -> Dic
 			and result.get("objects", []) == canonical.get("objects", []),
 	}
 
+func source_continuous_liquid_turret_set_stats_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:
+	var stat_liquid_consumed_updates: Array = []
+	for entry in ammo_types:
+		var entry_dict: Dictionary = entry if entry is Dictionary else {}
+		stat_liquid_consumed_updates.append({
+			"call": "b.statLiquidConsumed = liquidConsumed",
+			"liquid": entry_dict.get("liquid", null),
+			"bullet": entry_dict.get("bullet", null),
+			"stat_liquid_consumed": liquid_consumed,
+		})
+	var ammo_values_call: Dictionary = {"call": "StatValues.ammo(ammoTypes)", "ammo_types": ammo_types.duplicate(true)}
+	var stats_replace_call: Dictionary = {"call": "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));", "stat": "Stat.ammo", "ammo_values_call": ammo_values_call}
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_set_stats_state",
+		"method": "public void setStats(){",
+		"override_expr": "@Override",
+		"super_set_stats_expr": "super.setStats();",
+		"mirror_comment": "//mirror stats onto each bullet (purely visual)",
+		"stat_liquid_consumed_expr": "ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);",
+		"stats_replace_expr": "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));",
+		"ammo_types": ammo_types.duplicate(true),
+		"liquid_consumed": liquid_consumed,
+		"super_set_stats_called": true,
+		"stat_liquid_consumed_updates": stat_liquid_consumed_updates,
+		"stats_replace_called": true,
+		"ammo_values_call": ammo_values_call,
+		"stats_replace_call": stats_replace_call,
+	}
+
+func generated_continuous_liquid_turret_set_stats_bridge_state(ammo_types: Array, liquid_consumed: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setStats_1([ammo_types, liquid_consumed])
+	var canonical = source_continuous_liquid_turret_set_stats_state(ammo_types, liquid_consumed)
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_set_stats_state",
+		"generated_owner": "ContinuousLiquidTurret.setStats",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("stat_liquid_consumed_updates", []) == canonical.get("stat_liquid_consumed_updates", [])
+			and result.get("stats_replace_call", {}) == canonical.get("stats_replace_call", {})
+			and result.get("super_set_stats_called", false) == canonical.get("super_set_stats_called", false),
+	}
+
 func source_liquid_turret_set_stats_state(ammo_types: Variant, name_value: String) -> Dictionary:
 	var ammo_values_call: Dictionary = {"call": "StatValues.ammo(ammoTypes, name)", "ammo_types": ammo_types, "name": name_value}
 	var stats_add_call: Dictionary = {"call": "stats.add(Stat.ammo, StatValues.ammo(ammoTypes, name));", "stat": "Stat.ammo", "ammo_values_call": ammo_values_call}
