@@ -25761,6 +25761,37 @@
         "test_power_turret_set_stats_matches_upstream_source",
         "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1167": {
+      "deferred_exprs": [
+        "Inherited Turret.limitRange(BulletType,float) internals remain owned by the Turret.limitRange source slice; this slice records only the PowerTurret dispatch.",
+        "BulletType shootType internals remain deferred and are supplied as an explicit runtime input."
+      ],
+      "exact_exprs": [
+        "public void limitRange(float margin){",
+        "limitRange(shootType, margin);",
+        "public BulletType shootType;"
+      ],
+      "godot_owner": "PortGame.source_power_turret_limit_range_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret",
+      "java_method": "limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "rule": "PowerTurret.limitRange dispatches to inherited limitRange with shootType and margin.",
+      "runtime_proof": "/root/Main.generated_power_turret_limit_range_bridge_state",
+      "source_symbols": [
+        "power_turret_limit_range.method",
+        "power_turret_limit_range.shoot_type",
+        "power_turret_limit_range.margin",
+        "power_turret_limit_range.dispatch"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_power_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_power_turret_limit_range_state",
+        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
+        "test_power_turret_limit_range_matches_upstream_source",
+        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

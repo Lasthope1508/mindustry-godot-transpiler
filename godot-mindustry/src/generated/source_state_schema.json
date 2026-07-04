@@ -96073,6 +96073,118 @@
       "rule": "Dictionary returned by PortGame.source_power_turret_set_stats_state.",
       "source_slice": "N1166",
       "status": "source-backed"
+    },
+    "source_power_turret_limit_range_input": {
+      "keys": {
+        "shoot_type": {
+          "godot_symbol": "source_power_turret_limit_range_input.shoot_type",
+          "java_expr": "shootType",
+          "java_method": "limitRange(float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Input preserves PowerTurret.shootType for the dispatch call record.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_power_turret_limit_range_state"
+          ]
+        },
+        "margin": {
+          "godot_symbol": "source_power_turret_limit_range_input.margin",
+          "java_expr": "float margin",
+          "java_method": "limitRange(float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Input preserves float margin parameter.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_power_turret_limit_range_state"
+          ]
+        }
+      },
+      "rule": "Inputs accepted by PortGame.source_power_turret_limit_range_state.",
+      "source_slice": "N1167",
+      "status": "source-backed"
+    },
+    "source_power_turret_limit_range_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_power_turret_limit_range_result.method",
+          "java_expr": "public void limitRange(float margin){",
+          "java_method": "limitRange(float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Result records exact method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_turret_limit_range_state"
+          ]
+        },
+        "dispatch_expr": {
+          "godot_symbol": "source_power_turret_limit_range_result.dispatch_expr",
+          "java_expr": "limitRange(shootType, margin);",
+          "java_method": "limitRange(float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Result records exact dispatch expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_power_turret_limit_range_state"
+          ]
+        },
+        "shoot_type": {
+          "godot_symbol": "source_power_turret_limit_range_result.shoot_type",
+          "java_expr": "shootType",
+          "java_method": "limitRange(float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Result echoes shoot type input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_power_turret_limit_range_state"
+          ],
+          "alias_of": "source_power_turret_limit_range_input.shoot_type"
+        },
+        "margin": {
+          "godot_symbol": "source_power_turret_limit_range_result.margin",
+          "java_expr": "float margin",
+          "java_method": "limitRange(float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Result echoes margin input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_power_turret_limit_range_state"
+          ],
+          "alias_of": "source_power_turret_limit_range_input.margin"
+        },
+        "limit_range_called": {
+          "godot_symbol": "source_power_turret_limit_range_result.limit_range_called",
+          "java_expr": "limitRange(shootType, margin);",
+          "java_method": "limitRange(float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Dispatch marker is always true for this source method.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_power_turret_limit_range_state"
+          ]
+        },
+        "limit_range_call": {
+          "godot_symbol": "source_power_turret_limit_range_result.limit_range_call",
+          "java_expr": "limitRange(shootType, margin);",
+          "java_method": "limitRange(float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "rule": "Call record preserves exact dispatch expression and inputs.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_power_turret_limit_range_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_power_turret_limit_range_state.",
+      "source_slice": "N1167",
+      "status": "source-backed"
     }
   },
   "version": 1

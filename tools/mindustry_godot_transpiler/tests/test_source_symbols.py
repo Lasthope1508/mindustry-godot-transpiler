@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 635)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 636)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 640)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 641)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42607,6 +42607,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_power_turret_set_stats_result = source_symbols.state_schema(schema, "source_power_turret_set_stats_result")
         self.assertEqual(source_power_turret_set_stats_result["keys"]["super_set_stats_expr"]["java_expr"], "super.setStats();")
         self.assertEqual(source_power_turret_set_stats_result["keys"]["stats_add_call"]["java_expr"], "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));")
+
+    def test_generated_power_turret_limit_range_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "power_turret_limit_range.method")
+        self.assertEqual(method["java_expr"], "public void limitRange(float margin){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java")
+        self.assertEqual(method["java_method"], "limitRange(float margin)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_power_turret_limit_range_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_power_turret_limit_range_state")
+
+        shoot_type = source_symbols.source_symbol(registry, "power_turret_limit_range.shoot_type")
+        self.assertEqual(shoot_type["java_expr"], "shootType")
+        self.assertEqual(shoot_type["godot_symbol"], "source_power_turret_limit_range_input.shoot_type")
+        margin = source_symbols.source_symbol(registry, "power_turret_limit_range.margin")
+        self.assertEqual(margin["java_expr"], "float margin")
+        self.assertEqual(margin["godot_symbol"], "source_power_turret_limit_range_input.margin")
+        dispatch = source_symbols.source_symbol(registry, "power_turret_limit_range.dispatch")
+        self.assertEqual(dispatch["java_expr"], "limitRange(shootType, margin);")
+        self.assertEqual(dispatch["godot_symbol"], "source_power_turret_limit_range_result.limit_range_call")
+
+        limit_range_slice = source_symbols.source_slice(ledger, "N1167")
+        self.assertEqual(limit_range_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java")
+        self.assertEqual(limit_range_slice["java_method"], "limitRange(float margin)")
+        self.assertEqual(limit_range_slice["godot_owner"], "PortGame.source_power_turret_limit_range_state")
+        self.assertEqual(limit_range_slice["runtime_proof"], "/root/Main.generated_power_turret_limit_range_bridge_state")
+        for expr in [
+            "public void limitRange(float margin){",
+            "limitRange(shootType, margin);",
+            "public BulletType shootType;",
+        ]:
+            self.assertIn(expr, limit_range_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_turret_limit_range_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["shoot_type", "margin"])
+        for key in ["method", "dispatch_expr", "shoot_type", "margin", "limit_range_called", "limit_range_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_power_turret_limit_range_input = source_symbols.state_schema(schema, "source_power_turret_limit_range_input")
+        self.assertEqual(source_power_turret_limit_range_input["keys"]["shoot_type"]["java_expr"], "shootType")
+        self.assertEqual(source_power_turret_limit_range_input["keys"]["margin"]["java_expr"], "float margin")
+        source_power_turret_limit_range_result = source_symbols.state_schema(schema, "source_power_turret_limit_range_result")
+        self.assertEqual(source_power_turret_limit_range_result["keys"]["method"]["java_expr"], "public void limitRange(float margin){")
+        self.assertEqual(source_power_turret_limit_range_result["keys"]["limit_range_call"]["java_expr"], "limitRange(shootType, margin);")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

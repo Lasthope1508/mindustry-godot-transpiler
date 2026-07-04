@@ -1384,6 +1384,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_power_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"stats_add_expr\": \"stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));\", \"shoot_type\": shoot_type, \"super_set_stats_called\": true, \"stats_add_called\": true, \"object_map_call\": object_map_call, \"ammo_values_call\": ammo_values_call, \"stats_add_call\": stats_add_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
+        and type_entry.get("name") == "PowerTurret"
+        and method.get("name") == "limitRange"
+    ):
+        return [
+            "\tvar shoot_type: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar margin: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar limit_range_call: Dictionary = {\"call\": \"limitRange(shootType, margin);\", \"shoot_type\": shoot_type, \"margin\": margin}",
+            "\treturn {\"source_owner\": \"PortGame.source_power_turret_limit_range_state\", \"method\": \"public void limitRange(float margin){\", \"dispatch_expr\": \"limitRange(shootType, margin);\", \"shoot_type\": shoot_type, \"margin\": margin, \"limit_range_called\": true, \"limit_range_call\": limit_range_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

@@ -21,4 +21,7 @@ func java_method_setStats_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_power_turret_set_stats_state", "method": "public void setStats(){", "override_expr": "@Override", "super_set_stats_expr": "super.setStats();", "stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));", "shoot_type": shoot_type, "super_set_stats_called": true, "stats_add_called": true, "object_map_call": object_map_call, "ammo_values_call": ammo_values_call, "stats_add_call": stats_add_call}
 
 func java_method_limitRange_1(_args: Array = []) -> Variant:
-	return null
+	var shoot_type: Variant = _args[0] if _args.size() > 0 else null
+	var margin: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var limit_range_call: Dictionary = {"call": "limitRange(shootType, margin);", "shoot_type": shoot_type, "margin": margin}
+	return {"source_owner": "PortGame.source_power_turret_limit_range_state", "method": "public void limitRange(float margin){", "dispatch_expr": "limitRange(shootType, margin);", "shoot_type": shoot_type, "margin": margin, "limit_range_called": true, "limit_range_call": limit_range_call}

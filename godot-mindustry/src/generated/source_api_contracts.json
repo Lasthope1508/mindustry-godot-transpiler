@@ -26060,6 +26060,41 @@
         "test_power_turret_set_stats_matches_upstream_source",
         "test_generated_power_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_turret_limit_range_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "params": [
+        {
+          "name": "shoot_type",
+          "schema": "source_power_turret_limit_range_input.shoot_type",
+          "type": "Variant"
+        },
+        {
+          "name": "margin",
+          "schema": "source_power_turret_limit_range_input.margin",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "dispatch_expr",
+        "shoot_type",
+        "margin",
+        "limit_range_called",
+        "limit_range_call"
+      ],
+      "rule": "Public runtime contract for PowerTurret.limitRange dispatch state.",
+      "runtime_proof": "/root/Main.source_power_turret_limit_range_state",
+      "source_method": "limitRange(float margin)",
+      "source_slice": "N1167",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_power_turret_limit_range_state",
+        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
+        "test_power_turret_limit_range_matches_upstream_source",
+        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -8416,5 +8416,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_turret_limit_range_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_turret_limit_range_source"))
+        report = source_parity.verify_power_turret_limit_range_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void limitRange(float margin){",
+            "dispatch": "limitRange(shootType, margin);",
+            "shoot_type_field": "public BulletType shootType;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

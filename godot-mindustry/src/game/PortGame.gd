@@ -16986,6 +16986,35 @@ func generated_power_turret_set_stats_bridge_state(shoot_type: Variant) -> Dicti
 		"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("shoot_type", null) == canonical.get("shoot_type", null),
 	}
 
+func source_power_turret_limit_range_state(shoot_type: Variant, margin: float) -> Dictionary:
+	var limit_range_call: Dictionary = {
+		"call": "limitRange(shootType, margin);",
+		"shoot_type": shoot_type,
+		"margin": margin,
+	}
+	return {
+		"source_owner": "PortGame.source_power_turret_limit_range_state",
+		"method": "public void limitRange(float margin){",
+		"dispatch_expr": "limitRange(shootType, margin);",
+		"shoot_type": shoot_type,
+		"margin": margin,
+		"limit_range_called": true,
+		"limit_range_call": limit_range_call,
+	}
+
+func generated_power_turret_limit_range_bridge_state(shoot_type: Variant, margin: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_limitRange_1([shoot_type, margin])
+	var canonical = source_power_turret_limit_range_state(shoot_type, margin)
+	return {
+		"source_owner": "PortGame.source_power_turret_limit_range_state",
+		"generated_owner": "PowerTurret.java_method_limitRange_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("limit_range_call", null) == canonical.get("limit_range_call", null) and result.get("margin", null) == canonical.get("margin", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

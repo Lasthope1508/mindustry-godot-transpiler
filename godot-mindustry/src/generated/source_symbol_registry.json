@@ -81603,6 +81603,74 @@
       "godot_symbol": "source_power_turret_set_stats_result.stats_add_call",
       "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
       "rule": "Stats add call is recorded exactly; Stats internals remain deferred."
+    },
+    "power_turret_limit_range.method": {
+      "godot_owner": "PortGame.source_power_turret_limit_range_state",
+      "java_method": "limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_limit_range_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_power_turret_limit_range_state",
+        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
+        "test_power_turret_limit_range_matches_upstream_source",
+        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_limit_range_result.method",
+      "java_expr": "public void limitRange(float margin){",
+      "rule": "Method boundary comes from PowerTurret.limitRange."
+    },
+    "power_turret_limit_range.shoot_type": {
+      "godot_owner": "PortGame.source_power_turret_limit_range_state",
+      "java_method": "limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_limit_range_state",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_power_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_power_turret_limit_range_state",
+        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
+        "test_power_turret_limit_range_matches_upstream_source",
+        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_limit_range_input.shoot_type",
+      "java_expr": "shootType",
+      "rule": "Shoot type is supplied explicitly for the dispatch call record."
+    },
+    "power_turret_limit_range.margin": {
+      "godot_owner": "PortGame.source_power_turret_limit_range_state",
+      "java_method": "limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_limit_range_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_power_turret_limit_range_state",
+        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
+        "test_power_turret_limit_range_matches_upstream_source",
+        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_limit_range_input.margin",
+      "java_expr": "float margin",
+      "rule": "Margin preserves the method parameter."
+    },
+    "power_turret_limit_range.dispatch": {
+      "godot_owner": "PortGame.source_power_turret_limit_range_state",
+      "java_method": "limitRange(float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_limit_range_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_power_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_power_turret_limit_range_state",
+        "test_port_game_exposes_generated_power_turret_limit_range_bridge_state",
+        "test_power_turret_limit_range_matches_upstream_source",
+        "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_power_turret_limit_range_result.limit_range_call",
+      "java_expr": "limitRange(shootType, margin);",
+      "rule": "Dispatch to inherited Turret.limitRange is recorded exactly; inherited internals remain owned by Turret.limitRange slice."
     }
   },
   "version": 1

@@ -7651,5 +7651,45 @@ public class PowerTurret extends Turret{
             self.assertIn('"super_set_stats_expr": "super.setStats();"', source_text)
             self.assertIn('"stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));"', source_text)
 
+    def test_emit_bridges_power_turret_limit_range_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "PowerTurret.java"
+            power_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            power_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class PowerTurret extends Turret{
+    public BulletType shootType;
+
+    @Override
+    public void setStats(){
+        super.setStats();
+        stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));
+    }
+
+    public void limitRange(float margin){
+        limitRange(shootType, margin);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "PowerTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_limitRange_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var shoot_type: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var margin: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var limit_range_call: Dictionary = {\"call\": \"limitRange(shootType, margin);\", \"shoot_type\": shoot_type, \"margin\": margin}", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_power_turret_limit_range_state"', source_text)
+            self.assertIn('"method": "public void limitRange(float margin){"', source_text)
+            self.assertIn('"dispatch_expr": "limitRange(shootType, margin);"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

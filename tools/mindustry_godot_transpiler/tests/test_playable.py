@@ -13112,5 +13112,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "PowerTurret.java_method_setStats_0"', source)
         self.assertIn('"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("shoot_type", null) == canonical.get("shoot_type", null)', source)
 
+    def test_port_game_exposes_source_power_turret_limit_range_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_turret_limit_range_state(shoot_type: Variant, margin: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void limitRange(float margin){"', source)
+        self.assertIn('"dispatch_expr": "limitRange(shootType, margin);"', source)
+        self.assertIn('"limit_range_called": true', source)
+        self.assertIn('"limit_range_call": limit_range_call', source)
+
+    def test_port_game_exposes_generated_power_turret_limit_range_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_power_turret_limit_range_bridge_state(shoot_type: Variant, margin: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_limitRange_1([shoot_type, margin])", source)
+        self.assertIn("var canonical = source_power_turret_limit_range_state(shoot_type, margin)", source)
+        self.assertIn('"source_owner": "PortGame.source_power_turret_limit_range_state"', source)
+        self.assertIn('"generated_owner": "PowerTurret.java_method_limitRange_1"', source)
+        self.assertIn('"matches": result.get("limit_range_call", null) == canonical.get("limit_range_call", null) and result.get("margin", null) == canonical.get("margin", null)', source)
+
 if __name__ == "__main__":
     unittest.main()
