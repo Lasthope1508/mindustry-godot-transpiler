@@ -25789,6 +25789,82 @@
         "test_turret_limit_range_matches_upstream_source",
         "test_generated_turret_limit_range_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_turret_draw_place_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "tile_x",
+          "schema": "source_turret_draw_place_input.tile_x",
+          "type": "int"
+        },
+        {
+          "name": "tile_y",
+          "schema": "source_turret_draw_place_input.tile_y",
+          "type": "int"
+        },
+        {
+          "name": "rotation",
+          "schema": "source_turret_draw_place_input.rotation",
+          "type": "int"
+        },
+        {
+          "name": "valid",
+          "schema": "source_turret_draw_place_input.valid",
+          "type": "bool"
+        },
+        {
+          "name": "draw_min_range",
+          "schema": "source_turret_draw_place_input.draw_min_range",
+          "type": "bool"
+        },
+        {
+          "name": "source_tilesize",
+          "schema": "source_turret_draw_place_input.source_tilesize",
+          "type": "float"
+        },
+        {
+          "name": "block_offset",
+          "schema": "source_turret_draw_place_input.block_offset",
+          "type": "float"
+        },
+        {
+          "name": "min_range",
+          "schema": "source_turret_draw_place_input.min_range",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "super_draw_place_expr",
+        "draw_min_range_gate",
+        "dash_circle_expr",
+        "tile_x",
+        "tile_y",
+        "rotation",
+        "valid",
+        "draw_min_range",
+        "source_tilesize",
+        "block_offset",
+        "min_range",
+        "dash_circle_x",
+        "dash_circle_y",
+        "dash_circle_called",
+        "dash_circle_call"
+      ],
+      "rule": "Public runtime contract for Turret.drawPlace minRange draw intent state.",
+      "runtime_proof": "/root/Main.source_turret_draw_place_state",
+      "source_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "source_slice": "N1162",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_draw_place_to_source_state",
+        "test_port_game_exposes_source_turret_draw_place_state",
+        "test_port_game_exposes_generated_turret_draw_place_bridge_state",
+        "test_turret_draw_place_matches_upstream_source",
+        "test_generated_turret_draw_place_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

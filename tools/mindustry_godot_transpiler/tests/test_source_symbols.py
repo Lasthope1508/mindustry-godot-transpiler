@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 630)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 631)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 635)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 636)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42340,6 +42340,62 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_limit_range_result["keys"]["drag_comment"]["java_expr"], "//doesn't handle drag")
         self.assertEqual(source_turret_limit_range_result["keys"]["bullet_lifetime"]["java_expr"], "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;")
         self.assertEqual(source_turret_limit_range_result["keys"]["updated_bullet"]["java_expr"], "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;")
+
+    def test_generated_turret_draw_place_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_draw_place.method")
+        self.assertEqual(method["java_expr"], "public void drawPlace(int x, int y, int rotation, boolean valid){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_draw_place_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_draw_place_state")
+
+        tile_x = source_symbols.source_symbol(registry, "turret_draw_place.x")
+        self.assertEqual(tile_x["java_expr"], "int x")
+        self.assertEqual(tile_x["godot_symbol"], "source_turret_draw_place_input.tile_x")
+        tile_y = source_symbols.source_symbol(registry, "turret_draw_place.y")
+        self.assertEqual(tile_y["java_expr"], "int y")
+        self.assertEqual(tile_y["godot_symbol"], "source_turret_draw_place_input.tile_y")
+        draw_min_range = source_symbols.source_symbol(registry, "turret_draw_place.draw_min_range")
+        self.assertEqual(draw_min_range["java_expr"], "public boolean drawMinRange;")
+        self.assertEqual(draw_min_range["godot_symbol"], "source_turret_draw_place_input.draw_min_range")
+        dash_circle = source_symbols.source_symbol(registry, "turret_draw_place.dash_circle")
+        self.assertEqual(dash_circle["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);")
+        self.assertEqual(dash_circle["godot_symbol"], "source_turret_draw_place_result.dash_circle_call")
+
+        draw_place_slice = source_symbols.source_slice(ledger, "N1162")
+        self.assertEqual(draw_place_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(draw_place_slice["java_method"], "drawPlace(int x, int y, int rotation, boolean valid)")
+        self.assertEqual(draw_place_slice["godot_owner"], "PortGame.source_turret_draw_place_state")
+        self.assertEqual(draw_place_slice["runtime_proof"], "/root/Main.generated_turret_draw_place_bridge_state")
+        for expr in [
+            "@Override",
+            "public void drawPlace(int x, int y, int rotation, boolean valid){",
+            "super.drawPlace(x, y, rotation, valid);",
+            "if(drawMinRange){",
+            "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);",
+        ]:
+            self.assertIn(expr, draw_place_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_draw_place_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["tile_x", "tile_y", "rotation", "valid", "draw_min_range", "source_tilesize", "block_offset", "min_range"])
+        for key in ["method", "override_expr", "super_draw_place_expr", "draw_min_range_gate", "dash_circle_expr", "dash_circle_called", "dash_circle_call", "dash_circle_x", "dash_circle_y"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_turret_draw_place_input = source_symbols.state_schema(schema, "source_turret_draw_place_input")
+        self.assertEqual(source_turret_draw_place_input["keys"]["tile_x"]["java_expr"], "int x")
+        self.assertEqual(source_turret_draw_place_input["keys"]["tile_y"]["java_expr"], "int y")
+        self.assertEqual(source_turret_draw_place_input["keys"]["draw_min_range"]["java_expr"], "public boolean drawMinRange;")
+        source_turret_draw_place_result = source_symbols.state_schema(schema, "source_turret_draw_place_result")
+        self.assertEqual(source_turret_draw_place_result["keys"]["method"]["java_expr"], "public void drawPlace(int x, int y, int rotation, boolean valid){")
+        self.assertEqual(source_turret_draw_place_result["keys"]["super_draw_place_expr"]["java_expr"], "super.drawPlace(x, y, rotation, valid);")
+        self.assertEqual(source_turret_draw_place_result["keys"]["dash_circle_call"]["java_expr"], "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

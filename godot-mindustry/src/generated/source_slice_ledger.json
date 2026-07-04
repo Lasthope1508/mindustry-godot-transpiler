@@ -25568,6 +25568,51 @@
         "test_turret_limit_range_matches_upstream_source",
         "test_generated_turret_limit_range_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1162": {
+      "deferred_exprs": [
+        "Actual Drawf.dashCircle rendering is recorded as source-backed draw intent; renderer internals are deferred."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void drawPlace(int x, int y, int rotation, boolean valid){",
+        "super.drawPlace(x, y, rotation, valid);",
+        "if(drawMinRange){",
+        "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);",
+        "public boolean drawMinRange;",
+        "public float minRange = 0f;",
+        "placing = accent,"
+      ],
+      "godot_owner": "PortGame.source_turret_draw_place_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.drawPlace delegates to super.drawPlace and conditionally records minRange dash circle draw intent when drawMinRange is true.",
+      "runtime_proof": "/root/Main.generated_turret_draw_place_bridge_state",
+      "source_symbols": [
+        "turret_draw_place.method",
+        "turret_draw_place.override",
+        "turret_draw_place.x",
+        "turret_draw_place.y",
+        "turret_draw_place.rotation",
+        "turret_draw_place.valid",
+        "turret_draw_place.draw_min_range",
+        "turret_draw_place.source_tilesize",
+        "turret_draw_place.block_offset",
+        "turret_draw_place.min_range",
+        "turret_draw_place.super_draw_place",
+        "turret_draw_place.draw_min_range_gate",
+        "turret_draw_place.dash_circle",
+        "turret_draw_place.pal_placing"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_draw_place_to_source_state",
+        "test_port_game_exposes_source_turret_draw_place_state",
+        "test_port_game_exposes_generated_turret_draw_place_bridge_state",
+        "test_turret_draw_place_matches_upstream_source",
+        "test_generated_turret_draw_place_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

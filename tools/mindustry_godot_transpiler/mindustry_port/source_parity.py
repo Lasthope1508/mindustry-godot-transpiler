@@ -482,6 +482,25 @@ def verify_turret_limit_range_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_turret_draw_place_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+        "super_draw_place": "super.drawPlace(x, y, rotation, valid);",
+        "draw_min_range_gate": "if(drawMinRange){",
+        "dash_circle": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);",
+        "draw_min_range_field": "public boolean drawMinRange;",
+        "min_range_field": "public float minRange = 0f;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

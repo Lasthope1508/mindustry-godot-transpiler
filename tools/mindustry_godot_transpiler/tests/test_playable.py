@@ -12997,5 +12997,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_limitRange_8"', source)
         self.assertIn('"matches": result.get("bullet_lifetime", null) == canonical.get("bullet_lifetime", null) and result.get("updated_bullet", null) == canonical.get("updated_bullet", null)', source)
 
+    def test_port_game_exposes_source_turret_draw_place_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_draw_place_state(tile_x: int, tile_y: int, rotation: int, valid: bool, draw_min_range: bool, source_tilesize: float, block_offset: float, min_range: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void drawPlace(int x, int y, int rotation, boolean valid){"', source)
+        self.assertIn('"super_draw_place_expr": "super.drawPlace(x, y, rotation, valid);"', source)
+        self.assertIn('"draw_min_range_gate": "if(drawMinRange){"', source)
+        self.assertIn('"dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);"', source)
+        self.assertIn('"dash_circle_called": dash_circle_called', source)
+        self.assertIn('"dash_circle_call": dash_circle_call', source)
+
+    def test_port_game_exposes_generated_turret_draw_place_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rotation: int, valid: bool, draw_min_range: bool, source_tilesize: float, block_offset: float, min_range: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_drawPlace_9([tile_x, tile_y, rotation, valid, draw_min_range, source_tilesize, block_offset, min_range])", source)
+        self.assertIn("var canonical = source_turret_draw_place_state(tile_x, tile_y, rotation, valid, draw_min_range, source_tilesize, block_offset, min_range)", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_draw_place_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_drawPlace_9"', source)
+        self.assertIn('"matches": result.get("dash_circle_called", null) == canonical.get("dash_circle_called", null) and result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

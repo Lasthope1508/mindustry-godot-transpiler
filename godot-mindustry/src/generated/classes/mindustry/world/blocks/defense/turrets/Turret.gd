@@ -77,7 +77,21 @@ func java_method_limitRange_8(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_turret_limit_range_state", "method": "public void limitRange(BulletType bullet, float margin){", "real_range_expr": "float realRange = bullet.rangeChange + range;", "drag_comment": "//doesn't handle drag", "lifetime_expr": "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;", "bullet": bullet, "margin": margin, "turret_range": turret_range, "bullet_range_change": bullet_range_change, "real_range": real_range, "bullet_extra_range_margin": bullet_extra_range_margin, "bullet_speed": bullet_speed, "bullet_lifetime": bullet_lifetime, "updated_bullet": bullet}
 
 func java_method_drawPlace_9(_args: Array = []) -> Variant:
-	return null
+	var tile_x: int = int(_args[0] if _args.size() > 0 else 0)
+	var tile_y: int = int(_args[1] if _args.size() > 1 else 0)
+	var rotation: int = int(_args[2] if _args.size() > 2 else 0)
+	var valid: bool = bool(_args[3] if _args.size() > 3 else false)
+	var draw_min_range: bool = bool(_args[4] if _args.size() > 4 else false)
+	var source_tilesize: float = float(_args[5] if _args.size() > 5 else 0.0)
+	var block_offset: float = float(_args[6] if _args.size() > 6 else 0.0)
+	var min_range: float = float(_args[7] if _args.size() > 7 else 0.0)
+	var dash_circle_x: float = float(tile_x) * source_tilesize + block_offset
+	var dash_circle_y: float = float(tile_y) * source_tilesize + block_offset
+	var dash_circle_called: bool = draw_min_range
+	var dash_circle_call: Dictionary = {}
+	if dash_circle_called:
+		dash_circle_call = {"call": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);", "x": dash_circle_x, "y": dash_circle_y, "radius": min_range, "color": "Pal.placing"}
+	return {"source_owner": "PortGame.source_turret_draw_place_state", "method": "public void drawPlace(int x, int y, int rotation, boolean valid){", "override_expr": "@Override", "super_draw_place_expr": "super.drawPlace(x, y, rotation, valid);", "draw_min_range_gate": "if(drawMinRange){", "dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);", "tile_x": tile_x, "tile_y": tile_y, "rotation": rotation, "valid": valid, "draw_min_range": draw_min_range, "source_tilesize": source_tilesize, "block_offset": block_offset, "min_range": min_range, "dash_circle_x": dash_circle_x, "dash_circle_y": dash_circle_y, "dash_circle_called": dash_circle_called, "dash_circle_call": dash_circle_call}
 
 func java_method_rotatedOutput_10(_args: Array = []) -> Variant:
 	return null

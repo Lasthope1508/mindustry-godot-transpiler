@@ -7463,5 +7463,46 @@ public class Turret extends ReloadTurret{
             self.assertIn('"real_range_expr": "float realRange = bullet.rangeChange + range;"', source_text)
             self.assertIn('"lifetime_expr": "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;"', source_text)
 
+    def test_emit_bridges_turret_draw_place_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class Turret extends ReloadTurret{
+    @Override
+    public void drawPlace(int x, int y, int rotation, boolean valid){
+        super.drawPlace(x, y, rotation, valid);
+
+        if(drawMinRange){
+            Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawPlace_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_x: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var tile_y: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var draw_min_range: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var dash_circle_x: float = float(tile_x) * source_tilesize + block_offset", source_text)
+            self.assertIn("var dash_circle_called: bool = draw_min_range", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_turret_draw_place_state"', source_text)
+            self.assertIn('"method": "public void drawPlace(int x, int y, int rotation, boolean valid){"', source_text)
+            self.assertIn('"super_draw_place_expr": "super.drawPlace(x, y, rotation, valid);"', source_text)
+            self.assertIn('"draw_min_range_gate": "if(drawMinRange){"', source_text)
+            self.assertIn('"dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

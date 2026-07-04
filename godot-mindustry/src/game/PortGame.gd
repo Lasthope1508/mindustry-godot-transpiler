@@ -16795,6 +16795,49 @@ func generated_turret_limit_range_bridge_state(bullet: Dictionary, margin: float
 		"matches": result.get("bullet_lifetime", null) == canonical.get("bullet_lifetime", null) and result.get("updated_bullet", null) == canonical.get("updated_bullet", null),
 	}
 
+@warning_ignore("shadowed_variable_base_class")
+func source_turret_draw_place_state(tile_x: int, tile_y: int, rotation: int, valid: bool, draw_min_range: bool, source_tilesize: float, block_offset: float, min_range: float) -> Dictionary:
+	var dash_circle_x: float = float(tile_x) * source_tilesize + block_offset
+	var dash_circle_y: float = float(tile_y) * source_tilesize + block_offset
+	var dash_circle_called: bool = draw_min_range
+	var dash_circle_call: Dictionary = {}
+	if dash_circle_called:
+		dash_circle_call = {"call": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);", "x": dash_circle_x, "y": dash_circle_y, "radius": min_range, "color": "Pal.placing"}
+	return {
+		"source_owner": "PortGame.source_turret_draw_place_state",
+		"method": "public void drawPlace(int x, int y, int rotation, boolean valid){",
+		"override_expr": "@Override",
+		"super_draw_place_expr": "super.drawPlace(x, y, rotation, valid);",
+		"draw_min_range_gate": "if(drawMinRange){",
+		"dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);",
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"rotation": rotation,
+		"valid": valid,
+		"draw_min_range": draw_min_range,
+		"source_tilesize": source_tilesize,
+		"block_offset": block_offset,
+		"min_range": min_range,
+		"dash_circle_x": dash_circle_x,
+		"dash_circle_y": dash_circle_y,
+		"dash_circle_called": dash_circle_called,
+		"dash_circle_call": dash_circle_call,
+	}
+
+@warning_ignore("shadowed_variable_base_class")
+func generated_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rotation: int, valid: bool, draw_min_range: bool, source_tilesize: float, block_offset: float, min_range: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawPlace_9([tile_x, tile_y, rotation, valid, draw_min_range, source_tilesize, block_offset, min_range])
+	var canonical = source_turret_draw_place_state(tile_x, tile_y, rotation, valid, draw_min_range, source_tilesize, block_offset, min_range)
+	return {
+		"source_owner": "PortGame.source_turret_draw_place_state",
+		"generated_owner": "Turret.java_method_drawPlace_9",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("dash_circle_called", null) == canonical.get("dash_circle_called", null) and result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}
