@@ -13156,5 +13156,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "PowerTurret.PowerTurretBuild.getAmmoFraction"', source)
         self.assertIn('"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)', source)
 
+    def test_port_game_exposes_source_power_turret_build_sense_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_turret_build_sense_state(sensor: String, power_null: bool, power_status: float, super_sense_value: float) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class PowerTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"method": "public double sense(LAccess sensor){"', source)
+        self.assertIn('"switch_return": "return switch(sensor){"', source)
+        self.assertIn('"ammo_case": "case ammo -> power == null ? 0f : power.status;"', source)
+        self.assertIn('"ammo_capacity_case": "case ammoCapacity -> 1;"', source)
+        self.assertIn('"default_case": "default -> super.sense(sensor);"', source)
+        self.assertIn('"sense_value": sense_value', source)
+
+    def test_port_game_exposes_generated_power_turret_build_sense_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_power_turret_build_sense_bridge_state(sensor: String, power_null: bool, power_status: float, super_sense_value: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_PowerTurretBuild_method_sense_1([sensor, power_null, power_status, super_sense_value])", source)
+        self.assertIn("var canonical = source_power_turret_build_sense_state(sensor, power_null, power_status, super_sense_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_power_turret_build_sense_state"', source)
+        self.assertIn('"generated_owner": "PowerTurret.PowerTurretBuild.sense"', source)
+        self.assertIn('"matches": result.get("sense_value", null) == canonical.get("sense_value", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

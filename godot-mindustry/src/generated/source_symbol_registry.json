@@ -81739,6 +81739,142 @@
       "godot_symbol": "source_power_turret_build_get_ammo_fraction_result.ammo_fraction",
       "java_expr": "return power == null ? 0f : power.status;",
       "rule": "Ammo fraction preserves the exact Java ternary result."
+    },
+    "power_turret_build_sense.method": {
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_sense_result.method",
+      "java_expr": "public double sense(LAccess sensor){",
+      "rule": "Method boundary comes from PowerTurretBuild.sense."
+    },
+    "power_turret_build_sense.sensor": {
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_sense_input.sensor",
+      "java_expr": "LAccess sensor",
+      "rule": "Sensor input selects the Java switch branch."
+    },
+    "power_turret_build_sense.power_null": {
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_sense_input.power_null",
+      "java_expr": "power == null",
+      "rule": "Null power guard preserves the ammo case ternary condition."
+    },
+    "power_turret_build_sense.power_status": {
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_sense_input.power_status",
+      "java_expr": "power.status",
+      "rule": "Power status value is used by the ammo case when power is not null."
+    },
+    "power_turret_build_sense.super_sense": {
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_power_turret_build_sense_input.super_sense_value",
+      "java_expr": "super.sense(sensor)",
+      "rule": "Default branch delegates to inherited super.sense(sensor); value is supplied explicitly to avoid inventing inherited internals."
+    },
+    "power_turret_build_sense.ammo_case": {
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_sense_result.sense_value",
+      "java_expr": "case ammo -> power == null ? 0f : power.status;",
+      "rule": "Ammo sensor returns zero without power, otherwise power.status."
+    },
+    "power_turret_build_sense.ammo_capacity_case": {
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_sense_result.sense_value",
+      "java_expr": "case ammoCapacity -> 1;",
+      "rule": "Ammo capacity sensor returns constant one."
+    },
+    "power_turret_build_sense.default_case": {
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_sense_result.sense_value",
+      "java_expr": "default -> super.sense(sensor);",
+      "rule": "Default sensor branch delegates to inherited super.sense(sensor)."
     }
   },
   "version": 1

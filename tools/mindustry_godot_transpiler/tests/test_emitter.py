@@ -7727,5 +7727,54 @@ public class PowerTurret extends Turret{
             self.assertIn('"method": "public float getAmmoFraction(){"', source_text)
             self.assertIn('"return_expr": "return power == null ? 0f : power.status;"', source_text)
 
+    def test_emit_bridges_power_turret_build_sense_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            power_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "PowerTurret.java"
+            power_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            power_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class PowerTurret extends Turret{
+    public class PowerTurretBuild extends TurretBuild{
+        @Override
+        public float getAmmoFraction(){
+            return power == null ? 0f : power.status;
+        }
+
+        @Override
+        public double sense(LAccess sensor){
+            return switch(sensor){
+                case ammo -> power == null ? 0f : power.status;
+                case ammoCapacity -> 1;
+                default -> super.sense(sensor);
+            };
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "PowerTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_PowerTurretBuild_method_sense_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var sensor: String = str(_args[0] if _args.size() > 0 else \"\")", source_text)
+            self.assertIn("var power_null: bool = bool(_args[1] if _args.size() > 1 else true)", source_text)
+            self.assertIn("var power_status: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var super_sense_value: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn('if sensor == "ammo":', source_text)
+            self.assertIn('elif sensor == "ammoCapacity":', source_text)
+            self.assertIn("sense_value = super_sense_value", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_power_turret_build_sense_state"', source_text)
+            self.assertIn('"method": "public double sense(LAccess sensor){"', source_text)
+            self.assertIn('"ammo_case": "case ammo -> power == null ? 0f : power.status;"', source_text)
+            self.assertIn('"default_case": "default -> super.sense(sensor);"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

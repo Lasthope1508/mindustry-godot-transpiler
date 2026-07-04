@@ -17041,6 +17041,43 @@ func generated_power_turret_build_get_ammo_fraction_bridge_state(power_null: boo
 		"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null),
 	}
 
+func source_power_turret_build_sense_state(sensor: String, power_null: bool, power_status: float, super_sense_value: float) -> Dictionary:
+	var sense_value: float = 0.0
+	if sensor == "ammo":
+		sense_value = 0.0 if power_null else power_status
+	elif sensor == "ammoCapacity":
+		sense_value = 1.0
+	else:
+		sense_value = super_sense_value
+	return {
+		"source_owner": "PortGame.source_power_turret_build_sense_state",
+		"inner_class": "public class PowerTurretBuild extends TurretBuild{",
+		"method": "public double sense(LAccess sensor){",
+		"override_expr": "@Override",
+		"switch_return": "return switch(sensor){",
+		"ammo_case": "case ammo -> power == null ? 0f : power.status;",
+		"ammo_capacity_case": "case ammoCapacity -> 1;",
+		"default_case": "default -> super.sense(sensor);",
+		"sensor": sensor,
+		"power_null": power_null,
+		"power_status": power_status,
+		"super_sense_value": super_sense_value,
+		"sense_value": sense_value,
+	}
+
+func generated_power_turret_build_sense_bridge_state(sensor: String, power_null: bool, power_status: float, super_sense_value: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_PowerTurretBuild_method_sense_1([sensor, power_null, power_status, super_sense_value])
+	var canonical = source_power_turret_build_sense_state(sensor, power_null, power_status, super_sense_value)
+	return {
+		"source_owner": "PortGame.source_power_turret_build_sense_state",
+		"generated_owner": "PowerTurret.PowerTurretBuild.sense",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("sense_value", null) == canonical.get("sense_value", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

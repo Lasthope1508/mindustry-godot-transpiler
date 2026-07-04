@@ -8441,5 +8441,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_power_turret_build_sense_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_power_turret_build_sense_source"))
+        report = source_parity.verify_power_turret_build_sense_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class PowerTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "public double sense(LAccess sensor){",
+            "switch_return": "return switch(sensor){",
+            "ammo_case": "case ammo -> power == null ? 0f : power.status;",
+            "ammo_capacity_case": "case ammoCapacity -> 1;",
+            "default_case": "default -> super.sense(sensor);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

@@ -96309,6 +96309,216 @@
           "rule": "Result is 0 when power is null, otherwise power.status."
         }
       }
+    },
+    "source_power_turret_build_sense_input": {
+      "status": "source-backed",
+      "source_slice": "N1169",
+      "rule": "Inputs accepted by PortGame.source_power_turret_build_sense_state.",
+      "keys": {
+        "sensor": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_sense_input.sensor",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "LAccess sensor",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Input selects source switch branch."
+        },
+        "power_null": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_power_turret_build_sense_input.power_null",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "power == null",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Input preserves ammo branch null guard."
+        },
+        "power_status": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_power_turret_build_sense_input.power_status",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "power.status",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Input preserves ammo branch status value."
+        },
+        "super_sense_value": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_power_turret_build_sense_input.super_sense_value",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "super.sense(sensor)",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Input preserves inherited default branch result without duplicating inherited logic."
+        }
+      }
+    },
+    "source_power_turret_build_sense_result": {
+      "status": "source-backed",
+      "source_slice": "N1169",
+      "rule": "Dictionary returned by PortGame.source_power_turret_build_sense_state.",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_sense_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "public class PowerTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_sense_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "public double sense(LAccess sensor){",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_sense_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "switch_return": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_sense_result.switch_return",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "return switch(sensor){",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result records switch return boundary."
+        },
+        "ammo_case": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_sense_result.ammo_case",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "case ammo -> power == null ? 0f : power.status;",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result records ammo case expression."
+        },
+        "ammo_capacity_case": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_sense_result.ammo_capacity_case",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "case ammoCapacity -> 1;",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result records ammoCapacity case expression."
+        },
+        "default_case": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_sense_result.default_case",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "default -> super.sense(sensor);",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result records default case expression."
+        },
+        "sensor": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_sense_result.sensor",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "LAccess sensor",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result echoes sensor input.",
+          "alias_of": "source_power_turret_build_sense_input.sensor"
+        },
+        "power_null": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_power_turret_build_sense_result.power_null",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "power == null",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result echoes null guard input.",
+          "alias_of": "source_power_turret_build_sense_input.power_null"
+        },
+        "power_status": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_power_turret_build_sense_result.power_status",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "power.status",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result echoes status input.",
+          "alias_of": "source_power_turret_build_sense_input.power_status"
+        },
+        "super_sense_value": {
+          "status": "explicit-input",
+          "type": "float",
+          "godot_symbol": "source_power_turret_build_sense_result.super_sense_value",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "super.sense(sensor)",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result echoes inherited default branch input.",
+          "alias_of": "source_power_turret_build_sense_input.super_sense_value"
+        },
+        "sense_value": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_power_turret_build_sense_result.sense_value",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+          "java_expr": "return switch(sensor){",
+          "used_by": [
+            "PortGame.source_power_turret_build_sense_state"
+          ],
+          "rule": "Result is selected by exact Java switch cases."
+        }
+      }
     }
   },
   "version": 1

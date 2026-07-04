@@ -2783,16 +2783,32 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
             if inner_class.get("name") != "PowerTurretBuild":
                 continue
             for index, method in enumerate(inner_class.get("methods", [])):
-                if method.get("name") != "getAmmoFraction":
-                    continue
-                lines.extend([
-                    "",
-                    f"func java_inner_class_PowerTurretBuild_method_getAmmoFraction_{index}(_args: Array = []) -> Variant:",
-                    "\tvar power_null: bool = bool(_args[0] if _args.size() > 0 else true)",
-                    "\tvar power_status: float = float(_args[1] if _args.size() > 1 else 0.0)",
-                    "\tvar ammo_fraction: float = 0.0 if power_null else power_status",
-                    "\treturn {\"source_owner\": \"PortGame.source_power_turret_build_get_ammo_fraction_state\", \"inner_class\": \"public class PowerTurretBuild extends TurretBuild{\", \"method\": \"public float getAmmoFraction(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return power == null ? 0f : power.status;\", \"power_null\": power_null, \"power_status\": power_status, \"ammo_fraction\": ammo_fraction}",
-                ])
+                if method.get("name") == "getAmmoFraction":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_PowerTurretBuild_method_getAmmoFraction_{index}(_args: Array = []) -> Variant:",
+                        "\tvar power_null: bool = bool(_args[0] if _args.size() > 0 else true)",
+                        "\tvar power_status: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                        "\tvar ammo_fraction: float = 0.0 if power_null else power_status",
+                        "\treturn {\"source_owner\": \"PortGame.source_power_turret_build_get_ammo_fraction_state\", \"inner_class\": \"public class PowerTurretBuild extends TurretBuild{\", \"method\": \"public float getAmmoFraction(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return power == null ? 0f : power.status;\", \"power_null\": power_null, \"power_status\": power_status, \"ammo_fraction\": ammo_fraction}",
+                    ])
+                elif method.get("name") == "sense":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_PowerTurretBuild_method_sense_{index}(_args: Array = []) -> Variant:",
+                        "\tvar sensor: String = str(_args[0] if _args.size() > 0 else \"\")",
+                        "\tvar power_null: bool = bool(_args[1] if _args.size() > 1 else true)",
+                        "\tvar power_status: float = float(_args[2] if _args.size() > 2 else 0.0)",
+                        "\tvar super_sense_value: float = float(_args[3] if _args.size() > 3 else 0.0)",
+                        "\tvar sense_value: float = 0.0",
+                        "\tif sensor == \"ammo\":",
+                        "\t\tsense_value = 0.0 if power_null else power_status",
+                        "\telif sensor == \"ammoCapacity\":",
+                        "\t\tsense_value = 1.0",
+                        "\telse:",
+                        "\t\tsense_value = super_sense_value",
+                        "\treturn {\"source_owner\": \"PortGame.source_power_turret_build_sense_state\", \"inner_class\": \"public class PowerTurretBuild extends TurretBuild{\", \"method\": \"public double sense(LAccess sensor){\", \"override_expr\": \"@Override\", \"switch_return\": \"return switch(sensor){\", \"ammo_case\": \"case ammo -> power == null ? 0f : power.status;\", \"ammo_capacity_case\": \"case ammoCapacity -> 1;\", \"default_case\": \"default -> super.sense(sensor);\", \"sensor\": sensor, \"power_null\": power_null, \"power_status\": power_status, \"super_sense_value\": super_sense_value, \"sense_value\": sense_value}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:

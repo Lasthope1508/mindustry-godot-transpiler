@@ -25823,6 +25823,44 @@
       "deferred_exprs": [
         "Concrete power graph/module status production remains owned by power runtime integration slices."
       ]
+    },
+    "N1169": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
+      "java_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_power_turret_build_sense_state",
+      "exact_exprs": [
+        "public class PowerTurretBuild extends TurretBuild{",
+        "@Override",
+        "public double sense(LAccess sensor){",
+        "return switch(sensor){",
+        "case ammo -> power == null ? 0f : power.status;",
+        "case ammoCapacity -> 1;",
+        "default -> super.sense(sensor);"
+      ],
+      "source_symbols": [
+        "power_turret_build_sense.method",
+        "power_turret_build_sense.sensor",
+        "power_turret_build_sense.power_null",
+        "power_turret_build_sense.power_status",
+        "power_turret_build_sense.super_sense",
+        "power_turret_build_sense.ammo_case",
+        "power_turret_build_sense.ammo_capacity_case",
+        "power_turret_build_sense.default_case"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_build_sense_bridge_state",
+      "rule": "PowerTurretBuild.sense maps ammo to power status, ammoCapacity to one, and all other sensors to super.sense(sensor).",
+      "deferred_exprs": [
+        "Inherited TurretBuild.sense internals remain owned by their own slices; default branch value is explicit input."
+      ]
     }
   },
   "version": 1

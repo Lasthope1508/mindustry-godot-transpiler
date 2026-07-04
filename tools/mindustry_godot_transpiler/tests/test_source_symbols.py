@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 637)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 638)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 642)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 643)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19744,6 +19744,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_unit_add_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_damage_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_turret_build_get_ammo_fraction_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_power_turret_build_sense_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_killed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_team_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_tile_state", audit["registeredSourceOwners"])
@@ -42707,6 +42708,64 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         source_power_turret_build_get_ammo_fraction_result = source_symbols.state_schema(schema, "source_power_turret_build_get_ammo_fraction_result")
         self.assertEqual(source_power_turret_build_get_ammo_fraction_result["keys"]["method"]["java_expr"], "public float getAmmoFraction(){")
         self.assertEqual(source_power_turret_build_get_ammo_fraction_result["keys"]["ammo_fraction"]["java_expr"], "return power == null ? 0f : power.status;")
+
+    def test_generated_power_turret_build_sense_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "power_turret_build_sense.method")
+        self.assertEqual(method["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java")
+        self.assertEqual(method["java_method"], "PowerTurretBuild.sense(LAccess sensor)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_power_turret_build_sense_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_power_turret_build_sense_state")
+
+        sensor = source_symbols.source_symbol(registry, "power_turret_build_sense.sensor")
+        self.assertEqual(sensor["java_expr"], "LAccess sensor")
+        self.assertEqual(sensor["godot_symbol"], "source_power_turret_build_sense_input.sensor")
+        power_null = source_symbols.source_symbol(registry, "power_turret_build_sense.power_null")
+        self.assertEqual(power_null["java_expr"], "power == null")
+        self.assertEqual(power_null["godot_symbol"], "source_power_turret_build_sense_input.power_null")
+        super_sense = source_symbols.source_symbol(registry, "power_turret_build_sense.super_sense")
+        self.assertEqual(super_sense["java_expr"], "super.sense(sensor)")
+        self.assertEqual(super_sense["godot_symbol"], "source_power_turret_build_sense_input.super_sense_value")
+        ammo_case = source_symbols.source_symbol(registry, "power_turret_build_sense.ammo_case")
+        self.assertEqual(ammo_case["java_expr"], "case ammo -> power == null ? 0f : power.status;")
+        self.assertEqual(ammo_case["godot_symbol"], "source_power_turret_build_sense_result.sense_value")
+
+        sense_slice = source_symbols.source_slice(ledger, "N1169")
+        self.assertEqual(sense_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java")
+        self.assertEqual(sense_slice["java_method"], "PowerTurretBuild.sense(LAccess sensor)")
+        self.assertEqual(sense_slice["godot_owner"], "PortGame.source_power_turret_build_sense_state")
+        self.assertEqual(sense_slice["runtime_proof"], "/root/Main.generated_power_turret_build_sense_bridge_state")
+        for expr in [
+            "public class PowerTurretBuild extends TurretBuild{",
+            "@Override",
+            "public double sense(LAccess sensor){",
+            "return switch(sensor){",
+            "case ammo -> power == null ? 0f : power.status;",
+            "case ammoCapacity -> 1;",
+            "default -> super.sense(sensor);",
+        ]:
+            self.assertIn(expr, sense_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_power_turret_build_sense_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["sensor", "power_null", "power_status", "super_sense_value"])
+        for key in ["inner_class", "method", "override_expr", "switch_return", "ammo_case", "ammo_capacity_case", "default_case", "sensor", "power_null", "power_status", "super_sense_value", "sense_value"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_power_turret_build_sense_input = source_symbols.state_schema(schema, "source_power_turret_build_sense_input")
+        self.assertEqual(source_power_turret_build_sense_input["keys"]["sensor"]["java_expr"], "LAccess sensor")
+        self.assertEqual(source_power_turret_build_sense_input["keys"]["power_null"]["java_expr"], "power == null")
+        self.assertEqual(source_power_turret_build_sense_input["keys"]["power_status"]["java_expr"], "power.status")
+        self.assertEqual(source_power_turret_build_sense_input["keys"]["super_sense_value"]["java_expr"], "super.sense(sensor)")
+        source_power_turret_build_sense_result = source_symbols.state_schema(schema, "source_power_turret_build_sense_result")
+        self.assertEqual(source_power_turret_build_sense_result["keys"]["method"]["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(source_power_turret_build_sense_result["keys"]["sense_value"]["java_expr"], "return switch(sensor){")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

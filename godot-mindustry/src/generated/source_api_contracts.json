@@ -26131,6 +26131,57 @@
       ],
       "runtime_proof": "/root/Main.source_power_turret_build_get_ammo_fraction_state",
       "rule": "Public runtime contract for PowerTurretBuild.getAmmoFraction state."
+    },
+    "PortGame.source_power_turret_build_sense_state": {
+      "status": "source-backed",
+      "source_slice": "N1169",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "source_method": "PowerTurretBuild.sense(LAccess sensor)",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "schema": "source_power_turret_build_sense_input.sensor"
+        },
+        {
+          "name": "power_null",
+          "type": "bool",
+          "schema": "source_power_turret_build_sense_input.power_null"
+        },
+        {
+          "name": "power_status",
+          "type": "float",
+          "schema": "source_power_turret_build_sense_input.power_status"
+        },
+        {
+          "name": "super_sense_value",
+          "type": "float",
+          "schema": "source_power_turret_build_sense_input.super_sense_value"
+        }
+      ],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "switch_return",
+        "ammo_case",
+        "ammo_capacity_case",
+        "default_case",
+        "sensor",
+        "power_null",
+        "power_status",
+        "super_sense_value",
+        "sense_value"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_sense_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_sense_state",
+        "test_port_game_exposes_generated_power_turret_build_sense_bridge_state",
+        "test_power_turret_build_sense_matches_upstream_source",
+        "test_generated_power_turret_build_sense_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_turret_build_sense_state",
+      "rule": "Public runtime contract for PowerTurretBuild.sense state."
     }
   },
   "policy": {
