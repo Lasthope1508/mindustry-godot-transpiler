@@ -27522,6 +27522,40 @@
         "test_item_turret_ammo_matches_upstream_source",
         "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1215": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+        "stats.remove(Stat.reload);",
+        "stats.remove(Stat.inaccuracy);"
+      ],
+      "godot_owner": "PortGame.source_continuous_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousTurret",
+      "java_method": "ContinuousTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "rule": "ContinuousTurret.setStats delegates super stats, adds ammo stat for ObjectMap.of(this, shootType), then removes reload and inaccuracy stats.",
+      "runtime_proof": "/root/Main.generated_continuous_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "continuous_turret_set_stats.method",
+        "continuous_turret_set_stats.override",
+        "continuous_turret_set_stats.super_set_stats",
+        "continuous_turret_set_stats.shoot_type",
+        "continuous_turret_set_stats.stats_add_ammo",
+        "continuous_turret_set_stats.remove_reload",
+        "continuous_turret_set_stats.remove_inaccuracy"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_continuous_turret_set_stats_state",
+        "test_port_game_exposes_generated_continuous_turret_set_stats_bridge_state",
+        "test_continuous_turret_set_stats_matches_upstream_source",
+        "test_generated_continuous_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
     }},
   "version": 1
 }

@@ -13329,6 +13329,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "PowerTurret.java_method_setStats_0"', source)
         self.assertIn('"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("shoot_type", null) == canonical.get("shoot_type", null)', source)
 
+    def test_port_game_exposes_source_continuous_turret_set_stats_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_continuous_turret_set_stats_state(shoot_type: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_turret_set_stats_state"', source)
+        self.assertIn('"method": "public void setStats(){"', source)
+        self.assertIn('"super_set_stats_expr": "super.setStats();"', source)
+        self.assertIn('"stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));"', source)
+        self.assertIn('"remove_reload_expr": "stats.remove(Stat.reload);"', source)
+        self.assertIn('"remove_inaccuracy_expr": "stats.remove(Stat.inaccuracy);"', source)
+        self.assertIn('"object_map_call": object_map_call', source)
+        self.assertIn('"stats_add_call": stats_add_call', source)
+
+    def test_port_game_exposes_generated_continuous_turret_set_stats_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_continuous_turret_set_stats_bridge_state(shoot_type: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_setStats_0([shoot_type])", source)
+        self.assertIn("var canonical = source_continuous_turret_set_stats_state(shoot_type)", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_turret_set_stats_state"', source)
+        self.assertIn('"generated_owner": "ContinuousTurret.java_method_setStats_0"', source)
+        self.assertIn('"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("remove_reload_called", null) == canonical.get("remove_reload_called", null)', source)
+
     def test_port_game_exposes_source_power_turret_limit_range_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

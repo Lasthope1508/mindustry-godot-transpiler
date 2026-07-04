@@ -104043,6 +104043,117 @@
       "rule": "Dictionary returned by PortGame.source_item_turret_ammo_state.",
       "source_slice": "N1214",
       "status": "source-backed"
+    },
+    "source_continuous_turret_set_stats_input": {
+      "keys": {
+        "shoot_type": {
+          "godot_symbol": "source_continuous_turret_set_stats_input.shoot_type",
+          "java_expr": "shootType",
+          "java_method": "ContinuousTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "rule": "Explicit shootType input for ObjectMap.of(this, shootType).",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Input schema for ContinuousTurret.setStats bridge.",
+      "source_slice": "N1215",
+      "status": "explicit-input"
+    },
+    "source_continuous_turret_set_stats_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_continuous_turret_set_stats_result.method",
+          "java_expr": "public void setStats(){",
+          "java_method": "ContinuousTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "rule": "Exact method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_turret_set_stats_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_continuous_turret_set_stats_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "ContinuousTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "rule": "Exact override annotation.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_turret_set_stats_state"
+          ]
+        },
+        "super_set_stats_expr": {
+          "godot_symbol": "source_continuous_turret_set_stats_result.super_set_stats_expr",
+          "java_expr": "super.setStats();",
+          "java_method": "ContinuousTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "rule": "Exact superclass stats delegate.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_turret_set_stats_state"
+          ]
+        },
+        "stats_add_call": {
+          "godot_symbol": "source_continuous_turret_set_stats_result.stats_add_call",
+          "java_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+          "java_method": "ContinuousTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "rule": "Recorded ammo stat add call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_continuous_turret_set_stats_state"
+          ]
+        },
+        "remove_reload_called": {
+          "godot_symbol": "source_continuous_turret_set_stats_result.remove_reload_called",
+          "java_expr": "stats.remove(Stat.reload);",
+          "java_method": "ContinuousTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "rule": "Reload stat removal flag.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_turret_set_stats_state"
+          ]
+        },
+        "remove_inaccuracy_called": {
+          "godot_symbol": "source_continuous_turret_set_stats_result.remove_inaccuracy_called",
+          "java_expr": "stats.remove(Stat.inaccuracy);",
+          "java_method": "ContinuousTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "rule": "Inaccuracy stat removal flag.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_turret_set_stats_state"
+          ]
+        },
+        "shoot_type": {
+          "alias_of": "source_continuous_turret_set_stats_input.shoot_type",
+          "godot_symbol": "source_continuous_turret_set_stats_result.shoot_type",
+          "java_expr": "shootType",
+          "java_method": "ContinuousTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+          "rule": "Echoes explicit shootType input.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_continuous_turret_set_stats_state.",
+      "source_slice": "N1215",
+      "status": "source-backed"
     }},
   "version": 1
 }

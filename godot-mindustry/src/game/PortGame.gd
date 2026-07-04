@@ -17353,6 +17353,52 @@ func generated_power_turret_set_stats_bridge_state(shoot_type: Variant) -> Dicti
 		"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("shoot_type", null) == canonical.get("shoot_type", null),
 	}
 
+func source_continuous_turret_set_stats_state(shoot_type: Variant) -> Dictionary:
+	var object_map_call: Dictionary = {
+		"call": "ObjectMap.of(this, shootType)",
+		"this": "ContinuousTurret",
+		"shoot_type": shoot_type,
+	}
+	var ammo_values_call: Dictionary = {
+		"call": "StatValues.ammo(ObjectMap.of(this, shootType))",
+		"object_map_call": object_map_call,
+	}
+	var stats_add_call: Dictionary = {
+		"call": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+		"stat": "Stat.ammo",
+		"ammo_values_call": ammo_values_call,
+	}
+	return {
+		"source_owner": "PortGame.source_continuous_turret_set_stats_state",
+		"method": "public void setStats(){",
+		"override_expr": "@Override",
+		"super_set_stats_expr": "super.setStats();",
+		"stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+		"remove_reload_expr": "stats.remove(Stat.reload);",
+		"remove_inaccuracy_expr": "stats.remove(Stat.inaccuracy);",
+		"shoot_type": shoot_type,
+		"super_set_stats_called": true,
+		"stats_add_called": true,
+		"remove_reload_called": true,
+		"remove_inaccuracy_called": true,
+		"object_map_call": object_map_call,
+		"ammo_values_call": ammo_values_call,
+		"stats_add_call": stats_add_call,
+	}
+
+func generated_continuous_turret_set_stats_bridge_state(shoot_type: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setStats_0([shoot_type])
+	var canonical = source_continuous_turret_set_stats_state(shoot_type)
+	return {
+		"source_owner": "PortGame.source_continuous_turret_set_stats_state",
+		"generated_owner": "ContinuousTurret.java_method_setStats_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("remove_reload_called", null) == canonical.get("remove_reload_called", null) and result.get("remove_inaccuracy_called", null) == canonical.get("remove_inaccuracy_called", null),
+	}
+
 func source_power_turret_limit_range_state(shoot_type: Variant, margin: float) -> Dictionary:
 	var limit_range_call: Dictionary = {
 		"call": "limitRange(shootType, margin);",

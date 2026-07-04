@@ -28297,6 +28297,45 @@
         "test_item_turret_ammo_matches_upstream_source",
         "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_continuous_turret_set_stats_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "params": [
+        {
+          "name": "shoot_type",
+          "schema": "source_continuous_turret_set_stats_input.shoot_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "stats_add_expr",
+        "remove_reload_expr",
+        "remove_inaccuracy_expr",
+        "shoot_type",
+        "super_set_stats_called",
+        "stats_add_called",
+        "remove_reload_called",
+        "remove_inaccuracy_called",
+        "object_map_call",
+        "ammo_values_call",
+        "stats_add_call"
+      ],
+      "rule": "Public runtime contract for ContinuousTurret.setStats source-backed stat mutations.",
+      "runtime_proof": "/root/Main.source_continuous_turret_set_stats_state",
+      "source_method": "ContinuousTurret.setStats()",
+      "source_slice": "N1215",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_continuous_turret_set_stats_state",
+        "test_port_game_exposes_generated_continuous_turret_set_stats_bridge_state",
+        "test_continuous_turret_set_stats_matches_upstream_source",
+        "test_generated_continuous_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
     }},
   "policy": {
     "newSourceOwnerRequiresApiContract": true

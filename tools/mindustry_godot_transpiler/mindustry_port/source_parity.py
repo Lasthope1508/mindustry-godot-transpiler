@@ -26,6 +26,7 @@ HITBOX_COMP_SOURCE = "core/src/mindustry/entities/comp/HitboxComp.java"
 PAYLOAD_COMP_SOURCE = "core/src/mindustry/entities/comp/PayloadComp.java"
 BUILDER_COMP_SOURCE = "core/src/mindustry/entities/comp/BuilderComp.java"
 TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/Turret.java"
+CONTINUOUS_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java"
 BASE_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java"
 RELOAD_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ReloadTurret.java"
 POWER_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java"
@@ -636,6 +637,24 @@ def verify_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
     missing = [snippet for snippet in checked.values() if snippet not in source]
     return {
         "source": TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_continuous_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / CONTINUOUS_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void setStats(){",
+        "super_set_stats": "super.setStats();",
+        "stats_add_ammo": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+        "remove_reload": "stats.remove(Stat.reload);",
+        "remove_inaccuracy": "stats.remove(Stat.inaccuracy);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": CONTINUOUS_TURRET_SOURCE,
         "checked": checked,
         "missing": missing,
     }

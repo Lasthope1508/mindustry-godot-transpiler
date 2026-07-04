@@ -8474,6 +8474,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_continuous_turret_set_stats_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_continuous_turret_set_stats_source"))
+        report = source_parity.verify_continuous_turret_set_stats_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java")
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public void setStats(){",
+            "super_set_stats": "super.setStats();",
+            "stats_add_ammo": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+            "remove_reload": "stats.remove(Stat.reload);",
+            "remove_inaccuracy": "stats.remove(Stat.inaccuracy);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_set_bars_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_set_bars_source"))
         report = source_parity.verify_turret_set_bars_source(ROOT / "mindustry-upstream")

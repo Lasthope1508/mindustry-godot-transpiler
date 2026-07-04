@@ -7926,6 +7926,47 @@ public class Turret extends ReloadTurret{
             self.assertIn('"bar_text_format_expr": "Core.bundle.format(\\\"bar.heatpercent\\\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100))"', source_text)
             self.assertIn('"bar_progress_expr": "() -> entity.heatReq / heatRequirement"', source_text)
 
+    def test_emit_bridges_continuous_turret_set_stats_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ContinuousTurret extends Turret{
+    public BulletType shootType = Bullets.placeholder;
+
+    @Override
+    public void setStats(){
+        super.setStats();
+
+        stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));
+        stats.remove(Stat.reload);
+        stats.remove(Stat.inaccuracy);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setStats_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var shoot_type: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('var object_map_call: Dictionary = {"call": "ObjectMap.of(this, shootType)", "this": "ContinuousTurret", "shoot_type": shoot_type}', source_text)
+            self.assertIn('"source_owner": "PortGame.source_continuous_turret_set_stats_state"', source_text)
+            self.assertIn('"method": "public void setStats(){"', source_text)
+            self.assertIn('"super_set_stats_expr": "super.setStats();"', source_text)
+            self.assertIn('"stats_add_expr": "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));"', source_text)
+            self.assertIn('"remove_reload_expr": "stats.remove(Stat.reload);"', source_text)
+            self.assertIn('"remove_inaccuracy_expr": "stats.remove(Stat.inaccuracy);"', source_text)
+
     def test_emit_bridges_turret_rotated_output_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

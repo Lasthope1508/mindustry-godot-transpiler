@@ -1222,6 +1222,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_turret_outputs_items_state\", \"method\": \"public boolean outputsItems(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return false;\", \"outputs_items\": false}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ContinuousTurret.java"
+        and type_entry.get("name") == "ContinuousTurret"
+        and method.get("name") == "setStats"
+    ):
+        return [
+            "\tvar shoot_type: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar object_map_call: Dictionary = {\"call\": \"ObjectMap.of(this, shootType)\", \"this\": \"ContinuousTurret\", \"shoot_type\": shoot_type}",
+            "\tvar ammo_values_call: Dictionary = {\"call\": \"StatValues.ammo(ObjectMap.of(this, shootType))\", \"object_map_call\": object_map_call}",
+            "\tvar stats_add_call: Dictionary = {\"call\": \"stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));\", \"stat\": \"Stat.ammo\", \"ammo_values_call\": ammo_values_call}",
+            "\treturn {\"source_owner\": \"PortGame.source_continuous_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"stats_add_expr\": \"stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));\", \"remove_reload_expr\": \"stats.remove(Stat.reload);\", \"remove_inaccuracy_expr\": \"stats.remove(Stat.inaccuracy);\", \"shoot_type\": shoot_type, \"super_set_stats_called\": true, \"stats_add_called\": true, \"remove_reload_called\": true, \"remove_inaccuracy_called\": true, \"object_map_call\": object_map_call, \"ammo_values_call\": ammo_values_call, \"stats_add_call\": stats_add_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
         and type_entry.get("name") == "Turret"
         and method.get("name") == "init"

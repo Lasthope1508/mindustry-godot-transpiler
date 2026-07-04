@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 683)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 684)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 688)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 689)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42933,6 +42933,61 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void setStats(){")
         self.assertEqual(result_schema["keys"]["reload_stat_call"]["java_expr"], "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);")
         self.assertEqual(result_schema["keys"]["max_efficiency_stat_call"]["java_expr"], "if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);")
+
+    def test_generated_continuous_turret_set_stats_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "continuous_turret_set_stats.method")
+        self.assertEqual(method["java_expr"], "public void setStats(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java")
+        self.assertEqual(method["java_method"], "ContinuousTurret.setStats()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_continuous_turret_set_stats_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_continuous_turret_set_stats_state")
+
+        stats_add = source_symbols.source_symbol(registry, "continuous_turret_set_stats.stats_add_ammo")
+        self.assertEqual(stats_add["java_expr"], "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));")
+        self.assertEqual(stats_add["godot_symbol"], "source_continuous_turret_set_stats_result.stats_add_call")
+        remove_reload = source_symbols.source_symbol(registry, "continuous_turret_set_stats.remove_reload")
+        self.assertEqual(remove_reload["java_expr"], "stats.remove(Stat.reload);")
+        self.assertEqual(remove_reload["godot_symbol"], "source_continuous_turret_set_stats_result.remove_reload_called")
+        remove_inaccuracy = source_symbols.source_symbol(registry, "continuous_turret_set_stats.remove_inaccuracy")
+        self.assertEqual(remove_inaccuracy["java_expr"], "stats.remove(Stat.inaccuracy);")
+        self.assertEqual(remove_inaccuracy["godot_symbol"], "source_continuous_turret_set_stats_result.remove_inaccuracy_called")
+
+        set_stats_slice = source_symbols.source_slice(ledger, "N1215")
+        self.assertEqual(set_stats_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java")
+        self.assertEqual(set_stats_slice["java_method"], "ContinuousTurret.setStats()")
+        self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_continuous_turret_set_stats_state")
+        self.assertEqual(set_stats_slice["runtime_proof"], "/root/Main.generated_continuous_turret_set_stats_bridge_state")
+        for expr in [
+            "@Override",
+            "public void setStats(){",
+            "super.setStats();",
+            "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+            "stats.remove(Stat.reload);",
+            "stats.remove(Stat.inaccuracy);",
+        ]:
+            self.assertIn(expr, set_stats_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_continuous_turret_set_stats_state")
+        self.assertEqual(contract["params"], [
+            {"name": "shoot_type", "schema": "source_continuous_turret_set_stats_input.shoot_type", "type": "Variant"},
+        ])
+        for key in ["method", "override_expr", "super_set_stats_expr", "stats_add_expr", "remove_reload_expr", "remove_inaccuracy_expr", "shoot_type", "object_map_call", "ammo_values_call", "stats_add_call", "remove_reload_called", "remove_inaccuracy_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_continuous_turret_set_stats_input")
+        self.assertEqual(input_schema["keys"]["shoot_type"]["java_expr"], "shootType")
+        result_schema = source_symbols.state_schema(schema, "source_continuous_turret_set_stats_result")
+        self.assertEqual(result_schema["keys"]["method"]["java_expr"], "public void setStats(){")
+        self.assertEqual(result_schema["keys"]["stats_add_call"]["java_expr"], "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));")
+        self.assertEqual(result_schema["keys"]["remove_reload_called"]["java_expr"], "stats.remove(Stat.reload);")
+        self.assertEqual(result_schema["keys"]["remove_inaccuracy_called"]["java_expr"], "stats.remove(Stat.inaccuracy);")
 
     def test_generated_turret_set_bars_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
