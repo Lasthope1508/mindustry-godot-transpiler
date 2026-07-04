@@ -86550,6 +86550,108 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_peek_ammo_state",
       "rule": "peekAmmo returns ammoTypes.get(liquids.current())."
+    },
+    "liquid_turret_build_has_ammo.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.hasAmmo()",
+      "java_expr": "public boolean hasAmmo(){",
+      "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_has_ammo_result.method",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_has_ammo_state",
+      "rule": "Method boundary for LiquidTurretBuild.hasAmmo."
+    },
+    "liquid_turret_build_has_ammo.current_liquid": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.hasAmmo()",
+      "java_expr": "liquids.current()",
+      "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_has_ammo_input.current_liquid",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_has_ammo_state",
+      "rule": "Input supplies current liquid."
+    },
+    "liquid_turret_build_has_ammo.ammo_type": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.hasAmmo()",
+      "java_expr": "ammoTypes.get(liquids.current())",
+      "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_has_ammo_input.ammo_type",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_has_ammo_state",
+      "rule": "Input supplies ammoTypes current liquid lookup result."
+    },
+    "liquid_turret_build_has_ammo.current_amount": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.hasAmmo()",
+      "java_expr": "liquids.currentAmount()",
+      "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_has_ammo_input.current_amount",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_has_ammo_state",
+      "rule": "Input supplies current liquid amount."
+    },
+    "liquid_turret_build_has_ammo.ammo_multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.hasAmmo()",
+      "java_expr": "ammoTypes.get(liquids.current()).ammoMultiplier",
+      "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_has_ammo_input.ammo_multiplier",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_has_ammo_state",
+      "rule": "Input supplies BulletType ammoMultiplier for required liquid amount."
+    },
+    "liquid_turret_build_has_ammo.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.hasAmmo()",
+      "java_expr": "return ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier;",
+      "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+      "godot_symbol": "source_liquid_turret_build_has_ammo_result.has_ammo",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_has_ammo_state",
+      "rule": "hasAmmo returns true only when current ammo type exists and current liquid amount reaches reciprocal ammoMultiplier."
     }
   },
   "version": 1

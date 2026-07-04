@@ -27076,6 +27076,39 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_build_peek_ammo_bridge_state",
       "rule": "LiquidTurretBuild.peekAmmo returns ammoTypes.get(liquids.current())."
+    },
+    "N1203": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.hasAmmo()",
+      "godot_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "public boolean hasAmmo(){",
+        "return ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier;"
+      ],
+      "deferred_exprs": [
+        "ObjectMap ammoTypes lookup internals, LiquidModule internals, and BulletType internals stay deferred; this slice records hasAmmo branch state with explicit current liquid, lookup result, current amount, and ammoMultiplier inputs."
+      ],
+      "source_symbols": [
+        "liquid_turret_build_has_ammo.method",
+        "liquid_turret_build_has_ammo.current_liquid",
+        "liquid_turret_build_has_ammo.ammo_type",
+        "liquid_turret_build_has_ammo.current_amount",
+        "liquid_turret_build_has_ammo.ammo_multiplier",
+        "liquid_turret_build_has_ammo.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_has_ammo_bridge_state",
+      "rule": "LiquidTurretBuild.hasAmmo returns ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier."
     }
   },
   "version": 1

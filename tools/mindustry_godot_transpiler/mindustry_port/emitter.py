@@ -2990,6 +2990,19 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar ammo_type: Variant = _args[1] if _args.size() > 1 else null",
                         "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_build_peek_ammo_state\", \"inner_class\": \"public class LiquidTurretBuild extends TurretBuild{\", \"method\": \"public BulletType peekAmmo(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammoTypes.get(liquids.current());\", \"current_liquid\": current_liquid, \"peek_ammo\": ammo_type}",
                     ])
+                elif method.get("name") == "hasAmmo":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_LiquidTurretBuild_method_hasAmmo_{index}(_args: Array = []) -> Variant:",
+                        "\tvar current_liquid: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar ammo_type: Variant = _args[1] if _args.size() > 1 else null",
+                        "\tvar current_amount: float = float(_args[2] if _args.size() > 2 else 0.0)",
+                        "\tvar ammo_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)",
+                        "\tvar ammo_type_present: bool = ammo_type != null",
+                        "\tvar required_amount: float = 1.0 / ammo_multiplier",
+                        "\tvar has_ammo: bool = ammo_type_present and current_amount >= required_amount",
+                        "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_build_has_ammo_state\", \"inner_class\": \"public class LiquidTurretBuild extends TurretBuild{\", \"method\": \"public boolean hasAmmo(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier;\", \"current_liquid\": current_liquid, \"ammo_type\": ammo_type, \"current_amount\": current_amount, \"ammo_multiplier\": ammo_multiplier, \"ammo_type_present\": ammo_type_present, \"required_amount\": required_amount, \"has_ammo\": has_ammo}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

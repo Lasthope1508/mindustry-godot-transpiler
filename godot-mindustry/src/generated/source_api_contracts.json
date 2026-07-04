@@ -27602,6 +27602,57 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_peek_ammo_state",
       "rule": "Public runtime contract for LiquidTurretBuild.peekAmmo state."
+    },
+    "PortGame.source_liquid_turret_build_has_ammo_state": {
+      "status": "source-backed",
+      "source_slice": "N1203",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurretBuild.hasAmmo()",
+      "params": [
+        {
+          "name": "current_liquid",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_has_ammo_input.current_liquid"
+        },
+        {
+          "name": "ammo_type",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_has_ammo_input.ammo_type"
+        },
+        {
+          "name": "current_amount",
+          "type": "float",
+          "schema": "source_liquid_turret_build_has_ammo_input.current_amount"
+        },
+        {
+          "name": "ammo_multiplier",
+          "type": "float",
+          "schema": "source_liquid_turret_build_has_ammo_input.ammo_multiplier"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "current_liquid",
+        "ammo_type",
+        "current_amount",
+        "ammo_multiplier",
+        "ammo_type_present",
+        "required_amount",
+        "has_ammo"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_has_ammo_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_has_ammo_state",
+        "test_port_game_exposes_generated_liquid_turret_build_has_ammo_bridge_state",
+        "test_liquid_turret_build_has_ammo_matches_upstream_source",
+        "test_generated_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_has_ammo_state",
+      "rule": "Public runtime contract for LiquidTurretBuild.hasAmmo state."
     }
   },
   "policy": {

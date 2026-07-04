@@ -9332,6 +9332,61 @@ public class LiquidTurret extends Turret{
             self.assertIn('"current_liquid": current_liquid', source_text)
             self.assertIn('"peek_ammo": ammo_type', source_text)
 
+    def test_emit_bridges_liquid_turret_build_has_ammo_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            liquid_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.java"
+            liquid_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            liquid_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class LiquidTurret extends Turret{
+    public class LiquidTurretBuild extends TurretBuild{
+        @Override
+        public boolean shouldActiveSound(){ return wasShooting && enabled; }
+        @Override
+        public UnlockableContent getAmmoContent(){ return liquids.current(); }
+        @Override
+        public float getAmmoFraction(){ return liquids.currentAmount() / liquidCapacity; }
+        @Override
+        public Object senseObject(LAccess sensor){ return liquids.current(); }
+        @Override
+        protected void findTarget(){ super.findTarget(); }
+        @Override
+        public BulletType useAmmo(){ return ammoTypes.get(liquids.current()); }
+        @Override
+        public BulletType peekAmmo(){ return ammoTypes.get(liquids.current()); }
+
+        @Override
+        public boolean hasAmmo(){
+            return ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_LiquidTurretBuild_method_hasAmmo_7(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_liquid: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var ammo_type: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var current_amount: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var ammo_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
+            self.assertIn("var ammo_type_present: bool = ammo_type != null", source_text)
+            self.assertIn("var required_amount: float = 1.0 / ammo_multiplier", source_text)
+            self.assertIn("var has_ammo: bool = ammo_type_present and current_amount >= required_amount", source_text)
+            self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_has_ammo_state"', source_text)
+            self.assertIn('"method": "public boolean hasAmmo(){"', source_text)
+            self.assertIn('"return_expr": "return ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier;"', source_text)
+            self.assertIn('"has_ammo": has_ammo', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

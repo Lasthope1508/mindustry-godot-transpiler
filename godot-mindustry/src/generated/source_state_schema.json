@@ -101492,6 +101492,116 @@
         }
       },
       "rule": "Dictionary returned by PortGame.source_liquid_turret_build_peek_ammo_state."
+    },
+    "source_liquid_turret_build_has_ammo_input": {
+      "status": "source-backed",
+      "source_slice": "N1203",
+      "keys": {
+        "current_liquid": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_build_has_ammo_input.current_liquid",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.hasAmmo()",
+          "java_expr": "liquids.current()",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_has_ammo_state"
+          ],
+          "rule": "Input supplies current liquid."
+        },
+        "ammo_type": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_build_has_ammo_input.ammo_type",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.hasAmmo()",
+          "java_expr": "ammoTypes.get(liquids.current())",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_has_ammo_state"
+          ],
+          "rule": "Input supplies ammoTypes current liquid lookup result."
+        },
+        "current_amount": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_liquid_turret_build_has_ammo_input.current_amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.hasAmmo()",
+          "java_expr": "liquids.currentAmount()",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_has_ammo_state"
+          ],
+          "rule": "Input supplies current liquid amount."
+        },
+        "ammo_multiplier": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_liquid_turret_build_has_ammo_input.ammo_multiplier",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.hasAmmo()",
+          "java_expr": "ammoTypes.get(liquids.current()).ammoMultiplier",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_has_ammo_state"
+          ],
+          "rule": "Input supplies BulletType ammoMultiplier."
+        }
+      },
+      "rule": "Inputs for PortGame.source_liquid_turret_build_has_ammo_state."
+    },
+    "source_liquid_turret_build_has_ammo_result": {
+      "status": "source-backed",
+      "source_slice": "N1203",
+      "keys": {
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_build_has_ammo_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.hasAmmo()",
+          "java_expr": "public boolean hasAmmo(){",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_has_ammo_state"
+          ],
+          "rule": "Method boundary."
+        },
+        "ammo_type_present": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_liquid_turret_build_has_ammo_result.ammo_type_present",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.hasAmmo()",
+          "java_expr": "ammoTypes.get(liquids.current()) != null",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_has_ammo_state"
+          ],
+          "rule": "First operand of short-circuit hasAmmo condition."
+        },
+        "required_amount": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_liquid_turret_build_has_ammo_result.required_amount",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.hasAmmo()",
+          "java_expr": "1f / ammoTypes.get(liquids.current()).ammoMultiplier",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_has_ammo_state"
+          ],
+          "rule": "Required current liquid amount from reciprocal ammoMultiplier."
+        },
+        "has_ammo": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_liquid_turret_build_has_ammo_result.has_ammo",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.hasAmmo()",
+          "java_expr": "ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_has_ammo_state"
+          ],
+          "rule": "Final hasAmmo return value."
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_liquid_turret_build_has_ammo_state."
     }
   },
   "version": 1

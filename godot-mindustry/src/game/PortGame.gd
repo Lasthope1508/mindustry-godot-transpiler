@@ -18203,6 +18203,40 @@ func generated_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Varian
 		"matches": result.get("peek_ammo", null) == canonical.get("peek_ammo", null),
 	}
 
+func source_liquid_turret_build_has_ammo_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:
+	var ammo_type_present: bool = ammo_type != null
+	var required_amount: float = 1.0 / ammo_multiplier
+	var has_ammo: bool = ammo_type_present and current_amount >= required_amount
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+		"inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+		"method": "public boolean hasAmmo(){",
+		"override_expr": "@Override",
+		"return_expr": "return ammoTypes.get(liquids.current()) != null && liquids.currentAmount() >= 1f / ammoTypes.get(liquids.current()).ammoMultiplier;",
+		"current_liquid": current_liquid,
+		"ammo_type": ammo_type,
+		"current_amount": current_amount,
+		"ammo_multiplier": ammo_multiplier,
+		"ammo_type_present": ammo_type_present,
+		"required_amount": required_amount,
+		"has_ammo": has_ammo,
+	}
+
+func generated_liquid_turret_build_has_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant, current_amount: float, ammo_multiplier: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_LiquidTurretBuild_method_hasAmmo_7([current_liquid, ammo_type, current_amount, ammo_multiplier])
+	var canonical = source_liquid_turret_build_has_ammo_state(current_liquid, ammo_type, current_amount, ammo_multiplier)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_has_ammo_state",
+		"generated_owner": "LiquidTurret.LiquidTurretBuild.hasAmmo",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("has_ammo", null) == canonical.get("has_ammo", null)
+			and result.get("required_amount", null) == canonical.get("required_amount", null)
+			and result.get("ammo_type_present", null) == canonical.get("ammo_type_present", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}
