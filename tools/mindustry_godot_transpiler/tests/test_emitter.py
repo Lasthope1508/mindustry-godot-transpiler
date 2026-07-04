@@ -9065,6 +9065,53 @@ public class LiquidTurret extends Turret{
             self.assertIn('"return_expr": "return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;"', source_text)
             self.assertIn('"ammo_content": ammo_content', source_text)
 
+    def test_emit_bridges_liquid_turret_build_get_ammo_fraction_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            liquid_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.java"
+            liquid_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            liquid_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class LiquidTurret extends Turret{
+    public class LiquidTurretBuild extends TurretBuild{
+
+        @Override
+        public boolean shouldActiveSound(){
+            return wasShooting && enabled;
+        }
+
+        @Override
+        public UnlockableContent getAmmoContent(){
+            return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;
+        }
+
+        @Override
+        public float getAmmoFraction(){
+            return liquids.currentAmount() / liquidCapacity;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "LiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_LiquidTurretBuild_method_getAmmoFraction_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_amount: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var liquid_capacity: float = float(_args[1] if _args.size() > 1 else 1.0)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_get_ammo_fraction_state"', source_text)
+            self.assertIn('"inner_class": "public class LiquidTurretBuild extends TurretBuild{"', source_text)
+            self.assertIn('"method": "public float getAmmoFraction(){"', source_text)
+            self.assertIn('"return_expr": "return liquids.currentAmount() / liquidCapacity;"', source_text)
+            self.assertIn('"ammo_fraction": ammo_fraction', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

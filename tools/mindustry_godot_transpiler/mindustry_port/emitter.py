@@ -2926,6 +2926,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar ammo_content: Variant = current_liquid if not liquids_null and current_amount > 0.0 else null",
                         "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_build_get_ammo_content_state\", \"inner_class\": \"public class LiquidTurretBuild extends TurretBuild{\", \"method\": \"public UnlockableContent getAmmoContent(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;\", \"liquids_null\": liquids_null, \"current_amount\": current_amount, \"current_liquid\": current_liquid, \"ammo_content\": ammo_content}",
                     ])
+                elif method.get("name") == "getAmmoFraction":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_LiquidTurretBuild_method_getAmmoFraction_{index}(_args: Array = []) -> Variant:",
+                        "\tvar current_amount: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                        "\tvar liquid_capacity: float = float(_args[1] if _args.size() > 1 else 1.0)",
+                        "\tvar ammo_fraction: float = current_amount / liquid_capacity",
+                        "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_build_get_ammo_fraction_state\", \"inner_class\": \"public class LiquidTurretBuild extends TurretBuild{\", \"method\": \"public float getAmmoFraction(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return liquids.currentAmount() / liquidCapacity;\", \"current_amount\": current_amount, \"liquid_capacity\": liquid_capacity, \"ammo_fraction\": ammo_fraction}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"
