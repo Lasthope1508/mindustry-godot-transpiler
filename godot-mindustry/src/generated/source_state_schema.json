@@ -96185,6 +96185,130 @@
       "rule": "Dictionary returned by PortGame.source_power_turret_limit_range_state.",
       "source_slice": "N1167",
       "status": "source-backed"
+    },
+    "source_power_turret_build_get_ammo_fraction_input": {
+      "status": "source-backed",
+      "source_slice": "N1168",
+      "rule": "Inputs accepted by PortGame.source_power_turret_build_get_ammo_fraction_state.",
+      "keys": {
+        "power_null": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_power_turret_build_get_ammo_fraction_input.power_null",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.getAmmoFraction()",
+          "java_expr": "power == null",
+          "used_by": [
+            "PortGame.source_power_turret_build_get_ammo_fraction_state"
+          ],
+          "rule": "Input preserves the Java null guard."
+        },
+        "power_status": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_power_turret_build_get_ammo_fraction_input.power_status",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.getAmmoFraction()",
+          "java_expr": "power.status",
+          "used_by": [
+            "PortGame.source_power_turret_build_get_ammo_fraction_state"
+          ],
+          "rule": "Input preserves power.status for the non-null branch."
+        }
+      }
+    },
+    "source_power_turret_build_get_ammo_fraction_result": {
+      "status": "source-backed",
+      "source_slice": "N1168",
+      "rule": "Dictionary returned by PortGame.source_power_turret_build_get_ammo_fraction_state.",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_get_ammo_fraction_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.getAmmoFraction()",
+          "java_expr": "public class PowerTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_power_turret_build_get_ammo_fraction_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_get_ammo_fraction_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.getAmmoFraction()",
+          "java_expr": "public float getAmmoFraction(){",
+          "used_by": [
+            "PortGame.source_power_turret_build_get_ammo_fraction_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_get_ammo_fraction_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.getAmmoFraction()",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_power_turret_build_get_ammo_fraction_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "return_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_power_turret_build_get_ammo_fraction_result.return_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.getAmmoFraction()",
+          "java_expr": "return power == null ? 0f : power.status;",
+          "used_by": [
+            "PortGame.source_power_turret_build_get_ammo_fraction_state"
+          ],
+          "rule": "Result records exact return expression."
+        },
+        "power_null": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_power_turret_build_get_ammo_fraction_result.power_null",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.getAmmoFraction()",
+          "java_expr": "power == null",
+          "used_by": [
+            "PortGame.source_power_turret_build_get_ammo_fraction_state"
+          ],
+          "rule": "Result echoes null guard input.",
+          "alias_of": "source_power_turret_build_get_ammo_fraction_input.power_null"
+        },
+        "power_status": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_power_turret_build_get_ammo_fraction_result.power_status",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.getAmmoFraction()",
+          "java_expr": "power.status",
+          "used_by": [
+            "PortGame.source_power_turret_build_get_ammo_fraction_state"
+          ],
+          "rule": "Result echoes power status input.",
+          "alias_of": "source_power_turret_build_get_ammo_fraction_input.power_status"
+        },
+        "ammo_fraction": {
+          "status": "source-backed",
+          "type": "float",
+          "godot_symbol": "source_power_turret_build_get_ammo_fraction_result.ammo_fraction",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+          "java_method": "PowerTurretBuild.getAmmoFraction()",
+          "java_expr": "return power == null ? 0f : power.status;",
+          "used_by": [
+            "PortGame.source_power_turret_build_get_ammo_fraction_state"
+          ],
+          "rule": "Result is 0 when power is null, otherwise power.status."
+        }
+      }
     }
   },
   "version": 1

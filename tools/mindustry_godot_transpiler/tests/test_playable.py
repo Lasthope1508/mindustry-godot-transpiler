@@ -13134,5 +13134,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "PowerTurret.java_method_limitRange_1"', source)
         self.assertIn('"matches": result.get("limit_range_call", null) == canonical.get("limit_range_call", null) and result.get("margin", null) == canonical.get("margin", null)', source)
 
+    def test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_power_turret_build_get_ammo_fraction_state(power_null: bool, power_status: float) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class PowerTurretBuild extends TurretBuild{"', source)
+        self.assertIn('"method": "public float getAmmoFraction(){"', source)
+        self.assertIn('"return_expr": "return power == null ? 0f : power.status;"', source)
+        self.assertIn('"ammo_fraction": ammo_fraction', source)
+
+    def test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_power_turret_build_get_ammo_fraction_bridge_state(power_null: bool, power_status: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_PowerTurretBuild_method_getAmmoFraction_0([power_null, power_status])", source)
+        self.assertIn("var canonical = source_power_turret_build_get_ammo_fraction_state(power_null, power_status)", source)
+        self.assertIn('"source_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state"', source)
+        self.assertIn('"generated_owner": "PowerTurret.PowerTurretBuild.getAmmoFraction"', source)
+        self.assertIn('"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

@@ -211,6 +211,7 @@ def _class_entry(node: ClassDeclaration) -> dict:
     fields = []
     methods = []
     constructors = []
+    inner_classes = []
     for member in node.body:
         if isinstance(member, FieldDeclaration):
             fields.extend(_field_entries(member))
@@ -218,6 +219,8 @@ def _class_entry(node: ClassDeclaration) -> dict:
             methods.append(_method_entry(member))
         elif isinstance(member, ConstructorDeclaration):
             constructors.append(_constructor_entry(member))
+        elif isinstance(member, ClassDeclaration):
+            inner_classes.append(_class_entry(member))
 
     return {
         "kind": "class",
@@ -228,6 +231,7 @@ def _class_entry(node: ClassDeclaration) -> dict:
         "fields": fields,
         "constructors": constructors,
         "methods": methods,
+        "inner_classes": inner_classes,
         "enum_constants": [],
     }
 

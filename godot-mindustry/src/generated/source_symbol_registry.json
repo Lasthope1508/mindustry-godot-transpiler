@@ -81671,6 +81671,74 @@
       "godot_symbol": "source_power_turret_limit_range_result.limit_range_call",
       "java_expr": "limitRange(shootType, margin);",
       "rule": "Dispatch to inherited Turret.limitRange is recorded exactly; inherited internals remain owned by Turret.limitRange slice."
+    },
+    "power_turret_build_get_ammo_fraction.method": {
+      "godot_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state",
+      "java_method": "PowerTurretBuild.getAmmoFraction()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_get_ammo_fraction_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
+        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_get_ammo_fraction_result.method",
+      "java_expr": "public float getAmmoFraction(){",
+      "rule": "Method boundary comes from PowerTurretBuild.getAmmoFraction."
+    },
+    "power_turret_build_get_ammo_fraction.power_null": {
+      "godot_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state",
+      "java_method": "PowerTurretBuild.getAmmoFraction()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_get_ammo_fraction_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
+        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_get_ammo_fraction_input.power_null",
+      "java_expr": "power == null",
+      "rule": "Null power guard preserves the ternary condition."
+    },
+    "power_turret_build_get_ammo_fraction.power_status": {
+      "godot_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state",
+      "java_method": "PowerTurretBuild.getAmmoFraction()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_get_ammo_fraction_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
+        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_get_ammo_fraction_input.power_status",
+      "java_expr": "power.status",
+      "rule": "Power status value is used only when power is not null."
+    },
+    "power_turret_build_get_ammo_fraction.return_expr": {
+      "godot_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state",
+      "java_method": "PowerTurretBuild.getAmmoFraction()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "runtime_proof": "/root/Main.source_power_turret_build_get_ammo_fraction_state",
+      "tests": [
+        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
+        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_power_turret_build_get_ammo_fraction_result.ammo_fraction",
+      "java_expr": "return power == null ? 0f : power.status;",
+      "rule": "Ammo fraction preserves the exact Java ternary result."
     }
   },
   "version": 1

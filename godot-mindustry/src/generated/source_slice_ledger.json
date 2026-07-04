@@ -25792,6 +25792,37 @@
         "test_power_turret_limit_range_matches_upstream_source",
         "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1168": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.PowerTurret.PowerTurretBuild",
+      "java_method": "PowerTurretBuild.getAmmoFraction()",
+      "godot_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state",
+      "exact_exprs": [
+        "public class PowerTurretBuild extends TurretBuild{",
+        "@Override",
+        "public float getAmmoFraction(){",
+        "return power == null ? 0f : power.status;"
+      ],
+      "source_symbols": [
+        "power_turret_build_get_ammo_fraction.method",
+        "power_turret_build_get_ammo_fraction.power_null",
+        "power_turret_build_get_ammo_fraction.power_status",
+        "power_turret_build_get_ammo_fraction.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
+        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_power_turret_build_get_ammo_fraction_bridge_state",
+      "rule": "PowerTurretBuild.getAmmoFraction returns zero without a power module, otherwise returns power.status.",
+      "deferred_exprs": [
+        "Concrete power graph/module status production remains owned by power runtime integration slices."
+      ]
     }
   },
   "version": 1

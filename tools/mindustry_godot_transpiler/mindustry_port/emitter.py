@@ -2773,6 +2773,28 @@ def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
     return lines
 
 
+def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
+    lines: list[str] = []
+    if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
+        and type_entry.get("name") == "PowerTurret"
+    ):
+        for inner_class in type_entry.get("inner_classes", []):
+            if inner_class.get("name") != "PowerTurretBuild":
+                continue
+            for index, method in enumerate(inner_class.get("methods", [])):
+                if method.get("name") != "getAmmoFraction":
+                    continue
+                lines.extend([
+                    "",
+                    f"func java_inner_class_PowerTurretBuild_method_getAmmoFraction_{index}(_args: Array = []) -> Variant:",
+                    "\tvar power_null: bool = bool(_args[0] if _args.size() > 0 else true)",
+                    "\tvar power_status: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                    "\tvar ammo_fraction: float = 0.0 if power_null else power_status",
+                    "\treturn {\"source_owner\": \"PortGame.source_power_turret_build_get_ammo_fraction_state\", \"inner_class\": \"public class PowerTurretBuild extends TurretBuild{\", \"method\": \"public float getAmmoFraction(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return power == null ? 0f : power.status;\", \"power_null\": power_null, \"power_status\": power_status, \"ammo_fraction\": ammo_fraction}",
+                ])
+    return lines
+
 def _script_text(java_file: dict, type_entry: dict) -> str:
     lines = [
         "# Generated from Mindustry upstream.",
@@ -2792,6 +2814,7 @@ def _script_text(java_file: dict, type_entry: dict) -> str:
     ]
     lines.extend(_helper_lines(java_file, type_entry))
     lines.extend(_method_stub_lines(java_file, type_entry))
+    lines.extend(_extra_method_stub_lines(java_file, type_entry))
     lines.append("")
     return "\n".join(lines)
 

@@ -17015,6 +17015,32 @@ func generated_power_turret_limit_range_bridge_state(shoot_type: Variant, margin
 		"matches": result.get("limit_range_call", null) == canonical.get("limit_range_call", null) and result.get("margin", null) == canonical.get("margin", null),
 	}
 
+func source_power_turret_build_get_ammo_fraction_state(power_null: bool, power_status: float) -> Dictionary:
+	var ammo_fraction: float = 0.0 if power_null else power_status
+	return {
+		"source_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state",
+		"inner_class": "public class PowerTurretBuild extends TurretBuild{",
+		"method": "public float getAmmoFraction(){",
+		"override_expr": "@Override",
+		"return_expr": "return power == null ? 0f : power.status;",
+		"power_null": power_null,
+		"power_status": power_status,
+		"ammo_fraction": ammo_fraction,
+	}
+
+func generated_power_turret_build_get_ammo_fraction_bridge_state(power_null: bool, power_status: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/PowerTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_PowerTurretBuild_method_getAmmoFraction_0([power_null, power_status])
+	var canonical = source_power_turret_build_get_ammo_fraction_state(power_null, power_status)
+	return {
+		"source_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state",
+		"generated_owner": "PowerTurret.PowerTurretBuild.getAmmoFraction",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

@@ -25,3 +25,9 @@ func java_method_limitRange_1(_args: Array = []) -> Variant:
 	var margin: float = float(_args[1] if _args.size() > 1 else 0.0)
 	var limit_range_call: Dictionary = {"call": "limitRange(shootType, margin);", "shoot_type": shoot_type, "margin": margin}
 	return {"source_owner": "PortGame.source_power_turret_limit_range_state", "method": "public void limitRange(float margin){", "dispatch_expr": "limitRange(shootType, margin);", "shoot_type": shoot_type, "margin": margin, "limit_range_called": true, "limit_range_call": limit_range_call}
+
+func java_inner_class_PowerTurretBuild_method_getAmmoFraction_0(_args: Array = []) -> Variant:
+	var power_null: bool = bool(_args[0] if _args.size() > 0 else true)
+	var power_status: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var ammo_fraction: float = 0.0 if power_null else power_status
+	return {"source_owner": "PortGame.source_power_turret_build_get_ammo_fraction_state", "inner_class": "public class PowerTurretBuild extends TurretBuild{", "method": "public float getAmmoFraction(){", "override_expr": "@Override", "return_expr": "return power == null ? 0f : power.status;", "power_null": power_null, "power_status": power_status, "ammo_fraction": ammo_fraction}

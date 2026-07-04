@@ -26095,6 +26095,42 @@
         "test_power_turret_limit_range_matches_upstream_source",
         "test_generated_power_turret_limit_range_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_power_turret_build_get_ammo_fraction_state": {
+      "status": "source-backed",
+      "source_slice": "N1168",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java",
+      "source_method": "PowerTurretBuild.getAmmoFraction()",
+      "params": [
+        {
+          "name": "power_null",
+          "type": "bool",
+          "schema": "source_power_turret_build_get_ammo_fraction_input.power_null"
+        },
+        {
+          "name": "power_status",
+          "type": "float",
+          "schema": "source_power_turret_build_get_ammo_fraction_input.power_status"
+        }
+      ],
+      "return_keys": [
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "power_null",
+        "power_status",
+        "ammo_fraction"
+      ],
+      "tests": [
+        "test_emit_bridges_power_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_power_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_power_turret_build_get_ammo_fraction_bridge_state",
+        "test_power_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_power_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_power_turret_build_get_ammo_fraction_state",
+      "rule": "Public runtime contract for PowerTurretBuild.getAmmoFraction state."
     }
   },
   "policy": {
