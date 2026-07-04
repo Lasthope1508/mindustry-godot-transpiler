@@ -7504,5 +7504,38 @@ public class Turret extends ReloadTurret{
             self.assertIn('"draw_min_range_gate": "if(drawMinRange){"', source_text)
             self.assertIn('"dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);"', source_text)
 
+    def test_emit_bridges_turret_rotated_output_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class Turret extends ReloadTurret{
+    @Override
+    public boolean rotatedOutput(int x, int y){
+        return false;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_rotatedOutput_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile_x: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var tile_y: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_turret_rotated_output_state"', source_text)
+            self.assertIn('"method": "public boolean rotatedOutput(int x, int y){"', source_text)
+            self.assertIn('"return_expr": "return false;"', source_text)
+            self.assertIn('"rotated_output": false', source_text)
+
 if __name__ == "__main__":
     unittest.main()

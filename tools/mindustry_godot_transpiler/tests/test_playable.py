@@ -13021,5 +13021,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_drawPlace_9"', source)
         self.assertIn('"matches": result.get("dash_circle_called", null) == canonical.get("dash_circle_called", null) and result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null)', source)
 
+    def test_port_game_exposes_source_turret_rotated_output_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_rotated_output_state(tile_x: int, tile_y: int) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean rotatedOutput(int x, int y){"', source)
+        self.assertIn('"return_expr": "return false;"', source)
+        self.assertIn('"rotated_output": false', source)
+
+    def test_port_game_exposes_generated_turret_rotated_output_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_rotated_output_bridge_state(tile_x: int, tile_y: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_rotatedOutput_10([tile_x, tile_y])", source)
+        self.assertIn("var canonical = source_turret_rotated_output_state(tile_x, tile_y)", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_rotated_output_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_rotatedOutput_10"', source)
+        self.assertIn('"matches": result.get("rotated_output", null) == canonical.get("rotated_output", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

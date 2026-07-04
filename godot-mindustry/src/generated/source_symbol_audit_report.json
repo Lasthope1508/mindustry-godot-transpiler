@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 631,
+  "registeredSourceOwnerCount": 632,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -505,6 +505,7 @@
     "PortGame.source_turret_reload_seconds",
     "PortGame.source_turret_reload_seconds_for_ammo",
     "PortGame.source_turret_rotate_speed",
+    "PortGame.source_turret_rotated_output_state",
     "PortGame.source_turret_shoot_cone",
     "PortGame.source_turret_shoot_pattern",
     "PortGame.source_turret_shoot_y",
@@ -3684,6 +3685,11 @@
       "owner": "PortGame.source_turret_draw_place_state"
     },
     {
+      "function": "source_turret_rotated_output_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_turret_rotated_output_state"
+    },
+    {
       "function": "source_turret_ammo_data",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_turret_ammo_data"
@@ -3829,6 +3835,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 636,
+  "totalSourceFunctions": 637,
   "version": 1
 }

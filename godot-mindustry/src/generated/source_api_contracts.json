@@ -25865,6 +25865,41 @@
         "test_turret_draw_place_matches_upstream_source",
         "test_generated_turret_draw_place_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_turret_rotated_output_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "tile_x",
+          "schema": "source_turret_rotated_output_input.tile_x",
+          "type": "int"
+        },
+        {
+          "name": "tile_y",
+          "schema": "source_turret_rotated_output_input.tile_y",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "override_expr",
+        "return_expr",
+        "tile_x",
+        "tile_y",
+        "rotated_output"
+      ],
+      "rule": "Public runtime contract for Turret.rotatedOutput constant false state.",
+      "runtime_proof": "/root/Main.source_turret_rotated_output_state",
+      "source_method": "rotatedOutput(int x, int y)",
+      "source_slice": "N1163",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_rotated_output_to_source_state",
+        "test_port_game_exposes_source_turret_rotated_output_state",
+        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
+        "test_turret_rotated_output_matches_upstream_source",
+        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

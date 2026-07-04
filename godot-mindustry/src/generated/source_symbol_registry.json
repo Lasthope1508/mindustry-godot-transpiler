@@ -81025,6 +81025,91 @@
       "godot_symbol": "source_turret_draw_place_result.dash_circle_call.color",
       "java_expr": "placing = accent,",
       "rule": "Pal.placing is the color symbol passed to Drawf.dashCircle."
+    },
+    "turret_rotated_output.method": {
+      "godot_owner": "PortGame.source_turret_rotated_output_state",
+      "java_method": "rotatedOutput(int x, int y)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_rotated_output_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_rotated_output_to_source_state",
+        "test_port_game_exposes_source_turret_rotated_output_state",
+        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
+        "test_turret_rotated_output_matches_upstream_source",
+        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_turret_rotated_output_result.method",
+      "java_expr": "public boolean rotatedOutput(int x, int y){",
+      "rule": "Method boundary comes from Turret.rotatedOutput."
+    },
+    "turret_rotated_output.override": {
+      "godot_owner": "PortGame.source_turret_rotated_output_state",
+      "java_method": "rotatedOutput(int x, int y)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_rotated_output_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_rotated_output_to_source_state",
+        "test_port_game_exposes_source_turret_rotated_output_state",
+        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
+        "test_turret_rotated_output_matches_upstream_source",
+        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_turret_rotated_output_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "Override annotation comes from Turret.rotatedOutput."
+    },
+    "turret_rotated_output.x": {
+      "godot_owner": "PortGame.source_turret_rotated_output_state",
+      "java_method": "rotatedOutput(int x, int y)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_rotated_output_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_rotated_output_to_source_state",
+        "test_port_game_exposes_source_turret_rotated_output_state",
+        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
+        "test_turret_rotated_output_matches_upstream_source",
+        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_turret_rotated_output_input.tile_x",
+      "java_expr": "int x",
+      "rule": "Input tile_x preserves Java rotatedOutput x tile coordinate."
+    },
+    "turret_rotated_output.y": {
+      "godot_owner": "PortGame.source_turret_rotated_output_state",
+      "java_method": "rotatedOutput(int x, int y)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_rotated_output_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_rotated_output_to_source_state",
+        "test_port_game_exposes_source_turret_rotated_output_state",
+        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
+        "test_turret_rotated_output_matches_upstream_source",
+        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_turret_rotated_output_input.tile_y",
+      "java_expr": "int y",
+      "rule": "Input tile_y preserves Java rotatedOutput y tile coordinate."
+    },
+    "turret_rotated_output.return_false": {
+      "godot_owner": "PortGame.source_turret_rotated_output_state",
+      "java_method": "rotatedOutput(int x, int y)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "runtime_proof": "/root/Main.source_turret_rotated_output_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_rotated_output_to_source_state",
+        "test_port_game_exposes_source_turret_rotated_output_state",
+        "test_port_game_exposes_generated_turret_rotated_output_bridge_state",
+        "test_turret_rotated_output_matches_upstream_source",
+        "test_generated_turret_rotated_output_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_turret_rotated_output_result.rotated_output",
+      "java_expr": "return false;",
+      "rule": "Turret.rotatedOutput always returns false."
     }
   },
   "version": 1

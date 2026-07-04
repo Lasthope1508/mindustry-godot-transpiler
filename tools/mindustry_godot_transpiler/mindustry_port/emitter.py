@@ -1328,6 +1328,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_turret_draw_place_state\", \"method\": \"public void drawPlace(int x, int y, int rotation, boolean valid){\", \"override_expr\": \"@Override\", \"super_draw_place_expr\": \"super.drawPlace(x, y, rotation, valid);\", \"draw_min_range_gate\": \"if(drawMinRange){\", \"dash_circle_expr\": \"Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);\", \"tile_x\": tile_x, \"tile_y\": tile_y, \"rotation\": rotation, \"valid\": valid, \"draw_min_range\": draw_min_range, \"source_tilesize\": source_tilesize, \"block_offset\": block_offset, \"min_range\": min_range, \"dash_circle_x\": dash_circle_x, \"dash_circle_y\": dash_circle_y, \"dash_circle_called\": dash_circle_called, \"dash_circle_call\": dash_circle_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+        and type_entry.get("name") == "Turret"
+        and method.get("name") == "rotatedOutput"
+    ):
+        return [
+            "\tvar tile_x: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar tile_y: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\treturn {\"source_owner\": \"PortGame.source_turret_rotated_output_state\", \"method\": \"public boolean rotatedOutput(int x, int y){\", \"override_expr\": \"@Override\", \"return_expr\": \"return false;\", \"tile_x\": tile_x, \"tile_y\": tile_y, \"rotated_output\": false}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

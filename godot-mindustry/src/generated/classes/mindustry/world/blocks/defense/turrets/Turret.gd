@@ -94,7 +94,9 @@ func java_method_drawPlace_9(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_turret_draw_place_state", "method": "public void drawPlace(int x, int y, int rotation, boolean valid){", "override_expr": "@Override", "super_draw_place_expr": "super.drawPlace(x, y, rotation, valid);", "draw_min_range_gate": "if(drawMinRange){", "dash_circle_expr": "Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, minRange, Pal.placing);", "tile_x": tile_x, "tile_y": tile_y, "rotation": rotation, "valid": valid, "draw_min_range": draw_min_range, "source_tilesize": source_tilesize, "block_offset": block_offset, "min_range": min_range, "dash_circle_x": dash_circle_x, "dash_circle_y": dash_circle_y, "dash_circle_called": dash_circle_called, "dash_circle_call": dash_circle_call}
 
 func java_method_rotatedOutput_10(_args: Array = []) -> Variant:
-	return null
+	var tile_x: int = int(_args[0] if _args.size() > 0 else 0)
+	var tile_y: int = int(_args[1] if _args.size() > 1 else 0)
+	return {"source_owner": "PortGame.source_turret_rotated_output_state", "method": "public boolean rotatedOutput(int x, int y){", "override_expr": "@Override", "return_expr": "return false;", "tile_x": tile_x, "tile_y": tile_y, "rotated_output": false}
 
 func java_method_placeEnded_11(_args: Array = []) -> Variant:
 	return null

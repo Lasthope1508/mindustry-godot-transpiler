@@ -95294,6 +95294,118 @@
       "rule": "Dictionary returned by PortGame.source_turret_draw_place_state.",
       "source_slice": "N1162",
       "status": "source-backed"
+    },
+    "source_turret_rotated_output_input": {
+      "keys": {
+        "tile_x": {
+          "godot_symbol": "source_turret_rotated_output_input.tile_x",
+          "java_expr": "int x",
+          "java_method": "rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves rotatedOutput x tile coordinate.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_turret_rotated_output_state"
+          ]
+        },
+        "tile_y": {
+          "godot_symbol": "source_turret_rotated_output_input.tile_y",
+          "java_expr": "int y",
+          "java_method": "rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves rotatedOutput y tile coordinate.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_turret_rotated_output_state"
+          ]
+        }
+      },
+      "rule": "Inputs accepted by PortGame.source_turret_rotated_output_state.",
+      "source_slice": "N1163",
+      "status": "source-backed"
+    },
+    "source_turret_rotated_output_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_turret_rotated_output_result.method",
+          "java_expr": "public boolean rotatedOutput(int x, int y){",
+          "java_method": "rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves method boundary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_rotated_output_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_turret_rotated_output_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves override annotation.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_rotated_output_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_turret_rotated_output_result.return_expr",
+          "java_expr": "return false;",
+          "java_method": "rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves return expression text.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_rotated_output_state"
+          ]
+        },
+        "tile_x": {
+          "alias_of": "source_turret_rotated_output_input.tile_x",
+          "godot_symbol": "source_turret_rotated_output_result.tile_x",
+          "java_expr": "int x",
+          "java_method": "rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries tile_x input.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_turret_rotated_output_state"
+          ]
+        },
+        "tile_y": {
+          "alias_of": "source_turret_rotated_output_input.tile_y",
+          "godot_symbol": "source_turret_rotated_output_result.tile_y",
+          "java_expr": "int y",
+          "java_method": "rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries tile_y input.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_turret_rotated_output_state"
+          ]
+        },
+        "rotated_output": {
+          "godot_symbol": "source_turret_rotated_output_result.rotated_output",
+          "java_expr": "return false;",
+          "java_method": "rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records canonical false return.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_turret_rotated_output_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_turret_rotated_output_state.",
+      "source_slice": "N1163",
+      "status": "source-backed"
     }
   },
   "version": 1

@@ -16838,6 +16838,30 @@ func generated_turret_draw_place_bridge_state(tile_x: int, tile_y: int, rotation
 		"matches": result.get("dash_circle_called", null) == canonical.get("dash_circle_called", null) and result.get("dash_circle_call", null) == canonical.get("dash_circle_call", null),
 	}
 
+func source_turret_rotated_output_state(tile_x: int, tile_y: int) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_turret_rotated_output_state",
+		"method": "public boolean rotatedOutput(int x, int y){",
+		"override_expr": "@Override",
+		"return_expr": "return false;",
+		"tile_x": tile_x,
+		"tile_y": tile_y,
+		"rotated_output": false,
+	}
+
+func generated_turret_rotated_output_bridge_state(tile_x: int, tile_y: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var result = instance.java_method_rotatedOutput_10([tile_x, tile_y])
+	var canonical = source_turret_rotated_output_state(tile_x, tile_y)
+	return {
+		"source_owner": "PortGame.source_turret_rotated_output_state",
+		"generated_owner": "Turret.java_method_rotatedOutput_10",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("rotated_output", null) == canonical.get("rotated_output", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

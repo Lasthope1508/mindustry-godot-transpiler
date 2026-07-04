@@ -8361,5 +8361,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_turret_rotated_output_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_turret_rotated_output_source"))
+        report = source_parity.verify_turret_rotated_output_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(report["checked"], {
+            "override": "@Override",
+            "method": "public boolean rotatedOutput(int x, int y){",
+            "return_false": "return false;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
