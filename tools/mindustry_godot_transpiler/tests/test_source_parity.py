@@ -8723,5 +8723,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_item_turret_build_write_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_item_turret_build_write_source"))
+        report = source_parity.verify_item_turret_build_write_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class ItemTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "public void write(Writes write){",
+            "super_write": "super.write(write);",
+            "write_size": "write.b(ammo.size);",
+            "loop_expr": "for(AmmoEntry entry : ammo){",
+            "entry_cast": "ItemEntry i = (ItemEntry)entry;",
+            "write_item_id": "write.s(i.item.id);",
+            "write_amount": "write.s(i.amount);",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

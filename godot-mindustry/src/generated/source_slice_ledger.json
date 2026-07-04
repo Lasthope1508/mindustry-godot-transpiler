@@ -26540,6 +26540,49 @@
       ],
       "runtime_proof": "/root/Main.generated_item_turret_build_version_bridge_state",
       "rule": "ItemTurretBuild.version() returns upstream byte version 2."
+    },
+    "N1188": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret.ItemTurretBuild",
+      "java_method": "ItemTurretBuild.write(Writes)",
+      "godot_owner": "PortGame.source_item_turret_build_write_state",
+      "exact_exprs": [
+        "public class ItemTurretBuild extends TurretBuild{",
+        "@Override",
+        "public void write(Writes write){",
+        "super.write(write);",
+        "write.b(ammo.size);",
+        "for(AmmoEntry entry : ammo){",
+        "ItemEntry i = (ItemEntry)entry;",
+        "write.s(i.item.id);",
+        "write.s(i.amount);"
+      ],
+      "deferred_exprs": [],
+      "source_symbols": [
+        "item_turret_build_write.inner_class",
+        "item_turret_build_write.override",
+        "item_turret_build_write.method",
+        "item_turret_build_write.super_write_expr",
+        "item_turret_build_write.write_size_expr",
+        "item_turret_build_write.loop_expr",
+        "item_turret_build_write.entry_cast",
+        "item_turret_build_write.write_item_id_expr",
+        "item_turret_build_write.write_amount_expr",
+        "item_turret_build_write.ammo_entries",
+        "item_turret_build_write.ammo_size",
+        "item_turret_build_write.entry_writes",
+        "item_turret_build_write.write_calls"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_write_state",
+        "test_port_game_exposes_generated_item_turret_build_write_bridge_state",
+        "test_item_turret_build_write_matches_upstream_source",
+        "test_generated_item_turret_build_write_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_item_turret_build_write_bridge_state",
+      "rule": "ItemTurretBuild.write(Writes) writes superclass state, ammo size, then each ItemEntry item id and amount in ammo order."
     }
   },
   "version": 1

@@ -13614,5 +13614,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.version"', source)
         self.assertIn('"matches": result.get("version", null) == canonical.get("version", null)', source)
 
+    def test_port_game_exposes_source_item_turret_build_write_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_item_turret_build_write_state(ammo_entries: Array) -> Dictionary:", source)
+        self.assertIn('"method": "public void write(Writes write){"', source)
+        self.assertIn('"super_write_expr": "super.write(write);"', source)
+        self.assertIn('"write_size_expr": "write.b(ammo.size);"', source)
+        self.assertIn('"write_item_id_expr": "write.s(i.item.id);"', source)
+        self.assertIn('"write_amount_expr": "write.s(i.amount);"', source)
+        self.assertIn('write_calls.append({"call": "super.write(write);"})', source)
+        self.assertIn('write_calls.append({"call": "write.b(ammo.size);", "value": ammo_entries.size()})', source)
+
+    def test_port_game_exposes_generated_item_turret_build_write_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_item_turret_build_write_bridge_state(ammo_entries: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ItemTurretBuild_method_write_10([ammo_entries])", source)
+        self.assertIn("var canonical = source_item_turret_build_write_state(ammo_entries)", source)
+        self.assertIn('"source_owner": "PortGame.source_item_turret_build_write_state"', source)
+        self.assertIn('"generated_owner": "ItemTurret.ItemTurretBuild.write"', source)
+        self.assertIn('"matches": result.get("write_calls", []) == canonical.get("write_calls", [])', source)
+
 if __name__ == "__main__":
     unittest.main()

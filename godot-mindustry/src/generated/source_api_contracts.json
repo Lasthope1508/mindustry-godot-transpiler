@@ -26962,6 +26962,43 @@
       ],
       "runtime_proof": "/root/Main.source_item_turret_build_version_state",
       "rule": "Public runtime contract for ItemTurretBuild.version() byte return."
+    },
+    "PortGame.source_item_turret_build_write_state": {
+      "status": "source-backed",
+      "source_slice": "N1188",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "source_method": "ItemTurretBuild.write(Writes)",
+      "params": [
+        {
+          "name": "ammo_entries",
+          "type": "Array",
+          "schema": "source_item_turret_build_write_input.ammo_entries"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "super_write_expr",
+        "write_size_expr",
+        "loop_expr",
+        "entry_cast",
+        "write_item_id_expr",
+        "write_amount_expr",
+        "ammo_size",
+        "entry_writes",
+        "write_calls"
+      ],
+      "tests": [
+        "test_emit_bridges_item_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_item_turret_build_write_state",
+        "test_port_game_exposes_generated_item_turret_build_write_bridge_state",
+        "test_item_turret_build_write_matches_upstream_source",
+        "test_generated_item_turret_build_write_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_item_turret_build_write_state",
+      "rule": "Public runtime contract for ItemTurretBuild.write(Writes) ordered write-call state."
     }
   },
   "policy": {

@@ -8552,6 +8552,69 @@ public class ItemTurret extends Turret{
             self.assertIn('"return_expr": "return 2;"', source_text)
             self.assertIn('"version": version_value', source_text)
 
+    def test_emit_bridges_item_turret_build_write_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            item_turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.java"
+            item_turret_path.parent.mkdir(parents=True, exist_ok=True)
+            item_turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ItemTurret extends Turret{
+    public class ItemTurretBuild extends TurretBuild{
+        @Override
+        public void onProximityAdded(){ }
+        @Override
+        public Object senseObject(LAccess sensor){ return null; }
+        @Override
+        public UnlockableContent getAmmoContent(){ return null; }
+        @Override
+        public float getAmmoFraction(){ return 0f; }
+        @Override
+        public int acceptStack(Item item, int amount, Teamc source){ return 0; }
+        @Override
+        public void handleStack(Item item, int amount, Teamc source){ }
+        @Override
+        public int removeStack(Item item, int amount){ return 0; }
+        @Override
+        public void handleItem(Building source, Item item){ }
+        @Override
+        public boolean acceptItem(Building source, Item item){ return false; }
+        @Override
+        public byte version(){ return 2; }
+
+        @Override
+        public void write(Writes write){
+            super.write(write);
+            write.b(ammo.size);
+            for(AmmoEntry entry : ammo){
+                ItemEntry i = (ItemEntry)entry;
+                write.s(i.item.id);
+                write.s(i.amount);
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ItemTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ItemTurretBuild_method_write_10(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var ammo_entries: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn('write_calls.append({"call": "super.write(write);"})', source_text)
+            self.assertIn('write_calls.append({"call": "write.b(ammo.size);", "value": ammo_entries.size()})', source_text)
+            self.assertIn('entry_writes.append({"item_id": int(entry_copy.get("item_id", 0)), "amount": int(entry_copy.get("amount", 0))})', source_text)
+            self.assertIn('"method": "public void write(Writes write){"', source_text)
+            self.assertIn('"write_item_id_expr": "write.s(i.item.id);"', source_text)
+            self.assertIn('"write_amount_expr": "write.s(i.amount);"', source_text)
+
     def test_emit_bridges_item_turret_limit_range_default_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

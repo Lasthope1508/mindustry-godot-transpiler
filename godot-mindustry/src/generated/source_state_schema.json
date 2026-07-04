@@ -99671,6 +99671,176 @@
         }
       },
       "rule": "Result schema for ItemTurretBuild.version() bridge."
+    },
+    "source_item_turret_build_write_input": {
+      "status": "explicit-input",
+      "source_slice": "N1188",
+      "keys": {
+        "ammo_entries": {
+          "status": "explicit-input",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_build_write_input.ammo_entries",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "ammo",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Input snapshots Java ammo entries before write(Writes)."
+        }
+      },
+      "rule": "Input schema for ItemTurretBuild.write(Writes) bridge."
+    },
+    "source_item_turret_build_write_result": {
+      "status": "source-backed",
+      "source_slice": "N1188",
+      "keys": {
+        "inner_class": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_write_result.inner_class",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "public class ItemTurretBuild extends TurretBuild{",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records exact inner class boundary."
+        },
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_write_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "public void write(Writes write){",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records exact method boundary."
+        },
+        "override_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_write_result.override_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "@Override",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records override annotation."
+        },
+        "super_write_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_write_result.super_write_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "super.write(write);",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records superclass write dispatch."
+        },
+        "write_size_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_write_result.write_size_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "write.b(ammo.size);",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records ammo size byte write expression."
+        },
+        "loop_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_write_result.loop_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "for(AmmoEntry entry : ammo){",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records ammo loop expression."
+        },
+        "entry_cast": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_write_result.entry_cast",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "ItemEntry i = (ItemEntry)entry;",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records ItemEntry cast expression."
+        },
+        "write_item_id_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_write_result.write_item_id_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "write.s(i.item.id);",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records item id write expression."
+        },
+        "write_amount_expr": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_item_turret_build_write_result.write_amount_expr",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "write.s(i.amount);",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records amount write expression."
+        },
+        "ammo_size": {
+          "status": "source-backed",
+          "type": "int",
+          "godot_symbol": "source_item_turret_build_write_result.ammo_size",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "ammo.size",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records Java ammo.size write value."
+        },
+        "entry_writes": {
+          "status": "source-backed",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_build_write_result.entry_writes",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "write.s(i.item.id); / write.s(i.amount);",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records one item id and amount pair per ammo entry."
+        },
+        "write_calls": {
+          "status": "source-backed",
+          "type": "Array",
+          "godot_symbol": "source_item_turret_build_write_result.write_calls",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+          "java_method": "ItemTurretBuild.write(Writes)",
+          "java_expr": "super.write(write); / write.b(ammo.size); / write.s(i.item.id); / write.s(i.amount);",
+          "used_by": [
+            "PortGame.source_item_turret_build_write_state"
+          ],
+          "rule": "Result records ordered write calls from source method."
+        }
+      },
+      "rule": "Result schema for ItemTurretBuild.write(Writes) bridge."
     }
   },
   "version": 1

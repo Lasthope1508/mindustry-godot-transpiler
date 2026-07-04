@@ -17667,6 +17667,47 @@ func generated_item_turret_build_version_bridge_state() -> Dictionary:
 		"matches": result.get("version", null) == canonical.get("version", null),
 	}
 
+func source_item_turret_build_write_state(ammo_entries: Array) -> Dictionary:
+	var write_calls: Array = []
+	var entry_writes: Array = []
+	write_calls.append({"call": "super.write(write);"})
+	write_calls.append({"call": "write.b(ammo.size);", "value": ammo_entries.size()})
+	for entry in ammo_entries:
+		var entry_copy: Dictionary = entry.duplicate(true) if entry is Dictionary else {}
+		entry_writes.append({"item_id": int(entry_copy.get("item_id", 0)), "amount": int(entry_copy.get("amount", 0))})
+		write_calls.append({"call": "write.s(i.item.id);", "value": int(entry_copy.get("item_id", 0))})
+		write_calls.append({"call": "write.s(i.amount);", "value": int(entry_copy.get("amount", 0))})
+	return {
+		"source_owner": "PortGame.source_item_turret_build_write_state",
+		"inner_class": "public class ItemTurretBuild extends TurretBuild{",
+		"method": "public void write(Writes write){",
+		"override_expr": "@Override",
+		"super_write_expr": "super.write(write);",
+		"write_size_expr": "write.b(ammo.size);",
+		"loop_expr": "for(AmmoEntry entry : ammo){",
+		"entry_cast": "ItemEntry i = (ItemEntry)entry;",
+		"write_item_id_expr": "write.s(i.item.id);",
+		"write_amount_expr": "write.s(i.amount);",
+		"ammo_size": ammo_entries.size(),
+		"entry_writes": entry_writes,
+		"write_calls": write_calls,
+	}
+
+func generated_item_turret_build_write_bridge_state(ammo_entries: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ItemTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ItemTurretBuild_method_write_10([ammo_entries])
+	var canonical = source_item_turret_build_write_state(ammo_entries)
+	return {
+		"source_owner": "PortGame.source_item_turret_build_write_state",
+		"generated_owner": "ItemTurret.ItemTurretBuild.write",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("write_calls", []) == canonical.get("write_calls", [])
+			and result.get("entry_writes", []) == canonical.get("entry_writes", [])
+			and result.get("ammo_size", null) == canonical.get("ammo_size", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

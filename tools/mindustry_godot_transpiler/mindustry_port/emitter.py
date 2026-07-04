@@ -3051,6 +3051,22 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar version_value: int = 2",
                         "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_version_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public byte version(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return 2;\", \"version\": version_value}",
                     ])
+                elif method.get("name") == "write":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ItemTurretBuild_method_write_{index}(_args: Array = []) -> Variant:",
+                        "\tvar ammo_entries: Array = _args[0] if _args.size() > 0 and _args[0] is Array else []",
+                        "\tvar write_calls: Array = []",
+                        "\tvar entry_writes: Array = []",
+                        "\twrite_calls.append({\"call\": \"super.write(write);\"})",
+                        "\twrite_calls.append({\"call\": \"write.b(ammo.size);\", \"value\": ammo_entries.size()})",
+                        "\tfor entry in ammo_entries:",
+                        "\t\tvar entry_copy: Dictionary = entry.duplicate(true) if entry is Dictionary else {}",
+                        "\t\tentry_writes.append({\"item_id\": int(entry_copy.get(\"item_id\", 0)), \"amount\": int(entry_copy.get(\"amount\", 0))})",
+                        "\t\twrite_calls.append({\"call\": \"write.s(i.item.id);\", \"value\": int(entry_copy.get(\"item_id\", 0))})",
+                        "\t\twrite_calls.append({\"call\": \"write.s(i.amount);\", \"value\": int(entry_copy.get(\"amount\", 0))})",
+                        "\treturn {\"source_owner\": \"PortGame.source_item_turret_build_write_state\", \"inner_class\": \"public class ItemTurretBuild extends TurretBuild{\", \"method\": \"public void write(Writes write){\", \"override_expr\": \"@Override\", \"super_write_expr\": \"super.write(write);\", \"write_size_expr\": \"write.b(ammo.size);\", \"loop_expr\": \"for(AmmoEntry entry : ammo){\", \"entry_cast\": \"ItemEntry i = (ItemEntry)entry;\", \"write_item_id_expr\": \"write.s(i.item.id);\", \"write_amount_expr\": \"write.s(i.amount);\", \"ammo_size\": ammo_entries.size(), \"entry_writes\": entry_writes, \"write_calls\": write_calls}",
+                    ])
     return lines
 
 def _script_text(java_file: dict, type_entry: dict) -> str:
