@@ -88959,6 +88959,74 @@
         "test_continuous_liquid_turret_init_matches_upstream_source",
         "test_generated_continuous_liquid_turret_init_slice_is_registered_with_source_backing"
       ]
+    },
+    "continuous_liquid_turret_build_should_active_sound.method": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state",
+      "godot_symbol": "source_continuous_liquid_turret_build_should_active_sound_result.method",
+      "java_expr": "public boolean shouldActiveSound(){",
+      "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Method boundary for ContinuousLiquidTurretBuild.shouldActiveSound.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_should_active_sound_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
+        "test_continuous_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_build_should_active_sound.was_shooting": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state",
+      "godot_symbol": "source_continuous_liquid_turret_build_should_active_sound_input.was_shooting",
+      "java_expr": "wasShooting",
+      "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Input supplies wasShooting field.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_should_active_sound_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
+        "test_continuous_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_build_should_active_sound.enabled": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state",
+      "godot_symbol": "source_continuous_liquid_turret_build_should_active_sound_input.enabled",
+      "java_expr": "enabled",
+      "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Input supplies enabled field.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_should_active_sound_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
+        "test_continuous_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_build_should_active_sound.return_expr": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state",
+      "godot_symbol": "source_continuous_liquid_turret_build_should_active_sound_result.should_active_sound",
+      "java_expr": "return wasShooting && enabled;",
+      "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Result records exact boolean conjunction.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_should_active_sound_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
+        "test_continuous_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

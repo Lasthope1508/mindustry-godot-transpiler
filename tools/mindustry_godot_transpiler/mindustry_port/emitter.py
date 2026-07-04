@@ -3289,6 +3289,22 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\treturn {\"source_owner\": \"PortGame.source_liquid_turret_build_accept_liquid_state\", \"inner_class\": \"public class LiquidTurretBuild extends TurretBuild{\", \"method\": \"public boolean acceptLiquid(Building source, Liquid liquid){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammoTypes.get(liquid) != null && (liquids.current() == liquid || ((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));\", \"source_building\": source_building, \"liquid\": liquid, \"ammo_type\": ammo_type, \"current_liquid\": current_liquid, \"current_liquid_ammo_type_present\": current_liquid_ammo_type_present, \"current_liquid_amount\": current_liquid_amount, \"current_ammo_multiplier\": current_ammo_multiplier, \"liquid_has_ammo_type\": liquid_has_ammo_type, \"same_liquid\": same_liquid, \"current_liquid_missing_ammo_type\": current_liquid_missing_ammo_type, \"current_required_with_epsilon\": current_required_with_epsilon, \"current_liquid_drained\": current_liquid_drained, \"replacement_allowed\": replacement_allowed, \"accept_liquid\": accept_liquid}",
                     ])
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java"
+        and type_entry.get("name") == "ContinuousLiquidTurret"
+    ):
+        for inner_class in type_entry.get("inner_classes", []):
+            if inner_class.get("name") != "ContinuousLiquidTurretBuild":
+                continue
+            for index, method in enumerate(inner_class.get("methods", [])):
+                if method.get("name") == "shouldActiveSound":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ContinuousLiquidTurretBuild_method_shouldActiveSound_{index}(_args: Array = []) -> Variant:",
+                        "\tvar was_shooting: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar enabled: bool = bool(_args[1] if _args.size() > 1 else false)",
+                        "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_should_active_sound_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean shouldActiveSound(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return wasShooting && enabled;\", \"was_shooting\": was_shooting, \"enabled\": enabled, \"should_active_sound\": was_shooting and enabled}",
+                    ])
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"
     ):

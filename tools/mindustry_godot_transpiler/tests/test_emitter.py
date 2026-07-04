@@ -9667,6 +9667,44 @@ public class LiquidTurret extends Turret{
             self.assertIn('"return_expr": "return wasShooting && enabled;"', source_text)
             self.assertIn('"should_active_sound": was_shooting and enabled', source_text)
 
+    def test_emit_bridges_continuous_liquid_turret_build_should_active_sound_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ContinuousLiquidTurret extends ContinuousTurret{
+    public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{
+        boolean activated;
+
+        @Override
+        public boolean shouldActiveSound(){
+            return wasShooting && enabled;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ContinuousLiquidTurretBuild_method_shouldActiveSound_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var was_shooting: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var enabled: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state"', source_text)
+            self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source_text)
+            self.assertIn('"method": "public boolean shouldActiveSound(){"', source_text)
+            self.assertIn('"return_expr": "return wasShooting && enabled;"', source_text)
+            self.assertIn('"should_active_sound": was_shooting and enabled', source_text)
+
     def test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

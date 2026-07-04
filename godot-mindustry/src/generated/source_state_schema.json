@@ -104654,6 +104654,68 @@
       "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_init_state.",
       "source_slice": "N1218",
       "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_build_should_active_sound_input": {
+      "keys": {
+        "enabled": {
+          "godot_symbol": "source_continuous_liquid_turret_build_should_active_sound_input.enabled",
+          "java_expr": "enabled",
+          "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies enabled field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_should_active_sound_state"
+          ]
+        },
+        "was_shooting": {
+          "godot_symbol": "source_continuous_liquid_turret_build_should_active_sound_input.was_shooting",
+          "java_expr": "wasShooting",
+          "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies wasShooting field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_should_active_sound_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_continuous_liquid_turret_build_should_active_sound_state.",
+      "source_slice": "N1219",
+      "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_build_should_active_sound_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_continuous_liquid_turret_build_should_active_sound_result.method",
+          "java_expr": "public boolean shouldActiveSound(){",
+          "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_should_active_sound_state"
+          ]
+        },
+        "should_active_sound": {
+          "godot_symbol": "source_continuous_liquid_turret_build_should_active_sound_result.should_active_sound",
+          "java_expr": "wasShooting && enabled",
+          "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result of return wasShooting && enabled.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_should_active_sound_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_should_active_sound_state.",
+      "source_slice": "N1219",
+      "status": "source-backed"
     }
   },
   "version": 1
