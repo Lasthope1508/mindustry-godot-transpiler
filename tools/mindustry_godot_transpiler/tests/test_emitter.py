@@ -7425,5 +7425,43 @@ public class Turret extends ReloadTurret{
             self.assertIn('"drawer_get_regions_to_outline_expr": "drawer.getRegionsToOutline(this, out);"', source_text)
             self.assertIn('"drawer_get_regions_to_outline_called": true', source_text)
 
+    def test_emit_bridges_turret_limit_range_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class Turret extends ReloadTurret{
+    public void limitRange(BulletType bullet, float margin){
+        float realRange = bullet.rangeChange + range;
+        //doesn't handle drag
+        bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "Turret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_limitRange_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var bullet: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}", source_text)
+            self.assertIn("var margin: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var turret_range: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var real_range: float = bullet_range_change + turret_range", source_text)
+            self.assertIn("var bullet_lifetime: float = (real_range + margin + bullet_extra_range_margin + 10.0) / bullet_speed", source_text)
+            self.assertIn('bullet["lifetime"] = bullet_lifetime', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_turret_limit_range_state"', source_text)
+            self.assertIn('"method": "public void limitRange(BulletType bullet, float margin){"', source_text)
+            self.assertIn('"real_range_expr": "float realRange = bullet.rangeChange + range;"', source_text)
+            self.assertIn('"lifetime_expr": "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;"', source_text)
+
 if __name__ == "__main__":
     unittest.main()

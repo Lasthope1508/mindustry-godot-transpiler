@@ -65,7 +65,16 @@ func java_method_getRegionsToOutline_7(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_turret_get_regions_to_outline_state", "method": "public void getRegionsToOutline(Seq<TextureRegion> out){", "override_expr": "@Override", "drawer_get_regions_to_outline_expr": "drawer.getRegionsToOutline(this, out);", "out": out, "drawer_get_regions_to_outline_call": drawer_get_regions_to_outline_call, "drawer_get_regions_to_outline_called": true}
 
 func java_method_limitRange_8(_args: Array = []) -> Variant:
-	return null
+	var bullet: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}
+	var margin: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var turret_range: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var bullet_range_change: float = float(bullet.get("rangeChange", 0.0))
+	var real_range: float = bullet_range_change + turret_range
+	var bullet_extra_range_margin: float = float(bullet.get("extraRangeMargin", 0.0))
+	var bullet_speed: float = float(bullet.get("speed", 1.0))
+	var bullet_lifetime: float = (real_range + margin + bullet_extra_range_margin + 10.0) / bullet_speed
+	bullet["lifetime"] = bullet_lifetime
+	return {"source_owner": "PortGame.source_turret_limit_range_state", "method": "public void limitRange(BulletType bullet, float margin){", "real_range_expr": "float realRange = bullet.rangeChange + range;", "drag_comment": "//doesn't handle drag", "lifetime_expr": "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;", "bullet": bullet, "margin": margin, "turret_range": turret_range, "bullet_range_change": bullet_range_change, "real_range": real_range, "bullet_extra_range_margin": bullet_extra_range_margin, "bullet_speed": bullet_speed, "bullet_lifetime": bullet_lifetime, "updated_bullet": bullet}
 
 func java_method_drawPlace_9(_args: Array = []) -> Variant:
 	return null

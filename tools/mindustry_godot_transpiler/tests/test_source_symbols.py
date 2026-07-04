@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 629)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 630)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 634)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 635)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42276,6 +42276,70 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_get_regions_to_outline_result["keys"]["method"]["java_expr"], "public void getRegionsToOutline(Seq<TextureRegion> out){")
         self.assertEqual(source_turret_get_regions_to_outline_result["keys"]["drawer_get_regions_to_outline_called"]["java_expr"], "drawer.getRegionsToOutline(this, out);")
         self.assertEqual(source_turret_get_regions_to_outline_result["keys"]["drawer_get_regions_to_outline_call"]["java_expr"], "drawer.getRegionsToOutline(this, out);")
+
+    def test_generated_turret_limit_range_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "turret_limit_range.method")
+        self.assertEqual(method["java_expr"], "public void limitRange(BulletType bullet, float margin){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(method["java_method"], "limitRange(BulletType bullet, float margin)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_turret_limit_range_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_turret_limit_range_state")
+
+        bullet = source_symbols.source_symbol(registry, "turret_limit_range.bullet")
+        self.assertEqual(bullet["java_expr"], "BulletType bullet")
+        self.assertEqual(bullet["godot_symbol"], "source_turret_limit_range_input.bullet")
+        margin = source_symbols.source_symbol(registry, "turret_limit_range.margin")
+        self.assertEqual(margin["java_expr"], "float margin")
+        self.assertEqual(margin["godot_symbol"], "source_turret_limit_range_input.margin")
+        range_field = source_symbols.source_symbol(registry, "turret_limit_range.range")
+        self.assertEqual(range_field["java_expr"], "range")
+        self.assertEqual(range_field["godot_symbol"], "source_turret_limit_range_input.turret_range")
+        real_range = source_symbols.source_symbol(registry, "turret_limit_range.real_range")
+        self.assertEqual(real_range["java_expr"], "float realRange = bullet.rangeChange + range;")
+        self.assertEqual(real_range["godot_symbol"], "source_turret_limit_range_result.real_range")
+        lifetime = source_symbols.source_symbol(registry, "turret_limit_range.lifetime")
+        self.assertEqual(lifetime["java_expr"], "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;")
+        self.assertEqual(lifetime["godot_symbol"], "source_turret_limit_range_result.bullet_lifetime")
+
+        limit_range_slice = source_symbols.source_slice(ledger, "N1161")
+        self.assertEqual(limit_range_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/Turret.java")
+        self.assertEqual(limit_range_slice["java_method"], "limitRange(BulletType bullet, float margin)")
+        self.assertEqual(limit_range_slice["godot_owner"], "PortGame.source_turret_limit_range_state")
+        self.assertEqual(limit_range_slice["runtime_proof"], "/root/Main.generated_turret_limit_range_bridge_state")
+        for expr in [
+            "public void limitRange(BulletType bullet, float margin){",
+            "float realRange = bullet.rangeChange + range;",
+            "//doesn't handle drag",
+            "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;",
+        ]:
+            self.assertIn(expr, limit_range_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_turret_limit_range_state")
+        self.assertEqual(contract["params"], [
+            {"name": "bullet", "schema": "source_turret_limit_range_input.bullet", "type": "Dictionary"},
+            {"name": "margin", "schema": "source_turret_limit_range_input.margin", "type": "float"},
+            {"name": "turret_range", "schema": "source_turret_limit_range_input.turret_range", "type": "float"},
+        ])
+        for key in ["method", "real_range_expr", "drag_comment", "lifetime_expr", "bullet_range_change", "turret_range", "real_range", "bullet_extra_range_margin", "bullet_speed", "bullet_lifetime", "updated_bullet"]:
+            self.assertIn(key, contract["return_keys"])
+
+        source_turret_limit_range_input = source_symbols.state_schema(schema, "source_turret_limit_range_input")
+        self.assertEqual(source_turret_limit_range_input["keys"]["bullet"]["java_expr"], "BulletType bullet")
+        self.assertEqual(source_turret_limit_range_input["keys"]["margin"]["java_expr"], "float margin")
+        self.assertEqual(source_turret_limit_range_input["keys"]["turret_range"]["java_expr"], "range")
+        source_turret_limit_range_result = source_symbols.state_schema(schema, "source_turret_limit_range_result")
+        self.assertEqual(source_turret_limit_range_result["keys"]["method"]["java_expr"], "public void limitRange(BulletType bullet, float margin){")
+        self.assertEqual(source_turret_limit_range_result["keys"]["real_range"]["java_expr"], "float realRange = bullet.rangeChange + range;")
+        self.assertEqual(source_turret_limit_range_result["keys"]["drag_comment"]["java_expr"], "//doesn't handle drag")
+        self.assertEqual(source_turret_limit_range_result["keys"]["bullet_lifetime"]["java_expr"], "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;")
+        self.assertEqual(source_turret_limit_range_result["keys"]["updated_bullet"]["java_expr"], "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

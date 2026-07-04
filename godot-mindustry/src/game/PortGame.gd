@@ -16756,6 +16756,45 @@ func generated_turret_get_regions_to_outline_bridge_state(out: Variant) -> Dicti
 		"matches": result.get("drawer_get_regions_to_outline_called", null) == canonical.get("drawer_get_regions_to_outline_called", null) and result.get("out", null) == canonical.get("out", null),
 	}
 
+func source_turret_limit_range_state(bullet: Dictionary, margin: float, turret_range: float) -> Dictionary:
+	var bullet_range_change: float = float(bullet.get("rangeChange", 0.0))
+	var real_range: float = bullet_range_change + turret_range
+	var bullet_extra_range_margin: float = float(bullet.get("extraRangeMargin", 0.0))
+	var bullet_speed: float = float(bullet.get("speed", 1.0))
+	var bullet_lifetime: float = (real_range + margin + bullet_extra_range_margin + 10.0) / bullet_speed
+	bullet["lifetime"] = bullet_lifetime
+	return {
+		"source_owner": "PortGame.source_turret_limit_range_state",
+		"method": "public void limitRange(BulletType bullet, float margin){",
+		"real_range_expr": "float realRange = bullet.rangeChange + range;",
+		"drag_comment": "//doesn't handle drag",
+		"lifetime_expr": "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;",
+		"bullet": bullet,
+		"margin": margin,
+		"turret_range": turret_range,
+		"bullet_range_change": bullet_range_change,
+		"real_range": real_range,
+		"bullet_extra_range_margin": bullet_extra_range_margin,
+		"bullet_speed": bullet_speed,
+		"bullet_lifetime": bullet_lifetime,
+		"updated_bullet": bullet,
+	}
+
+func generated_turret_limit_range_bridge_state(bullet: Dictionary, margin: float, turret_range: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")
+	var instance = script.new()
+	var generated_bullet := bullet.duplicate(true)
+	var canonical_bullet := bullet.duplicate(true)
+	var result = instance.java_method_limitRange_8([generated_bullet, margin, turret_range])
+	var canonical = source_turret_limit_range_state(canonical_bullet, margin, turret_range)
+	return {
+		"source_owner": "PortGame.source_turret_limit_range_state",
+		"generated_owner": "Turret.java_method_limitRange_8",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("bullet_lifetime", null) == canonical.get("bullet_lifetime", null) and result.get("updated_bullet", null) == canonical.get("updated_bullet", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

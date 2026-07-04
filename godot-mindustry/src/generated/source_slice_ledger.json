@@ -25530,6 +25530,44 @@
         "test_turret_get_regions_to_outline_matches_upstream_source",
         "test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1161": {
+      "deferred_exprs": [
+        "BulletType drag behavior is intentionally not modeled in this slice because Turret.limitRange source comment says //doesn't handle drag."
+      ],
+      "exact_exprs": [
+        "public void limitRange(BulletType bullet, float margin){",
+        "float realRange = bullet.rangeChange + range;",
+        "//doesn't handle drag",
+        "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;"
+      ],
+      "godot_owner": "PortGame.source_turret_limit_range_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.Turret",
+      "java_method": "limitRange(BulletType bullet, float margin)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "rule": "Turret.limitRange mutates bullet.lifetime from bullet.rangeChange, range, margin, bullet.extraRangeMargin, constant 10f, and bullet.speed.",
+      "runtime_proof": "/root/Main.generated_turret_limit_range_bridge_state",
+      "source_symbols": [
+        "turret_limit_range.method",
+        "turret_limit_range.bullet",
+        "turret_limit_range.margin",
+        "turret_limit_range.range",
+        "turret_limit_range.bullet_range_change",
+        "turret_limit_range.real_range",
+        "turret_limit_range.drag_comment",
+        "turret_limit_range.bullet_extra_range_margin",
+        "turret_limit_range.bullet_speed",
+        "turret_limit_range.lifetime",
+        "turret_limit_range.updated_bullet"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_turret_limit_range_state",
+        "test_port_game_exposes_generated_turret_limit_range_bridge_state",
+        "test_turret_limit_range_matches_upstream_source",
+        "test_generated_turret_limit_range_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -466,6 +466,22 @@ def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_turret_limit_range_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void limitRange(BulletType bullet, float margin){",
+        "real_range": "float realRange = bullet.rangeChange + range;",
+        "drag_comment": "//doesn't handle drag",
+        "lifetime": "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

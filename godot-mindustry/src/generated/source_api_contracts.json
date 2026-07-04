@@ -25742,6 +25742,53 @@
         "test_turret_get_regions_to_outline_matches_upstream_source",
         "test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_turret_limit_range_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "params": [
+        {
+          "name": "bullet",
+          "schema": "source_turret_limit_range_input.bullet",
+          "type": "Dictionary"
+        },
+        {
+          "name": "margin",
+          "schema": "source_turret_limit_range_input.margin",
+          "type": "float"
+        },
+        {
+          "name": "turret_range",
+          "schema": "source_turret_limit_range_input.turret_range",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "real_range_expr",
+        "drag_comment",
+        "lifetime_expr",
+        "bullet",
+        "margin",
+        "turret_range",
+        "bullet_range_change",
+        "real_range",
+        "bullet_extra_range_margin",
+        "bullet_speed",
+        "bullet_lifetime",
+        "updated_bullet"
+      ],
+      "rule": "Public runtime contract for Turret.limitRange bullet lifetime mutation state.",
+      "runtime_proof": "/root/Main.source_turret_limit_range_state",
+      "source_method": "limitRange(BulletType bullet, float margin)",
+      "source_slice": "N1161",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_limit_range_to_source_state",
+        "test_port_game_exposes_source_turret_limit_range_state",
+        "test_port_game_exposes_generated_turret_limit_range_bridge_state",
+        "test_turret_limit_range_matches_upstream_source",
+        "test_generated_turret_limit_range_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

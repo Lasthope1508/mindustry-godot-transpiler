@@ -94763,6 +94763,215 @@
       "rule": "Dictionary returned by PortGame.source_turret_get_regions_to_outline_state.",
       "source_slice": "N1160",
       "status": "source-backed"
+    },
+    "source_turret_limit_range_input": {
+      "keys": {
+        "bullet": {
+          "godot_symbol": "source_turret_limit_range_input.bullet",
+          "java_expr": "BulletType bullet",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves exact BulletType bullet parameter.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "margin": {
+          "godot_symbol": "source_turret_limit_range_input.margin",
+          "java_expr": "float margin",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves exact float margin parameter.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "turret_range": {
+          "godot_symbol": "source_turret_limit_range_input.turret_range",
+          "java_expr": "range",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Input preserves Turret range field used by limitRange.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        }
+      },
+      "rule": "Inputs accepted by PortGame.source_turret_limit_range_state.",
+      "source_slice": "N1161",
+      "status": "source-backed"
+    },
+    "source_turret_limit_range_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_turret_limit_range_result.method",
+          "java_expr": "public void limitRange(BulletType bullet, float margin){",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves method boundary.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "real_range_expr": {
+          "godot_symbol": "source_turret_limit_range_result.real_range_expr",
+          "java_expr": "float realRange = bullet.rangeChange + range;",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves realRange expression text.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "drag_comment": {
+          "godot_symbol": "source_turret_limit_range_result.drag_comment",
+          "java_expr": "//doesn't handle drag",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves drag limitation comment.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "lifetime_expr": {
+          "godot_symbol": "source_turret_limit_range_result.lifetime_expr",
+          "java_expr": "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result preserves bullet lifetime assignment expression.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "bullet": {
+          "alias_of": "source_turret_limit_range_input.bullet",
+          "godot_symbol": "source_turret_limit_range_result.bullet",
+          "java_expr": "BulletType bullet",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries bullet input.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "margin": {
+          "alias_of": "source_turret_limit_range_input.margin",
+          "godot_symbol": "source_turret_limit_range_result.margin",
+          "java_expr": "float margin",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries margin input.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "turret_range": {
+          "alias_of": "source_turret_limit_range_input.turret_range",
+          "godot_symbol": "source_turret_limit_range_result.turret_range",
+          "java_expr": "range",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result carries Turret range field value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "bullet_range_change": {
+          "godot_symbol": "source_turret_limit_range_result.bullet_range_change",
+          "java_expr": "bullet.rangeChange",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records bullet.rangeChange input to realRange.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "real_range": {
+          "godot_symbol": "source_turret_limit_range_result.real_range",
+          "java_expr": "float realRange = bullet.rangeChange + range;",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records realRange calculation.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "bullet_extra_range_margin": {
+          "godot_symbol": "source_turret_limit_range_result.bullet_extra_range_margin",
+          "java_expr": "bullet.extraRangeMargin",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records bullet.extraRangeMargin input to lifetime.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "bullet_speed": {
+          "godot_symbol": "source_turret_limit_range_result.bullet_speed",
+          "java_expr": "bullet.speed",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records bullet.speed divisor.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "bullet_lifetime": {
+          "godot_symbol": "source_turret_limit_range_result.bullet_lifetime",
+          "java_expr": "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records assigned bullet lifetime.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        },
+        "updated_bullet": {
+          "godot_symbol": "source_turret_limit_range_result.updated_bullet",
+          "java_expr": "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;",
+          "java_method": "limitRange(BulletType bullet, float margin)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+          "rule": "Result records bullet after lifetime mutation.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_turret_limit_range_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_turret_limit_range_state.",
+      "source_slice": "N1161",
+      "status": "source-backed"
     }
   },
   "version": 1

@@ -1289,6 +1289,23 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_turret_get_regions_to_outline_state\", \"method\": \"public void getRegionsToOutline(Seq<TextureRegion> out){\", \"override_expr\": \"@Override\", \"drawer_get_regions_to_outline_expr\": \"drawer.getRegionsToOutline(this, out);\", \"out\": out, \"drawer_get_regions_to_outline_call\": drawer_get_regions_to_outline_call, \"drawer_get_regions_to_outline_called\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
+        and type_entry.get("name") == "Turret"
+        and method.get("name") == "limitRange"
+    ):
+        return [
+            "\tvar bullet: Dictionary = _args[0] if _args.size() > 0 and _args[0] is Dictionary else {}",
+            "\tvar margin: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar turret_range: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar bullet_range_change: float = float(bullet.get(\"rangeChange\", 0.0))",
+            "\tvar real_range: float = bullet_range_change + turret_range",
+            "\tvar bullet_extra_range_margin: float = float(bullet.get(\"extraRangeMargin\", 0.0))",
+            "\tvar bullet_speed: float = float(bullet.get(\"speed\", 1.0))",
+            "\tvar bullet_lifetime: float = (real_range + margin + bullet_extra_range_margin + 10.0) / bullet_speed",
+            "\tbullet[\"lifetime\"] = bullet_lifetime",
+            "\treturn {\"source_owner\": \"PortGame.source_turret_limit_range_state\", \"method\": \"public void limitRange(BulletType bullet, float margin){\", \"real_range_expr\": \"float realRange = bullet.rangeChange + range;\", \"drag_comment\": \"//doesn't handle drag\", \"lifetime_expr\": \"bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;\", \"bullet\": bullet, \"margin\": margin, \"turret_range\": turret_range, \"bullet_range_change\": bullet_range_change, \"real_range\": real_range, \"bullet_extra_range_margin\": bullet_extra_range_margin, \"bullet_speed\": bullet_speed, \"bullet_lifetime\": bullet_lifetime, \"updated_bullet\": bullet}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuilderComp.java"
         and type_entry.get("name") == "BuilderComp"
         and method.get("name") == "canBuild"

@@ -12973,5 +12973,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_getRegionsToOutline_7"', source)
         self.assertIn('"matches": result.get("drawer_get_regions_to_outline_called", null) == canonical.get("drawer_get_regions_to_outline_called", null) and result.get("out", null) == canonical.get("out", null)', source)
 
+    def test_port_game_exposes_source_turret_limit_range_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_turret_limit_range_state(bullet: Dictionary, margin: float, turret_range: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void limitRange(BulletType bullet, float margin){"', source)
+        self.assertIn('"real_range_expr": "float realRange = bullet.rangeChange + range;"', source)
+        self.assertIn('"drag_comment": "//doesn\'t handle drag"', source)
+        self.assertIn('"lifetime_expr": "bullet.lifetime = (realRange + margin + bullet.extraRangeMargin + 10f) / bullet.speed;"', source)
+        self.assertIn('"bullet_lifetime": bullet_lifetime', source)
+        self.assertIn('"updated_bullet": bullet', source)
+
+    def test_port_game_exposes_generated_turret_limit_range_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_turret_limit_range_bridge_state(bullet: Dictionary, margin: float, turret_range: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/Turret.gd")', source)
+        self.assertIn("var result = instance.java_method_limitRange_8([generated_bullet, margin, turret_range])", source)
+        self.assertIn("var canonical = source_turret_limit_range_state(canonical_bullet, margin, turret_range)", source)
+        self.assertIn('"source_owner": "PortGame.source_turret_limit_range_state"', source)
+        self.assertIn('"generated_owner": "Turret.java_method_limitRange_8"', source)
+        self.assertIn('"matches": result.get("bullet_lifetime", null) == canonical.get("bullet_lifetime", null) and result.get("updated_bullet", null) == canonical.get("updated_bullet", null)', source)
+
 if __name__ == "__main__":
     unittest.main()
