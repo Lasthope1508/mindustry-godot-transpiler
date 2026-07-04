@@ -73,3 +73,17 @@ func java_inner_class_LiquidTurretBuild_method_senseObject_3(_args: Array = []) 
 	else:
 		sense_object_value = super_sense_object_value
 	return {"source_owner": "PortGame.source_liquid_turret_build_sense_object_state", "inner_class": "public class LiquidTurretBuild extends TurretBuild{", "method": "public Object senseObject(LAccess sensor){", "override_expr": "@Override", "switch_return_expr": "return switch(sensor){", "current_ammo_type_case": "case currentAmmoType -> liquids.current();", "default_case": "default -> super.senseObject(sensor);", "sensor": sensor, "current_liquid": current_liquid, "super_sense_object_value": super_sense_object_value, "sense_object_value": sense_object_value}
+
+func java_inner_class_LiquidTurretBuild_method_findTarget_4(_args: Array = []) -> Variant:
+	var extinguish: bool = bool(_args[0] if _args.size() > 0 else false)
+	var current_liquid_can_extinguish: bool = bool(_args[1] if _args.size() > 1 else false)
+	var fire_result: Variant = _args[2] if _args.size() > 2 else null
+	var should_scan_fires: bool = extinguish and current_liquid_can_extinguish
+	var target_after: Variant = null
+	var target_assigned: bool = false
+	var super_find_target_called: bool = true
+	if should_scan_fires and fire_result != null:
+		target_after = fire_result
+		target_assigned = true
+		super_find_target_called = false
+	return {"source_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state", "inner_class": "public class LiquidTurretBuild extends TurretBuild{", "method": "protected void findTarget(){", "override_expr": "@Override", "guard_expr": "if(extinguish && liquids.current().canExtinguish()){", "result_init_expr": "Fire result = null;", "assign_expr": "target = result;", "return_expr": "return;", "super_find_target_expr": "super.findTarget();", "extinguish": extinguish, "current_liquid_can_extinguish": current_liquid_can_extinguish, "fire_result": fire_result, "should_scan_fires": should_scan_fires, "target_after": target_after, "target_assigned": target_assigned, "super_find_target_called": super_find_target_called}

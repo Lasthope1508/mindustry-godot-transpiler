@@ -86227,6 +86227,125 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_sense_object_state",
       "rule": "Result value is current liquid for currentAmmoType, otherwise superclass fallback."
+    },
+    "liquid_turret_build_find_target_extinguish.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "protected void findTarget(){",
+      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+      "godot_symbol": "source_liquid_turret_build_find_target_extinguish_result.method",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
+      "rule": "Method boundary for LiquidTurretBuild.findTarget."
+    },
+    "liquid_turret_build_find_target_extinguish.extinguish": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "extinguish",
+      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+      "godot_symbol": "source_liquid_turret_build_find_target_extinguish_input.extinguish",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
+      "rule": "Input supplies extinguish field."
+    },
+    "liquid_turret_build_find_target_extinguish.current_liquid_can_extinguish": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "liquids.current().canExtinguish()",
+      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+      "godot_symbol": "source_liquid_turret_build_find_target_extinguish_input.current_liquid_can_extinguish",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
+      "rule": "Input supplies liquid extinguish capability."
+    },
+    "liquid_turret_build_find_target_extinguish.fire_result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "result",
+      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+      "godot_symbol": "source_liquid_turret_build_find_target_extinguish_input.fire_result",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
+      "rule": "Explicit input supplies final result after deferred fire scan loop."
+    },
+    "liquid_turret_build_find_target_extinguish.guard_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "if(extinguish && liquids.current().canExtinguish()){",
+      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+      "godot_symbol": "source_liquid_turret_build_find_target_extinguish_result.should_scan_fires",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
+      "rule": "Guard for entering fire scan branch."
+    },
+    "liquid_turret_build_find_target_extinguish.assign_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "target = result;",
+      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+      "godot_symbol": "source_liquid_turret_build_find_target_extinguish_result.target_after",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
+      "rule": "Target assignment from fire scan result."
+    },
+    "liquid_turret_build_find_target_extinguish.super_find_target_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "java_expr": "super.findTarget();",
+      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+      "godot_symbol": "source_liquid_turret_build_find_target_extinguish_result.super_find_target_called",
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
+      "rule": "Fallback standard targeting call."
     }
   },
   "version": 1

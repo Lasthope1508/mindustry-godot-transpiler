@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 668)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 669)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 673)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 674)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44356,6 +44356,65 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["current_ammo_type_case"]["java_expr"], "case currentAmmoType -> liquids.current();")
         self.assertEqual(result_schema["keys"]["default_case"]["java_expr"], "default -> super.senseObject(sensor);")
         self.assertEqual(result_schema["keys"]["sense_object_value"]["java_expr"], "liquids.current() / super.senseObject(sensor)")
+
+    def test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "liquid_turret_build_find_target_extinguish.method")
+        self.assertEqual(method["java_expr"], "protected void findTarget(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(method["java_method"], "LiquidTurretBuild.findTarget()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_liquid_turret_build_find_target_extinguish_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_liquid_turret_build_find_target_extinguish_state")
+
+        guard = source_symbols.source_symbol(registry, "liquid_turret_build_find_target_extinguish.guard_expr")
+        self.assertEqual(guard["java_expr"], "if(extinguish && liquids.current().canExtinguish()){")
+        self.assertEqual(guard["godot_symbol"], "source_liquid_turret_build_find_target_extinguish_result.should_scan_fires")
+        fire_result = source_symbols.source_symbol(registry, "liquid_turret_build_find_target_extinguish.fire_result")
+        self.assertEqual(fire_result["java_expr"], "result")
+        self.assertEqual(fire_result["godot_symbol"], "source_liquid_turret_build_find_target_extinguish_input.fire_result")
+        assign = source_symbols.source_symbol(registry, "liquid_turret_build_find_target_extinguish.assign_expr")
+        self.assertEqual(assign["java_expr"], "target = result;")
+        self.assertEqual(assign["godot_symbol"], "source_liquid_turret_build_find_target_extinguish_result.target_after")
+        super_call = source_symbols.source_symbol(registry, "liquid_turret_build_find_target_extinguish.super_find_target_expr")
+        self.assertEqual(super_call["java_expr"], "super.findTarget();")
+        self.assertEqual(super_call["godot_symbol"], "source_liquid_turret_build_find_target_extinguish_result.super_find_target_called")
+
+        find_target_slice = source_symbols.source_slice(ledger, "N1200")
+        self.assertEqual(find_target_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(find_target_slice["java_method"], "LiquidTurretBuild.findTarget()")
+        self.assertEqual(find_target_slice["godot_owner"], "PortGame.source_liquid_turret_build_find_target_extinguish_state")
+        self.assertEqual(find_target_slice["runtime_proof"], "/root/Main.generated_liquid_turret_build_find_target_extinguish_bridge_state")
+        for expr in [
+            "public class LiquidTurretBuild extends TurretBuild{",
+            "@Override",
+            "protected void findTarget(){",
+            "if(extinguish && liquids.current().canExtinguish()){",
+            "Fire result = null;",
+            "target = result;",
+            "return;",
+            "super.findTarget();",
+        ]:
+            self.assertIn(expr, find_target_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_liquid_turret_build_find_target_extinguish_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["extinguish", "current_liquid_can_extinguish", "fire_result"])
+        for key in ["inner_class", "method", "override_expr", "guard_expr", "result_init_expr", "assign_expr", "return_expr", "super_find_target_expr", "should_scan_fires", "fire_result", "target_after", "super_find_target_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_liquid_turret_build_find_target_extinguish_input")
+        self.assertEqual(input_schema["keys"]["extinguish"]["java_expr"], "extinguish")
+        self.assertEqual(input_schema["keys"]["current_liquid_can_extinguish"]["java_expr"], "liquids.current().canExtinguish()")
+        self.assertEqual(input_schema["keys"]["fire_result"]["java_expr"], "result")
+        result_schema = source_symbols.state_schema(schema, "source_liquid_turret_build_find_target_extinguish_result")
+        self.assertEqual(result_schema["keys"]["should_scan_fires"]["java_expr"], "extinguish && liquids.current().canExtinguish()")
+        self.assertEqual(result_schema["keys"]["target_after"]["java_expr"], "target = result;")
+        self.assertEqual(result_schema["keys"]["super_find_target_called"]["java_expr"], "super.findTarget();")
 
     def test_generated_builder_comp_build_plan_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

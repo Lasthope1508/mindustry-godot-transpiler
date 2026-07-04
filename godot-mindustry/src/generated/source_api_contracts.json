@@ -27462,6 +27462,56 @@
       ],
       "runtime_proof": "/root/Main.source_liquid_turret_build_sense_object_state",
       "rule": "Public runtime contract for LiquidTurretBuild.senseObject state."
+    },
+    "PortGame.source_liquid_turret_build_find_target_extinguish_state": {
+      "status": "source-backed",
+      "source_slice": "N1200",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "source_method": "LiquidTurretBuild.findTarget()",
+      "params": [
+        {
+          "name": "extinguish",
+          "type": "bool",
+          "schema": "source_liquid_turret_build_find_target_extinguish_input.extinguish"
+        },
+        {
+          "name": "current_liquid_can_extinguish",
+          "type": "bool",
+          "schema": "source_liquid_turret_build_find_target_extinguish_input.current_liquid_can_extinguish"
+        },
+        {
+          "name": "fire_result",
+          "type": "Variant",
+          "schema": "source_liquid_turret_build_find_target_extinguish_input.fire_result"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "guard_expr",
+        "result_init_expr",
+        "assign_expr",
+        "return_expr",
+        "super_find_target_expr",
+        "extinguish",
+        "current_liquid_can_extinguish",
+        "fire_result",
+        "should_scan_fires",
+        "target_after",
+        "target_assigned",
+        "super_find_target_called"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_liquid_turret_build_find_target_extinguish_state",
+      "rule": "Public runtime contract for LiquidTurretBuild.findTarget extinguish dispatch state."
     }
   },
   "policy": {

@@ -13920,5 +13920,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.senseObject"', source)
         self.assertIn('"matches": result.get("sense_object_value", null) == canonical.get("sense_object_value", null)', source)
 
+    def test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_liquid_turret_build_find_target_extinguish_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:", source)
+        self.assertIn('"method": "protected void findTarget(){"', source)
+        self.assertIn('"guard_expr": "if(extinguish && liquids.current().canExtinguish()){"', source)
+        self.assertIn('"assign_expr": "target = result;"', source)
+        self.assertIn('"super_find_target_expr": "super.findTarget();"', source)
+        self.assertIn("var should_scan_fires: bool = extinguish and current_liquid_can_extinguish", source)
+        self.assertIn("if should_scan_fires and fire_result != null:", source)
+        self.assertIn('"target_after": target_after', source)
+        self.assertIn('"super_find_target_called": super_find_target_called', source)
+
+    def test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_liquid_turret_build_find_target_extinguish_bridge_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_LiquidTurretBuild_method_findTarget_4([extinguish, current_liquid_can_extinguish, fire_result])", source)
+        self.assertIn("var canonical = source_liquid_turret_build_find_target_extinguish_state(extinguish, current_liquid_can_extinguish, fire_result)", source)
+        self.assertIn('"source_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state"', source)
+        self.assertIn('"generated_owner": "LiquidTurret.LiquidTurretBuild.findTarget"', source)
+        self.assertIn('"matches": result.get("target_after", null) == canonical.get("target_after", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

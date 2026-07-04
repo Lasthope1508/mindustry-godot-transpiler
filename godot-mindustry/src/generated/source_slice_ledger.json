@@ -26969,6 +26969,44 @@
       ],
       "runtime_proof": "/root/Main.generated_liquid_turret_build_sense_object_bridge_state",
       "rule": "LiquidTurretBuild.senseObject returns liquids.current() for currentAmmoType, otherwise super.senseObject(sensor)."
+    },
+    "N1200": {
+      "status": "active",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.LiquidTurret.LiquidTurretBuild",
+      "java_method": "LiquidTurretBuild.findTarget()",
+      "godot_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+      "exact_exprs": [
+        "public class LiquidTurretBuild extends TurretBuild{",
+        "@Override",
+        "protected void findTarget(){",
+        "if(extinguish && liquids.current().canExtinguish()){",
+        "Fire result = null;",
+        "target = result;",
+        "return;",
+        "super.findTarget();"
+      ],
+      "deferred_exprs": [
+        "Fire scan tile iteration, distance comparison, team checks, and mindst updates stay deferred; this slice records extinguish gate and target/super dispatch using explicit fire_result."
+      ],
+      "source_symbols": [
+        "liquid_turret_build_find_target_extinguish.method",
+        "liquid_turret_build_find_target_extinguish.extinguish",
+        "liquid_turret_build_find_target_extinguish.current_liquid_can_extinguish",
+        "liquid_turret_build_find_target_extinguish.fire_result",
+        "liquid_turret_build_find_target_extinguish.guard_expr",
+        "liquid_turret_build_find_target_extinguish.assign_expr",
+        "liquid_turret_build_find_target_extinguish.super_find_target_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_liquid_turret_build_find_target_extinguish_to_source_state",
+        "test_port_game_exposes_source_liquid_turret_build_find_target_extinguish_state",
+        "test_port_game_exposes_generated_liquid_turret_build_find_target_extinguish_bridge_state",
+        "test_liquid_turret_build_find_target_extinguish_matches_upstream_source",
+        "test_generated_liquid_turret_build_find_target_extinguish_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_liquid_turret_build_find_target_extinguish_bridge_state",
+      "rule": "LiquidTurretBuild.findTarget assigns fire result and returns when extinguish scan finds fire; otherwise it calls super.findTarget()."
     }
   },
   "version": 1

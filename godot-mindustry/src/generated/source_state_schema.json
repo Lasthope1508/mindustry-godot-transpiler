@@ -101222,6 +101222,104 @@
         }
       },
       "rule": "Dictionary returned by PortGame.source_liquid_turret_build_sense_object_state."
+    },
+    "source_liquid_turret_build_find_target_extinguish_input": {
+      "status": "source-backed",
+      "source_slice": "N1200",
+      "keys": {
+        "extinguish": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_liquid_turret_build_find_target_extinguish_input.extinguish",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.findTarget()",
+          "java_expr": "extinguish",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_find_target_extinguish_state"
+          ],
+          "rule": "Input supplies extinguish field."
+        },
+        "current_liquid_can_extinguish": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_liquid_turret_build_find_target_extinguish_input.current_liquid_can_extinguish",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.findTarget()",
+          "java_expr": "liquids.current().canExtinguish()",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_find_target_extinguish_state"
+          ],
+          "rule": "Input supplies liquid extinguish capability."
+        },
+        "fire_result": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_build_find_target_extinguish_input.fire_result",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.findTarget()",
+          "java_expr": "result",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_find_target_extinguish_state"
+          ],
+          "rule": "Explicit input supplies final result after deferred fire scan loop."
+        }
+      },
+      "rule": "Inputs for PortGame.source_liquid_turret_build_find_target_extinguish_state."
+    },
+    "source_liquid_turret_build_find_target_extinguish_result": {
+      "status": "source-backed",
+      "source_slice": "N1200",
+      "keys": {
+        "method": {
+          "status": "source-backed",
+          "type": "String",
+          "godot_symbol": "source_liquid_turret_build_find_target_extinguish_result.method",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.findTarget()",
+          "java_expr": "protected void findTarget(){",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_find_target_extinguish_state"
+          ],
+          "rule": "Method boundary."
+        },
+        "should_scan_fires": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_liquid_turret_build_find_target_extinguish_result.should_scan_fires",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.findTarget()",
+          "java_expr": "extinguish && liquids.current().canExtinguish()",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_find_target_extinguish_state"
+          ],
+          "rule": "Result of extinguish guard."
+        },
+        "target_after": {
+          "status": "source-backed",
+          "type": "Variant",
+          "godot_symbol": "source_liquid_turret_build_find_target_extinguish_result.target_after",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.findTarget()",
+          "java_expr": "target = result;",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_find_target_extinguish_state"
+          ],
+          "rule": "Assigned target when result is non-null."
+        },
+        "super_find_target_called": {
+          "status": "source-backed",
+          "type": "bool",
+          "godot_symbol": "source_liquid_turret_build_find_target_extinguish_result.super_find_target_called",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java",
+          "java_method": "LiquidTurretBuild.findTarget()",
+          "java_expr": "super.findTarget();",
+          "used_by": [
+            "PortGame.source_liquid_turret_build_find_target_extinguish_state"
+          ],
+          "rule": "Whether fallback standard targeting call runs."
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_liquid_turret_build_find_target_extinguish_state."
     }
   },
   "version": 1

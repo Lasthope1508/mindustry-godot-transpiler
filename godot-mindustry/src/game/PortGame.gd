@@ -18094,6 +18094,50 @@ func generated_liquid_turret_build_sense_object_bridge_state(sensor: String, cur
 			and result.get("super_sense_object_value", null) == canonical.get("super_sense_object_value", null),
 	}
 
+func source_liquid_turret_build_find_target_extinguish_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:
+	var should_scan_fires: bool = extinguish and current_liquid_can_extinguish
+	var target_after: Variant = null
+	var target_assigned: bool = false
+	var super_find_target_called: bool = true
+	if should_scan_fires and fire_result != null:
+		target_after = fire_result
+		target_assigned = true
+		super_find_target_called = false
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+		"inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+		"method": "protected void findTarget(){",
+		"override_expr": "@Override",
+		"guard_expr": "if(extinguish && liquids.current().canExtinguish()){",
+		"result_init_expr": "Fire result = null;",
+		"assign_expr": "target = result;",
+		"return_expr": "return;",
+		"super_find_target_expr": "super.findTarget();",
+		"extinguish": extinguish,
+		"current_liquid_can_extinguish": current_liquid_can_extinguish,
+		"fire_result": fire_result,
+		"should_scan_fires": should_scan_fires,
+		"target_after": target_after,
+		"target_assigned": target_assigned,
+		"super_find_target_called": super_find_target_called,
+	}
+
+func generated_liquid_turret_build_find_target_extinguish_bridge_state(extinguish: bool, current_liquid_can_extinguish: bool, fire_result: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/LiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_LiquidTurretBuild_method_findTarget_4([extinguish, current_liquid_can_extinguish, fire_result])
+	var canonical = source_liquid_turret_build_find_target_extinguish_state(extinguish, current_liquid_can_extinguish, fire_result)
+	return {
+		"source_owner": "PortGame.source_liquid_turret_build_find_target_extinguish_state",
+		"generated_owner": "LiquidTurret.LiquidTurretBuild.findTarget",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("target_after", null) == canonical.get("target_after", null)
+			and result.get("target_assigned", null) == canonical.get("target_assigned", null)
+			and result.get("super_find_target_called", null) == canonical.get("super_find_target_called", null)
+			and result.get("should_scan_fires", null) == canonical.get("should_scan_fires", null),
+	}
+
 func source_turret_ammo_data(turret, item_id: String) -> Dictionary:
 	if turret == null:
 		return {}

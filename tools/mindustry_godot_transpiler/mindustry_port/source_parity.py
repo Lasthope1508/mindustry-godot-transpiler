@@ -1159,6 +1159,26 @@ def verify_liquid_turret_build_sense_object_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_liquid_turret_build_find_target_extinguish_source(upstream_root: Path) -> dict[str, Any]:
+    liquid_turret_path = Path(upstream_root) / LIQUID_TURRET_SOURCE
+    source = liquid_turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+        "override": "@Override",
+        "method": "protected void findTarget(){",
+        "guard_expr": "if(extinguish && liquids.current().canExtinguish()){",
+        "result_expr": "Fire result = null;",
+        "assign_expr": "target = result;",
+        "return_expr": "return;",
+        "super_find_target_expr": "super.findTarget();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": LIQUID_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_generator_displayed_power_production_source(upstream_root: Path) -> dict[str, Any]:
     power_generator_path = Path(upstream_root) / POWER_GENERATOR_SOURCE
     schematic_path = Path(upstream_root) / "core/src/mindustry/game/Schematic.java"

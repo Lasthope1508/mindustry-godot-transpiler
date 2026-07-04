@@ -8904,5 +8904,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_liquid_turret_build_find_target_extinguish_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_liquid_turret_build_find_target_extinguish_source"))
+        report = source_parity.verify_liquid_turret_build_find_target_extinguish_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class LiquidTurretBuild extends TurretBuild{",
+            "override": "@Override",
+            "method": "protected void findTarget(){",
+            "guard_expr": "if(extinguish && liquids.current().canExtinguish()){",
+            "result_expr": "Fire result = null;",
+            "assign_expr": "target = result;",
+            "return_expr": "return;",
+            "super_find_target_expr": "super.findTarget();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
