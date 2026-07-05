@@ -587,6 +587,24 @@ def verify_tractor_beam_turret_icons_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_set_stats_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override": "@Override",
+        "method": "public void setStats(){",
+        "super_set_stats": "super.setStats();",
+        "targets_air_stat": "stats.add(Stat.targetsAir, targetAir);",
+        "targets_ground_stat": "stats.add(Stat.targetsGround, targetGround);",
+        "damage_stat": "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

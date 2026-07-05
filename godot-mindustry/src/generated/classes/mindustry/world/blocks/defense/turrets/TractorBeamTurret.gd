@@ -20,7 +20,17 @@ func java_method_icons_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_tractor_beam_turret_icons_state", "method": "public TextureRegion[] icons(){", "override_expr": "@Override", "return_expr": "return new TextureRegion[]{baseRegion, region};", "base_region": base_region, "region": region, "icons": icons}
 
 func java_method_setStats_1(_args: Array = []) -> Variant:
-	return null
+	var target_air: bool = bool(_args[0] if _args.size() > 0 else true)
+	var target_ground: bool = bool(_args[1] if _args.size() > 1 else false)
+	var damage: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var targets_air_stat_call: Dictionary = {"call": "stats.add(Stat.targetsAir, targetAir);", "stat": "Stat.targetsAir", "value": target_air}
+	var targets_ground_stat_call: Dictionary = {"call": "stats.add(Stat.targetsGround, targetGround);", "stat": "Stat.targetsGround", "value": target_ground}
+	var damage_per_second: float = damage * 60.0
+	var damage_stat_added: bool = damage > 0.0
+	var damage_stat_call: Dictionary = {}
+	if damage_stat_added:
+		damage_stat_call = {"call": "stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);", "stat": "Stat.damage", "value": damage_per_second, "unit": "StatUnit.perSecond"}
+	return {"source_owner": "PortGame.source_tractor_beam_turret_set_stats_state", "method": "public void setStats(){", "override_expr": "@Override", "super_set_stats_expr": "super.setStats();", "targets_air_stat_expr": "stats.add(Stat.targetsAir, targetAir);", "targets_ground_stat_expr": "stats.add(Stat.targetsGround, targetGround);", "damage_stat_expr": "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);", "target_air": target_air, "target_ground": target_ground, "damage": damage, "super_set_stats_called": true, "targets_air_stat_call": targets_air_stat_call, "targets_ground_stat_call": targets_ground_stat_call, "damage_per_second": damage_per_second, "damage_stat_added": damage_stat_added, "damage_stat_call": damage_stat_call}
 
 func java_method_init_2(_args: Array = []) -> Variant:
 	return null

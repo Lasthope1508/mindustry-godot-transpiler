@@ -105932,6 +105932,164 @@
       "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_icons_state.",
       "source_slice": "N1232",
       "status": "source-backed"
+    },
+    "source_tractor_beam_turret_set_stats_input": {
+      "keys": {
+        "target_air": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_input.target_air",
+          "java_expr": "targetAir",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies targetAir field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        },
+        "target_ground": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_input.target_ground",
+          "java_expr": "targetGround",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies targetGround field.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        },
+        "damage": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_input.damage",
+          "java_expr": "damage",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies damage field.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_set_stats_state.",
+      "source_slice": "N1233",
+      "status": "source-backed"
+    },
+    "source_tractor_beam_turret_set_stats_result": {
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_result.source_owner",
+          "java_expr": "PortGame.source_tractor_beam_turret_set_stats_state",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result owner for TractorBeamTurret setStats state.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_result.method",
+          "java_expr": "public void setStats(){",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result preserves Java method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result preserves override annotation.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        },
+        "super_set_stats_expr": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_result.super_set_stats_expr",
+          "java_expr": "super.setStats();",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result preserves super setStats call.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        },
+        "targets_air_stat_expr": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_result.targets_air_stat_expr",
+          "java_expr": "stats.add(Stat.targetsAir, targetAir);",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result preserves targetsAir stat expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        },
+        "targets_ground_stat_expr": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_result.targets_ground_stat_expr",
+          "java_expr": "stats.add(Stat.targetsGround, targetGround);",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result preserves targetsGround stat expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        },
+        "damage_stat_expr": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_result.damage_stat_expr",
+          "java_expr": "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result preserves guarded damage stat expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        },
+        "damage_per_second": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_result.damage_per_second",
+          "java_expr": "damage * 60f",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result computes damage stat per-second value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        },
+        "damage_stat_added": {
+          "godot_symbol": "source_tractor_beam_turret_set_stats_result.damage_stat_added",
+          "java_expr": "damage > 0",
+          "java_method": "TractorBeamTurret.setStats()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result records guarded damage stat branch.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_set_stats_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_set_stats_state.",
+      "source_slice": "N1233",
+      "status": "source-backed"
     }
   },
   "version": 1

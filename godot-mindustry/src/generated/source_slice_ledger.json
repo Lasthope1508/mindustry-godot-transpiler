@@ -28153,6 +28153,40 @@
         "test_tractor_beam_turret_icons_matches_upstream_source",
         "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1233": {
+      "deferred_exprs": [
+        "Stats storage, Stat objects, StatUnit formatting, and inherited BaseTurret.setStats internals remain deferred; this slice records exact TractorBeamTurret stat calls and computed damage per second."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.targetsAir, targetAir);",
+        "stats.add(Stat.targetsGround, targetGround);",
+        "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamTurret.setStats adds targetAir, targetGround, and positive damage per-second stats exactly as upstream.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_set_stats.method",
+        "tractor_beam_turret_set_stats.target_air",
+        "tractor_beam_turret_set_stats.target_ground",
+        "tractor_beam_turret_set_stats.damage",
+        "tractor_beam_turret_set_stats.damage_per_second"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_set_stats_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_set_stats_bridge_state",
+        "test_tractor_beam_turret_set_stats_matches_upstream_source",
+        "test_generated_tractor_beam_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

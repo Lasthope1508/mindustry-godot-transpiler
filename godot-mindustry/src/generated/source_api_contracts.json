@@ -29101,6 +29101,56 @@
         "test_tractor_beam_turret_icons_matches_upstream_source",
         "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_tractor_beam_turret_set_stats_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "params": [
+        {
+          "name": "target_air",
+          "schema": "source_tractor_beam_turret_set_stats_input.target_air",
+          "type": "bool"
+        },
+        {
+          "name": "target_ground",
+          "schema": "source_tractor_beam_turret_set_stats_input.target_ground",
+          "type": "bool"
+        },
+        {
+          "name": "damage",
+          "schema": "source_tractor_beam_turret_set_stats_input.damage",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_set_stats_expr",
+        "targets_air_stat_expr",
+        "targets_ground_stat_expr",
+        "damage_stat_expr",
+        "target_air",
+        "target_ground",
+        "damage",
+        "super_set_stats_called",
+        "targets_air_stat_call",
+        "targets_ground_stat_call",
+        "damage_per_second",
+        "damage_stat_added",
+        "damage_stat_call"
+      ],
+      "rule": "Public runtime contract for TractorBeamTurret.setStats state.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_set_stats_state",
+      "source_method": "TractorBeamTurret.setStats()",
+      "source_slice": "N1233",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_set_stats_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_set_stats_bridge_state",
+        "test_tractor_beam_turret_set_stats_matches_upstream_source",
+        "test_generated_tractor_beam_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

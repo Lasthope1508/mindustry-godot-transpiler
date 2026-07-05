@@ -17125,6 +17125,48 @@ func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, regi
 			and result.get("region", null) == canonical.get("region", null),
 	}
 
+func source_tractor_beam_turret_set_stats_state(target_air: bool, target_ground: bool, damage: float) -> Dictionary:
+	var targets_air_stat_call: Dictionary = {"call": "stats.add(Stat.targetsAir, targetAir);", "stat": "Stat.targetsAir", "value": target_air}
+	var targets_ground_stat_call: Dictionary = {"call": "stats.add(Stat.targetsGround, targetGround);", "stat": "Stat.targetsGround", "value": target_ground}
+	var damage_per_second: float = damage * 60.0
+	var damage_stat_added: bool = damage > 0.0
+	var damage_stat_call: Dictionary = {}
+	if damage_stat_added:
+		damage_stat_call = {"call": "stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);", "stat": "Stat.damage", "value": damage_per_second, "unit": "StatUnit.perSecond"}
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_set_stats_state",
+		"method": "public void setStats(){",
+		"override_expr": "@Override",
+		"super_set_stats_expr": "super.setStats();",
+		"targets_air_stat_expr": "stats.add(Stat.targetsAir, targetAir);",
+		"targets_ground_stat_expr": "stats.add(Stat.targetsGround, targetGround);",
+		"damage_stat_expr": "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);",
+		"target_air": target_air,
+		"target_ground": target_ground,
+		"damage": damage,
+		"super_set_stats_called": true,
+		"targets_air_stat_call": targets_air_stat_call,
+		"targets_ground_stat_call": targets_ground_stat_call,
+		"damage_per_second": damage_per_second,
+		"damage_stat_added": damage_stat_added,
+		"damage_stat_call": damage_stat_call,
+	}
+
+func generated_tractor_beam_turret_set_stats_bridge_state(target_air: bool, target_ground: bool, damage: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_setStats_1([target_air, target_ground, damage])
+	var canonical = source_tractor_beam_turret_set_stats_state(target_air, target_ground, damage)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_set_stats_state",
+		"generated_owner": "TractorBeamTurret.java_method_setStats_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("targets_air_stat_call", null) == canonical.get("targets_air_stat_call", null) and result.get("targets_ground_stat_call", null) == canonical.get("targets_ground_stat_call", null) and result.get("damage_stat_added", null) == canonical.get("damage_stat_added", null) and result.get("damage_stat_call", null) == canonical.get("damage_stat_call", null)
+			and result.get("damage_per_second", null) == canonical.get("damage_per_second", null)
+			and result.get("super_set_stats_called", null) == canonical.get("super_set_stats_called", null),
+	}
+
 func source_turret_get_regions_to_outline_state(out: Variant) -> Dictionary:
 	var drawer_get_regions_to_outline_call: Dictionary = {"call": "drawer.getRegionsToOutline(this, out);", "out": out}
 	return {

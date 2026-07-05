@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 706)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 701)
+        self.assertEqual(audit["totalSourceFunctions"], 707)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 702)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 706)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 707)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19748,6 +19748,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_power_turret_build_sense_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_turret_build_use_ammo_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_turret_build_has_ammo_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_tractor_beam_turret_set_stats_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_turret_build_peek_ammo_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_item_turret_limit_range_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_killed_state", audit["registeredSourceOwners"])
@@ -42645,6 +42646,62 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["region"]["java_expr"], "region")
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_icons_result")
         self.assertEqual(result_schema["keys"]["icons"]["java_expr"], "new TextureRegion[]{baseRegion, region}")
+
+    def test_generated_tractor_beam_turret_set_stats_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_set_stats.method")
+        self.assertEqual(method["java_expr"], "public void setStats(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamTurret.setStats()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_set_stats_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_set_stats_state")
+
+        target_air = source_symbols.source_symbol(registry, "tractor_beam_turret_set_stats.target_air")
+        self.assertEqual(target_air["java_expr"], "targetAir")
+        self.assertEqual(target_air["godot_symbol"], "source_tractor_beam_turret_set_stats_input.target_air")
+        target_ground = source_symbols.source_symbol(registry, "tractor_beam_turret_set_stats.target_ground")
+        self.assertEqual(target_ground["java_expr"], "targetGround")
+        self.assertEqual(target_ground["godot_symbol"], "source_tractor_beam_turret_set_stats_input.target_ground")
+        damage = source_symbols.source_symbol(registry, "tractor_beam_turret_set_stats.damage")
+        self.assertEqual(damage["java_expr"], "damage")
+        self.assertEqual(damage["godot_symbol"], "source_tractor_beam_turret_set_stats_input.damage")
+        damage_per_second = source_symbols.source_symbol(registry, "tractor_beam_turret_set_stats.damage_per_second")
+        self.assertEqual(damage_per_second["java_expr"], "damage * 60f")
+        self.assertEqual(damage_per_second["godot_symbol"], "source_tractor_beam_turret_set_stats_result.damage_per_second")
+
+        set_stats_slice = source_symbols.source_slice(ledger, "N1233")
+        self.assertEqual(set_stats_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(set_stats_slice["java_method"], "TractorBeamTurret.setStats()")
+        self.assertEqual(set_stats_slice["godot_owner"], "PortGame.source_tractor_beam_turret_set_stats_state")
+        self.assertEqual(set_stats_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_set_stats_bridge_state")
+        for expr in [
+            "@Override",
+            "public void setStats(){",
+            "super.setStats();",
+            "stats.add(Stat.targetsAir, targetAir);",
+            "stats.add(Stat.targetsGround, targetGround);",
+            "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);",
+        ]:
+            self.assertIn(expr, set_stats_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_set_stats_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["target_air", "target_ground", "damage"])
+        for key in ["source_owner", "method", "override_expr", "super_set_stats_expr", "targets_air_stat_expr", "targets_ground_stat_expr", "damage_stat_expr", "damage_per_second", "damage_stat_added", "damage_stat_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_set_stats_input")
+        self.assertEqual(input_schema["keys"]["target_air"]["java_expr"], "targetAir")
+        self.assertEqual(input_schema["keys"]["target_ground"]["java_expr"], "targetGround")
+        self.assertEqual(input_schema["keys"]["damage"]["java_expr"], "damage")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_set_stats_result")
+        self.assertEqual(result_schema["keys"]["damage_per_second"]["java_expr"], "damage * 60f")
+        self.assertEqual(result_schema["keys"]["damage_stat_added"]["java_expr"], "damage > 0")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
