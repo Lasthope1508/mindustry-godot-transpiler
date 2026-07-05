@@ -13290,6 +13290,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.read"', source)
         self.assertIn('"matches": result.get("rotation_after", null) == canonical.get("rotation_after", null) and result.get("read_f_call", null) == canonical.get("read_f_call", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_build_draw_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_build_draw_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_draw_state"', source)
+        self.assertIn('"method": "public void draw(){"', source)
+        self.assertIn('"base_rect_expr": "Draw.rect(baseRegion, x, y);"', source)
+        self.assertIn('"shadow_expr": "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);"', source)
+        self.assertIn('"region_rect_expr": "Draw.rect(region, x, y, rotation - 90);"', source)
+        self.assertIn('"laser_guard_expr": "if(any && !isPayload()){"', source)
+        self.assertIn('"laser_expr": "Drawf.laser(laser, laserStart, laserEnd, x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength), lastX, lastY, strength * efficiency * laserWidth);"', source)
+        self.assertIn("var laser_guard: bool = any_state and not is_payload", source)
+        self.assertIn("var laser_width_value: float = strength * efficiency * laser_width", source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_build_draw_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_build_draw_bridge_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_draw_3([base_region, region, x, y, rotation_value, size, any_state, is_payload, last_x, last_y, laser_color, mathf_absin_4_0_6, laser, laser_start, laser_end, shoot_length, strength, efficiency, laser_width])", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_draw_state(base_region, region, x, y, rotation_value, size, any_state, is_payload, last_x, last_y, laser_color, mathf_absin_4_0_6, laser, laser_start, laser_end, shoot_length, strength, efficiency, laser_width)", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_draw_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.draw"', source)
+        self.assertIn('"matches": result.get("base_rect_call", null) == canonical.get("base_rect_call", null) and result.get("shadow_call", null) == canonical.get("shadow_call", null)', source)
+
     def test_port_game_exposes_source_turret_get_regions_to_outline_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

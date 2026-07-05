@@ -106520,6 +106520,356 @@
       "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_read_state.",
       "source_slice": "N1238",
       "status": "source-backed"
+    },
+    "source_tractor_beam_turret_build_draw_input": {
+      "keys": {
+        "base_region": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.base_region",
+          "java_expr": "baseRegion",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java baseRegion.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "region": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.region",
+          "java_expr": "region",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java region.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.x",
+          "java_expr": "x",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java x.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "y": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.y",
+          "java_expr": "y",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java y.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "rotation_value": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.rotation_value",
+          "java_expr": "rotation",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java rotation.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "size": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.size",
+          "java_expr": "size",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java size.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "any_state": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.any_state",
+          "java_expr": "any",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java any.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "is_payload": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.is_payload",
+          "java_expr": "isPayload()",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java isPayload().",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "last_x": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.last_x",
+          "java_expr": "lastX",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java lastX.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "last_y": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.last_y",
+          "java_expr": "lastY",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java lastY.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "laser_color": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.laser_color",
+          "java_expr": "laserColor",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java laserColor.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "mathf_absin_4_0_6": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.mathf_absin_4_0_6",
+          "java_expr": "Mathf.absin(4f, 0.6f)",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java Mathf.absin(4f, 0.6f).",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "laser": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.laser",
+          "java_expr": "laser",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java laser.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "laser_start": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.laser_start",
+          "java_expr": "laserStart",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java laserStart.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "laser_end": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.laser_end",
+          "java_expr": "laserEnd",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java laserEnd.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "shoot_length": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.shoot_length",
+          "java_expr": "shootLength",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java shootLength.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "strength": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.strength",
+          "java_expr": "strength",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java strength.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "efficiency": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.efficiency",
+          "java_expr": "efficiency",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java efficiency.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "laser_width": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_input.laser_width",
+          "java_expr": "laserWidth",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java laserWidth.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_draw_state.",
+      "source_slice": "N1239",
+      "status": "source-backed"
+    },
+    "source_tractor_beam_turret_build_draw_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_result.method",
+          "java_expr": "public void draw(){",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "base_rect_call": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_result.base_rect_call",
+          "java_expr": "Draw.rect(baseRegion, x, y);",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Base draw call representation.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "shadow_call": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_result.shadow_call",
+          "java_expr": "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Shadow call representation.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "region_rect_call": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_result.region_rect_call",
+          "java_expr": "Draw.rect(region, x, y, rotation - 90);",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Main region draw call representation.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "laser_guard": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_result.laser_guard",
+          "java_expr": "any && !isPayload()",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Laser guard result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "angle_to_last": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_result.angle_to_last",
+          "java_expr": "angleTo(lastX, lastY)",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Angle to last beam endpoint.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "mixcol_call": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_result.mixcol_call",
+          "java_expr": "Draw.mixcol(laserColor, Mathf.absin(4f, 0.6f));",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Laser mix color call representation.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "laser_call": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_result.laser_call",
+          "java_expr": "Drawf.laser(laser, laserStart, laserEnd, x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength), lastX, lastY, strength * efficiency * laserWidth);",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Laser draw call representation.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        },
+        "mixcol_reset_called": {
+          "godot_symbol": "source_tractor_beam_turret_build_draw_result.mixcol_reset_called",
+          "java_expr": "Draw.mixcol();",
+          "java_method": "TractorBeamBuild.draw()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Mix color reset call marker.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_draw_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_draw_state.",
+      "source_slice": "N1239",
+      "status": "source-backed"
     }
   },
   "version": 1

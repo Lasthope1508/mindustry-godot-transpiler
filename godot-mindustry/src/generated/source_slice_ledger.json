@@ -28358,6 +28358,73 @@
         "test_tractor_beam_turret_build_read_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1239": {
+      "deferred_exprs": [
+        "Actual Arc Draw and Drawf rendering side effects are represented as call dictionaries in this slice",
+        "TextureRegion loading and isPayload implementation are supplied as explicit inputs"
+      ],
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void draw(){",
+        "Draw.rect(baseRegion, x, y);",
+        "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+        "Draw.rect(region, x, y, rotation - 90);",
+        "//draw laser if applicable",
+        "if(any && !isPayload()){",
+        "Draw.z(Layer.bullet);",
+        "float ang = angleTo(lastX, lastY);",
+        "Draw.mixcol(laserColor, Mathf.absin(4f, 0.6f));",
+        "Drawf.laser(laser, laserStart, laserEnd,",
+        "x + Angles.trnsx(ang, shootLength)",
+        "y + Angles.trnsy(ang, shootLength)",
+        "lastX, lastY, strength * efficiency * laserWidth);",
+        "Draw.mixcol();"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_draw_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.draw()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.draw emits base/shadow/region draw calls and conditionally emits laser draw calls when any && !isPayload().",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_draw_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_draw.method",
+        "tractor_beam_turret_build_draw.base_region",
+        "tractor_beam_turret_build_draw.region",
+        "tractor_beam_turret_build_draw.x",
+        "tractor_beam_turret_build_draw.y",
+        "tractor_beam_turret_build_draw.rotation",
+        "tractor_beam_turret_build_draw.size",
+        "tractor_beam_turret_build_draw.any",
+        "tractor_beam_turret_build_draw.is_payload",
+        "tractor_beam_turret_build_draw.last_x",
+        "tractor_beam_turret_build_draw.last_y",
+        "tractor_beam_turret_build_draw.laser_color",
+        "tractor_beam_turret_build_draw.mathf_absin",
+        "tractor_beam_turret_build_draw.laser_texture",
+        "tractor_beam_turret_build_draw.laser_start_texture",
+        "tractor_beam_turret_build_draw.laser_end_texture",
+        "tractor_beam_turret_build_draw.shoot_length",
+        "tractor_beam_turret_build_draw.strength",
+        "tractor_beam_turret_build_draw.efficiency",
+        "tractor_beam_turret_build_draw.laser_width",
+        "tractor_beam_turret_build_draw.base_rect",
+        "tractor_beam_turret_build_draw.shadow",
+        "tractor_beam_turret_build_draw.region_rect",
+        "tractor_beam_turret_build_draw.laser_guard",
+        "tractor_beam_turret_build_draw.angle",
+        "tractor_beam_turret_build_draw.mixcol",
+        "tractor_beam_turret_build_draw.laser"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_draw_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_draw_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_draw_bridge_state",
+        "test_tractor_beam_turret_build_draw_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_draw_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

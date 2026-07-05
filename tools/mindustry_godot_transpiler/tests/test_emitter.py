@@ -8012,6 +8012,64 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"super_read_expr": "super.read(read, revision);"', source_text)
             self.assertIn('"read_rotation_expr": "rotation = read.f();"', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void draw(){
+            Draw.rect(baseRegion, x, y);
+            Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);
+            Draw.rect(region, x, y, rotation - 90);
+
+            //draw laser if applicable
+            if(any && !isPayload()){
+                Draw.z(Layer.bullet);
+                float ang = angleTo(lastX, lastY);
+
+                Draw.mixcol(laserColor, Mathf.absin(4f, 0.6f));
+
+                Drawf.laser(laser, laserStart, laserEnd,
+                x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength),
+                lastX, lastY, strength * efficiency * laserWidth);
+
+                Draw.mixcol();
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_TractorBeamBuild_method_draw_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var rotation_value: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var laser_guard: bool = any_state and not is_payload", source_text)
+            self.assertIn("var draw_rotation: float = rotation_value - 90.0", source_text)
+            self.assertIn("var laser_width_value: float = strength * efficiency * laser_width", source_text)
+            self.assertIn('var base_rect_call: Dictionary = {"call": "Draw.rect(baseRegion, x, y);"', source_text)
+            self.assertIn('var shadow_call: Dictionary = {"call": "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);"', source_text)
+            self.assertIn('var region_rect_call: Dictionary = {"call": "Draw.rect(region, x, y, rotation - 90);"', source_text)
+            self.assertIn('var laser_call: Dictionary = {}', source_text)
+            self.assertIn('laser_call = {"call": "Drawf.laser(laser, laserStart, laserEnd, x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength), lastX, lastY, strength * efficiency * laserWidth);"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_tractor_beam_turret_build_draw_state"', source_text)
+            self.assertIn('"laser_guard_expr": "if(any && !isPayload()){"', source_text)
+            self.assertIn('"angle_expr": "float ang = angleTo(lastX, lastY);"', source_text)
+            self.assertIn('"laser_expr": "Drawf.laser(laser, laserStart, laserEnd, x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength), lastX, lastY, strength * efficiency * laserWidth);"', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

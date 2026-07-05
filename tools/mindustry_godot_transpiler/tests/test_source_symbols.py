@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 712)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 707)
+        self.assertEqual(audit["totalSourceFunctions"], 713)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 708)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 712)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 713)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42975,6 +42975,65 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_read_result")
         self.assertEqual(result_schema["keys"]["super_read_call"]["java_expr"], "super.read(read, revision);")
         self.assertEqual(result_schema["keys"]["rotation_after"]["java_expr"], "rotation = read.f();")
+
+    def test_generated_tractor_beam_turret_build_draw_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_draw.method")
+        self.assertEqual(method["java_expr"], "public void draw(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.draw()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_draw_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_draw_state")
+
+        rotation = source_symbols.source_symbol(registry, "tractor_beam_turret_build_draw.rotation")
+        self.assertEqual(rotation["java_expr"], "rotation")
+        self.assertEqual(rotation["godot_symbol"], "source_tractor_beam_turret_build_draw_input.rotation_value")
+        laser_guard = source_symbols.source_symbol(registry, "tractor_beam_turret_build_draw.laser_guard")
+        self.assertEqual(laser_guard["java_expr"], "any && !isPayload()")
+        self.assertEqual(laser_guard["godot_symbol"], "source_tractor_beam_turret_build_draw_result.laser_guard")
+        laser = source_symbols.source_symbol(registry, "tractor_beam_turret_build_draw.laser")
+        self.assertEqual(laser["java_expr"], "Drawf.laser(laser, laserStart, laserEnd, x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength), lastX, lastY, strength * efficiency * laserWidth);")
+        self.assertEqual(laser["godot_symbol"], "source_tractor_beam_turret_build_draw_result.laser_call")
+
+        draw_slice = source_symbols.source_slice(ledger, "N1239")
+        self.assertEqual(draw_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(draw_slice["java_method"], "TractorBeamBuild.draw()")
+        self.assertEqual(draw_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_draw_state")
+        self.assertEqual(draw_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_draw_bridge_state")
+        for expr in [
+            "public class TractorBeamBuild extends BaseTurretBuild{",
+            "@Override",
+            "public void draw(){",
+            "Draw.rect(baseRegion, x, y);",
+            "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+            "Draw.rect(region, x, y, rotation - 90);",
+            "if(any && !isPayload()){",
+            "Drawf.laser(laser, laserStart, laserEnd,",
+            "lastX, lastY, strength * efficiency * laserWidth);",
+        ]:
+            self.assertIn(expr, draw_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_draw_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["base_region", "region", "x", "y", "rotation_value", "size", "any_state", "is_payload", "last_x", "last_y", "laser_color", "mathf_absin_4_0_6", "laser", "laser_start", "laser_end", "shoot_length", "strength", "efficiency", "laser_width"],
+        )
+        for key in ["source_owner", "inner_class", "method", "override_expr", "base_rect_expr", "shadow_expr", "region_rect_expr", "laser_guard_expr", "angle_expr", "mixcol_expr", "laser_expr", "base_rect_call", "shadow_call", "region_rect_call", "laser_guard", "laser_call", "mixcol_call", "mixcol_reset_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_draw_input")
+        self.assertEqual(input_schema["keys"]["rotation_value"]["java_expr"], "rotation")
+        self.assertEqual(input_schema["keys"]["mathf_absin_4_0_6"]["java_expr"], "Mathf.absin(4f, 0.6f)")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_draw_result")
+        self.assertEqual(result_schema["keys"]["base_rect_call"]["java_expr"], "Draw.rect(baseRegion, x, y);")
+        self.assertEqual(result_schema["keys"]["laser_guard"]["java_expr"], "any && !isPayload()")
+        self.assertEqual(result_schema["keys"]["laser_call"]["java_expr"], "Drawf.laser(laser, laserStart, laserEnd, x + Angles.trnsx(ang, shootLength), y + Angles.trnsy(ang, shootLength), lastX, lastY, strength * efficiency * laserWidth);")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

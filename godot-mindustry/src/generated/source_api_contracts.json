@@ -29355,6 +29355,165 @@
         "test_tractor_beam_turret_build_read_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_tractor_beam_turret_build_draw_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "params": [
+        {
+          "name": "base_region",
+          "schema": "source_tractor_beam_turret_build_draw_input.base_region",
+          "type": "Variant"
+        },
+        {
+          "name": "region",
+          "schema": "source_tractor_beam_turret_build_draw_input.region",
+          "type": "Variant"
+        },
+        {
+          "name": "x",
+          "schema": "source_tractor_beam_turret_build_draw_input.x",
+          "type": "float"
+        },
+        {
+          "name": "y",
+          "schema": "source_tractor_beam_turret_build_draw_input.y",
+          "type": "float"
+        },
+        {
+          "name": "rotation_value",
+          "schema": "source_tractor_beam_turret_build_draw_input.rotation_value",
+          "type": "float"
+        },
+        {
+          "name": "size",
+          "schema": "source_tractor_beam_turret_build_draw_input.size",
+          "type": "float"
+        },
+        {
+          "name": "any_state",
+          "schema": "source_tractor_beam_turret_build_draw_input.any_state",
+          "type": "bool"
+        },
+        {
+          "name": "is_payload",
+          "schema": "source_tractor_beam_turret_build_draw_input.is_payload",
+          "type": "bool"
+        },
+        {
+          "name": "last_x",
+          "schema": "source_tractor_beam_turret_build_draw_input.last_x",
+          "type": "float"
+        },
+        {
+          "name": "last_y",
+          "schema": "source_tractor_beam_turret_build_draw_input.last_y",
+          "type": "float"
+        },
+        {
+          "name": "laser_color",
+          "schema": "source_tractor_beam_turret_build_draw_input.laser_color",
+          "type": "Variant"
+        },
+        {
+          "name": "mathf_absin_4_0_6",
+          "schema": "source_tractor_beam_turret_build_draw_input.mathf_absin_4_0_6",
+          "type": "float"
+        },
+        {
+          "name": "laser",
+          "schema": "source_tractor_beam_turret_build_draw_input.laser",
+          "type": "Variant"
+        },
+        {
+          "name": "laser_start",
+          "schema": "source_tractor_beam_turret_build_draw_input.laser_start",
+          "type": "Variant"
+        },
+        {
+          "name": "laser_end",
+          "schema": "source_tractor_beam_turret_build_draw_input.laser_end",
+          "type": "Variant"
+        },
+        {
+          "name": "shoot_length",
+          "schema": "source_tractor_beam_turret_build_draw_input.shoot_length",
+          "type": "float"
+        },
+        {
+          "name": "strength",
+          "schema": "source_tractor_beam_turret_build_draw_input.strength",
+          "type": "float"
+        },
+        {
+          "name": "efficiency",
+          "schema": "source_tractor_beam_turret_build_draw_input.efficiency",
+          "type": "float"
+        },
+        {
+          "name": "laser_width",
+          "schema": "source_tractor_beam_turret_build_draw_input.laser_width",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "base_rect_expr",
+        "shadow_expr",
+        "region_rect_expr",
+        "laser_guard_expr",
+        "draw_z_expr",
+        "angle_expr",
+        "mixcol_expr",
+        "laser_expr",
+        "mixcol_reset_expr",
+        "base_region",
+        "region",
+        "x",
+        "y",
+        "rotation",
+        "size",
+        "any_state",
+        "is_payload",
+        "last_x",
+        "last_y",
+        "laser_color",
+        "mathf_absin_4_0_6",
+        "laser",
+        "laser_start",
+        "laser_end",
+        "shoot_length",
+        "strength",
+        "efficiency",
+        "laser_width",
+        "draw_rotation",
+        "base_rect_call",
+        "shadow_call",
+        "region_rect_call",
+        "laser_guard",
+        "angle_to_last",
+        "laser_start_x",
+        "laser_start_y",
+        "laser_width_value",
+        "draw_z_call",
+        "mixcol_call",
+        "laser_call",
+        "mixcol_reset_called"
+      ],
+      "rule": "Public runtime contract for TractorBeamBuild.draw visual call state.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_draw_state",
+      "source_method": "TractorBeamBuild.draw()",
+      "source_slice": "N1239",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_draw_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_draw_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_draw_bridge_state",
+        "test_tractor_beam_turret_build_draw_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_draw_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

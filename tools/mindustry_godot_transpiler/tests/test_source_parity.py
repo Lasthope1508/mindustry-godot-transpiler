@@ -8513,6 +8513,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_tractor_beam_turret_build_draw_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_draw_source"))
+        report = source_parity.verify_tractor_beam_turret_build_draw_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+            "override": "@Override",
+            "method": "public void draw(){",
+            "base_rect": "Draw.rect(baseRegion, x, y);",
+            "shadow": "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+            "region_rect": "Draw.rect(region, x, y, rotation - 90);",
+            "laser_comment": "//draw laser if applicable",
+            "laser_guard": "if(any && !isPayload()){",
+            "draw_z": "Draw.z(Layer.bullet);",
+            "angle": "float ang = angleTo(lastX, lastY);",
+            "mixcol": "Draw.mixcol(laserColor, Mathf.absin(4f, 0.6f));",
+            "laser": "Drawf.laser(laser, laserStart, laserEnd,",
+            "laser_start_x": "x + Angles.trnsx(ang, shootLength)",
+            "laser_start_y": "y + Angles.trnsy(ang, shootLength)",
+            "laser_end_width": "lastX, lastY, strength * efficiency * laserWidth);",
+            "mixcol_reset": "Draw.mixcol();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_get_regions_to_outline_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_get_regions_to_outline_source"))
         report = source_parity.verify_turret_get_regions_to_outline_source(ROOT / "mindustry-upstream")

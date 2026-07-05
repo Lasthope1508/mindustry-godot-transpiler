@@ -691,6 +691,34 @@ def verify_tractor_beam_turret_build_read_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_draw_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+        "override": "@Override",
+        "method": "public void draw(){",
+        "base_rect": "Draw.rect(baseRegion, x, y);",
+        "shadow": "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+        "region_rect": "Draw.rect(region, x, y, rotation - 90);",
+        "laser_comment": "//draw laser if applicable",
+        "laser_guard": "if(any && !isPayload()){",
+        "draw_z": "Draw.z(Layer.bullet);",
+        "angle": "float ang = angleTo(lastX, lastY);",
+        "mixcol": "Draw.mixcol(laserColor, Mathf.absin(4f, 0.6f));",
+        "laser": "Drawf.laser(laser, laserStart, laserEnd,",
+        "laser_start_x": "x + Angles.trnsx(ang, shootLength)",
+        "laser_start_y": "y + Angles.trnsy(ang, shootLength)",
+        "laser_end_width": "lastX, lastY, strength * efficiency * laserWidth);",
+        "mixcol_reset": "Draw.mixcol();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")
