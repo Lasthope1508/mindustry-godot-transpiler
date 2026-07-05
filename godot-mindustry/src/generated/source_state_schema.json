@@ -105036,6 +105036,68 @@
       "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_sense_object_state.",
       "source_slice": "N1223",
       "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_build_can_consume_input": {
+      "keys": {
+        "has_correct_ammo": {
+          "godot_symbol": "source_continuous_liquid_turret_build_can_consume_input.has_correct_ammo",
+          "java_expr": "hasCorrectAmmo()",
+          "java_method": "ContinuousLiquidTurretBuild.canConsume()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies hasCorrectAmmo() result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_can_consume_state"
+          ]
+        },
+        "super_can_consume": {
+          "godot_symbol": "source_continuous_liquid_turret_build_can_consume_input.super_can_consume",
+          "java_expr": "super.canConsume()",
+          "java_method": "ContinuousLiquidTurretBuild.canConsume()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies superclass canConsume result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_can_consume_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_continuous_liquid_turret_build_can_consume_state.",
+      "source_slice": "N1224",
+      "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_build_can_consume_result": {
+      "keys": {
+        "can_consume": {
+          "godot_symbol": "source_continuous_liquid_turret_build_can_consume_result.can_consume",
+          "java_expr": "hasCorrectAmmo() && super.canConsume()",
+          "java_method": "ContinuousLiquidTurretBuild.canConsume()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Resulting canConsume boolean.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_can_consume_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_continuous_liquid_turret_build_can_consume_result.method",
+          "java_expr": "public boolean canConsume(){",
+          "java_method": "ContinuousLiquidTurretBuild.canConsume()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_can_consume_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_can_consume_state.",
+      "source_slice": "N1224",
+      "status": "source-backed"
     }
   },
   "version": 1

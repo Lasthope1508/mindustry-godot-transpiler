@@ -28707,6 +28707,44 @@
         "test_continuous_liquid_turret_build_sense_object_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_continuous_liquid_turret_build_can_consume_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "has_correct_ammo",
+          "schema": "source_continuous_liquid_turret_build_can_consume_input.has_correct_ammo",
+          "type": "bool"
+        },
+        {
+          "name": "super_can_consume",
+          "schema": "source_continuous_liquid_turret_build_can_consume_input.super_can_consume",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "field",
+        "method",
+        "override_expr",
+        "return_expr",
+        "has_correct_ammo",
+        "super_can_consume",
+        "can_consume"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurretBuild.canConsume state.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_can_consume_state",
+      "source_method": "ContinuousLiquidTurretBuild.canConsume()",
+      "source_slice": "N1224",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_can_consume_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_can_consume_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_can_consume_bridge_state",
+        "test_continuous_liquid_turret_build_can_consume_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_can_consume_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

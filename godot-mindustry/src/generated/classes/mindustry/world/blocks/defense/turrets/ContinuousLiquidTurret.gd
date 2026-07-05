@@ -93,3 +93,9 @@ func java_inner_class_ContinuousLiquidTurretBuild_method_senseObject_4(_args: Ar
 	else:
 		sense_object_value = super_sense_object_value
 	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_sense_object_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public Object senseObject(LAccess sensor){", "override_expr": "@Override", "switch_return_expr": "return switch(sensor){", "current_ammo_type_case": "case currentAmmoType -> liquids.current();", "default_case": "default -> super.senseObject(sensor);", "sensor": sensor, "current_liquid": current_liquid, "super_sense_object_value": super_sense_object_value, "sense_object_value": sense_object_value}
+
+func java_inner_class_ContinuousLiquidTurretBuild_method_canConsume_5(_args: Array = []) -> Variant:
+	var has_correct_ammo: bool = bool(_args[0] if _args.size() > 0 else false)
+	var super_can_consume: bool = bool(_args[1] if _args.size() > 1 else false)
+	var can_consume: bool = has_correct_ammo and super_can_consume
+	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_can_consume_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public boolean canConsume(){", "override_expr": "@Override", "return_expr": "return hasCorrectAmmo() && super.canConsume();", "has_correct_ammo": has_correct_ammo, "super_can_consume": super_can_consume, "can_consume": can_consume}

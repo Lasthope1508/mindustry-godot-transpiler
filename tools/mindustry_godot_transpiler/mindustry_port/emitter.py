@@ -3352,6 +3352,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\tsense_object_value = super_sense_object_value",
                         "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_sense_object_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public Object senseObject(LAccess sensor){\", \"override_expr\": \"@Override\", \"switch_return_expr\": \"return switch(sensor){\", \"current_ammo_type_case\": \"case currentAmmoType -> liquids.current();\", \"default_case\": \"default -> super.senseObject(sensor);\", \"sensor\": sensor, \"current_liquid\": current_liquid, \"super_sense_object_value\": super_sense_object_value, \"sense_object_value\": sense_object_value}",
                     ])
+                elif method.get("name") == "canConsume":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ContinuousLiquidTurretBuild_method_canConsume_{index}(_args: Array = []) -> Variant:",
+                        "\tvar has_correct_ammo: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar super_can_consume: bool = bool(_args[1] if _args.size() > 1 else false)",
+                        "\tvar can_consume: bool = has_correct_ammo and super_can_consume",
+                        "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_can_consume_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean canConsume(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return hasCorrectAmmo() && super.canConsume();\", \"has_correct_ammo\": has_correct_ammo, \"super_can_consume\": super_can_consume, \"can_consume\": can_consume}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"
