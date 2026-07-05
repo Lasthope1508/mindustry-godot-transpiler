@@ -17267,6 +17267,34 @@ func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bo
 			and result.get("coolant_multiplier", null) == canonical.get("coolant_multiplier", null),
 	}
 
+func source_tractor_beam_turret_build_write_state(rotation_value: float) -> Dictionary:
+	var write_f_call: Dictionary = {"call": "write.f(rotation);", "value": rotation_value}
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_write_state",
+		"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+		"method": "public void write(Writes write){",
+		"override_expr": "@Override",
+		"super_write_expr": "super.write(write);",
+		"write_rotation_expr": "write.f(rotation);",
+		"rotation": rotation_value,
+		"super_write_called": true,
+		"write_f_call": write_f_call,
+	}
+
+func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_write_4([rotation_value])
+	var canonical = source_tractor_beam_turret_build_write_state(rotation_value)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_write_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.write",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("write_f_call", null) == canonical.get("write_f_call", null) and result.get("super_write_called", null) == canonical.get("super_write_called", null)
+			and result.get("rotation", null) == canonical.get("rotation", null),
+	}
+
 func source_turret_get_regions_to_outline_state(out: Variant) -> Dictionary:
 	var drawer_get_regions_to_outline_call: Dictionary = {"call": "drawer.getRegionsToOutline(this, out);", "out": out}
 	return {

@@ -3514,6 +3514,14 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier",
                         "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_estimate_dps_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"method\": \"public float estimateDps(){\", \"override_expr\": \"@Override\", \"zero_guard_expr\": \"if(!any || damage <= 0) return 0f;\", \"return_expr\": \"return damage * 60f * efficiency * coolantMultiplier;\", \"any_state\": any_state, \"damage\": damage, \"efficiency\": efficiency, \"coolant_multiplier\": coolant_multiplier, \"zero_guard\": zero_guard, \"estimate_dps\": estimate_dps}",
                     ])
+                elif method.get("name") == "write":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_TractorBeamBuild_method_write_{index}(_args: Array = []) -> Variant:",
+                        "\tvar rotation: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                        "\tvar write_f_call: Dictionary = {\"call\": \"write.f(rotation);\", \"value\": rotation}",
+                        "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_write_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"method\": \"public void write(Writes write){\", \"override_expr\": \"@Override\", \"super_write_expr\": \"super.write(write);\", \"write_rotation_expr\": \"write.f(rotation);\", \"rotation\": rotation, \"super_write_called\": true, \"write_f_call\": write_f_call}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

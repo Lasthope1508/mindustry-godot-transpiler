@@ -13240,6 +13240,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.estimateDps"', source)
         self.assertIn('"matches": result.get("estimate_dps", null) == canonical.get("estimate_dps", null) and result.get("zero_guard", null) == canonical.get("zero_guard", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_build_write_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_build_write_state(rotation_value: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_write_state"', source)
+        self.assertIn('"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{"', source)
+        self.assertIn('"method": "public void write(Writes write){"', source)
+        self.assertIn('"super_write_expr": "super.write(write);"', source)
+        self.assertIn('"write_rotation_expr": "write.f(rotation);"', source)
+        self.assertIn('var write_f_call: Dictionary = {"call": "write.f(rotation);", "value": rotation_value}', source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_write_4([rotation_value])", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_write_state(rotation_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_write_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.write"', source)
+        self.assertIn('"matches": result.get("write_f_call", null) == canonical.get("write_f_call", null) and result.get("super_write_called", null) == canonical.get("super_write_called", null)', source)
+
     def test_port_game_exposes_source_turret_get_regions_to_outline_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -28291,6 +28291,39 @@
         "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1237": {
+      "deferred_exprs": [
+        "BaseTurretBuild super.write(write) serialized fields outside this slice",
+        "Writes stream implementation outside this source-state bridge"
+      ],
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void write(Writes write){",
+        "super.write(write);",
+        "write.f(rotation);"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_write_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.write(Writes write)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.write delegates inherited serialization then writes rotation as a float.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_write_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_write.method",
+        "tractor_beam_turret_build_write.rotation",
+        "tractor_beam_turret_build_write.super_write",
+        "tractor_beam_turret_build_write.write_rotation"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_write_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state",
+        "test_tractor_beam_turret_build_write_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

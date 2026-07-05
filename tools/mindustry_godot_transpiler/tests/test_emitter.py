@@ -7931,6 +7931,46 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"zero_guard_expr": "if(!any || damage <= 0) return 0f;"', source_text)
             self.assertIn('"return_expr": "return damage * 60f * efficiency * coolantMultiplier;"', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_write_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void write(Writes write){
+            super.write(write);
+
+            write.f(rotation);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_TractorBeamBuild_method_write_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var rotation: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('var write_f_call: Dictionary = {"call": "write.f(rotation);", "value": rotation}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_tractor_beam_turret_build_write_state"', source_text)
+            self.assertIn('"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{"', source_text)
+            self.assertIn('"method": "public void write(Writes write){"', source_text)
+            self.assertIn('"super_write_expr": "super.write(write);"', source_text)
+            self.assertIn('"write_rotation_expr": "write.f(rotation);"', source_text)
+            self.assertIn('"super_write_called": true', source_text)
+            self.assertIn('"write_f_call": write_f_call', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

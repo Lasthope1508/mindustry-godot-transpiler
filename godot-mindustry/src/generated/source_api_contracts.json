@@ -29281,6 +29281,40 @@
         "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_tractor_beam_turret_build_write_state": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_write_state",
+      "params": [
+        {
+          "name": "rotation_value",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_write_input.rotation_value"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "super_write_expr",
+        "write_rotation_expr",
+        "rotation",
+        "super_write_called",
+        "write_f_call"
+      ],
+      "rule": "Public runtime contract for TractorBeamBuild.write state; rotation_value maps to Java rotation.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_write_state",
+      "source_slice": "N1237",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_write_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state",
+        "test_tractor_beam_turret_build_write_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
+      ],
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.write(Writes write)"
     }
   },
   "policy": {

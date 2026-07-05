@@ -657,6 +657,23 @@ def verify_tractor_beam_turret_build_estimate_dps_source(upstream_root: Path) ->
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_write_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+        "override": "@Override",
+        "method": "public void write(Writes write){",
+        "super_write": "super.write(write);",
+        "write_rotation": "write.f(rotation);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

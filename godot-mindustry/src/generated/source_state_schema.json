@@ -106372,6 +106372,68 @@
       "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_estimate_dps_state.",
       "source_slice": "N1236",
       "status": "source-backed"
+    },
+    "source_tractor_beam_turret_build_write_input": {
+      "keys": {
+        "rotation_value": {
+          "godot_symbol": "source_tractor_beam_turret_build_write_input.rotation_value",
+          "java_expr": "rotation",
+          "type": "float",
+          "java_method": "TractorBeamBuild.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input alias supplies inherited Java rotation field without shadowing Node2D.rotation.",
+          "status": "source-backed",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_write_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_write_state.",
+      "source_slice": "N1237",
+      "status": "source-backed"
+    },
+    "source_tractor_beam_turret_build_write_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_tractor_beam_turret_build_write_result.method",
+          "java_expr": "public void write(Writes write){",
+          "type": "String",
+          "java_method": "TractorBeamBuild.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_write_state"
+          ]
+        },
+        "super_write_called": {
+          "godot_symbol": "source_tractor_beam_turret_build_write_result.super_write_called",
+          "java_expr": "super.write(write);",
+          "type": "bool",
+          "java_method": "TractorBeamBuild.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Super serialization call was invoked.",
+          "status": "source-backed",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_write_state"
+          ]
+        },
+        "write_f_call": {
+          "godot_symbol": "source_tractor_beam_turret_build_write_result.write_f_call",
+          "java_expr": "write.f(rotation);",
+          "type": "Dictionary",
+          "java_method": "TractorBeamBuild.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Writes rotation float call representation.",
+          "status": "source-backed",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_write_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_write_state.",
+      "source_slice": "N1237",
+      "status": "source-backed"
     }
   },
   "version": 1

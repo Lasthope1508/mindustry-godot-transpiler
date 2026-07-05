@@ -90489,6 +90489,74 @@
         "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
       ]
+    },
+    "tractor_beam_turret_build_write.method": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_write_state",
+      "godot_symbol": "source_tractor_beam_turret_build_write_result.method",
+      "java_expr": "public void write(Writes write){",
+      "java_method": "TractorBeamBuild.write(Writes write)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Method boundary for TractorBeamBuild.write.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_write_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_write_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state",
+        "test_tractor_beam_turret_build_write_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_write.rotation": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_write_state",
+      "godot_symbol": "source_tractor_beam_turret_build_write_input.rotation_value",
+      "java_expr": "rotation",
+      "java_method": "TractorBeamBuild.write(Writes write)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input alias supplies inherited Java rotation field without shadowing Node2D.rotation.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_write_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_write_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state",
+        "test_tractor_beam_turret_build_write_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_write.super_write": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_write_state",
+      "godot_symbol": "source_tractor_beam_turret_build_write_result.super_write_called",
+      "java_expr": "super.write(write);",
+      "java_method": "TractorBeamBuild.write(Writes write)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Super serialization call executed before TractorBeamBuild writes rotation.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_write_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_write_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state",
+        "test_tractor_beam_turret_build_write_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_write.write_rotation": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_write_state",
+      "godot_symbol": "source_tractor_beam_turret_build_write_result.write_f_call",
+      "java_expr": "write.f(rotation);",
+      "java_method": "TractorBeamBuild.write(Writes write)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Writes inherited rotation as float to the Writes stream.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_write_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_write_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state",
+        "test_tractor_beam_turret_build_write_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

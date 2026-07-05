@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 710)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 705)
+        self.assertEqual(audit["totalSourceFunctions"], 711)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 706)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 710)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 711)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42871,6 +42871,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_estimate_dps_result")
         self.assertEqual(result_schema["keys"]["zero_guard"]["java_expr"], "!any || damage <= 0")
         self.assertEqual(result_schema["keys"]["estimate_dps"]["java_expr"], "damage * 60f * efficiency * coolantMultiplier")
+
+    def test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_write.method")
+        self.assertEqual(method["java_expr"], "public void write(Writes write){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.write(Writes write)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_write_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_write_state")
+
+        rotation = source_symbols.source_symbol(registry, "tractor_beam_turret_build_write.rotation")
+        self.assertEqual(rotation["java_expr"], "rotation")
+        self.assertEqual(rotation["godot_symbol"], "source_tractor_beam_turret_build_write_input.rotation_value")
+        super_write = source_symbols.source_symbol(registry, "tractor_beam_turret_build_write.super_write")
+        self.assertEqual(super_write["java_expr"], "super.write(write);")
+        self.assertEqual(super_write["godot_symbol"], "source_tractor_beam_turret_build_write_result.super_write_called")
+        write_rotation = source_symbols.source_symbol(registry, "tractor_beam_turret_build_write.write_rotation")
+        self.assertEqual(write_rotation["java_expr"], "write.f(rotation);")
+        self.assertEqual(write_rotation["godot_symbol"], "source_tractor_beam_turret_build_write_result.write_f_call")
+
+        write_slice = source_symbols.source_slice(ledger, "N1237")
+        self.assertEqual(write_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(write_slice["java_method"], "TractorBeamBuild.write(Writes write)")
+        self.assertEqual(write_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_write_state")
+        self.assertEqual(write_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_write_bridge_state")
+        for expr in [
+            "public class TractorBeamBuild extends BaseTurretBuild{",
+            "@Override",
+            "public void write(Writes write){",
+            "super.write(write);",
+            "write.f(rotation);",
+        ]:
+            self.assertIn(expr, write_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_write_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["rotation_value"])
+        for key in ["source_owner", "inner_class", "method", "override_expr", "super_write_expr", "write_rotation_expr", "rotation", "super_write_called", "write_f_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_write_input")
+        self.assertEqual(input_schema["keys"]["rotation_value"]["java_expr"], "rotation")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_write_result")
+        self.assertEqual(result_schema["keys"]["super_write_called"]["java_expr"], "super.write(write);")
+        self.assertEqual(result_schema["keys"]["write_f_call"]["java_expr"], "write.f(rotation);")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
