@@ -14548,6 +14548,49 @@
         "test_generated_continuous_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "bullets_any",
+          "schema": "source_continuous_liquid_turret_build_has_correct_ammo_input.bullets_any",
+          "type": "bool"
+        },
+        {
+          "name": "first_bullet_type",
+          "schema": "source_continuous_liquid_turret_build_has_correct_ammo_input.first_bullet_type",
+          "type": "Variant"
+        },
+        {
+          "name": "peek_ammo",
+          "schema": "source_continuous_liquid_turret_build_has_correct_ammo_input.peek_ammo",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "field",
+        "method",
+        "return_expr",
+        "bullets_any",
+        "first_bullet_type",
+        "peek_ammo",
+        "has_correct_ammo"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurretBuild.hasCorrectAmmo state.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "source_method": "ContinuousLiquidTurretBuild.hasCorrectAmmo()",
+      "source_slice": "N1229",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_has_correct_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_has_correct_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_has_correct_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_has_correct_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_continuous_liquid_turret_build_peek_ammo_state": {
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
       "params": [

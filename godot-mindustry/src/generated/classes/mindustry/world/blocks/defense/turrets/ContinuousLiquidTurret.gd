@@ -125,3 +125,10 @@ func java_inner_class_ContinuousLiquidTurretBuild_method_hasAmmo_9(_args: Array 
 	var ammo_type_present: bool = ammo_type != null
 	var has_ammo: bool = has_correct_ammo and ammo_type_present and current_amount > 0.0 and activated
 	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_has_ammo_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public boolean hasAmmo(){", "override_expr": "@Override", "return_expr": "return hasCorrectAmmo() && ammoTypes.get(liquids.current()) != null && liquids.currentAmount() > 0f && activated;", "has_correct_ammo": has_correct_ammo, "current_liquid": current_liquid, "ammo_type": ammo_type, "current_amount": current_amount, "activated": activated, "ammo_type_present": ammo_type_present, "has_ammo": has_ammo}
+
+func java_inner_class_ContinuousLiquidTurretBuild_method_hasCorrectAmmo_10(_args: Array = []) -> Variant:
+	var bullets_any: bool = bool(_args[0] if _args.size() > 0 else false)
+	var first_bullet_type: Variant = _args[1] if _args.size() > 1 else null
+	var peek_ammo: Variant = _args[2] if _args.size() > 2 else null
+	var has_correct_ammo: bool = (not bullets_any) or first_bullet_type == peek_ammo
+	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public boolean hasCorrectAmmo(){", "return_expr": "return !bullets.any() || bullets.first().bullet.type == peekAmmo();", "bullets_any": bullets_any, "first_bullet_type": first_bullet_type, "peek_ammo": peek_ammo, "has_correct_ammo": has_correct_ammo}

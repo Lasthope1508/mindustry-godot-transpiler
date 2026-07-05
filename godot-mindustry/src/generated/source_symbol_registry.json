@@ -32921,6 +32921,91 @@
         "test_generated_continuous_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
       ]
     },
+    "continuous_liquid_turret_build_has_correct_ammo.bullets_any": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "java_method": "ContinuousLiquidTurretBuild.hasCorrectAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_has_correct_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_has_correct_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_has_correct_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_has_correct_ammo_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_continuous_liquid_turret_build_has_correct_ammo_input.bullets_any",
+      "java_expr": "bullets.any()",
+      "rule": "Explicit input supplies bullets.any() result."
+    },
+    "continuous_liquid_turret_build_has_correct_ammo.first_bullet_type": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "java_method": "ContinuousLiquidTurretBuild.hasCorrectAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_has_correct_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_has_correct_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_has_correct_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_has_correct_ammo_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_continuous_liquid_turret_build_has_correct_ammo_input.first_bullet_type",
+      "java_expr": "bullets.first().bullet.type",
+      "rule": "Explicit input supplies first queued bullet type."
+    },
+    "continuous_liquid_turret_build_has_correct_ammo.method": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "java_method": "ContinuousLiquidTurretBuild.hasCorrectAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_has_correct_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_has_correct_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_has_correct_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_has_correct_ammo_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_continuous_liquid_turret_build_has_correct_ammo_result.method",
+      "java_expr": "public boolean hasCorrectAmmo(){",
+      "rule": "Method boundary for ContinuousLiquidTurretBuild.hasCorrectAmmo."
+    },
+    "continuous_liquid_turret_build_has_correct_ammo.peek_ammo": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "java_method": "ContinuousLiquidTurretBuild.hasCorrectAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_has_correct_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_has_correct_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_has_correct_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_has_correct_ammo_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_continuous_liquid_turret_build_has_correct_ammo_input.peek_ammo",
+      "java_expr": "peekAmmo()",
+      "rule": "Explicit input supplies peekAmmo() result."
+    },
+    "continuous_liquid_turret_build_has_correct_ammo.return_expr": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "java_method": "ContinuousLiquidTurretBuild.hasCorrectAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_has_correct_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_has_correct_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_has_correct_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_has_correct_ammo_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_continuous_liquid_turret_build_has_correct_ammo_result.has_correct_ammo",
+      "java_expr": "return !bullets.any() || bullets.first().bullet.type == peekAmmo();",
+      "rule": "Result records full hasCorrectAmmo return condition."
+    },
     "continuous_liquid_turret_build_peek_ammo.ammo_type": {
       "godot_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state",
       "godot_symbol": "source_continuous_liquid_turret_build_peek_ammo_input.ammo_type",

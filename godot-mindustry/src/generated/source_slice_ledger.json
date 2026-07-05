@@ -7377,6 +7377,39 @@
         "test_generated_continuous_liquid_turret_build_has_ammo_slice_is_registered_with_source_backing"
       ]
     },
+    "N1229": {
+      "deferred_exprs": [
+        "Bullet sequence internals stay deferred; this slice uses explicit inputs for bullets.any() and bullets.first().bullet.type.",
+        "peekAmmo() internals are covered by N1227 and supplied as explicit input."
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "public boolean hasCorrectAmmo(){",
+        "return !bullets.any() || bullets.first().bullet.type == peekAmmo();"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.hasCorrectAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.hasCorrectAmmo returns true when no bullets exist or first bullet type equals peekAmmo().",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_has_correct_ammo.method",
+        "continuous_liquid_turret_build_has_correct_ammo.bullets_any",
+        "continuous_liquid_turret_build_has_correct_ammo.first_bullet_type",
+        "continuous_liquid_turret_build_has_correct_ammo.peek_ammo",
+        "continuous_liquid_turret_build_has_correct_ammo.return_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_has_correct_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_has_correct_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_has_correct_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_has_correct_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

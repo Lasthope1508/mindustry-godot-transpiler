@@ -10108,6 +10108,46 @@ public class ContinuousLiquidTurret extends ContinuousTurret{
             self.assertIn('"return_expr": "return hasCorrectAmmo() && ammoTypes.get(liquids.current()) != null && liquids.currentAmount() > 0f && activated;"', source_text)
             self.assertIn('"has_ammo": has_ammo', source_text)
 
+    def test_emit_bridges_continuous_liquid_turret_build_has_correct_ammo_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ContinuousLiquidTurret extends ContinuousTurret{
+    public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{
+        boolean activated;
+
+        public boolean hasCorrectAmmo(){
+            return !bullets.any() || bullets.first().bullet.type == peekAmmo();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ContinuousLiquidTurretBuild_method_hasCorrectAmmo_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var bullets_any: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var first_bullet_type: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var peek_ammo: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var has_correct_ammo: bool = (not bullets_any) or first_bullet_type == peek_ammo", source_text)
+            self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state"', source_text)
+            self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source_text)
+            self.assertIn('"field": "boolean activated;"', source_text)
+            self.assertIn('"method": "public boolean hasCorrectAmmo(){"', source_text)
+            self.assertIn('"return_expr": "return !bullets.any() || bullets.first().bullet.type == peekAmmo();"', source_text)
+            self.assertIn('"has_correct_ammo": has_correct_ammo', source_text)
+
     def test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
