@@ -10148,6 +10148,49 @@ public class ContinuousLiquidTurret extends ContinuousTurret{
             self.assertIn('"return_expr": "return !bullets.any() || bullets.first().bullet.type == peekAmmo();"', source_text)
             self.assertIn('"has_correct_ammo": has_correct_ammo', source_text)
 
+    def test_emit_bridges_continuous_liquid_turret_build_accept_item_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ContinuousLiquidTurret extends ContinuousTurret{
+    public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{
+        boolean activated;
+
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            return false;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ContinuousLiquidTurretBuild_method_acceptItem_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var source_building: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var item: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var accept_item: bool = false", source_text)
+            self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state"', source_text)
+            self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source_text)
+            self.assertIn('"field": "boolean activated;"', source_text)
+            self.assertIn('"method": "public boolean acceptItem(Building source, Item item){"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"return_expr": "return false;"', source_text)
+            self.assertIn('"source_building": source_building', source_text)
+            self.assertIn('"item": item', source_text)
+            self.assertIn('"accept_item": accept_item', source_text)
+
     def test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

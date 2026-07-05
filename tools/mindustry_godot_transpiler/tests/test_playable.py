@@ -14466,6 +14466,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.hasCorrectAmmo"', source)
         self.assertIn('"matches": result.get("has_correct_ammo", null) == canonical.get("has_correct_ammo", null)', source)
 
+    def test_port_game_exposes_source_continuous_liquid_turret_build_accept_item_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_continuous_liquid_turret_build_accept_item_state(source_building: Variant, item: Variant) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source)
+        self.assertIn('"field": "boolean activated;"', source)
+        self.assertIn('"method": "public boolean acceptItem(Building source, Item item){"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"return_expr": "return false;"', source)
+        self.assertIn("var accept_item: bool = false", source)
+        self.assertIn('"source_building": source_building', source)
+        self.assertIn('"item": item', source)
+        self.assertIn('"accept_item": accept_item', source)
+
+    def test_port_game_exposes_generated_continuous_liquid_turret_build_accept_item_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_continuous_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_acceptItem_11([source_building, item])", source)
+        self.assertIn("var canonical = source_continuous_liquid_turret_build_accept_item_state(source_building, item)", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state"', source)
+        self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.acceptItem"', source)
+        self.assertIn('"matches": result.get("accept_item", null) == canonical.get("accept_item", null)', source)
+
     def test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

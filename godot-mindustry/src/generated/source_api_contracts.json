@@ -14373,6 +14373,44 @@
         "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_continuous_liquid_turret_build_accept_item_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "source_building",
+          "schema": "source_continuous_liquid_turret_build_accept_item_input.source_building",
+          "type": "Variant"
+        },
+        {
+          "name": "item",
+          "schema": "source_continuous_liquid_turret_build_accept_item_input.item",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "field",
+        "method",
+        "override_expr",
+        "return_expr",
+        "source_building",
+        "item",
+        "accept_item"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurretBuild.acceptItem state.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_accept_item_state",
+      "source_method": "ContinuousLiquidTurretBuild.acceptItem(Building source, Item item)",
+      "source_slice": "N1230",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_item_bridge_state",
+        "test_continuous_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_continuous_liquid_turret_build_can_consume_state": {
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
       "params": [

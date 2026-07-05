@@ -7410,6 +7410,38 @@
         "test_generated_continuous_liquid_turret_build_has_correct_ammo_slice_is_registered_with_source_backing"
       ]
     },
+    "N1230": {
+      "deferred_exprs": [
+        "Building source and Item item internals are carried as explicit inputs; the upstream method ignores both and returns false."
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public boolean acceptItem(Building source, Item item){",
+        "return false;"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.acceptItem always rejects item input with return false.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_accept_item_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_accept_item.method",
+        "continuous_liquid_turret_build_accept_item.source_building",
+        "continuous_liquid_turret_build_accept_item.item",
+        "continuous_liquid_turret_build_accept_item.return_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_item_bridge_state",
+        "test_continuous_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

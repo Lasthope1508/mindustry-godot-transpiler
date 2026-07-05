@@ -32598,6 +32598,74 @@
         "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
       ]
     },
+    "continuous_liquid_turret_build_accept_item.item": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state",
+      "java_method": "ContinuousLiquidTurretBuild.acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_accept_item_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_item_bridge_state",
+        "test_continuous_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_continuous_liquid_turret_build_accept_item_input.item",
+      "java_expr": "Item item",
+      "rule": "Explicit input supplies item parameter."
+    },
+    "continuous_liquid_turret_build_accept_item.method": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state",
+      "java_method": "ContinuousLiquidTurretBuild.acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_accept_item_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_item_bridge_state",
+        "test_continuous_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_continuous_liquid_turret_build_accept_item_result.method",
+      "java_expr": "public boolean acceptItem(Building source, Item item){",
+      "rule": "Method boundary for ContinuousLiquidTurretBuild.acceptItem."
+    },
+    "continuous_liquid_turret_build_accept_item.return_expr": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state",
+      "java_method": "ContinuousLiquidTurretBuild.acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_accept_item_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_item_bridge_state",
+        "test_continuous_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_continuous_liquid_turret_build_accept_item_result.accept_item",
+      "java_expr": "return false;",
+      "rule": "Result records exact item rejection return expression."
+    },
+    "continuous_liquid_turret_build_accept_item.source_building": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state",
+      "java_method": "ContinuousLiquidTurretBuild.acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_accept_item_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_item_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_item_bridge_state",
+        "test_continuous_liquid_turret_build_accept_item_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_continuous_liquid_turret_build_accept_item_input.source_building",
+      "java_expr": "Building source",
+      "rule": "Explicit input supplies source building parameter."
+    },
     "continuous_liquid_turret_build_can_consume.has_correct_ammo": {
       "godot_owner": "PortGame.source_continuous_liquid_turret_build_can_consume_state",
       "godot_symbol": "source_continuous_liquid_turret_build_can_consume_input.has_correct_ammo",

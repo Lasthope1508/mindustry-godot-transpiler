@@ -3409,6 +3409,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar has_correct_ammo: bool = (not bullets_any) or first_bullet_type == peek_ammo",
                         "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_has_correct_ammo_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean hasCorrectAmmo(){\", \"return_expr\": \"return !bullets.any() || bullets.first().bullet.type == peekAmmo();\", \"bullets_any\": bullets_any, \"first_bullet_type\": first_bullet_type, \"peek_ammo\": peek_ammo, \"has_correct_ammo\": has_correct_ammo}",
                     ])
+                elif method.get("name") == "acceptItem":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ContinuousLiquidTurretBuild_method_acceptItem_{index}(_args: Array = []) -> Variant:",
+                        "\tvar source_building: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar item: Variant = _args[1] if _args.size() > 1 else null",
+                        "\tvar accept_item: bool = false",
+                        "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_accept_item_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean acceptItem(Building source, Item item){\", \"override_expr\": \"@Override\", \"return_expr\": \"return false;\", \"source_building\": source_building, \"item\": item, \"accept_item\": accept_item}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

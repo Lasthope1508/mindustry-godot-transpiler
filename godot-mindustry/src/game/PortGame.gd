@@ -18899,6 +18899,35 @@ func generated_continuous_liquid_turret_build_has_correct_ammo_bridge_state(bull
 			and result.get("peek_ammo", null) == canonical.get("peek_ammo", null),
 	}
 
+func source_continuous_liquid_turret_build_accept_item_state(source_building: Variant, item: Variant) -> Dictionary:
+	var accept_item: bool = false
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state",
+		"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+		"field": "boolean activated;",
+		"method": "public boolean acceptItem(Building source, Item item){",
+		"override_expr": "@Override",
+		"return_expr": "return false;",
+		"source_building": source_building,
+		"item": item,
+		"accept_item": accept_item,
+	}
+
+func generated_continuous_liquid_turret_build_accept_item_bridge_state(source_building: Variant, item: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_acceptItem_11([source_building, item])
+	var canonical = source_continuous_liquid_turret_build_accept_item_state(source_building, item)
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_build_accept_item_state",
+		"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.acceptItem",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("accept_item", null) == canonical.get("accept_item", null)
+			and result.get("source_building", null) == canonical.get("source_building", null)
+			and result.get("item", null) == canonical.get("item", null),
+	}
+
 func source_liquid_turret_build_should_active_sound_state(was_shooting: bool, enabled: bool) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
