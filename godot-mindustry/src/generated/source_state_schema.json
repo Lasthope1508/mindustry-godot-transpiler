@@ -104716,6 +104716,80 @@
       "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_should_active_sound_state.",
       "source_slice": "N1219",
       "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_build_get_ammo_content_input": {
+      "keys": {
+        "current_amount": {
+          "godot_symbol": "source_continuous_liquid_turret_build_get_ammo_content_input.current_amount",
+          "java_expr": "liquids.currentAmount()",
+          "java_method": "ContinuousLiquidTurretBuild.getAmmoContent()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies current liquid amount.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state"
+          ]
+        },
+        "current_liquid": {
+          "godot_symbol": "source_continuous_liquid_turret_build_get_ammo_content_input.current_liquid",
+          "java_expr": "liquids.current()",
+          "java_method": "ContinuousLiquidTurretBuild.getAmmoContent()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies current liquid content.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state"
+          ]
+        },
+        "liquids_null": {
+          "godot_symbol": "source_continuous_liquid_turret_build_get_ammo_content_input.liquids_null",
+          "java_expr": "liquids != null",
+          "java_method": "ContinuousLiquidTurretBuild.getAmmoContent()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies liquids null state used to evaluate liquids != null.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_continuous_liquid_turret_build_get_ammo_content_state.",
+      "source_slice": "N1220",
+      "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_build_get_ammo_content_result": {
+      "keys": {
+        "ammo_content": {
+          "godot_symbol": "source_continuous_liquid_turret_build_get_ammo_content_result.ammo_content",
+          "java_expr": "liquids.current()",
+          "java_method": "ContinuousLiquidTurretBuild.getAmmoContent()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result of source ternary return.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_continuous_liquid_turret_build_get_ammo_content_result.method",
+          "java_expr": "public UnlockableContent getAmmoContent(){",
+          "java_method": "ContinuousLiquidTurretBuild.getAmmoContent()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_get_ammo_content_state.",
+      "source_slice": "N1220",
+      "status": "source-backed"
     }
   },
   "version": 1

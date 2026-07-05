@@ -9705,6 +9705,51 @@ public class ContinuousLiquidTurret extends ContinuousTurret{
             self.assertIn('"return_expr": "return wasShooting && enabled;"', source_text)
             self.assertIn('"should_active_sound": was_shooting and enabled', source_text)
 
+    def test_emit_bridges_continuous_liquid_turret_build_get_ammo_content_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ContinuousLiquidTurret extends ContinuousTurret{
+    public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{
+        boolean activated;
+
+        @Override
+        public boolean shouldActiveSound(){
+            return wasShooting && enabled;
+        }
+
+        @Override
+        public UnlockableContent getAmmoContent(){
+            return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoContent_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var liquids_null: bool = bool(_args[0] if _args.size() > 0 else true)", source_text)
+            self.assertIn("var current_amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var current_liquid: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var ammo_content: Variant = current_liquid if not liquids_null and current_amount > 0.0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state"', source_text)
+            self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source_text)
+            self.assertIn('"method": "public UnlockableContent getAmmoContent(){"', source_text)
+            self.assertIn('"return_expr": "return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;"', source_text)
+            self.assertIn('"ammo_content": ammo_content', source_text)
+
     def test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

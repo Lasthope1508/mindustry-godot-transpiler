@@ -3304,6 +3304,16 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar enabled: bool = bool(_args[1] if _args.size() > 1 else false)",
                         "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_should_active_sound_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean shouldActiveSound(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return wasShooting && enabled;\", \"was_shooting\": was_shooting, \"enabled\": enabled, \"should_active_sound\": was_shooting and enabled}",
                     ])
+                elif method.get("name") == "getAmmoContent":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoContent_{index}(_args: Array = []) -> Variant:",
+                        "\tvar liquids_null: bool = bool(_args[0] if _args.size() > 0 else true)",
+                        "\tvar current_amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                        "\tvar current_liquid: Variant = _args[2] if _args.size() > 2 else null",
+                        "\tvar ammo_content: Variant = current_liquid if not liquids_null and current_amount > 0.0 else null",
+                        "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_get_ammo_content_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public UnlockableContent getAmmoContent(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;\", \"liquids_null\": liquids_null, \"current_amount\": current_amount, \"current_liquid\": current_liquid, \"ammo_content\": ammo_content}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

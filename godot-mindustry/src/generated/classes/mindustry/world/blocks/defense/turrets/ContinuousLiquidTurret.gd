@@ -57,3 +57,10 @@ func java_inner_class_ContinuousLiquidTurretBuild_method_shouldActiveSound_0(_ar
 	var was_shooting: bool = bool(_args[0] if _args.size() > 0 else false)
 	var enabled: bool = bool(_args[1] if _args.size() > 1 else false)
 	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public boolean shouldActiveSound(){", "override_expr": "@Override", "return_expr": "return wasShooting && enabled;", "was_shooting": was_shooting, "enabled": enabled, "should_active_sound": was_shooting and enabled}
+
+func java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoContent_1(_args: Array = []) -> Variant:
+	var liquids_null: bool = bool(_args[0] if _args.size() > 0 else true)
+	var current_amount: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var current_liquid: Variant = _args[2] if _args.size() > 2 else null
+	var ammo_content: Variant = current_liquid if not liquids_null and current_amount > 0.0 else null
+	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public UnlockableContent getAmmoContent(){", "override_expr": "@Override", "return_expr": "return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;", "liquids_null": liquids_null, "current_amount": current_amount, "current_liquid": current_liquid, "ammo_content": ammo_content}

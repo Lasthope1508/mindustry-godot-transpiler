@@ -28530,6 +28530,49 @@
         "test_continuous_liquid_turret_build_should_active_sound_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "liquids_null",
+          "schema": "source_continuous_liquid_turret_build_get_ammo_content_input.liquids_null",
+          "type": "bool"
+        },
+        {
+          "name": "current_amount",
+          "schema": "source_continuous_liquid_turret_build_get_ammo_content_input.current_amount",
+          "type": "float"
+        },
+        {
+          "name": "current_liquid",
+          "schema": "source_continuous_liquid_turret_build_get_ammo_content_input.current_liquid",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "liquids_null",
+        "current_amount",
+        "current_liquid",
+        "ammo_content"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurretBuild.getAmmoContent state.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_get_ammo_content_state",
+      "source_method": "ContinuousLiquidTurretBuild.getAmmoContent()",
+      "source_slice": "N1220",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_content_bridge_state",
+        "test_continuous_liquid_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

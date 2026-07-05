@@ -27705,6 +27705,39 @@
         "test_continuous_liquid_turret_build_should_active_sound_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1220": {
+      "deferred_exprs": [
+        "UnlockableContent internals",
+        "Liquid module internals"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public UnlockableContent getAmmoContent(){",
+        "return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.getAmmoContent()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.getAmmoContent returns liquids.current() only when liquids exists and current amount is positive; otherwise null.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_get_ammo_content_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_get_ammo_content.method",
+        "continuous_liquid_turret_build_get_ammo_content.liquids_null",
+        "continuous_liquid_turret_build_get_ammo_content.current_amount",
+        "continuous_liquid_turret_build_get_ammo_content.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_content_bridge_state",
+        "test_continuous_liquid_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
