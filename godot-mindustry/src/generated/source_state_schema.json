@@ -48836,6 +48836,64 @@
       "source_slice": "N1221",
       "status": "source-backed"
     },
+    "source_continuous_liquid_turret_build_peek_ammo_input": {
+      "keys": {
+        "ammo_type": {
+          "godot_symbol": "source_continuous_liquid_turret_build_peek_ammo_input.ammo_type",
+          "java_expr": "ammoTypes.get(liquids.current())",
+          "java_method": "ContinuousLiquidTurretBuild.peekAmmo()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Explicit input supplies ammoTypes lookup result.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_peek_ammo_state"
+          ]
+        },
+        "current_liquid": {
+          "godot_symbol": "source_continuous_liquid_turret_build_peek_ammo_input.current_liquid",
+          "java_expr": "liquids.current()",
+          "java_method": "ContinuousLiquidTurretBuild.peekAmmo()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Explicit input supplies current liquid.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_peek_ammo_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_continuous_liquid_turret_build_peek_ammo_state."
+    },
+    "source_continuous_liquid_turret_build_peek_ammo_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_continuous_liquid_turret_build_peek_ammo_result.method",
+          "java_expr": "public BulletType peekAmmo(){",
+          "java_method": "ContinuousLiquidTurretBuild.peekAmmo()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_peek_ammo_state"
+          ]
+        },
+        "peek_ammo": {
+          "godot_symbol": "source_continuous_liquid_turret_build_peek_ammo_result.peek_ammo",
+          "java_expr": "return ammoTypes.get(liquids.current());",
+          "java_method": "ContinuousLiquidTurretBuild.peekAmmo()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Returned BulletType equals ammoTypes lookup result.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_peek_ammo_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_peek_ammo_state."
+    },
     "source_continuous_liquid_turret_build_sense_object_input": {
       "keys": {
         "current_liquid": {

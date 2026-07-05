@@ -110,3 +110,8 @@ func java_inner_class_ContinuousLiquidTurretBuild_method_useAmmo_7(_args: Array 
 	var peek_ammo: Variant = _args[0] if _args.size() > 0 else null
 	var returned_ammo: Variant = peek_ammo
 	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_use_ammo_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public BulletType useAmmo(){", "override_expr": "@Override", "comment": "//does not consume ammo upon firing", "return_expr": "return peekAmmo();", "peek_ammo": peek_ammo, "returned_ammo": returned_ammo}
+
+func java_inner_class_ContinuousLiquidTurretBuild_method_peekAmmo_8(_args: Array = []) -> Variant:
+	var current_liquid: Variant = _args[0] if _args.size() > 0 else null
+	var ammo_type: Variant = _args[1] if _args.size() > 1 else null
+	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public BulletType peekAmmo(){", "override_expr": "@Override", "return_expr": "return ammoTypes.get(liquids.current());", "current_liquid": current_liquid, "peek_ammo": ammo_type}

@@ -32802,6 +32802,74 @@
         "test_generated_continuous_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
       ]
     },
+    "continuous_liquid_turret_build_peek_ammo.ammo_type": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state",
+      "godot_symbol": "source_continuous_liquid_turret_build_peek_ammo_input.ammo_type",
+      "java_expr": "ammoTypes.get(liquids.current())",
+      "java_method": "ContinuousLiquidTurretBuild.peekAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Explicit input supplies ammoTypes lookup result for current liquid.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_peek_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_peek_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_build_peek_ammo.current_liquid": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state",
+      "godot_symbol": "source_continuous_liquid_turret_build_peek_ammo_input.current_liquid",
+      "java_expr": "liquids.current()",
+      "java_method": "ContinuousLiquidTurretBuild.peekAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Explicit input supplies current liquid used for ammoTypes lookup.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_peek_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_peek_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_build_peek_ammo.method": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state",
+      "godot_symbol": "source_continuous_liquid_turret_build_peek_ammo_result.method",
+      "java_expr": "public BulletType peekAmmo(){",
+      "java_method": "ContinuousLiquidTurretBuild.peekAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Method boundary for ContinuousLiquidTurretBuild.peekAmmo.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_peek_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_peek_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "continuous_liquid_turret_build_peek_ammo.return_expr": {
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state",
+      "godot_symbol": "source_continuous_liquid_turret_build_peek_ammo_result.peek_ammo",
+      "java_expr": "return ammoTypes.get(liquids.current());",
+      "java_method": "ContinuousLiquidTurretBuild.peekAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "Result records return of ammoTypes.get(liquids.current()).",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_peek_ammo_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_peek_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
     "continuous_liquid_turret_build_sense_object.current_ammo_type_case": {
       "godot_owner": "PortGame.source_continuous_liquid_turret_build_sense_object_state",
       "godot_symbol": "source_continuous_liquid_turret_build_sense_object_result.current_ammo_type_case",

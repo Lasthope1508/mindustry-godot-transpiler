@@ -18808,6 +18808,32 @@ func generated_continuous_liquid_turret_build_use_ammo_bridge_state(peek_ammo: V
 			and result.get("peek_ammo", null) == canonical.get("peek_ammo", null),
 	}
 
+func source_continuous_liquid_turret_build_peek_ammo_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state",
+		"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+		"field": "boolean activated;",
+		"method": "public BulletType peekAmmo(){",
+		"override_expr": "@Override",
+		"return_expr": "return ammoTypes.get(liquids.current());",
+		"current_liquid": current_liquid,
+		"peek_ammo": ammo_type,
+	}
+
+func generated_continuous_liquid_turret_build_peek_ammo_bridge_state(current_liquid: Variant, ammo_type: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_peekAmmo_8([current_liquid, ammo_type])
+	var canonical = source_continuous_liquid_turret_build_peek_ammo_state(current_liquid, ammo_type)
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_build_peek_ammo_state",
+		"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.peekAmmo",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("peek_ammo", null) == canonical.get("peek_ammo", null)
+			and result.get("current_liquid", null) == canonical.get("current_liquid", null),
+	}
+
 func source_liquid_turret_build_should_active_sound_state(was_shooting: bool, enabled: bool) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",

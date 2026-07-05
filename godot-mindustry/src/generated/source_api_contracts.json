@@ -14491,6 +14491,43 @@
         "test_generated_continuous_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_continuous_liquid_turret_build_peek_ammo_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "current_liquid",
+          "schema": "source_continuous_liquid_turret_build_peek_ammo_input.current_liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "ammo_type",
+          "schema": "source_continuous_liquid_turret_build_peek_ammo_input.ammo_type",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "field",
+        "method",
+        "override_expr",
+        "return_expr",
+        "current_liquid",
+        "peek_ammo"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurretBuild.peekAmmo state.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_peek_ammo_state",
+      "source_method": "ContinuousLiquidTurretBuild.peekAmmo()",
+      "source_slice": "N1227",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_peek_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_peek_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_peek_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_peek_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_peek_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_continuous_liquid_turret_build_sense_object_state": {
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
       "params": [
