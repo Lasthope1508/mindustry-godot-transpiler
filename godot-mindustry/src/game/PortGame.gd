@@ -17232,6 +17232,41 @@ func generated_tractor_beam_turret_build_should_consume_bridge_state(super_shoul
 			and result.get("target", null) == canonical.get("target", null),
 	}
 
+func source_tractor_beam_turret_build_estimate_dps_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:
+	var zero_guard: bool = (not any_state) or damage <= 0.0
+	var estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+		"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+		"method": "public float estimateDps(){",
+		"override_expr": "@Override",
+		"zero_guard_expr": "if(!any || damage <= 0) return 0f;",
+		"return_expr": "return damage * 60f * efficiency * coolantMultiplier;",
+		"any_state": any_state,
+		"damage": damage,
+		"efficiency": efficiency,
+		"coolant_multiplier": coolant_multiplier,
+		"zero_guard": zero_guard,
+		"estimate_dps": estimate_dps,
+	}
+
+func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_estimateDps_2([any_state, damage, efficiency, coolant_multiplier])
+	var canonical = source_tractor_beam_turret_build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.estimateDps",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("estimate_dps", null) == canonical.get("estimate_dps", null) and result.get("zero_guard", null) == canonical.get("zero_guard", null)
+			and result.get("any_state", null) == canonical.get("any_state", null)
+			and result.get("damage", null) == canonical.get("damage", null)
+			and result.get("efficiency", null) == canonical.get("efficiency", null)
+			and result.get("coolant_multiplier", null) == canonical.get("coolant_multiplier", null),
+	}
+
 func source_turret_get_regions_to_outline_state(out: Variant) -> Dictionary:
 	var drawer_get_regions_to_outline_call: Dictionary = {"call": "drawer.getRegionsToOutline(this, out);", "out": out}
 	return {

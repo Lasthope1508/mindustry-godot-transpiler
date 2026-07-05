@@ -28252,6 +28252,45 @@
         "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1236": {
+      "deferred_exprs": [
+        "BaseTurretBuild inherited efficiency lifecycle",
+        "TractorBeamBuild any lifecycle outside estimateDps",
+        "coolantMultiplier update lifecycle outside estimateDps"
+      ],
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "public boolean any;",
+        "public float coolantMultiplier = 1f;",
+        "@Override",
+        "public float estimateDps(){",
+        "if(!any || damage <= 0) return 0f;",
+        "return damage * 60f * efficiency * coolantMultiplier;"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.estimateDps()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.estimateDps returns zero when inactive/non-damaging, otherwise damage * 60f * efficiency * coolantMultiplier.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_estimate_dps.method",
+        "tractor_beam_turret_build_estimate_dps.any",
+        "tractor_beam_turret_build_estimate_dps.damage",
+        "tractor_beam_turret_build_estimate_dps.efficiency",
+        "tractor_beam_turret_build_estimate_dps.coolant_multiplier",
+        "tractor_beam_turret_build_estimate_dps.zero_guard",
+        "tractor_beam_turret_build_estimate_dps.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

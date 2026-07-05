@@ -45,3 +45,12 @@ func java_inner_class_TractorBeamBuild_method_shouldConsume_1(_args: Array = [])
 	var target_present: bool = target != null
 	var should_consume: bool = super_should_consume and target_present
 	return {"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state", "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{", "field": "public @Nullable Unit target;", "method": "public boolean shouldConsume(){", "override_expr": "@Override", "return_expr": "return super.shouldConsume() && target != null;", "super_should_consume": super_should_consume, "target": target, "target_present": target_present, "should_consume": should_consume}
+
+func java_inner_class_TractorBeamBuild_method_estimateDps_2(_args: Array = []) -> Variant:
+	var any_state: bool = bool(_args[0] if _args.size() > 0 else false)
+	var damage: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)
+	var zero_guard: bool = (not any_state) or damage <= 0.0
+	var estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier
+	return {"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state", "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{", "method": "public float estimateDps(){", "override_expr": "@Override", "zero_guard_expr": "if(!any || damage <= 0) return 0f;", "return_expr": "return damage * 60f * efficiency * coolantMultiplier;", "any_state": any_state, "damage": damage, "efficiency": efficiency, "coolant_multiplier": coolant_multiplier, "zero_guard": zero_guard, "estimate_dps": estimate_dps}

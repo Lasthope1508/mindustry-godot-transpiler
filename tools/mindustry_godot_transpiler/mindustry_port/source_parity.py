@@ -638,6 +638,25 @@ def verify_tractor_beam_turret_build_should_consume_source(upstream_root: Path) 
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_estimate_dps_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+        "any_field": "public boolean any;",
+        "coolant_multiplier_field": "public float coolantMultiplier = 1f;",
+        "override": "@Override",
+        "method": "public float estimateDps(){",
+        "zero_guard": "if(!any || damage <= 0) return 0f;",
+        "return_expr": "return damage * 60f * efficiency * coolantMultiplier;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 709)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 704)
+        self.assertEqual(audit["totalSourceFunctions"], 710)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 705)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 709)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 710)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42807,6 +42807,70 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_should_consume_result")
         self.assertEqual(result_schema["keys"]["target_present"]["java_expr"], "target != null")
         self.assertEqual(result_schema["keys"]["should_consume"]["java_expr"], "super.shouldConsume() && target != null")
+
+    def test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_estimate_dps.method")
+        self.assertEqual(method["java_expr"], "public float estimateDps(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.estimateDps()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_estimate_dps_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_estimate_dps_state")
+
+        any_state = source_symbols.source_symbol(registry, "tractor_beam_turret_build_estimate_dps.any")
+        self.assertEqual(any_state["java_expr"], "any")
+        self.assertEqual(any_state["godot_symbol"], "source_tractor_beam_turret_build_estimate_dps_input.any_state")
+        damage = source_symbols.source_symbol(registry, "tractor_beam_turret_build_estimate_dps.damage")
+        self.assertEqual(damage["java_expr"], "damage")
+        self.assertEqual(damage["godot_symbol"], "source_tractor_beam_turret_build_estimate_dps_input.damage")
+        efficiency = source_symbols.source_symbol(registry, "tractor_beam_turret_build_estimate_dps.efficiency")
+        self.assertEqual(efficiency["java_expr"], "efficiency")
+        self.assertEqual(efficiency["godot_symbol"], "source_tractor_beam_turret_build_estimate_dps_input.efficiency")
+        coolant_multiplier = source_symbols.source_symbol(registry, "tractor_beam_turret_build_estimate_dps.coolant_multiplier")
+        self.assertEqual(coolant_multiplier["java_expr"], "coolantMultiplier")
+        self.assertEqual(coolant_multiplier["godot_symbol"], "source_tractor_beam_turret_build_estimate_dps_input.coolant_multiplier")
+        zero_guard = source_symbols.source_symbol(registry, "tractor_beam_turret_build_estimate_dps.zero_guard")
+        self.assertEqual(zero_guard["java_expr"], "if(!any || damage <= 0) return 0f;")
+        self.assertEqual(zero_guard["godot_symbol"], "source_tractor_beam_turret_build_estimate_dps_result.zero_guard")
+        return_expr = source_symbols.source_symbol(registry, "tractor_beam_turret_build_estimate_dps.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return damage * 60f * efficiency * coolantMultiplier;")
+        self.assertEqual(return_expr["godot_symbol"], "source_tractor_beam_turret_build_estimate_dps_result.estimate_dps")
+
+        estimate_dps_slice = source_symbols.source_slice(ledger, "N1236")
+        self.assertEqual(estimate_dps_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(estimate_dps_slice["java_method"], "TractorBeamBuild.estimateDps()")
+        self.assertEqual(estimate_dps_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_estimate_dps_state")
+        self.assertEqual(estimate_dps_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_estimate_dps_bridge_state")
+        for expr in [
+            "public class TractorBeamBuild extends BaseTurretBuild{",
+            "public boolean any;",
+            "public float coolantMultiplier = 1f;",
+            "@Override",
+            "public float estimateDps(){",
+            "if(!any || damage <= 0) return 0f;",
+            "return damage * 60f * efficiency * coolantMultiplier;",
+        ]:
+            self.assertIn(expr, estimate_dps_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_estimate_dps_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["any_state", "damage", "efficiency", "coolant_multiplier"])
+        for key in ["source_owner", "inner_class", "method", "override_expr", "zero_guard_expr", "return_expr", "any_state", "damage", "efficiency", "coolant_multiplier", "zero_guard", "estimate_dps"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_estimate_dps_input")
+        self.assertEqual(input_schema["keys"]["any_state"]["java_expr"], "any")
+        self.assertEqual(input_schema["keys"]["damage"]["java_expr"], "damage")
+        self.assertEqual(input_schema["keys"]["efficiency"]["java_expr"], "efficiency")
+        self.assertEqual(input_schema["keys"]["coolant_multiplier"]["java_expr"], "coolantMultiplier")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_estimate_dps_result")
+        self.assertEqual(result_schema["keys"]["zero_guard"]["java_expr"], "!any || damage <= 0")
+        self.assertEqual(result_schema["keys"]["estimate_dps"]["java_expr"], "damage * 60f * efficiency * coolantMultiplier")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

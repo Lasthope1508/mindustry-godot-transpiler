@@ -90370,6 +90370,125 @@
         "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
       ]
+    },
+    "tractor_beam_turret_build_estimate_dps.method": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+      "godot_symbol": "source_tractor_beam_turret_build_estimate_dps_result.method",
+      "java_expr": "public float estimateDps(){",
+      "java_method": "TractorBeamBuild.estimateDps()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Method boundary for TractorBeamBuild.estimateDps.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_estimate_dps_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_estimate_dps.any": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+      "godot_symbol": "source_tractor_beam_turret_build_estimate_dps_input.any_state",
+      "java_expr": "any",
+      "java_method": "TractorBeamBuild.estimateDps()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies TractorBeamBuild any field.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_estimate_dps_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_estimate_dps.damage": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+      "godot_symbol": "source_tractor_beam_turret_build_estimate_dps_input.damage",
+      "java_expr": "damage",
+      "java_method": "TractorBeamBuild.estimateDps()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies TractorBeamTurret damage field.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_estimate_dps_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_estimate_dps.efficiency": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+      "godot_symbol": "source_tractor_beam_turret_build_estimate_dps_input.efficiency",
+      "java_expr": "efficiency",
+      "java_method": "TractorBeamBuild.estimateDps()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies inherited build efficiency value used by estimateDps.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_estimate_dps_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_estimate_dps.coolant_multiplier": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+      "godot_symbol": "source_tractor_beam_turret_build_estimate_dps_input.coolant_multiplier",
+      "java_expr": "coolantMultiplier",
+      "java_method": "TractorBeamBuild.estimateDps()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies TractorBeamBuild coolantMultiplier field.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_estimate_dps_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_estimate_dps.zero_guard": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+      "godot_symbol": "source_tractor_beam_turret_build_estimate_dps_result.zero_guard",
+      "java_expr": "if(!any || damage <= 0) return 0f;",
+      "java_method": "TractorBeamBuild.estimateDps()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Zero-DPS guard for inactive target beam or non-positive damage.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_estimate_dps_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_estimate_dps.return_expr": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+      "godot_symbol": "source_tractor_beam_turret_build_estimate_dps_result.estimate_dps",
+      "java_expr": "return damage * 60f * efficiency * coolantMultiplier;",
+      "java_method": "TractorBeamBuild.estimateDps()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Non-zero estimateDps return expression.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_estimate_dps_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

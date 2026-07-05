@@ -13215,6 +13215,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.shouldConsume"', source)
         self.assertIn('"matches": result.get("should_consume", null) == canonical.get("should_consume", null) and result.get("target_present", null) == canonical.get("target_present", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_build_estimate_dps_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state"', source)
+        self.assertIn('"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{"', source)
+        self.assertIn('"method": "public float estimateDps(){"', source)
+        self.assertIn('"zero_guard_expr": "if(!any || damage <= 0) return 0f;"', source)
+        self.assertIn('"return_expr": "return damage * 60f * efficiency * coolantMultiplier;"', source)
+        self.assertIn("var zero_guard: bool = (not any_state) or damage <= 0.0", source)
+        self.assertIn("var estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier", source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_build_estimate_dps_bridge_state(any_state: bool, damage: float, efficiency: float, coolant_multiplier: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_estimateDps_2([any_state, damage, efficiency, coolant_multiplier])", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_estimate_dps_state(any_state, damage, efficiency, coolant_multiplier)", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.estimateDps"', source)
+        self.assertIn('"matches": result.get("estimate_dps", null) == canonical.get("estimate_dps", null) and result.get("zero_guard", null) == canonical.get("zero_guard", null)', source)
+
     def test_port_game_exposes_source_turret_get_regions_to_outline_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -3502,6 +3502,18 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar should_consume: bool = super_should_consume and target_present",
                         "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_should_consume_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"field\": \"public @Nullable Unit target;\", \"method\": \"public boolean shouldConsume(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return super.shouldConsume() && target != null;\", \"super_should_consume\": super_should_consume, \"target\": target, \"target_present\": target_present, \"should_consume\": should_consume}",
                     ])
+                elif method.get("name") == "estimateDps":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_TractorBeamBuild_method_estimateDps_{index}(_args: Array = []) -> Variant:",
+                        "\tvar any_state: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar damage: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                        "\tvar efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)",
+                        "\tvar coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)",
+                        "\tvar zero_guard: bool = (not any_state) or damage <= 0.0",
+                        "\tvar estimate_dps: float = 0.0 if zero_guard else damage * 60.0 * efficiency * coolant_multiplier",
+                        "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_estimate_dps_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"method\": \"public float estimateDps(){\", \"override_expr\": \"@Override\", \"zero_guard_expr\": \"if(!any || damage <= 0) return 0f;\", \"return_expr\": \"return damage * 60f * efficiency * coolantMultiplier;\", \"any_state\": any_state, \"damage\": damage, \"efficiency\": efficiency, \"coolant_multiplier\": coolant_multiplier, \"zero_guard\": zero_guard, \"estimate_dps\": estimate_dps}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

@@ -29230,6 +29230,57 @@
         "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_tractor_beam_turret_build_estimate_dps_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "params": [
+        {
+          "name": "any_state",
+          "schema": "source_tractor_beam_turret_build_estimate_dps_input.any_state",
+          "type": "bool"
+        },
+        {
+          "name": "damage",
+          "schema": "source_tractor_beam_turret_build_estimate_dps_input.damage",
+          "type": "float"
+        },
+        {
+          "name": "efficiency",
+          "schema": "source_tractor_beam_turret_build_estimate_dps_input.efficiency",
+          "type": "float"
+        },
+        {
+          "name": "coolant_multiplier",
+          "schema": "source_tractor_beam_turret_build_estimate_dps_input.coolant_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "zero_guard_expr",
+        "return_expr",
+        "any_state",
+        "damage",
+        "efficiency",
+        "coolant_multiplier",
+        "zero_guard",
+        "estimate_dps"
+      ],
+      "rule": "Public runtime contract for TractorBeamBuild.estimateDps state.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_estimate_dps_state",
+      "source_method": "TractorBeamBuild.estimateDps()",
+      "source_slice": "N1236",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
