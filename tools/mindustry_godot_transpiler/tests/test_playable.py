@@ -14415,6 +14415,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.peekAmmo"', source)
         self.assertIn('"matches": result.get("peek_ammo", null) == canonical.get("peek_ammo", null)', source)
 
+    def test_port_game_exposes_source_continuous_liquid_turret_build_has_ammo_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_continuous_liquid_turret_build_has_ammo_state(has_correct_ammo: bool, current_liquid: Variant, ammo_type: Variant, current_amount: float, activated: bool) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source)
+        self.assertIn('"field": "boolean activated;"', source)
+        self.assertIn('"method": "public boolean hasAmmo(){"', source)
+        self.assertIn('"return_expr": "return hasCorrectAmmo() && ammoTypes.get(liquids.current()) != null && liquids.currentAmount() > 0f && activated;"', source)
+        self.assertIn('"has_correct_ammo": has_correct_ammo', source)
+        self.assertIn('"ammo_type_present": ammo_type_present', source)
+        self.assertIn('"has_ammo": has_ammo', source)
+
+    def test_port_game_exposes_generated_continuous_liquid_turret_build_has_ammo_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_continuous_liquid_turret_build_has_ammo_bridge_state(has_correct_ammo: bool, current_liquid: Variant, ammo_type: Variant, current_amount: float, activated: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_hasAmmo_9([has_correct_ammo, current_liquid, ammo_type, current_amount, activated])", source)
+        self.assertIn("var canonical = source_continuous_liquid_turret_build_has_ammo_state(has_correct_ammo, current_liquid, ammo_type, current_amount, activated)", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_has_ammo_state"', source)
+        self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.hasAmmo"', source)
+        self.assertIn('"matches": result.get("has_ammo", null) == canonical.get("has_ammo", null)', source)
+
     def test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -3386,6 +3386,19 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar ammo_type: Variant = _args[1] if _args.size() > 1 else null",
                         "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_peek_ammo_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public BulletType peekAmmo(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammoTypes.get(liquids.current());\", \"current_liquid\": current_liquid, \"peek_ammo\": ammo_type}",
                     ])
+                elif method.get("name") == "hasAmmo":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ContinuousLiquidTurretBuild_method_hasAmmo_{index}(_args: Array = []) -> Variant:",
+                        "\tvar has_correct_ammo: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar current_liquid: Variant = _args[1] if _args.size() > 1 else null",
+                        "\tvar ammo_type: Variant = _args[2] if _args.size() > 2 else null",
+                        "\tvar current_amount: float = float(_args[3] if _args.size() > 3 else 0.0)",
+                        "\tvar activated: bool = bool(_args[4] if _args.size() > 4 else false)",
+                        "\tvar ammo_type_present: bool = ammo_type != null",
+                        "\tvar has_ammo: bool = has_correct_ammo and ammo_type_present and current_amount > 0.0 and activated",
+                        "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_has_ammo_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean hasAmmo(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return hasCorrectAmmo() && ammoTypes.get(liquids.current()) != null && liquids.currentAmount() > 0f && activated;\", \"has_correct_ammo\": has_correct_ammo, \"current_liquid\": current_liquid, \"ammo_type\": ammo_type, \"current_amount\": current_amount, \"activated\": activated, \"ammo_type_present\": ammo_type_present, \"has_ammo\": has_ammo}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

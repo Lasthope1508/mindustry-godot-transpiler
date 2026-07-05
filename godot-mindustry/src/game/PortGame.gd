@@ -18834,6 +18834,41 @@ func generated_continuous_liquid_turret_build_peek_ammo_bridge_state(current_liq
 			and result.get("current_liquid", null) == canonical.get("current_liquid", null),
 	}
 
+func source_continuous_liquid_turret_build_has_ammo_state(has_correct_ammo: bool, current_liquid: Variant, ammo_type: Variant, current_amount: float, activated: bool) -> Dictionary:
+	var ammo_type_present: bool = ammo_type != null
+	var has_ammo: bool = has_correct_ammo and ammo_type_present and current_amount > 0.0 and activated
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_build_has_ammo_state",
+		"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+		"field": "boolean activated;",
+		"method": "public boolean hasAmmo(){",
+		"override_expr": "@Override",
+		"return_expr": "return hasCorrectAmmo() && ammoTypes.get(liquids.current()) != null && liquids.currentAmount() > 0f && activated;",
+		"has_correct_ammo": has_correct_ammo,
+		"current_liquid": current_liquid,
+		"ammo_type": ammo_type,
+		"current_amount": current_amount,
+		"activated": activated,
+		"ammo_type_present": ammo_type_present,
+		"has_ammo": has_ammo,
+	}
+
+func generated_continuous_liquid_turret_build_has_ammo_bridge_state(has_correct_ammo: bool, current_liquid: Variant, ammo_type: Variant, current_amount: float, activated: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_hasAmmo_9([has_correct_ammo, current_liquid, ammo_type, current_amount, activated])
+	var canonical = source_continuous_liquid_turret_build_has_ammo_state(has_correct_ammo, current_liquid, ammo_type, current_amount, activated)
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_build_has_ammo_state",
+		"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.hasAmmo",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("has_ammo", null) == canonical.get("has_ammo", null)
+			and result.get("ammo_type_present", null) == canonical.get("ammo_type_present", null)
+			and result.get("has_correct_ammo", null) == canonical.get("has_correct_ammo", null)
+			and result.get("activated", null) == canonical.get("activated", null),
+	}
+
 func source_liquid_turret_build_should_active_sound_state(was_shooting: bool, enabled: bool) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
