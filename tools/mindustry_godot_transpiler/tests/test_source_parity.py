@@ -9160,6 +9160,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_continuous_liquid_turret_build_should_consume_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_continuous_liquid_turret_build_should_consume_source"))
+        report = source_parity.verify_continuous_liquid_turret_build_should_consume_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+            "field": "boolean activated;",
+            "override": "@Override",
+            "method": "public boolean shouldConsume(){",
+            "return_expr": "return super.shouldConsume() && activated;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_liquid_turret_build_get_ammo_content_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_liquid_turret_build_get_ammo_content_source"))
         report = source_parity.verify_liquid_turret_build_get_ammo_content_source(ROOT / "mindustry-upstream")

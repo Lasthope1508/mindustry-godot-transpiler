@@ -27881,6 +27881,39 @@
         "test_continuous_liquid_turret_build_can_consume_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_can_consume_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1225": {
+      "deferred_exprs": [
+        "ContinuousTurretBuild.super.shouldConsume() internals",
+        "activated lifecycle outside updateTile"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public boolean shouldConsume(){",
+        "return super.shouldConsume() && activated;"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.shouldConsume()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.shouldConsume returns super.shouldConsume() && activated.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_should_consume_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_should_consume.method",
+        "continuous_liquid_turret_build_should_consume.super_should_consume",
+        "continuous_liquid_turret_build_should_consume.activated",
+        "continuous_liquid_turret_build_should_consume.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_consume_bridge_state",
+        "test_continuous_liquid_turret_build_should_consume_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

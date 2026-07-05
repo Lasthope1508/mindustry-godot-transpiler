@@ -1466,6 +1466,23 @@ def verify_continuous_liquid_turret_build_can_consume_source(upstream_root: Path
         "missing": missing,
     }
 
+def verify_continuous_liquid_turret_build_should_consume_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / CONTINUOUS_LIQUID_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "field": "boolean activated;",
+        "override": "@Override",
+        "method": "public boolean shouldConsume(){",
+        "return_expr": "return super.shouldConsume() && activated;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": CONTINUOUS_LIQUID_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_liquid_turret_build_get_ammo_content_source(upstream_root: Path) -> dict[str, Any]:
     liquid_turret_path = Path(upstream_root) / LIQUID_TURRET_SOURCE
     source = liquid_turret_path.read_text(encoding="utf-8", errors="replace")

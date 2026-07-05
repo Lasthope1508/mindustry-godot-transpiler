@@ -9934,6 +9934,46 @@ public class ContinuousLiquidTurret extends ContinuousTurret{
             self.assertIn('"return_expr": "return hasCorrectAmmo() && super.canConsume();"', source_text)
             self.assertIn('"can_consume": can_consume', source_text)
 
+    def test_emit_bridges_continuous_liquid_turret_build_should_consume_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class ContinuousLiquidTurret extends ContinuousTurret{
+    public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{
+        boolean activated;
+
+        @Override
+        public boolean shouldConsume(){
+            return super.shouldConsume() && activated;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ContinuousLiquidTurretBuild_method_shouldConsume_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var super_should_consume: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var activated: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var should_consume: bool = super_should_consume and activated", source_text)
+            self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state"', source_text)
+            self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source_text)
+            self.assertIn('"field": "boolean activated;"', source_text)
+            self.assertIn('"method": "public boolean shouldConsume(){"', source_text)
+            self.assertIn('"return_expr": "return super.shouldConsume() && activated;"', source_text)
+            self.assertIn('"should_consume": should_consume', source_text)
+
     def test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -14341,6 +14341,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.canConsume"', source)
         self.assertIn('"matches": result.get("can_consume", null) == canonical.get("can_consume", null)', source)
 
+    def test_port_game_exposes_source_continuous_liquid_turret_build_should_consume_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_continuous_liquid_turret_build_should_consume_state(super_should_consume: bool, activated: bool) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source)
+        self.assertIn('"field": "boolean activated;"', source)
+        self.assertIn('"method": "public boolean shouldConsume(){"', source)
+        self.assertIn('"return_expr": "return super.shouldConsume() && activated;"', source)
+        self.assertIn('"super_should_consume": super_should_consume', source)
+        self.assertIn('"activated": activated', source)
+        self.assertIn('"should_consume": should_consume', source)
+
+    def test_port_game_exposes_generated_continuous_liquid_turret_build_should_consume_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_continuous_liquid_turret_build_should_consume_bridge_state(super_should_consume: bool, activated: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_shouldConsume_6([super_should_consume, activated])", source)
+        self.assertIn("var canonical = source_continuous_liquid_turret_build_should_consume_state(super_should_consume, activated)", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state"', source)
+        self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.shouldConsume"', source)
+        self.assertIn('"matches": result.get("should_consume", null) == canonical.get("should_consume", null)', source)
+
     def test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

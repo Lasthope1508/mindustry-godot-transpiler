@@ -3361,6 +3361,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar can_consume: bool = has_correct_ammo and super_can_consume",
                         "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_can_consume_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean canConsume(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return hasCorrectAmmo() && super.canConsume();\", \"has_correct_ammo\": has_correct_ammo, \"super_can_consume\": super_can_consume, \"can_consume\": can_consume}",
                     ])
+                elif method.get("name") == "shouldConsume":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ContinuousLiquidTurretBuild_method_shouldConsume_{index}(_args: Array = []) -> Variant:",
+                        "\tvar super_should_consume: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar activated: bool = bool(_args[1] if _args.size() > 1 else false)",
+                        "\tvar should_consume: bool = super_should_consume and activated",
+                        "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_should_consume_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean shouldConsume(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return super.shouldConsume() && activated;\", \"super_should_consume\": super_should_consume, \"activated\": activated, \"should_consume\": should_consume}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"
