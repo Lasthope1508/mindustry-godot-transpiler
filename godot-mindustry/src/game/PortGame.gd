@@ -17295,6 +17295,40 @@ func generated_tractor_beam_turret_build_write_bridge_state(rotation_value: floa
 			and result.get("rotation", null) == canonical.get("rotation", null),
 	}
 
+func source_tractor_beam_turret_build_read_state(read_f_value: float, revision_value: int) -> Dictionary:
+	var super_read_call: Dictionary = {"call": "super.read(read, revision);", "revision": revision_value}
+	var read_f_call: Dictionary = {"call": "read.f();", "value": read_f_value}
+	var rotation_after: float = read_f_value
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_read_state",
+		"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+		"method": "public void read(Reads read, byte revision){",
+		"override_expr": "@Override",
+		"super_read_expr": "super.read(read, revision);",
+		"read_rotation_expr": "rotation = read.f();",
+		"read_f_value": read_f_value,
+		"revision_value": revision_value,
+		"super_read_call": super_read_call,
+		"read_f_call": read_f_call,
+		"rotation_after": rotation_after,
+	}
+
+func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_read_5([read_f_value, revision_value])
+	var canonical = source_tractor_beam_turret_build_read_state(read_f_value, revision_value)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_read_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.read",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("rotation_after", null) == canonical.get("rotation_after", null) and result.get("read_f_call", null) == canonical.get("read_f_call", null)
+			and result.get("super_read_call", null) == canonical.get("super_read_call", null)
+			and result.get("read_f_value", null) == canonical.get("read_f_value", null)
+			and result.get("revision_value", null) == canonical.get("revision_value", null),
+	}
+
 func source_turret_get_regions_to_outline_state(out: Variant) -> Dictionary:
 	var drawer_get_regions_to_outline_call: Dictionary = {"call": "drawer.getRegionsToOutline(this, out);", "out": out}
 	return {

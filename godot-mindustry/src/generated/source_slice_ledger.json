@@ -28324,6 +28324,40 @@
         "test_tractor_beam_turret_build_write_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1238": {
+      "deferred_exprs": [
+        "BaseTurretBuild super.read(read, revision) deserialized fields outside this slice",
+        "Reads stream implementation outside this source-state bridge"
+      ],
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void read(Reads read, byte revision){",
+        "super.read(read, revision);",
+        "rotation = read.f();"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_read_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.read delegates inherited deserialization then reads rotation from Reads.f().",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_read_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_read.method",
+        "tractor_beam_turret_build_read.read_f_value",
+        "tractor_beam_turret_build_read.revision",
+        "tractor_beam_turret_build_read.super_read",
+        "tractor_beam_turret_build_read.read_rotation"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state",
+        "test_tractor_beam_turret_build_read_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

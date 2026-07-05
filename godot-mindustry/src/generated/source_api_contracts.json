@@ -29315,6 +29315,46 @@
       ],
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "source_method": "TractorBeamBuild.write(Writes write)"
+    },
+    "PortGame.source_tractor_beam_turret_build_read_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "params": [
+        {
+          "name": "read_f_value",
+          "schema": "source_tractor_beam_turret_build_read_input.read_f_value",
+          "type": "float"
+        },
+        {
+          "name": "revision_value",
+          "schema": "source_tractor_beam_turret_build_read_input.revision_value",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "super_read_expr",
+        "read_rotation_expr",
+        "read_f_value",
+        "revision_value",
+        "super_read_call",
+        "read_f_call",
+        "rotation_after"
+      ],
+      "rule": "Public runtime contract for TractorBeamBuild.read state; read_f_value maps to Java read.f() and revision_value maps to revision.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_read_state",
+      "source_method": "TractorBeamBuild.read(Reads read, byte revision)",
+      "source_slice": "N1238",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state",
+        "test_tractor_beam_turret_build_read_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

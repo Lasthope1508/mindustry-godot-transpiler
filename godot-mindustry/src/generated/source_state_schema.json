@@ -106434,6 +106434,92 @@
       "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_write_state.",
       "source_slice": "N1237",
       "status": "source-backed"
+    },
+    "source_tractor_beam_turret_build_read_input": {
+      "keys": {
+        "read_f_value": {
+          "godot_symbol": "source_tractor_beam_turret_build_read_input.read_f_value",
+          "java_expr": "read.f()",
+          "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies float returned by Reads.f().",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_read_state"
+          ]
+        },
+        "revision_value": {
+          "godot_symbol": "source_tractor_beam_turret_build_read_input.revision_value",
+          "java_expr": "revision",
+          "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies Java revision argument.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_read_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_read_state.",
+      "source_slice": "N1238",
+      "status": "source-backed"
+    },
+    "source_tractor_beam_turret_build_read_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_tractor_beam_turret_build_read_result.method",
+          "java_expr": "public void read(Reads read, byte revision){",
+          "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_read_state"
+          ]
+        },
+        "super_read_call": {
+          "godot_symbol": "source_tractor_beam_turret_build_read_result.super_read_call",
+          "java_expr": "super.read(read, revision);",
+          "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Super deserialization call representation.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_read_state"
+          ]
+        },
+        "read_f_call": {
+          "godot_symbol": "source_tractor_beam_turret_build_read_result.read_f_call",
+          "java_expr": "read.f();",
+          "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Reads.f call representation.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_read_state"
+          ]
+        },
+        "rotation_after": {
+          "godot_symbol": "source_tractor_beam_turret_build_read_result.rotation_after",
+          "java_expr": "rotation = read.f();",
+          "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Rotation after assignment from Reads.f().",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_read_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_read_state.",
+      "source_slice": "N1238",
+      "status": "source-backed"
     }
   },
   "version": 1

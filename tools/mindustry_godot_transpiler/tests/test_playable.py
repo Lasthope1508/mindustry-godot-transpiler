@@ -13264,6 +13264,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.write"', source)
         self.assertIn('"matches": result.get("write_f_call", null) == canonical.get("write_f_call", null) and result.get("super_write_called", null) == canonical.get("super_write_called", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_build_read_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_build_read_state(read_f_value: float, revision_value: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_read_state"', source)
+        self.assertIn('"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{"', source)
+        self.assertIn('"method": "public void read(Reads read, byte revision){"', source)
+        self.assertIn('"super_read_expr": "super.read(read, revision);"', source)
+        self.assertIn('"read_rotation_expr": "rotation = read.f();"', source)
+        self.assertIn('var super_read_call: Dictionary = {"call": "super.read(read, revision);", "revision": revision_value}', source)
+        self.assertIn('var read_f_call: Dictionary = {"call": "read.f();", "value": read_f_value}', source)
+        self.assertIn("var rotation_after: float = read_f_value", source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, revision_value: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_read_5([read_f_value, revision_value])", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_read_state(read_f_value, revision_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_read_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.read"', source)
+        self.assertIn('"matches": result.get("rotation_after", null) == canonical.get("rotation_after", null) and result.get("read_f_call", null) == canonical.get("read_f_call", null)', source)
+
     def test_port_game_exposes_source_turret_get_regions_to_outline_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

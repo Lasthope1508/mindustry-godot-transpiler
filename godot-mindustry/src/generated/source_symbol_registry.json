@@ -90557,6 +90557,91 @@
         "test_tractor_beam_turret_build_write_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
       ]
+    },
+    "tractor_beam_turret_build_read.method": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_read_state",
+      "godot_symbol": "source_tractor_beam_turret_build_read_result.method",
+      "java_expr": "public void read(Reads read, byte revision){",
+      "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Method boundary for TractorBeamBuild.read.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_read_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state",
+        "test_tractor_beam_turret_build_read_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_read.read_f_value": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_read_state",
+      "godot_symbol": "source_tractor_beam_turret_build_read_input.read_f_value",
+      "java_expr": "read.f()",
+      "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Explicit input supplies float returned by Reads.read.f().",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_read_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state",
+        "test_tractor_beam_turret_build_read_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_read.revision": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_read_state",
+      "godot_symbol": "source_tractor_beam_turret_build_read_input.revision_value",
+      "java_expr": "revision",
+      "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies Java read revision argument.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_read_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state",
+        "test_tractor_beam_turret_build_read_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_read.super_read": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_read_state",
+      "godot_symbol": "source_tractor_beam_turret_build_read_result.super_read_call",
+      "java_expr": "super.read(read, revision);",
+      "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Super deserialization call executed before TractorBeamBuild reads rotation.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_read_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state",
+        "test_tractor_beam_turret_build_read_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_read.read_rotation": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_read_state",
+      "godot_symbol": "source_tractor_beam_turret_build_read_result.rotation_after",
+      "java_expr": "rotation = read.f();",
+      "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Assigns inherited rotation from Reads.f().",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_read_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state",
+        "test_tractor_beam_turret_build_read_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

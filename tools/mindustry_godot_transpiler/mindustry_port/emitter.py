@@ -3522,6 +3522,17 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar write_f_call: Dictionary = {\"call\": \"write.f(rotation);\", \"value\": rotation}",
                         "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_write_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"method\": \"public void write(Writes write){\", \"override_expr\": \"@Override\", \"super_write_expr\": \"super.write(write);\", \"write_rotation_expr\": \"write.f(rotation);\", \"rotation\": rotation, \"super_write_called\": true, \"write_f_call\": write_f_call}",
                     ])
+                elif method.get("name") == "read":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_TractorBeamBuild_method_read_{index}(_args: Array = []) -> Variant:",
+                        "\tvar read_f_value: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                        "\tvar revision_value: int = int(_args[1] if _args.size() > 1 else 0)",
+                        "\tvar super_read_call: Dictionary = {\"call\": \"super.read(read, revision);\", \"revision\": revision_value}",
+                        "\tvar read_f_call: Dictionary = {\"call\": \"read.f();\", \"value\": read_f_value}",
+                        "\tvar rotation_after: float = read_f_value",
+                        "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_read_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"method\": \"public void read(Reads read, byte revision){\", \"override_expr\": \"@Override\", \"super_read_expr\": \"super.read(read, revision);\", \"read_rotation_expr\": \"rotation = read.f();\", \"read_f_value\": read_f_value, \"revision_value\": revision_value, \"super_read_call\": super_read_call, \"read_f_call\": read_f_call, \"rotation_after\": rotation_after}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

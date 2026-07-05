@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 711)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 706)
+        self.assertEqual(audit["totalSourceFunctions"], 712)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 707)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 711)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 712)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42921,6 +42921,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_write_result")
         self.assertEqual(result_schema["keys"]["super_write_called"]["java_expr"], "super.write(write);")
         self.assertEqual(result_schema["keys"]["write_f_call"]["java_expr"], "write.f(rotation);")
+
+    def test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_read.method")
+        self.assertEqual(method["java_expr"], "public void read(Reads read, byte revision){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.read(Reads read, byte revision)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_read_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_read_state")
+
+        read_f_value = source_symbols.source_symbol(registry, "tractor_beam_turret_build_read.read_f_value")
+        self.assertEqual(read_f_value["java_expr"], "read.f()")
+        self.assertEqual(read_f_value["godot_symbol"], "source_tractor_beam_turret_build_read_input.read_f_value")
+        revision = source_symbols.source_symbol(registry, "tractor_beam_turret_build_read.revision")
+        self.assertEqual(revision["java_expr"], "revision")
+        self.assertEqual(revision["godot_symbol"], "source_tractor_beam_turret_build_read_input.revision_value")
+        super_read = source_symbols.source_symbol(registry, "tractor_beam_turret_build_read.super_read")
+        self.assertEqual(super_read["java_expr"], "super.read(read, revision);")
+        self.assertEqual(super_read["godot_symbol"], "source_tractor_beam_turret_build_read_result.super_read_call")
+        read_rotation = source_symbols.source_symbol(registry, "tractor_beam_turret_build_read.read_rotation")
+        self.assertEqual(read_rotation["java_expr"], "rotation = read.f();")
+        self.assertEqual(read_rotation["godot_symbol"], "source_tractor_beam_turret_build_read_result.rotation_after")
+
+        read_slice = source_symbols.source_slice(ledger, "N1238")
+        self.assertEqual(read_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(read_slice["java_method"], "TractorBeamBuild.read(Reads read, byte revision)")
+        self.assertEqual(read_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_read_state")
+        self.assertEqual(read_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_read_bridge_state")
+        for expr in [
+            "public class TractorBeamBuild extends BaseTurretBuild{",
+            "@Override",
+            "public void read(Reads read, byte revision){",
+            "super.read(read, revision);",
+            "rotation = read.f();",
+        ]:
+            self.assertIn(expr, read_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_read_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["read_f_value", "revision_value"])
+        for key in ["source_owner", "inner_class", "method", "override_expr", "super_read_expr", "read_rotation_expr", "read_f_value", "revision_value", "super_read_call", "read_f_call", "rotation_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_read_input")
+        self.assertEqual(input_schema["keys"]["read_f_value"]["java_expr"], "read.f()")
+        self.assertEqual(input_schema["keys"]["revision_value"]["java_expr"], "revision")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_read_result")
+        self.assertEqual(result_schema["keys"]["super_read_call"]["java_expr"], "super.read(read, revision);")
+        self.assertEqual(result_schema["keys"]["rotation_after"]["java_expr"], "rotation = read.f();")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
