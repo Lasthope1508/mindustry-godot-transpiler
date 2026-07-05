@@ -3418,6 +3418,31 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar accept_item: bool = false",
                         "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_accept_item_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean acceptItem(Building source, Item item){\", \"override_expr\": \"@Override\", \"return_expr\": \"return false;\", \"source_building\": source_building, \"item\": item, \"accept_item\": accept_item}",
                     ])
+                elif method.get("name") == "acceptLiquid":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ContinuousLiquidTurretBuild_method_acceptLiquid_{index}(_args: Array = []) -> Variant:",
+                        "\tvar source_building: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar liquid: Variant = _args[1] if _args.size() > 1 else null",
+                        "\tvar ammo_type: Variant = _args[2] if _args.size() > 2 else null",
+                        "\tvar current_liquid: Variant = _args[3] if _args.size() > 3 else null",
+                        "\tvar current_liquid_ammo_type_present: bool = bool(_args[4] if _args.size() > 4 else false)",
+                        "\tvar current_liquid_amount: float = float(_args[5] if _args.size() > 5 else 0.0)",
+                        "\tvar current_ammo_multiplier: float = float(_args[6] if _args.size() > 6 else 1.0)",
+                        "\tvar liquid_has_ammo_type: bool = ammo_type != null",
+                        "\tvar same_liquid: bool = current_liquid == liquid",
+                        "\tvar current_liquid_missing_ammo_type: bool = not current_liquid_ammo_type_present",
+                        "\tvar current_required_with_epsilon: Variant = null",
+                        "\tvar current_liquid_drained: bool = false",
+                        "\tif liquid_has_ammo_type and not same_liquid and current_liquid_ammo_type_present:",
+                        "\t\tcurrent_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001",
+                        "\t\tcurrent_liquid_drained = current_liquid_amount <= current_required_with_epsilon",
+                        "\tvar replacement_allowed: bool = false",
+                        "\tif liquid_has_ammo_type and not same_liquid:",
+                        "\t\treplacement_allowed = current_liquid_missing_ammo_type or current_liquid_drained",
+                        "\tvar accept_liquid: bool = liquid_has_ammo_type and (same_liquid or replacement_allowed)",
+                        "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_accept_liquid_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean acceptLiquid(Building source, Liquid liquid){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammoTypes.get(liquid) != null && (liquids.current() == liquid || ((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));\", \"source_building\": source_building, \"liquid\": liquid, \"ammo_type\": ammo_type, \"current_liquid\": current_liquid, \"current_liquid_ammo_type_present\": current_liquid_ammo_type_present, \"current_liquid_amount\": current_liquid_amount, \"current_ammo_multiplier\": current_ammo_multiplier, \"liquid_has_ammo_type\": liquid_has_ammo_type, \"same_liquid\": same_liquid, \"current_liquid_missing_ammo_type\": current_liquid_missing_ammo_type, \"current_required_with_epsilon\": current_required_with_epsilon, \"current_liquid_drained\": current_liquid_drained, \"replacement_allowed\": replacement_allowed, \"accept_liquid\": accept_liquid}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

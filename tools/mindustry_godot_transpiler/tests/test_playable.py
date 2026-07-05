@@ -14493,6 +14493,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.acceptItem"', source)
         self.assertIn('"matches": result.get("accept_item", null) == canonical.get("accept_item", null)', source)
 
+    def test_port_game_exposes_source_continuous_liquid_turret_build_accept_liquid_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_continuous_liquid_turret_build_accept_liquid_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source)
+        self.assertIn('"field": "boolean activated;"', source)
+        self.assertIn('"method": "public boolean acceptLiquid(Building source, Liquid liquid){"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"return_expr": "return ammoTypes.get(liquid) != null && (liquids.current() == liquid || ((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));"', source)
+        self.assertIn("var liquid_has_ammo_type: bool = ammo_type != null", source)
+        self.assertIn("var same_liquid: bool = current_liquid == liquid", source)
+        self.assertIn("var current_liquid_missing_ammo_type: bool = not current_liquid_ammo_type_present", source)
+        self.assertIn("var current_required_with_epsilon: Variant = null", source)
+        self.assertIn("if liquid_has_ammo_type and not same_liquid and current_liquid_ammo_type_present:", source)
+        self.assertIn("current_required_with_epsilon = 1.0 / current_ammo_multiplier + 0.001", source)
+        self.assertIn("current_liquid_drained = current_liquid_amount <= current_required_with_epsilon", source)
+        self.assertIn("var accept_liquid: bool = liquid_has_ammo_type and (same_liquid or replacement_allowed)", source)
+        self.assertIn('"accept_liquid": accept_liquid', source)
+
+    def test_port_game_exposes_generated_continuous_liquid_turret_build_accept_liquid_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_continuous_liquid_turret_build_accept_liquid_bridge_state(source_building: Variant, liquid: Variant, ammo_type: Variant, current_liquid: Variant, current_liquid_ammo_type_present: bool, current_liquid_amount: float, current_ammo_multiplier: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_acceptLiquid_12([source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier])", source)
+        self.assertIn("var canonical = source_continuous_liquid_turret_build_accept_liquid_state(source_building, liquid, ammo_type, current_liquid, current_liquid_ammo_type_present, current_liquid_amount, current_ammo_multiplier)", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_accept_liquid_state"', source)
+        self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.acceptLiquid"', source)
+        self.assertIn('"matches": result.get("accept_liquid", null) == canonical.get("accept_liquid", null)', source)
+
     def test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -28991,6 +28991,80 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_continuous_liquid_turret_build_accept_liquid_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "source_building",
+          "schema": "source_continuous_liquid_turret_build_accept_liquid_input.source_building",
+          "type": "Variant"
+        },
+        {
+          "name": "liquid",
+          "schema": "source_continuous_liquid_turret_build_accept_liquid_input.liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "ammo_type",
+          "schema": "source_continuous_liquid_turret_build_accept_liquid_input.ammo_type",
+          "type": "Variant"
+        },
+        {
+          "name": "current_liquid",
+          "schema": "source_continuous_liquid_turret_build_accept_liquid_input.current_liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "current_liquid_ammo_type_present",
+          "schema": "source_continuous_liquid_turret_build_accept_liquid_input.current_liquid_ammo_type_present",
+          "type": "bool"
+        },
+        {
+          "name": "current_liquid_amount",
+          "schema": "source_continuous_liquid_turret_build_accept_liquid_input.current_liquid_amount",
+          "type": "float"
+        },
+        {
+          "name": "current_ammo_multiplier",
+          "schema": "source_continuous_liquid_turret_build_accept_liquid_input.current_ammo_multiplier",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "field",
+        "method",
+        "override_expr",
+        "return_expr",
+        "source_building",
+        "liquid",
+        "ammo_type",
+        "current_liquid",
+        "current_liquid_ammo_type_present",
+        "current_liquid_amount",
+        "current_ammo_multiplier",
+        "liquid_has_ammo_type",
+        "same_liquid",
+        "current_liquid_missing_ammo_type",
+        "current_required_with_epsilon",
+        "current_liquid_drained",
+        "replacement_allowed",
+        "accept_liquid"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurretBuild.acceptLiquid state.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_accept_liquid_state",
+      "source_method": "ContinuousLiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "source_slice": "N1231",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_liquid_bridge_state",
+        "test_continuous_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
