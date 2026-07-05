@@ -82,3 +82,14 @@ func java_inner_class_ContinuousLiquidTurretBuild_method_updateTile_3(_args: Arr
 	elif current_amount < liquid_consumed:
 		activated_after = false
 	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public void updateTile(){", "override_expr": "@Override", "super_update_tile_expr": "super.updateTile();", "super_update_tile_called": true, "comment": "//only allow the turret to begin firing when it can fire for 4 continuous updates", "activate_guard_expr": "if(liquids.currentAmount() >= liquidConsumed * 4f){", "activated_true_expr": "activated = true;", "deactivate_guard_expr": "}else if(liquids.currentAmount() < liquidConsumed){", "activated_false_expr": "activated = false;", "current_amount": current_amount, "liquid_consumed": liquid_consumed, "activated_before": activated_before, "activate_threshold": activate_threshold, "activated_after": activated_after}
+
+func java_inner_class_ContinuousLiquidTurretBuild_method_senseObject_4(_args: Array = []) -> Variant:
+	var sensor: String = str(_args[0] if _args.size() > 0 else "")
+	var current_liquid: Variant = _args[1] if _args.size() > 1 else null
+	var super_sense_object_value: Variant = _args[2] if _args.size() > 2 else null
+	var sense_object_value: Variant = null
+	if sensor == "currentAmmoType":
+		sense_object_value = current_liquid
+	else:
+		sense_object_value = super_sense_object_value
+	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_sense_object_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public Object senseObject(LAccess sensor){", "override_expr": "@Override", "switch_return_expr": "return switch(sensor){", "current_ammo_type_case": "case currentAmmoType -> liquids.current();", "default_case": "default -> super.senseObject(sensor);", "sensor": sensor, "current_liquid": current_liquid, "super_sense_object_value": super_sense_object_value, "sense_object_value": sense_object_value}

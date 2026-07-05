@@ -3338,6 +3338,20 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\t\tactivated_after = false",
                         "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_update_tile_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public void updateTile(){\", \"override_expr\": \"@Override\", \"super_update_tile_expr\": \"super.updateTile();\", \"super_update_tile_called\": true, \"comment\": \"//only allow the turret to begin firing when it can fire for 4 continuous updates\", \"activate_guard_expr\": \"if(liquids.currentAmount() >= liquidConsumed * 4f){\", \"activated_true_expr\": \"activated = true;\", \"deactivate_guard_expr\": \"}else if(liquids.currentAmount() < liquidConsumed){\", \"activated_false_expr\": \"activated = false;\", \"current_amount\": current_amount, \"liquid_consumed\": liquid_consumed, \"activated_before\": activated_before, \"activate_threshold\": activate_threshold, \"activated_after\": activated_after}",
                     ])
+                elif method.get("name") == "senseObject":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ContinuousLiquidTurretBuild_method_senseObject_{index}(_args: Array = []) -> Variant:",
+                        "\tvar sensor: String = str(_args[0] if _args.size() > 0 else \"\")",
+                        "\tvar current_liquid: Variant = _args[1] if _args.size() > 1 else null",
+                        "\tvar super_sense_object_value: Variant = _args[2] if _args.size() > 2 else null",
+                        "\tvar sense_object_value: Variant = null",
+                        "\tif sensor == \"currentAmmoType\":",
+                        "\t\tsense_object_value = current_liquid",
+                        "\telse:",
+                        "\t\tsense_object_value = super_sense_object_value",
+                        "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_sense_object_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public Object senseObject(LAccess sensor){\", \"override_expr\": \"@Override\", \"switch_return_expr\": \"return switch(sensor){\", \"current_ammo_type_case\": \"case currentAmmoType -> liquids.current();\", \"default_case\": \"default -> super.senseObject(sensor);\", \"sensor\": sensor, \"current_liquid\": current_liquid, \"super_sense_object_value\": super_sense_object_value, \"sense_object_value\": sense_object_value}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

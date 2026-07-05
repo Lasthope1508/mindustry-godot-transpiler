@@ -104938,6 +104938,104 @@
       "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_update_tile_state.",
       "source_slice": "N1222",
       "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_build_sense_object_input": {
+      "keys": {
+        "sensor": {
+          "godot_symbol": "source_continuous_liquid_turret_build_sense_object_input.sensor",
+          "java_expr": "sensor",
+          "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies LAccess sensor name.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_sense_object_state"
+          ]
+        },
+        "current_liquid": {
+          "godot_symbol": "source_continuous_liquid_turret_build_sense_object_input.current_liquid",
+          "java_expr": "liquids.current()",
+          "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies current liquid value.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_sense_object_state"
+          ]
+        },
+        "super_sense_object_value": {
+          "godot_symbol": "source_continuous_liquid_turret_build_sense_object_input.super_sense_object_value",
+          "java_expr": "super.senseObject(sensor)",
+          "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies delegated superclass result.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_sense_object_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_continuous_liquid_turret_build_sense_object_state.",
+      "source_slice": "N1223",
+      "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_build_sense_object_result": {
+      "keys": {
+        "current_ammo_type_case": {
+          "godot_symbol": "source_continuous_liquid_turret_build_sense_object_result.current_ammo_type_case",
+          "java_expr": "case currentAmmoType -> liquids.current();",
+          "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Switch branch for current ammo sensor.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_sense_object_state"
+          ]
+        },
+        "default_case": {
+          "godot_symbol": "source_continuous_liquid_turret_build_sense_object_result.default_case",
+          "java_expr": "default -> super.senseObject(sensor);",
+          "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Switch default branch delegates to superclass.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_sense_object_state"
+          ]
+        },
+        "sense_object_value": {
+          "godot_symbol": "source_continuous_liquid_turret_build_sense_object_result.sense_object_value",
+          "java_expr": "liquids.current() / super.senseObject(sensor)",
+          "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Resulting sensor object value.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_sense_object_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_continuous_liquid_turret_build_sense_object_result.method",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_sense_object_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_sense_object_state.",
+      "source_slice": "N1223",
+      "status": "source-backed"
     }
   },
   "version": 1

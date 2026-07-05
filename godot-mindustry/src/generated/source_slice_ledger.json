@@ -27811,6 +27811,43 @@
         "test_continuous_liquid_turret_build_update_tile_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_update_tile_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1223": {
+      "deferred_exprs": [
+        "ContinuousTurretBuild.super.senseObject(sensor) internals",
+        "Liquid module internals"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public Object senseObject(LAccess sensor){",
+        "return switch(sensor){",
+        "case currentAmmoType -> liquids.current();",
+        "default -> super.senseObject(sensor);"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_sense_object_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.senseObject returns liquids.current() for currentAmmoType, otherwise delegates to super.senseObject(sensor).",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_sense_object_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_sense_object.method",
+        "continuous_liquid_turret_build_sense_object.sensor",
+        "continuous_liquid_turret_build_sense_object.current_liquid",
+        "continuous_liquid_turret_build_sense_object.super_sense_object_value",
+        "continuous_liquid_turret_build_sense_object.current_ammo_type_case",
+        "continuous_liquid_turret_build_sense_object.sense_object_value"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_sense_object_bridge_state",
+        "test_continuous_liquid_turret_build_sense_object_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

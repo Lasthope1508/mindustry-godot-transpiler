@@ -28661,6 +28661,52 @@
         "test_continuous_liquid_turret_build_update_tile_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_update_tile_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_continuous_liquid_turret_build_sense_object_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "sensor",
+          "schema": "source_continuous_liquid_turret_build_sense_object_input.sensor",
+          "type": "String"
+        },
+        {
+          "name": "current_liquid",
+          "schema": "source_continuous_liquid_turret_build_sense_object_input.current_liquid",
+          "type": "Variant"
+        },
+        {
+          "name": "super_sense_object_value",
+          "schema": "source_continuous_liquid_turret_build_sense_object_input.super_sense_object_value",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "field",
+        "method",
+        "override_expr",
+        "switch_return_expr",
+        "current_ammo_type_case",
+        "default_case",
+        "sensor",
+        "current_liquid",
+        "super_sense_object_value",
+        "sense_object_value"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurretBuild.senseObject state.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_sense_object_state",
+      "source_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+      "source_slice": "N1223",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_sense_object_bridge_state",
+        "test_continuous_liquid_turret_build_sense_object_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
