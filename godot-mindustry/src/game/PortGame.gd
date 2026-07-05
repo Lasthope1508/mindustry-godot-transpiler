@@ -17201,6 +17201,37 @@ func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_
 			and result.get("update_clip_radius_called", null) == canonical.get("update_clip_radius_called", null),
 	}
 
+func source_tractor_beam_turret_build_should_consume_state(super_should_consume: bool, target: Variant) -> Dictionary:
+	var target_present: bool = target != null
+	var should_consume: bool = super_should_consume and target_present
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
+		"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+		"field": "public @Nullable Unit target;",
+		"method": "public boolean shouldConsume(){",
+		"override_expr": "@Override",
+		"return_expr": "return super.shouldConsume() && target != null;",
+		"super_should_consume": super_should_consume,
+		"target": target,
+		"target_present": target_present,
+		"should_consume": should_consume,
+	}
+
+func generated_tractor_beam_turret_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_shouldConsume_1([super_should_consume, target])
+	var canonical = source_tractor_beam_turret_build_should_consume_state(super_should_consume, target)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.shouldConsume",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("should_consume", null) == canonical.get("should_consume", null) and result.get("target_present", null) == canonical.get("target_present", null)
+			and result.get("super_should_consume", null) == canonical.get("super_should_consume", null)
+			and result.get("target", null) == canonical.get("target", null),
+	}
+
 func source_turret_get_regions_to_outline_state(out: Variant) -> Dictionary:
 	var drawer_get_regions_to_outline_call: Dictionary = {"call": "drawer.getRegionsToOutline(this, out);", "out": out}
 	return {

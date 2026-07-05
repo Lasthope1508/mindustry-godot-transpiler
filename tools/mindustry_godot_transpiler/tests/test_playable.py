@@ -13190,6 +13190,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "TractorBeamTurret.java_method_init_2"', source)
         self.assertIn('"matches": result.get("clip_radius", null) == canonical.get("clip_radius", null) and result.get("update_clip_radius_call", null) == canonical.get("update_clip_radius_call", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_build_should_consume_state(super_should_consume: bool, target: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state"', source)
+        self.assertIn('"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{"', source)
+        self.assertIn('"field": "public @Nullable Unit target;"', source)
+        self.assertIn('"method": "public boolean shouldConsume(){"', source)
+        self.assertIn('"return_expr": "return super.shouldConsume() && target != null;"', source)
+        self.assertIn("var target_present: bool = target != null", source)
+        self.assertIn("var should_consume: bool = super_should_consume and target_present", source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_build_should_consume_bridge_state(super_should_consume: bool, target: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_shouldConsume_1([super_should_consume, target])", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_should_consume_state(super_should_consume, target)", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.shouldConsume"', source)
+        self.assertIn('"matches": result.get("should_consume", null) == canonical.get("should_consume", null) and result.get("target_present", null) == canonical.get("target_present", null)', source)
+
     def test_port_game_exposes_source_turret_get_regions_to_outline_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

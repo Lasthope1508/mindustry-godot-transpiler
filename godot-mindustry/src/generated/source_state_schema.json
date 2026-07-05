@@ -106200,6 +106200,80 @@
       "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_init_state.",
       "source_slice": "N1234",
       "status": "source-backed"
+    },
+    "source_tractor_beam_turret_build_should_consume_input": {
+      "keys": {
+        "super_should_consume": {
+          "godot_symbol": "source_tractor_beam_turret_build_should_consume_input.super_should_consume",
+          "java_expr": "super.shouldConsume()",
+          "java_method": "TractorBeamBuild.shouldConsume()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies superclass shouldConsume result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_should_consume_state"
+          ]
+        },
+        "target": {
+          "godot_symbol": "source_tractor_beam_turret_build_should_consume_input.target",
+          "java_expr": "target",
+          "java_method": "TractorBeamBuild.shouldConsume()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies TractorBeamBuild target field.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_should_consume_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_should_consume_state.",
+      "source_slice": "N1235",
+      "status": "source-backed"
+    },
+    "source_tractor_beam_turret_build_should_consume_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_tractor_beam_turret_build_should_consume_result.method",
+          "java_expr": "public boolean shouldConsume(){",
+          "java_method": "TractorBeamBuild.shouldConsume()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_should_consume_state"
+          ]
+        },
+        "target_present": {
+          "godot_symbol": "source_tractor_beam_turret_build_should_consume_result.target_present",
+          "java_expr": "target != null",
+          "java_method": "TractorBeamBuild.shouldConsume()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Target null check result.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_should_consume_state"
+          ]
+        },
+        "should_consume": {
+          "godot_symbol": "source_tractor_beam_turret_build_should_consume_result.should_consume",
+          "java_expr": "super.shouldConsume() && target != null",
+          "java_method": "TractorBeamBuild.shouldConsume()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Resulting shouldConsume boolean.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_build_should_consume_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_should_consume_state.",
+      "source_slice": "N1235",
+      "status": "source-backed"
     }
   },
   "version": 1

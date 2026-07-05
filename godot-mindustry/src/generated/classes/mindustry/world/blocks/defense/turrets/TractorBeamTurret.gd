@@ -38,3 +38,10 @@ func java_method_init_2(_args: Array = []) -> Variant:
 	var clip_radius: float = range_value + source_tilesize
 	var update_clip_radius_call: Dictionary = {"call": "updateClipRadius(range + tilesize);", "radius": clip_radius}
 	return {"source_owner": "PortGame.source_tractor_beam_turret_init_state", "method": "public void init(){", "override_expr": "@Override", "super_init_expr": "super.init();", "update_clip_radius_expr": "updateClipRadius(range + tilesize);", "range": range_value, "tilesize": source_tilesize, "clip_radius": clip_radius, "super_init_called": true, "update_clip_radius_called": true, "update_clip_radius_call": update_clip_radius_call}
+
+func java_inner_class_TractorBeamBuild_method_shouldConsume_1(_args: Array = []) -> Variant:
+	var super_should_consume: bool = bool(_args[0] if _args.size() > 0 else false)
+	var target: Variant = _args[1] if _args.size() > 1 else null
+	var target_present: bool = target != null
+	var should_consume: bool = super_should_consume and target_present
+	return {"source_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state", "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{", "field": "public @Nullable Unit target;", "method": "public boolean shouldConsume(){", "override_expr": "@Override", "return_expr": "return super.shouldConsume() && target != null;", "super_should_consume": super_should_consume, "target": target, "target_present": target_present, "should_consume": should_consume}

@@ -3485,6 +3485,24 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_accept_liquid_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean acceptLiquid(Building source, Liquid liquid){\", \"override_expr\": \"@Override\", \"return_expr\": \"return ammoTypes.get(liquid) != null && (liquids.current() == liquid || ((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));\", \"source_building\": source_building, \"liquid\": liquid, \"ammo_type\": ammo_type, \"current_liquid\": current_liquid, \"current_liquid_ammo_type_present\": current_liquid_ammo_type_present, \"current_liquid_amount\": current_liquid_amount, \"current_ammo_multiplier\": current_ammo_multiplier, \"liquid_has_ammo_type\": liquid_has_ammo_type, \"same_liquid\": same_liquid, \"current_liquid_missing_ammo_type\": current_liquid_missing_ammo_type, \"current_required_with_epsilon\": current_required_with_epsilon, \"current_liquid_drained\": current_liquid_drained, \"replacement_allowed\": replacement_allowed, \"accept_liquid\": accept_liquid}",
                     ])
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
+        and type_entry.get("name") == "TractorBeamTurret"
+    ):
+        for inner_class in type_entry.get("inner_classes", []):
+            if inner_class.get("name") != "TractorBeamBuild":
+                continue
+            for index, method in enumerate(inner_class.get("methods", [])):
+                if method.get("name") == "shouldConsume":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_TractorBeamBuild_method_shouldConsume_{index}(_args: Array = []) -> Variant:",
+                        "\tvar super_should_consume: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar target: Variant = _args[1] if _args.size() > 1 else null",
+                        "\tvar target_present: bool = target != null",
+                        "\tvar should_consume: bool = super_should_consume and target_present",
+                        "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_should_consume_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"field\": \"public @Nullable Unit target;\", \"method\": \"public boolean shouldConsume(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return super.shouldConsume() && target != null;\", \"super_should_consume\": super_should_consume, \"target\": target, \"target_present\": target_present, \"should_consume\": should_consume}",
+                    ])
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"
     ):

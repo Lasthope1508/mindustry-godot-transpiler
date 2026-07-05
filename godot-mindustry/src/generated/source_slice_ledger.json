@@ -28218,6 +28218,40 @@
         "test_tractor_beam_turret_init_matches_upstream_source",
         "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1235": {
+      "deferred_exprs": [
+        "BaseTurretBuild.super.shouldConsume() internals",
+        "target acquisition lifecycle outside shouldConsume"
+      ],
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "public @Nullable Unit target;",
+        "@Override",
+        "public boolean shouldConsume(){",
+        "return super.shouldConsume() && target != null;"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.shouldConsume()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.shouldConsume returns super.shouldConsume() && target != null.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_should_consume_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_should_consume.method",
+        "tractor_beam_turret_build_should_consume.super_should_consume",
+        "tractor_beam_turret_build_should_consume.target",
+        "tractor_beam_turret_build_should_consume.target_present",
+        "tractor_beam_turret_build_should_consume.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state",
+        "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

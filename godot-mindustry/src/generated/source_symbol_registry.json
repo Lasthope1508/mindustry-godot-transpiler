@@ -90285,6 +90285,91 @@
         "test_tractor_beam_turret_init_matches_upstream_source",
         "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
       ]
+    },
+    "tractor_beam_turret_build_should_consume.method": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
+      "godot_symbol": "source_tractor_beam_turret_build_should_consume_result.method",
+      "java_expr": "public boolean shouldConsume(){",
+      "java_method": "TractorBeamBuild.shouldConsume()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Method boundary for TractorBeamBuild.shouldConsume.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_should_consume_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state",
+        "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_should_consume.super_should_consume": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
+      "godot_symbol": "source_tractor_beam_turret_build_should_consume_input.super_should_consume",
+      "java_expr": "super.shouldConsume()",
+      "java_method": "TractorBeamBuild.shouldConsume()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies superclass shouldConsume result.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_should_consume_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state",
+        "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_should_consume.target": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
+      "godot_symbol": "source_tractor_beam_turret_build_should_consume_input.target",
+      "java_expr": "target",
+      "java_method": "TractorBeamBuild.shouldConsume()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies TractorBeamBuild target field.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_should_consume_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state",
+        "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_should_consume.target_present": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
+      "godot_symbol": "source_tractor_beam_turret_build_should_consume_result.target_present",
+      "java_expr": "target != null",
+      "java_method": "TractorBeamBuild.shouldConsume()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Null check for TractorBeamBuild target field.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_should_consume_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state",
+        "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_build_should_consume.return_expr": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
+      "godot_symbol": "source_tractor_beam_turret_build_should_consume_result.should_consume",
+      "java_expr": "return super.shouldConsume() && target != null;",
+      "java_method": "TractorBeamBuild.shouldConsume()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Return value for TractorBeamBuild.shouldConsume.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_should_consume_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state",
+        "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

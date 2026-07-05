@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 708)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 703)
+        self.assertEqual(audit["totalSourceFunctions"], 709)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 704)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 708)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 709)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42753,6 +42753,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_init_result")
         self.assertEqual(result_schema["keys"]["clip_radius"]["java_expr"], "range + tilesize")
         self.assertEqual(result_schema["keys"]["update_clip_radius_called"]["java_expr"], "updateClipRadius(range + tilesize);")
+
+    def test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_should_consume.method")
+        self.assertEqual(method["java_expr"], "public boolean shouldConsume(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.shouldConsume()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_should_consume_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_should_consume_state")
+
+        super_should_consume = source_symbols.source_symbol(registry, "tractor_beam_turret_build_should_consume.super_should_consume")
+        self.assertEqual(super_should_consume["java_expr"], "super.shouldConsume()")
+        self.assertEqual(super_should_consume["godot_symbol"], "source_tractor_beam_turret_build_should_consume_input.super_should_consume")
+        target = source_symbols.source_symbol(registry, "tractor_beam_turret_build_should_consume.target")
+        self.assertEqual(target["java_expr"], "target")
+        self.assertEqual(target["godot_symbol"], "source_tractor_beam_turret_build_should_consume_input.target")
+        target_present = source_symbols.source_symbol(registry, "tractor_beam_turret_build_should_consume.target_present")
+        self.assertEqual(target_present["java_expr"], "target != null")
+        self.assertEqual(target_present["godot_symbol"], "source_tractor_beam_turret_build_should_consume_result.target_present")
+        return_expr = source_symbols.source_symbol(registry, "tractor_beam_turret_build_should_consume.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return super.shouldConsume() && target != null;")
+        self.assertEqual(return_expr["godot_symbol"], "source_tractor_beam_turret_build_should_consume_result.should_consume")
+
+        should_consume_slice = source_symbols.source_slice(ledger, "N1235")
+        self.assertEqual(should_consume_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(should_consume_slice["java_method"], "TractorBeamBuild.shouldConsume()")
+        self.assertEqual(should_consume_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_should_consume_state")
+        self.assertEqual(should_consume_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_should_consume_bridge_state")
+        for expr in [
+            "public class TractorBeamBuild extends BaseTurretBuild{",
+            "public @Nullable Unit target;",
+            "@Override",
+            "public boolean shouldConsume(){",
+            "return super.shouldConsume() && target != null;",
+        ]:
+            self.assertIn(expr, should_consume_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_should_consume_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["super_should_consume", "target"])
+        for key in ["source_owner", "inner_class", "field", "method", "override_expr", "return_expr", "super_should_consume", "target", "target_present", "should_consume"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_should_consume_input")
+        self.assertEqual(input_schema["keys"]["super_should_consume"]["java_expr"], "super.shouldConsume()")
+        self.assertEqual(input_schema["keys"]["target"]["java_expr"], "target")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_should_consume_result")
+        self.assertEqual(result_schema["keys"]["target_present"]["java_expr"], "target != null")
+        self.assertEqual(result_schema["keys"]["should_consume"]["java_expr"], "super.shouldConsume() && target != null")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

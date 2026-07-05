@@ -29191,6 +29191,45 @@
         "test_tractor_beam_turret_init_matches_upstream_source",
         "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_tractor_beam_turret_build_should_consume_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "params": [
+        {
+          "name": "super_should_consume",
+          "schema": "source_tractor_beam_turret_build_should_consume_input.super_should_consume",
+          "type": "bool"
+        },
+        {
+          "name": "target",
+          "schema": "source_tractor_beam_turret_build_should_consume_input.target",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "field",
+        "method",
+        "override_expr",
+        "return_expr",
+        "super_should_consume",
+        "target",
+        "target_present",
+        "should_consume"
+      ],
+      "rule": "Public runtime contract for TractorBeamBuild.shouldConsume state.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_should_consume_state",
+      "source_method": "TractorBeamBuild.shouldConsume()",
+      "source_slice": "N1235",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state",
+        "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
