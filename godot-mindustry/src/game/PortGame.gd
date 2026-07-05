@@ -18612,6 +18612,35 @@ func generated_continuous_liquid_turret_build_get_ammo_content_bridge_state(liqu
 			and result.get("current_liquid", null) == canonical.get("current_liquid", null),
 	}
 
+func source_continuous_liquid_turret_build_get_ammo_fraction_state(current_amount: float, liquid_capacity: float) -> Dictionary:
+	var ammo_fraction: float = current_amount / liquid_capacity
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state",
+		"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+		"field": "boolean activated;",
+		"method": "public float getAmmoFraction(){",
+		"override_expr": "@Override",
+		"return_expr": "return liquids.currentAmount() / liquidCapacity;",
+		"current_amount": current_amount,
+		"liquid_capacity": liquid_capacity,
+		"ammo_fraction": ammo_fraction,
+	}
+
+func generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoFraction_2([current_amount, liquid_capacity])
+	var canonical = source_continuous_liquid_turret_build_get_ammo_fraction_state(current_amount, liquid_capacity)
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state",
+		"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.getAmmoFraction",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)
+			and result.get("current_amount", null) == canonical.get("current_amount", null)
+			and result.get("liquid_capacity", null) == canonical.get("liquid_capacity", null),
+	}
+
 func source_liquid_turret_build_should_active_sound_state(was_shooting: bool, enabled: bool) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",

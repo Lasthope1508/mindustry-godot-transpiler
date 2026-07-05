@@ -14240,6 +14240,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.getAmmoContent"', source)
         self.assertIn('"matches": result.get("ammo_content", null) == canonical.get("ammo_content", null)', source)
 
+    def test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_fraction_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_continuous_liquid_turret_build_get_ammo_fraction_state(current_amount: float, liquid_capacity: float) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source)
+        self.assertIn('"method": "public float getAmmoFraction(){"', source)
+        self.assertIn('"return_expr": "return liquids.currentAmount() / liquidCapacity;"', source)
+        self.assertIn('"current_amount": current_amount', source)
+        self.assertIn('"liquid_capacity": liquid_capacity', source)
+        self.assertIn('"ammo_fraction": ammo_fraction', source)
+
+    def test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state(current_amount: float, liquid_capacity: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoFraction_2([current_amount, liquid_capacity])", source)
+        self.assertIn("var canonical = source_continuous_liquid_turret_build_get_ammo_fraction_state(current_amount, liquid_capacity)", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state"', source)
+        self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.getAmmoFraction"', source)
+        self.assertIn('"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)', source)
+
     def test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

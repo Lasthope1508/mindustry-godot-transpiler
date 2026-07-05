@@ -28573,6 +28573,43 @@
         "test_continuous_liquid_turret_build_get_ammo_content_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "current_amount",
+          "schema": "source_continuous_liquid_turret_build_get_ammo_fraction_input.current_amount",
+          "type": "float"
+        },
+        {
+          "name": "liquid_capacity",
+          "schema": "source_continuous_liquid_turret_build_get_ammo_fraction_input.liquid_capacity",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "return_expr",
+        "current_amount",
+        "liquid_capacity",
+        "ammo_fraction"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurretBuild.getAmmoFraction state.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_get_ammo_fraction_state",
+      "source_method": "ContinuousLiquidTurretBuild.getAmmoFraction()",
+      "source_slice": "N1221",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state",
+        "test_continuous_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

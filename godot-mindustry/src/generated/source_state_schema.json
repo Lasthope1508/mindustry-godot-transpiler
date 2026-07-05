@@ -104790,6 +104790,68 @@
       "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_get_ammo_content_state.",
       "source_slice": "N1220",
       "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_build_get_ammo_fraction_input": {
+      "keys": {
+        "current_amount": {
+          "godot_symbol": "source_continuous_liquid_turret_build_get_ammo_fraction_input.current_amount",
+          "java_expr": "liquids.currentAmount()",
+          "java_method": "ContinuousLiquidTurretBuild.getAmmoFraction()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies current liquid amount.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state"
+          ]
+        },
+        "liquid_capacity": {
+          "godot_symbol": "source_continuous_liquid_turret_build_get_ammo_fraction_input.liquid_capacity",
+          "java_expr": "liquidCapacity",
+          "java_method": "ContinuousLiquidTurretBuild.getAmmoFraction()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Input supplies LiquidTurret liquidCapacity.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state.",
+      "source_slice": "N1221",
+      "status": "source-backed"
+    },
+    "source_continuous_liquid_turret_build_get_ammo_fraction_result": {
+      "keys": {
+        "ammo_fraction": {
+          "godot_symbol": "source_continuous_liquid_turret_build_get_ammo_fraction_result.ammo_fraction",
+          "java_expr": "liquids.currentAmount() / liquidCapacity",
+          "java_method": "ContinuousLiquidTurretBuild.getAmmoFraction()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Result of source division return.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_continuous_liquid_turret_build_get_ammo_fraction_result.method",
+          "java_expr": "public float getAmmoFraction(){",
+          "java_method": "ContinuousLiquidTurretBuild.getAmmoFraction()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+          "rule": "Method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state.",
+      "source_slice": "N1221",
+      "status": "source-backed"
     }
   },
   "version": 1

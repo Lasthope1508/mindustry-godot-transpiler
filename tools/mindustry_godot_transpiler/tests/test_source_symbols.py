@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 689)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 690)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 694)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 695)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45103,6 +45103,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["current_amount"]["java_expr"], "liquids.currentAmount()")
         result_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_build_get_ammo_content_result")
         self.assertEqual(result_schema["keys"]["ammo_content"]["java_expr"], "liquids.current()")
+
+    def test_generated_continuous_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_get_ammo_fraction.method")
+        self.assertEqual(method["java_expr"], "public float getAmmoFraction(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(method["java_method"], "ContinuousLiquidTurretBuild.getAmmoFraction()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_continuous_liquid_turret_build_get_ammo_fraction_state")
+
+        current_amount = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_get_ammo_fraction.current_amount")
+        self.assertEqual(current_amount["java_expr"], "liquids.currentAmount()")
+        self.assertEqual(current_amount["godot_symbol"], "source_continuous_liquid_turret_build_get_ammo_fraction_input.current_amount")
+        liquid_capacity = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_get_ammo_fraction.liquid_capacity")
+        self.assertEqual(liquid_capacity["java_expr"], "liquidCapacity")
+        self.assertEqual(liquid_capacity["godot_symbol"], "source_continuous_liquid_turret_build_get_ammo_fraction_input.liquid_capacity")
+        return_expr = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_get_ammo_fraction.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return liquids.currentAmount() / liquidCapacity;")
+        self.assertEqual(return_expr["godot_symbol"], "source_continuous_liquid_turret_build_get_ammo_fraction_result.ammo_fraction")
+
+        get_ammo_fraction_slice = source_symbols.source_slice(ledger, "N1221")
+        self.assertEqual(get_ammo_fraction_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(get_ammo_fraction_slice["java_method"], "ContinuousLiquidTurretBuild.getAmmoFraction()")
+        self.assertEqual(get_ammo_fraction_slice["godot_owner"], "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state")
+        self.assertEqual(get_ammo_fraction_slice["runtime_proof"], "/root/Main.generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state")
+        for expr in [
+            "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+            "boolean activated;",
+            "@Override",
+            "public float getAmmoFraction(){",
+            "return liquids.currentAmount() / liquidCapacity;",
+        ]:
+            self.assertIn(expr, get_ammo_fraction_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["current_amount", "liquid_capacity"])
+        for key in ["inner_class", "method", "override_expr", "return_expr", "current_amount", "liquid_capacity", "ammo_fraction"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_build_get_ammo_fraction_input")
+        self.assertEqual(input_schema["keys"]["current_amount"]["java_expr"], "liquids.currentAmount()")
+        self.assertEqual(input_schema["keys"]["liquid_capacity"]["java_expr"], "liquidCapacity")
+        result_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_build_get_ammo_fraction_result")
+        self.assertEqual(result_schema["keys"]["ammo_fraction"]["java_expr"], "liquids.currentAmount() / liquidCapacity")
 
     def test_generated_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

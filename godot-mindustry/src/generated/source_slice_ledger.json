@@ -27738,6 +27738,39 @@
         "test_continuous_liquid_turret_build_get_ammo_content_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1221": {
+      "deferred_exprs": [
+        "Liquid module internals",
+        "liquidCapacity runtime owner"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public float getAmmoFraction(){",
+        "return liquids.currentAmount() / liquidCapacity;"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.getAmmoFraction()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.getAmmoFraction returns liquids.currentAmount() divided by liquidCapacity.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_get_ammo_fraction.method",
+        "continuous_liquid_turret_build_get_ammo_fraction.current_amount",
+        "continuous_liquid_turret_build_get_ammo_fraction.liquid_capacity",
+        "continuous_liquid_turret_build_get_ammo_fraction.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state",
+        "test_continuous_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
