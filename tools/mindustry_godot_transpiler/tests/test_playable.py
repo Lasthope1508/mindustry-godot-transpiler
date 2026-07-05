@@ -13113,6 +13113,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Turret.java_method_icons_6"', source)
         self.assertIn('"matches": result.get("drawer_final_icons_called", null) == canonical.get("drawer_final_icons_called", null) and result.get("icons", null) == canonical.get("icons", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_icons_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_icons_state(base_region: Variant, region: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_icons_state"', source)
+        self.assertIn('"method": "public TextureRegion[] icons(){"', source)
+        self.assertIn('"return_expr": "return new TextureRegion[]{baseRegion, region};"', source)
+        self.assertIn("var icons: Array = [base_region, region]", source)
+        self.assertIn('"base_region": base_region', source)
+        self.assertIn('"region": region', source)
+        self.assertIn('"icons": icons', source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_icons_0([base_region, region])", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_icons_state(base_region, region)", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_icons_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.java_method_icons_0"', source)
+        self.assertIn('"matches": result.get("icons", null) == canonical.get("icons", null)', source)
+
     def test_port_game_exposes_source_turret_get_regions_to_outline_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

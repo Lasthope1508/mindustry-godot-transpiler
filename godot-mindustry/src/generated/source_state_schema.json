@@ -105808,6 +105808,130 @@
       "rule": "Dictionary returned by PortGame.source_continuous_liquid_turret_build_accept_liquid_state.",
       "source_slice": "N1231",
       "status": "source-backed"
+    },
+    "source_tractor_beam_turret_icons_input": {
+      "keys": {
+        "base_region": {
+          "godot_symbol": "source_tractor_beam_turret_icons_input.base_region",
+          "java_expr": "baseRegion",
+          "java_method": "TractorBeamTurret.icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies baseRegion field.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_icons_state"
+          ]
+        },
+        "region": {
+          "godot_symbol": "source_tractor_beam_turret_icons_input.region",
+          "java_expr": "region",
+          "java_method": "TractorBeamTurret.icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Input supplies inherited region field.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_icons_state"
+          ]
+        }
+      },
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_icons_state.",
+      "source_slice": "N1232",
+      "status": "source-backed"
+    },
+    "source_tractor_beam_turret_icons_result": {
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_tractor_beam_turret_icons_result.source_owner",
+          "java_expr": "PortGame.source_tractor_beam_turret_icons_state",
+          "java_method": "TractorBeamTurret.icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result owner for TractorBeamTurret icons state.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_icons_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_tractor_beam_turret_icons_result.method",
+          "java_expr": "public TextureRegion[] icons(){",
+          "java_method": "TractorBeamTurret.icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result preserves Java method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_icons_state"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_tractor_beam_turret_icons_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "TractorBeamTurret.icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result preserves override annotation.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_icons_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_tractor_beam_turret_icons_result.return_expr",
+          "java_expr": "return new TextureRegion[]{baseRegion, region};",
+          "java_method": "TractorBeamTurret.icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result preserves return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_icons_state"
+          ]
+        },
+        "base_region": {
+          "alias_of": "source_tractor_beam_turret_icons_input.base_region",
+          "godot_symbol": "source_tractor_beam_turret_icons_result.base_region",
+          "java_expr": "baseRegion",
+          "java_method": "TractorBeamTurret.icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result echoes baseRegion field.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_icons_state"
+          ]
+        },
+        "region": {
+          "alias_of": "source_tractor_beam_turret_icons_input.region",
+          "godot_symbol": "source_tractor_beam_turret_icons_result.region",
+          "java_expr": "region",
+          "java_method": "TractorBeamTurret.icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result echoes region field.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_icons_state"
+          ]
+        },
+        "icons": {
+          "godot_symbol": "source_tractor_beam_turret_icons_result.icons",
+          "java_expr": "new TextureRegion[]{baseRegion, region}",
+          "java_method": "TractorBeamTurret.icons()",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "rule": "Result preserves two-entry icons array order.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_tractor_beam_turret_icons_state"
+          ]
+        }
+      },
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_icons_state.",
+      "source_slice": "N1232",
+      "status": "source-backed"
     }
   },
   "version": 1

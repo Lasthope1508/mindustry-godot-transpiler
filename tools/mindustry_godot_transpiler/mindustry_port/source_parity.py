@@ -33,6 +33,7 @@ RELOAD_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ReloadTu
 POWER_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/PowerTurret.java"
 ITEM_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java"
 LIQUID_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/LiquidTurret.java"
+TRACTOR_BEAM_TURRET_SOURCE = "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
 UNIT_TYPES_CONTENT_SOURCE = "core/src/mindustry/content/UnitTypes.java"
 TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 GAME_STATE_SOURCE = "core/src/mindustry/core/GameState.java"
@@ -566,6 +567,22 @@ def verify_turret_icons_source(upstream_root: Path) -> dict[str, Any]:
     missing = [snippet for snippet in checked.values() if snippet not in source]
     return {
         "source": TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_tractor_beam_turret_icons_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "base_region_field": "public @Load(value = \"@-base\", fallback = \"block-@size\") TextureRegion baseRegion;",
+        "override": "@Override",
+        "method": "public TextureRegion[] icons(){",
+        "return_expr": "return new TextureRegion[]{baseRegion, region};",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
         "checked": checked,
         "missing": missing,
     }

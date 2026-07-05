@@ -29065,6 +29065,42 @@
         "test_continuous_liquid_turret_build_accept_liquid_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_tractor_beam_turret_icons_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "params": [
+        {
+          "name": "base_region",
+          "schema": "source_tractor_beam_turret_icons_input.base_region",
+          "type": "Variant"
+        },
+        {
+          "name": "region",
+          "schema": "source_tractor_beam_turret_icons_input.region",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "return_expr",
+        "base_region",
+        "region",
+        "icons"
+      ],
+      "rule": "Public runtime contract for TractorBeamTurret.icons state.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_icons_state",
+      "source_method": "TractorBeamTurret.icons()",
+      "source_slice": "N1232",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_icons_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_icons_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state",
+        "test_tractor_beam_turret_icons_matches_upstream_source",
+        "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

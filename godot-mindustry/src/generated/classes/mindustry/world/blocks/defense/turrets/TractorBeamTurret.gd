@@ -14,7 +14,10 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "icons", "parameters": 
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_icons_0(_args: Array = []) -> Variant:
-	return null
+	var base_region: Variant = _args[0] if _args.size() > 0 else null
+	var region: Variant = _args[1] if _args.size() > 1 else null
+	var icons: Array = [base_region, region]
+	return {"source_owner": "PortGame.source_tractor_beam_turret_icons_state", "method": "public TextureRegion[] icons(){", "override_expr": "@Override", "return_expr": "return new TextureRegion[]{baseRegion, region};", "base_region": base_region, "region": region, "icons": icons}
 
 func java_method_setStats_1(_args: Array = []) -> Variant:
 	return null

@@ -7723,6 +7723,44 @@ public class Turret extends ReloadTurret{
             self.assertIn('"drawer_final_icons_expr": "return drawer.finalIcons(this);"', source_text)
             self.assertIn('"drawer_final_icons_called": true', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_icons_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public @Load(value = "@-base", fallback = "block-@size") TextureRegion baseRegion;
+
+    @Override
+    public TextureRegion[] icons(){
+        return new TextureRegion[]{baseRegion, region};
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_icons_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var base_region: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var region: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var icons: Array = [base_region, region]", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_tractor_beam_turret_icons_state"', source_text)
+            self.assertIn('"method": "public TextureRegion[] icons(){"', source_text)
+            self.assertIn('"return_expr": "return new TextureRegion[]{baseRegion, region};"', source_text)
+            self.assertIn('"base_region": base_region', source_text)
+            self.assertIn('"region": region', source_text)
+            self.assertIn('"icons": icons', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

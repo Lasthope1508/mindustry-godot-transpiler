@@ -28122,6 +28122,37 @@
         "test_continuous_liquid_turret_build_accept_liquid_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1232": {
+      "deferred_exprs": [
+        "TextureRegion internals and inherited region loading remain deferred; explicit inputs carry baseRegion and region field values."
+      ],
+      "exact_exprs": [
+        "public @Load(value = \"@-base\", fallback = \"block-@size\") TextureRegion baseRegion;",
+        "@Override",
+        "public TextureRegion[] icons(){",
+        "return new TextureRegion[]{baseRegion, region};"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_icons_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamTurret.icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamTurret.icons returns baseRegion then region exactly as upstream.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_icons_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_icons.method",
+        "tractor_beam_turret_icons.base_region",
+        "tractor_beam_turret_icons.region",
+        "tractor_beam_turret_icons.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_icons_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_icons_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state",
+        "test_tractor_beam_turret_icons_matches_upstream_source",
+        "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 705)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 700)
+        self.assertEqual(audit["totalSourceFunctions"], 706)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 701)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 705)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 706)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -42596,6 +42596,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(source_turret_icons_result["keys"]["method"]["java_expr"], "public TextureRegion[] icons(){")
         self.assertEqual(source_turret_icons_result["keys"]["drawer_final_icons_called"]["java_expr"], "return drawer.finalIcons(this);")
         self.assertEqual(source_turret_icons_result["keys"]["icons"]["java_expr"], "drawer.finalIcons(this)")
+
+    def test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_icons.method")
+        self.assertEqual(method["java_expr"], "public TextureRegion[] icons(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamTurret.icons()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_icons_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_icons_state")
+
+        base_region = source_symbols.source_symbol(registry, "tractor_beam_turret_icons.base_region")
+        self.assertEqual(base_region["java_expr"], "baseRegion")
+        self.assertEqual(base_region["godot_symbol"], "source_tractor_beam_turret_icons_input.base_region")
+        region = source_symbols.source_symbol(registry, "tractor_beam_turret_icons.region")
+        self.assertEqual(region["java_expr"], "region")
+        self.assertEqual(region["godot_symbol"], "source_tractor_beam_turret_icons_input.region")
+        return_expr = source_symbols.source_symbol(registry, "tractor_beam_turret_icons.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return new TextureRegion[]{baseRegion, region};")
+        self.assertEqual(return_expr["godot_symbol"], "source_tractor_beam_turret_icons_result.icons")
+
+        icons_slice = source_symbols.source_slice(ledger, "N1232")
+        self.assertEqual(icons_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(icons_slice["java_method"], "TractorBeamTurret.icons()")
+        self.assertEqual(icons_slice["godot_owner"], "PortGame.source_tractor_beam_turret_icons_state")
+        self.assertEqual(icons_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_icons_bridge_state")
+        for expr in [
+            "public @Load(value = \"@-base\", fallback = \"block-@size\") TextureRegion baseRegion;",
+            "@Override",
+            "public TextureRegion[] icons(){",
+            "return new TextureRegion[]{baseRegion, region};",
+        ]:
+            self.assertIn(expr, icons_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_icons_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["base_region", "region"])
+        for key in ["source_owner", "method", "override_expr", "return_expr", "base_region", "region", "icons"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_icons_input")
+        self.assertEqual(input_schema["keys"]["base_region"]["java_expr"], "baseRegion")
+        self.assertEqual(input_schema["keys"]["region"]["java_expr"], "region")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_icons_result")
+        self.assertEqual(result_schema["keys"]["icons"]["java_expr"], "new TextureRegion[]{baseRegion, region}")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

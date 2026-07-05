@@ -17098,6 +17098,33 @@ func generated_turret_icons_bridge_state() -> Dictionary:
 		"matches": result.get("drawer_final_icons_called", null) == canonical.get("drawer_final_icons_called", null) and result.get("icons", null) == canonical.get("icons", null),
 	}
 
+func source_tractor_beam_turret_icons_state(base_region: Variant, region: Variant) -> Dictionary:
+	var icons: Array = [base_region, region]
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_icons_state",
+		"method": "public TextureRegion[] icons(){",
+		"override_expr": "@Override",
+		"return_expr": "return new TextureRegion[]{baseRegion, region};",
+		"base_region": base_region,
+		"region": region,
+		"icons": icons,
+	}
+
+func generated_tractor_beam_turret_icons_bridge_state(base_region: Variant, region: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_icons_0([base_region, region])
+	var canonical = source_tractor_beam_turret_icons_state(base_region, region)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_icons_state",
+		"generated_owner": "TractorBeamTurret.java_method_icons_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("icons", null) == canonical.get("icons", null)
+			and result.get("base_region", null) == canonical.get("base_region", null)
+			and result.get("region", null) == canonical.get("region", null),
+	}
+
 func source_turret_get_regions_to_outline_state(out: Variant) -> Dictionary:
 	var drawer_get_regions_to_outline_call: Dictionary = {"call": "drawer.getRegionsToOutline(this, out);", "out": out}
 	return {

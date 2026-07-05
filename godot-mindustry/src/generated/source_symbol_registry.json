@@ -90064,6 +90064,74 @@
         "test_continuous_liquid_turret_build_accept_liquid_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
       ]
+    },
+    "tractor_beam_turret_icons.method": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_icons_state",
+      "godot_symbol": "source_tractor_beam_turret_icons_result.method",
+      "java_expr": "public TextureRegion[] icons(){",
+      "java_method": "TractorBeamTurret.icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Method boundary for TractorBeamTurret.icons.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_icons_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_icons_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_icons_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state",
+        "test_tractor_beam_turret_icons_matches_upstream_source",
+        "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_icons.base_region": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_icons_state",
+      "godot_symbol": "source_tractor_beam_turret_icons_input.base_region",
+      "java_expr": "baseRegion",
+      "java_method": "TractorBeamTurret.icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies baseRegion field returned by icons().",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_icons_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_icons_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_icons_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state",
+        "test_tractor_beam_turret_icons_matches_upstream_source",
+        "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_icons.region": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_icons_state",
+      "godot_symbol": "source_tractor_beam_turret_icons_input.region",
+      "java_expr": "region",
+      "java_method": "TractorBeamTurret.icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies inherited region field returned by icons().",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_icons_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_icons_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_icons_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state",
+        "test_tractor_beam_turret_icons_matches_upstream_source",
+        "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_icons.return_expr": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_icons_state",
+      "godot_symbol": "source_tractor_beam_turret_icons_result.icons",
+      "java_expr": "return new TextureRegion[]{baseRegion, region};",
+      "java_method": "TractorBeamTurret.icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Return expression for TractorBeamTurret icons array.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_icons_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_icons_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_icons_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state",
+        "test_tractor_beam_turret_icons_matches_upstream_source",
+        "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

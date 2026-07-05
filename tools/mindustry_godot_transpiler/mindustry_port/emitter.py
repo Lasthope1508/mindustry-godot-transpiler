@@ -1291,6 +1291,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_turret_icons_state\", \"method\": \"public TextureRegion[] icons(){\", \"override_expr\": \"@Override\", \"drawer_final_icons_expr\": \"return drawer.finalIcons(this);\", \"drawer_final_icons_called\": true, \"icons\": drawer_final_icons_return}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
+        and type_entry.get("name") == "TractorBeamTurret"
+        and method.get("name") == "icons"
+    ):
+        return [
+            "\tvar base_region: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar region: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar icons: Array = [base_region, region]",
+            "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_icons_state\", \"method\": \"public TextureRegion[] icons(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return new TextureRegion[]{baseRegion, region};\", \"base_region\": base_region, \"region\": region, \"icons\": icons}",
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
         and type_entry.get("name") == "Turret"
         and method.get("name") == "getRegionsToOutline"
