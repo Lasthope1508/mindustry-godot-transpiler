@@ -70,3 +70,15 @@ func java_inner_class_ContinuousLiquidTurretBuild_method_getAmmoFraction_2(_args
 	var liquid_capacity: float = float(_args[1] if _args.size() > 1 else 1.0)
 	var ammo_fraction: float = current_amount / liquid_capacity
 	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public float getAmmoFraction(){", "override_expr": "@Override", "return_expr": "return liquids.currentAmount() / liquidCapacity;", "current_amount": current_amount, "liquid_capacity": liquid_capacity, "ammo_fraction": ammo_fraction}
+
+func java_inner_class_ContinuousLiquidTurretBuild_method_updateTile_3(_args: Array = []) -> Variant:
+	var current_amount: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var liquid_consumed: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var activated_before: bool = bool(_args[2] if _args.size() > 2 else false)
+	var activate_threshold: float = liquid_consumed * 4.0
+	var activated_after: bool = activated_before
+	if current_amount >= activate_threshold:
+		activated_after = true
+	elif current_amount < liquid_consumed:
+		activated_after = false
+	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public void updateTile(){", "override_expr": "@Override", "super_update_tile_expr": "super.updateTile();", "super_update_tile_called": true, "comment": "//only allow the turret to begin firing when it can fire for 4 continuous updates", "activate_guard_expr": "if(liquids.currentAmount() >= liquidConsumed * 4f){", "activated_true_expr": "activated = true;", "deactivate_guard_expr": "}else if(liquids.currentAmount() < liquidConsumed){", "activated_false_expr": "activated = false;", "current_amount": current_amount, "liquid_consumed": liquid_consumed, "activated_before": activated_before, "activate_threshold": activate_threshold, "activated_after": activated_after}

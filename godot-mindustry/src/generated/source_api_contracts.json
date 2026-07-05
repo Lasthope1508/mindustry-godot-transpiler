@@ -28610,6 +28610,57 @@
         "test_continuous_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_continuous_liquid_turret_build_update_tile_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "params": [
+        {
+          "name": "current_amount",
+          "schema": "source_continuous_liquid_turret_build_update_tile_input.current_amount",
+          "type": "float"
+        },
+        {
+          "name": "liquid_consumed",
+          "schema": "source_continuous_liquid_turret_build_update_tile_input.liquid_consumed",
+          "type": "float"
+        },
+        {
+          "name": "activated_before",
+          "schema": "source_continuous_liquid_turret_build_update_tile_input.activated_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "field",
+        "method",
+        "override_expr",
+        "super_update_tile_expr",
+        "super_update_tile_called",
+        "comment",
+        "activate_guard_expr",
+        "activated_true_expr",
+        "deactivate_guard_expr",
+        "activated_false_expr",
+        "current_amount",
+        "liquid_consumed",
+        "activated_before",
+        "activate_threshold",
+        "activated_after"
+      ],
+      "rule": "Public runtime contract for ContinuousLiquidTurretBuild.updateTile state.",
+      "runtime_proof": "/root/Main.source_continuous_liquid_turret_build_update_tile_state",
+      "source_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "source_slice": "N1222",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_update_tile_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_update_tile_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_update_tile_bridge_state",
+        "test_continuous_liquid_turret_build_update_tile_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_update_tile_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

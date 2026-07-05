@@ -27771,6 +27771,46 @@
         "test_continuous_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
         "test_generated_continuous_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1222": {
+      "deferred_exprs": [
+        "ContinuousTurretBuild.super.updateTile() internals",
+        "Liquid module internals"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public void updateTile(){",
+        "super.updateTile();",
+        "//only allow the turret to begin firing when it can fire for 4 continuous updates",
+        "if(liquids.currentAmount() >= liquidConsumed * 4f){",
+        "activated = true;",
+        "}else if(liquids.currentAmount() < liquidConsumed){",
+        "activated = false;"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.updateTile calls super, activates at liquidConsumed * 4f, deactivates below liquidConsumed, and otherwise preserves activated.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_update_tile_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_update_tile.method",
+        "continuous_liquid_turret_build_update_tile.current_amount",
+        "continuous_liquid_turret_build_update_tile.liquid_consumed",
+        "continuous_liquid_turret_build_update_tile.activated",
+        "continuous_liquid_turret_build_update_tile.activate_guard",
+        "continuous_liquid_turret_build_update_tile.deactivate_guard"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_update_tile_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_update_tile_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_update_tile_bridge_state",
+        "test_continuous_liquid_turret_build_update_tile_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_update_tile_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

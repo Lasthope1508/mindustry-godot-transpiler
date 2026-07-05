@@ -3323,6 +3323,21 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar ammo_fraction: float = current_amount / liquid_capacity",
                         "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public float getAmmoFraction(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return liquids.currentAmount() / liquidCapacity;\", \"current_amount\": current_amount, \"liquid_capacity\": liquid_capacity, \"ammo_fraction\": ammo_fraction}",
                     ])
+                elif method.get("name") == "updateTile":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ContinuousLiquidTurretBuild_method_updateTile_{index}(_args: Array = []) -> Variant:",
+                        "\tvar current_amount: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                        "\tvar liquid_consumed: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                        "\tvar activated_before: bool = bool(_args[2] if _args.size() > 2 else false)",
+                        "\tvar activate_threshold: float = liquid_consumed * 4.0",
+                        "\tvar activated_after: bool = activated_before",
+                        "\tif current_amount >= activate_threshold:",
+                        "\t\tactivated_after = true",
+                        "\telif current_amount < liquid_consumed:",
+                        "\t\tactivated_after = false",
+                        "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_update_tile_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public void updateTile(){\", \"override_expr\": \"@Override\", \"super_update_tile_expr\": \"super.updateTile();\", \"super_update_tile_called\": true, \"comment\": \"//only allow the turret to begin firing when it can fire for 4 continuous updates\", \"activate_guard_expr\": \"if(liquids.currentAmount() >= liquidConsumed * 4f){\", \"activated_true_expr\": \"activated = true;\", \"deactivate_guard_expr\": \"}else if(liquids.currentAmount() < liquidConsumed){\", \"activated_false_expr\": \"activated = false;\", \"current_amount\": current_amount, \"liquid_consumed\": liquid_consumed, \"activated_before\": activated_before, \"activate_threshold\": activate_threshold, \"activated_after\": activated_after}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

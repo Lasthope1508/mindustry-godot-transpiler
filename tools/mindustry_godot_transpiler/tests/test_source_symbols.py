@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 690)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 691)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 695)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 696)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45153,6 +45153,67 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["liquid_capacity"]["java_expr"], "liquidCapacity")
         result_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_build_get_ammo_fraction_result")
         self.assertEqual(result_schema["keys"]["ammo_fraction"]["java_expr"], "liquids.currentAmount() / liquidCapacity")
+
+    def test_generated_continuous_liquid_turret_build_update_tile_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_update_tile.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(method["java_method"], "ContinuousLiquidTurretBuild.updateTile()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_continuous_liquid_turret_build_update_tile_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_continuous_liquid_turret_build_update_tile_state")
+
+        current_amount = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_update_tile.current_amount")
+        self.assertEqual(current_amount["java_expr"], "liquids.currentAmount()")
+        self.assertEqual(current_amount["godot_symbol"], "source_continuous_liquid_turret_build_update_tile_input.current_amount")
+        liquid_consumed = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_update_tile.liquid_consumed")
+        self.assertEqual(liquid_consumed["java_expr"], "liquidConsumed")
+        self.assertEqual(liquid_consumed["godot_symbol"], "source_continuous_liquid_turret_build_update_tile_input.liquid_consumed")
+        activated = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_update_tile.activated")
+        self.assertEqual(activated["java_expr"], "activated")
+        self.assertEqual(activated["godot_symbol"], "source_continuous_liquid_turret_build_update_tile_result.activated_after")
+        activate_guard = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_update_tile.activate_guard")
+        self.assertEqual(activate_guard["java_expr"], "if(liquids.currentAmount() >= liquidConsumed * 4f){")
+        deactivate_guard = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_update_tile.deactivate_guard")
+        self.assertEqual(deactivate_guard["java_expr"], "}else if(liquids.currentAmount() < liquidConsumed){")
+
+        update_tile_slice = source_symbols.source_slice(ledger, "N1222")
+        self.assertEqual(update_tile_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(update_tile_slice["java_method"], "ContinuousLiquidTurretBuild.updateTile()")
+        self.assertEqual(update_tile_slice["godot_owner"], "PortGame.source_continuous_liquid_turret_build_update_tile_state")
+        self.assertEqual(update_tile_slice["runtime_proof"], "/root/Main.generated_continuous_liquid_turret_build_update_tile_bridge_state")
+        for expr in [
+            "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+            "boolean activated;",
+            "@Override",
+            "public void updateTile(){",
+            "super.updateTile();",
+            "//only allow the turret to begin firing when it can fire for 4 continuous updates",
+            "if(liquids.currentAmount() >= liquidConsumed * 4f){",
+            "activated = true;",
+            "}else if(liquids.currentAmount() < liquidConsumed){",
+            "activated = false;",
+        ]:
+            self.assertIn(expr, update_tile_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_continuous_liquid_turret_build_update_tile_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["current_amount", "liquid_consumed", "activated_before"])
+        for key in ["inner_class", "method", "super_update_tile_called", "comment", "current_amount", "liquid_consumed", "activated_before", "activate_threshold", "activated_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_build_update_tile_input")
+        self.assertEqual(input_schema["keys"]["current_amount"]["java_expr"], "liquids.currentAmount()")
+        self.assertEqual(input_schema["keys"]["liquid_consumed"]["java_expr"], "liquidConsumed")
+        self.assertEqual(input_schema["keys"]["activated_before"]["java_expr"], "activated")
+        result_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_build_update_tile_result")
+        self.assertEqual(result_schema["keys"]["activated_after"]["java_expr"], "activated = true/false or preserved")
+        self.assertEqual(result_schema["keys"]["activate_threshold"]["java_expr"], "liquidConsumed * 4f")
 
     def test_generated_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

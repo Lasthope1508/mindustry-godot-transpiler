@@ -14264,6 +14264,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.getAmmoFraction"', source)
         self.assertIn('"matches": result.get("ammo_fraction", null) == canonical.get("ammo_fraction", null)', source)
 
+    def test_port_game_exposes_source_continuous_liquid_turret_build_update_tile_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_continuous_liquid_turret_build_update_tile_state(current_amount: float, liquid_consumed: float, activated_before: bool) -> Dictionary:", source)
+        self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source)
+        self.assertIn('"method": "public void updateTile(){"', source)
+        self.assertIn('"comment": "//only allow the turret to begin firing when it can fire for 4 continuous updates"', source)
+        self.assertIn('"activate_guard_expr": "if(liquids.currentAmount() >= liquidConsumed * 4f){"', source)
+        self.assertIn('"deactivate_guard_expr": "}else if(liquids.currentAmount() < liquidConsumed){"', source)
+        self.assertIn('"activated_after": activated_after', source)
+
+    def test_port_game_exposes_generated_continuous_liquid_turret_build_update_tile_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_continuous_liquid_turret_build_update_tile_bridge_state(current_amount: float, liquid_consumed: float, activated_before: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_updateTile_3([current_amount, liquid_consumed, activated_before])", source)
+        self.assertIn("var canonical = source_continuous_liquid_turret_build_update_tile_state(current_amount, liquid_consumed, activated_before)", source)
+        self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state"', source)
+        self.assertIn('"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.updateTile"', source)
+        self.assertIn('"matches": result.get("activated_after", null) == canonical.get("activated_after", null)', source)
+
     def test_port_game_exposes_source_liquid_turret_build_get_ammo_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

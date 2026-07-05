@@ -18641,6 +18641,50 @@ func generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state(cur
 			and result.get("liquid_capacity", null) == canonical.get("liquid_capacity", null),
 	}
 
+func source_continuous_liquid_turret_build_update_tile_state(current_amount: float, liquid_consumed: float, activated_before: bool) -> Dictionary:
+	var activate_threshold: float = liquid_consumed * 4.0
+	var activated_after: bool = activated_before
+	if current_amount >= activate_threshold:
+		activated_after = true
+	elif current_amount < liquid_consumed:
+		activated_after = false
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state",
+		"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+		"field": "boolean activated;",
+		"method": "public void updateTile(){",
+		"override_expr": "@Override",
+		"super_update_tile_expr": "super.updateTile();",
+		"super_update_tile_called": true,
+		"comment": "//only allow the turret to begin firing when it can fire for 4 continuous updates",
+		"activate_guard_expr": "if(liquids.currentAmount() >= liquidConsumed * 4f){",
+		"activated_true_expr": "activated = true;",
+		"deactivate_guard_expr": "}else if(liquids.currentAmount() < liquidConsumed){",
+		"activated_false_expr": "activated = false;",
+		"current_amount": current_amount,
+		"liquid_consumed": liquid_consumed,
+		"activated_before": activated_before,
+		"activate_threshold": activate_threshold,
+		"activated_after": activated_after,
+	}
+
+func generated_continuous_liquid_turret_build_update_tile_bridge_state(current_amount: float, liquid_consumed: float, activated_before: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_ContinuousLiquidTurretBuild_method_updateTile_3([current_amount, liquid_consumed, activated_before])
+	var canonical = source_continuous_liquid_turret_build_update_tile_state(current_amount, liquid_consumed, activated_before)
+	return {
+		"source_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state",
+		"generated_owner": "ContinuousLiquidTurret.ContinuousLiquidTurretBuild.updateTile",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("activated_after", null) == canonical.get("activated_after", null)
+			and result.get("current_amount", null) == canonical.get("current_amount", null)
+			and result.get("liquid_consumed", null) == canonical.get("liquid_consumed", null)
+			and result.get("activated_before", null) == canonical.get("activated_before", null)
+			and result.get("super_update_tile_called", false) == canonical.get("super_update_tile_called", false),
+	}
+
 func source_liquid_turret_build_should_active_sound_state(was_shooting: bool, enabled: bool) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_liquid_turret_build_should_active_sound_state",
