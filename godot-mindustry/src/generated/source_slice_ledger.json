@@ -6728,6 +6728,586 @@
         "test_generated_base_turret_set_stats_slice_is_registered_with_source_backing"
       ]
     },
+    "N1211": {
+      "deferred_exprs": [
+        "super.setBars() internals stay deferred to Block superclass source.",
+        "Bar rendering, Core.bundle localization, and Pal color internals stay deferred to UI/rendering source."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void setBars(){",
+        "super.setBars();",
+        "if(activationTime > 0){",
+        "addBar(\"activationtimer\", (BaseTurretBuild entity) ->",
+        "new Bar(() ->",
+        "(entity.activationTimer > 0)? Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f)) : Core.bundle.get(\"bar.activated\")",
+        "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue",
+        "() -> 1 - entity.activationTimer / activationTime"
+      ],
+      "godot_owner": "PortGame.source_base_turret_set_bars_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
+      "rule": "BaseTurret.setBars delegates to super and registers activation timer bar only when activationTime is positive.",
+      "runtime_proof": "/root/Main.generated_base_turret_set_bars_bridge_state",
+      "source_symbols": [
+        "base_turret_set_bars.method",
+        "base_turret_set_bars.activation_time",
+        "base_turret_set_bars.entity_activation_timer",
+        "base_turret_set_bars.super_set_bars",
+        "base_turret_set_bars.activation_time_guard",
+        "base_turret_set_bars.add_bar",
+        "base_turret_set_bars.bar_text",
+        "base_turret_set_bars.bar_color",
+        "base_turret_set_bars.bar_progress"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_base_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_base_turret_set_bars_state",
+        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
+        "test_base_turret_set_bars_matches_upstream_source",
+        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1212": {
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);",
+        "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);",
+        "stats.add(Stat.targetsAir, targetAir);",
+        "stats.add(Stat.targetsGround, targetGround);",
+        "if(ammoPerShot != 1) stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);",
+        "if(heatRequirement > 0) stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);",
+        "if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);"
+      ],
+      "godot_owner": "PortGame.source_turret_set_stats_state",
+      "java_class": "Turret",
+      "java_method": "setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "notes": "Generated Turret.setStats bridge state records stat calls and guards from upstream without inventing Stats/Stat/StatUnit internals.",
+      "runtime_proof": "/root/Main.generated_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "turret_set_stats.method",
+        "turret_set_stats.override",
+        "turret_set_stats.super_set_stats",
+        "turret_set_stats.inaccuracy",
+        "turret_set_stats.reload_stat",
+        "turret_set_stats.targets_air",
+        "turret_set_stats.targets_ground",
+        "turret_set_stats.ammo_use_stat",
+        "turret_set_stats.input_heat_stat",
+        "turret_set_stats.max_efficiency_stat"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_turret_set_stats_state",
+        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
+        "test_turret_set_stats_matches_upstream_source",
+        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1213": {
+      "exact_exprs": [
+        "@Override",
+        "public void setBars(){",
+        "super.setBars();",
+        "if(heatRequirement > 0){",
+        "addBar(\"heat\", (TurretBuild entity) ->",
+        "new Bar(() ->",
+        "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100)),",
+        "() -> Pal.lightOrange,",
+        "() -> entity.heatReq / heatRequirement));"
+      ],
+      "godot_owner": "PortGame.source_turret_set_bars_state",
+      "java_class": "Turret",
+      "java_method": "setBars()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
+      "notes": "Generated Turret.setBars bridge state records heat bar guard, text, color, and progress from upstream without inventing Bar/Core.bundle/Pal internals.",
+      "runtime_proof": "/root/Main.generated_turret_set_bars_bridge_state",
+      "source_symbols": [
+        "turret_set_bars.method",
+        "turret_set_bars.override",
+        "turret_set_bars.super_set_bars",
+        "turret_set_bars.heat_requirement",
+        "turret_set_bars.entity_heat_req",
+        "turret_set_bars.max_heat_efficiency",
+        "turret_set_bars.heat_requirement_guard",
+        "turret_set_bars.add_bar",
+        "turret_set_bars.bar_text",
+        "turret_set_bars.bar_color",
+        "turret_set_bars.bar_progress"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_turret_set_bars_to_source_state",
+        "test_port_game_exposes_source_turret_set_bars_state",
+        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
+        "test_turret_set_bars_matches_upstream_source",
+        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1214": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();",
+        "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */",
+        "public void ammo(Object... objects){",
+        "ammoTypes = OrderedMap.of(objects);"
+      ],
+      "godot_owner": "PortGame.source_item_turret_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
+      "java_method": "ItemTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
+      "rule": "ItemTurret.ammo replaces ammoTypes with OrderedMap.of(objects); Godot bridge records explicit varargs snapshot only.",
+      "runtime_proof": "/root/Main.generated_item_turret_ammo_bridge_state",
+      "source_symbols": [
+        "item_turret_ammo.field",
+        "item_turret_ammo.comment",
+        "item_turret_ammo.method",
+        "item_turret_ammo.assignment_expr",
+        "item_turret_ammo.objects",
+        "item_turret_ammo.ammo_types_after"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_item_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_item_turret_ammo_state",
+        "test_port_game_exposes_generated_item_turret_ammo_bridge_state",
+        "test_item_turret_ammo_matches_upstream_source",
+        "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1215": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
+        "stats.remove(Stat.reload);",
+        "stats.remove(Stat.inaccuracy);"
+      ],
+      "godot_owner": "PortGame.source_continuous_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousTurret",
+      "java_method": "ContinuousTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
+      "rule": "ContinuousTurret.setStats delegates super stats, adds ammo stat for ObjectMap.of(this, shootType), then removes reload and inaccuracy stats.",
+      "runtime_proof": "/root/Main.generated_continuous_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "continuous_turret_set_stats.method",
+        "continuous_turret_set_stats.override",
+        "continuous_turret_set_stats.super_set_stats",
+        "continuous_turret_set_stats.shoot_type",
+        "continuous_turret_set_stats.stats_add_ammo",
+        "continuous_turret_set_stats.remove_reload",
+        "continuous_turret_set_stats.remove_inaccuracy"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_continuous_turret_set_stats_state",
+        "test_port_game_exposes_generated_continuous_turret_set_stats_bridge_state",
+        "test_continuous_turret_set_stats_matches_upstream_source",
+        "test_generated_continuous_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1216": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
+        "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
+        "public void ammo(Object... objects){",
+        "ammoTypes = ObjectMap.of(objects);"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret",
+      "java_method": "ContinuousLiquidTurret.ammo(Object...)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurret.ammo replaces ammoTypes with ObjectMap.of(objects); Godot bridge records explicit varargs snapshot only.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_ammo_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_ammo.field",
+        "continuous_liquid_turret_ammo.comment",
+        "continuous_liquid_turret_ammo.method",
+        "continuous_liquid_turret_ammo.assignment_expr",
+        "continuous_liquid_turret_ammo.objects",
+        "continuous_liquid_turret_ammo.ammo_types_after"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
+        "test_continuous_liquid_turret_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1217": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "//mirror stats onto each bullet (purely visual)",
+        "ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);",
+        "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret",
+      "java_method": "ContinuousLiquidTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurret.setStats mirrors liquidConsumed onto each ammo bullet and replaces Stat.ammo with StatValues.ammo(ammoTypes).",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_set_stats.method",
+        "continuous_liquid_turret_set_stats.override",
+        "continuous_liquid_turret_set_stats.super_set_stats",
+        "continuous_liquid_turret_set_stats.mirror_comment",
+        "continuous_liquid_turret_set_stats.ammo_types",
+        "continuous_liquid_turret_set_stats.liquid_consumed",
+        "continuous_liquid_turret_set_stats.stat_liquid_consumed",
+        "continuous_liquid_turret_set_stats.stats_replace"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_set_stats_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_set_stats_bridge_state",
+        "test_continuous_liquid_turret_set_stats_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1218": {
+      "deferred_exprs": [
+        "ConsumeLiquidFilter internals",
+        "ObjectMap lookup internals",
+        "Stats display internals"
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){",
+        "multiplier = b -> {",
+        "var ammo = ammoTypes.get(b.liquids.current());",
+        "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;",
+        "public void display(Stats stats){",
+        "if(targetGround){",
+        "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
+        "super.init();"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_init_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret",
+      "java_method": "ContinuousLiquidTurret.init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurret.init installs a liquid filter using liquidConsumed, records multiplier branch from explicit lookup inputs, updates overlap range when targetGround, then calls super.init().",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_init_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_init.method",
+        "continuous_liquid_turret_init.override",
+        "continuous_liquid_turret_init.consume_filter",
+        "continuous_liquid_turret_init.filter_expr",
+        "continuous_liquid_turret_init.multiplier_assign",
+        "continuous_liquid_turret_init.ammo_lookup",
+        "continuous_liquid_turret_init.multiplier_return",
+        "continuous_liquid_turret_init.display_override",
+        "continuous_liquid_turret_init.target_ground",
+        "continuous_liquid_turret_init.ammo_entries",
+        "continuous_liquid_turret_init.place_overlap_range",
+        "continuous_liquid_turret_init.range_value",
+        "continuous_liquid_turret_init.place_overlap_margin",
+        "continuous_liquid_turret_init.liquid_consumed",
+        "continuous_liquid_turret_init.current_liquid",
+        "continuous_liquid_turret_init.current_ammo_multiplier",
+        "continuous_liquid_turret_init.overlap_each",
+        "continuous_liquid_turret_init.place_overlap_range_after",
+        "continuous_liquid_turret_init.super_init"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_init_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_init_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_init_bridge_state",
+        "test_continuous_liquid_turret_init_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1219": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public boolean shouldActiveSound(){",
+        "return wasShooting && enabled;"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.shouldActiveSound returns exact wasShooting && enabled state.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_should_active_sound.method",
+        "continuous_liquid_turret_build_should_active_sound.was_shooting",
+        "continuous_liquid_turret_build_should_active_sound.enabled",
+        "continuous_liquid_turret_build_should_active_sound.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_should_active_sound_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_should_active_sound_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
+        "test_continuous_liquid_turret_build_should_active_sound_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1220": {
+      "deferred_exprs": [
+        "UnlockableContent internals",
+        "Liquid module internals"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public UnlockableContent getAmmoContent(){",
+        "return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.getAmmoContent()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.getAmmoContent returns liquids.current() only when liquids exists and current amount is positive; otherwise null.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_get_ammo_content_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_get_ammo_content.method",
+        "continuous_liquid_turret_build_get_ammo_content.liquids_null",
+        "continuous_liquid_turret_build_get_ammo_content.current_amount",
+        "continuous_liquid_turret_build_get_ammo_content.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_get_ammo_content_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_content_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_content_bridge_state",
+        "test_continuous_liquid_turret_build_get_ammo_content_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1221": {
+      "deferred_exprs": [
+        "Liquid module internals",
+        "liquidCapacity runtime owner"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public float getAmmoFraction(){",
+        "return liquids.currentAmount() / liquidCapacity;"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.getAmmoFraction()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.getAmmoFraction returns liquids.currentAmount() divided by liquidCapacity.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_get_ammo_fraction.method",
+        "continuous_liquid_turret_build_get_ammo_fraction.current_amount",
+        "continuous_liquid_turret_build_get_ammo_fraction.liquid_capacity",
+        "continuous_liquid_turret_build_get_ammo_fraction.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_get_ammo_fraction_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_fraction_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state",
+        "test_continuous_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1222": {
+      "deferred_exprs": [
+        "ContinuousTurretBuild.super.updateTile() internals",
+        "Liquid module internals"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public void updateTile(){",
+        "super.updateTile();",
+        "//only allow the turret to begin firing when it can fire for 4 continuous updates",
+        "if(liquids.currentAmount() >= liquidConsumed * 4f){",
+        "activated = true;",
+        "}else if(liquids.currentAmount() < liquidConsumed){",
+        "activated = false;"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.updateTile()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.updateTile calls super, activates at liquidConsumed * 4f, deactivates below liquidConsumed, and otherwise preserves activated.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_update_tile_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_update_tile.method",
+        "continuous_liquid_turret_build_update_tile.current_amount",
+        "continuous_liquid_turret_build_update_tile.liquid_consumed",
+        "continuous_liquid_turret_build_update_tile.activated",
+        "continuous_liquid_turret_build_update_tile.activate_guard",
+        "continuous_liquid_turret_build_update_tile.deactivate_guard"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_update_tile_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_update_tile_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_update_tile_bridge_state",
+        "test_continuous_liquid_turret_build_update_tile_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_update_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1223": {
+      "deferred_exprs": [
+        "ContinuousTurretBuild.super.senseObject(sensor) internals",
+        "Liquid module internals"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public Object senseObject(LAccess sensor){",
+        "return switch(sensor){",
+        "case currentAmmoType -> liquids.current();",
+        "default -> super.senseObject(sensor);"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_sense_object_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.senseObject returns liquids.current() for currentAmmoType, otherwise delegates to super.senseObject(sensor).",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_sense_object_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_sense_object.method",
+        "continuous_liquid_turret_build_sense_object.sensor",
+        "continuous_liquid_turret_build_sense_object.current_liquid",
+        "continuous_liquid_turret_build_sense_object.super_sense_object_value",
+        "continuous_liquid_turret_build_sense_object.current_ammo_type_case",
+        "continuous_liquid_turret_build_sense_object.sense_object_value"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_sense_object_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_sense_object_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_sense_object_bridge_state",
+        "test_continuous_liquid_turret_build_sense_object_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1224": {
+      "deferred_exprs": [
+        "hasCorrectAmmo() internals",
+        "ContinuousTurretBuild.super.canConsume() internals"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public boolean canConsume(){",
+        "return hasCorrectAmmo() && super.canConsume();"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_can_consume_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.canConsume()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.canConsume returns hasCorrectAmmo() && super.canConsume().",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_can_consume_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_can_consume.method",
+        "continuous_liquid_turret_build_can_consume.has_correct_ammo",
+        "continuous_liquid_turret_build_can_consume.super_can_consume",
+        "continuous_liquid_turret_build_can_consume.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_can_consume_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_can_consume_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_can_consume_bridge_state",
+        "test_continuous_liquid_turret_build_can_consume_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_can_consume_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1225": {
+      "deferred_exprs": [
+        "ContinuousTurretBuild.super.shouldConsume() internals",
+        "activated lifecycle outside updateTile"
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public boolean shouldConsume(){",
+        "return super.shouldConsume() && activated;"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.shouldConsume()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.shouldConsume returns super.shouldConsume() && activated.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_should_consume_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_should_consume.method",
+        "continuous_liquid_turret_build_should_consume.super_should_consume",
+        "continuous_liquid_turret_build_should_consume.activated",
+        "continuous_liquid_turret_build_should_consume.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_consume_bridge_state",
+        "test_continuous_liquid_turret_build_should_consume_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1226": {
+      "deferred_exprs": [
+        "peekAmmo() internals and ammoTypes/liquids lookup are migrated in the peekAmmo slice.",
+        "BulletType internals stay deferred; this slice passes through the explicit peekAmmo result."
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public BulletType useAmmo(){",
+        "//does not consume ammo upon firing",
+        "return peekAmmo();"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_use_ammo_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.useAmmo()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.useAmmo returns peekAmmo() and does not consume ammo upon firing.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_use_ammo_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_use_ammo.method",
+        "continuous_liquid_turret_build_use_ammo.peek_ammo",
+        "continuous_liquid_turret_build_use_ammo.comment",
+        "continuous_liquid_turret_build_use_ammo.return_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_use_ammo_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_use_ammo_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_use_ammo_bridge_state",
+        "test_continuous_liquid_turret_build_use_ammo_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing"
+      ]
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
@@ -27367,552 +27947,6 @@
         "test_building_get_power_connections_manual_links_loop_matches_upstream_source",
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
-      ]
-    },
-    "N1211": {
-      "deferred_exprs": [
-        "super.setBars() internals stay deferred to Block superclass source.",
-        "Bar rendering, Core.bundle localization, and Pal color internals stay deferred to UI/rendering source."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void setBars(){",
-        "super.setBars();",
-        "if(activationTime > 0){",
-        "addBar(\"activationtimer\", (BaseTurretBuild entity) ->",
-        "new Bar(() ->",
-        "(entity.activationTimer > 0)? Core.bundle.format(\"bar.activationtimer\", Mathf.ceil(entity.activationTimer / 60f)) : Core.bundle.get(\"bar.activated\")",
-        "() -> (entity.activationTimer > 0)?  Pal.lightOrange : Pal.techBlue",
-        "() -> 1 - entity.activationTimer / activationTime"
-      ],
-      "godot_owner": "PortGame.source_base_turret_set_bars_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.BaseTurret",
-      "java_method": "setBars()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/BaseTurret.java",
-      "rule": "BaseTurret.setBars delegates to super and registers activation timer bar only when activationTime is positive.",
-      "runtime_proof": "/root/Main.generated_base_turret_set_bars_bridge_state",
-      "source_symbols": [
-        "base_turret_set_bars.method",
-        "base_turret_set_bars.activation_time",
-        "base_turret_set_bars.entity_activation_timer",
-        "base_turret_set_bars.super_set_bars",
-        "base_turret_set_bars.activation_time_guard",
-        "base_turret_set_bars.add_bar",
-        "base_turret_set_bars.bar_text",
-        "base_turret_set_bars.bar_color",
-        "base_turret_set_bars.bar_progress"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_base_turret_set_bars_to_source_state",
-        "test_port_game_exposes_source_base_turret_set_bars_state",
-        "test_port_game_exposes_generated_base_turret_set_bars_bridge_state",
-        "test_base_turret_set_bars_matches_upstream_source",
-        "test_generated_base_turret_set_bars_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1212": {
-      "exact_exprs": [
-        "@Override",
-        "public void setStats(){",
-        "super.setStats();",
-        "stats.add(Stat.inaccuracy, (int)inaccuracy, StatUnit.degrees);",
-        "stats.add(Stat.reload, 60f / (reload + (!reloadWhileCharging ? shoot.firstShotDelay : 0f)) * shoot.shots, StatUnit.perSecond);",
-        "stats.add(Stat.targetsAir, targetAir);",
-        "stats.add(Stat.targetsGround, targetGround);",
-        "if(ammoPerShot != 1) stats.add(Stat.ammoUse, ammoPerShot, StatUnit.perShot);",
-        "if(heatRequirement > 0) stats.add(Stat.input, heatRequirement, StatUnit.heatUnits);",
-        "if(heatRequirement > 0 && maxHeatEfficiency > 0) stats.add(Stat.maxEfficiency, (int)(maxHeatEfficiency * 100f), StatUnit.percent);"
-      ],
-      "godot_owner": "PortGame.source_turret_set_stats_state",
-      "java_method": "setStats()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "notes": "Generated Turret.setStats bridge state records stat calls and guards from upstream without inventing Stats/Stat/StatUnit internals.",
-      "runtime_proof": "/root/Main.generated_turret_set_stats_bridge_state",
-      "source_symbols": [
-        "turret_set_stats.method",
-        "turret_set_stats.override",
-        "turret_set_stats.super_set_stats",
-        "turret_set_stats.inaccuracy",
-        "turret_set_stats.reload_stat",
-        "turret_set_stats.targets_air",
-        "turret_set_stats.targets_ground",
-        "turret_set_stats.ammo_use_stat",
-        "turret_set_stats.input_heat_stat",
-        "turret_set_stats.max_efficiency_stat"
-      ],
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_turret_set_stats_state",
-        "test_port_game_exposes_generated_turret_set_stats_bridge_state",
-        "test_turret_set_stats_matches_upstream_source",
-        "test_generated_turret_set_stats_slice_is_registered_with_source_backing"
-      ],
-      "java_class": "Turret"
-    },
-    "N1213": {
-      "exact_exprs": [
-        "@Override",
-        "public void setBars(){",
-        "super.setBars();",
-        "if(heatRequirement > 0){",
-        "addBar(\"heat\", (TurretBuild entity) ->",
-        "new Bar(() ->",
-        "Core.bundle.format(\"bar.heatpercent\", (int)entity.heatReq, (int)(Math.min(entity.heatReq / heatRequirement, maxHeatEfficiency) * 100)),",
-        "() -> Pal.lightOrange,",
-        "() -> entity.heatReq / heatRequirement));"
-      ],
-      "godot_owner": "PortGame.source_turret_set_bars_state",
-      "java_class": "Turret",
-      "java_method": "setBars()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/Turret.java",
-      "notes": "Generated Turret.setBars bridge state records heat bar guard, text, color, and progress from upstream without inventing Bar/Core.bundle/Pal internals.",
-      "runtime_proof": "/root/Main.generated_turret_set_bars_bridge_state",
-      "source_symbols": [
-        "turret_set_bars.method",
-        "turret_set_bars.override",
-        "turret_set_bars.super_set_bars",
-        "turret_set_bars.heat_requirement",
-        "turret_set_bars.entity_heat_req",
-        "turret_set_bars.max_heat_efficiency",
-        "turret_set_bars.heat_requirement_guard",
-        "turret_set_bars.add_bar",
-        "turret_set_bars.bar_text",
-        "turret_set_bars.bar_color",
-        "turret_set_bars.bar_progress"
-      ],
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_turret_set_bars_to_source_state",
-        "test_port_game_exposes_source_turret_set_bars_state",
-        "test_port_game_exposes_generated_turret_set_bars_bridge_state",
-        "test_turret_set_bars_matches_upstream_source",
-        "test_generated_turret_set_bars_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1214": {
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public ObjectMap<Item, BulletType> ammoTypes = new OrderedMap<>();",
-        "/** Initializes accepted ammo map. Format: [item1, bullet1, item2, bullet2...] */",
-        "public void ammo(Object... objects){",
-        "ammoTypes = OrderedMap.of(objects);"
-      ],
-      "godot_owner": "PortGame.source_item_turret_ammo_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ItemTurret",
-      "java_method": "ItemTurret.ammo(Object...)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ItemTurret.java",
-      "rule": "ItemTurret.ammo replaces ammoTypes with OrderedMap.of(objects); Godot bridge records explicit varargs snapshot only.",
-      "runtime_proof": "/root/Main.generated_item_turret_ammo_bridge_state",
-      "source_symbols": [
-        "item_turret_ammo.field",
-        "item_turret_ammo.comment",
-        "item_turret_ammo.method",
-        "item_turret_ammo.assignment_expr",
-        "item_turret_ammo.objects",
-        "item_turret_ammo.ammo_types_after"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_item_turret_ammo_to_source_state",
-        "test_port_game_exposes_source_item_turret_ammo_state",
-        "test_port_game_exposes_generated_item_turret_ammo_bridge_state",
-        "test_item_turret_ammo_matches_upstream_source",
-        "test_generated_item_turret_ammo_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1215": {
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "@Override",
-        "public void setStats(){",
-        "super.setStats();",
-        "stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, shootType)));",
-        "stats.remove(Stat.reload);",
-        "stats.remove(Stat.inaccuracy);"
-      ],
-      "godot_owner": "PortGame.source_continuous_turret_set_stats_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousTurret",
-      "java_method": "ContinuousTurret.setStats()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousTurret.java",
-      "rule": "ContinuousTurret.setStats delegates super stats, adds ammo stat for ObjectMap.of(this, shootType), then removes reload and inaccuracy stats.",
-      "runtime_proof": "/root/Main.generated_continuous_turret_set_stats_bridge_state",
-      "source_symbols": [
-        "continuous_turret_set_stats.method",
-        "continuous_turret_set_stats.override",
-        "continuous_turret_set_stats.super_set_stats",
-        "continuous_turret_set_stats.shoot_type",
-        "continuous_turret_set_stats.stats_add_ammo",
-        "continuous_turret_set_stats.remove_reload",
-        "continuous_turret_set_stats.remove_inaccuracy"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_continuous_turret_set_stats_state",
-        "test_port_game_exposes_generated_continuous_turret_set_stats_bridge_state",
-        "test_continuous_turret_set_stats_matches_upstream_source",
-        "test_generated_continuous_turret_set_stats_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1216": {
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();",
-        "/** Initializes accepted ammo map. Format: [liquid1, bullet1, liquid2, bullet2...] */",
-        "public void ammo(Object... objects){",
-        "ammoTypes = ObjectMap.of(objects);"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_ammo_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret",
-      "java_method": "ContinuousLiquidTurret.ammo(Object...)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurret.ammo replaces ammoTypes with ObjectMap.of(objects); Godot bridge records explicit varargs snapshot only.",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_ammo_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_ammo.field",
-        "continuous_liquid_turret_ammo.comment",
-        "continuous_liquid_turret_ammo.method",
-        "continuous_liquid_turret_ammo.assignment_expr",
-        "continuous_liquid_turret_ammo.objects",
-        "continuous_liquid_turret_ammo.ammo_types_after"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_ammo_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_ammo_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_ammo_bridge_state",
-        "test_continuous_liquid_turret_ammo_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_ammo_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1217": {
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "@Override",
-        "public void setStats(){",
-        "super.setStats();",
-        "//mirror stats onto each bullet (purely visual)",
-        "ammoTypes.each((l, b) -> b.statLiquidConsumed = liquidConsumed);",
-        "stats.replace(Stat.ammo, StatValues.ammo(ammoTypes));"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_set_stats_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret",
-      "java_method": "ContinuousLiquidTurret.setStats()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurret.setStats mirrors liquidConsumed onto each ammo bullet and replaces Stat.ammo with StatValues.ammo(ammoTypes).",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_set_stats_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_set_stats.method",
-        "continuous_liquid_turret_set_stats.override",
-        "continuous_liquid_turret_set_stats.super_set_stats",
-        "continuous_liquid_turret_set_stats.mirror_comment",
-        "continuous_liquid_turret_set_stats.ammo_types",
-        "continuous_liquid_turret_set_stats.liquid_consumed",
-        "continuous_liquid_turret_set_stats.stat_liquid_consumed",
-        "continuous_liquid_turret_set_stats.stats_replace"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_set_stats_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_set_stats_bridge_state",
-        "test_continuous_liquid_turret_set_stats_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_set_stats_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1218": {
-      "deferred_exprs": [
-        "ConsumeLiquidFilter internals",
-        "ObjectMap lookup internals",
-        "Stats display internals"
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void init(){",
-        "consume(new ConsumeLiquidFilter(i -> ammoTypes.containsKey(i), liquidConsumed){",
-        "multiplier = b -> {",
-        "var ammo = ammoTypes.get(b.liquids.current());",
-        "return ammo == null ? 1f : 1f / ammo.ammoMultiplier;",
-        "public void display(Stats stats){",
-        "if(targetGround){",
-        "ammoTypes.each((item, type) -> placeOverlapRange = Math.max(placeOverlapRange, range + type.rangeChange + placeOverlapMargin));",
-        "super.init();"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_init_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret",
-      "java_method": "ContinuousLiquidTurret.init()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurret.init installs a liquid filter using liquidConsumed, records multiplier branch from explicit lookup inputs, updates overlap range when targetGround, then calls super.init().",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_init_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_init.method",
-        "continuous_liquid_turret_init.override",
-        "continuous_liquid_turret_init.consume_filter",
-        "continuous_liquid_turret_init.filter_expr",
-        "continuous_liquid_turret_init.multiplier_assign",
-        "continuous_liquid_turret_init.ammo_lookup",
-        "continuous_liquid_turret_init.multiplier_return",
-        "continuous_liquid_turret_init.display_override",
-        "continuous_liquid_turret_init.target_ground",
-        "continuous_liquid_turret_init.ammo_entries",
-        "continuous_liquid_turret_init.place_overlap_range",
-        "continuous_liquid_turret_init.range_value",
-        "continuous_liquid_turret_init.place_overlap_margin",
-        "continuous_liquid_turret_init.liquid_consumed",
-        "continuous_liquid_turret_init.current_liquid",
-        "continuous_liquid_turret_init.current_ammo_multiplier",
-        "continuous_liquid_turret_init.overlap_each",
-        "continuous_liquid_turret_init.place_overlap_range_after",
-        "continuous_liquid_turret_init.super_init"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_init_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_init_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_init_bridge_state",
-        "test_continuous_liquid_turret_init_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_init_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1219": {
-      "deferred_exprs": [],
-      "exact_exprs": [
-        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
-        "boolean activated;",
-        "@Override",
-        "public boolean shouldActiveSound(){",
-        "return wasShooting && enabled;"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_active_sound_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
-      "java_method": "ContinuousLiquidTurretBuild.shouldActiveSound()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurretBuild.shouldActiveSound returns exact wasShooting && enabled state.",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_build_should_active_sound.method",
-        "continuous_liquid_turret_build_should_active_sound.was_shooting",
-        "continuous_liquid_turret_build_should_active_sound.enabled",
-        "continuous_liquid_turret_build_should_active_sound.return_expr"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_build_should_active_sound_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_build_should_active_sound_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_active_sound_bridge_state",
-        "test_continuous_liquid_turret_build_should_active_sound_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_build_should_active_sound_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1220": {
-      "deferred_exprs": [
-        "UnlockableContent internals",
-        "Liquid module internals"
-      ],
-      "exact_exprs": [
-        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
-        "boolean activated;",
-        "@Override",
-        "public UnlockableContent getAmmoContent(){",
-        "return liquids != null && liquids.currentAmount() > 0f ? liquids.current() : null;"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_content_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
-      "java_method": "ContinuousLiquidTurretBuild.getAmmoContent()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurretBuild.getAmmoContent returns liquids.current() only when liquids exists and current amount is positive; otherwise null.",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_get_ammo_content_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_build_get_ammo_content.method",
-        "continuous_liquid_turret_build_get_ammo_content.liquids_null",
-        "continuous_liquid_turret_build_get_ammo_content.current_amount",
-        "continuous_liquid_turret_build_get_ammo_content.return_expr"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_build_get_ammo_content_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_content_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_content_bridge_state",
-        "test_continuous_liquid_turret_build_get_ammo_content_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_build_get_ammo_content_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1221": {
-      "deferred_exprs": [
-        "Liquid module internals",
-        "liquidCapacity runtime owner"
-      ],
-      "exact_exprs": [
-        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
-        "boolean activated;",
-        "@Override",
-        "public float getAmmoFraction(){",
-        "return liquids.currentAmount() / liquidCapacity;"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_build_get_ammo_fraction_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
-      "java_method": "ContinuousLiquidTurretBuild.getAmmoFraction()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurretBuild.getAmmoFraction returns liquids.currentAmount() divided by liquidCapacity.",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_build_get_ammo_fraction.method",
-        "continuous_liquid_turret_build_get_ammo_fraction.current_amount",
-        "continuous_liquid_turret_build_get_ammo_fraction.liquid_capacity",
-        "continuous_liquid_turret_build_get_ammo_fraction.return_expr"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_build_get_ammo_fraction_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_build_get_ammo_fraction_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_build_get_ammo_fraction_bridge_state",
-        "test_continuous_liquid_turret_build_get_ammo_fraction_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1222": {
-      "deferred_exprs": [
-        "ContinuousTurretBuild.super.updateTile() internals",
-        "Liquid module internals"
-      ],
-      "exact_exprs": [
-        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
-        "boolean activated;",
-        "@Override",
-        "public void updateTile(){",
-        "super.updateTile();",
-        "//only allow the turret to begin firing when it can fire for 4 continuous updates",
-        "if(liquids.currentAmount() >= liquidConsumed * 4f){",
-        "activated = true;",
-        "}else if(liquids.currentAmount() < liquidConsumed){",
-        "activated = false;"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_build_update_tile_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
-      "java_method": "ContinuousLiquidTurretBuild.updateTile()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurretBuild.updateTile calls super, activates at liquidConsumed * 4f, deactivates below liquidConsumed, and otherwise preserves activated.",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_update_tile_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_build_update_tile.method",
-        "continuous_liquid_turret_build_update_tile.current_amount",
-        "continuous_liquid_turret_build_update_tile.liquid_consumed",
-        "continuous_liquid_turret_build_update_tile.activated",
-        "continuous_liquid_turret_build_update_tile.activate_guard",
-        "continuous_liquid_turret_build_update_tile.deactivate_guard"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_build_update_tile_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_build_update_tile_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_build_update_tile_bridge_state",
-        "test_continuous_liquid_turret_build_update_tile_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_build_update_tile_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1223": {
-      "deferred_exprs": [
-        "ContinuousTurretBuild.super.senseObject(sensor) internals",
-        "Liquid module internals"
-      ],
-      "exact_exprs": [
-        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
-        "boolean activated;",
-        "@Override",
-        "public Object senseObject(LAccess sensor){",
-        "return switch(sensor){",
-        "case currentAmmoType -> liquids.current();",
-        "default -> super.senseObject(sensor);"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_build_sense_object_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
-      "java_method": "ContinuousLiquidTurretBuild.senseObject(LAccess sensor)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurretBuild.senseObject returns liquids.current() for currentAmmoType, otherwise delegates to super.senseObject(sensor).",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_sense_object_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_build_sense_object.method",
-        "continuous_liquid_turret_build_sense_object.sensor",
-        "continuous_liquid_turret_build_sense_object.current_liquid",
-        "continuous_liquid_turret_build_sense_object.super_sense_object_value",
-        "continuous_liquid_turret_build_sense_object.current_ammo_type_case",
-        "continuous_liquid_turret_build_sense_object.sense_object_value"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_build_sense_object_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_build_sense_object_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_build_sense_object_bridge_state",
-        "test_continuous_liquid_turret_build_sense_object_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_build_sense_object_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1224": {
-      "deferred_exprs": [
-        "hasCorrectAmmo() internals",
-        "ContinuousTurretBuild.super.canConsume() internals"
-      ],
-      "exact_exprs": [
-        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
-        "boolean activated;",
-        "@Override",
-        "public boolean canConsume(){",
-        "return hasCorrectAmmo() && super.canConsume();"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_build_can_consume_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
-      "java_method": "ContinuousLiquidTurretBuild.canConsume()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurretBuild.canConsume returns hasCorrectAmmo() && super.canConsume().",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_can_consume_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_build_can_consume.method",
-        "continuous_liquid_turret_build_can_consume.has_correct_ammo",
-        "continuous_liquid_turret_build_can_consume.super_can_consume",
-        "continuous_liquid_turret_build_can_consume.return_expr"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_build_can_consume_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_build_can_consume_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_build_can_consume_bridge_state",
-        "test_continuous_liquid_turret_build_can_consume_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_build_can_consume_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1225": {
-      "deferred_exprs": [
-        "ContinuousTurretBuild.super.shouldConsume() internals",
-        "activated lifecycle outside updateTile"
-      ],
-      "exact_exprs": [
-        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
-        "boolean activated;",
-        "@Override",
-        "public boolean shouldConsume(){",
-        "return super.shouldConsume() && activated;"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
-      "java_method": "ContinuousLiquidTurretBuild.shouldConsume()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurretBuild.shouldConsume returns super.shouldConsume() && activated.",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_should_consume_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_build_should_consume.method",
-        "continuous_liquid_turret_build_should_consume.super_should_consume",
-        "continuous_liquid_turret_build_should_consume.activated",
-        "continuous_liquid_turret_build_should_consume.return_expr"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_build_should_consume_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_build_should_consume_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_build_should_consume_bridge_state",
-        "test_continuous_liquid_turret_build_should_consume_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_build_should_consume_slice_is_registered_with_source_backing"
       ]
     }
   },

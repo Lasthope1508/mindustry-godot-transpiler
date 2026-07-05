@@ -9381,6 +9381,8 @@ public class ItemTurret extends Turret{
                 """
 package mindustry.world.blocks.defense.turrets;
 
+import mindustry.entities.bullet.*;
+
 public class ContinuousLiquidTurret extends ContinuousTurret{
     public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();
 
@@ -9417,6 +9419,8 @@ public class ContinuousLiquidTurret extends ContinuousTurret{
             turret_path.write_text(
                 """
 package mindustry.world.blocks.defense.turrets;
+
+import mindustry.entities.bullet.*;
 
 public class ContinuousLiquidTurret extends ContinuousTurret{
     public ObjectMap<Liquid, BulletType> ammoTypes = new ObjectMap<>();
@@ -9973,6 +9977,50 @@ public class ContinuousLiquidTurret extends ContinuousTurret{
             self.assertIn('"method": "public boolean shouldConsume(){"', source_text)
             self.assertIn('"return_expr": "return super.shouldConsume() && activated;"', source_text)
             self.assertIn('"should_consume": should_consume', source_text)
+
+    def test_emit_bridges_continuous_liquid_turret_build_use_ammo_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+import mindustry.entities.bullet.*;
+
+public class ContinuousLiquidTurret extends ContinuousTurret{
+    public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{
+        boolean activated;
+
+        @Override
+        public BulletType useAmmo(){
+            //does not consume ammo upon firing
+            return peekAmmo();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "ContinuousLiquidTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_ContinuousLiquidTurretBuild_method_useAmmo_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var peek_ammo: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var returned_ammo: Variant = peek_ammo", source_text)
+            self.assertIn('"source_owner": "PortGame.source_continuous_liquid_turret_build_use_ammo_state"', source_text)
+            self.assertIn('"inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{"', source_text)
+            self.assertIn('"field": "boolean activated;"', source_text)
+            self.assertIn('"method": "public BulletType useAmmo(){"', source_text)
+            self.assertIn('"comment": "//does not consume ammo upon firing"', source_text)
+            self.assertIn('"return_expr": "return peekAmmo();"', source_text)
+            self.assertIn('"peek_ammo": peek_ammo', source_text)
+            self.assertIn('"returned_ammo": returned_ammo', source_text)
 
     def test_emit_bridges_liquid_turret_build_get_ammo_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

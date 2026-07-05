@@ -105,3 +105,8 @@ func java_inner_class_ContinuousLiquidTurretBuild_method_shouldConsume_6(_args: 
 	var activated: bool = bool(_args[1] if _args.size() > 1 else false)
 	var should_consume: bool = super_should_consume and activated
 	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_should_consume_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public boolean shouldConsume(){", "override_expr": "@Override", "return_expr": "return super.shouldConsume() && activated;", "super_should_consume": super_should_consume, "activated": activated, "should_consume": should_consume}
+
+func java_inner_class_ContinuousLiquidTurretBuild_method_useAmmo_7(_args: Array = []) -> Variant:
+	var peek_ammo: Variant = _args[0] if _args.size() > 0 else null
+	var returned_ammo: Variant = peek_ammo
+	return {"source_owner": "PortGame.source_continuous_liquid_turret_build_use_ammo_state", "inner_class": "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{", "field": "boolean activated;", "method": "public BulletType useAmmo(){", "override_expr": "@Override", "comment": "//does not consume ammo upon firing", "return_expr": "return peekAmmo();", "peek_ammo": peek_ammo, "returned_ammo": returned_ammo}

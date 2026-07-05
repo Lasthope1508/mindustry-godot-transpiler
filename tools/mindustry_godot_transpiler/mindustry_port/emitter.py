@@ -3370,6 +3370,14 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar should_consume: bool = super_should_consume and activated",
                         "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_should_consume_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public boolean shouldConsume(){\", \"override_expr\": \"@Override\", \"return_expr\": \"return super.shouldConsume() && activated;\", \"super_should_consume\": super_should_consume, \"activated\": activated, \"should_consume\": should_consume}",
                     ])
+                elif method.get("name") == "useAmmo":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_ContinuousLiquidTurretBuild_method_useAmmo_{index}(_args: Array = []) -> Variant:",
+                        "\tvar peek_ammo: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar returned_ammo: Variant = peek_ammo",
+                        "\treturn {\"source_owner\": \"PortGame.source_continuous_liquid_turret_build_use_ammo_state\", \"inner_class\": \"public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{\", \"field\": \"boolean activated;\", \"method\": \"public BulletType useAmmo(){\", \"override_expr\": \"@Override\", \"comment\": \"//does not consume ammo upon firing\", \"return_expr\": \"return peekAmmo();\", \"peek_ammo\": peek_ammo, \"returned_ammo\": returned_ammo}",
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/PowerTurret.java"
         and type_entry.get("name") == "PowerTurret"

@@ -19725,9 +19725,9 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 694)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 695)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 699)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 700)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45375,6 +45375,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["activated"]["java_expr"], "activated")
         result_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_build_should_consume_result")
         self.assertEqual(result_schema["keys"]["should_consume"]["java_expr"], "super.shouldConsume() && activated")
+
+    def test_generated_continuous_liquid_turret_build_use_ammo_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_use_ammo.method")
+        self.assertEqual(method["java_expr"], "public BulletType useAmmo(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(method["java_method"], "ContinuousLiquidTurretBuild.useAmmo()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_continuous_liquid_turret_build_use_ammo_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_continuous_liquid_turret_build_use_ammo_state")
+
+        peek_ammo = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_use_ammo.peek_ammo")
+        self.assertEqual(peek_ammo["java_expr"], "peekAmmo()")
+        self.assertEqual(peek_ammo["godot_symbol"], "source_continuous_liquid_turret_build_use_ammo_input.peek_ammo")
+        comment = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_use_ammo.comment")
+        self.assertEqual(comment["java_expr"], "//does not consume ammo upon firing")
+        self.assertEqual(comment["godot_symbol"], "source_continuous_liquid_turret_build_use_ammo_result.comment")
+        return_expr = source_symbols.source_symbol(registry, "continuous_liquid_turret_build_use_ammo.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return peekAmmo();")
+        self.assertEqual(return_expr["godot_symbol"], "source_continuous_liquid_turret_build_use_ammo_result.returned_ammo")
+
+        use_ammo_slice = source_symbols.source_slice(ledger, "N1226")
+        self.assertEqual(use_ammo_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java")
+        self.assertEqual(use_ammo_slice["java_method"], "ContinuousLiquidTurretBuild.useAmmo()")
+        self.assertEqual(use_ammo_slice["godot_owner"], "PortGame.source_continuous_liquid_turret_build_use_ammo_state")
+        self.assertEqual(use_ammo_slice["runtime_proof"], "/root/Main.generated_continuous_liquid_turret_build_use_ammo_bridge_state")
+        for expr in [
+            "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+            "boolean activated;",
+            "@Override",
+            "public BulletType useAmmo(){",
+            "//does not consume ammo upon firing",
+            "return peekAmmo();",
+        ]:
+            self.assertIn(expr, use_ammo_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_continuous_liquid_turret_build_use_ammo_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["peek_ammo"])
+        for key in ["inner_class", "field", "method", "override_expr", "comment", "return_expr", "peek_ammo", "returned_ammo"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_build_use_ammo_input")
+        self.assertEqual(input_schema["keys"]["peek_ammo"]["java_expr"], "peekAmmo()")
+        result_schema = source_symbols.state_schema(schema, "source_continuous_liquid_turret_build_use_ammo_result")
+        self.assertEqual(result_schema["keys"]["returned_ammo"]["java_expr"], "peekAmmo()")
 
     def test_generated_liquid_turret_build_get_ammo_fraction_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
