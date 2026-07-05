@@ -7808,6 +7808,44 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"damage_stat_added": damage_stat_added', source_text)
             self.assertIn('"damage_per_second": damage_per_second', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_init_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    @Override
+    public void init(){
+        super.init();
+
+        updateClipRadius(range + tilesize);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var range_value: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)", source_text)
+            self.assertIn("var clip_radius: float = range_value + source_tilesize", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_tractor_beam_turret_init_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"super_init_expr": "super.init();"', source_text)
+            self.assertIn('"update_clip_radius_expr": "updateClipRadius(range + tilesize);"', source_text)
+            self.assertIn('"clip_radius": clip_radius', source_text)
+            self.assertIn('"update_clip_radius_call": update_clip_radius_call', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

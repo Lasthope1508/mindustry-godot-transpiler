@@ -13165,6 +13165,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "TractorBeamTurret.java_method_setStats_1"', source)
         self.assertIn('"matches": result.get("targets_air_stat_call", null) == canonical.get("targets_air_stat_call", null) and result.get("targets_ground_stat_call", null) == canonical.get("targets_ground_stat_call", null) and result.get("damage_stat_added", null) == canonical.get("damage_stat_added", null) and result.get("damage_stat_call", null) == canonical.get("damage_stat_call", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_init_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_init_state(range_value: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_init_state"', source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"super_init_expr": "super.init();"', source)
+        self.assertIn('"update_clip_radius_expr": "updateClipRadius(range + tilesize);"', source)
+        self.assertIn("var clip_radius: float = range_value + source_tilesize", source)
+        self.assertIn('"update_clip_radius_call": update_clip_radius_call', source)
+        self.assertIn('"update_clip_radius_called": true', source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_init_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
+        self.assertIn("var result = instance.java_method_init_2([range_value, source_tilesize])", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_init_state(range_value, source_tilesize)", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_init_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.java_method_init_2"', source)
+        self.assertIn('"matches": result.get("clip_radius", null) == canonical.get("clip_radius", null) and result.get("update_clip_radius_call", null) == canonical.get("update_clip_radius_call", null)', source)
+
     def test_port_game_exposes_source_turret_get_regions_to_outline_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

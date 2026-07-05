@@ -33,4 +33,8 @@ func java_method_setStats_1(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_tractor_beam_turret_set_stats_state", "method": "public void setStats(){", "override_expr": "@Override", "super_set_stats_expr": "super.setStats();", "targets_air_stat_expr": "stats.add(Stat.targetsAir, targetAir);", "targets_ground_stat_expr": "stats.add(Stat.targetsGround, targetGround);", "damage_stat_expr": "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);", "target_air": target_air, "target_ground": target_ground, "damage": damage, "super_set_stats_called": true, "targets_air_stat_call": targets_air_stat_call, "targets_ground_stat_call": targets_ground_stat_call, "damage_per_second": damage_per_second, "damage_stat_added": damage_stat_added, "damage_stat_call": damage_stat_call}
 
 func java_method_init_2(_args: Array = []) -> Variant:
-	return null
+	var range_value: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)
+	var clip_radius: float = range_value + source_tilesize
+	var update_clip_radius_call: Dictionary = {"call": "updateClipRadius(range + tilesize);", "radius": clip_radius}
+	return {"source_owner": "PortGame.source_tractor_beam_turret_init_state", "method": "public void init(){", "override_expr": "@Override", "super_init_expr": "super.init();", "update_clip_radius_expr": "updateClipRadius(range + tilesize);", "range": range_value, "tilesize": source_tilesize, "clip_radius": clip_radius, "super_init_called": true, "update_clip_radius_called": true, "update_clip_radius_call": update_clip_radius_call}

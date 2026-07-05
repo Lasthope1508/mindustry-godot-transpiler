@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 707)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 702)
+        self.assertEqual(audit["totalSourceFunctions"], 708)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 703)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 707)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 708)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -19749,6 +19749,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_power_turret_build_use_ammo_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_turret_build_has_ammo_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_tractor_beam_turret_set_stats_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_tractor_beam_turret_init_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_power_turret_build_peek_ammo_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_item_turret_limit_range_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_unit_killed_state", audit["registeredSourceOwners"])
@@ -42702,6 +42703,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_set_stats_result")
         self.assertEqual(result_schema["keys"]["damage_per_second"]["java_expr"], "damage * 60f")
         self.assertEqual(result_schema["keys"]["damage_stat_added"]["java_expr"], "damage > 0")
+
+    def test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_init.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamTurret.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_init_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_init_state")
+
+        range_value = source_symbols.source_symbol(registry, "tractor_beam_turret_init.range")
+        self.assertEqual(range_value["java_expr"], "range")
+        self.assertEqual(range_value["godot_symbol"], "source_tractor_beam_turret_init_input.range_value")
+        source_tilesize = source_symbols.source_symbol(registry, "tractor_beam_turret_init.tilesize")
+        self.assertEqual(source_tilesize["java_expr"], "tilesize")
+        self.assertEqual(source_tilesize["godot_symbol"], "source_tractor_beam_turret_init_input.source_tilesize")
+        clip_radius = source_symbols.source_symbol(registry, "tractor_beam_turret_init.clip_radius")
+        self.assertEqual(clip_radius["java_expr"], "range + tilesize")
+        self.assertEqual(clip_radius["godot_symbol"], "source_tractor_beam_turret_init_result.clip_radius")
+
+        init_slice = source_symbols.source_slice(ledger, "N1234")
+        self.assertEqual(init_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(init_slice["java_method"], "TractorBeamTurret.init()")
+        self.assertEqual(init_slice["godot_owner"], "PortGame.source_tractor_beam_turret_init_state")
+        self.assertEqual(init_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_init_bridge_state")
+        for expr in [
+            "@Override",
+            "public void init(){",
+            "super.init();",
+            "updateClipRadius(range + tilesize);",
+        ]:
+            self.assertIn(expr, init_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_init_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["range_value", "source_tilesize"])
+        for key in ["source_owner", "method", "override_expr", "super_init_expr", "update_clip_radius_expr", "range", "tilesize", "clip_radius", "super_init_called", "update_clip_radius_called", "update_clip_radius_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_init_input")
+        self.assertEqual(input_schema["keys"]["range_value"]["java_expr"], "range")
+        self.assertEqual(input_schema["keys"]["source_tilesize"]["java_expr"], "tilesize")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_init_result")
+        self.assertEqual(result_schema["keys"]["clip_radius"]["java_expr"], "range + tilesize")
+        self.assertEqual(result_schema["keys"]["update_clip_radius_called"]["java_expr"], "updateClipRadius(range + tilesize);")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

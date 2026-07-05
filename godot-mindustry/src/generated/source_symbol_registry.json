@@ -90217,6 +90217,74 @@
         "test_tractor_beam_turret_set_stats_matches_upstream_source",
         "test_generated_tractor_beam_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "tractor_beam_turret_init.method": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_init_state",
+      "godot_symbol": "source_tractor_beam_turret_init_result.method",
+      "java_expr": "public void init(){",
+      "java_method": "TractorBeamTurret.init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Method boundary for TractorBeamTurret.init.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_init_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_init_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_init_bridge_state",
+        "test_tractor_beam_turret_init_matches_upstream_source",
+        "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_init.range": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_init_state",
+      "godot_symbol": "source_tractor_beam_turret_init_input.range_value",
+      "java_expr": "range",
+      "java_method": "TractorBeamTurret.init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies range field used by updateClipRadius.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_init_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_init_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_init_bridge_state",
+        "test_tractor_beam_turret_init_matches_upstream_source",
+        "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_init.tilesize": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_init_state",
+      "godot_symbol": "source_tractor_beam_turret_init_input.source_tilesize",
+      "java_expr": "tilesize",
+      "java_method": "TractorBeamTurret.init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Input supplies tilesize value used by updateClipRadius.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_init_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_init_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_init_bridge_state",
+        "test_tractor_beam_turret_init_matches_upstream_source",
+        "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "tractor_beam_turret_init.clip_radius": {
+      "godot_owner": "PortGame.source_tractor_beam_turret_init_state",
+      "godot_symbol": "source_tractor_beam_turret_init_result.clip_radius",
+      "java_expr": "range + tilesize",
+      "java_method": "TractorBeamTurret.init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Result computes updateClipRadius argument from range + tilesize.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_init_state",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_init_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_init_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_init_bridge_state",
+        "test_tractor_beam_turret_init_matches_upstream_source",
+        "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

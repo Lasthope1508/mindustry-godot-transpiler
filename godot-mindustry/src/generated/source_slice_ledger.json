@@ -28187,6 +28187,37 @@
         "test_tractor_beam_turret_set_stats_matches_upstream_source",
         "test_generated_tractor_beam_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1234": {
+      "deferred_exprs": [
+        "Inherited BaseTurret.init internals and Block.updateClipRadius side effects remain deferred; this slice records the exact TractorBeamTurret updateClipRadius argument."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "super.init();",
+        "updateClipRadius(range + tilesize);"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_init_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamTurret.init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamTurret.init calls super.init and updates clip radius with range plus tilesize exactly as upstream.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_init_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_init.method",
+        "tractor_beam_turret_init.range",
+        "tractor_beam_turret_init.tilesize",
+        "tractor_beam_turret_init.clip_radius"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_init_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_init_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_init_bridge_state",
+        "test_tractor_beam_turret_init_matches_upstream_source",
+        "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -1320,6 +1320,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_set_stats_state\", \"method\": \"public void setStats(){\", \"override_expr\": \"@Override\", \"super_set_stats_expr\": \"super.setStats();\", \"targets_air_stat_expr\": \"stats.add(Stat.targetsAir, targetAir);\", \"targets_ground_stat_expr\": \"stats.add(Stat.targetsGround, targetGround);\", \"damage_stat_expr\": \"if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);\", \"target_air\": target_air, \"target_ground\": target_ground, \"damage\": damage, \"super_set_stats_called\": true, \"targets_air_stat_call\": targets_air_stat_call, \"targets_ground_stat_call\": targets_ground_stat_call, \"damage_per_second\": damage_per_second, \"damage_stat_added\": damage_stat_added, \"damage_stat_call\": damage_stat_call}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/defense/turrets/TractorBeamTurret.java"
+        and type_entry.get("name") == "TractorBeamTurret"
+        and method.get("name") == "init"
+    ):
+        return [
+            "\tvar range_value: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)",
+            "\tvar clip_radius: float = range_value + source_tilesize",
+            "\tvar update_clip_radius_call: Dictionary = {\"call\": \"updateClipRadius(range + tilesize);\", \"radius\": clip_radius}",
+            "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_init_state\", \"method\": \"public void init(){\", \"override_expr\": \"@Override\", \"super_init_expr\": \"super.init();\", \"update_clip_radius_expr\": \"updateClipRadius(range + tilesize);\", \"range\": range_value, \"tilesize\": source_tilesize, \"clip_radius\": clip_radius, \"super_init_called\": true, \"update_clip_radius_called\": true, \"update_clip_radius_call\": update_clip_radius_call}",
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/Turret.java"
         and type_entry.get("name") == "Turret"
         and method.get("name") == "getRegionsToOutline"

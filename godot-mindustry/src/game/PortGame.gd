@@ -17167,6 +17167,40 @@ func generated_tractor_beam_turret_set_stats_bridge_state(target_air: bool, targ
 			and result.get("super_set_stats_called", null) == canonical.get("super_set_stats_called", null),
 	}
 
+func source_tractor_beam_turret_init_state(range_value: float, source_tilesize: float) -> Dictionary:
+	var clip_radius: float = range_value + source_tilesize
+	var update_clip_radius_call: Dictionary = {"call": "updateClipRadius(range + tilesize);", "radius": clip_radius}
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_init_state",
+		"method": "public void init(){",
+		"override_expr": "@Override",
+		"super_init_expr": "super.init();",
+		"update_clip_radius_expr": "updateClipRadius(range + tilesize);",
+		"range": range_value,
+		"tilesize": source_tilesize,
+		"clip_radius": clip_radius,
+		"super_init_called": true,
+		"update_clip_radius_called": true,
+		"update_clip_radius_call": update_clip_radius_call,
+	}
+
+func generated_tractor_beam_turret_init_bridge_state(range_value: float, source_tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_2([range_value, source_tilesize])
+	var canonical = source_tractor_beam_turret_init_state(range_value, source_tilesize)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_init_state",
+		"generated_owner": "TractorBeamTurret.java_method_init_2",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("clip_radius", null) == canonical.get("clip_radius", null) and result.get("update_clip_radius_call", null) == canonical.get("update_clip_radius_call", null)
+			and result.get("range", null) == canonical.get("range", null)
+			and result.get("tilesize", null) == canonical.get("tilesize", null)
+			and result.get("super_init_called", null) == canonical.get("super_init_called", null)
+			and result.get("update_clip_radius_called", null) == canonical.get("update_clip_radius_called", null),
+	}
+
 func source_turret_get_regions_to_outline_state(out: Variant) -> Dictionary:
 	var drawer_get_regions_to_outline_call: Dictionary = {"call": "drawer.getRegionsToOutline(this, out);", "out": out}
 	return {

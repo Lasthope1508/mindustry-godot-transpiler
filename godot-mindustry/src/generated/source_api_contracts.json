@@ -29151,6 +29151,46 @@
         "test_tractor_beam_turret_set_stats_matches_upstream_source",
         "test_generated_tractor_beam_turret_set_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_tractor_beam_turret_init_state": {
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "params": [
+        {
+          "name": "range_value",
+          "schema": "source_tractor_beam_turret_init_input.range_value",
+          "type": "float"
+        },
+        {
+          "name": "source_tilesize",
+          "schema": "source_tractor_beam_turret_init_input.source_tilesize",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "override_expr",
+        "super_init_expr",
+        "update_clip_radius_expr",
+        "range",
+        "tilesize",
+        "clip_radius",
+        "super_init_called",
+        "update_clip_radius_called",
+        "update_clip_radius_call"
+      ],
+      "rule": "Public runtime contract for TractorBeamTurret.init state.",
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_init_state",
+      "source_method": "TractorBeamTurret.init()",
+      "source_slice": "N1234",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_init_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_init_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_init_bridge_state",
+        "test_tractor_beam_turret_init_matches_upstream_source",
+        "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
