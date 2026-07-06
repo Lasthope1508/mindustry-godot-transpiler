@@ -11035,6 +11035,8 @@ func source_angles_angle_dist(a: float, b: float) -> float:
 	return source_arc_angles_angle_dist(a, b)
 
 const SOURCE_ANGLES_WITHIN_METHOD := "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }"
+const SOURCE_RULES_BLOCK_DAMAGE_METHOD := "public float blockDamage(Team team){\n        return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;\n    }"
+const SOURCE_DAMAGE_CONTINUOUS_PIERCE_METHOD := "void damageContinuousPierce(float amount){\n        damagePierce(amount * Time.delta, hitTime <= -20 + hitDuration);\n    }"
 
 func source_weapon_update_cone_gate_state(mount_state: Dictionary, weapon_state: Dictionary, unit_state: Dictionary) -> Dictionary:
 	var always_shooting := bool(weapon_state.get("alwaysShooting", false))
@@ -17987,6 +17989,55 @@ func generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_b
 		"matches": result.get("shoot_within_guard", null) == canonical.get("shoot_within_guard", null)
 			and result.get("shoot_within_call", null) == canonical.get("shoot_within_call", null)
 			and result.get("shoot_within_angle_dist", null) == canonical.get("shoot_within_angle_dist", null),
+	}
+
+func source_tractor_beam_turret_build_update_tile_damage_pierce_state(shoot_within_guard: bool, target_after: Variant, damage: float, eff: float, time_scale: float, rules_block_damage: float, team: Variant) -> Dictionary:
+	var damage_gate_evaluated: bool = shoot_within_guard
+	var damage_gate: bool = damage_gate_evaluated and damage > 0.0
+	var damage_amount: float = damage * eff * time_scale * rules_block_damage if damage_gate else 0.0
+	var block_damage_call: Dictionary = {}
+	if damage_gate:
+		block_damage_call = {"call": "state.rules.blockDamage(team)", "team": team, "result": rules_block_damage}
+	var damage_continuous_pierce_call: Dictionary = {}
+	if damage_gate:
+		damage_continuous_pierce_call = {"call": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));", "target": target_after, "amount": damage_amount}
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+		"method": "public void updateTile(){",
+		"shoot_when_possible_guard_expr": "if(Angles.within(rotation, dest, shootCone)){",
+		"damage_gate_expr": "if(damage > 0){",
+		"damage_continuous_pierce_expr": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));",
+		"rules_block_damage_method": SOURCE_RULES_BLOCK_DAMAGE_METHOD,
+		"damage_continuous_pierce_method": SOURCE_DAMAGE_CONTINUOUS_PIERCE_METHOD,
+		"status_next_expr": "if(status != StatusEffects.none){",
+		"shoot_within_guard": shoot_within_guard,
+		"target_after": target_after,
+		"damage": damage,
+		"eff": eff,
+		"time_scale": time_scale,
+		"rules_block_damage": rules_block_damage,
+		"team": team,
+		"damage_gate_evaluated": damage_gate_evaluated,
+		"damage_gate": damage_gate,
+		"damage_amount": damage_amount,
+		"block_damage_call": block_damage_call,
+		"damage_continuous_pierce_call": damage_continuous_pierce_call,
+	}
+
+func generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, rotation_before: float, rotate_speed: float, last_x_before: float, last_y_before: float, strength_before: float, shoot_cone: float, damage: float, time_scale: float, rules_block_damage: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before, shoot_cone, damage, time_scale, rules_block_damage])
+	var canonical = source_tractor_beam_turret_build_update_tile_damage_pierce_state(result.get("shoot_within_guard", false), result.get("target_after", null), damage, result.get("eff", 0.0), time_scale, rules_block_damage, team)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.damage_pierce",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("damage_amount", null) == canonical.get("damage_amount", null)
+			and result.get("damage_gate", null) == canonical.get("damage_gate", null)
+			and result.get("block_damage_call", null) == canonical.get("block_damage_call", null)
+			and result.get("damage_continuous_pierce_call", null) == canonical.get("damage_continuous_pierce_call", null),
 	}
 
 func source_tractor_beam_turret_build_draw_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:

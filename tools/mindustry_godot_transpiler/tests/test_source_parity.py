@@ -8786,6 +8786,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_tractor_beam_turret_build_update_tile_damage_pierce_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_update_tile_damage_pierce_source"))
+        report = source_parity.verify_tractor_beam_turret_build_update_tile_damage_pierce_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(report["rules_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(report["building_source"], "core/src/mindustry/entities/comp/BuildingComp.java")
+        self.assertEqual(report["health_source"], "core/src/mindustry/entities/comp/HealthComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void updateTile(){",
+            "shoot_guard": "if(Angles.within(rotation, dest, shootCone)){",
+            "damage_gate": "if(damage > 0){",
+            "damage_call": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));",
+            "status_boundary": "if(status != StatusEffects.none){",
+            "rules_block_damage": "public float blockDamage(Team team){\n        return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;\n    }",
+            "time_scale_field": "private transient float timeScale = 1f, timeScaleDuration;",
+            "damage_continuous_pierce": "void damageContinuousPierce(float amount){\n        damagePierce(amount * Time.delta, hitTime <= -20 + hitDuration);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_get_regions_to_outline_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_get_regions_to_outline_source"))
         report = source_parity.verify_turret_get_regions_to_outline_source(ROOT / "mindustry-upstream")

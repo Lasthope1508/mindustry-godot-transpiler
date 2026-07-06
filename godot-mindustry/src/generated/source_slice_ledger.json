@@ -28937,6 +28937,38 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
       "status": "source-backed"
+    },
+    "N1256": {
+      "title": "Generated TractorBeamTurretBuild updateTile damage pierce bridge state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() damage pierce",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.damage_pierce",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(Angles.within(rotation, dest, shootCone)){",
+        "if(damage > 0){",
+        "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));",
+        "public float blockDamage(Team team){\n        return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;\n    }",
+        "private transient float timeScale = 1f, timeScaleDuration;",
+        "void damageContinuousPierce(float amount){\n        damagePierce(amount * Time.delta, hitTime <= -20 + hitDuration);\n    }",
+        "if(status != StatusEffects.none){"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_damage_pierce.method",
+        "tractor_beam_turret_build_update_tile_damage_pierce.call",
+        "tractor_beam_turret_build_update_tile_damage_pierce.rules_block_damage"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_damage_pierce_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_damage_pierce_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_damage_pierce_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1

@@ -1063,6 +1063,45 @@ def verify_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_sourc
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_damage_pierce_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    rules_path = Path(upstream_root) / RULES_SOURCE
+    building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
+    health_path = Path(upstream_root) / HEALTH_COMP_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    rules_source = rules_path.read_text(encoding="utf-8", errors="replace")
+    building_source = building_path.read_text(encoding="utf-8", errors="replace")
+    health_source = health_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "shoot_guard": "if(Angles.within(rotation, dest, shootCone)){",
+        "damage_gate": "if(damage > 0){",
+        "damage_call": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));",
+        "status_boundary": "if(status != StatusEffects.none){",
+        "rules_block_damage": "public float blockDamage(Team team){\n        return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;\n    }",
+        "time_scale_field": "private transient float timeScale = 1f, timeScaleDuration;",
+        "damage_continuous_pierce": "void damageContinuousPierce(float amount){\n        damagePierce(amount * Time.delta, hitTime <= -20 + hitDuration);\n    }",
+    }
+    source_checks = {
+        "method": source,
+        "shoot_guard": source,
+        "damage_gate": source,
+        "damage_call": source,
+        "status_boundary": source,
+        "rules_block_damage": rules_source,
+        "time_scale_field": building_source,
+        "damage_continuous_pierce": health_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_checks[key]]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "rules_source": RULES_SOURCE,
+        "building_source": BUILDING_COMP_SOURCE,
+        "health_source": HEALTH_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

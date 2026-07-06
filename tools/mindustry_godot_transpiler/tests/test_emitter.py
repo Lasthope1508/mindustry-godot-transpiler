@@ -8945,6 +8945,68 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"angles_within_method": "public static boolean within(float a, float b, float margin){\\n        return angleDist(a, b) <= margin;\\n    }"', source_text)
             self.assertIn('"shoot_within_guard": shoot_within_guard', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_damage_pierce_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            any = false;
+
+            //look at target
+            if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){
+                float dest = angleTo(target);
+                rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);
+                lastX = target.x;
+                lastY = target.y;
+                strength = Mathf.lerpDelta(strength, 1f, 0.1f);
+
+                //shoot when possible
+                if(Angles.within(rotation, dest, shootCone)){
+                    if(damage > 0){
+                        target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));
+                    }
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var damage: float = float(_args[38] if _args.size() > 38 else 0.0)", source_text)
+            self.assertIn("var time_scale: float = float(_args[39] if _args.size() > 39 else 1.0)", source_text)
+            self.assertIn("var rules_block_damage: float = float(_args[40] if _args.size() > 40 else 1.0)", source_text)
+            self.assertIn("var damage_gate_evaluated: bool = shoot_within_guard", source_text)
+            self.assertIn("var damage_gate: bool = damage_gate_evaluated and damage > 0.0", source_text)
+            self.assertIn("var damage_amount: float = damage * eff * time_scale * rules_block_damage if damage_gate else 0.0", source_text)
+            self.assertIn('block_damage_call = {"call": "state.rules.blockDamage(team)", "team": team, "result": rules_block_damage}', source_text)
+            self.assertIn('damage_continuous_pierce_call = {"call": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));", "target": target_after, "amount": damage_amount}', source_text)
+            self.assertIn('"damage_gate_expr": "if(damage > 0){"', source_text)
+            self.assertIn('"damage_continuous_pierce_expr": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));"', source_text)
+            self.assertIn('"status_next_expr": "if(status != StatusEffects.none){"', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

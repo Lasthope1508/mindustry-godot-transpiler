@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 729)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 724)
+        self.assertEqual(audit["totalSourceFunctions"], 730)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 725)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 729)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 730)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43814,6 +43814,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_result")
         self.assertEqual(result_schema["keys"]["shoot_within_angle_dist"]["java_expr"], "Angles.angleDist(rotation, dest)")
         self.assertEqual(result_schema["keys"]["shoot_within_guard"]["java_expr"], "Angles.within(rotation, dest, shootCone)")
+
+    def test_generated_tractor_beam_turret_build_update_tile_damage_pierce_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_damage_pierce.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() damage pierce")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_damage_pierce_state")
+
+        damage_call = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_damage_pierce.call")
+        self.assertEqual(damage_call["java_expr"], "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));")
+        self.assertEqual(damage_call["godot_symbol"], "source_tractor_beam_turret_build_update_tile_damage_pierce_result.damage_continuous_pierce_call")
+        block_damage = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_damage_pierce.rules_block_damage")
+        self.assertEqual(block_damage["java_source"], "core/src/mindustry/game/Rules.java")
+        self.assertEqual(block_damage["java_expr"], "public float blockDamage(Team team){")
+
+        damage_slice = source_symbols.source_slice(ledger, "N1256")
+        self.assertEqual(damage_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(damage_slice["java_method"], "TractorBeamBuild.updateTile() damage pierce")
+        self.assertEqual(damage_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state")
+        self.assertEqual(damage_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state")
+        for expr in ["if(damage > 0){", "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));", "public float blockDamage(Team team){\n        return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;\n    }", "private transient float timeScale = 1f, timeScaleDuration;", "void damageContinuousPierce(float amount){\n        damagePierce(amount * Time.delta, hitTime <= -20 + hitDuration);\n    }", "if(status != StatusEffects.none){"]:
+            self.assertIn(expr, damage_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["shoot_within_guard", "target_after", "damage", "eff", "time_scale", "rules_block_damage", "team"],
+        )
+        for key in ["source_owner", "method", "damage_gate_expr", "damage_continuous_pierce_expr", "rules_block_damage_method", "damage_continuous_pierce_method", "shoot_within_guard", "target_after", "damage", "eff", "time_scale", "rules_block_damage", "team", "damage_gate_evaluated", "damage_gate", "damage_amount", "block_damage_call", "damage_continuous_pierce_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_damage_pierce_input")
+        self.assertEqual(input_schema["keys"]["damage"]["java_expr"], "damage")
+        self.assertEqual(input_schema["keys"]["time_scale"]["java_expr"], "timeScale")
+        self.assertEqual(input_schema["keys"]["rules_block_damage"]["java_expr"], "state.rules.blockDamage(team)")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_damage_pierce_result")
+        self.assertEqual(result_schema["keys"]["damage_amount"]["java_expr"], "damage * eff * timeScale * state.rules.blockDamage(team)")
+        self.assertEqual(result_schema["keys"]["damage_continuous_pierce_call"]["java_expr"], "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

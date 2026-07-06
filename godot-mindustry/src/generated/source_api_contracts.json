@@ -30456,6 +30456,78 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile Angles.within shootCone guard."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state": {
+      "status": "source-backed",
+      "source_slice": "N1256",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() damage pierce",
+      "params": [
+        {
+          "name": "shoot_within_guard",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_damage_pierce_input.shoot_within_guard"
+        },
+        {
+          "name": "target_after",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_damage_pierce_input.target_after"
+        },
+        {
+          "name": "damage",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_damage_pierce_input.damage"
+        },
+        {
+          "name": "eff",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_damage_pierce_input.eff"
+        },
+        {
+          "name": "time_scale",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_damage_pierce_input.time_scale"
+        },
+        {
+          "name": "rules_block_damage",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_damage_pierce_input.rules_block_damage"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_damage_pierce_input.team"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "damage_gate_expr",
+        "damage_continuous_pierce_expr",
+        "rules_block_damage_method",
+        "damage_continuous_pierce_method",
+        "shoot_within_guard",
+        "target_after",
+        "damage",
+        "eff",
+        "time_scale",
+        "rules_block_damage",
+        "team",
+        "damage_gate_evaluated",
+        "damage_gate",
+        "damage_amount",
+        "block_damage_call",
+        "damage_continuous_pierce_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_damage_pierce_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_damage_pierce_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_damage_pierce_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile damageContinuousPierce call."
     }
   },
   "policy": {

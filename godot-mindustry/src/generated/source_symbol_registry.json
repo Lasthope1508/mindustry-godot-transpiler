@@ -92616,6 +92616,57 @@
       "java_source": "arc-core/src/arc/math/Angles.java",
       "java_method": "within(float a, float b, float margin)",
       "java_expr": "public static boolean within(float a, float b, float margin){"
+    },
+    "tractor_beam_turret_build_update_tile_damage_pierce.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_damage_pierce_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for damage pierce slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_damage_pierce_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_damage_pierce_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_damage_pierce_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() damage pierce",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_damage_pierce.call": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_damage_pierce_result.damage_continuous_pierce_call",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+      "rule": "Exact target damageContinuousPierce call from TractorBeamBuild.updateTile.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_damage_pierce_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_damage_pierce_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_damage_pierce_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() damage pierce",
+      "java_expr": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));"
+    },
+    "tractor_beam_turret_build_update_tile_damage_pierce.rules_block_damage": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_damage_pierce_result.block_damage_call",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+      "rule": "Rules.blockDamage(team) multiplier used by TractorBeamBuild damage pierce.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_damage_pierce_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_damage_pierce_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_damage_pierce_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+      "java_source": "core/src/mindustry/game/Rules.java",
+      "java_method": "blockDamage(Team team)",
+      "java_expr": "public float blockDamage(Team team){"
     }
   },
   "version": 1
