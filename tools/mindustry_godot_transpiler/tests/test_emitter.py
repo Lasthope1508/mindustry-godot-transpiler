@@ -8164,6 +8164,69 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"closest_enemy_result": closest_enemy_result', source_text)
             self.assertIn('"target_after": target_after', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            //retarget
+            if(timer(timerTarget, retargetTime)){
+                target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));
+            }
+
+            //consume coolant
+            if(target != null && coolant != null){
+                float maxUsed = coolant.amount;
+
+                Liquid liquid = liquids.current();
+
+                float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_TractorBeamBuild_method_updateTile_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var coolant_present: bool = bool(_args[14] if _args.size() > 14 else false)", source_text)
+            self.assertIn("var coolant_amount: float = float(_args[15] if _args.size() > 15 else 0.0)", source_text)
+            self.assertIn("var current_liquid: Variant = _args[16] if _args.size() > 16 else null", source_text)
+            self.assertIn("var coolant_evaluated: bool = not activation_returned_early", source_text)
+            self.assertIn("var coolant_guard: bool = coolant_evaluated and target_after != null and coolant_present", source_text)
+            self.assertIn("var max_used: float = coolant_amount if coolant_guard else 0.0", source_text)
+            self.assertIn("var liquid: Variant = current_liquid if coolant_guard else null", source_text)
+            self.assertIn('"coolant_comment_expr": "//consume coolant"', source_text)
+            self.assertIn('"coolant_guard_expr": "if(target != null && coolant != null){"', source_text)
+            self.assertIn('"max_used_expr": "float maxUsed = coolant.amount;"', source_text)
+            self.assertIn('"current_liquid_expr": "Liquid liquid = liquids.current();"', source_text)
+            self.assertIn('"used_next_expr": "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));"', source_text)
+            self.assertIn('"coolant_guard": coolant_guard', source_text)
+            self.assertIn('"max_used": max_used', source_text)
+            self.assertIn('"liquid": liquid', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

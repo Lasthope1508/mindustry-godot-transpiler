@@ -91781,6 +91781,210 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() retarget",
       "java_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for coolant guard slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.inner_class": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_result.inner_class",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Exact TractorBeamBuild inner class boundary.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "public class TractorBeamBuild extends BaseTurretBuild{"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.override": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_result.override_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Exact updateTile override marker.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "@Override"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.retarget_assign": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_result.retarget_assign_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Prior retarget assignment before coolant block.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.comment": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_result.coolant_comment_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Exact coolant comment.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "//consume coolant"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_result.coolant_guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Exact coolant block guard.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "target != null && coolant != null"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.coolant_present": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_input.coolant_present",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Explicit coolant != null state.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "coolant != null"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.target_after": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_input.target_after",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Source target value after optional retarget assignment.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "target"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.coolant_amount": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_input.coolant_amount",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Source coolant amount field.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "coolant.amount"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.max_used": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_result.max_used",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Source maxUsed assignment.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "coolant.amount"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.current_liquid": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_result.liquid",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Source current liquid assignment.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "liquids.current()"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_guard.used_next": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_guard_result.used_next_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Next source formula boundary for later used calculation slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_expr": "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));"
     }
   },
   "version": 1

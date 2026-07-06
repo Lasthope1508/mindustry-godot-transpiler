@@ -17459,6 +17459,51 @@ func generated_tractor_beam_turret_build_update_tile_retarget_bridge_state(activ
 			and result.get("target_ground", null) == canonical.get("target_ground", null),
 	}
 
+func source_tractor_beam_turret_build_update_tile_coolant_guard_state(activation_returned_early: bool, target_after: Variant, coolant_present: bool, coolant_amount: float, current_liquid: Variant) -> Dictionary:
+	var coolant_evaluated: bool = not activation_returned_early
+	var coolant_guard: bool = coolant_evaluated and target_after != null and coolant_present
+	var max_used: float = coolant_amount if coolant_guard else 0.0
+	var liquid: Variant = current_liquid if coolant_guard else null
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+		"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+		"method": "public void updateTile(){",
+		"override_expr": "@Override",
+		"retarget_assign_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+		"coolant_comment_expr": "//consume coolant",
+		"coolant_guard_expr": "if(target != null && coolant != null){",
+		"max_used_expr": "float maxUsed = coolant.amount;",
+		"current_liquid_expr": "Liquid liquid = liquids.current();",
+		"used_next_expr": "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
+		"activation_returned_early": activation_returned_early,
+		"target_after": target_after,
+		"coolant_present": coolant_present,
+		"coolant_amount": coolant_amount,
+		"current_liquid": current_liquid,
+		"coolant_evaluated": coolant_evaluated,
+		"coolant_guard": coolant_guard,
+		"max_used": max_used,
+		"liquid": liquid,
+	}
+
+func generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid])
+	var canonical = source_tractor_beam_turret_build_update_tile_coolant_guard_state(result.get("returned_early", false), result.get("target_after", null), coolant_present, coolant_amount, current_liquid)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.coolant_guard",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("coolant_guard", null) == canonical.get("coolant_guard", null) and result.get("max_used", null) == canonical.get("max_used", null)
+			and result.get("liquid", null) == canonical.get("liquid", null)
+			and result.get("coolant_present", null) == canonical.get("coolant_present", null)
+			and result.get("coolant_amount", null) == canonical.get("coolant_amount", null)
+			and result.get("current_liquid", null) == canonical.get("current_liquid", null)
+			and result.get("target_after", null) == canonical.get("target_after", null),
+	}
+
 func source_tractor_beam_turret_build_draw_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:
 	var draw_rotation: float = rotation_value - 90.0
 	var base_rect_call: Dictionary = {"call": "Draw.rect(baseRegion, x, y);", "region": base_region, "x": x, "y": y}

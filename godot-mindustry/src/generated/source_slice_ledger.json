@@ -28548,6 +28548,47 @@
         "tractor_beam_turret_build_update_tile_retarget.target_after"
       ],
       "rule": "After eff/edelta, TractorBeamBuild.updateTile optionally assigns target from Units.closestEnemy when timer(timerTarget, retargetTime) is true; Units.closestEnemy internals stay deferred as explicit input closest_enemy_result."
+    },
+    "N1243": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void updateTile(){",
+        "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+        "//consume coolant",
+        "if(target != null && coolant != null){",
+        "float maxUsed = coolant.amount;",
+        "Liquid liquid = liquids.current();",
+        "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_guard.method",
+        "tractor_beam_turret_build_update_tile_coolant_guard.inner_class",
+        "tractor_beam_turret_build_update_tile_coolant_guard.override",
+        "tractor_beam_turret_build_update_tile_coolant_guard.retarget_assign",
+        "tractor_beam_turret_build_update_tile_coolant_guard.comment",
+        "tractor_beam_turret_build_update_tile_coolant_guard.guard",
+        "tractor_beam_turret_build_update_tile_coolant_guard.coolant_present",
+        "tractor_beam_turret_build_update_tile_coolant_guard.target_after",
+        "tractor_beam_turret_build_update_tile_coolant_guard.coolant_amount",
+        "tractor_beam_turret_build_update_tile_coolant_guard.max_used",
+        "tractor_beam_turret_build_update_tile_coolant_guard.current_liquid",
+        "tractor_beam_turret_build_update_tile_coolant_guard.used_next"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+      "rule": "After retarget, TractorBeamBuild.updateTile enters coolant consumption only when target and coolant are present, reads coolant.amount as maxUsed, then reads liquids.current(); used/remove/effect/multiplier stay deferred."
     }
   },
   "version": 1

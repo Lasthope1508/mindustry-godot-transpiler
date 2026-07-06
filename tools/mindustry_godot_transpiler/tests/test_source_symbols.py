@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 716)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 711)
+        self.assertEqual(audit["totalSourceFunctions"], 717)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 712)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 716)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 717)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43203,6 +43203,68 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["retarget_called"]["java_expr"], "if(timer(timerTarget, retargetTime)){")
         self.assertEqual(result_schema["keys"]["target_after"]["java_expr"], "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));")
         self.assertEqual(result_schema["keys"]["closest_enemy_call"]["java_expr"], "Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround))")
+
+    def test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_coolant_guard.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() coolant guard")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state")
+
+        guard = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_coolant_guard.guard")
+        self.assertEqual(guard["java_expr"], "target != null && coolant != null")
+        self.assertEqual(guard["godot_symbol"], "source_tractor_beam_turret_build_update_tile_coolant_guard_result.coolant_guard")
+        max_used = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_coolant_guard.max_used")
+        self.assertEqual(max_used["java_expr"], "coolant.amount")
+        self.assertEqual(max_used["godot_symbol"], "source_tractor_beam_turret_build_update_tile_coolant_guard_result.max_used")
+        current_liquid = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_coolant_guard.current_liquid")
+        self.assertEqual(current_liquid["java_expr"], "liquids.current()")
+        self.assertEqual(current_liquid["godot_symbol"], "source_tractor_beam_turret_build_update_tile_coolant_guard_result.liquid")
+
+        coolant_slice = source_symbols.source_slice(ledger, "N1243")
+        self.assertEqual(coolant_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(coolant_slice["java_method"], "TractorBeamBuild.updateTile() coolant guard")
+        self.assertEqual(coolant_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state")
+        self.assertEqual(coolant_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state")
+        for expr in [
+            "public class TractorBeamBuild extends BaseTurretBuild{",
+            "@Override",
+            "public void updateTile(){",
+            "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+            "//consume coolant",
+            "if(target != null && coolant != null){",
+            "float maxUsed = coolant.amount;",
+            "Liquid liquid = liquids.current();",
+            "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
+        ]:
+            self.assertIn(expr, coolant_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["activation_returned_early", "target_after", "coolant_present", "coolant_amount", "current_liquid"],
+        )
+        for key in ["source_owner", "inner_class", "method", "override_expr", "retarget_assign_expr", "coolant_comment_expr", "coolant_guard_expr", "max_used_expr", "current_liquid_expr", "used_next_expr", "activation_returned_early", "target_after", "coolant_present", "coolant_amount", "current_liquid", "coolant_evaluated", "coolant_guard", "max_used", "liquid"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_coolant_guard_input")
+        self.assertEqual(input_schema["keys"]["target_after"]["java_expr"], "target")
+        self.assertEqual(input_schema["keys"]["coolant_present"]["java_expr"], "coolant != null")
+        self.assertEqual(input_schema["keys"]["coolant_amount"]["java_expr"], "coolant.amount")
+        self.assertEqual(input_schema["keys"]["current_liquid"]["java_expr"], "liquids.current()")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_coolant_guard_result")
+        self.assertEqual(result_schema["keys"]["coolant_guard"]["java_expr"], "target != null && coolant != null")
+        self.assertEqual(result_schema["keys"]["max_used"]["java_expr"], "coolant.amount")
+        self.assertEqual(result_schema["keys"]["liquid"]["java_expr"], "liquids.current()")
+        self.assertEqual(result_schema["keys"]["used_next_expr"]["java_expr"], "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

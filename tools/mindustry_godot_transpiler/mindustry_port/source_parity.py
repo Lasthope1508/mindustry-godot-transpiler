@@ -777,6 +777,27 @@ def verify_tractor_beam_turret_build_update_tile_retarget_source(upstream_root: 
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_coolant_guard_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+        "override": "@Override",
+        "method": "public void updateTile(){",
+        "retarget_assign": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+        "coolant_comment": "//consume coolant",
+        "coolant_guard": "if(target != null && coolant != null){",
+        "max_used": "float maxUsed = coolant.amount;",
+        "current_liquid": "Liquid liquid = liquids.current();",
+        "used_next": "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

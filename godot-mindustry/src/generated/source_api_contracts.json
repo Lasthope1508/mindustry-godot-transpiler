@@ -29702,6 +29702,69 @@
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
       "rule": "Preserves TractorBeamBuild.updateTile retarget dispatch and target assignment only; Units.closestEnemy implementation remains separate.",
       "source_method": "TractorBeamBuild.updateTile() retarget"
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state": {
+      "status": "source-backed",
+      "source_slice": "N1243",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() coolant guard",
+      "params": [
+        {
+          "name": "activation_returned_early",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_guard_input.activation_returned_early"
+        },
+        {
+          "name": "target_after",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_guard_input.target_after"
+        },
+        {
+          "name": "coolant_present",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_guard_input.coolant_present"
+        },
+        {
+          "name": "coolant_amount",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_guard_input.coolant_amount"
+        },
+        {
+          "name": "current_liquid",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_guard_input.current_liquid"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "retarget_assign_expr",
+        "coolant_comment_expr",
+        "coolant_guard_expr",
+        "max_used_expr",
+        "current_liquid_expr",
+        "used_next_expr",
+        "activation_returned_early",
+        "target_after",
+        "coolant_present",
+        "coolant_amount",
+        "current_liquid",
+        "coolant_evaluated",
+        "coolant_guard",
+        "max_used",
+        "liquid"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile coolant guard, maxUsed, and current liquid state."
     }
   },
   "policy": {
