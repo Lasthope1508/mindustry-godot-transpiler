@@ -29765,6 +29765,73 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile coolant guard, maxUsed, and current liquid state."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_coolant_used_state": {
+      "status": "source-backed",
+      "source_slice": "N1244",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() coolant used",
+      "params": [
+        {
+          "name": "coolant_guard",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_used_input.coolant_guard"
+        },
+        {
+          "name": "liquid_amount",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_used_input.liquid_amount"
+        },
+        {
+          "name": "max_used",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_used_input.max_used"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_used_input.time_delta"
+        },
+        {
+          "name": "coolant_multiplier",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_used_input.coolant_multiplier"
+        },
+        {
+          "name": "liquid_heat_capacity",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_used_input.liquid_heat_capacity"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "coolant_guard_expr",
+        "liquids_get_expr",
+        "max_used_time_delta_expr",
+        "heat_capacity_limit_expr",
+        "used_expr",
+        "remove_next_expr",
+        "coolant_guard",
+        "liquid_amount",
+        "max_used",
+        "time_delta",
+        "coolant_multiplier",
+        "liquid_heat_capacity",
+        "max_used_time_delta",
+        "heat_capacity_limit",
+        "nonnegative_heat_capacity_limit",
+        "used"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_used_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_used_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_used_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_used_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_used_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile coolant used formula."
     }
   },
   "policy": {

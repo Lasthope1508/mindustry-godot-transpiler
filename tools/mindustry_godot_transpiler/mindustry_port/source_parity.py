@@ -798,6 +798,27 @@ def verify_tractor_beam_turret_build_update_tile_coolant_guard_source(upstream_r
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_coolant_used_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "coolant_guard": "if(target != null && coolant != null){",
+        "max_used": "float maxUsed = coolant.amount;",
+        "current_liquid": "Liquid liquid = liquids.current();",
+        "used": "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
+        "liquids_get": "liquids.get(liquid)",
+        "max_used_time_delta": "maxUsed * Time.delta",
+        "heat_capacity_limit": "(1f / coolantMultiplier) / liquid.heatCapacity",
+        "remove_next": "liquids.remove(liquid, used);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")
