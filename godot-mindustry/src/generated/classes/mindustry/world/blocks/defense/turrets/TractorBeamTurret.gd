@@ -52,7 +52,22 @@ func java_inner_class_TractorBeamBuild_method_updateTile_0(_args: Array = []) ->
 	var eff_calculated: bool = not activation_returned_early
 	var eff: float = efficiency * coolant_multiplier if eff_calculated else 0.0
 	var edelta: float = eff * delta_value if eff_calculated else 0.0
-	return {"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state", "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{", "method": "public void updateTile(){", "override_expr": "@Override", "activation_guard_expr": "if(activationTimer > 0){", "activation_decrement_expr": "activationTimer -= Time.delta;", "return_expr": "return;", "next_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();", "eff_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();", "retarget_comment_expr": "//retarget", "retarget_guard_expr": "if(timer(timerTarget, retargetTime)){", "activation_timer": activation_timer, "time_delta": time_delta, "activation_guard": activation_guard, "activation_timer_after": activation_timer_after, "returned_early": returned_early, "activation_returned_early": activation_returned_early, "efficiency": efficiency, "coolant_multiplier": coolant_multiplier, "delta_value": delta_value, "eff_calculated": eff_calculated, "eff": eff, "edelta": edelta}
+	var timer_target_ready: bool = bool(_args[5] if _args.size() > 5 else false)
+	var existing_target: Variant = _args[6] if _args.size() > 6 else null
+	var closest_enemy_result: Variant = _args[7] if _args.size() > 7 else null
+	var team: Variant = _args[8] if _args.size() > 8 else null
+	var x: float = float(_args[9] if _args.size() > 9 else 0.0)
+	var y: float = float(_args[10] if _args.size() > 10 else 0.0)
+	var range_value: float = float(_args[11] if _args.size() > 11 else 0.0)
+	var target_air: bool = bool(_args[12] if _args.size() > 12 else false)
+	var target_ground: bool = bool(_args[13] if _args.size() > 13 else false)
+	var retarget_evaluated: bool = not activation_returned_early
+	var retarget_called: bool = retarget_evaluated and timer_target_ready
+	var target_after: Variant = closest_enemy_result if retarget_called else existing_target
+	var closest_enemy_call: Dictionary = {}
+	if retarget_called:
+		closest_enemy_call = {"call": "Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));", "team": team, "x": x, "y": y, "range": range_value, "target_air": target_air, "target_ground": target_ground, "result": closest_enemy_result}
+	return {"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state", "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{", "method": "public void updateTile(){", "override_expr": "@Override", "activation_guard_expr": "if(activationTimer > 0){", "activation_decrement_expr": "activationTimer -= Time.delta;", "return_expr": "return;", "next_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();", "eff_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();", "retarget_comment_expr": "//retarget", "retarget_guard_expr": "if(timer(timerTarget, retargetTime)){", "retarget_assign_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));", "target_check_filter_expr": "u -> u.checkTarget(targetAir, targetGround)", "activation_timer": activation_timer, "time_delta": time_delta, "activation_guard": activation_guard, "activation_timer_after": activation_timer_after, "returned_early": returned_early, "activation_returned_early": activation_returned_early, "efficiency": efficiency, "coolant_multiplier": coolant_multiplier, "delta_value": delta_value, "eff_calculated": eff_calculated, "eff": eff, "edelta": edelta, "timer_target_ready": timer_target_ready, "existing_target": existing_target, "closest_enemy_result": closest_enemy_result, "team": team, "x": x, "y": y, "range_value": range_value, "target_air": target_air, "target_ground": target_ground, "retarget_evaluated": retarget_evaluated, "retarget_called": retarget_called, "target_after": target_after, "closest_enemy_call": closest_enemy_call}
 
 func java_inner_class_TractorBeamBuild_method_shouldConsume_1(_args: Array = []) -> Variant:
 	var super_should_consume: bool = bool(_args[0] if _args.size() > 0 else false)

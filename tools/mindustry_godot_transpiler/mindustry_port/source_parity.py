@@ -757,6 +757,26 @@ def verify_tractor_beam_turret_build_update_tile_eff_source(upstream_root: Path)
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_retarget_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+        "override": "@Override",
+        "method": "public void updateTile(){",
+        "eff_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();",
+        "retarget_comment": "//retarget",
+        "retarget_guard": "if(timer(timerTarget, retargetTime)){",
+        "retarget_assign": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+        "target_check_filter": "u -> u.checkTarget(targetAir, targetGround)",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

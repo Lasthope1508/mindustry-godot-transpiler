@@ -28501,6 +28501,53 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
       "rule": "After the activation timer early-return boundary, TractorBeamBuild.updateTile computes eff = efficiency * coolantMultiplier and edelta = eff * delta(); retarget logic is deferred."
+    },
+    "N1242": {
+      "status": "source-backed",
+      "title": "Generated TractorBeamTurretBuild updateTile retarget bridge state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void updateTile(){",
+        "float eff = efficiency * coolantMultiplier, edelta = eff * delta();",
+        "//retarget",
+        "if(timer(timerTarget, retargetTime)){",
+        "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+        "u -> u.checkTarget(targetAir, targetGround)"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_retarget.method",
+        "tractor_beam_turret_build_update_tile_retarget.inner_class",
+        "tractor_beam_turret_build_update_tile_retarget.override",
+        "tractor_beam_turret_build_update_tile_retarget.eff_expr",
+        "tractor_beam_turret_build_update_tile_retarget.comment",
+        "tractor_beam_turret_build_update_tile_retarget.guard",
+        "tractor_beam_turret_build_update_tile_retarget.existing_target",
+        "tractor_beam_turret_build_update_tile_retarget.closest_enemy",
+        "tractor_beam_turret_build_update_tile_retarget.team",
+        "tractor_beam_turret_build_update_tile_retarget.x",
+        "tractor_beam_turret_build_update_tile_retarget.y",
+        "tractor_beam_turret_build_update_tile_retarget.range",
+        "tractor_beam_turret_build_update_tile_retarget.target_air",
+        "tractor_beam_turret_build_update_tile_retarget.target_ground",
+        "tractor_beam_turret_build_update_tile_retarget.filter",
+        "tractor_beam_turret_build_update_tile_retarget.assign",
+        "tractor_beam_turret_build_update_tile_retarget.retarget_called",
+        "tractor_beam_turret_build_update_tile_retarget.target_after"
+      ],
+      "rule": "After eff/edelta, TractorBeamBuild.updateTile optionally assigns target from Units.closestEnemy when timer(timerTarget, retargetTime) is true; Units.closestEnemy internals stay deferred as explicit input closest_enemy_result."
     }
   },
   "version": 1

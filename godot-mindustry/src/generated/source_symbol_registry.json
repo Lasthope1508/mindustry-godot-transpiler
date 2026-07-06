@@ -91475,6 +91475,312 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() eff/edelta",
       "java_expr": "if(timer(timerTarget, retargetTime)){"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for retarget slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.inner_class": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_result.inner_class",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Exact TractorBeamBuild inner class boundary.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "public class TractorBeamBuild extends BaseTurretBuild{"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.override": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_result.override_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Exact updateTile override marker.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "@Override"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.eff_expr": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_result.eff_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Prior eff/edelta line before retarget.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.comment": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_result.retarget_comment_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Exact retarget comment.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "//retarget"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_input.timer_target_ready",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Explicit result of source timer(timerTarget, retargetTime) guard.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "timer(timerTarget, retargetTime)"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.existing_target": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_input.existing_target",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Source target value before optional retarget assignment.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "target"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.closest_enemy": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_input.closest_enemy_result",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Explicit result of Units.closestEnemy; Units internals deferred.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround))"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.team": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_input.team",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Team argument passed to Units.closestEnemy.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "team"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.x": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_input.x",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "x argument passed to Units.closestEnemy.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "x"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.y": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_input.y",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "y argument passed to Units.closestEnemy.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "y"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.range": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_input.range_value",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "range argument passed to Units.closestEnemy.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "range"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.target_air": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_input.target_air",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "targetAir captured by source target filter.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "targetAir"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.target_ground": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_input.target_ground",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "targetGround captured by source target filter.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "targetGround"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.filter": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_result.target_check_filter_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Exact Units.closestEnemy target filter lambda.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "u -> u.checkTarget(targetAir, targetGround)"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.assign": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_result.retarget_assign_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Exact retarget assignment statement.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.retarget_called": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_result.retarget_called",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Retarget call occurs only after activation return is skipped and timer guard is true.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "if(timer(timerTarget, retargetTime)){"
+    },
+    "tractor_beam_turret_build_update_tile_retarget.target_after": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_retarget_result.target_after",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Source target after optional Units.closestEnemy assignment.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));"
     }
   },
   "version": 1

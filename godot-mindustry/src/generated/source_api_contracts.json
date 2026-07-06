@@ -29610,6 +29610,98 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile eff/edelta calculation state."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state": {
+      "status": "source-backed",
+      "source_slice": "N1242",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "params": [
+        {
+          "name": "activation_returned_early",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_retarget_input.activation_returned_early"
+        },
+        {
+          "name": "timer_target_ready",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_retarget_input.timer_target_ready"
+        },
+        {
+          "name": "existing_target",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_retarget_input.existing_target"
+        },
+        {
+          "name": "closest_enemy_result",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_retarget_input.closest_enemy_result"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_retarget_input.team"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_retarget_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_retarget_input.y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_retarget_input.range_value"
+        },
+        {
+          "name": "target_air",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_retarget_input.target_air"
+        },
+        {
+          "name": "target_ground",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_retarget_input.target_ground"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "eff_expr",
+        "retarget_comment_expr",
+        "retarget_guard_expr",
+        "retarget_assign_expr",
+        "target_check_filter_expr",
+        "activation_returned_early",
+        "timer_target_ready",
+        "existing_target",
+        "closest_enemy_result",
+        "team",
+        "x",
+        "y",
+        "range_value",
+        "target_air",
+        "target_ground",
+        "retarget_evaluated",
+        "retarget_called",
+        "target_after",
+        "closest_enemy_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "rule": "Preserves TractorBeamBuild.updateTile retarget dispatch and target assignment only; Units.closestEnemy implementation remains separate.",
+      "source_method": "TractorBeamBuild.updateTile() retarget"
     }
   },
   "policy": {

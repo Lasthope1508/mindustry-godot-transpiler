@@ -8108,6 +8108,62 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"eff": eff', source_text)
             self.assertIn('"edelta": edelta', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            //retarget
+            if(timer(timerTarget, retargetTime)){
+                target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_TractorBeamBuild_method_updateTile_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var timer_target_ready: bool = bool(_args[5] if _args.size() > 5 else false)", source_text)
+            self.assertIn("var existing_target: Variant = _args[6] if _args.size() > 6 else null", source_text)
+            self.assertIn("var closest_enemy_result: Variant = _args[7] if _args.size() > 7 else null", source_text)
+            self.assertIn("var team: Variant = _args[8] if _args.size() > 8 else null", source_text)
+            self.assertIn("var x: float = float(_args[9] if _args.size() > 9 else 0.0)", source_text)
+            self.assertIn("var y: float = float(_args[10] if _args.size() > 10 else 0.0)", source_text)
+            self.assertIn("var range_value: float = float(_args[11] if _args.size() > 11 else 0.0)", source_text)
+            self.assertIn("var target_air: bool = bool(_args[12] if _args.size() > 12 else false)", source_text)
+            self.assertIn("var target_ground: bool = bool(_args[13] if _args.size() > 13 else false)", source_text)
+            self.assertIn("var retarget_evaluated: bool = not activation_returned_early", source_text)
+            self.assertIn("var retarget_called: bool = retarget_evaluated and timer_target_ready", source_text)
+            self.assertIn("var target_after: Variant = closest_enemy_result if retarget_called else existing_target", source_text)
+            self.assertIn('"retarget_assign_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));"', source_text)
+            self.assertIn('"target_check_filter_expr": "u -> u.checkTarget(targetAir, targetGround)"', source_text)
+            self.assertIn('"timer_target_ready": timer_target_ready', source_text)
+            self.assertIn('"closest_enemy_result": closest_enemy_result', source_text)
+            self.assertIn('"target_after": target_after', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

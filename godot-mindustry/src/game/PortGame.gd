@@ -17404,6 +17404,61 @@ func generated_tractor_beam_turret_build_update_tile_eff_bridge_state(activation
 			and result.get("delta_value", null) == canonical.get("delta_value", null),
 	}
 
+func source_tractor_beam_turret_build_update_tile_retarget_state(activation_returned_early: bool, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool) -> Dictionary:
+	var retarget_evaluated: bool = not activation_returned_early
+	var retarget_called: bool = retarget_evaluated and timer_target_ready
+	var target_after: Variant = closest_enemy_result if retarget_called else existing_target
+	var closest_enemy_call: Dictionary = {}
+	if retarget_called:
+		closest_enemy_call = {"call": "Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));", "team": team, "x": x, "y": y, "range": range_value, "target_air": target_air, "target_ground": target_ground, "result": closest_enemy_result}
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+		"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+		"method": "public void updateTile(){",
+		"override_expr": "@Override",
+		"eff_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();",
+		"retarget_comment_expr": "//retarget",
+		"retarget_guard_expr": "if(timer(timerTarget, retargetTime)){",
+		"retarget_assign_expr": "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+		"target_check_filter_expr": "u -> u.checkTarget(targetAir, targetGround)",
+		"activation_returned_early": activation_returned_early,
+		"timer_target_ready": timer_target_ready,
+		"existing_target": existing_target,
+		"closest_enemy_result": closest_enemy_result,
+		"team": team,
+		"x": x,
+		"y": y,
+		"range_value": range_value,
+		"target_air": target_air,
+		"target_ground": target_ground,
+		"retarget_evaluated": retarget_evaluated,
+		"retarget_called": retarget_called,
+		"target_after": target_after,
+		"closest_enemy_call": closest_enemy_call,
+	}
+
+func generated_tractor_beam_turret_build_update_tile_retarget_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground])
+	var canonical = source_tractor_beam_turret_build_update_tile_retarget_state(result.get("returned_early", false), timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.retarget",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("retarget_called", null) == canonical.get("retarget_called", null) and result.get("target_after", null) == canonical.get("target_after", null)
+			and result.get("timer_target_ready", null) == canonical.get("timer_target_ready", null)
+			and result.get("existing_target", null) == canonical.get("existing_target", null)
+			and result.get("closest_enemy_result", null) == canonical.get("closest_enemy_result", null)
+			and result.get("team", null) == canonical.get("team", null)
+			and result.get("x", null) == canonical.get("x", null)
+			and result.get("y", null) == canonical.get("y", null)
+			and result.get("range_value", null) == canonical.get("range_value", null)
+			and result.get("target_air", null) == canonical.get("target_air", null)
+			and result.get("target_ground", null) == canonical.get("target_ground", null),
+	}
+
 func source_tractor_beam_turret_build_draw_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:
 	var draw_rotation: float = rotation_value - 90.0
 	var base_rect_call: Dictionary = {"call": "Draw.rect(baseRegion, x, y);", "region": base_region, "x": x, "y": y}
