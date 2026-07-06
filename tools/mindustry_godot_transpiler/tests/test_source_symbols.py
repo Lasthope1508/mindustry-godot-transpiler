@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 782)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 777)
+        self.assertEqual(audit["totalSourceFunctions"], 783)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 778)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 782)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 783)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44558,6 +44558,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_requirements_visible_result")
         self.assertEqual(result_schema["keys"]["requirements_after"]["java_expr"], "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));")
         self.assertEqual(result_schema["keys"]["build_visibility_after"]["java_expr"], "this.buildVisibility = visible;")
+
+    def test_generated_block_init_building_default_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_building_default.method")
+        self.assertEqual(method["java_expr"], "protected void initBuilding(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.initBuilding()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_building_default_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_building_default_state")
+
+        default_assignment = source_symbols.source_symbol(registry, "block_init_building_default.default_assignment_expr")
+        self.assertEqual(default_assignment["java_expr"], "buildType = Building::create;")
+        self.assertEqual(default_assignment["godot_symbol"], "source_block_init_building_default_result.build_type_after")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1309")
+        self.assertEqual(setup_slice["title"], "Generated Block initBuilding default bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.initBuilding()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_building_default_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_initBuilding_117")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_building_default_bridge_state")
+        for expr in [
+            "protected void initBuilding(){",
+            "try{",
+            "}catch(Throwable ignored){",
+            "if(buildType == null){",
+            "//assign default value",
+            "buildType = Building::create;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_building_default_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["build_type_before"])
+        for key in ["source_owner", "source", "method", "default_guard_expr", "default_comment", "default_assignment_expr", "build_type_before", "build_type_after", "default_assigned"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_building_default_input")
+        self.assertEqual(input_schema["keys"]["build_type_before"]["java_expr"], "buildType")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_building_default_result")
+        self.assertEqual(result_schema["keys"]["build_type_after"]["java_expr"], "buildType = Building::create;")
+        self.assertEqual(result_schema["keys"]["default_assigned"]["java_expr"], "if(buildType == null){")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

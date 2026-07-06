@@ -476,7 +476,10 @@ func java_method_requirements_116(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_requirements_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){", "comment": "/** Sets up requirements. Use only this method to set up requirements. */", "category_assignment_expr": "this.category = cat;", "requirements_assignment_expr": "this.requirements = stacks;", "build_visibility_assignment_expr": "this.buildVisibility = visible;", "sort_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));", "cat": cat, "visible": build_visibility, "stacks": stacks, "category_after": cat, "requirements_after": requirements_after, "build_visibility_after": build_visibility, "sort_called": true}
 
 func java_method_initBuilding_117(_args: Array = []) -> Variant:
-	return null
+	var build_type_before: Variant = _args[0] if _args.size() > 0 else null
+	var default_assigned: bool = build_type_before == null
+	var build_type_after: Variant = "Building::create" if default_assigned else build_type_before
+	return {"source_owner": "PortGame.source_block_init_building_default_state", "source": "core/src/mindustry/world/Block.java", "method": "protected void initBuilding(){", "default_guard_expr": "if(buildType == null){", "default_comment": "//assign default value", "default_assignment_expr": "buildType = Building::create;", "build_type_before": build_type_before, "build_type_after": build_type_after, "default_assigned": default_assigned}
 
 func java_method_researchRequirements_118(_args: Array = []) -> Variant:
 	return null

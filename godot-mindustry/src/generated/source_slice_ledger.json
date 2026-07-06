@@ -9975,6 +9975,40 @@
       ],
       "title": "Generated Block requirements visible bridge state"
     },
+    "N1309": {
+      "exact_exprs": [
+        "protected void initBuilding(){",
+        "try{",
+        "}catch(Throwable ignored){",
+        "if(buildType == null){",
+        "//assign default value",
+        "buildType = Building::create;"
+      ],
+      "generated_owner": "Block.java_method_initBuilding_117",
+      "godot_owner": "PortGame.source_block_init_building_default_state",
+      "java_class": "Block",
+      "java_method": "Block.initBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_init_building_default_bridge_state",
+      "source_symbols": [
+        "block_init_building_default.method",
+        "block_init_building_default.try_expr",
+        "block_init_building_default.catch_ignored_expr",
+        "block_init_building_default.default_guard_expr",
+        "block_init_building_default.default_comment",
+        "block_init_building_default.default_assignment_expr",
+        "block_init_building_default.build_type_before"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block initBuilding default bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

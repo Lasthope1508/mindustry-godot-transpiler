@@ -2660,6 +2660,40 @@
         "test_block_health_at_cell_symbols_are_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_init_building_default_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "buildType",
+          "name": "build_type_before",
+          "schema": "source_block_init_building_default_input.build_type_before",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "default_guard_expr",
+        "default_comment",
+        "default_assignment_expr",
+        "build_type_before",
+        "build_type_after",
+        "default_assigned"
+      ],
+      "rule": "Pin source-backed Block.initBuilding() default buildType fallback state.",
+      "runtime_proof": "/root/Main.source_block_init_building_default_state",
+      "source_method": "Block.initBuilding()",
+      "source_slice": "N1309",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_is_air_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [

@@ -6573,6 +6573,132 @@
         "test_block_health_at_cell_symbols_are_registered_with_source_backing"
       ]
     },
+    "block_init_building_default.build_type_before": {
+      "godot_owner": "PortGame.source_block_init_building_default_state",
+      "godot_symbol": "source_block_init_building_default_input.build_type_before",
+      "java_expr": "buildType",
+      "java_method": "Block.initBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose buildType field before default fallback.",
+      "runtime_proof": "/root/Main.source_block_init_building_default_state",
+      "source_slice": "N1309",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_init_building_default.catch_ignored_expr": {
+      "godot_owner": "PortGame.source_block_init_building_default_state",
+      "godot_symbol": "source_block_init_building_default_result.method",
+      "java_expr": "}catch(Throwable ignored){",
+      "java_method": "Block.initBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve ignored Throwable catch boundary before default fallback.",
+      "runtime_proof": "/root/Main.source_block_init_building_default_state",
+      "source_slice": "N1309",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_init_building_default.default_assignment_expr": {
+      "godot_owner": "PortGame.source_block_init_building_default_state",
+      "godot_symbol": "source_block_init_building_default_result.build_type_after",
+      "java_expr": "buildType = Building::create;",
+      "java_method": "Block.initBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Building::create fallback assignment.",
+      "runtime_proof": "/root/Main.source_block_init_building_default_state",
+      "source_slice": "N1309",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_init_building_default.default_comment": {
+      "godot_owner": "PortGame.source_block_init_building_default_state",
+      "godot_symbol": "source_block_init_building_default_result.default_comment",
+      "java_expr": "//assign default value",
+      "java_method": "Block.initBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve default fallback comment.",
+      "runtime_proof": "/root/Main.source_block_init_building_default_state",
+      "source_slice": "N1309",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_init_building_default.default_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_building_default_state",
+      "godot_symbol": "source_block_init_building_default_result.default_assigned",
+      "java_expr": "if(buildType == null){",
+      "java_method": "Block.initBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve buildType null guard for default fallback.",
+      "runtime_proof": "/root/Main.source_block_init_building_default_state",
+      "source_slice": "N1309",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_init_building_default.method": {
+      "godot_owner": "PortGame.source_block_init_building_default_state",
+      "godot_symbol": "source_block_init_building_default_result.method",
+      "java_expr": "protected void initBuilding(){",
+      "java_method": "Block.initBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.initBuilding() method boundary.",
+      "runtime_proof": "/root/Main.source_block_init_building_default_state",
+      "source_slice": "N1309",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_init_building_default.try_expr": {
+      "godot_owner": "PortGame.source_block_init_building_default_state",
+      "godot_symbol": "source_block_init_building_default_result.method",
+      "java_expr": "try{",
+      "java_method": "Block.initBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve initBuilding reflection try boundary.",
+      "runtime_proof": "/root/Main.source_block_init_building_default_state",
+      "source_slice": "N1309",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_building_default_to_source_state",
+        "test_port_game_exposes_source_block_init_building_default_state",
+        "test_port_game_exposes_generated_block_init_building_default_bridge_state",
+        "test_block_init_building_default_matches_upstream_source",
+        "test_generated_block_init_building_default_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_is_air.id": {
       "godot_owner": "PortGame.source_block_is_air_state",
       "godot_symbol": "source_block_is_air_input.id",

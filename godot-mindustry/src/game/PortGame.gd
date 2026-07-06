@@ -17938,6 +17938,34 @@ func generated_block_requirements_visible_bridge_state(cat: Variant, build_visib
 		"matches": result == canonical,
 	}
 
+func source_block_init_building_default_state(build_type_before: Variant) -> Dictionary:
+	var default_assigned: bool = build_type_before == null
+	var build_type_after: Variant = "Building::create" if default_assigned else build_type_before
+	return {
+		"source_owner": "PortGame.source_block_init_building_default_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "protected void initBuilding(){",
+		"default_guard_expr": "if(buildType == null){",
+		"default_comment": "//assign default value",
+		"default_assignment_expr": "buildType = Building::create;",
+		"build_type_before": build_type_before,
+		"build_type_after": build_type_after,
+		"default_assigned": default_assigned,
+	}
+
+func generated_block_init_building_default_bridge_state(build_type_before: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_initBuilding_117([build_type_before])
+	var canonical = source_block_init_building_default_state(build_type_before)
+	return {
+		"source_owner": "PortGame.source_block_init_building_default_state",
+		"generated_owner": "Block.java_method_initBuilding_117",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

@@ -1764,6 +1764,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "initBuilding"
+        and len(method.get("parameters", [])) == 0
+    ):
+        return [
+            "\tvar build_type_before: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar default_assigned: bool = build_type_before == null",
+            '\tvar build_type_after: Variant = "Building::create" if default_assigned else build_type_before',
+            '\treturn {"source_owner": "PortGame.source_block_init_building_default_state", "source": "core/src/mindustry/world/Block.java", "method": "protected void initBuilding(){", "default_guard_expr": "if(buildType == null){", "default_comment": "//assign default value", "default_assignment_expr": "buildType = Building::create;", "build_type_before": build_type_before, "build_type_after": build_type_after, "default_assigned": default_assigned}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):

@@ -16779,5 +16779,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_requirements_116"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_building_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_building_default_state(build_type_before: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_building_default_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "protected void initBuilding(){"', source)
+        self.assertIn('"default_guard_expr": "if(buildType == null){"', source)
+        self.assertIn('"default_comment": "//assign default value"', source)
+        self.assertIn('"default_assignment_expr": "buildType = Building::create;"', source)
+        self.assertIn('"build_type_before": build_type_before', source)
+        self.assertIn('"build_type_after": build_type_after', source)
+        self.assertIn('"default_assigned": default_assigned', source)
+
+    def test_port_game_exposes_generated_block_init_building_default_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_building_default_bridge_state(build_type_before: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_initBuilding_117([build_type_before])", source)
+        self.assertIn("var canonical = source_block_init_building_default_state(build_type_before)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_building_default_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_initBuilding_117"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

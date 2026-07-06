@@ -10216,6 +10216,24 @@ def verify_block_requirements_visible_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_block_init_building_default_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "protected void initBuilding(){",
+        "try_expr": "try{",
+        "catch_ignored_expr": "}catch(Throwable ignored){",
+        "default_guard_expr": "if(buildType == null){",
+        "default_comment": "//assign default value",
+        "default_assignment_expr": "buildType = Building::create;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
