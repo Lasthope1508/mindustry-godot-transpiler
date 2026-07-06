@@ -93104,6 +93104,60 @@
         "test_ability_created_matches_upstream_source",
         "test_generated_ability_created_slice_is_registered_with_source_backing"
       ]
+    },
+    "ability_init.method": {
+      "godot_owner": "PortGame.source_ability_init_state",
+      "godot_symbol": "source_ability_init_result.method",
+      "java_expr": "public void init(UnitType type){}",
+      "java_method": "Ability.init(UnitType type)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_init_state",
+      "source_slice": "N1265",
+      "status": "source-backed",
+      "rule": "Ability.init(UnitType type) default method identity from upstream Ability.java.",
+      "tests": [
+        "test_emit_bridges_ability_init_to_source_state",
+        "test_port_game_exposes_source_ability_init_state",
+        "test_port_game_exposes_generated_ability_init_bridge_state",
+        "test_ability_init_matches_upstream_source",
+        "test_generated_ability_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_init.type": {
+      "godot_owner": "PortGame.source_ability_init_state",
+      "godot_symbol": "source_ability_init_input.type",
+      "java_expr": "UnitType type",
+      "java_method": "Ability.init(UnitType type)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_init_state",
+      "source_slice": "N1265",
+      "status": "explicit-input",
+      "rule": "Explicit UnitType type argument passed through unchanged.",
+      "tests": [
+        "test_emit_bridges_ability_init_to_source_state",
+        "test_port_game_exposes_source_ability_init_state",
+        "test_port_game_exposes_generated_ability_init_bridge_state",
+        "test_ability_init_matches_upstream_source",
+        "test_generated_ability_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_init.no_op": {
+      "godot_owner": "PortGame.source_ability_init_state",
+      "godot_symbol": "source_ability_init_result.no_op",
+      "java_expr": "public void init(UnitType type){}",
+      "java_method": "Ability.init(UnitType type)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_init_state",
+      "source_slice": "N1265",
+      "status": "source-backed",
+      "rule": "Empty upstream Ability.init body produces no side effects.",
+      "tests": [
+        "test_emit_bridges_ability_init_to_source_state",
+        "test_port_game_exposes_source_ability_init_state",
+        "test_port_game_exposes_generated_ability_init_bridge_state",
+        "test_ability_init_matches_upstream_source",
+        "test_generated_ability_init_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

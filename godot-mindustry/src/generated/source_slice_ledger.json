@@ -29201,6 +29201,33 @@
       ],
       "runtime_proof": "/root/Main.generated_ability_created_bridge_state",
       "status": "source-backed"
+    },
+    "N1265": {
+      "title": "Generated Ability init bridge state",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.init(UnitType type)",
+      "godot_owner": "PortGame.source_ability_init_state",
+      "generated_owner": "Ability.java_method_init_4",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.type.*;",
+        "public void init(UnitType type){}"
+      ],
+      "source_symbols": [
+        "ability_init.method",
+        "ability_init.type",
+        "ability_init.no_op"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_init_to_source_state",
+        "test_port_game_exposes_source_ability_init_state",
+        "test_port_game_exposes_generated_ability_init_bridge_state",
+        "test_ability_init_matches_upstream_source",
+        "test_generated_ability_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_ability_init_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1

@@ -9422,6 +9422,35 @@ public abstract class Ability implements Cloneable{
             self.assertIn('"unit": unit', source_text)
             self.assertIn('"no_op": true', source_text)
 
+    def test_emit_bridges_ability_init_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            ability_path = source_root / "mindustry" / "entities" / "abilities" / "Ability.java"
+            ability_path.parent.mkdir(parents=True, exist_ok=True)
+            ability_path.write_text(
+                """
+package mindustry.entities.abilities;
+
+public abstract class Ability implements Cloneable{
+    public void init(UnitType type){}
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "abilities" / "Ability.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar type_value: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_ability_init_state"', source_text)
+            self.assertIn('"method": "public void init(UnitType type){}"', source_text)
+            self.assertIn('"type": type_value', source_text)
+            self.assertIn('"no_op": true', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

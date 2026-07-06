@@ -7222,6 +7222,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_ability_created_result")
         self.assertEqual(result_schema["keys"]["no_op"]["java_expr"], "public void created(Unit unit){}")
 
+    def test_generated_ability_init_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "ability_init.method")
+        self.assertEqual(method["java_expr"], "public void init(UnitType type){}")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(method["java_method"], "Ability.init(UnitType type)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_ability_init_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_ability_init_state")
+        self.assertEqual(method["godot_symbol"], "source_ability_init_result.method")
+
+        type_value = source_symbols.source_symbol(registry, "ability_init.type")
+        self.assertEqual(type_value["status"], "explicit-input")
+        self.assertEqual(type_value["java_expr"], "UnitType type")
+        self.assertEqual(type_value["godot_symbol"], "source_ability_init_input.type")
+
+        no_op = source_symbols.source_symbol(registry, "ability_init.no_op")
+        self.assertEqual(no_op["java_expr"], "public void init(UnitType type){}")
+        self.assertEqual(no_op["godot_symbol"], "source_ability_init_result.no_op")
+
+        init_slice = source_symbols.source_slice(ledger, "N1265")
+        self.assertEqual(init_slice["title"], "Generated Ability init bridge state")
+        self.assertEqual(init_slice["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(init_slice["java_method"], "Ability.init(UnitType type)")
+        self.assertEqual(init_slice["godot_owner"], "PortGame.source_ability_init_state")
+        self.assertEqual(init_slice["generated_owner"], "Ability.java_method_init_4")
+        self.assertEqual(init_slice["runtime_proof"], "/root/Main.generated_ability_init_bridge_state")
+        for expr in [
+            "public abstract class Ability implements Cloneable{",
+            "import mindustry.type.*;",
+            "public void init(UnitType type){}",
+        ]:
+            self.assertIn(expr, init_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_ability_init_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["type_value"])
+        for key in ["source_owner", "source", "method", "type", "no_op"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_ability_init_input")
+        self.assertEqual(input_schema["keys"]["type"]["java_expr"], "UnitType type")
+        result_schema = source_symbols.state_schema(schema, "source_ability_init_result")
+        self.assertEqual(result_schema["keys"]["no_op"]["java_expr"], "public void init(UnitType type){}")
+
     def test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19925,15 +19975,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 738)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 733)
+        self.assertEqual(audit["totalSourceFunctions"], 739)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 734)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 738)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 739)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
+        self.assertIn("PortGame.source_ability_init_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_parts_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_accumulate_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_default_state", audit["registeredSourceOwners"])

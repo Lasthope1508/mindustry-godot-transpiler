@@ -110399,6 +110399,128 @@
       "runtime_proof": "/root/Main.source_ability_created_state",
       "source_slice": "N1264",
       "status": "source-backed"
+    },
+    "source_ability_init_input": {
+      "rule": "Inputs for PortGame.source_ability_init_state.",
+      "keys": {
+        "type": {
+          "godot_symbol": "source_ability_init_input.type",
+          "java_expr": "UnitType type",
+          "java_method": "Ability.init(UnitType type)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_init_state"
+          ],
+          "rule": "Explicit UnitType type argument passed through unchanged.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_init.type"
+          ],
+          "used_by": [
+            "PortGame.source_ability_init_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_init_state",
+      "runtime_proof": "/root/Main.source_ability_init_state",
+      "source_slice": "N1265",
+      "status": "source-backed"
+    },
+    "source_ability_init_result": {
+      "rule": "Dictionary returned by PortGame.source_ability_init_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_ability_init_result.source_owner",
+          "java_expr": "PortGame.source_ability_init_state",
+          "java_method": "Ability.init(UnitType type)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_init_state"
+          ],
+          "rule": "Canonical PortGame owner for Ability.init bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_init_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_ability_init_result.source",
+          "java_expr": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.init(UnitType type)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_init_state"
+          ],
+          "rule": "Upstream source file for Ability.init.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_init_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_ability_init_result.method",
+          "java_expr": "public void init(UnitType type){}",
+          "java_method": "Ability.init(UnitType type)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_init_state"
+          ],
+          "rule": "Base Ability.init method body.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_init.method"
+          ],
+          "used_by": [
+            "PortGame.source_ability_init_state"
+          ]
+        },
+        "type": {
+          "godot_symbol": "source_ability_init_result.type",
+          "java_expr": "UnitType type",
+          "java_method": "Ability.init(UnitType type)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_init_state"
+          ],
+          "rule": "Explicit UnitType type argument returned unchanged.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_init.type"
+          ],
+          "used_by": [
+            "PortGame.source_ability_init_state"
+          ]
+        },
+        "no_op": {
+          "godot_symbol": "source_ability_init_result.no_op",
+          "java_expr": "public void init(UnitType type){}",
+          "java_method": "Ability.init(UnitType type)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_init_state"
+          ],
+          "rule": "Empty upstream Ability.init body produces no side effects.",
+          "status": "source-backed",
+          "type": "bool",
+          "source_symbols": [
+            "ability_init.no_op"
+          ],
+          "used_by": [
+            "PortGame.source_ability_init_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_init_state",
+      "runtime_proof": "/root/Main.source_ability_init_state",
+      "source_slice": "N1265",
+      "status": "source-backed"
     }
   },
   "version": 1

@@ -30893,6 +30893,36 @@
       ],
       "runtime_proof": "/root/Main.source_ability_created_state",
       "rule": "Public runtime contract for Ability.created(Unit unit) default no-op."
+    },
+    "PortGame.source_ability_init_state": {
+      "status": "source-backed",
+      "source_slice": "N1265",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.init(UnitType type)",
+      "params": [
+        {
+          "name": "type_value",
+          "type": "Variant",
+          "java_expr": "UnitType type",
+          "schema": "source_ability_init_input.type"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "type",
+        "no_op"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_init_to_source_state",
+        "test_port_game_exposes_source_ability_init_state",
+        "test_port_game_exposes_generated_ability_init_bridge_state",
+        "test_ability_init_matches_upstream_source",
+        "test_generated_ability_init_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_ability_init_state",
+      "rule": "Public runtime contract for Ability.init(UnitType type) default no-op."
     }
   },
   "policy": {
