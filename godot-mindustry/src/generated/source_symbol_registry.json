@@ -5335,6 +5335,114 @@
         "test_generated_block_outputs_items_slice_is_registered_with_source_backing"
       ]
     },
+    "block_remove_consumer.cons": {
+      "godot_owner": "PortGame.source_block_remove_consumer_state",
+      "godot_symbol": "source_block_remove_consumer_input.cons",
+      "java_expr": "Consume cons",
+      "java_method": "Block.removeConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose removeConsumer parameter.",
+      "runtime_proof": "/root/Main.source_block_remove_consumer_state",
+      "source_slice": "N1289",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_remove_consumer_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumer_state",
+        "test_port_game_exposes_generated_block_remove_consumer_bridge_state",
+        "test_block_remove_consumer_matches_upstream_source",
+        "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumer.consumers_length": {
+      "godot_owner": "PortGame.source_block_remove_consumer_state",
+      "godot_symbol": "source_block_remove_consumer_input.consumers_length",
+      "java_expr": "consumers.length",
+      "java_method": "Block.removeConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose consumers.length as explicit source input.",
+      "runtime_proof": "/root/Main.source_block_remove_consumer_state",
+      "source_slice": "N1289",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_remove_consumer_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumer_state",
+        "test_port_game_exposes_generated_block_remove_consumer_bridge_state",
+        "test_block_remove_consumer_matches_upstream_source",
+        "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumer.exception_expr": {
+      "godot_owner": "PortGame.source_block_remove_consumer_state",
+      "godot_symbol": "source_block_remove_consumer_result.exception_expr",
+      "java_expr": "throw new IllegalStateException(\"You can only remove consumers before init(). After init(), all consumers have already been initialized.\");",
+      "java_method": "Block.removeConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve removeConsumer IllegalStateException expression.",
+      "runtime_proof": "/root/Main.source_block_remove_consumer_state",
+      "source_slice": "N1289",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_remove_consumer_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumer_state",
+        "test_port_game_exposes_generated_block_remove_consumer_bridge_state",
+        "test_block_remove_consumer_matches_upstream_source",
+        "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumer.guard_expr": {
+      "godot_owner": "PortGame.source_block_remove_consumer_state",
+      "godot_symbol": "source_block_remove_consumer_result.illegal_state_exception_thrown",
+      "java_expr": "if(consumers.length > 0){",
+      "java_method": "Block.removeConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve removeConsumer initialized-consumers guard.",
+      "runtime_proof": "/root/Main.source_block_remove_consumer_state",
+      "source_slice": "N1289",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_remove_consumer_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumer_state",
+        "test_port_game_exposes_generated_block_remove_consumer_bridge_state",
+        "test_block_remove_consumer_matches_upstream_source",
+        "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumer.method": {
+      "godot_owner": "PortGame.source_block_remove_consumer_state",
+      "godot_symbol": "source_block_remove_consumer_result.method",
+      "java_expr": "public void removeConsumer(Consume cons){",
+      "java_method": "Block.removeConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.removeConsumer(Consume) method boundary.",
+      "runtime_proof": "/root/Main.source_block_remove_consumer_state",
+      "source_slice": "N1289",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_remove_consumer_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumer_state",
+        "test_port_game_exposes_generated_block_remove_consumer_bridge_state",
+        "test_block_remove_consumer_matches_upstream_source",
+        "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumer.remove_expr": {
+      "godot_owner": "PortGame.source_block_remove_consumer_state",
+      "godot_symbol": "source_block_remove_consumer_result.consume_builder_remove_called",
+      "java_expr": "consumeBuilder.remove(cons);",
+      "java_method": "Block.removeConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumeBuilder.remove(cons) side-effect call.",
+      "runtime_proof": "/root/Main.source_block_remove_consumer_state",
+      "source_slice": "N1289",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_remove_consumer_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumer_state",
+        "test_port_game_exposes_generated_block_remove_consumer_bridge_state",
+        "test_block_remove_consumer_matches_upstream_source",
+        "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_rotated_output.method": {
       "godot_owner": "PortGame.source_block_rotated_output_state",
       "godot_symbol": "source_block_rotated_output_result.method",

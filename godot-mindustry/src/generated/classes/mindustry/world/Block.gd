@@ -353,7 +353,11 @@ func java_method_hasConsumer_96(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_has_consumer_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean hasConsumer(Consume cons){", "return_expr": "return consumeBuilder.contains(cons);", "consumeBuilder_contains": consume_builder_contains, "cons": cons, "has_consumer": consume_builder_contains}
 
 func java_method_removeConsumer_97(_args: Array = []) -> Variant:
-	return null
+	var consumers_length: int = int(_args[0] if _args.size() > 0 else 0)
+	var cons: Variant = _args[1] if _args.size() > 1 else null
+	var illegal_state_exception_thrown: bool = consumers_length > 0
+	var consume_builder_remove_called: bool = not illegal_state_exception_thrown
+	return {"source_owner": "PortGame.source_block_remove_consumer_state", "source": "core/src/mindustry/world/Block.java", "method": "public void removeConsumer(Consume cons){", "guard_expr": "if(consumers.length > 0){", "exception_expr": "throw new IllegalStateException(\"You can only remove consumers before init(). After init(), all consumers have already been initialized.\");", "exception_message": "You can only remove consumers before init(). After init(), all consumers have already been initialized.", "remove_expr": "consumeBuilder.remove(cons);", "consumers_length": consumers_length, "cons": cons, "illegal_state_exception_thrown": illegal_state_exception_thrown, "consume_builder_remove_called": consume_builder_remove_called}
 
 func java_method_removeConsumers_98(_args: Array = []) -> Variant:
 	return null

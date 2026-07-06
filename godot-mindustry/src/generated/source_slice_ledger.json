@@ -9279,6 +9279,39 @@
       ],
       "title": "Generated Block hasConsumer bridge state"
     },
+    "N1289": {
+      "exact_exprs": [
+        "public void removeConsumer(Consume cons){",
+        "if(consumers.length > 0){",
+        "throw new IllegalStateException(\"You can only remove consumers before init(). After init(), all consumers have already been initialized.\");",
+        "consumeBuilder.remove(cons);",
+        "consumers.length",
+        "Consume cons"
+      ],
+      "generated_owner": "Block.java_method_removeConsumer_97",
+      "godot_owner": "PortGame.source_block_remove_consumer_state",
+      "java_class": "Block",
+      "java_method": "Block.removeConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_remove_consumer_bridge_state",
+      "source_symbols": [
+        "block_remove_consumer.method",
+        "block_remove_consumer.guard_expr",
+        "block_remove_consumer.exception_expr",
+        "block_remove_consumer.remove_expr",
+        "block_remove_consumer.consumers_length",
+        "block_remove_consumer.cons"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_remove_consumer_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumer_state",
+        "test_port_game_exposes_generated_block_remove_consumer_bridge_state",
+        "test_block_remove_consumer_matches_upstream_source",
+        "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block removeConsumer bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

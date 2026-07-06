@@ -17354,6 +17354,36 @@ func generated_block_has_consumer_bridge_state(consume_builder_contains: bool, c
 		"matches": result == canonical,
 	}
 
+func source_block_remove_consumer_state(consumers_length: int, cons: Variant) -> Dictionary:
+	var illegal_state_exception_thrown: bool = consumers_length > 0
+	var consume_builder_remove_called: bool = not illegal_state_exception_thrown
+	return {
+		"source_owner": "PortGame.source_block_remove_consumer_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void removeConsumer(Consume cons){",
+		"guard_expr": "if(consumers.length > 0){",
+		"exception_expr": "throw new IllegalStateException(\"You can only remove consumers before init(). After init(), all consumers have already been initialized.\");",
+		"exception_message": "You can only remove consumers before init(). After init(), all consumers have already been initialized.",
+		"remove_expr": "consumeBuilder.remove(cons);",
+		"consumers_length": consumers_length,
+		"cons": cons,
+		"illegal_state_exception_thrown": illegal_state_exception_thrown,
+		"consume_builder_remove_called": consume_builder_remove_called,
+	}
+
+func generated_block_remove_consumer_bridge_state(consumers_length: int, cons: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_removeConsumer_97([consumers_length, cons])
+	var canonical = source_block_remove_consumer_state(consumers_length, cons)
+	return {
+		"source_owner": "PortGame.source_block_remove_consumer_state",
+		"generated_owner": "Block.java_method_removeConsumer_97",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

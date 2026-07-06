@@ -16199,5 +16199,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_hasConsumer_96"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_remove_consumer_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_remove_consumer_state(consumers_length: int, cons: Variant) -> Dictionary:", source)
+        self.assertIn("var illegal_state_exception_thrown: bool = consumers_length > 0", source)
+        self.assertIn("var consume_builder_remove_called: bool = not illegal_state_exception_thrown", source)
+        self.assertIn('"source_owner": "PortGame.source_block_remove_consumer_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void removeConsumer(Consume cons){"', source)
+        self.assertIn('"guard_expr": "if(consumers.length > 0){"', source)
+        self.assertIn('"exception_message": "You can only remove consumers before init(). After init(), all consumers have already been initialized."', source)
+        self.assertIn('"remove_expr": "consumeBuilder.remove(cons);"', source)
+        self.assertIn('"illegal_state_exception_thrown": illegal_state_exception_thrown', source)
+        self.assertIn('"consume_builder_remove_called": consume_builder_remove_called', source)
+
+    def test_port_game_exposes_generated_block_remove_consumer_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_remove_consumer_bridge_state(consumers_length: int, cons: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_removeConsumer_97([consumers_length, cons])", source)
+        self.assertIn("var canonical = source_block_remove_consumer_state(consumers_length, cons)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_remove_consumer_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_removeConsumer_97"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

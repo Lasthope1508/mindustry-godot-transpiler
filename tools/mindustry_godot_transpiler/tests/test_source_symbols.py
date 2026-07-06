@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 762)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 757)
+        self.assertEqual(audit["totalSourceFunctions"], 763)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 758)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 762)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 763)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43438,6 +43438,59 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["cons"]["java_expr"], "Consume cons")
         result_schema = source_symbols.state_schema(schema, "source_block_has_consumer_result")
         self.assertEqual(result_schema["keys"]["has_consumer"]["java_expr"], "return consumeBuilder.contains(cons);")
+
+    def test_generated_block_remove_consumer_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_remove_consumer.method")
+        self.assertEqual(method["java_expr"], "public void removeConsumer(Consume cons){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.removeConsumer(Consume)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_remove_consumer_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_remove_consumer_state")
+
+        guard_expr = source_symbols.source_symbol(registry, "block_remove_consumer.guard_expr")
+        self.assertEqual(guard_expr["java_expr"], "if(consumers.length > 0){")
+        self.assertEqual(guard_expr["godot_symbol"], "source_block_remove_consumer_result.illegal_state_exception_thrown")
+
+        exception_expr = source_symbols.source_symbol(registry, "block_remove_consumer.exception_expr")
+        self.assertEqual(exception_expr["java_expr"], 'throw new IllegalStateException("You can only remove consumers before init(). After init(), all consumers have already been initialized.");')
+
+        remove_expr = source_symbols.source_symbol(registry, "block_remove_consumer.remove_expr")
+        self.assertEqual(remove_expr["java_expr"], "consumeBuilder.remove(cons);")
+        self.assertEqual(remove_expr["godot_symbol"], "source_block_remove_consumer_result.consume_builder_remove_called")
+
+        remove_consumer_slice = source_symbols.source_slice(ledger, "N1289")
+        self.assertEqual(remove_consumer_slice["title"], "Generated Block removeConsumer bridge state")
+        self.assertEqual(remove_consumer_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(remove_consumer_slice["java_method"], "Block.removeConsumer(Consume)")
+        self.assertEqual(remove_consumer_slice["godot_owner"], "PortGame.source_block_remove_consumer_state")
+        self.assertEqual(remove_consumer_slice["generated_owner"], "Block.java_method_removeConsumer_97")
+        self.assertEqual(remove_consumer_slice["runtime_proof"], "/root/Main.generated_block_remove_consumer_bridge_state")
+        for expr in [
+            "public void removeConsumer(Consume cons){",
+            "if(consumers.length > 0){",
+            'throw new IllegalStateException("You can only remove consumers before init(). After init(), all consumers have already been initialized.");',
+            "consumeBuilder.remove(cons);",
+        ]:
+            self.assertIn(expr, remove_consumer_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_remove_consumer_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["consumers_length", "cons"])
+        for key in ["source_owner", "source", "method", "guard_expr", "exception_expr", "exception_message", "remove_expr", "consumers_length", "cons", "illegal_state_exception_thrown", "consume_builder_remove_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_remove_consumer_input")
+        self.assertEqual(input_schema["keys"]["consumers_length"]["java_expr"], "consumers.length")
+        self.assertEqual(input_schema["keys"]["cons"]["java_expr"], "Consume cons")
+        result_schema = source_symbols.state_schema(schema, "source_block_remove_consumer_result")
+        self.assertEqual(result_schema["keys"]["illegal_state_exception_thrown"]["java_expr"], "if(consumers.length > 0){")
+        self.assertEqual(result_schema["keys"]["consume_builder_remove_called"]["java_expr"], "consumeBuilder.remove(cons);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
