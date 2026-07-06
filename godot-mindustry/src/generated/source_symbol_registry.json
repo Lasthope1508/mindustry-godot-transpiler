@@ -93230,6 +93230,132 @@
         "test_ability_display_bars_matches_upstream_source",
         "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
       ]
+    },
+    "ability_display.method": {
+      "godot_owner": "PortGame.source_ability_display_state",
+      "godot_symbol": "source_ability_display_result.method",
+      "java_expr": "public void display(Table t){",
+      "java_method": "Ability.display(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_state",
+      "source_slice": "N1267",
+      "status": "source-backed",
+      "rule": "Ability.display(Table t) method boundary.",
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_display.table": {
+      "godot_owner": "PortGame.source_ability_display_state",
+      "godot_symbol": "source_ability_display_input.table",
+      "java_expr": "Table t",
+      "java_method": "Ability.display(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_state",
+      "source_slice": "N1267",
+      "status": "explicit-input",
+      "rule": "Explicit Table t argument passed through unchanged.",
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_display.localized_call": {
+      "godot_owner": "PortGame.source_ability_display_state",
+      "godot_symbol": "source_ability_display_input.localized_value",
+      "java_expr": "localized()",
+      "java_method": "Ability.display(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_state",
+      "source_slice": "N1267",
+      "status": "explicit-input",
+      "rule": "Explicit localized() result supplied as localized_value.",
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_display.add_stats_call": {
+      "godot_owner": "PortGame.source_ability_display_state",
+      "godot_symbol": "source_ability_display_result.add_stats_call",
+      "java_expr": "addStats(a);",
+      "java_method": "Ability.display(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_state",
+      "source_slice": "N1267",
+      "status": "source-backed",
+      "rule": "Ability.display delegates stats population to addStats(a).",
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_display.style_expr": {
+      "godot_owner": "PortGame.source_ability_display_state",
+      "godot_symbol": "source_ability_display_result.style_expr",
+      "java_expr": "Styles.grayPanel",
+      "java_method": "Ability.display(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_state",
+      "source_slice": "N1267",
+      "status": "source-backed",
+      "rule": "Panel style passed to t.table.",
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_display.title_expr": {
+      "godot_owner": "PortGame.source_ability_display_state",
+      "godot_symbol": "source_ability_display_result.title_expr",
+      "java_expr": "\"[accent]\" + localized()",
+      "java_method": "Ability.display(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_state",
+      "source_slice": "N1267",
+      "status": "source-backed",
+      "rule": "Title expression passed to a.add.",
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_display.outer_chain": {
+      "godot_owner": "PortGame.source_ability_display_state",
+      "godot_symbol": "source_ability_display_result.outer_chain",
+      "java_expr": "}).pad(5).margin(10).growX().top().uniformX();",
+      "java_method": "Ability.display(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_state",
+      "source_slice": "N1267",
+      "status": "source-backed",
+      "rule": "Outer table layout chain.",
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

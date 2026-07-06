@@ -82,6 +82,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_ability_display_bars_state\", \"source\": \"core/src/mindustry/entities/abilities/Ability.java\", \"method\": \"public void displayBars(Unit unit, Table bars){}\", \"unit\": unit, \"bars\": bars, \"no_op\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/abilities/Ability.java"
+        and type_entry.get("name") == "Ability"
+        and method.get("name") == "display"
+    ):
+        return [
+            "\tvar table_state: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar localized_value: String = str(_args[1] if _args.size() > 1 else \"\")",
+            '\treturn {"source_owner": "PortGame.source_ability_display_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void display(Table t){", "table": table_state, "style_expr": "Styles.grayPanel", "table_call": "t.table(Styles.grayPanel, a -> {", "localized_call": "localized()", "title_expr": "\\"[accent]\\" + localized()", "localized_value": localized_value, "title_text": "[accent]" + localized_value, "add_call": "a.add(\\"[accent]\\" + localized()).padBottom(4).center().top().expandX();", "row_call": "a.row();", "defaults_call": "a.left().top().defaults().left();", "add_stats_call": "addStats(a);", "outer_chain": "}).pad(5).margin(10).growX().top().uniformX();", "table_mutation": true}',
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "getProgressIncrease"

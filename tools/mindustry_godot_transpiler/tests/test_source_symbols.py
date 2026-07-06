@@ -7329,6 +7329,65 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_ability_display_bars_result")
         self.assertEqual(result_schema["keys"]["no_op"]["java_expr"], "public void displayBars(Unit unit, Table bars){}")
 
+    def test_generated_ability_display_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "ability_display.method")
+        self.assertEqual(method["java_expr"], "public void display(Table t){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(method["java_method"], "Ability.display(Table t)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_ability_display_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_ability_display_state")
+        self.assertEqual(method["godot_symbol"], "source_ability_display_result.method")
+
+        table_arg = source_symbols.source_symbol(registry, "ability_display.table")
+        self.assertEqual(table_arg["status"], "explicit-input")
+        self.assertEqual(table_arg["java_expr"], "Table t")
+        self.assertEqual(table_arg["godot_symbol"], "source_ability_display_input.table")
+
+        localized_call = source_symbols.source_symbol(registry, "ability_display.localized_call")
+        self.assertEqual(localized_call["java_expr"], "localized()")
+        self.assertEqual(localized_call["godot_symbol"], "source_ability_display_input.localized_value")
+
+        add_stats_call = source_symbols.source_symbol(registry, "ability_display.add_stats_call")
+        self.assertEqual(add_stats_call["java_expr"], "addStats(a);")
+        self.assertEqual(add_stats_call["godot_symbol"], "source_ability_display_result.add_stats_call")
+
+        display_slice = source_symbols.source_slice(ledger, "N1267")
+        self.assertEqual(display_slice["title"], "Generated Ability display bridge state")
+        self.assertEqual(display_slice["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(display_slice["java_method"], "Ability.display(Table t)")
+        self.assertEqual(display_slice["godot_owner"], "PortGame.source_ability_display_state")
+        self.assertEqual(display_slice["generated_owner"], "Ability.java_method_display_6")
+        self.assertEqual(display_slice["runtime_proof"], "/root/Main.generated_ability_display_bridge_state")
+        for expr in [
+            "public abstract class Ability implements Cloneable{",
+            "import arc.scene.ui.layout.*;",
+            "import mindustry.ui.*;",
+            "public void display(Table t){",
+            "t.table(Styles.grayPanel, a -> {",
+            "a.add(\"[accent]\" + localized()).padBottom(4).center().top().expandX();",
+            "addStats(a);",
+        ]:
+            self.assertIn(expr, display_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_ability_display_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["table_state", "localized_value"])
+        for key in ["source_owner", "source", "method", "table", "localized_call", "title_text", "add_stats_call", "table_mutation"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_ability_display_input")
+        self.assertEqual(input_schema["keys"]["table"]["java_expr"], "Table t")
+        self.assertEqual(input_schema["keys"]["localized_value"]["java_expr"], "localized()")
+        result_schema = source_symbols.state_schema(schema, "source_ability_display_result")
+        self.assertEqual(result_schema["keys"]["add_stats_call"]["java_expr"], "addStats(a);")
+
     def test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -20032,15 +20091,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 740)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 735)
+        self.assertEqual(audit["totalSourceFunctions"], 741)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 736)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 740)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 741)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
+        self.assertIn("PortGame.source_ability_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_bars_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_init_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_parts_state", audit["registeredSourceOwners"])

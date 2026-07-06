@@ -30960,6 +30960,53 @@
       ],
       "runtime_proof": "/root/Main.source_ability_display_bars_state",
       "rule": "Public runtime contract for Ability.displayBars(Unit unit, Table bars) default no-op."
+    },
+    "PortGame.source_ability_display_state": {
+      "status": "source-backed",
+      "source_slice": "N1267",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.display(Table t)",
+      "params": [
+        {
+          "name": "table_state",
+          "type": "Variant",
+          "java_expr": "Table t",
+          "schema": "source_ability_display_input.table"
+        },
+        {
+          "name": "localized_value",
+          "type": "String",
+          "java_expr": "localized()",
+          "schema": "source_ability_display_input.localized_value"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "table",
+        "style_expr",
+        "table_call",
+        "localized_call",
+        "title_expr",
+        "localized_value",
+        "title_text",
+        "add_call",
+        "row_call",
+        "defaults_call",
+        "add_stats_call",
+        "outer_chain",
+        "table_mutation"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_ability_display_state",
+      "rule": "Public runtime contract for Ability.display(Table t) source-backed UI operation plan."
     }
   },
   "policy": {

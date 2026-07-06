@@ -15466,6 +15466,39 @@ func generated_ability_display_bars_bridge_state(unit: Variant, bars: Variant) -
 			and result.get("bars", null) == canonical.get("bars", null),
 	}
 
+func source_ability_display_state(table_state: Variant, localized_value: String) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_ability_display_state",
+		"source": "core/src/mindustry/entities/abilities/Ability.java",
+		"method": "public void display(Table t){",
+		"table": table_state,
+		"style_expr": "Styles.grayPanel",
+		"table_call": "t.table(Styles.grayPanel, a -> {",
+		"localized_call": "localized()",
+		"title_expr": "\"[accent]\" + localized()",
+		"localized_value": localized_value,
+		"title_text": "[accent]" + localized_value,
+		"add_call": "a.add(\"[accent]\" + localized()).padBottom(4).center().top().expandX();",
+		"row_call": "a.row();",
+		"defaults_call": "a.left().top().defaults().left();",
+		"add_stats_call": "addStats(a);",
+		"outer_chain": "}).pad(5).margin(10).growX().top().uniformX();",
+		"table_mutation": true,
+	}
+
+func generated_ability_display_bridge_state(table_state: Variant, localized_value: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")
+	var instance = script.new()
+	var result = instance.java_method_display_6([table_state, localized_value])
+	var canonical = source_ability_display_state(table_state, localized_value)
+	return {
+		"source_owner": "PortGame.source_ability_display_state",
+		"generated_owner": "Ability.java_method_display_6",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
 	var trail_scale := elevation_value if type_use_engine_elevation else 1.0
 	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * trail_scale

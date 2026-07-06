@@ -9507,6 +9507,31 @@ def verify_ability_display_bars_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_ability_display_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / ABILITY_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public abstract class Ability implements Cloneable{",
+        "method": "public void display(Table t){",
+        "table_call": "t.table(Styles.grayPanel, a -> {",
+        "add_localized": "a.add(\"[accent]\" + localized()).padBottom(4).center().top().expandX();",
+        "row_call": "a.row();",
+        "defaults_call": "a.left().top().defaults().left();",
+        "add_stats_call": "addStats(a);",
+        "outer_chain": "}).pad(5).margin(10).growX().top().uniformX();",
+        "table_import": "import arc.scene.ui.layout.*;",
+        "styles_import": "import mindustry.ui.*;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": ABILITY_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

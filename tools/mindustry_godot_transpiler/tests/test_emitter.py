@@ -9482,6 +9482,47 @@ public abstract class Ability implements Cloneable{
             self.assertIn('"bars": bars', source_text)
             self.assertIn('"no_op": true', source_text)
 
+    def test_emit_bridges_ability_display_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            ability_path = source_root / "mindustry" / "entities" / "abilities" / "Ability.java"
+            ability_path.parent.mkdir(parents=True, exist_ok=True)
+            ability_path.write_text(
+                """
+package mindustry.entities.abilities;
+
+public abstract class Ability implements Cloneable{
+    public void display(Table t){
+        t.table(Styles.grayPanel, a -> {
+            a.add("[accent]" + localized()).padBottom(4).center().top().expandX();
+            a.row();
+            a.left().top().defaults().left();
+            addStats(a);
+        }).pad(5).margin(10).growX().top().uniformX();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "abilities" / "Ability.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar table_state: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar localized_value: String = str(_args[1] if _args.size() > 1 else \"\")", source_text)
+            self.assertIn('"source_owner": "PortGame.source_ability_display_state"', source_text)
+            self.assertIn('"method": "public void display(Table t){"', source_text)
+            self.assertIn('"table": table_state', source_text)
+            self.assertIn('"style_expr": "Styles.grayPanel"', source_text)
+            self.assertIn('"localized_call": "localized()"', source_text)
+            self.assertIn('"title_text": "[accent]" + localized_value', source_text)
+            self.assertIn('"add_stats_call": "addStats(a);"', source_text)
+            self.assertIn('"table_mutation": true', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

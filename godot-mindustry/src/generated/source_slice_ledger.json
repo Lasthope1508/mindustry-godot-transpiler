@@ -29257,6 +29257,44 @@
       ],
       "runtime_proof": "/root/Main.generated_ability_display_bars_bridge_state",
       "status": "source-backed"
+    },
+    "N1267": {
+      "title": "Generated Ability display bridge state",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.display(Table t)",
+      "godot_owner": "PortGame.source_ability_display_state",
+      "generated_owner": "Ability.java_method_display_6",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import arc.scene.ui.layout.*;",
+        "import mindustry.ui.*;",
+        "public void display(Table t){",
+        "t.table(Styles.grayPanel, a -> {",
+        "a.add(\"[accent]\" + localized()).padBottom(4).center().top().expandX();",
+        "a.row();",
+        "a.left().top().defaults().left();",
+        "addStats(a);",
+        "}).pad(5).margin(10).growX().top().uniformX();"
+      ],
+      "source_symbols": [
+        "ability_display.method",
+        "ability_display.table",
+        "ability_display.localized_call",
+        "ability_display.add_stats_call",
+        "ability_display.style_expr",
+        "ability_display.title_expr",
+        "ability_display.outer_chain"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_ability_display_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1
