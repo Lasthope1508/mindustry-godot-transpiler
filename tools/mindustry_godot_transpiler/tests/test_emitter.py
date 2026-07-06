@@ -7678,6 +7678,39 @@ public class Block{
             self.assertIn('"size": size_value', source_text)
             self.assertIn('"is_multiblock": is_multiblock_value', source_text)
 
+    def test_emit_bridges_block_is_air_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public boolean isAir(){
+        return id == 0;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_isAir_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar id_value: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("\tvar is_air_value: bool = id_value == 0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_is_air_state"', source_text)
+            self.assertIn('"method": "public boolean isAir(){"', source_text)
+            self.assertIn('"return_expr": "return id == 0;"', source_text)
+            self.assertIn('"id": id_value', source_text)
+            self.assertIn('"is_air": is_air_value', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

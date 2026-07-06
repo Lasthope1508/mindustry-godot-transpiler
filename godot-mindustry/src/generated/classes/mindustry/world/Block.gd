@@ -327,7 +327,9 @@ func java_method_asFloor_90(_args: Array = []) -> Variant:
 	return null
 
 func java_method_isAir_91(_args: Array = []) -> Variant:
-	return null
+	var id_value: int = int(_args[0] if _args.size() > 0 else 0)
+	var is_air_value: bool = id_value == 0
+	return {"source_owner": "PortGame.source_block_is_air_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean isAir(){", "return_expr": "return id == 0;", "id": id_value, "is_air": is_air_value}
 
 func java_method_canBeBuilt_92(_args: Array = []) -> Variant:
 	return null

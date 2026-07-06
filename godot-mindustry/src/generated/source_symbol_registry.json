@@ -94346,6 +94346,60 @@
         "test_block_is_multiblock_matches_upstream_source",
         "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_is_air.method": {
+      "godot_owner": "PortGame.source_block_is_air_state",
+      "godot_symbol": "source_block_is_air_result.method",
+      "java_expr": "public boolean isAir(){",
+      "java_method": "Block.isAir()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.isAir() method boundary.",
+      "runtime_proof": "/root/Main.source_block_is_air_state",
+      "source_slice": "N1285",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_is_air_to_source_state",
+        "test_port_game_exposes_source_block_is_air_state",
+        "test_port_game_exposes_generated_block_is_air_bridge_state",
+        "test_block_is_air_matches_upstream_source",
+        "test_generated_block_is_air_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_is_air.return_expr": {
+      "godot_owner": "PortGame.source_block_is_air_state",
+      "godot_symbol": "source_block_is_air_result.is_air",
+      "java_expr": "return id == 0;",
+      "java_method": "Block.isAir()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Return value uses source id == 0.",
+      "runtime_proof": "/root/Main.source_block_is_air_state",
+      "source_slice": "N1285",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_is_air_to_source_state",
+        "test_port_game_exposes_source_block_is_air_state",
+        "test_port_game_exposes_generated_block_is_air_bridge_state",
+        "test_block_is_air_matches_upstream_source",
+        "test_generated_block_is_air_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_is_air.id": {
+      "godot_owner": "PortGame.source_block_is_air_state",
+      "godot_symbol": "source_block_is_air_input.id",
+      "java_expr": "id",
+      "java_method": "Block.isAir()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Runtime id_value supplies Content.id inherited by Block.",
+      "runtime_proof": "/root/Main.source_block_is_air_state",
+      "source_slice": "N1285",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_is_air_to_source_state",
+        "test_port_game_exposes_source_block_is_air_state",
+        "test_port_game_exposes_generated_block_is_air_bridge_state",
+        "test_block_is_air_matches_upstream_source",
+        "test_generated_block_is_air_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

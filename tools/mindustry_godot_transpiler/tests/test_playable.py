@@ -16095,5 +16095,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_isMultiblock_74"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_is_air_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_is_air_state(id_value: int) -> Dictionary:", source)
+        self.assertIn("var is_air_value: bool = id_value == 0", source)
+        self.assertIn('"source_owner": "PortGame.source_block_is_air_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public boolean isAir(){"', source)
+        self.assertIn('"return_expr": "return id == 0;"', source)
+        self.assertIn('"id": id_value', source)
+        self.assertIn('"is_air": is_air_value', source)
+
+    def test_port_game_exposes_generated_block_is_air_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_is_air_bridge_state(id_value: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_isAir_91([id_value])", source)
+        self.assertIn("var canonical = source_block_is_air_state(id_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_is_air_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_isAir_91"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

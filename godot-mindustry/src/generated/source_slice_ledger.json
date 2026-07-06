@@ -29803,6 +29803,33 @@
         "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block isMultiblock bridge state"
+    },
+    "N1285": {
+      "exact_exprs": [
+        "public boolean isAir(){",
+        "return id == 0;",
+        "id"
+      ],
+      "generated_owner": "Block.java_method_isAir_91",
+      "godot_owner": "PortGame.source_block_is_air_state",
+      "java_class": "Block",
+      "java_method": "Block.isAir()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_air_bridge_state",
+      "source_symbols": [
+        "block_is_air.method",
+        "block_is_air.return_expr",
+        "block_is_air.id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_air_to_source_state",
+        "test_port_game_exposes_source_block_is_air_state",
+        "test_port_game_exposes_generated_block_is_air_bridge_state",
+        "test_block_is_air_matches_upstream_source",
+        "test_generated_block_is_air_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isAir bridge state"
     }
   },
   "version": 1
