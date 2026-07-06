@@ -9522,6 +9522,43 @@
       ],
       "title": "Generated Block consumePowerDynamic bridge state"
     },
+    "N1296": {
+      "exact_exprs": [
+        "Creates a consumer that consumes a dynamic amount of power.",
+        "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){",
+        "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));",
+        "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)",
+        "(Floatf<Building>)usage",
+        "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))",
+        "float displayed",
+        "Floatf<T> usage"
+      ],
+      "generated_owner": "Block.java_method_consumePowerDynamic_104",
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "java_class": "Block",
+      "java_method": "Block.consumePowerDynamic(float,Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_power_dynamic_displayed_bridge_state",
+      "source_symbols": [
+        "block_consume_power_dynamic_displayed.comment",
+        "block_consume_power_dynamic_displayed.method",
+        "block_consume_power_dynamic_displayed.return_expr",
+        "block_consume_power_dynamic_displayed.constructor_expr",
+        "block_consume_power_dynamic_displayed.usage_cast_expr",
+        "block_consume_power_dynamic_displayed.consume_call_expr",
+        "block_consume_power_dynamic_displayed.displayed",
+        "block_consume_power_dynamic_displayed.usage"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumePowerDynamic displayed bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

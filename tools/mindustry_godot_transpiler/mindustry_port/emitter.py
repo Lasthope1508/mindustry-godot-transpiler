@@ -1606,6 +1606,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
+        and len(method.get("parameters", [])) == 2
+    ):
+        return [
+            "\tvar displayed: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar usage: Variant = _args[1] if _args.size() > 1 else null",
+            '\tvar constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "displayed": displayed, "usage": usage}',
+            '\treturn {"source_owner": "PortGame.source_block_consume_power_dynamic_displayed_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer that consumes a dynamic amount of power.", "method": "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){", "return_expr": "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));", "constructor_expr": "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)", "usage_cast_expr": "(Floatf<Building>)usage", "consume_call_expr": "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))", "displayed": displayed, "usage": usage, "constructed_consume": constructed_consume, "consume_called": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):
         return [

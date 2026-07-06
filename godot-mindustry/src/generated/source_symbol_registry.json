@@ -5041,6 +5041,150 @@
         "test_generated_block_consume_power_dynamic_slice_is_registered_with_source_backing"
       ]
     },
+    "block_consume_power_dynamic_displayed.comment": {
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "godot_symbol": "source_block_consume_power_dynamic_displayed_result.comment",
+      "java_expr": "Creates a consumer that consumes a dynamic amount of power.",
+      "java_method": "Block.consumePowerDynamic(float,Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve two-arg consumePowerDynamic JavaDoc summary.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_slice": "N1296",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power_dynamic_displayed.constructor_expr": {
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "godot_symbol": "source_block_consume_power_dynamic_displayed_result.constructed_consume",
+      "java_expr": "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)",
+      "java_method": "Block.consumePowerDynamic(float,Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve two-arg ConsumePowerDynamic constructor arguments.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_slice": "N1296",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power_dynamic_displayed.consume_call_expr": {
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "godot_symbol": "source_block_consume_power_dynamic_displayed_result.consume_called",
+      "java_expr": "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))",
+      "java_method": "Block.consumePowerDynamic(float,Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consume(...) delegate call.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_slice": "N1296",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power_dynamic_displayed.displayed": {
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "godot_symbol": "source_block_consume_power_dynamic_displayed_input.displayed",
+      "java_expr": "float displayed",
+      "java_method": "Block.consumePowerDynamic(float,Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose two-arg consumePowerDynamic displayed parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_slice": "N1296",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power_dynamic_displayed.method": {
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "godot_symbol": "source_block_consume_power_dynamic_displayed_result.method",
+      "java_expr": "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){",
+      "java_method": "Block.consumePowerDynamic(float,Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.consumePowerDynamic(float,Floatf) method boundary.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_slice": "N1296",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power_dynamic_displayed.return_expr": {
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "godot_symbol": "source_block_consume_power_dynamic_displayed_result.constructed_consume",
+      "java_expr": "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));",
+      "java_method": "Block.consumePowerDynamic(float,Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve two-arg consumePowerDynamic return expression delegating constructed consumer to consume(...).",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_slice": "N1296",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power_dynamic_displayed.usage": {
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "godot_symbol": "source_block_consume_power_dynamic_displayed_input.usage",
+      "java_expr": "Floatf<T> usage",
+      "java_method": "Block.consumePowerDynamic(float,Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose two-arg consumePowerDynamic usage parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_slice": "N1296",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power_dynamic_displayed.usage_cast_expr": {
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "godot_symbol": "source_block_consume_power_dynamic_displayed_result.usage",
+      "java_expr": "(Floatf<Building>)usage",
+      "java_method": "Block.consumePowerDynamic(float,Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Floatf<Building> cast on usage parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_slice": "N1296",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_displayed_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_displayed_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state",
+        "test_block_consume_power_dynamic_displayed_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_consumes_item.item_filter": {
       "godot_owner": "PortGame.source_block_consumes_item_state",
       "godot_symbol": "source_block_consumes_item_input.itemFilter",

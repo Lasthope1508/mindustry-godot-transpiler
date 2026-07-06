@@ -18686,6 +18686,204 @@
       "source_slice": "N1294",
       "status": "active"
     },
+    "source_block_consume_power_dynamic_displayed_input": {
+      "keys": {
+        "displayed": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_input.displayed",
+          "java_expr": "float displayed",
+          "java_method": "Block.consumePowerDynamic(float,Floatf)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.displayed"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "usage": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_input.usage",
+          "java_expr": "Floatf<T> usage",
+          "java_method": "Block.consumePowerDynamic(float,Floatf)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.usage"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "rule": "Inputs for PortGame.source_block_consume_power_dynamic_displayed_state.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_slice": "N1296",
+      "status": "active"
+    },
+    "source_block_consume_power_dynamic_displayed_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.comment",
+          "java_expr": "Creates a consumer that consumes a dynamic amount of power.",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.comment"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "constructed_consume": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.constructed_consume",
+          "java_expr": "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.constructor_expr",
+            "block_consume_power_dynamic_displayed.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "constructor_expr": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.constructor_expr",
+          "java_expr": "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.constructor_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "consume_call_expr": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.consume_call_expr",
+          "java_expr": "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.consume_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "consume_called": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.consume_called",
+          "java_expr": "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.consume_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "displayed": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.displayed",
+          "java_expr": "float displayed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.displayed"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "method": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.method",
+          "java_expr": "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.return_expr",
+          "java_expr": "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.source_owner",
+          "java_expr": "PortGame.source_block_consume_power_dynamic_displayed_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "usage": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.usage",
+          "java_expr": "(Floatf<Building>)usage",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.usage_cast_expr",
+            "block_consume_power_dynamic_displayed.usage"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "usage_cast_expr": {
+          "godot_symbol": "source_block_consume_power_dynamic_displayed_result.usage_cast_expr",
+          "java_expr": "(Floatf<Building>)usage",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_dynamic_displayed_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_dynamic_displayed.usage_cast_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_consume_power_dynamic_displayed_state",
+      "rule": "Dictionary returned by PortGame.source_block_consume_power_dynamic_displayed_state.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_displayed_state",
+      "source_slice": "N1296",
+      "status": "active"
+    },
     "source_block_consume_power_dynamic_input": {
       "keys": {
         "usage": {

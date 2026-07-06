@@ -16404,5 +16404,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_consumePowerDynamic_103"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_consume_power_dynamic_displayed_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_consume_power_dynamic_displayed_state(displayed: float, usage: Variant) -> Dictionary:", source)
+        self.assertIn('var constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "displayed": displayed, "usage": usage}', source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_power_dynamic_displayed_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"comment": "Creates a consumer that consumes a dynamic amount of power."', source)
+        self.assertIn('"method": "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){"', source)
+        self.assertIn('"return_expr": "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));"', source)
+        self.assertIn('"constructor_expr": "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)"', source)
+        self.assertIn('"usage_cast_expr": "(Floatf<Building>)usage"', source)
+        self.assertIn('"consume_call_expr": "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))"', source)
+        self.assertIn('"displayed": displayed', source)
+        self.assertIn('"usage": usage', source)
+        self.assertIn('"constructed_consume": constructed_consume', source)
+        self.assertIn('"consume_called": true', source)
+
+    def test_port_game_exposes_generated_block_consume_power_dynamic_displayed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_consume_power_dynamic_displayed_bridge_state(displayed: float, usage: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_consumePowerDynamic_104([displayed, usage])", source)
+        self.assertIn("var canonical = source_block_consume_power_dynamic_displayed_state(displayed, usage)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_power_dynamic_displayed_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_consumePowerDynamic_104"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

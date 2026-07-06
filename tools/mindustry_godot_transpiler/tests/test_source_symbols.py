@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 769)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 764)
+        self.assertEqual(audit["totalSourceFunctions"], 770)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 765)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 769)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 770)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43840,6 +43840,70 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["constructed_consume"]["java_expr"], "new ConsumePowerDynamic((Floatf<Building>)usage)")
         self.assertEqual(result_schema["keys"]["usage"]["java_expr"], "(Floatf<Building>)usage")
         self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume(new ConsumePowerDynamic((Floatf<Building>)usage))")
+
+    def test_generated_block_consume_power_dynamic_displayed_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_consume_power_dynamic_displayed.method")
+        self.assertEqual(method["java_expr"], "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.consumePowerDynamic(float,Floatf)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_consume_power_dynamic_displayed_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_consume_power_dynamic_displayed_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_consume_power_dynamic_displayed.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_consume_power_dynamic_displayed_result.constructed_consume")
+
+        constructor_expr = source_symbols.source_symbol(registry, "block_consume_power_dynamic_displayed.constructor_expr")
+        self.assertEqual(constructor_expr["java_expr"], "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)")
+        self.assertEqual(constructor_expr["godot_symbol"], "source_block_consume_power_dynamic_displayed_result.constructed_consume")
+
+        usage_cast_expr = source_symbols.source_symbol(registry, "block_consume_power_dynamic_displayed.usage_cast_expr")
+        self.assertEqual(usage_cast_expr["java_expr"], "(Floatf<Building>)usage")
+        self.assertEqual(usage_cast_expr["godot_symbol"], "source_block_consume_power_dynamic_displayed_result.usage")
+
+        consume_call_expr = source_symbols.source_symbol(registry, "block_consume_power_dynamic_displayed.consume_call_expr")
+        self.assertEqual(consume_call_expr["java_expr"], "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))")
+        self.assertEqual(consume_call_expr["godot_symbol"], "source_block_consume_power_dynamic_displayed_result.consume_called")
+
+        consume_power_dynamic_displayed_slice = source_symbols.source_slice(ledger, "N1296")
+        self.assertEqual(consume_power_dynamic_displayed_slice["title"], "Generated Block consumePowerDynamic displayed bridge state")
+        self.assertEqual(consume_power_dynamic_displayed_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(consume_power_dynamic_displayed_slice["java_method"], "Block.consumePowerDynamic(float,Floatf)")
+        self.assertEqual(consume_power_dynamic_displayed_slice["godot_owner"], "PortGame.source_block_consume_power_dynamic_displayed_state")
+        self.assertEqual(consume_power_dynamic_displayed_slice["generated_owner"], "Block.java_method_consumePowerDynamic_104")
+        self.assertEqual(consume_power_dynamic_displayed_slice["runtime_proof"], "/root/Main.generated_block_consume_power_dynamic_displayed_bridge_state")
+        for expr in [
+            "Creates a consumer that consumes a dynamic amount of power.",
+            "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){",
+            "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));",
+            "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)",
+            "(Floatf<Building>)usage",
+            "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))",
+            "float displayed",
+            "Floatf<T> usage",
+        ]:
+            self.assertIn(expr, consume_power_dynamic_displayed_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_consume_power_dynamic_displayed_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["displayed", "usage"])
+        for key in ["source_owner", "source", "comment", "method", "return_expr", "constructor_expr", "usage_cast_expr", "consume_call_expr", "displayed", "usage", "constructed_consume", "consume_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_consume_power_dynamic_displayed_input")
+        self.assertEqual(input_schema["keys"]["displayed"]["java_expr"], "float displayed")
+        self.assertEqual(input_schema["keys"]["usage"]["java_expr"], "Floatf<T> usage")
+        result_schema = source_symbols.state_schema(schema, "source_block_consume_power_dynamic_displayed_result")
+        self.assertEqual(result_schema["keys"]["constructed_consume"]["java_expr"], "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)")
+        self.assertEqual(result_schema["keys"]["displayed"]["java_expr"], "float displayed")
+        self.assertEqual(result_schema["keys"]["usage"]["java_expr"], "(Floatf<Building>)usage")
+        self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
