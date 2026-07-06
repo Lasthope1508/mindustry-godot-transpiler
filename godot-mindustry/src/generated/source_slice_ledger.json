@@ -29497,6 +29497,36 @@
       "deferred_exprs": [
         "Concrete block instance storage remains explicit has_items input; this bridge preserves the field-backed return."
       ]
+    },
+    "N1274": {
+      "title": "Generated Block canPlaceOn bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "mindustry.world.Block",
+      "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+      "godot_owner": "PortGame.source_block_can_place_on_state",
+      "generated_owner": "Block.java_method_canPlaceOn_18",
+      "exact_exprs": [
+        "/** @return whether this block can be placed on the specified tile. */",
+        "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+        "return true;"
+      ],
+      "source_symbols": [
+        "block_can_place_on.method",
+        "block_can_place_on.return_true"
+      ],
+      "tests": [
+        "test_emit_bridges_block_can_place_on_to_source_state",
+        "test_port_game_exposes_source_block_can_place_on_state",
+        "test_port_game_exposes_generated_block_can_place_on_bridge_state",
+        "test_block_can_place_on_matches_upstream_source",
+        "test_generated_block_can_place_on_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_can_place_on_bridge_state",
+      "status": "done",
+      "rule": "Registers source-backed operation plan for default Block.canPlaceOn returning true.",
+      "deferred_exprs": [
+        "Concrete tile/team/rotation semantics remain explicit inputs; default upstream method ignores them and returns true."
+      ]
     }
   },
   "version": 1

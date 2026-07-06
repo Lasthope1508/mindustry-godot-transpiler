@@ -112563,6 +112563,222 @@
       "runtime_proof": "/root/Main.source_block_outputs_items_state",
       "source_slice": "N1273",
       "status": "source-backed"
+    },
+    "source_block_can_place_on_input": {
+      "rule": "Inputs for PortGame.source_block_can_place_on_state.",
+      "keys": {
+        "tile": {
+          "godot_symbol": "source_block_can_place_on_input.tile",
+          "java_expr": "Tile tile",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Explicit tile argument.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        },
+        "team": {
+          "godot_symbol": "source_block_can_place_on_input.team",
+          "java_expr": "Team team",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Explicit team argument.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        },
+        "rotation": {
+          "godot_symbol": "source_block_can_place_on_input.rotation",
+          "java_expr": "int rotation",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Explicit rotation argument.",
+          "status": "explicit-input",
+          "type": "int",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_block_can_place_on_state",
+      "runtime_proof": "/root/Main.source_block_can_place_on_state",
+      "source_slice": "N1274",
+      "status": "source-backed"
+    },
+    "source_block_can_place_on_result": {
+      "rule": "Dictionary returned by PortGame.source_block_can_place_on_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_can_place_on_result.source_owner",
+          "java_expr": "PortGame.source_block_can_place_on_state",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Canonical PortGame owner for Block.canPlaceOn bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_block_can_place_on_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Upstream source file for Block.canPlaceOn.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        },
+        "comment": {
+          "godot_symbol": "source_block_can_place_on_result.comment",
+          "java_expr": "/** @return whether this block can be placed on the specified tile. */",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Source method comment.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_block_can_place_on_result.method",
+          "java_expr": "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Block.canPlaceOn method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "block_can_place_on.method"
+          ],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_can_place_on_result.return_expr",
+          "java_expr": "return true;",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Source return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "block_can_place_on.return_true"
+          ],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        },
+        "tile": {
+          "godot_symbol": "source_block_can_place_on_result.tile",
+          "java_expr": "Tile tile",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Tile argument preserved.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        },
+        "team": {
+          "godot_symbol": "source_block_can_place_on_result.team",
+          "java_expr": "Team team",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Team argument preserved.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        },
+        "rotation": {
+          "godot_symbol": "source_block_can_place_on_result.rotation",
+          "java_expr": "int rotation",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Rotation argument preserved.",
+          "status": "explicit-input",
+          "type": "int",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        },
+        "can_place": {
+          "godot_symbol": "source_block_can_place_on_result.can_place",
+          "java_expr": "return true;",
+          "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_place_on_state"
+          ],
+          "rule": "Default can-place result.",
+          "status": "source-backed",
+          "type": "bool",
+          "source_symbols": [
+            "block_can_place_on.return_true"
+          ],
+          "used_by": [
+            "PortGame.source_block_can_place_on_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_block_can_place_on_state",
+      "runtime_proof": "/root/Main.source_block_can_place_on_state",
+      "source_slice": "N1274",
+      "status": "source-backed"
     }
   },
   "version": 1

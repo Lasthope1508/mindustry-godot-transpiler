@@ -69,7 +69,10 @@ func java_method_outputsItems_17(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_outputs_items_state", "source": "core/src/mindustry/world/Block.java", "field_comment": "/** If true, buildings have an ItemModule. */", "field_expr": "public @NoPatch boolean hasItems;", "method": "public boolean outputsItems(){", "return_expr": "return hasItems;", "has_items": has_items, "outputs_items": has_items}
 
 func java_method_canPlaceOn_18(_args: Array = []) -> Variant:
-	return null
+	var tile: Variant = _args[0] if _args.size() > 0 else null
+	var team: Variant = _args[1] if _args.size() > 1 else null
+	var rotation: int = int(_args[2] if _args.size() > 2 else 0)
+	return {"source_owner": "PortGame.source_block_can_place_on_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** @return whether this block can be placed on the specified tile. */", "method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){", "return_expr": "return true;", "tile": tile, "team": team, "rotation": rotation, "can_place": true}
 
 func java_method_canBreak_19(_args: Array = []) -> Variant:
 	return null

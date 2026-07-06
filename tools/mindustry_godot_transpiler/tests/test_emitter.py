@@ -7282,6 +7282,42 @@ public class Block{
             self.assertIn('"return_expr": "return hasItems;"', source_text)
             self.assertIn('"outputs_items": has_items', source_text)
 
+    def test_emit_bridges_block_can_place_on_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    /** @return whether this block can be placed on the specified tile. */
+    public boolean canPlaceOn(Tile tile, Team team, int rotation){
+        return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_canPlaceOn_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar tile: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar team: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("\tvar rotation: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_can_place_on_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/Block.java"', source_text)
+            self.assertIn('"comment": "/** @return whether this block can be placed on the specified tile. */"', source_text)
+            self.assertIn('"method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){"', source_text)
+            self.assertIn('"return_expr": "return true;"', source_text)
+            self.assertIn('"can_place": true', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

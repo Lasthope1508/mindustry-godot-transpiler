@@ -31287,6 +31287,52 @@
       ],
       "runtime_proof": "/root/Main.source_block_outputs_items_state",
       "rule": "Public runtime contract for Block.outputsItems source-backed hasItems return."
+    },
+    "PortGame.source_block_can_place_on_state": {
+      "status": "source-backed",
+      "source_slice": "N1274",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Variant",
+          "java_expr": "Tile tile",
+          "schema": "source_block_can_place_on_input.tile"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "java_expr": "Team team",
+          "schema": "source_block_can_place_on_input.team"
+        },
+        {
+          "name": "rotation",
+          "type": "int",
+          "java_expr": "int rotation",
+          "schema": "source_block_can_place_on_input.rotation"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "tile",
+        "team",
+        "rotation",
+        "can_place"
+      ],
+      "tests": [
+        "test_emit_bridges_block_can_place_on_to_source_state",
+        "test_port_game_exposes_source_block_can_place_on_state",
+        "test_port_game_exposes_generated_block_can_place_on_bridge_state",
+        "test_block_can_place_on_matches_upstream_source",
+        "test_generated_block_can_place_on_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_can_place_on_state",
+      "rule": "Public runtime contract for default Block.canPlaceOn source-backed true return."
     }
   },
   "policy": {

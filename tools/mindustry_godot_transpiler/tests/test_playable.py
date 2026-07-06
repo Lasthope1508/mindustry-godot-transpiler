@@ -15800,5 +15800,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_outputsItems_17"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_can_place_on_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_can_place_on_state(tile: Variant, team: Variant, rotation_value: int) -> Dictionary:", source)
+        self.assertNotIn("func source_block_can_place_on_state(tile: Variant, team: Variant, rotation: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_can_place_on_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"comment": "/** @return whether this block can be placed on the specified tile. */"', source)
+        self.assertIn('"method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){"', source)
+        self.assertIn('"return_expr": "return true;"', source)
+        self.assertIn('"tile": tile', source)
+        self.assertIn('"team": team', source)
+        self.assertIn('"rotation": rotation_value', source)
+        self.assertIn('"can_place": true', source)
+
+    def test_port_game_exposes_generated_block_can_place_on_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_can_place_on_bridge_state(tile: Variant, team: Variant, rotation_value: int) -> Dictionary:", source)
+        self.assertNotIn("func generated_block_can_place_on_bridge_state(tile: Variant, team: Variant, rotation: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_canPlaceOn_18([tile, team, rotation_value])", source)
+        self.assertIn("var canonical = source_block_can_place_on_state(tile, team, rotation_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_can_place_on_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_canPlaceOn_18"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()
