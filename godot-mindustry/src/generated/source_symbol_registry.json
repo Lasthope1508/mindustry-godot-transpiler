@@ -93572,6 +93572,60 @@
         "test_ability_copy_matches_upstream_source",
         "test_generated_ability_copy_slice_is_registered_with_source_backing"
       ]
+    },
+    "ability_localized.method": {
+      "godot_owner": "PortGame.source_ability_localized_state",
+      "godot_symbol": "source_ability_localized_result.method",
+      "java_expr": "public String localized(){",
+      "java_method": "Ability.localized()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_localized_state",
+      "source_slice": "N1271",
+      "status": "source-backed",
+      "rule": "Ability.localized method boundary.",
+      "tests": [
+        "test_emit_bridges_ability_localized_to_source_state",
+        "test_port_game_exposes_source_ability_localized_state",
+        "test_port_game_exposes_generated_ability_localized_bridge_state",
+        "test_ability_localized_matches_upstream_source",
+        "test_generated_ability_localized_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_localized.get_bundle_call": {
+      "godot_owner": "PortGame.source_ability_localized_state",
+      "godot_symbol": "source_ability_localized_result.get_bundle_value",
+      "java_expr": "getBundle()",
+      "java_method": "Ability.localized()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_localized_state",
+      "source_slice": "N1271",
+      "status": "source-backed",
+      "rule": "Ability.localized delegates bundle key to getBundle().",
+      "tests": [
+        "test_emit_bridges_ability_localized_to_source_state",
+        "test_port_game_exposes_source_ability_localized_state",
+        "test_port_game_exposes_generated_ability_localized_bridge_state",
+        "test_ability_localized_matches_upstream_source",
+        "test_generated_ability_localized_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_localized.bundle_get": {
+      "godot_owner": "PortGame.source_ability_localized_state",
+      "godot_symbol": "source_ability_localized_result.return_value",
+      "java_expr": "Core.bundle.get(getBundle())",
+      "java_method": "Ability.localized()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_localized_state",
+      "source_slice": "N1271",
+      "status": "source-backed",
+      "rule": "Ability.localized returns Core.bundle.get(getBundle()).",
+      "tests": [
+        "test_emit_bridges_ability_localized_to_source_state",
+        "test_port_game_exposes_source_ability_localized_state",
+        "test_port_game_exposes_generated_ability_localized_bridge_state",
+        "test_ability_localized_matches_upstream_source",
+        "test_generated_ability_localized_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

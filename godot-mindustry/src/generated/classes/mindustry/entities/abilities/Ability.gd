@@ -76,7 +76,9 @@ func java_method_copy_9(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_ability_copy_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public Ability copy(){", "try_expr": "try{", "clone_return_expr": "return (Ability)clone();", "clone_supported": clone_supported, "clone_value": clone_value, "catch_expr": "}catch(CloneNotSupportedException e){", "comment_expr": "//I am disgusted", "runtime_exception_expr": "throw new RuntimeException(\"java sucks\", e);", "exception_value": exception_value, "return_value": return_value, "thrown_exception": thrown_exception}
 
 func java_method_localized_10(_args: Array = []) -> Variant:
-	return null
+	var get_bundle_value: String = str(_args[0] if _args.size() > 0 else "")
+	var bundle_value: String = str(_args[1] if _args.size() > 1 else "")
+	return {"source_owner": "PortGame.source_ability_localized_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "comment": "/** @return localized ability name; mods should override this. */", "method": "public String localized(){", "get_bundle_call": "getBundle()", "get_bundle_value": get_bundle_value, "bundle_get_call": "Core.bundle.get(getBundle())", "return_expr": "return Core.bundle.get(getBundle());", "return_value": bundle_value}
 
 func java_method_getBundle_11(_args: Array = []) -> Variant:
 	return null

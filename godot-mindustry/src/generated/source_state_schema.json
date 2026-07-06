@@ -111883,6 +111883,212 @@
       "runtime_proof": "/root/Main.source_ability_copy_state",
       "source_slice": "N1270",
       "status": "source-backed"
+    },
+    "source_ability_localized_input": {
+      "rule": "Inputs for PortGame.source_ability_localized_state.",
+      "keys": {
+        "get_bundle_value": {
+          "godot_symbol": "source_ability_localized_input.get_bundle_value",
+          "java_expr": "getBundle()",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Explicit result of getBundle() call.",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        },
+        "bundle_value": {
+          "godot_symbol": "source_ability_localized_input.bundle_value",
+          "java_expr": "Core.bundle.get(getBundle())",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Explicit result of Core.bundle.get(getBundle()).",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_localized_state",
+      "runtime_proof": "/root/Main.source_ability_localized_state",
+      "source_slice": "N1271",
+      "status": "source-backed"
+    },
+    "source_ability_localized_result": {
+      "rule": "Dictionary returned by PortGame.source_ability_localized_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_ability_localized_result.source_owner",
+          "java_expr": "PortGame.source_ability_localized_state",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Canonical PortGame owner for Ability.localized bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_ability_localized_result.source",
+          "java_expr": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Upstream source file for Ability.localized.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        },
+        "comment": {
+          "godot_symbol": "source_ability_localized_result.comment",
+          "java_expr": "/** @return localized ability name; mods should override this. */",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Source localized documentation comment.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_ability_localized_result.method",
+          "java_expr": "public String localized(){",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Ability.localized method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_localized.method"
+          ],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        },
+        "get_bundle_call": {
+          "godot_symbol": "source_ability_localized_result.get_bundle_call",
+          "java_expr": "getBundle()",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Source getBundle() call text.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_localized.get_bundle_call"
+          ],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        },
+        "get_bundle_value": {
+          "godot_symbol": "source_ability_localized_result.get_bundle_value",
+          "java_expr": "getBundle()",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Explicit bundle key returned by getBundle().",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [
+            "ability_localized.get_bundle_call"
+          ],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        },
+        "bundle_get_call": {
+          "godot_symbol": "source_ability_localized_result.bundle_get_call",
+          "java_expr": "Core.bundle.get(getBundle())",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Source bundle lookup call text.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_localized.bundle_get"
+          ],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_ability_localized_result.return_expr",
+          "java_expr": "return Core.bundle.get(getBundle());",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Source return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_localized.bundle_get"
+          ],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        },
+        "return_value": {
+          "godot_symbol": "source_ability_localized_result.return_value",
+          "java_expr": "return Core.bundle.get(getBundle());",
+          "java_method": "Ability.localized()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_localized_state"
+          ],
+          "rule": "Explicit localized string returned by Core.bundle.get(getBundle()).",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [
+            "ability_localized.bundle_get"
+          ],
+          "used_by": [
+            "PortGame.source_ability_localized_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_localized_state",
+      "runtime_proof": "/root/Main.source_ability_localized_state",
+      "source_slice": "N1271",
+      "status": "source-backed"
     }
   },
   "version": 1

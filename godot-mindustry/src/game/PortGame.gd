@@ -15608,6 +15608,32 @@ func generated_ability_copy_bridge_state(clone_supported: bool, clone_value: Var
 		"matches": result == canonical,
 	}
 
+func source_ability_localized_state(get_bundle_value: String, bundle_value: String) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_ability_localized_state",
+		"source": "core/src/mindustry/entities/abilities/Ability.java",
+		"comment": "/** @return localized ability name; mods should override this. */",
+		"method": "public String localized(){",
+		"get_bundle_call": "getBundle()",
+		"get_bundle_value": get_bundle_value,
+		"bundle_get_call": "Core.bundle.get(getBundle())",
+		"return_expr": "return Core.bundle.get(getBundle());",
+		"return_value": bundle_value,
+	}
+
+func generated_ability_localized_bridge_state(get_bundle_value: String, bundle_value: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")
+	var instance = script.new()
+	var result = instance.java_method_localized_10([get_bundle_value, bundle_value])
+	var canonical = source_ability_localized_state(get_bundle_value, bundle_value)
+	return {
+		"source_owner": "PortGame.source_ability_localized_state",
+		"generated_owner": "Ability.java_method_localized_10",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
 	var trail_scale := elevation_value if type_use_engine_elevation else 1.0
 	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * trail_scale

@@ -9641,6 +9641,43 @@ public abstract class Ability implements Cloneable{
             self.assertIn('"return_value": return_value', source_text)
             self.assertIn('"thrown_exception": thrown_exception', source_text)
 
+    def test_emit_bridges_ability_localized_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            ability_path = source_root / "mindustry" / "entities" / "abilities" / "Ability.java"
+            ability_path.parent.mkdir(parents=True, exist_ok=True)
+            ability_path.write_text(
+                """
+package mindustry.entities.abilities;
+
+public abstract class Ability implements Cloneable{
+    /** @return localized ability name; mods should override this. */
+    public String localized(){
+        return Core.bundle.get(getBundle());
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "abilities" / "Ability.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_localized_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar get_bundle_value: String = str(_args[0] if _args.size() > 0 else \"\")", source_text)
+            self.assertIn("\tvar bundle_value: String = str(_args[1] if _args.size() > 1 else \"\")", source_text)
+            self.assertIn('"source_owner": "PortGame.source_ability_localized_state"', source_text)
+            self.assertIn('"comment": "/** @return localized ability name; mods should override this. */"', source_text)
+            self.assertIn('"method": "public String localized(){"', source_text)
+            self.assertIn('"get_bundle_call": "getBundle()"', source_text)
+            self.assertIn('"get_bundle_value": get_bundle_value', source_text)
+            self.assertIn('"bundle_get_call": "Core.bundle.get(getBundle())"', source_text)
+            self.assertIn('"return_expr": "return Core.bundle.get(getBundle());"', source_text)
+            self.assertIn('"return_value": bundle_value', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

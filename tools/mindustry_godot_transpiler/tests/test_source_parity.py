@@ -4842,6 +4842,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_ability_localized_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_ability_localized_source"))
+        report = source_parity.verify_ability_localized_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(report["checked"], {
+            "class": "public abstract class Ability implements Cloneable{",
+            "comment": "/** @return localized ability name; mods should override this. */",
+            "method": "public String localized(){",
+            "bundle_get_return": "return Core.bundle.get(getBundle());",
+            "arc_import": "import arc.*;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

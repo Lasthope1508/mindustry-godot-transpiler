@@ -7560,6 +7560,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_ability_copy_result")
         self.assertEqual(result_schema["keys"]["thrown_exception"]["java_expr"], "throw new RuntimeException(\"java sucks\", e);")
 
+    def test_generated_ability_localized_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "ability_localized.method")
+        self.assertEqual(method["java_expr"], "public String localized(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(method["java_method"], "Ability.localized()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_ability_localized_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_ability_localized_state")
+        self.assertEqual(method["godot_symbol"], "source_ability_localized_result.method")
+
+        get_bundle_call = source_symbols.source_symbol(registry, "ability_localized.get_bundle_call")
+        self.assertEqual(get_bundle_call["java_expr"], "getBundle()")
+        self.assertEqual(get_bundle_call["godot_symbol"], "source_ability_localized_result.get_bundle_value")
+
+        bundle_get = source_symbols.source_symbol(registry, "ability_localized.bundle_get")
+        self.assertEqual(bundle_get["java_expr"], "Core.bundle.get(getBundle())")
+        self.assertEqual(bundle_get["godot_symbol"], "source_ability_localized_result.return_value")
+
+        localized_slice = source_symbols.source_slice(ledger, "N1271")
+        self.assertEqual(localized_slice["title"], "Generated Ability localized bridge state")
+        self.assertEqual(localized_slice["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(localized_slice["java_method"], "Ability.localized()")
+        self.assertEqual(localized_slice["godot_owner"], "PortGame.source_ability_localized_state")
+        self.assertEqual(localized_slice["generated_owner"], "Ability.java_method_localized_10")
+        self.assertEqual(localized_slice["runtime_proof"], "/root/Main.generated_ability_localized_bridge_state")
+        for expr in [
+            "public abstract class Ability implements Cloneable{",
+            "/** @return localized ability name; mods should override this. */",
+            "public String localized(){",
+            "return Core.bundle.get(getBundle());",
+        ]:
+            self.assertIn(expr, localized_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_ability_localized_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["get_bundle_value", "bundle_value"])
+        for key in ["source_owner", "source", "method", "get_bundle_call", "get_bundle_value", "bundle_get_call", "return_value"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_ability_localized_input")
+        self.assertEqual(input_schema["keys"]["get_bundle_value"]["java_expr"], "getBundle()")
+        self.assertEqual(input_schema["keys"]["bundle_value"]["java_expr"], "Core.bundle.get(getBundle())")
+        result_schema = source_symbols.state_schema(schema, "source_ability_localized_result")
+        self.assertEqual(result_schema["keys"]["return_value"]["java_expr"], "return Core.bundle.get(getBundle());")
+
     def test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -20263,10 +20314,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 744)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 739)
+        self.assertEqual(audit["totalSourceFunctions"], 745)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 740)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 744)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 745)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20275,6 +20326,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_ability_add_stats_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_ability_stat_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_copy_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_ability_localized_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_bars_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_init_state", audit["registeredSourceOwners"])

@@ -15720,5 +15720,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Ability.java_method_copy_9"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_ability_localized_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_ability_localized_state(get_bundle_value: String, bundle_value: String) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_ability_localized_state"', source)
+        self.assertIn('"source": "core/src/mindustry/entities/abilities/Ability.java"', source)
+        self.assertIn('"comment": "/** @return localized ability name; mods should override this. */"', source)
+        self.assertIn('"method": "public String localized(){"', source)
+        self.assertIn('"get_bundle_call": "getBundle()"', source)
+        self.assertIn('"get_bundle_value": get_bundle_value', source)
+        self.assertIn('"bundle_get_call": "Core.bundle.get(getBundle())"', source)
+        self.assertIn('"return_expr": "return Core.bundle.get(getBundle());"', source)
+        self.assertIn('"return_value": bundle_value', source)
+
+    def test_port_game_exposes_generated_ability_localized_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_ability_localized_bridge_state(get_bundle_value: String, bundle_value: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")', source)
+        self.assertIn("var result = instance.java_method_localized_10([get_bundle_value, bundle_value])", source)
+        self.assertIn("var canonical = source_ability_localized_state(get_bundle_value, bundle_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_ability_localized_state"', source)
+        self.assertIn('"generated_owner": "Ability.java_method_localized_10"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()
