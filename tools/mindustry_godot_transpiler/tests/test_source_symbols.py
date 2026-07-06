@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 756)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 751)
+        self.assertEqual(audit["totalSourceFunctions"], 757)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 752)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 756)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 757)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43151,6 +43151,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["liq"]["java_expr"], "Liquid liq")
         result_schema = source_symbols.state_schema(schema, "source_block_consumes_liquid_result")
         self.assertEqual(result_schema["keys"]["consumes_liquid"]["java_expr"], "return liquidFilter[liq.id];")
+
+    def test_generated_block_has_building_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_has_building.method")
+        self.assertEqual(method["java_expr"], "public boolean hasBuilding(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.hasBuilding()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_has_building_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_has_building_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_has_building.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return destructible || update;")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_has_building_result.has_building")
+
+        has_building_slice = source_symbols.source_slice(ledger, "N1283")
+        self.assertEqual(has_building_slice["title"], "Generated Block hasBuilding bridge state")
+        self.assertEqual(has_building_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(has_building_slice["java_method"], "Block.hasBuilding()")
+        self.assertEqual(has_building_slice["godot_owner"], "PortGame.source_block_has_building_state")
+        self.assertEqual(has_building_slice["generated_owner"], "Block.java_method_hasBuilding_70")
+        self.assertEqual(has_building_slice["runtime_proof"], "/root/Main.generated_block_has_building_bridge_state")
+        for expr in [
+            "public boolean hasBuilding(){",
+            "return destructible || update;",
+        ]:
+            self.assertIn(expr, has_building_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_has_building_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["destructible_value", "update_value"])
+        for key in ["source_owner", "source", "method", "return_expr", "destructible", "update", "has_building"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_has_building_input")
+        self.assertEqual(input_schema["keys"]["destructible"]["java_expr"], "destructible")
+        self.assertEqual(input_schema["keys"]["update"]["java_expr"], "update")
+        result_schema = source_symbols.state_schema(schema, "source_block_has_building_result")
+        self.assertEqual(result_schema["keys"]["has_building"]["java_expr"], "return destructible || update;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

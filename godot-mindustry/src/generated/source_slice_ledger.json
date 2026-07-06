@@ -29747,6 +29747,35 @@
         "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block consumesLiquid bridge state"
+    },
+    "N1283": {
+      "exact_exprs": [
+        "public boolean hasBuilding(){",
+        "return destructible || update;",
+        "destructible",
+        "update"
+      ],
+      "generated_owner": "Block.java_method_hasBuilding_70",
+      "godot_owner": "PortGame.source_block_has_building_state",
+      "java_class": "Block",
+      "java_method": "Block.hasBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_has_building_bridge_state",
+      "source_symbols": [
+        "block_has_building.method",
+        "block_has_building.return_expr",
+        "block_has_building.destructible",
+        "block_has_building.update"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_has_building_to_source_state",
+        "test_port_game_exposes_source_block_has_building_state",
+        "test_port_game_exposes_generated_block_has_building_bridge_state",
+        "test_block_has_building_matches_upstream_source",
+        "test_generated_block_has_building_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block hasBuilding bridge state"
     }
   },
   "version": 1

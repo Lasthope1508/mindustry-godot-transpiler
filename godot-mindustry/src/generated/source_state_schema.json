@@ -113991,6 +113991,131 @@
       "runtime_proof": "/root/Main.source_block_consumes_liquid_state",
       "source_slice": "N1282",
       "status": "active"
+    },
+    "source_block_has_building_input": {
+      "rule": "Inputs for PortGame.source_block_has_building_state.",
+      "keys": {
+        "destructible": {
+          "godot_symbol": "source_block_has_building_input.destructible",
+          "java_expr": "destructible",
+          "java_method": "Block.hasBuilding()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_building_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "update": {
+          "godot_symbol": "source_block_has_building_input.update",
+          "java_expr": "update",
+          "java_method": "Block.hasBuilding()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_building_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_has_building_state",
+      "runtime_proof": "/root/Main.source_block_has_building_state",
+      "source_slice": "N1283",
+      "status": "active"
+    },
+    "source_block_has_building_result": {
+      "rule": "Dictionary returned by PortGame.source_block_has_building_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_has_building_result.source_owner",
+          "java_expr": "PortGame.source_block_has_building_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_building_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_has_building_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_building_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_has_building_result.method",
+          "java_expr": "public boolean hasBuilding(){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_building_state"
+          ],
+          "source_symbols": [
+            "block_has_building.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_has_building_result.return_expr",
+          "java_expr": "return destructible || update;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_building_state"
+          ],
+          "source_symbols": [
+            "block_has_building.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "destructible": {
+          "godot_symbol": "source_block_has_building_result.destructible",
+          "java_expr": "destructible",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_building_state"
+          ],
+          "source_symbols": [
+            "block_has_building.destructible"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "update": {
+          "godot_symbol": "source_block_has_building_result.update",
+          "java_expr": "update",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_building_state"
+          ],
+          "source_symbols": [
+            "block_has_building.update"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "has_building": {
+          "godot_symbol": "source_block_has_building_result.has_building",
+          "java_expr": "return destructible || update;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_building_state"
+          ],
+          "source_symbols": [
+            "block_has_building.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_has_building_state",
+      "runtime_proof": "/root/Main.source_block_has_building_state",
+      "source_slice": "N1283",
+      "status": "active"
     }
   },
   "version": 1

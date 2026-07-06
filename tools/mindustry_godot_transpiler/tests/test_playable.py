@@ -16044,5 +16044,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_consumesLiquid_34"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_has_building_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_has_building_state(destructible_value: bool, update_value: bool) -> Dictionary:", source)
+        self.assertIn("var has_building_value: bool = destructible_value or update_value", source)
+        self.assertIn('"source_owner": "PortGame.source_block_has_building_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public boolean hasBuilding(){"', source)
+        self.assertIn('"return_expr": "return destructible || update;"', source)
+        self.assertIn('"destructible": destructible_value', source)
+        self.assertIn('"update": update_value', source)
+        self.assertIn('"has_building": has_building_value', source)
+
+    def test_port_game_exposes_generated_block_has_building_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_has_building_bridge_state(destructible_value: bool, update_value: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_hasBuilding_70([destructible_value, update_value])", source)
+        self.assertIn("var canonical = source_block_has_building_state(destructible_value, update_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_has_building_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_hasBuilding_70"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

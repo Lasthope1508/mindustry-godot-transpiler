@@ -1475,6 +1475,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_block_consumes_liquid_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean consumesLiquid(Liquid liq){", "return_expr": "return liquidFilter[liq.id];", "liquidFilter": liquid_filter, "liq_id": liquid_id, "liq": liq, "consumes_liquid": consumes_liquid_value}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "hasBuilding"
+    ):
+        return [
+            "\tvar destructible_value: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar update_value: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar has_building_value: bool = destructible_value or update_value",
+            '\treturn {"source_owner": "PortGame.source_block_has_building_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean hasBuilding(){", "return_expr": "return destructible || update;", "destructible": destructible_value, "update": update_value, "has_building": has_building_value}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/ContinuousTurret.java"
         and type_entry.get("name") == "ContinuousTurret"
         and method.get("name") == "setStats"

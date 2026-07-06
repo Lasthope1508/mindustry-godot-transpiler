@@ -259,7 +259,10 @@ func java_method_variantRegions_69(_args: Array = []) -> Variant:
 	return null
 
 func java_method_hasBuilding_70(_args: Array = []) -> Variant:
-	return null
+	var destructible_value: bool = bool(_args[0] if _args.size() > 0 else false)
+	var update_value: bool = bool(_args[1] if _args.size() > 1 else false)
+	var has_building_value: bool = destructible_value or update_value
+	return {"source_owner": "PortGame.source_block_has_building_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean hasBuilding(){", "return_expr": "return destructible || update;", "destructible": destructible_value, "update": update_value, "has_building": has_building_value}
 
 func java_method_newBuilding_71(_args: Array = []) -> Variant:
 	return null

@@ -94220,6 +94220,78 @@
         "test_block_consumes_liquid_matches_upstream_source",
         "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_has_building.method": {
+      "godot_owner": "PortGame.source_block_has_building_state",
+      "godot_symbol": "source_block_has_building_result.method",
+      "java_expr": "public boolean hasBuilding(){",
+      "java_method": "Block.hasBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.hasBuilding() method boundary.",
+      "runtime_proof": "/root/Main.source_block_has_building_state",
+      "source_slice": "N1283",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_has_building_to_source_state",
+        "test_port_game_exposes_source_block_has_building_state",
+        "test_port_game_exposes_generated_block_has_building_bridge_state",
+        "test_block_has_building_matches_upstream_source",
+        "test_generated_block_has_building_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_has_building.return_expr": {
+      "godot_owner": "PortGame.source_block_has_building_state",
+      "godot_symbol": "source_block_has_building_result.has_building",
+      "java_expr": "return destructible || update;",
+      "java_method": "Block.hasBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Return value uses source destructible || update.",
+      "runtime_proof": "/root/Main.source_block_has_building_state",
+      "source_slice": "N1283",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_has_building_to_source_state",
+        "test_port_game_exposes_source_block_has_building_state",
+        "test_port_game_exposes_generated_block_has_building_bridge_state",
+        "test_block_has_building_matches_upstream_source",
+        "test_generated_block_has_building_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_has_building.destructible": {
+      "godot_owner": "PortGame.source_block_has_building_state",
+      "godot_symbol": "source_block_has_building_input.destructible",
+      "java_expr": "destructible",
+      "java_method": "Block.hasBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Runtime destructible_value supplies Block.destructible.",
+      "runtime_proof": "/root/Main.source_block_has_building_state",
+      "source_slice": "N1283",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_has_building_to_source_state",
+        "test_port_game_exposes_source_block_has_building_state",
+        "test_port_game_exposes_generated_block_has_building_bridge_state",
+        "test_block_has_building_matches_upstream_source",
+        "test_generated_block_has_building_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_has_building.update": {
+      "godot_owner": "PortGame.source_block_has_building_state",
+      "godot_symbol": "source_block_has_building_input.update",
+      "java_expr": "update",
+      "java_method": "Block.hasBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Runtime update_value supplies Block.update.",
+      "runtime_proof": "/root/Main.source_block_has_building_state",
+      "source_slice": "N1283",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_has_building_to_source_state",
+        "test_port_game_exposes_source_block_has_building_state",
+        "test_port_game_exposes_generated_block_has_building_bridge_state",
+        "test_block_has_building_matches_upstream_source",
+        "test_generated_block_has_building_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
