@@ -110277,6 +110277,128 @@
       "runtime_proof": "/root/Main.source_ability_death_state",
       "source_slice": "N1263",
       "status": "source-backed"
+    },
+    "source_ability_created_input": {
+      "rule": "Inputs for PortGame.source_ability_created_state.",
+      "keys": {
+        "unit": {
+          "godot_symbol": "source_ability_created_input.unit",
+          "java_expr": "Unit unit",
+          "java_method": "Ability.created(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_created_state"
+          ],
+          "rule": "Explicit Unit unit argument passed through unchanged.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_created.unit"
+          ],
+          "used_by": [
+            "PortGame.source_ability_created_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_created_state",
+      "runtime_proof": "/root/Main.source_ability_created_state",
+      "source_slice": "N1264",
+      "status": "source-backed"
+    },
+    "source_ability_created_result": {
+      "rule": "Dictionary returned by PortGame.source_ability_created_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_ability_created_result.source_owner",
+          "java_expr": "PortGame.source_ability_created_state",
+          "java_method": "Ability.created(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_created_state"
+          ],
+          "rule": "Canonical PortGame owner for Ability.created bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_created_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_ability_created_result.source",
+          "java_expr": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.created(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_created_state"
+          ],
+          "rule": "Upstream source file for Ability.created.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_created_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_ability_created_result.method",
+          "java_expr": "public void created(Unit unit){}",
+          "java_method": "Ability.created(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_created_state"
+          ],
+          "rule": "Base Ability.created method body.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_created.method"
+          ],
+          "used_by": [
+            "PortGame.source_ability_created_state"
+          ]
+        },
+        "unit": {
+          "godot_symbol": "source_ability_created_result.unit",
+          "java_expr": "Unit unit",
+          "java_method": "Ability.created(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_created_state"
+          ],
+          "rule": "Explicit Unit unit argument returned unchanged.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_created.unit"
+          ],
+          "used_by": [
+            "PortGame.source_ability_created_state"
+          ]
+        },
+        "no_op": {
+          "godot_symbol": "source_ability_created_result.no_op",
+          "java_expr": "public void created(Unit unit){}",
+          "java_method": "Ability.created(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_created_state"
+          ],
+          "rule": "Empty upstream Ability.created body produces no side effects.",
+          "status": "source-backed",
+          "type": "bool",
+          "source_symbols": [
+            "ability_created.no_op"
+          ],
+          "used_by": [
+            "PortGame.source_ability_created_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_created_state",
+      "runtime_proof": "/root/Main.source_ability_created_state",
+      "source_slice": "N1264",
+      "status": "source-backed"
     }
   },
   "version": 1

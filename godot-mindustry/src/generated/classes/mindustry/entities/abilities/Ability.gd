@@ -26,7 +26,8 @@ func java_method_death_2(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_ability_death_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void death(Unit unit){}", "unit": unit, "no_op": true}
 
 func java_method_created_3(_args: Array = []) -> Variant:
-	return null
+	var unit: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_ability_created_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void created(Unit unit){}", "unit": unit, "no_op": true}
 
 func java_method_init_4(_args: Array = []) -> Variant:
 	return null

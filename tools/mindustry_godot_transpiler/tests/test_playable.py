@@ -15544,5 +15544,28 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Ability.java_method_death_2"', source)
         self.assertIn('"matches": result.get("no_op", null) == canonical.get("no_op", null)', source)
 
+    def test_port_game_exposes_source_ability_created_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_ability_created_state(unit: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_ability_created_state"', source)
+        self.assertIn('"source": "core/src/mindustry/entities/abilities/Ability.java"', source)
+        self.assertIn('"method": "public void created(Unit unit){}"', source)
+        self.assertIn('"unit": unit', source)
+        self.assertIn('"no_op": true', source)
+
+    def test_port_game_exposes_generated_ability_created_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_ability_created_bridge_state(unit: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")', source)
+        self.assertIn("var result = instance.java_method_created_3([unit])", source)
+        self.assertIn("var canonical = source_ability_created_state(unit)", source)
+        self.assertIn('"source_owner": "PortGame.source_ability_created_state"', source)
+        self.assertIn('"generated_owner": "Ability.java_method_created_3"', source)
+        self.assertIn('"matches": result.get("no_op", null) == canonical.get("no_op", null)', source)
+
 if __name__ == "__main__":
     unittest.main()

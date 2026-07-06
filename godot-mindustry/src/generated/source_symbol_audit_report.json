@@ -13,8 +13,9 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 732,
+  "registeredSourceOwnerCount": 733,
   "registeredSourceOwners": [
+    "PortGame.source_ability_created_state",
     "PortGame.source_ability_death_state",
     "PortGame.source_ability_draw_state",
     "PortGame.source_ability_update_state",
@@ -3550,6 +3551,11 @@
       "owner": "PortGame.source_ability_death_state"
     },
     {
+      "function": "source_ability_created_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_ability_created_state"
+    },
+    {
       "function": "source_unit_update_trail_position_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_unit_update_trail_position_state"
@@ -4435,6 +4441,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 737,
+  "totalSourceFunctions": 738,
   "version": 1
 }
