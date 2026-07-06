@@ -8704,6 +8704,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_tractor_beam_turret_build_update_tile_angle_to_target_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_update_tile_angle_to_target_source"))
+        report = source_parity.verify_tractor_beam_turret_build_update_tile_angle_to_target_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(report["position_source"], "arc-core/src/arc/math/geom/Position.java")
+        self.assertEqual(report["angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void updateTile(){",
+            "sound_loop": "control.sound.loop(shootSound, this, shootSoundVolume);",
+            "dest": "float dest = angleTo(target);",
+            "rotation_boundary": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
+            "position_angle_to": "default float angleTo(Position other){\n        return Angles.angle(getX(), getY(), other.getX(), other.getY());\n    }",
+            "angles_angle": "public static float angle(float x, float y, float x2, float y2){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_get_regions_to_outline_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_get_regions_to_outline_source"))
         report = source_parity.verify_turret_get_regions_to_outline_source(ROOT / "mindustry-upstream")

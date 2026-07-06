@@ -92395,6 +92395,40 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() sound loop",
       "java_expr": "control.sound.loop(shootSound, this, shootSoundVolume);"
+    },
+    "tractor_beam_turret_build_update_tile_angle_to_target.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_angle_to_target_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for angle-to-target slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_angle_to_target_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_angle_to_target_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_angle_to_target_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() angle to target",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_angle_to_target.call": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_angle_to_target_result.dest",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+      "rule": "Source target angle assigned to dest inside TractorBeamBuild.updateTile look-target guard.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_angle_to_target_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_angle_to_target_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_angle_to_target_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() angle to target",
+      "java_expr": "float dest = angleTo(target);"
     }
   },
   "version": 1

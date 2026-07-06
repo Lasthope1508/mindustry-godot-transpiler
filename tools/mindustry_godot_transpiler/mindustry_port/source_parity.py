@@ -918,6 +918,41 @@ def verify_tractor_beam_turret_build_update_tile_sound_loop_source(upstream_root
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_angle_to_target_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    position_path = Path(arc_root) / ARC_POSITION_SOURCE
+    angles_path = Path(arc_root) / ARC_ANGLES_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    position_source = position_path.read_text(encoding="utf-8", errors="replace")
+    angles_source = angles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "sound_loop": "control.sound.loop(shootSound, this, shootSoundVolume);",
+        "dest": "float dest = angleTo(target);",
+        "rotation_boundary": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
+        "position_angle_to": "default float angleTo(Position other){\n        return Angles.angle(getX(), getY(), other.getX(), other.getY());\n    }",
+        "angles_angle": "public static float angle(float x, float y, float x2, float y2){",
+    }
+    missing = []
+    source_checks = {
+        "method": source,
+        "sound_loop": source,
+        "dest": source,
+        "rotation_boundary": source,
+        "position_angle_to": position_source,
+        "angles_angle": angles_source,
+    }
+    for key, snippet in checked.items():
+        if snippet not in source_checks[key]:
+            missing.append(snippet)
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "position_source": ARC_POSITION_SOURCE,
+        "angles_source": ARC_ANGLES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

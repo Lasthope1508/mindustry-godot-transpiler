@@ -30202,6 +30202,55 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_sound_loop_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile sound loop side-effect call."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state": {
+      "status": "source-backed",
+      "source_slice": "N1251",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() angle to target",
+      "params": [
+        {
+          "name": "look_target_guard",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_angle_to_target_input.look_target_guard"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_angle_to_target_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_angle_to_target_input.y"
+        },
+        {
+          "name": "target_after",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_angle_to_target_input.target_after"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "dest_expr",
+        "look_target_guard",
+        "x",
+        "y",
+        "target_after",
+        "angle_to_target_evaluated",
+        "dest",
+        "angle_to_target_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_angle_to_target_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_angle_to_target_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_angle_to_target_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile angleTo(target) dest assignment."
     }
   },
   "policy": {

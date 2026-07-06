@@ -28787,6 +28787,35 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state",
       "status": "source-backed"
+    },
+    "N1251": {
+      "title": "Generated TractorBeamTurretBuild updateTile angle to target bridge state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() angle to target",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.angle_to_target",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "float dest = angleTo(target);",
+        "default float angleTo(Position other){",
+        "return Angles.angle(getX(), getY(), other.getX(), other.getY());",
+        "public static float angle(float x, float y, float x2, float y2){",
+        "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_angle_to_target.method",
+        "tractor_beam_turret_build_update_tile_angle_to_target.call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_angle_to_target_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_angle_to_target_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_angle_to_target_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1

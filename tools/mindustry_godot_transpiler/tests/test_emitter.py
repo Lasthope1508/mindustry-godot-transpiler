@@ -8671,6 +8671,60 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"shoot_sound_loop_expr": "control.sound.loop(shootSound, this, shootSoundVolume);"', source_text)
             self.assertIn('"shoot_sound_loop_call": shoot_sound_loop_call', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_angle_to_target_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            any = false;
+
+            //look at target
+            if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){
+                if(!headless){
+                    control.sound.loop(shootSound, this, shootSoundVolume);
+                }
+
+                float dest = angleTo(target);
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var angle_to_target_evaluated: bool = look_target_guard", source_text)
+            self.assertIn("var dest: float = 0.0", source_text)
+            self.assertIn("if angle_to_target_evaluated and target_after is Dictionary:", source_text)
+            self.assertIn('dest = rad_to_deg(atan2(float(target_after.get("y", 0.0)) - y, float(target_after.get("x", 0.0)) - x))', source_text)
+            self.assertIn("if dest < 0.0:", source_text)
+            self.assertIn("dest += 360.0", source_text)
+            self.assertIn("var angle_to_target_call: Dictionary = {}", source_text)
+            self.assertIn('angle_to_target_call = {"call": "angleTo(target)", "origin": {"x": x, "y": y}, "target": target_after, "result": dest}', source_text)
+            self.assertIn('"dest_expr": "float dest = angleTo(target);"', source_text)
+            self.assertIn('"angle_to_target_call": angle_to_target_call', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
