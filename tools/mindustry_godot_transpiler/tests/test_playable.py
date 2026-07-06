@@ -16120,5 +16120,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_isAir_91"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_can_be_built_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_can_be_built_state(build_visibility_value: String) -> Dictionary:", source)
+        self.assertIn('var can_be_built_value: bool = build_visibility_value != "hidden" and build_visibility_value != "debugOnly"', source)
+        self.assertIn('"source_owner": "PortGame.source_block_can_be_built_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public boolean canBeBuilt(){"', source)
+        self.assertIn('"return_expr": "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;"', source)
+        self.assertIn('"buildVisibility": build_visibility_value', source)
+        self.assertIn('"hidden_constant": "BuildVisibility.hidden"', source)
+        self.assertIn('"debug_only_constant": "BuildVisibility.debugOnly"', source)
+        self.assertIn('"can_be_built": can_be_built_value', source)
+
+    def test_port_game_exposes_generated_block_can_be_built_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_can_be_built_bridge_state(build_visibility_value: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_canBeBuilt_92([build_visibility_value])", source)
+        self.assertIn("var canonical = source_block_can_be_built_state(build_visibility_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_can_be_built_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_canBeBuilt_92"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

@@ -53,6 +53,7 @@ BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 HEALTH_COMP_SOURCE = "core/src/mindustry/entities/comp/HealthComp.java"
 STATUS_COMP_SOURCE = "core/src/mindustry/entities/comp/StatusComp.java"
 BLOCK_SOURCE = "core/src/mindustry/world/Block.java"
+BUILD_VISIBILITY_SOURCE = "core/src/mindustry/world/meta/BuildVisibility.java"
 CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 WORLD_SOURCE = "core/src/mindustry/core/World.java"
@@ -9822,6 +9823,26 @@ def verify_block_is_air_source(upstream_root: Path) -> dict[str, Any]:
     missing = [snippet for snippet in checked.values() if snippet not in source]
     return {
         "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_block_can_be_built_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    visibility_path = Path(upstream_root) / BUILD_VISIBILITY_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    visibility_source = visibility_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean canBeBuilt(){",
+        "return_expr": "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;",
+        "hidden_constant": "hidden = new BuildVisibility(() -> false),",
+        "debug_only_constant": "debugOnly = new BuildVisibility(() -> false),",
+    }
+    missing = [snippet for snippet in [checked["method"], checked["return_expr"]] if snippet not in source]
+    missing.extend(snippet for snippet in [checked["hidden_constant"], checked["debug_only_constant"]] if snippet not in visibility_source)
+    return {
+        "source": BLOCK_SOURCE,
+        "build_visibility_source": BUILD_VISIBILITY_SOURCE,
         "checked": checked,
         "missing": missing,
     }

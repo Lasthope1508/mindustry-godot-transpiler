@@ -5020,6 +5020,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_can_be_built_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_can_be_built_source"))
+        report = source_parity.verify_block_can_be_built_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["build_visibility_source"], "core/src/mindustry/world/meta/BuildVisibility.java")
+        self.assertEqual(report["checked"], {
+            "method": "public boolean canBeBuilt(){",
+            "return_expr": "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;",
+            "hidden_constant": "hidden = new BuildVisibility(() -> false),",
+            "debug_only_constant": "debugOnly = new BuildVisibility(() -> false),",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

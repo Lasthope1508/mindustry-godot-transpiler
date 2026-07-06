@@ -114318,6 +114318,133 @@
       "runtime_proof": "/root/Main.source_block_is_air_state",
       "source_slice": "N1285",
       "status": "active"
+    },
+    "source_block_can_be_built_input": {
+      "rule": "Inputs for PortGame.source_block_can_be_built_state.",
+      "keys": {
+        "buildVisibility": {
+          "godot_symbol": "source_block_can_be_built_input.buildVisibility",
+          "java_expr": "buildVisibility",
+          "java_method": "Block.canBeBuilt()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_be_built_state"
+          ],
+          "status": "explicit-input",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_can_be_built_state",
+      "runtime_proof": "/root/Main.source_block_can_be_built_state",
+      "source_slice": "N1286",
+      "status": "active"
+    },
+    "source_block_can_be_built_result": {
+      "rule": "Dictionary returned by PortGame.source_block_can_be_built_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_can_be_built_result.source_owner",
+          "java_expr": "PortGame.source_block_can_be_built_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_be_built_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_can_be_built_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_be_built_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_can_be_built_result.method",
+          "java_expr": "public boolean canBeBuilt(){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_be_built_state"
+          ],
+          "source_symbols": [
+            "block_can_be_built.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_can_be_built_result.return_expr",
+          "java_expr": "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_be_built_state"
+          ],
+          "source_symbols": [
+            "block_can_be_built.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "buildVisibility": {
+          "godot_symbol": "source_block_can_be_built_result.buildVisibility",
+          "java_expr": "buildVisibility",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_be_built_state"
+          ],
+          "source_symbols": [
+            "block_can_be_built.build_visibility"
+          ],
+          "status": "explicit-input",
+          "type": "String"
+        },
+        "hidden_constant": {
+          "godot_symbol": "source_block_can_be_built_result.hidden_constant",
+          "java_expr": "BuildVisibility.hidden",
+          "java_source": "core/src/mindustry/world/meta/BuildVisibility.java",
+          "owners": [
+            "PortGame.source_block_can_be_built_state"
+          ],
+          "source_symbols": [
+            "block_can_be_built.hidden_constant"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "debug_only_constant": {
+          "godot_symbol": "source_block_can_be_built_result.debug_only_constant",
+          "java_expr": "BuildVisibility.debugOnly",
+          "java_source": "core/src/mindustry/world/meta/BuildVisibility.java",
+          "owners": [
+            "PortGame.source_block_can_be_built_state"
+          ],
+          "source_symbols": [
+            "block_can_be_built.debug_only_constant"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "can_be_built": {
+          "godot_symbol": "source_block_can_be_built_result.can_be_built",
+          "java_expr": "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_be_built_state"
+          ],
+          "source_symbols": [
+            "block_can_be_built.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_can_be_built_state",
+      "runtime_proof": "/root/Main.source_block_can_be_built_state",
+      "source_slice": "N1286",
+      "status": "active"
     }
   },
   "version": 1

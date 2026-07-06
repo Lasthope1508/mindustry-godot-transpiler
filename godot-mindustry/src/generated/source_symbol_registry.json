@@ -94400,6 +94400,96 @@
         "test_block_is_air_matches_upstream_source",
         "test_generated_block_is_air_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_can_be_built.method": {
+      "godot_owner": "PortGame.source_block_can_be_built_state",
+      "godot_symbol": "source_block_can_be_built_result.method",
+      "java_expr": "public boolean canBeBuilt(){",
+      "java_method": "Block.canBeBuilt()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.canBeBuilt() method boundary.",
+      "runtime_proof": "/root/Main.source_block_can_be_built_state",
+      "source_slice": "N1286",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_can_be_built_to_source_state",
+        "test_port_game_exposes_source_block_can_be_built_state",
+        "test_port_game_exposes_generated_block_can_be_built_bridge_state",
+        "test_block_can_be_built_matches_upstream_source",
+        "test_generated_block_can_be_built_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_can_be_built.return_expr": {
+      "godot_owner": "PortGame.source_block_can_be_built_state",
+      "godot_symbol": "source_block_can_be_built_result.can_be_built",
+      "java_expr": "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;",
+      "java_method": "Block.canBeBuilt()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Return value uses source buildVisibility singleton checks.",
+      "runtime_proof": "/root/Main.source_block_can_be_built_state",
+      "source_slice": "N1286",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_can_be_built_to_source_state",
+        "test_port_game_exposes_source_block_can_be_built_state",
+        "test_port_game_exposes_generated_block_can_be_built_bridge_state",
+        "test_block_can_be_built_matches_upstream_source",
+        "test_generated_block_can_be_built_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_can_be_built.build_visibility": {
+      "godot_owner": "PortGame.source_block_can_be_built_state",
+      "godot_symbol": "source_block_can_be_built_input.buildVisibility",
+      "java_expr": "buildVisibility",
+      "java_method": "Block.canBeBuilt()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Runtime build_visibility_value supplies Block.buildVisibility singleton name.",
+      "runtime_proof": "/root/Main.source_block_can_be_built_state",
+      "source_slice": "N1286",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_can_be_built_to_source_state",
+        "test_port_game_exposes_source_block_can_be_built_state",
+        "test_port_game_exposes_generated_block_can_be_built_bridge_state",
+        "test_block_can_be_built_matches_upstream_source",
+        "test_generated_block_can_be_built_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_can_be_built.hidden_constant": {
+      "godot_owner": "PortGame.source_block_can_be_built_state",
+      "godot_symbol": "source_block_can_be_built_result.hidden_constant",
+      "java_expr": "BuildVisibility.hidden",
+      "java_method": "Block.canBeBuilt()",
+      "java_source": "core/src/mindustry/world/meta/BuildVisibility.java",
+      "rule": "BuildVisibility.hidden is the singleton excluded by Block.canBeBuilt().",
+      "runtime_proof": "/root/Main.source_block_can_be_built_state",
+      "source_slice": "N1286",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_can_be_built_to_source_state",
+        "test_port_game_exposes_source_block_can_be_built_state",
+        "test_port_game_exposes_generated_block_can_be_built_bridge_state",
+        "test_block_can_be_built_matches_upstream_source",
+        "test_generated_block_can_be_built_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_can_be_built.debug_only_constant": {
+      "godot_owner": "PortGame.source_block_can_be_built_state",
+      "godot_symbol": "source_block_can_be_built_result.debug_only_constant",
+      "java_expr": "BuildVisibility.debugOnly",
+      "java_method": "Block.canBeBuilt()",
+      "java_source": "core/src/mindustry/world/meta/BuildVisibility.java",
+      "rule": "BuildVisibility.debugOnly is the singleton excluded by Block.canBeBuilt().",
+      "runtime_proof": "/root/Main.source_block_can_be_built_state",
+      "source_slice": "N1286",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_can_be_built_to_source_state",
+        "test_port_game_exposes_source_block_can_be_built_state",
+        "test_port_game_exposes_generated_block_can_be_built_bridge_state",
+        "test_block_can_be_built_matches_upstream_source",
+        "test_generated_block_can_be_built_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

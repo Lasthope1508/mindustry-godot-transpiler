@@ -29830,6 +29830,37 @@
         "test_generated_block_is_air_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block isAir bridge state"
+    },
+    "N1286": {
+      "exact_exprs": [
+        "public boolean canBeBuilt(){",
+        "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;",
+        "buildVisibility",
+        "BuildVisibility.hidden",
+        "BuildVisibility.debugOnly"
+      ],
+      "generated_owner": "Block.java_method_canBeBuilt_92",
+      "godot_owner": "PortGame.source_block_can_be_built_state",
+      "java_class": "Block",
+      "java_method": "Block.canBeBuilt()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_can_be_built_bridge_state",
+      "source_symbols": [
+        "block_can_be_built.method",
+        "block_can_be_built.return_expr",
+        "block_can_be_built.build_visibility",
+        "block_can_be_built.hidden_constant",
+        "block_can_be_built.debug_only_constant"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_can_be_built_to_source_state",
+        "test_port_game_exposes_source_block_can_be_built_state",
+        "test_port_game_exposes_generated_block_can_be_built_bridge_state",
+        "test_block_can_be_built_matches_upstream_source",
+        "test_generated_block_can_be_built_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block canBeBuilt bridge state"
     }
   },
   "version": 1

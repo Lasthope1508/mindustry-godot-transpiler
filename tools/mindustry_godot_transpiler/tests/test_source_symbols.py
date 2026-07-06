@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 759)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 754)
+        self.assertEqual(audit["totalSourceFunctions"], 760)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 755)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 759)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 760)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43286,6 +43286,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["id"]["java_expr"], "id")
         result_schema = source_symbols.state_schema(schema, "source_block_is_air_result")
         self.assertEqual(result_schema["keys"]["is_air"]["java_expr"], "return id == 0;")
+
+    def test_generated_block_can_be_built_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_can_be_built.method")
+        self.assertEqual(method["java_expr"], "public boolean canBeBuilt(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.canBeBuilt()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_can_be_built_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_can_be_built_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_can_be_built.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_can_be_built_result.can_be_built")
+
+        build_visibility = source_symbols.source_symbol(registry, "block_can_be_built.build_visibility")
+        self.assertEqual(build_visibility["java_expr"], "buildVisibility")
+        self.assertEqual(build_visibility["godot_symbol"], "source_block_can_be_built_input.buildVisibility")
+
+        hidden_constant = source_symbols.source_symbol(registry, "block_can_be_built.hidden_constant")
+        self.assertEqual(hidden_constant["java_expr"], "BuildVisibility.hidden")
+        debug_only_constant = source_symbols.source_symbol(registry, "block_can_be_built.debug_only_constant")
+        self.assertEqual(debug_only_constant["java_expr"], "BuildVisibility.debugOnly")
+
+        can_be_built_slice = source_symbols.source_slice(ledger, "N1286")
+        self.assertEqual(can_be_built_slice["title"], "Generated Block canBeBuilt bridge state")
+        self.assertEqual(can_be_built_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(can_be_built_slice["java_method"], "Block.canBeBuilt()")
+        self.assertEqual(can_be_built_slice["godot_owner"], "PortGame.source_block_can_be_built_state")
+        self.assertEqual(can_be_built_slice["generated_owner"], "Block.java_method_canBeBuilt_92")
+        self.assertEqual(can_be_built_slice["runtime_proof"], "/root/Main.generated_block_can_be_built_bridge_state")
+        for expr in [
+            "public boolean canBeBuilt(){",
+            "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;",
+        ]:
+            self.assertIn(expr, can_be_built_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_can_be_built_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["build_visibility_value"])
+        for key in ["source_owner", "source", "method", "return_expr", "buildVisibility", "hidden_constant", "debug_only_constant", "can_be_built"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_can_be_built_input")
+        self.assertEqual(input_schema["keys"]["buildVisibility"]["java_expr"], "buildVisibility")
+        result_schema = source_symbols.state_schema(schema, "source_block_can_be_built_result")
+        self.assertEqual(result_schema["keys"]["can_be_built"]["java_expr"], "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

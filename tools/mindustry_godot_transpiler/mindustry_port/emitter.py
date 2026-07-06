@@ -1506,6 +1506,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_block_is_air_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean isAir(){", "return_expr": "return id == 0;", "id": id_value, "is_air": is_air_value}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "canBeBuilt"
+    ):
+        return [
+            '\tvar build_visibility_value: String = str(_args[0] if _args.size() > 0 else "shown")',
+            '\tvar can_be_built_value: bool = build_visibility_value != "hidden" and build_visibility_value != "debugOnly"',
+            '\treturn {"source_owner": "PortGame.source_block_can_be_built_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean canBeBuilt(){", "return_expr": "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;", "buildVisibility": build_visibility_value, "hidden_constant": "BuildVisibility.hidden", "debug_only_constant": "BuildVisibility.debugOnly", "can_be_built": can_be_built_value}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/ContinuousTurret.java"
         and type_entry.get("name") == "ContinuousTurret"
         and method.get("name") == "setStats"
