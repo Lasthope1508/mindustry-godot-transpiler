@@ -124,6 +124,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_ability_ability_stat_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public String abilityStat(String stat, Object... values){", "stat": stat_value, "values": values, "bundle_key_expr": "\\"ability.stat.\\" + stat", "bundle_key": bundle_key, "format_call": "Core.bundle.format(\\"ability.stat.\\" + stat, values)", "formatted_value": formatted_value, "return_expr": "return Core.bundle.format(\\"ability.stat.\\" + stat, values);", "return_value": formatted_value}',
         ]
     if (
+        java_file.get("path") == "mindustry/entities/abilities/Ability.java"
+        and type_entry.get("name") == "Ability"
+        and method.get("name") == "copy"
+    ):
+        return [
+            "\tvar clone_supported: bool = bool(_args[0] if _args.size() > 0 else true)",
+            "\tvar clone_value: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar exception_value: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar return_value: Variant = clone_value if clone_supported else null",
+            "\tvar thrown_exception: Variant = null",
+            "\tif not clone_supported:",
+            '\t\tthrown_exception = {"type": "RuntimeException", "message": "java sucks", "cause": exception_value}',
+            '\treturn {"source_owner": "PortGame.source_ability_copy_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public Ability copy(){", "try_expr": "try{", "clone_return_expr": "return (Ability)clone();", "clone_supported": clone_supported, "clone_value": clone_value, "catch_expr": "}catch(CloneNotSupportedException e){", "comment_expr": "//I am disgusted", "runtime_exception_expr": "throw new RuntimeException(\\"java sucks\\", e);", "exception_value": exception_value, "return_value": return_value, "thrown_exception": thrown_exception}',
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "getProgressIncrease"

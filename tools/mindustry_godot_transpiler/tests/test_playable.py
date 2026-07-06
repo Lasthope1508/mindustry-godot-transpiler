@@ -15693,5 +15693,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Ability.java_method_abilityStat_8"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_ability_copy_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_ability_copy_state(clone_supported: bool, clone_value: Variant, exception_value: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_ability_copy_state"', source)
+        self.assertIn('"source": "core/src/mindustry/entities/abilities/Ability.java"', source)
+        self.assertIn('"method": "public Ability copy(){"', source)
+        self.assertIn('"try_expr": "try{"', source)
+        self.assertIn('"clone_return_expr": "return (Ability)clone();"', source)
+        self.assertIn('"catch_expr": "}catch(CloneNotSupportedException e){"', source)
+        self.assertIn('"runtime_exception_expr": "throw new RuntimeException(\\"java sucks\\", e);"', source)
+        self.assertIn('"return_value": return_value', source)
+        self.assertIn('"thrown_exception": thrown_exception', source)
+
+    def test_port_game_exposes_generated_ability_copy_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_ability_copy_bridge_state(clone_supported: bool, clone_value: Variant, exception_value: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")', source)
+        self.assertIn("var result = instance.java_method_copy_9([clone_supported, clone_value, exception_value])", source)
+        self.assertIn("var canonical = source_ability_copy_state(clone_supported, clone_value, exception_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_ability_copy_state"', source)
+        self.assertIn('"generated_owner": "Ability.java_method_copy_9"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

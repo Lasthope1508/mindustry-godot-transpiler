@@ -15570,6 +15570,44 @@ func generated_ability_ability_stat_bridge_state(stat_value: String, values: Arr
 		"matches": result == canonical,
 	}
 
+func source_ability_copy_state(clone_supported: bool, clone_value: Variant, exception_value: Variant) -> Dictionary:
+	var return_value: Variant = clone_value if clone_supported else null
+	var thrown_exception: Variant = null
+	if not clone_supported:
+		thrown_exception = {
+			"type": "RuntimeException",
+			"message": "java sucks",
+			"cause": exception_value,
+		}
+	return {
+		"source_owner": "PortGame.source_ability_copy_state",
+		"source": "core/src/mindustry/entities/abilities/Ability.java",
+		"method": "public Ability copy(){",
+		"try_expr": "try{",
+		"clone_return_expr": "return (Ability)clone();",
+		"clone_supported": clone_supported,
+		"clone_value": clone_value,
+		"catch_expr": "}catch(CloneNotSupportedException e){",
+		"comment_expr": "//I am disgusted",
+		"runtime_exception_expr": "throw new RuntimeException(\"java sucks\", e);",
+		"exception_value": exception_value,
+		"return_value": return_value,
+		"thrown_exception": thrown_exception,
+	}
+
+func generated_ability_copy_bridge_state(clone_supported: bool, clone_value: Variant, exception_value: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")
+	var instance = script.new()
+	var result = instance.java_method_copy_9([clone_supported, clone_value, exception_value])
+	var canonical = source_ability_copy_state(clone_supported, clone_value, exception_value)
+	return {
+		"source_owner": "PortGame.source_ability_copy_state",
+		"generated_owner": "Ability.java_method_copy_9",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
 	var trail_scale := elevation_value if type_use_engine_elevation else 1.0
 	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * trail_scale

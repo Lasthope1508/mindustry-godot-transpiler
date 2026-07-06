@@ -9600,6 +9600,47 @@ public abstract class Ability implements Cloneable{
             self.assertIn('"formatted_value": formatted_value', source_text)
             self.assertIn('"return_value": formatted_value', source_text)
 
+    def test_emit_bridges_ability_copy_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            ability_path = source_root / "mindustry" / "entities" / "abilities" / "Ability.java"
+            ability_path.parent.mkdir(parents=True, exist_ok=True)
+            ability_path.write_text(
+                """
+package mindustry.entities.abilities;
+
+public abstract class Ability implements Cloneable{
+    public Ability copy(){
+        try{
+            return (Ability)clone();
+        }catch(CloneNotSupportedException e){
+            //I am disgusted
+            throw new RuntimeException("java sucks", e);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "abilities" / "Ability.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_copy_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar clone_supported: bool = bool(_args[0] if _args.size() > 0 else true)", source_text)
+            self.assertIn("\tvar clone_value: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("\tvar exception_value: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_ability_copy_state"', source_text)
+            self.assertIn('"method": "public Ability copy(){"', source_text)
+            self.assertIn('"clone_return_expr": "return (Ability)clone();"', source_text)
+            self.assertIn('"catch_expr": "}catch(CloneNotSupportedException e){"', source_text)
+            self.assertIn('"runtime_exception_expr": "throw new RuntimeException(\\"java sucks\\", e);"', source_text)
+            self.assertIn('"return_value": return_value', source_text)
+            self.assertIn('"thrown_exception": thrown_exception', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

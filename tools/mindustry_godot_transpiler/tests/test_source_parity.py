@@ -4825,6 +4825,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_ability_copy_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_ability_copy_source"))
+        report = source_parity.verify_ability_copy_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(report["checked"], {
+            "class": "public abstract class Ability implements Cloneable{",
+            "cloneable": "Cloneable",
+            "method": "public Ability copy(){",
+            "try": "try{",
+            "clone_return": "return (Ability)clone();",
+            "catch": "}catch(CloneNotSupportedException e){",
+            "comment": "//I am disgusted",
+            "runtime_exception": "throw new RuntimeException(\"java sucks\", e);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

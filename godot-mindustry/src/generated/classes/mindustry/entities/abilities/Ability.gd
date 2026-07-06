@@ -66,7 +66,14 @@ func java_method_abilityStat_8(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_ability_ability_stat_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public String abilityStat(String stat, Object... values){", "stat": stat_value, "values": values, "bundle_key_expr": "\"ability.stat.\" + stat", "bundle_key": bundle_key, "format_call": "Core.bundle.format(\"ability.stat.\" + stat, values)", "formatted_value": formatted_value, "return_expr": "return Core.bundle.format(\"ability.stat.\" + stat, values);", "return_value": formatted_value}
 
 func java_method_copy_9(_args: Array = []) -> Variant:
-	return null
+	var clone_supported: bool = bool(_args[0] if _args.size() > 0 else true)
+	var clone_value: Variant = _args[1] if _args.size() > 1 else null
+	var exception_value: Variant = _args[2] if _args.size() > 2 else null
+	var return_value: Variant = clone_value if clone_supported else null
+	var thrown_exception: Variant = null
+	if not clone_supported:
+		thrown_exception = {"type": "RuntimeException", "message": "java sucks", "cause": exception_value}
+	return {"source_owner": "PortGame.source_ability_copy_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public Ability copy(){", "try_expr": "try{", "clone_return_expr": "return (Ability)clone();", "clone_supported": clone_supported, "clone_value": clone_value, "catch_expr": "}catch(CloneNotSupportedException e){", "comment_expr": "//I am disgusted", "runtime_exception_expr": "throw new RuntimeException(\"java sucks\", e);", "exception_value": exception_value, "return_value": return_value, "thrown_exception": thrown_exception}
 
 func java_method_localized_10(_args: Array = []) -> Variant:
 	return null

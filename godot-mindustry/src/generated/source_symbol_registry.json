@@ -93500,6 +93500,78 @@
         "test_ability_ability_stat_matches_upstream_source",
         "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
       ]
+    },
+    "ability_copy.method": {
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "godot_symbol": "source_ability_copy_result.method",
+      "java_expr": "public Ability copy(){",
+      "java_method": "Ability.copy()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_copy_state",
+      "source_slice": "N1270",
+      "status": "source-backed",
+      "rule": "Ability.copy method boundary.",
+      "tests": [
+        "test_emit_bridges_ability_copy_to_source_state",
+        "test_port_game_exposes_source_ability_copy_state",
+        "test_port_game_exposes_generated_ability_copy_bridge_state",
+        "test_ability_copy_matches_upstream_source",
+        "test_generated_ability_copy_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_copy.clone_return": {
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "godot_symbol": "source_ability_copy_result.return_value",
+      "java_expr": "return (Ability)clone();",
+      "java_method": "Ability.copy()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_copy_state",
+      "source_slice": "N1270",
+      "status": "explicit-input",
+      "rule": "Successful clone return is supplied as explicit clone_value.",
+      "tests": [
+        "test_emit_bridges_ability_copy_to_source_state",
+        "test_port_game_exposes_source_ability_copy_state",
+        "test_port_game_exposes_generated_ability_copy_bridge_state",
+        "test_ability_copy_matches_upstream_source",
+        "test_generated_ability_copy_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_copy.catch": {
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "godot_symbol": "source_ability_copy_result.catch_expr",
+      "java_expr": "}catch(CloneNotSupportedException e){",
+      "java_method": "Ability.copy()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_copy_state",
+      "source_slice": "N1270",
+      "status": "source-backed",
+      "rule": "Catch branch for clone failure.",
+      "tests": [
+        "test_emit_bridges_ability_copy_to_source_state",
+        "test_port_game_exposes_source_ability_copy_state",
+        "test_port_game_exposes_generated_ability_copy_bridge_state",
+        "test_ability_copy_matches_upstream_source",
+        "test_generated_ability_copy_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_copy.runtime_exception": {
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "godot_symbol": "source_ability_copy_result.thrown_exception",
+      "java_expr": "throw new RuntimeException(\"java sucks\", e);",
+      "java_method": "Ability.copy()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_copy_state",
+      "source_slice": "N1270",
+      "status": "source-backed",
+      "rule": "RuntimeException wrapper for CloneNotSupportedException branch.",
+      "tests": [
+        "test_emit_bridges_ability_copy_to_source_state",
+        "test_port_game_exposes_source_ability_copy_state",
+        "test_port_game_exposes_generated_ability_copy_bridge_state",
+        "test_ability_copy_matches_upstream_source",
+        "test_generated_ability_copy_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

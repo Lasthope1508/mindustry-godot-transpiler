@@ -111595,6 +111595,294 @@
       "runtime_proof": "/root/Main.source_ability_ability_stat_state",
       "source_slice": "N1269",
       "status": "source-backed"
+    },
+    "source_ability_copy_input": {
+      "rule": "Inputs for PortGame.source_ability_copy_state.",
+      "keys": {
+        "clone_supported": {
+          "godot_symbol": "source_ability_copy_input.clone_supported",
+          "java_expr": "try{ return (Ability)clone(); }catch(CloneNotSupportedException e){ ... }",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Explicit branch selector for clone success/failure.",
+          "status": "explicit-input",
+          "type": "bool",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "clone_value": {
+          "godot_symbol": "source_ability_copy_input.clone_value",
+          "java_expr": "(Ability)clone()",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Explicit result of successful clone().",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "exception_value": {
+          "godot_symbol": "source_ability_copy_input.exception_value",
+          "java_expr": "CloneNotSupportedException e",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Explicit clone exception value for catch branch.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_copy_state",
+      "runtime_proof": "/root/Main.source_ability_copy_state",
+      "source_slice": "N1270",
+      "status": "source-backed"
+    },
+    "source_ability_copy_result": {
+      "rule": "Dictionary returned by PortGame.source_ability_copy_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_ability_copy_result.source_owner",
+          "java_expr": "PortGame.source_ability_copy_state",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Canonical PortGame owner for Ability.copy bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_ability_copy_result.source",
+          "java_expr": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Upstream source file for Ability.copy.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_ability_copy_result.method",
+          "java_expr": "public Ability copy(){",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Ability.copy method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_copy.method"
+          ],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "try_expr": {
+          "godot_symbol": "source_ability_copy_result.try_expr",
+          "java_expr": "try{",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Source try boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "clone_return_expr": {
+          "godot_symbol": "source_ability_copy_result.clone_return_expr",
+          "java_expr": "return (Ability)clone();",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Source clone return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_copy.clone_return"
+          ],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "clone_supported": {
+          "godot_symbol": "source_ability_copy_result.clone_supported",
+          "java_expr": "try{ return (Ability)clone(); }catch(CloneNotSupportedException e){ ... }",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Explicit branch selector.",
+          "status": "explicit-input",
+          "type": "bool",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "clone_value": {
+          "godot_symbol": "source_ability_copy_result.clone_value",
+          "java_expr": "(Ability)clone()",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Explicit clone result.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_copy.clone_return"
+          ],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "catch_expr": {
+          "godot_symbol": "source_ability_copy_result.catch_expr",
+          "java_expr": "}catch(CloneNotSupportedException e){",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Source catch boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_copy.catch"
+          ],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "comment_expr": {
+          "godot_symbol": "source_ability_copy_result.comment_expr",
+          "java_expr": "//I am disgusted",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Source catch comment.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "runtime_exception_expr": {
+          "godot_symbol": "source_ability_copy_result.runtime_exception_expr",
+          "java_expr": "throw new RuntimeException(\"java sucks\", e);",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Source RuntimeException expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_copy.runtime_exception"
+          ],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "exception_value": {
+          "godot_symbol": "source_ability_copy_result.exception_value",
+          "java_expr": "CloneNotSupportedException e",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Explicit catch exception value.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "return_value": {
+          "godot_symbol": "source_ability_copy_result.return_value",
+          "java_expr": "return (Ability)clone();",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "Clone value returned when clone_supported is true, otherwise null.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_copy.clone_return"
+          ],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        },
+        "thrown_exception": {
+          "godot_symbol": "source_ability_copy_result.thrown_exception",
+          "java_expr": "throw new RuntimeException(\"java sucks\", e);",
+          "java_method": "Ability.copy()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_copy_state"
+          ],
+          "rule": "RuntimeException plan when clone_supported is false, otherwise null.",
+          "status": "source-backed",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_copy.runtime_exception"
+          ],
+          "used_by": [
+            "PortGame.source_ability_copy_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_copy_state",
+      "runtime_proof": "/root/Main.source_ability_copy_state",
+      "source_slice": "N1270",
+      "status": "source-backed"
     }
   },
   "version": 1

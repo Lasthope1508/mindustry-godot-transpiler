@@ -29365,6 +29365,42 @@
       "deferred_exprs": [
         "Concrete Arc Core.bundle.format lookup remains explicit formatted_value input; this bridge preserves key expression, values varargs, and return expression."
       ]
+    },
+    "N1270": {
+      "title": "Generated Ability copy bridge state",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.copy()",
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "generated_owner": "Ability.java_method_copy_9",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "public Ability copy(){",
+        "try{",
+        "return (Ability)clone();",
+        "}catch(CloneNotSupportedException e){",
+        "//I am disgusted",
+        "throw new RuntimeException(\"java sucks\", e);"
+      ],
+      "source_symbols": [
+        "ability_copy.method",
+        "ability_copy.clone_return",
+        "ability_copy.catch",
+        "ability_copy.runtime_exception"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_copy_to_source_state",
+        "test_port_game_exposes_source_ability_copy_state",
+        "test_port_game_exposes_generated_ability_copy_bridge_state",
+        "test_ability_copy_matches_upstream_source",
+        "test_generated_ability_copy_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_ability_copy_bridge_state",
+      "status": "done",
+      "rule": "Registers source-backed operation plan for Ability.copy() clone success and CloneNotSupportedException wrapper branches.",
+      "deferred_exprs": [
+        "Concrete Java Object.clone() behavior remains explicit clone_supported/clone_value input; this bridge preserves try/catch and RuntimeException wrapper semantics."
+      ]
     }
   },
   "version": 1
