@@ -113699,6 +113699,152 @@
       "runtime_proof": "/root/Main.source_block_is_darkened_state",
       "source_slice": "N1280",
       "status": "active"
+    },
+    "source_block_consumes_item_input": {
+      "rule": "Inputs for PortGame.source_block_consumes_item_state.",
+      "keys": {
+        "itemFilter": {
+          "godot_symbol": "source_block_consumes_item_input.itemFilter",
+          "java_expr": "itemFilter",
+          "java_method": "Block.consumesItem(Item item)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "item_id": {
+          "godot_symbol": "source_block_consumes_item_input.item_id",
+          "java_expr": "item.id",
+          "java_method": "Block.consumesItem(Item item)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "item": {
+          "godot_symbol": "source_block_consumes_item_input.item",
+          "java_expr": "Item item",
+          "java_method": "Block.consumesItem(Item item)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_consumes_item_state",
+      "runtime_proof": "/root/Main.source_block_consumes_item_state",
+      "source_slice": "N1281",
+      "status": "active"
+    },
+    "source_block_consumes_item_result": {
+      "rule": "Dictionary returned by PortGame.source_block_consumes_item_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_consumes_item_result.source_owner",
+          "java_expr": "PortGame.source_block_consumes_item_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_consumes_item_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_consumes_item_result.method",
+          "java_expr": "public boolean consumesItem(Item item){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "source_symbols": [
+            "block_consumes_item.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_consumes_item_result.return_expr",
+          "java_expr": "return itemFilter[item.id];",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "source_symbols": [
+            "block_consumes_item.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "itemFilter": {
+          "godot_symbol": "source_block_consumes_item_result.itemFilter",
+          "java_expr": "itemFilter",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "source_symbols": [
+            "block_consumes_item.item_filter"
+          ],
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "item_id": {
+          "godot_symbol": "source_block_consumes_item_result.item_id",
+          "java_expr": "item.id",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "source_symbols": [
+            "block_consumes_item.item_id"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "item": {
+          "godot_symbol": "source_block_consumes_item_result.item",
+          "java_expr": "Item item",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "consumes_item": {
+          "godot_symbol": "source_block_consumes_item_result.consumes_item",
+          "java_expr": "return itemFilter[item.id];",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_item_state"
+          ],
+          "source_symbols": [
+            "block_consumes_item.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_consumes_item_state",
+      "runtime_proof": "/root/Main.source_block_consumes_item_state",
+      "source_slice": "N1281",
+      "status": "active"
     }
   },
   "version": 1

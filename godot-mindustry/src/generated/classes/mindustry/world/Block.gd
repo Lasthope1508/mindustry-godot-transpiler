@@ -140,7 +140,11 @@ func java_method_afterPatch_32(_args: Array = []) -> Variant:
 	return null
 
 func java_method_consumesItem_33(_args: Array = []) -> Variant:
-	return null
+	var item_filter: Array = _args[0] if _args.size() > 0 else []
+	var item_id: int = int(_args[1] if _args.size() > 1 else 0)
+	var item: Variant = _args[2] if _args.size() > 2 else null
+	var consumes_item_value: bool = bool(item_filter[item_id])
+	return {"source_owner": "PortGame.source_block_consumes_item_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean consumesItem(Item item){", "return_expr": "return itemFilter[item.id];", "itemFilter": item_filter, "item_id": item_id, "item": item, "consumes_item": consumes_item_value}
 
 func java_method_consumesLiquid_34(_args: Array = []) -> Variant:
 	return null

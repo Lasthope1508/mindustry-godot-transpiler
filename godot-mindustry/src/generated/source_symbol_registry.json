@@ -94076,6 +94076,78 @@
         "test_block_is_darkened_matches_upstream_source",
         "test_generated_block_is_darkened_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_consumes_item.method": {
+      "godot_owner": "PortGame.source_block_consumes_item_state",
+      "godot_symbol": "source_block_consumes_item_result.method",
+      "java_expr": "public boolean consumesItem(Item item){",
+      "java_method": "Block.consumesItem(Item item)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.consumesItem(Item) method boundary.",
+      "runtime_proof": "/root/Main.source_block_consumes_item_state",
+      "source_slice": "N1281",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consumes_item_to_source_state",
+        "test_port_game_exposes_source_block_consumes_item_state",
+        "test_port_game_exposes_generated_block_consumes_item_bridge_state",
+        "test_block_consumes_item_matches_upstream_source",
+        "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consumes_item.return_expr": {
+      "godot_owner": "PortGame.source_block_consumes_item_state",
+      "godot_symbol": "source_block_consumes_item_result.consumes_item",
+      "java_expr": "return itemFilter[item.id];",
+      "java_method": "Block.consumesItem(Item item)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Return value indexes itemFilter by source item.id.",
+      "runtime_proof": "/root/Main.source_block_consumes_item_state",
+      "source_slice": "N1281",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consumes_item_to_source_state",
+        "test_port_game_exposes_source_block_consumes_item_state",
+        "test_port_game_exposes_generated_block_consumes_item_bridge_state",
+        "test_block_consumes_item_matches_upstream_source",
+        "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consumes_item.item_filter": {
+      "godot_owner": "PortGame.source_block_consumes_item_state",
+      "godot_symbol": "source_block_consumes_item_input.itemFilter",
+      "java_expr": "itemFilter",
+      "java_method": "Block.consumesItem(Item item)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Runtime item_filter supplies Block.itemFilter.",
+      "runtime_proof": "/root/Main.source_block_consumes_item_state",
+      "source_slice": "N1281",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consumes_item_to_source_state",
+        "test_port_game_exposes_source_block_consumes_item_state",
+        "test_port_game_exposes_generated_block_consumes_item_bridge_state",
+        "test_block_consumes_item_matches_upstream_source",
+        "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consumes_item.item_id": {
+      "godot_owner": "PortGame.source_block_consumes_item_state",
+      "godot_symbol": "source_block_consumes_item_input.item_id",
+      "java_expr": "item.id",
+      "java_method": "Block.consumesItem(Item item)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Runtime item_id supplies source Item.id used by itemFilter[item.id].",
+      "runtime_proof": "/root/Main.source_block_consumes_item_state",
+      "source_slice": "N1281",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consumes_item_to_source_state",
+        "test_port_game_exposes_source_block_consumes_item_state",
+        "test_port_game_exposes_generated_block_consumes_item_bridge_state",
+        "test_block_consumes_item_matches_upstream_source",
+        "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 754)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 749)
+        self.assertEqual(audit["totalSourceFunctions"], 755)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 750)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 754)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 755)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43063,6 +43063,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["tile"]["java_expr"], "Tile tile")
         result_schema = source_symbols.state_schema(schema, "source_block_is_darkened_result")
         self.assertEqual(result_schema["keys"]["is_darkened"]["java_expr"], "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));")
+
+    def test_generated_block_consumes_item_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_consumes_item.method")
+        self.assertEqual(method["java_expr"], "public boolean consumesItem(Item item){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.consumesItem(Item item)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_consumes_item_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_consumes_item_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_consumes_item.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return itemFilter[item.id];")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_consumes_item_result.consumes_item")
+
+        consumes_item_slice = source_symbols.source_slice(ledger, "N1281")
+        self.assertEqual(consumes_item_slice["title"], "Generated Block consumesItem bridge state")
+        self.assertEqual(consumes_item_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(consumes_item_slice["java_method"], "Block.consumesItem(Item item)")
+        self.assertEqual(consumes_item_slice["godot_owner"], "PortGame.source_block_consumes_item_state")
+        self.assertEqual(consumes_item_slice["generated_owner"], "Block.java_method_consumesItem_33")
+        self.assertEqual(consumes_item_slice["runtime_proof"], "/root/Main.generated_block_consumes_item_bridge_state")
+        for expr in [
+            "public boolean consumesItem(Item item){",
+            "return itemFilter[item.id];",
+        ]:
+            self.assertIn(expr, consumes_item_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_consumes_item_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["item_filter", "item_id", "item"])
+        for key in ["source_owner", "source", "method", "return_expr", "itemFilter", "item_id", "item", "consumes_item"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_consumes_item_input")
+        self.assertEqual(input_schema["keys"]["itemFilter"]["java_expr"], "itemFilter")
+        self.assertEqual(input_schema["keys"]["item_id"]["java_expr"], "item.id")
+        self.assertEqual(input_schema["keys"]["item"]["java_expr"], "Item item")
+        result_schema = source_symbols.state_schema(schema, "source_block_consumes_item_result")
+        self.assertEqual(result_schema["keys"]["consumes_item"]["java_expr"], "return itemFilter[item.id];")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

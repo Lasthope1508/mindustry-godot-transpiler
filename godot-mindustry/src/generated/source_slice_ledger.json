@@ -29689,6 +29689,35 @@
         "test_generated_block_is_darkened_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block isDarkened bridge state"
+    },
+    "N1281": {
+      "exact_exprs": [
+        "public boolean consumesItem(Item item){",
+        "return itemFilter[item.id];",
+        "itemFilter",
+        "item.id"
+      ],
+      "generated_owner": "Block.java_method_consumesItem_33",
+      "godot_owner": "PortGame.source_block_consumes_item_state",
+      "java_class": "Block",
+      "java_method": "Block.consumesItem(Item item)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consumes_item_bridge_state",
+      "source_symbols": [
+        "block_consumes_item.method",
+        "block_consumes_item.return_expr",
+        "block_consumes_item.item_filter",
+        "block_consumes_item.item_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_consumes_item_to_source_state",
+        "test_port_game_exposes_source_block_consumes_item_state",
+        "test_port_game_exposes_generated_block_consumes_item_bridge_state",
+        "test_block_consumes_item_matches_upstream_source",
+        "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumesItem bridge state"
     }
   },
   "version": 1

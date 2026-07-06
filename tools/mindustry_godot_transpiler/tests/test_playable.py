@@ -15990,5 +15990,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_isDarkened_24"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_consumes_item_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_consumes_item_state(item_filter: Array, item_id: int, item: Variant) -> Dictionary:", source)
+        self.assertIn("var consumes_item_value: bool = bool(item_filter[item_id])", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consumes_item_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public boolean consumesItem(Item item){"', source)
+        self.assertIn('"return_expr": "return itemFilter[item.id];"', source)
+        self.assertIn('"itemFilter": item_filter', source)
+        self.assertIn('"item_id": item_id', source)
+        self.assertIn('"item": item', source)
+        self.assertIn('"consumes_item": consumes_item_value', source)
+
+    def test_port_game_exposes_generated_block_consumes_item_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_consumes_item_bridge_state(item_filter: Array, item_id: int, item: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_consumesItem_33([item_filter, item_id, item])", source)
+        self.assertIn("var canonical = source_block_consumes_item_state(item_filter, item_id, item)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consumes_item_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_consumesItem_33"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()
