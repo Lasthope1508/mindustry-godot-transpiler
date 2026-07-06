@@ -420,7 +420,9 @@ func java_method_consumeItems_108(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_consume_items_varargs_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItems(ItemStack... items){", "return_expr": "return consume(new ConsumeItems(items));", "constructor_expr": "new ConsumeItems(items)", "consume_call_expr": "consume(new ConsumeItems(items))", "items": items, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumeCoolant_109(_args: Array = []) -> Variant:
-	return null
+	var amount: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount}
+	return {"source_owner": "PortGame.source_block_consume_coolant_single_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeCoolant consumeCoolant(float amount){", "return_expr": "return consume(new ConsumeCoolant(amount));", "constructor_expr": "new ConsumeCoolant(amount)", "consume_call_expr": "consume(new ConsumeCoolant(amount))", "amount": amount, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumeCoolant_110(_args: Array = []) -> Variant:
 	return null

@@ -1660,6 +1660,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "consumeCoolant"
+        and len(method.get("parameters", [])) == 1
+    ):
+        return [
+            "\tvar amount: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\tvar constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount}',
+            '\treturn {"source_owner": "PortGame.source_block_consume_coolant_single_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeCoolant consumeCoolant(float amount){", "return_expr": "return consume(new ConsumeCoolant(amount));", "constructor_expr": "new ConsumeCoolant(amount)", "consume_call_expr": "consume(new ConsumeCoolant(amount))", "amount": amount, "constructed_consume": constructed_consume, "consume_called": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):

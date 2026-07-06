@@ -9697,6 +9697,37 @@
       ],
       "title": "Generated Block consumeItems varargs bridge state"
     },
+    "N1301": {
+      "exact_exprs": [
+        "public ConsumeCoolant consumeCoolant(float amount){",
+        "return consume(new ConsumeCoolant(amount));",
+        "new ConsumeCoolant(amount)",
+        "consume(new ConsumeCoolant(amount))",
+        "float amount"
+      ],
+      "generated_owner": "Block.java_method_consumeCoolant_109",
+      "godot_owner": "PortGame.source_block_consume_coolant_single_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeCoolant(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_coolant_single_bridge_state",
+      "source_symbols": [
+        "block_consume_coolant_single.method",
+        "block_consume_coolant_single.return_expr",
+        "block_consume_coolant_single.constructor_expr",
+        "block_consume_coolant_single.consume_call_expr",
+        "block_consume_coolant_single.amount"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_single_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_single_state",
+        "test_port_game_exposes_generated_block_consume_coolant_single_bridge_state",
+        "test_block_consume_coolant_single_matches_upstream_source",
+        "test_generated_block_consume_coolant_single_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeCoolant single bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
