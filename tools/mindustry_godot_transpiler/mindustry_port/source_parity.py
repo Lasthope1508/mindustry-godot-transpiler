@@ -10018,6 +10018,24 @@ def verify_block_consume_power_dynamic_displayed_source(upstream_root: Path) -> 
         "missing": missing,
     }
 
+def verify_block_consume_power_buffered_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "Creates a consumer which stores power.",
+        "param": "@param powerCapacity The maximum capacity in power units.",
+        "method": "public ConsumePower consumePowerBuffered(float powerCapacity){",
+        "return_expr": "return consume(new ConsumePower(0f, powerCapacity, true));",
+        "constructor_expr": "new ConsumePower(0f, powerCapacity, true)",
+        "consume_call_expr": "consume(new ConsumePower(0f, powerCapacity, true))",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

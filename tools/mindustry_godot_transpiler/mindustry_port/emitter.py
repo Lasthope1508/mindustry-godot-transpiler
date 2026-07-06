@@ -1617,6 +1617,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "consumePowerBuffered"
+    ):
+        return [
+            "\tvar power_capacity: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\tvar constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": 0.0, "capacity": power_capacity, "buffered": true}',
+            '\treturn {"source_owner": "PortGame.source_block_consume_power_buffered_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which stores power.", "param": "@param powerCapacity The maximum capacity in power units.", "method": "public ConsumePower consumePowerBuffered(float powerCapacity){", "return_expr": "return consume(new ConsumePower(0f, powerCapacity, true));", "constructor_expr": "new ConsumePower(0f, powerCapacity, true)", "consume_call_expr": "consume(new ConsumePower(0f, powerCapacity, true))", "powerCapacity": power_capacity, "powerPerTick": 0.0, "buffered": true, "constructed_consume": constructed_consume, "consume_called": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):

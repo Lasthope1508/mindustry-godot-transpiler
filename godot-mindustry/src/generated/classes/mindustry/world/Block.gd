@@ -399,7 +399,9 @@ func java_method_consumePowerDynamic_104(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_consume_power_dynamic_displayed_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer that consumes a dynamic amount of power.", "method": "public <T extends Building> ConsumePower consumePowerDynamic(float displayed, Floatf<T> usage){", "return_expr": "return consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage));", "constructor_expr": "new ConsumePowerDynamic(displayed, (Floatf<Building>)usage)", "usage_cast_expr": "(Floatf<Building>)usage", "consume_call_expr": "consume(new ConsumePowerDynamic(displayed, (Floatf<Building>)usage))", "displayed": displayed, "usage": usage, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumePowerBuffered_105(_args: Array = []) -> Variant:
-	return null
+	var power_capacity: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": 0.0, "capacity": power_capacity, "buffered": true}
+	return {"source_owner": "PortGame.source_block_consume_power_buffered_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which stores power.", "param": "@param powerCapacity The maximum capacity in power units.", "method": "public ConsumePower consumePowerBuffered(float powerCapacity){", "return_expr": "return consume(new ConsumePower(0f, powerCapacity, true));", "constructor_expr": "new ConsumePower(0f, powerCapacity, true)", "consume_call_expr": "consume(new ConsumePower(0f, powerCapacity, true))", "powerCapacity": power_capacity, "powerPerTick": 0.0, "buffered": true, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumeItem_106(_args: Array = []) -> Variant:
 	return null

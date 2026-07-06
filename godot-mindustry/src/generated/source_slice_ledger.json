@@ -9559,6 +9559,45 @@
       ],
       "title": "Generated Block consumePowerDynamic displayed bridge state"
     },
+    "N1297": {
+      "exact_exprs": [
+        "Creates a consumer which stores power.",
+        "@param powerCapacity The maximum capacity in power units.",
+        "public ConsumePower consumePowerBuffered(float powerCapacity){",
+        "return consume(new ConsumePower(0f, powerCapacity, true));",
+        "new ConsumePower(0f, powerCapacity, true)",
+        "consume(new ConsumePower(0f, powerCapacity, true))",
+        "0f",
+        "float powerCapacity",
+        "true"
+      ],
+      "generated_owner": "Block.java_method_consumePowerBuffered_105",
+      "godot_owner": "PortGame.source_block_consume_power_buffered_state",
+      "java_class": "Block",
+      "java_method": "Block.consumePowerBuffered(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_power_buffered_bridge_state",
+      "source_symbols": [
+        "block_consume_power_buffered.comment",
+        "block_consume_power_buffered.param",
+        "block_consume_power_buffered.method",
+        "block_consume_power_buffered.return_expr",
+        "block_consume_power_buffered.constructor_expr",
+        "block_consume_power_buffered.consume_call_expr",
+        "block_consume_power_buffered.power_capacity",
+        "block_consume_power_buffered.power_per_tick",
+        "block_consume_power_buffered.buffered"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_buffered_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_buffered_state",
+        "test_port_game_exposes_generated_block_consume_power_buffered_bridge_state",
+        "test_block_consume_power_buffered_matches_upstream_source",
+        "test_generated_block_consume_power_buffered_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumePowerBuffered bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
