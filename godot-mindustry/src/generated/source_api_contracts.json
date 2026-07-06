@@ -30152,6 +30152,56 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile look-at-target guard."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state": {
+      "status": "source-backed",
+      "source_slice": "N1250",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() sound loop",
+      "params": [
+        {
+          "name": "look_target_guard",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_sound_loop_input.look_target_guard"
+        },
+        {
+          "name": "headless",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_sound_loop_input.headless"
+        },
+        {
+          "name": "shoot_sound",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_sound_loop_input.shoot_sound"
+        },
+        {
+          "name": "shoot_sound_volume",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_sound_loop_input.shoot_sound_volume"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "sound_loop_guard_expr",
+        "shoot_sound_loop_expr",
+        "look_target_guard",
+        "headless",
+        "shoot_sound",
+        "shoot_sound_volume",
+        "sound_loop_evaluated",
+        "sound_loop_called",
+        "shoot_sound_loop_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_sound_loop_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_sound_loop_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_sound_loop_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_sound_loop_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_sound_loop_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile sound loop side-effect call."
     }
   },
   "policy": {

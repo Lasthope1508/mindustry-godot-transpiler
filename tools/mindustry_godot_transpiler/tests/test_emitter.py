@@ -8618,6 +8618,59 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"look_target_guard_expr": "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){"', source_text)
             self.assertIn('"look_target_guard": look_target_guard', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_sound_loop_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            any = false;
+
+            //look at target
+            if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){
+                if(!headless){
+                    control.sound.loop(shootSound, this, shootSoundVolume);
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var headless: bool = bool(_args[29] if _args.size() > 29 else false)", source_text)
+            self.assertIn("var shoot_sound: Variant = _args[30] if _args.size() > 30 else null", source_text)
+            self.assertIn("var shoot_sound_volume: float = float(_args[31] if _args.size() > 31 else 1.0)", source_text)
+            self.assertIn("var sound_loop_evaluated: bool = look_target_guard", source_text)
+            self.assertIn("var sound_loop_called: bool = sound_loop_evaluated and not headless", source_text)
+            self.assertIn("var shoot_sound_loop_call: Dictionary = {}", source_text)
+            self.assertIn("if sound_loop_called:", source_text)
+            self.assertIn('shoot_sound_loop_call = {"call": "control.sound.loop(shootSound, this, shootSoundVolume);", "sound": shoot_sound, "target": "this", "volume": shoot_sound_volume}', source_text)
+            self.assertIn('"sound_loop_guard_expr": "if(!headless){"', source_text)
+            self.assertIn('"shoot_sound_loop_expr": "control.sound.loop(shootSound, this, shootSoundVolume);"', source_text)
+            self.assertIn('"shoot_sound_loop_call": shoot_sound_loop_call', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

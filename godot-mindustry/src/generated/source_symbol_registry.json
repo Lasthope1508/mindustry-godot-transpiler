@@ -92361,6 +92361,40 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() look target guard",
       "java_expr": "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){"
+    },
+    "tractor_beam_turret_build_update_tile_sound_loop.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_sound_loop_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for sound loop slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_sound_loop_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_sound_loop_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_sound_loop_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_sound_loop_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_sound_loop_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() sound loop",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_sound_loop.call": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_sound_loop_result.shoot_sound_loop_call",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state",
+      "rule": "Source sound loop call emitted only when look target guard passes and runtime is not headless.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_sound_loop_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_sound_loop_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_sound_loop_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_sound_loop_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_sound_loop_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() sound loop",
+      "java_expr": "control.sound.loop(shootSound, this, shootSoundVolume);"
     }
   },
   "version": 1

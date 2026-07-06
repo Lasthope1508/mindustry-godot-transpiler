@@ -17752,6 +17752,42 @@ func generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_st
 			and result.get("target_check_call", null) == canonical.get("target_check_call", null),
 	}
 
+func source_tractor_beam_turret_build_update_tile_sound_loop_state(look_target_guard: bool, headless: bool, shoot_sound: Variant, shoot_sound_volume: float) -> Dictionary:
+	var sound_loop_evaluated: bool = look_target_guard
+	var sound_loop_called: bool = sound_loop_evaluated and not headless
+	var shoot_sound_loop_call: Dictionary = {}
+	if sound_loop_called:
+		shoot_sound_loop_call = {"call": "control.sound.loop(shootSound, this, shootSoundVolume);", "sound": shoot_sound, "target": "this", "volume": shoot_sound_volume}
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state",
+		"method": "public void updateTile(){",
+		"look_target_guard_expr": "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){",
+		"sound_loop_guard_expr": "if(!headless){",
+		"shoot_sound_loop_expr": "control.sound.loop(shootSound, this, shootSoundVolume);",
+		"look_target_guard": look_target_guard,
+		"headless": headless,
+		"shoot_sound": shoot_sound,
+		"shoot_sound_volume": shoot_sound_volume,
+		"sound_loop_evaluated": sound_loop_evaluated,
+		"sound_loop_called": sound_loop_called,
+		"shoot_sound_loop_call": shoot_sound_loop_call,
+	}
+
+func generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume])
+	var canonical = source_tractor_beam_turret_build_update_tile_sound_loop_state(result.get("look_target_guard", false), headless, shoot_sound, shoot_sound_volume)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.sound_loop",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("shoot_sound_loop_call", null) == canonical.get("shoot_sound_loop_call", null)
+			and result.get("sound_loop_called", null) == canonical.get("sound_loop_called", null)
+			and result.get("sound_loop_evaluated", null) == canonical.get("sound_loop_evaluated", null),
+	}
+
 func source_tractor_beam_turret_build_draw_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:
 	var draw_rotation: float = rotation_value - 90.0
 	var base_rect_call: Dictionary = {"call": "Draw.rect(baseRegion, x, y);", "region": base_region, "x": x, "y": y}
