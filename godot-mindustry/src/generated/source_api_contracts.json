@@ -31364,6 +31364,50 @@
         "test_block_can_break_matches_upstream_source",
         "test_generated_block_can_break_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_rotated_output_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "rotate_value",
+          "schema": "source_block_rotated_output_input.rotate",
+          "type": "bool"
+        },
+        {
+          "name": "x_value",
+          "schema": "source_block_rotated_output_input.x",
+          "type": "int"
+        },
+        {
+          "name": "y_value",
+          "schema": "source_block_rotated_output_input.y",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "field_comment",
+        "field_expr",
+        "method",
+        "return_expr",
+        "rotate",
+        "x",
+        "y",
+        "rotated_output"
+      ],
+      "rule": "Public runtime contract for Block.rotatedOutput(int x, int y) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_rotated_output_state",
+      "source_method": "Block.rotatedOutput(int x, int y)",
+      "source_slice": "N1276",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_state",
+        "test_port_game_exposes_generated_block_rotated_output_bridge_state",
+        "test_block_rotated_output_matches_upstream_source",
+        "test_generated_block_rotated_output_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

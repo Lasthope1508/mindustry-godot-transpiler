@@ -4906,6 +4906,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_rotated_output_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_rotated_output_source"))
+        report = source_parity.verify_block_rotated_output_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "field_comment": "/** whether this is rotatable */",
+            "field_expr": "public boolean rotate;",
+            "method": "public boolean rotatedOutput(int x, int y){",
+            "return_expr": "return rotate;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

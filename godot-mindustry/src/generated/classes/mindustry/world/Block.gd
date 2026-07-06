@@ -79,7 +79,10 @@ func java_method_canBreak_19(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_can_break_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** @return whether this block can be broken on the specified tile. */", "method": "public boolean canBreak(Tile tile){", "return_expr": "return true;", "tile": tile, "can_break": true}
 
 func java_method_rotatedOutput_20(_args: Array = []) -> Variant:
-	return null
+	var rotate_value: bool = bool(_args[0] if _args.size() > 0 else false)
+	var x_value: int = int(_args[1] if _args.size() > 1 else 0)
+	var y_value: int = int(_args[2] if _args.size() > 2 else 0)
+	return {"source_owner": "PortGame.source_block_rotated_output_state", "source": "core/src/mindustry/world/Block.java", "field_comment": "/** whether this is rotatable */", "field_expr": "public boolean rotate;", "method": "public boolean rotatedOutput(int x, int y){", "return_expr": "return rotate;", "rotate": rotate_value, "x": x_value, "y": y_value, "rotated_output": rotate_value}
 
 func java_method_rotatedOutput_21(_args: Array = []) -> Variant:
 	return null

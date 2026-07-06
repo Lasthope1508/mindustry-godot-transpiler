@@ -29553,6 +29553,34 @@
       ],
       "title": "Generated Block canBreak bridge state",
       "java_class": "Block"
+    },
+    "N1276": {
+      "exact_exprs": [
+        "/** whether this is rotatable */",
+        "public boolean rotate;",
+        "public boolean rotatedOutput(int x, int y){",
+        "return rotate;"
+      ],
+      "generated_owner": "Block.java_method_rotatedOutput_20",
+      "godot_owner": "PortGame.source_block_rotated_output_state",
+      "java_class": "Block",
+      "java_method": "Block.rotatedOutput(int x, int y)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_rotated_output_bridge_state",
+      "source_symbols": [
+        "block_rotated_output.method",
+        "block_rotated_output.rotate_field",
+        "block_rotated_output.return_rotate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_state",
+        "test_port_game_exposes_generated_block_rotated_output_bridge_state",
+        "test_block_rotated_output_matches_upstream_source",
+        "test_generated_block_rotated_output_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block rotatedOutput bridge state"
     }
   },
   "version": 1

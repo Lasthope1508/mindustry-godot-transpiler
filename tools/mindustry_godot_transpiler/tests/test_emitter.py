@@ -7352,6 +7352,44 @@ public class Block{
             self.assertIn('"return_expr": "return true;"', source_text)
             self.assertIn('"can_break": true', source_text)
 
+    def test_emit_bridges_block_rotated_output_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    /** whether this is rotatable */
+    public boolean rotate;
+
+    public boolean rotatedOutput(int x, int y){
+        return rotate;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_rotatedOutput_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar rotate_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\tvar x_value: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("\tvar y_value: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_rotated_output_state"', source_text)
+            self.assertIn('"field_comment": "/** whether this is rotatable */"', source_text)
+            self.assertIn('"field_expr": "public boolean rotate;"', source_text)
+            self.assertIn('"method": "public boolean rotatedOutput(int x, int y){"', source_text)
+            self.assertIn('"return_expr": "return rotate;"', source_text)
+            self.assertIn('"rotated_output": rotate_value', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

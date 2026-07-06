@@ -112887,6 +112887,175 @@
       "runtime_proof": "/root/Main.source_block_can_break_state",
       "source_slice": "N1275",
       "status": "active"
+    },
+    "source_block_rotated_output_input": {
+      "rule": "Inputs for PortGame.source_block_rotated_output_state.",
+      "keys": {
+        "rotate": {
+          "godot_symbol": "source_block_rotated_output_input.rotate",
+          "java_expr": "public boolean rotate;",
+          "java_method": "Block.rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output.rotate_field"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "x": {
+          "godot_symbol": "source_block_rotated_output_input.x",
+          "java_expr": "int x",
+          "java_method": "Block.rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "y": {
+          "godot_symbol": "source_block_rotated_output_input.y",
+          "java_expr": "int y",
+          "java_method": "Block.rotatedOutput(int x, int y)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        }
+      },
+      "owner": "PortGame.source_block_rotated_output_state",
+      "runtime_proof": "/root/Main.source_block_rotated_output_state",
+      "source_slice": "N1276",
+      "status": "active"
+    },
+    "source_block_rotated_output_result": {
+      "rule": "Dictionary returned by PortGame.source_block_rotated_output_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_rotated_output_result.source_owner",
+          "java_expr": "PortGame.source_block_rotated_output_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_rotated_output_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "field_comment": {
+          "godot_symbol": "source_block_rotated_output_result.field_comment",
+          "java_expr": "/** whether this is rotatable */",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_block_rotated_output_result.field_expr",
+          "java_expr": "public boolean rotate;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output.rotate_field"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_rotated_output_result.method",
+          "java_expr": "public boolean rotatedOutput(int x, int y){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_rotated_output_result.return_expr",
+          "java_expr": "return rotate;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output.return_rotate"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "rotate": {
+          "godot_symbol": "source_block_rotated_output_result.rotate",
+          "java_expr": "public boolean rotate;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output.rotate_field"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "x": {
+          "godot_symbol": "source_block_rotated_output_result.x",
+          "java_expr": "int x",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "y": {
+          "godot_symbol": "source_block_rotated_output_result.y",
+          "java_expr": "int y",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "rotated_output": {
+          "godot_symbol": "source_block_rotated_output_result.rotated_output",
+          "java_expr": "return rotate;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output.return_rotate"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_rotated_output_state",
+      "runtime_proof": "/root/Main.source_block_rotated_output_state",
+      "source_slice": "N1276",
+      "status": "active"
     }
   },
   "version": 1

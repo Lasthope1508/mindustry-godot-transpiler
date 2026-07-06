@@ -15854,5 +15854,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_canBreak_19"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_rotated_output_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_rotated_output_state(rotate_value: bool, x_value: int, y_value: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_rotated_output_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"field_comment": "/** whether this is rotatable */"', source)
+        self.assertIn('"field_expr": "public boolean rotate;"', source)
+        self.assertIn('"method": "public boolean rotatedOutput(int x, int y){"', source)
+        self.assertIn('"return_expr": "return rotate;"', source)
+        self.assertIn('"rotate": rotate_value', source)
+        self.assertIn('"x": x_value', source)
+        self.assertIn('"y": y_value', source)
+        self.assertIn('"rotated_output": rotate_value', source)
+
+    def test_port_game_exposes_generated_block_rotated_output_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_rotated_output_bridge_state(rotate_value: bool, x_value: int, y_value: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_rotatedOutput_20([rotate_value, x_value, y_value])", source)
+        self.assertIn("var canonical = source_block_rotated_output_state(rotate_value, x_value, y_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_rotated_output_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_rotatedOutput_20"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()
