@@ -1684,6 +1684,24 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "consume"
+        and len(method.get("parameters", [])) == 1
+    ):
+        return [
+            "\tvar consume: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar consume_is_power: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar consume_builder_before: Array = (_args[2] if _args.size() > 2 else []) as Array",
+            "\tvar consume_builder_without_power: Array = (_args[3] if _args.size() > 3 else []) as Array",
+            "\tvar cons_power_before: Variant = _args[4] if _args.size() > 4 else null",
+            "\tvar consume_builder_after: Array = consume_builder_without_power.duplicate() if consume_is_power else consume_builder_before.duplicate()",
+            "\tconsume_builder_after.append(consume)",
+            "\tvar remove_power_called: bool = consume_is_power",
+            "\tvar cons_power_after: Variant = consume if consume_is_power else cons_power_before",
+            '\treturn {"source_owner": "PortGame.source_block_consume_generic_state", "source": "core/src/mindustry/world/Block.java", "method": "public <T extends Consume> T consume(T consume){", "power_guard_expr": "if(consume instanceof ConsumePower){", "comment": "//there can only be one power consumer", "remove_power_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);", "cons_power_expr": "consPower = (ConsumePower)consume;", "add_expr": "consumeBuilder.add(consume);", "return_expr": "return consume;", "consume": consume, "consume_is_power": consume_is_power, "consume_builder_before": consume_builder_before, "consume_builder_without_power": consume_builder_without_power, "consume_builder_after": consume_builder_after, "cons_power_before": cons_power_before, "cons_power_after": cons_power_after, "remove_power_called": remove_power_called, "add_called": true, "returned_consume": consume}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):

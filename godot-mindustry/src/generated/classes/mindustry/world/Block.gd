@@ -432,7 +432,16 @@ func java_method_consumeCoolant_110(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_consume_coolant_filtered_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){", "return_expr": "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));", "constructor_expr": "new ConsumeCoolant(amount, allowLiquid, allowGas)", "consume_call_expr": "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consume_111(_args: Array = []) -> Variant:
-	return null
+	var consume: Variant = _args[0] if _args.size() > 0 else null
+	var consume_is_power: bool = bool(_args[1] if _args.size() > 1 else false)
+	var consume_builder_before: Array = (_args[2] if _args.size() > 2 else []) as Array
+	var consume_builder_without_power: Array = (_args[3] if _args.size() > 3 else []) as Array
+	var cons_power_before: Variant = _args[4] if _args.size() > 4 else null
+	var consume_builder_after: Array = consume_builder_without_power.duplicate() if consume_is_power else consume_builder_before.duplicate()
+	consume_builder_after.append(consume)
+	var remove_power_called: bool = consume_is_power
+	var cons_power_after: Variant = consume if consume_is_power else cons_power_before
+	return {"source_owner": "PortGame.source_block_consume_generic_state", "source": "core/src/mindustry/world/Block.java", "method": "public <T extends Consume> T consume(T consume){", "power_guard_expr": "if(consume instanceof ConsumePower){", "comment": "//there can only be one power consumer", "remove_power_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);", "cons_power_expr": "consPower = (ConsumePower)consume;", "add_expr": "consumeBuilder.add(consume);", "return_expr": "return consume;", "consume": consume, "consume_is_power": consume_is_power, "consume_builder_before": consume_builder_before, "consume_builder_without_power": consume_builder_without_power, "consume_builder_after": consume_builder_after, "cons_power_before": cons_power_before, "cons_power_after": cons_power_after, "remove_power_called": remove_power_called, "add_called": true, "returned_consume": consume}
 
 func java_method_setupRequirements_112(_args: Array = []) -> Variant:
 	return null

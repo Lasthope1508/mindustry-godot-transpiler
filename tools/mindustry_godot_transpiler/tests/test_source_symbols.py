@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 776)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 771)
+        self.assertEqual(audit["totalSourceFunctions"], 777)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 772)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 776)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 777)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44245,6 +44245,69 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_consume_coolant_filtered_result")
         self.assertEqual(result_schema["keys"]["constructed_consume"]["java_expr"], "new ConsumeCoolant(amount, allowLiquid, allowGas)")
         self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))")
+
+    def test_generated_block_consume_generic_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_consume_generic.method")
+        self.assertEqual(method["java_expr"], "public <T extends Consume> T consume(T consume){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.consume(T)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_consume_generic_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_consume_generic_state")
+
+        remove_power_expr = source_symbols.source_symbol(registry, "block_consume_generic.remove_power_expr")
+        self.assertEqual(remove_power_expr["java_expr"], "consumeBuilder.removeAll(b -> b instanceof ConsumePower);")
+        self.assertEqual(remove_power_expr["godot_symbol"], "source_block_consume_generic_result.remove_power_called")
+
+        cons_power_expr = source_symbols.source_symbol(registry, "block_consume_generic.cons_power_expr")
+        self.assertEqual(cons_power_expr["java_expr"], "consPower = (ConsumePower)consume;")
+        self.assertEqual(cons_power_expr["godot_symbol"], "source_block_consume_generic_result.cons_power_after")
+
+        add_expr = source_symbols.source_symbol(registry, "block_consume_generic.add_expr")
+        self.assertEqual(add_expr["java_expr"], "consumeBuilder.add(consume);")
+        self.assertEqual(add_expr["godot_symbol"], "source_block_consume_generic_result.consume_builder_after")
+
+        return_expr = source_symbols.source_symbol(registry, "block_consume_generic.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return consume;")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_consume_generic_result.returned_consume")
+
+        consume_slice = source_symbols.source_slice(ledger, "N1303")
+        self.assertEqual(consume_slice["title"], "Generated Block consume generic bridge state")
+        self.assertEqual(consume_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(consume_slice["java_method"], "Block.consume(T)")
+        self.assertEqual(consume_slice["godot_owner"], "PortGame.source_block_consume_generic_state")
+        self.assertEqual(consume_slice["generated_owner"], "Block.java_method_consume_111")
+        self.assertEqual(consume_slice["runtime_proof"], "/root/Main.generated_block_consume_generic_bridge_state")
+        for expr in [
+            "public <T extends Consume> T consume(T consume){",
+            "if(consume instanceof ConsumePower){",
+            "//there can only be one power consumer",
+            "consumeBuilder.removeAll(b -> b instanceof ConsumePower);",
+            "consPower = (ConsumePower)consume;",
+            "consumeBuilder.add(consume);",
+            "return consume;",
+            "T consume",
+        ]:
+            self.assertIn(expr, consume_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_consume_generic_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["consume", "consume_is_power", "consume_builder_before", "consume_builder_without_power", "cons_power_before"])
+        for key in ["source_owner", "source", "method", "power_guard_expr", "remove_power_expr", "cons_power_expr", "add_expr", "return_expr", "consume", "consume_is_power", "consume_builder_before", "consume_builder_without_power", "consume_builder_after", "cons_power_before", "cons_power_after", "remove_power_called", "add_called", "returned_consume"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_consume_generic_input")
+        self.assertEqual(input_schema["keys"]["consume"]["java_expr"], "T consume")
+        self.assertEqual(input_schema["keys"]["consume_is_power"]["java_expr"], "consume instanceof ConsumePower")
+        self.assertEqual(input_schema["keys"]["consume_builder_without_power"]["java_expr"], "consumeBuilder.removeAll(b -> b instanceof ConsumePower);")
+        result_schema = source_symbols.state_schema(schema, "source_block_consume_generic_result")
+        self.assertEqual(result_schema["keys"]["cons_power_after"]["java_expr"], "consPower = (ConsumePower)consume;")
+        self.assertEqual(result_schema["keys"]["returned_consume"]["java_expr"], "return consume;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

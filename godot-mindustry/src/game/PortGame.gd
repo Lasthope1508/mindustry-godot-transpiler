@@ -17759,6 +17759,46 @@ func generated_block_consume_coolant_filtered_bridge_state(amount: float, allow_
 		"matches": result == canonical,
 	}
 
+func source_block_consume_generic_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant) -> Dictionary:
+	var consume_builder_after: Array = consume_builder_without_power.duplicate() if consume_is_power else consume_builder_before.duplicate()
+	consume_builder_after.append(consume)
+	var remove_power_called: bool = consume_is_power
+	var cons_power_after: Variant = consume if consume_is_power else cons_power_before
+	return {
+		"source_owner": "PortGame.source_block_consume_generic_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public <T extends Consume> T consume(T consume){",
+		"power_guard_expr": "if(consume instanceof ConsumePower){",
+		"comment": "//there can only be one power consumer",
+		"remove_power_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);",
+		"cons_power_expr": "consPower = (ConsumePower)consume;",
+		"add_expr": "consumeBuilder.add(consume);",
+		"return_expr": "return consume;",
+		"consume": consume,
+		"consume_is_power": consume_is_power,
+		"consume_builder_before": consume_builder_before,
+		"consume_builder_without_power": consume_builder_without_power,
+		"consume_builder_after": consume_builder_after,
+		"cons_power_before": cons_power_before,
+		"cons_power_after": cons_power_after,
+		"remove_power_called": remove_power_called,
+		"add_called": true,
+		"returned_consume": consume,
+	}
+
+func generated_block_consume_generic_bridge_state(consume: Variant, consume_is_power: bool, consume_builder_before: Array, consume_builder_without_power: Array, cons_power_before: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_consume_111([consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before])
+	var canonical = source_block_consume_generic_state(consume, consume_is_power, consume_builder_before, consume_builder_without_power, cons_power_before)
+	return {
+		"source_owner": "PortGame.source_block_consume_generic_state",
+		"generated_owner": "Block.java_method_consume_111",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

@@ -9763,6 +9763,47 @@
       ],
       "title": "Generated Block consumeCoolant filtered bridge state"
     },
+    "N1303": {
+      "exact_exprs": [
+        "public <T extends Consume> T consume(T consume){",
+        "if(consume instanceof ConsumePower){",
+        "//there can only be one power consumer",
+        "consumeBuilder.removeAll(b -> b instanceof ConsumePower);",
+        "consPower = (ConsumePower)consume;",
+        "consumeBuilder.add(consume);",
+        "return consume;",
+        "T consume"
+      ],
+      "generated_owner": "Block.java_method_consume_111",
+      "godot_owner": "PortGame.source_block_consume_generic_state",
+      "java_class": "Block",
+      "java_method": "Block.consume(T)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_generic_bridge_state",
+      "source_symbols": [
+        "block_consume_generic.method",
+        "block_consume_generic.power_guard_expr",
+        "block_consume_generic.comment",
+        "block_consume_generic.remove_power_expr",
+        "block_consume_generic.cons_power_expr",
+        "block_consume_generic.add_expr",
+        "block_consume_generic.return_expr",
+        "block_consume_generic.consume",
+        "block_consume_generic.consume_is_power",
+        "block_consume_generic.consume_builder_before",
+        "block_consume_generic.consume_builder_without_power",
+        "block_consume_generic.cons_power_before"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_generic_to_source_state",
+        "test_port_game_exposes_source_block_consume_generic_state",
+        "test_port_game_exposes_generated_block_consume_generic_bridge_state",
+        "test_block_consume_generic_matches_upstream_source",
+        "test_generated_block_consume_generic_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consume generic bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

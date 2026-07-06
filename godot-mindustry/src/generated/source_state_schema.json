@@ -18520,6 +18520,328 @@
       "source_slice": "N1301",
       "status": "active"
     },
+    "source_block_consume_generic_input": {
+      "keys": {
+        "cons_power_before": {
+          "godot_symbol": "source_block_consume_generic_input.cons_power_before",
+          "java_expr": "consPower",
+          "java_method": "Block.consume(T)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.cons_power_before"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "consume": {
+          "godot_symbol": "source_block_consume_generic_input.consume",
+          "java_expr": "T consume",
+          "java_method": "Block.consume(T)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.consume"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "consume_builder_before": {
+          "godot_symbol": "source_block_consume_generic_input.consume_builder_before",
+          "java_expr": "consumeBuilder",
+          "java_method": "Block.consume(T)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.consume_builder_before"
+          ],
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "consume_builder_without_power": {
+          "godot_symbol": "source_block_consume_generic_input.consume_builder_without_power",
+          "java_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);",
+          "java_method": "Block.consume(T)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.consume_builder_without_power",
+            "block_consume_generic.remove_power_expr"
+          ],
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "consume_is_power": {
+          "godot_symbol": "source_block_consume_generic_input.consume_is_power",
+          "java_expr": "consume instanceof ConsumePower",
+          "java_method": "Block.consume(T)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.consume_is_power",
+            "block_consume_generic.power_guard_expr"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_consume_generic_state",
+      "rule": "Inputs for PortGame.source_block_consume_generic_state.",
+      "runtime_proof": "/root/Main.source_block_consume_generic_state",
+      "source_slice": "N1303",
+      "status": "active"
+    },
+    "source_block_consume_generic_result": {
+      "keys": {
+        "add_called": {
+          "godot_symbol": "source_block_consume_generic_result.add_called",
+          "java_expr": "consumeBuilder.add(consume);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.add_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "add_expr": {
+          "godot_symbol": "source_block_consume_generic_result.add_expr",
+          "java_expr": "consumeBuilder.add(consume);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.add_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "comment": {
+          "godot_symbol": "source_block_consume_generic_result.comment",
+          "java_expr": "//there can only be one power consumer",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.comment"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "cons_power_after": {
+          "godot_symbol": "source_block_consume_generic_result.cons_power_after",
+          "java_expr": "consPower = (ConsumePower)consume;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.cons_power_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "cons_power_before": {
+          "godot_symbol": "source_block_consume_generic_result.cons_power_before",
+          "java_expr": "consPower",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.cons_power_before"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "consume": {
+          "godot_symbol": "source_block_consume_generic_result.consume",
+          "java_expr": "T consume",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.consume"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "consume_builder_after": {
+          "godot_symbol": "source_block_consume_generic_result.consume_builder_after",
+          "java_expr": "consumeBuilder.add(consume);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.add_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "consume_builder_before": {
+          "godot_symbol": "source_block_consume_generic_result.consume_builder_before",
+          "java_expr": "consumeBuilder",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.consume_builder_before"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "consume_builder_without_power": {
+          "godot_symbol": "source_block_consume_generic_result.consume_builder_without_power",
+          "java_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.consume_builder_without_power",
+            "block_consume_generic.remove_power_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "consume_is_power": {
+          "godot_symbol": "source_block_consume_generic_result.consume_is_power",
+          "java_expr": "consume instanceof ConsumePower",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.consume_is_power",
+            "block_consume_generic.power_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "godot_symbol": "source_block_consume_generic_result.method",
+          "java_expr": "public <T extends Consume> T consume(T consume){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "power_guard_expr": {
+          "godot_symbol": "source_block_consume_generic_result.power_guard_expr",
+          "java_expr": "if(consume instanceof ConsumePower){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.power_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "remove_power_called": {
+          "godot_symbol": "source_block_consume_generic_result.remove_power_called",
+          "java_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.remove_power_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "remove_power_expr": {
+          "godot_symbol": "source_block_consume_generic_result.remove_power_expr",
+          "java_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.remove_power_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_consume_generic_result.return_expr",
+          "java_expr": "return consume;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "returned_consume": {
+          "godot_symbol": "source_block_consume_generic_result.returned_consume",
+          "java_expr": "return consume;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [
+            "block_consume_generic.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "source": {
+          "godot_symbol": "source_block_consume_generic_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_consume_generic_result.source_owner",
+          "java_expr": "PortGame.source_block_consume_generic_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_generic_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_consume_generic_state",
+      "rule": "Dictionary returned by PortGame.source_block_consume_generic_state.",
+      "runtime_proof": "/root/Main.source_block_consume_generic_state",
+      "source_slice": "N1303",
+      "status": "active"
+    },
     "source_block_consume_item_amount_input": {
       "keys": {
         "amount": {

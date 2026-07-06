@@ -8350,6 +8350,54 @@ public class Block{
             self.assertIn('"constructed_consume": constructed_consume', source_text)
             self.assertIn('"consume_called": true', source_text)
 
+    def test_emit_bridges_block_consume_generic_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public <T extends Consume> T consume(T consume){
+        if(consume instanceof ConsumePower){
+            //there can only be one power consumer
+            consumeBuilder.removeAll(b -> b instanceof ConsumePower);
+            consPower = (ConsumePower)consume;
+        }
+        consumeBuilder.add(consume);
+        return consume;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_consume_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar consume: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar consume_is_power: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\tvar consume_builder_before: Array = (_args[2] if _args.size() > 2 else []) as Array", source_text)
+            self.assertIn("\tvar consume_builder_without_power: Array = (_args[3] if _args.size() > 3 else []) as Array", source_text)
+            self.assertIn("\tvar cons_power_before: Variant = _args[4] if _args.size() > 4 else null", source_text)
+            self.assertIn("\tvar consume_builder_after: Array = consume_builder_without_power.duplicate() if consume_is_power else consume_builder_before.duplicate()", source_text)
+            self.assertIn("\tvar remove_power_called: bool = consume_is_power", source_text)
+            self.assertIn("\tvar cons_power_after: Variant = consume if consume_is_power else cons_power_before", source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_consume_generic_state"', source_text)
+            self.assertIn('"method": "public <T extends Consume> T consume(T consume){"', source_text)
+            self.assertIn('"power_guard_expr": "if(consume instanceof ConsumePower){"', source_text)
+            self.assertIn('"remove_power_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);"', source_text)
+            self.assertIn('"cons_power_expr": "consPower = (ConsumePower)consume;"', source_text)
+            self.assertIn('"add_expr": "consumeBuilder.add(consume);"', source_text)
+            self.assertIn('"return_expr": "return consume;"', source_text)
+            self.assertIn('"returned_consume": consume', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

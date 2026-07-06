@@ -1977,6 +1977,74 @@
         "test_generated_block_consume_coolant_single_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_consume_generic_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "T consume",
+          "name": "consume",
+          "schema": "source_block_consume_generic_input.consume",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "consume instanceof ConsumePower",
+          "name": "consume_is_power",
+          "schema": "source_block_consume_generic_input.consume_is_power",
+          "type": "bool"
+        },
+        {
+          "java_expr": "consumeBuilder",
+          "name": "consume_builder_before",
+          "schema": "source_block_consume_generic_input.consume_builder_before",
+          "type": "Array"
+        },
+        {
+          "java_expr": "consumeBuilder.removeAll(b -> b instanceof ConsumePower);",
+          "name": "consume_builder_without_power",
+          "schema": "source_block_consume_generic_input.consume_builder_without_power",
+          "type": "Array"
+        },
+        {
+          "java_expr": "consPower",
+          "name": "cons_power_before",
+          "schema": "source_block_consume_generic_input.cons_power_before",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "power_guard_expr",
+        "comment",
+        "remove_power_expr",
+        "cons_power_expr",
+        "add_expr",
+        "return_expr",
+        "consume",
+        "consume_is_power",
+        "consume_builder_before",
+        "consume_builder_without_power",
+        "consume_builder_after",
+        "cons_power_before",
+        "cons_power_after",
+        "remove_power_called",
+        "add_called",
+        "returned_consume"
+      ],
+      "rule": "Pin source-backed Block.consume(T) state transition inputs and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_generic_state",
+      "source_method": "Block.consume(T)",
+      "source_slice": "N1303",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_generic_to_source_state",
+        "test_port_game_exposes_source_block_consume_generic_state",
+        "test_port_game_exposes_generated_block_consume_generic_bridge_state",
+        "test_block_consume_generic_matches_upstream_source",
+        "test_generated_block_consume_generic_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_consume_item_amount_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [
