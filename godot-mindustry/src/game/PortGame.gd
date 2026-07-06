@@ -17230,6 +17230,30 @@ func generated_block_has_building_bridge_state(destructible_value: bool, update_
 		"matches": result == canonical,
 	}
 
+func source_block_is_multiblock_state(size_value: int) -> Dictionary:
+	var is_multiblock_value: bool = size_value > 1
+	return {
+		"source_owner": "PortGame.source_block_is_multiblock_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public boolean isMultiblock(){",
+		"return_expr": "return size > 1;",
+		"size": size_value,
+		"is_multiblock": is_multiblock_value,
+	}
+
+func generated_block_is_multiblock_bridge_state(size_value: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_isMultiblock_74([size_value])
+	var canonical = source_block_is_multiblock_state(size_value)
+	return {
+		"source_owner": "PortGame.source_block_is_multiblock_state",
+		"generated_owner": "Block.java_method_isMultiblock_74",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

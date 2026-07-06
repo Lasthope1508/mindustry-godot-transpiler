@@ -16070,5 +16070,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_hasBuilding_70"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_is_multiblock_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_is_multiblock_state(size_value: int) -> Dictionary:", source)
+        self.assertIn("var is_multiblock_value: bool = size_value > 1", source)
+        self.assertIn('"source_owner": "PortGame.source_block_is_multiblock_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public boolean isMultiblock(){"', source)
+        self.assertIn('"return_expr": "return size > 1;"', source)
+        self.assertIn('"size": size_value', source)
+        self.assertIn('"is_multiblock": is_multiblock_value', source)
+
+    def test_port_game_exposes_generated_block_is_multiblock_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_is_multiblock_bridge_state(size_value: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_isMultiblock_74([size_value])", source)
+        self.assertIn("var canonical = source_block_is_multiblock_state(size_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_is_multiblock_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_isMultiblock_74"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

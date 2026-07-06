@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 757)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 752)
+        self.assertEqual(audit["totalSourceFunctions"], 758)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 753)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 757)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 758)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43194,6 +43194,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["update"]["java_expr"], "update")
         result_schema = source_symbols.state_schema(schema, "source_block_has_building_result")
         self.assertEqual(result_schema["keys"]["has_building"]["java_expr"], "return destructible || update;")
+
+    def test_generated_block_is_multiblock_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_is_multiblock.method")
+        self.assertEqual(method["java_expr"], "public boolean isMultiblock(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.isMultiblock()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_is_multiblock_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_is_multiblock_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_is_multiblock.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return size > 1;")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_is_multiblock_result.is_multiblock")
+
+        size_symbol = source_symbols.source_symbol(registry, "block_is_multiblock.size")
+        self.assertEqual(size_symbol["java_expr"], "size")
+        self.assertEqual(size_symbol["godot_symbol"], "source_block_is_multiblock_input.size")
+
+        is_multiblock_slice = source_symbols.source_slice(ledger, "N1284")
+        self.assertEqual(is_multiblock_slice["title"], "Generated Block isMultiblock bridge state")
+        self.assertEqual(is_multiblock_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(is_multiblock_slice["java_method"], "Block.isMultiblock()")
+        self.assertEqual(is_multiblock_slice["godot_owner"], "PortGame.source_block_is_multiblock_state")
+        self.assertEqual(is_multiblock_slice["generated_owner"], "Block.java_method_isMultiblock_74")
+        self.assertEqual(is_multiblock_slice["runtime_proof"], "/root/Main.generated_block_is_multiblock_bridge_state")
+        for expr in [
+            "public boolean isMultiblock(){",
+            "return size > 1;",
+        ]:
+            self.assertIn(expr, is_multiblock_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_is_multiblock_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["size_value"])
+        for key in ["source_owner", "source", "method", "return_expr", "size", "is_multiblock"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_is_multiblock_input")
+        self.assertEqual(input_schema["keys"]["size"]["java_expr"], "size")
+        result_schema = source_symbols.state_schema(schema, "source_block_is_multiblock_result")
+        self.assertEqual(result_schema["keys"]["is_multiblock"]["java_expr"], "return size > 1;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

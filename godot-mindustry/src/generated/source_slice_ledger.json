@@ -29776,6 +29776,33 @@
         "test_generated_block_has_building_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block hasBuilding bridge state"
+    },
+    "N1284": {
+      "exact_exprs": [
+        "public boolean isMultiblock(){",
+        "return size > 1;",
+        "size"
+      ],
+      "generated_owner": "Block.java_method_isMultiblock_74",
+      "godot_owner": "PortGame.source_block_is_multiblock_state",
+      "java_class": "Block",
+      "java_method": "Block.isMultiblock()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_multiblock_bridge_state",
+      "source_symbols": [
+        "block_is_multiblock.method",
+        "block_is_multiblock.return_expr",
+        "block_is_multiblock.size"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_multiblock_to_source_state",
+        "test_port_game_exposes_source_block_is_multiblock_state",
+        "test_port_game_exposes_generated_block_is_multiblock_bridge_state",
+        "test_block_is_multiblock_matches_upstream_source",
+        "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isMultiblock bridge state"
     }
   },
   "version": 1

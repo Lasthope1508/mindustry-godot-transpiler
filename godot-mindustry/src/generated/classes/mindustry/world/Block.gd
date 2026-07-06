@@ -274,7 +274,9 @@ func java_method_bounds_73(_args: Array = []) -> Variant:
 	return null
 
 func java_method_isMultiblock_74(_args: Array = []) -> Variant:
-	return null
+	var size_value: int = int(_args[0] if _args.size() > 0 else 0)
+	var is_multiblock_value: bool = size_value > 1
+	return {"source_owner": "PortGame.source_block_is_multiblock_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean isMultiblock(){", "return_expr": "return size > 1;", "size": size_value, "is_multiblock": is_multiblock_value}
 
 func java_method_isVisible_75(_args: Array = []) -> Variant:
 	return null

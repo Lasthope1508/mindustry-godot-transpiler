@@ -31710,6 +31710,36 @@
         "test_block_has_building_matches_upstream_source",
         "test_generated_block_has_building_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_is_multiblock_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "size_value",
+          "schema": "source_block_is_multiblock_input.size",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "size",
+        "is_multiblock"
+      ],
+      "rule": "Public runtime contract for Block.isMultiblock() generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_is_multiblock_state",
+      "source_method": "Block.isMultiblock()",
+      "source_slice": "N1284",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_is_multiblock_to_source_state",
+        "test_port_game_exposes_source_block_is_multiblock_state",
+        "test_port_game_exposes_generated_block_is_multiblock_bridge_state",
+        "test_block_is_multiblock_matches_upstream_source",
+        "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

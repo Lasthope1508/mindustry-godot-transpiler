@@ -94292,6 +94292,60 @@
         "test_block_has_building_matches_upstream_source",
         "test_generated_block_has_building_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_is_multiblock.method": {
+      "godot_owner": "PortGame.source_block_is_multiblock_state",
+      "godot_symbol": "source_block_is_multiblock_result.method",
+      "java_expr": "public boolean isMultiblock(){",
+      "java_method": "Block.isMultiblock()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.isMultiblock() method boundary.",
+      "runtime_proof": "/root/Main.source_block_is_multiblock_state",
+      "source_slice": "N1284",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_is_multiblock_to_source_state",
+        "test_port_game_exposes_source_block_is_multiblock_state",
+        "test_port_game_exposes_generated_block_is_multiblock_bridge_state",
+        "test_block_is_multiblock_matches_upstream_source",
+        "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_is_multiblock.return_expr": {
+      "godot_owner": "PortGame.source_block_is_multiblock_state",
+      "godot_symbol": "source_block_is_multiblock_result.is_multiblock",
+      "java_expr": "return size > 1;",
+      "java_method": "Block.isMultiblock()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Return value uses source size > 1.",
+      "runtime_proof": "/root/Main.source_block_is_multiblock_state",
+      "source_slice": "N1284",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_is_multiblock_to_source_state",
+        "test_port_game_exposes_source_block_is_multiblock_state",
+        "test_port_game_exposes_generated_block_is_multiblock_bridge_state",
+        "test_block_is_multiblock_matches_upstream_source",
+        "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_is_multiblock.size": {
+      "godot_owner": "PortGame.source_block_is_multiblock_state",
+      "godot_symbol": "source_block_is_multiblock_input.size",
+      "java_expr": "size",
+      "java_method": "Block.isMultiblock()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Runtime size_value supplies Block.size.",
+      "runtime_proof": "/root/Main.source_block_is_multiblock_state",
+      "source_slice": "N1284",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_is_multiblock_to_source_state",
+        "test_port_game_exposes_source_block_is_multiblock_state",
+        "test_port_game_exposes_generated_block_is_multiblock_bridge_state",
+        "test_block_is_multiblock_matches_upstream_source",
+        "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
