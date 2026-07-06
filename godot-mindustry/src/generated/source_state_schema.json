@@ -113845,6 +113845,152 @@
       "runtime_proof": "/root/Main.source_block_consumes_item_state",
       "source_slice": "N1281",
       "status": "active"
+    },
+    "source_block_consumes_liquid_input": {
+      "rule": "Inputs for PortGame.source_block_consumes_liquid_state.",
+      "keys": {
+        "liquidFilter": {
+          "godot_symbol": "source_block_consumes_liquid_input.liquidFilter",
+          "java_expr": "liquidFilter",
+          "java_method": "Block.consumesLiquid(Liquid liq)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "liq_id": {
+          "godot_symbol": "source_block_consumes_liquid_input.liq_id",
+          "java_expr": "liq.id",
+          "java_method": "Block.consumesLiquid(Liquid liq)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "liq": {
+          "godot_symbol": "source_block_consumes_liquid_input.liq",
+          "java_expr": "Liquid liq",
+          "java_method": "Block.consumesLiquid(Liquid liq)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_consumes_liquid_state",
+      "runtime_proof": "/root/Main.source_block_consumes_liquid_state",
+      "source_slice": "N1282",
+      "status": "active"
+    },
+    "source_block_consumes_liquid_result": {
+      "rule": "Dictionary returned by PortGame.source_block_consumes_liquid_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_consumes_liquid_result.source_owner",
+          "java_expr": "PortGame.source_block_consumes_liquid_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_consumes_liquid_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_consumes_liquid_result.method",
+          "java_expr": "public boolean consumesLiquid(Liquid liq){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consumes_liquid.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_consumes_liquid_result.return_expr",
+          "java_expr": "return liquidFilter[liq.id];",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consumes_liquid.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "liquidFilter": {
+          "godot_symbol": "source_block_consumes_liquid_result.liquidFilter",
+          "java_expr": "liquidFilter",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consumes_liquid.liquid_filter"
+          ],
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "liq_id": {
+          "godot_symbol": "source_block_consumes_liquid_result.liq_id",
+          "java_expr": "liq.id",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consumes_liquid.liq_id"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "liq": {
+          "godot_symbol": "source_block_consumes_liquid_result.liq",
+          "java_expr": "Liquid liq",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "consumes_liquid": {
+          "godot_symbol": "source_block_consumes_liquid_result.consumes_liquid",
+          "java_expr": "return liquidFilter[liq.id];",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consumes_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consumes_liquid.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_consumes_liquid_state",
+      "runtime_proof": "/root/Main.source_block_consumes_liquid_state",
+      "source_slice": "N1282",
+      "status": "active"
     }
   },
   "version": 1

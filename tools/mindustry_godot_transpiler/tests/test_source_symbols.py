@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 755)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 750)
+        self.assertEqual(audit["totalSourceFunctions"], 756)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 751)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 755)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 756)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43107,6 +43107,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["item"]["java_expr"], "Item item")
         result_schema = source_symbols.state_schema(schema, "source_block_consumes_item_result")
         self.assertEqual(result_schema["keys"]["consumes_item"]["java_expr"], "return itemFilter[item.id];")
+
+    def test_generated_block_consumes_liquid_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_consumes_liquid.method")
+        self.assertEqual(method["java_expr"], "public boolean consumesLiquid(Liquid liq){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.consumesLiquid(Liquid liq)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_consumes_liquid_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_consumes_liquid_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_consumes_liquid.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return liquidFilter[liq.id];")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_consumes_liquid_result.consumes_liquid")
+
+        consumes_liquid_slice = source_symbols.source_slice(ledger, "N1282")
+        self.assertEqual(consumes_liquid_slice["title"], "Generated Block consumesLiquid bridge state")
+        self.assertEqual(consumes_liquid_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(consumes_liquid_slice["java_method"], "Block.consumesLiquid(Liquid liq)")
+        self.assertEqual(consumes_liquid_slice["godot_owner"], "PortGame.source_block_consumes_liquid_state")
+        self.assertEqual(consumes_liquid_slice["generated_owner"], "Block.java_method_consumesLiquid_34")
+        self.assertEqual(consumes_liquid_slice["runtime_proof"], "/root/Main.generated_block_consumes_liquid_bridge_state")
+        for expr in [
+            "public boolean consumesLiquid(Liquid liq){",
+            "return liquidFilter[liq.id];",
+        ]:
+            self.assertIn(expr, consumes_liquid_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_consumes_liquid_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["liquid_filter", "liquid_id", "liq"])
+        for key in ["source_owner", "source", "method", "return_expr", "liquidFilter", "liq_id", "liq", "consumes_liquid"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_consumes_liquid_input")
+        self.assertEqual(input_schema["keys"]["liquidFilter"]["java_expr"], "liquidFilter")
+        self.assertEqual(input_schema["keys"]["liq_id"]["java_expr"], "liq.id")
+        self.assertEqual(input_schema["keys"]["liq"]["java_expr"], "Liquid liq")
+        result_schema = source_symbols.state_schema(schema, "source_block_consumes_liquid_result")
+        self.assertEqual(result_schema["keys"]["consumes_liquid"]["java_expr"], "return liquidFilter[liq.id];")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

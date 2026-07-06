@@ -16017,5 +16017,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_consumesItem_33"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_consumes_liquid_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_consumes_liquid_state(liquid_filter: Array, liquid_id: int, liq: Variant) -> Dictionary:", source)
+        self.assertIn("var consumes_liquid_value: bool = bool(liquid_filter[liquid_id])", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consumes_liquid_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public boolean consumesLiquid(Liquid liq){"', source)
+        self.assertIn('"return_expr": "return liquidFilter[liq.id];"', source)
+        self.assertIn('"liquidFilter": liquid_filter', source)
+        self.assertIn('"liq_id": liquid_id', source)
+        self.assertIn('"liq": liq', source)
+        self.assertIn('"consumes_liquid": consumes_liquid_value', source)
+
+    def test_port_game_exposes_generated_block_consumes_liquid_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_consumes_liquid_bridge_state(liquid_filter: Array, liquid_id: int, liq: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_consumesLiquid_34([liquid_filter, liquid_id, liq])", source)
+        self.assertIn("var canonical = source_block_consumes_liquid_state(liquid_filter, liquid_id, liq)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consumes_liquid_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_consumesLiquid_34"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

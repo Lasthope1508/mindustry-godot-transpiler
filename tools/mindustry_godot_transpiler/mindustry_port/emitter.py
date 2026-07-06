@@ -1463,6 +1463,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_block_consumes_item_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean consumesItem(Item item){", "return_expr": "return itemFilter[item.id];", "itemFilter": item_filter, "item_id": item_id, "item": item, "consumes_item": consumes_item_value}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "consumesLiquid"
+    ):
+        return [
+            "\tvar liquid_filter: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar liquid_id: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\tvar liq: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar consumes_liquid_value: bool = bool(liquid_filter[liquid_id])",
+            '\treturn {"source_owner": "PortGame.source_block_consumes_liquid_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean consumesLiquid(Liquid liq){", "return_expr": "return liquidFilter[liq.id];", "liquidFilter": liquid_filter, "liq_id": liquid_id, "liq": liq, "consumes_liquid": consumes_liquid_value}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/ContinuousTurret.java"
         and type_entry.get("name") == "ContinuousTurret"
         and method.get("name") == "setStats"

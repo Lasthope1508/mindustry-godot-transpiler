@@ -17179,6 +17179,32 @@ func generated_block_consumes_item_bridge_state(item_filter: Array, item_id: int
 		"matches": result == canonical,
 	}
 
+func source_block_consumes_liquid_state(liquid_filter: Array, liquid_id: int, liq: Variant) -> Dictionary:
+	var consumes_liquid_value: bool = bool(liquid_filter[liquid_id])
+	return {
+		"source_owner": "PortGame.source_block_consumes_liquid_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public boolean consumesLiquid(Liquid liq){",
+		"return_expr": "return liquidFilter[liq.id];",
+		"liquidFilter": liquid_filter,
+		"liq_id": liquid_id,
+		"liq": liq,
+		"consumes_liquid": consumes_liquid_value,
+	}
+
+func generated_block_consumes_liquid_bridge_state(liquid_filter: Array, liquid_id: int, liq: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_consumesLiquid_34([liquid_filter, liquid_id, liq])
+	var canonical = source_block_consumes_liquid_state(liquid_filter, liquid_id, liq)
+	return {
+		"source_owner": "PortGame.source_block_consumes_liquid_state",
+		"generated_owner": "Block.java_method_consumesLiquid_34",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

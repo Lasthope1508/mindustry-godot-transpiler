@@ -31632,6 +31632,48 @@
         "test_block_consumes_item_matches_upstream_source",
         "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_consumes_liquid_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "liquid_filter",
+          "schema": "source_block_consumes_liquid_input.liquidFilter",
+          "type": "Array"
+        },
+        {
+          "name": "liquid_id",
+          "schema": "source_block_consumes_liquid_input.liq_id",
+          "type": "int"
+        },
+        {
+          "name": "liq",
+          "schema": "source_block_consumes_liquid_input.liq",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "liquidFilter",
+        "liq_id",
+        "liq",
+        "consumes_liquid"
+      ],
+      "rule": "Public runtime contract for Block.consumesLiquid(Liquid) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_consumes_liquid_state",
+      "source_method": "Block.consumesLiquid(Liquid liq)",
+      "source_slice": "N1282",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consumes_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consumes_liquid_state",
+        "test_port_game_exposes_generated_block_consumes_liquid_bridge_state",
+        "test_block_consumes_liquid_matches_upstream_source",
+        "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

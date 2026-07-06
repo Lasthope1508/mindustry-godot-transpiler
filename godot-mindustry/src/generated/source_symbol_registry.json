@@ -94148,6 +94148,78 @@
         "test_block_consumes_item_matches_upstream_source",
         "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_consumes_liquid.method": {
+      "godot_owner": "PortGame.source_block_consumes_liquid_state",
+      "godot_symbol": "source_block_consumes_liquid_result.method",
+      "java_expr": "public boolean consumesLiquid(Liquid liq){",
+      "java_method": "Block.consumesLiquid(Liquid liq)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.consumesLiquid(Liquid) method boundary.",
+      "runtime_proof": "/root/Main.source_block_consumes_liquid_state",
+      "source_slice": "N1282",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consumes_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consumes_liquid_state",
+        "test_port_game_exposes_generated_block_consumes_liquid_bridge_state",
+        "test_block_consumes_liquid_matches_upstream_source",
+        "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consumes_liquid.return_expr": {
+      "godot_owner": "PortGame.source_block_consumes_liquid_state",
+      "godot_symbol": "source_block_consumes_liquid_result.consumes_liquid",
+      "java_expr": "return liquidFilter[liq.id];",
+      "java_method": "Block.consumesLiquid(Liquid liq)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Return value indexes liquidFilter by source liq.id.",
+      "runtime_proof": "/root/Main.source_block_consumes_liquid_state",
+      "source_slice": "N1282",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consumes_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consumes_liquid_state",
+        "test_port_game_exposes_generated_block_consumes_liquid_bridge_state",
+        "test_block_consumes_liquid_matches_upstream_source",
+        "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consumes_liquid.liquid_filter": {
+      "godot_owner": "PortGame.source_block_consumes_liquid_state",
+      "godot_symbol": "source_block_consumes_liquid_input.liquidFilter",
+      "java_expr": "liquidFilter",
+      "java_method": "Block.consumesLiquid(Liquid liq)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Runtime liquid_filter supplies Block.liquidFilter.",
+      "runtime_proof": "/root/Main.source_block_consumes_liquid_state",
+      "source_slice": "N1282",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consumes_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consumes_liquid_state",
+        "test_port_game_exposes_generated_block_consumes_liquid_bridge_state",
+        "test_block_consumes_liquid_matches_upstream_source",
+        "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consumes_liquid.liq_id": {
+      "godot_owner": "PortGame.source_block_consumes_liquid_state",
+      "godot_symbol": "source_block_consumes_liquid_input.liq_id",
+      "java_expr": "liq.id",
+      "java_method": "Block.consumesLiquid(Liquid liq)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Runtime liquid_id supplies source Liquid.id used by liquidFilter[liq.id].",
+      "runtime_proof": "/root/Main.source_block_consumes_liquid_state",
+      "source_slice": "N1282",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consumes_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consumes_liquid_state",
+        "test_port_game_exposes_generated_block_consumes_liquid_bridge_state",
+        "test_block_consumes_liquid_matches_upstream_source",
+        "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

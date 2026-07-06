@@ -29718,6 +29718,35 @@
         "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block consumesItem bridge state"
+    },
+    "N1282": {
+      "exact_exprs": [
+        "public boolean consumesLiquid(Liquid liq){",
+        "return liquidFilter[liq.id];",
+        "liquidFilter",
+        "liq.id"
+      ],
+      "generated_owner": "Block.java_method_consumesLiquid_34",
+      "godot_owner": "PortGame.source_block_consumes_liquid_state",
+      "java_class": "Block",
+      "java_method": "Block.consumesLiquid(Liquid liq)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consumes_liquid_bridge_state",
+      "source_symbols": [
+        "block_consumes_liquid.method",
+        "block_consumes_liquid.return_expr",
+        "block_consumes_liquid.liquid_filter",
+        "block_consumes_liquid.liq_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_consumes_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consumes_liquid_state",
+        "test_port_game_exposes_generated_block_consumes_liquid_bridge_state",
+        "test_block_consumes_liquid_matches_upstream_source",
+        "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumesLiquid bridge state"
     }
   },
   "version": 1

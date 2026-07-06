@@ -147,7 +147,11 @@ func java_method_consumesItem_33(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_consumes_item_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean consumesItem(Item item){", "return_expr": "return itemFilter[item.id];", "itemFilter": item_filter, "item_id": item_id, "item": item, "consumes_item": consumes_item_value}
 
 func java_method_consumesLiquid_34(_args: Array = []) -> Variant:
-	return null
+	var liquid_filter: Array = _args[0] if _args.size() > 0 else []
+	var liquid_id: int = int(_args[1] if _args.size() > 1 else 0)
+	var liq: Variant = _args[2] if _args.size() > 2 else null
+	var consumes_liquid_value: bool = bool(liquid_filter[liquid_id])
+	return {"source_owner": "PortGame.source_block_consumes_liquid_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean consumesLiquid(Liquid liq){", "return_expr": "return liquidFilter[liq.id];", "liquidFilter": liquid_filter, "liq_id": liquid_id, "liq": liq, "consumes_liquid": consumes_liquid_value}
 
 func java_method_canReplace_35(_args: Array = []) -> Variant:
 	return null
