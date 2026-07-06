@@ -5317,6 +5317,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_requirements_visible_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_requirements_visible_source"))
+        report = source_parity.verify_block_requirements_visible_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "comment": "/** Sets up requirements. Use only this method to set up requirements. */",
+            "method": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+            "category_assignment_expr": "this.category = cat;",
+            "requirements_assignment_expr": "this.requirements = stacks;",
+            "build_visibility_assignment_expr": "this.buildVisibility = visible;",
+            "sort_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));",
+            "sort_key_expr": "i.item.id",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

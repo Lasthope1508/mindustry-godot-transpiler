@@ -1748,6 +1748,22 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "requirements"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Category", "BuildVisibility", "ItemStack"]
+    ):
+        return [
+            "\tvar cat: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar build_visibility: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar stacks: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar requirements_after: Variant = stacks",
+            "\trequirements_after.sort_custom(func(left, right):",
+            "\t\treturn int(left[\"item\"][\"id\"]) < int(right[\"item\"][\"id\"])",
+            "\t)",
+            '\treturn {"source_owner": "PortGame.source_block_requirements_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){", "comment": "/** Sets up requirements. Use only this method to set up requirements. */", "category_assignment_expr": "this.category = cat;", "requirements_assignment_expr": "this.requirements = stacks;", "build_visibility_assignment_expr": "this.buildVisibility = visible;", "sort_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));", "cat": cat, "visible": build_visibility, "stacks": stacks, "category_after": cat, "requirements_after": requirements_after, "build_visibility_after": build_visibility, "sort_called": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):

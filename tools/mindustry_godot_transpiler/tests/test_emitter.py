@@ -8544,6 +8544,54 @@ public class Block{
             self.assertIn('"stacks": stacks', source_text)
             self.assertIn('"delegate_called": true', source_text)
 
+    def test_emit_bridges_block_requirements_visible_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    /** Sets up requirements. Use only this method to set up requirements. */
+    public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){
+        this.category = cat;
+        this.requirements = stacks;
+        this.buildVisibility = visible;
+
+        Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_requirements_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar cat: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar build_visibility: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("\tvar stacks: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("\tvar requirements_after: Variant = stacks", source_text)
+            self.assertIn("\trequirements_after.sort_custom(func(left, right):", source_text)
+            self.assertIn("\t\treturn int(left[\"item\"][\"id\"]) < int(right[\"item\"][\"id\"])", source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_requirements_visible_state"', source_text)
+            self.assertIn('"method": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){"', source_text)
+            self.assertIn('"comment": "/** Sets up requirements. Use only this method to set up requirements. */"', source_text)
+            self.assertIn('"category_assignment_expr": "this.category = cat;"', source_text)
+            self.assertIn('"requirements_assignment_expr": "this.requirements = stacks;"', source_text)
+            self.assertIn('"build_visibility_assignment_expr": "this.buildVisibility = visible;"', source_text)
+            self.assertIn('"sort_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));"', source_text)
+            self.assertIn('"category_after": cat', source_text)
+            self.assertIn('"requirements_after": requirements_after', source_text)
+            self.assertIn('"build_visibility_after": build_visibility', source_text)
+            self.assertIn('"sort_called": true', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

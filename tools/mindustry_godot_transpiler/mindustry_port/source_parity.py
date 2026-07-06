@@ -10197,6 +10197,25 @@ def verify_block_requirements_simple_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_block_requirements_visible_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "/** Sets up requirements. Use only this method to set up requirements. */",
+        "method": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+        "category_assignment_expr": "this.category = cat;",
+        "requirements_assignment_expr": "this.requirements = stacks;",
+        "build_visibility_assignment_expr": "this.buildVisibility = visible;",
+        "sort_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));",
+        "sort_key_expr": "i.item.id",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

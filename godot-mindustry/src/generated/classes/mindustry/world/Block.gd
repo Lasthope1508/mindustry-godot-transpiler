@@ -466,7 +466,14 @@ func java_method_requirements_115(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_requirements_simple_state", "source": "core/src/mindustry/world/Block.java", "method": "public void requirements(Category cat, ItemStack[] stacks){", "delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)", "cat": cat, "build_visibility": "BuildVisibility.shown", "stacks": stacks, "delegate_called": true}
 
 func java_method_requirements_116(_args: Array = []) -> Variant:
-	return null
+	var cat: Variant = _args[0] if _args.size() > 0 else null
+	var build_visibility: Variant = _args[1] if _args.size() > 1 else null
+	var stacks: Variant = _args[2] if _args.size() > 2 else null
+	var requirements_after: Variant = stacks
+	requirements_after.sort_custom(func(left, right):
+		return int(left["item"]["id"]) < int(right["item"]["id"])
+	)
+	return {"source_owner": "PortGame.source_block_requirements_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){", "comment": "/** Sets up requirements. Use only this method to set up requirements. */", "category_assignment_expr": "this.category = cat;", "requirements_assignment_expr": "this.requirements = stacks;", "build_visibility_assignment_expr": "this.buildVisibility = visible;", "sort_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));", "cat": cat, "visible": build_visibility, "stacks": stacks, "category_after": cat, "requirements_after": requirements_after, "build_visibility_after": build_visibility, "sort_called": true}
 
 func java_method_initBuilding_117(_args: Array = []) -> Variant:
 	return null

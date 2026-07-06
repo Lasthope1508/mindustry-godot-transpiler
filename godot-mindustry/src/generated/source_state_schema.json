@@ -22594,6 +22594,632 @@
       "source_slice": "N1290",
       "status": "active"
     },
+    "source_block_requirements_simple_input": {
+      "keys": {
+        "cat": {
+          "godot_symbol": "source_block_requirements_simple_input.cat",
+          "java_expr": "Category cat",
+          "java_method": "Block.requirements(Category,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_simple_state"
+          ],
+          "source_symbols": [
+            "block_requirements_simple.cat"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "stacks": {
+          "godot_symbol": "source_block_requirements_simple_input.stacks",
+          "java_expr": "ItemStack[] stacks",
+          "java_method": "Block.requirements(Category,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_simple_state"
+          ],
+          "source_symbols": [
+            "block_requirements_simple.stacks"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_requirements_simple_state",
+      "rule": "Inputs for PortGame.source_block_requirements_simple_state.",
+      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
+      "source_slice": "N1307",
+      "status": "active"
+    },
+    "source_block_requirements_simple_result": {
+      "keys": {
+        "build_visibility": {
+          "godot_symbol": "source_block_requirements_simple_result.build_visibility",
+          "java_expr": "BuildVisibility.shown",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_simple_state"
+          ],
+          "source_symbols": [
+            "block_requirements_simple.build_visibility_shown"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "cat": {
+          "godot_symbol": "source_block_requirements_simple_result.cat",
+          "java_expr": "Category cat",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_simple_state"
+          ],
+          "source_symbols": [
+            "block_requirements_simple.cat"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "delegate_call_expr": {
+          "godot_symbol": "source_block_requirements_simple_result.delegate_call_expr",
+          "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_simple_state"
+          ],
+          "source_symbols": [
+            "block_requirements_simple.delegate_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "delegate_called": {
+          "godot_symbol": "source_block_requirements_simple_result.delegate_called",
+          "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_simple_state"
+          ],
+          "source_symbols": [
+            "block_requirements_simple.delegate_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "godot_symbol": "source_block_requirements_simple_result.method",
+          "java_expr": "public void requirements(Category cat, ItemStack[] stacks){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_simple_state"
+          ],
+          "source_symbols": [
+            "block_requirements_simple.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_requirements_simple_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_simple_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_requirements_simple_result.source_owner",
+          "java_expr": "PortGame.source_block_requirements_simple_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_simple_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "stacks": {
+          "godot_symbol": "source_block_requirements_simple_result.stacks",
+          "java_expr": "ItemStack[] stacks",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_simple_state"
+          ],
+          "source_symbols": [
+            "block_requirements_simple.stacks"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_requirements_simple_state",
+      "rule": "Dictionary returned by PortGame.source_block_requirements_simple_state.",
+      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
+      "source_slice": "N1307",
+      "status": "active"
+    },
+    "source_block_requirements_unlocked_input": {
+      "keys": {
+        "cat": {
+          "godot_symbol": "source_block_requirements_unlocked_input.cat",
+          "java_expr": "Category cat",
+          "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.cat"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "stacks": {
+          "godot_symbol": "source_block_requirements_unlocked_input.stacks",
+          "java_expr": "ItemStack[] stacks",
+          "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.stacks"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "unlocked": {
+          "godot_symbol": "source_block_requirements_unlocked_input.unlocked",
+          "java_expr": "boolean unlocked",
+          "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.unlocked"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_requirements_unlocked_state",
+      "rule": "Inputs for PortGame.source_block_requirements_unlocked_state.",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_slice": "N1306",
+      "status": "active"
+    },
+    "source_block_requirements_unlocked_result": {
+      "keys": {
+        "always_unlocked_after": {
+          "godot_symbol": "source_block_requirements_unlocked_result.always_unlocked_after",
+          "java_expr": "this.alwaysUnlocked = unlocked;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.always_unlocked_assignment_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "always_unlocked_assigned": {
+          "godot_symbol": "source_block_requirements_unlocked_result.always_unlocked_assigned",
+          "java_expr": "this.alwaysUnlocked = unlocked;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.always_unlocked_assignment_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "always_unlocked_assignment_expr": {
+          "godot_symbol": "source_block_requirements_unlocked_result.always_unlocked_assignment_expr",
+          "java_expr": "this.alwaysUnlocked = unlocked;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.always_unlocked_assignment_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "build_visibility": {
+          "godot_symbol": "source_block_requirements_unlocked_result.build_visibility",
+          "java_expr": "BuildVisibility.shown",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.build_visibility_shown"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "cat": {
+          "godot_symbol": "source_block_requirements_unlocked_result.cat",
+          "java_expr": "Category cat",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.cat"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "delegate_call_expr": {
+          "godot_symbol": "source_block_requirements_unlocked_result.delegate_call_expr",
+          "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.delegate_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "delegate_called": {
+          "godot_symbol": "source_block_requirements_unlocked_result.delegate_called",
+          "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.delegate_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "godot_symbol": "source_block_requirements_unlocked_result.method",
+          "java_expr": "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_requirements_unlocked_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_requirements_unlocked_result.source_owner",
+          "java_expr": "PortGame.source_block_requirements_unlocked_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "stacks": {
+          "godot_symbol": "source_block_requirements_unlocked_result.stacks",
+          "java_expr": "ItemStack[] stacks",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.stacks"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "unlocked": {
+          "godot_symbol": "source_block_requirements_unlocked_result.unlocked",
+          "java_expr": "boolean unlocked",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_unlocked_state"
+          ],
+          "source_symbols": [
+            "block_requirements_unlocked.unlocked"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_requirements_unlocked_state",
+      "rule": "Dictionary returned by PortGame.source_block_requirements_unlocked_state.",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_slice": "N1306",
+      "status": "active"
+    },
+    "source_block_requirements_visible_input": {
+      "keys": {
+        "build_visibility": {
+          "godot_symbol": "source_block_requirements_visible_input.build_visibility",
+          "java_expr": "BuildVisibility visible",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.visible"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "cat": {
+          "godot_symbol": "source_block_requirements_visible_input.cat",
+          "java_expr": "Category cat",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.cat"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "stacks": {
+          "godot_symbol": "source_block_requirements_visible_input.stacks",
+          "java_expr": "ItemStack[] stacks",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.stacks"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_requirements_visible_state",
+      "rule": "Inputs for PortGame.source_block_requirements_visible_state.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "active"
+    },
+    "source_block_requirements_visible_result": {
+      "keys": {
+        "build_visibility_after": {
+          "godot_symbol": "source_block_requirements_visible_result.build_visibility_after",
+          "java_expr": "this.buildVisibility = visible;",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.build_visibility_assignment_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "build_visibility_assignment_expr": {
+          "godot_symbol": "source_block_requirements_visible_result.build_visibility_assignment_expr",
+          "java_expr": "this.buildVisibility = visible;",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.build_visibility_assignment_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "cat": {
+          "godot_symbol": "source_block_requirements_visible_result.cat",
+          "java_expr": "Category cat",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.cat"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "category_after": {
+          "godot_symbol": "source_block_requirements_visible_result.category_after",
+          "java_expr": "this.category = cat;",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.category_assignment_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "category_assignment_expr": {
+          "godot_symbol": "source_block_requirements_visible_result.category_assignment_expr",
+          "java_expr": "this.category = cat;",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.category_assignment_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "comment": {
+          "godot_symbol": "source_block_requirements_visible_result.comment",
+          "java_expr": "/** Sets up requirements. Use only this method to set up requirements. */",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.comment"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_requirements_visible_result.method",
+          "java_expr": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "requirements_after": {
+          "godot_symbol": "source_block_requirements_visible_result.requirements_after",
+          "java_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.requirements_assignment_expr",
+            "block_requirements_visible.sort_expr",
+            "block_requirements_visible.sort_key_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "requirements_assignment_expr": {
+          "godot_symbol": "source_block_requirements_visible_result.requirements_assignment_expr",
+          "java_expr": "this.requirements = stacks;",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.requirements_assignment_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "sort_called": {
+          "godot_symbol": "source_block_requirements_visible_result.sort_called",
+          "java_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.sort_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "sort_expr": {
+          "godot_symbol": "source_block_requirements_visible_result.sort_expr",
+          "java_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.sort_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_requirements_visible_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_requirements_visible_result.source_owner",
+          "java_expr": "PortGame.source_block_requirements_visible_state",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "stacks": {
+          "godot_symbol": "source_block_requirements_visible_result.stacks",
+          "java_expr": "ItemStack[] stacks",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.stacks"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "visible": {
+          "godot_symbol": "source_block_requirements_visible_result.visible",
+          "java_expr": "BuildVisibility visible",
+          "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_requirements_visible.visible"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_requirements_visible_state",
+      "rule": "Dictionary returned by PortGame.source_block_requirements_visible_state.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "active"
+    },
     "source_block_rotated_output_input": {
       "keys": {
         "rotate": {
@@ -23087,6 +23713,166 @@
       "rule": "Dictionary returned by PortGame.source_block_setup_requirements_simple_state.",
       "runtime_proof": "/root/Main.source_block_setup_requirements_simple_state",
       "source_slice": "N1304",
+      "status": "active"
+    },
+    "source_block_setup_requirements_visible_input": {
+      "keys": {
+        "build_visibility": {
+          "godot_symbol": "source_block_setup_requirements_visible_input.build_visibility",
+          "java_expr": "BuildVisibility visible",
+          "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_setup_requirements_visible.visible"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "cat": {
+          "godot_symbol": "source_block_setup_requirements_visible_input.cat",
+          "java_expr": "Category cat",
+          "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_setup_requirements_visible.cat"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "stacks": {
+          "godot_symbol": "source_block_setup_requirements_visible_input.stacks",
+          "java_expr": "ItemStack[] stacks",
+          "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_setup_requirements_visible.stacks"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_setup_requirements_visible_state",
+      "rule": "Inputs for PortGame.source_block_setup_requirements_visible_state.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
+      "source_slice": "N1305",
+      "status": "active"
+    },
+    "source_block_setup_requirements_visible_result": {
+      "keys": {
+        "cat": {
+          "godot_symbol": "source_block_setup_requirements_visible_result.cat",
+          "java_expr": "Category cat",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_setup_requirements_visible.cat"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "delegate_call_expr": {
+          "godot_symbol": "source_block_setup_requirements_visible_result.delegate_call_expr",
+          "java_expr": "requirements(cat, visible, stacks);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_setup_requirements_visible.delegate_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "delegate_called": {
+          "godot_symbol": "source_block_setup_requirements_visible_result.delegate_called",
+          "java_expr": "requirements(cat, visible, stacks);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_setup_requirements_visible.delegate_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "godot_symbol": "source_block_setup_requirements_visible_result.method",
+          "java_expr": "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_setup_requirements_visible.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_setup_requirements_visible_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_setup_requirements_visible_result.source_owner",
+          "java_expr": "PortGame.source_block_setup_requirements_visible_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "stacks": {
+          "godot_symbol": "source_block_setup_requirements_visible_result.stacks",
+          "java_expr": "ItemStack[] stacks",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_setup_requirements_visible.stacks"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "visible": {
+          "godot_symbol": "source_block_setup_requirements_visible_result.visible",
+          "java_expr": "BuildVisibility visible",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_setup_requirements_visible_state"
+          ],
+          "source_symbols": [
+            "block_setup_requirements_visible.visible"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_setup_requirements_visible_state",
+      "rule": "Dictionary returned by PortGame.source_block_setup_requirements_visible_state.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
+      "source_slice": "N1305",
       "status": "active"
     },
     "source_block_sprite_base_position_input": {
@@ -117620,524 +118406,6 @@
           ]
         }
       },
-      "status": "active"
-    },
-    "source_block_setup_requirements_visible_input": {
-      "keys": {
-        "cat": {
-          "godot_symbol": "source_block_setup_requirements_visible_input.cat",
-          "java_expr": "Category cat",
-          "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [
-            "block_setup_requirements_visible.cat"
-          ],
-          "status": "explicit-input",
-          "type": "Variant"
-        },
-        "stacks": {
-          "godot_symbol": "source_block_setup_requirements_visible_input.stacks",
-          "java_expr": "ItemStack[] stacks",
-          "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [
-            "block_setup_requirements_visible.stacks"
-          ],
-          "status": "explicit-input",
-          "type": "Variant"
-        },
-        "build_visibility": {
-          "godot_symbol": "source_block_setup_requirements_visible_input.build_visibility",
-          "java_expr": "BuildVisibility visible",
-          "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [
-            "block_setup_requirements_visible.visible"
-          ],
-          "status": "explicit-input",
-          "type": "Variant"
-        }
-      },
-      "owner": "PortGame.source_block_setup_requirements_visible_state",
-      "rule": "Inputs for PortGame.source_block_setup_requirements_visible_state.",
-      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
-      "source_slice": "N1305",
-      "status": "active"
-    },
-    "source_block_setup_requirements_visible_result": {
-      "keys": {
-        "cat": {
-          "godot_symbol": "source_block_setup_requirements_visible_result.cat",
-          "java_expr": "Category cat",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [
-            "block_setup_requirements_visible.cat"
-          ],
-          "status": "source-backed",
-          "type": "Variant"
-        },
-        "delegate_call_expr": {
-          "godot_symbol": "source_block_setup_requirements_visible_result.delegate_call_expr",
-          "java_expr": "requirements(cat, visible, stacks);",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [
-            "block_setup_requirements_visible.delegate_call_expr"
-          ],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "delegate_called": {
-          "godot_symbol": "source_block_setup_requirements_visible_result.delegate_called",
-          "java_expr": "requirements(cat, visible, stacks);",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [
-            "block_setup_requirements_visible.delegate_call_expr"
-          ],
-          "status": "source-backed",
-          "type": "bool"
-        },
-        "method": {
-          "godot_symbol": "source_block_setup_requirements_visible_result.method",
-          "java_expr": "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [
-            "block_setup_requirements_visible.method"
-          ],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "source": {
-          "godot_symbol": "source_block_setup_requirements_visible_result.source",
-          "java_expr": "core/src/mindustry/world/Block.java",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "source_owner": {
-          "godot_symbol": "source_block_setup_requirements_visible_result.source_owner",
-          "java_expr": "PortGame.source_block_setup_requirements_visible_state",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "stacks": {
-          "godot_symbol": "source_block_setup_requirements_visible_result.stacks",
-          "java_expr": "ItemStack[] stacks",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [
-            "block_setup_requirements_visible.stacks"
-          ],
-          "status": "source-backed",
-          "type": "Variant"
-        },
-        "visible": {
-          "godot_symbol": "source_block_setup_requirements_visible_result.visible",
-          "java_expr": "BuildVisibility visible",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_setup_requirements_visible_state"
-          ],
-          "source_symbols": [
-            "block_setup_requirements_visible.visible"
-          ],
-          "status": "source-backed",
-          "type": "Variant"
-        }
-      },
-      "owner": "PortGame.source_block_setup_requirements_visible_state",
-      "rule": "Dictionary returned by PortGame.source_block_setup_requirements_visible_state.",
-      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
-      "source_slice": "N1305",
-      "status": "active"
-    },
-    "source_block_requirements_unlocked_input": {
-      "keys": {
-        "cat": {
-          "godot_symbol": "source_block_requirements_unlocked_input.cat",
-          "java_expr": "Category cat",
-          "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.cat"
-          ],
-          "status": "explicit-input",
-          "type": "Variant"
-        },
-        "stacks": {
-          "godot_symbol": "source_block_requirements_unlocked_input.stacks",
-          "java_expr": "ItemStack[] stacks",
-          "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.stacks"
-          ],
-          "status": "explicit-input",
-          "type": "Variant"
-        },
-        "unlocked": {
-          "godot_symbol": "source_block_requirements_unlocked_input.unlocked",
-          "java_expr": "boolean unlocked",
-          "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.unlocked"
-          ],
-          "status": "explicit-input",
-          "type": "bool"
-        }
-      },
-      "owner": "PortGame.source_block_requirements_unlocked_state",
-      "rule": "Inputs for PortGame.source_block_requirements_unlocked_state.",
-      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
-      "source_slice": "N1306",
-      "status": "active"
-    },
-    "source_block_requirements_unlocked_result": {
-      "keys": {
-        "always_unlocked_after": {
-          "godot_symbol": "source_block_requirements_unlocked_result.always_unlocked_after",
-          "java_expr": "this.alwaysUnlocked = unlocked;",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.always_unlocked_assignment_expr"
-          ],
-          "status": "source-backed",
-          "type": "bool"
-        },
-        "always_unlocked_assigned": {
-          "godot_symbol": "source_block_requirements_unlocked_result.always_unlocked_assigned",
-          "java_expr": "this.alwaysUnlocked = unlocked;",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.always_unlocked_assignment_expr"
-          ],
-          "status": "source-backed",
-          "type": "bool"
-        },
-        "always_unlocked_assignment_expr": {
-          "godot_symbol": "source_block_requirements_unlocked_result.always_unlocked_assignment_expr",
-          "java_expr": "this.alwaysUnlocked = unlocked;",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.always_unlocked_assignment_expr"
-          ],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "build_visibility": {
-          "godot_symbol": "source_block_requirements_unlocked_result.build_visibility",
-          "java_expr": "BuildVisibility.shown",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.build_visibility_shown"
-          ],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "cat": {
-          "godot_symbol": "source_block_requirements_unlocked_result.cat",
-          "java_expr": "Category cat",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.cat"
-          ],
-          "status": "source-backed",
-          "type": "Variant"
-        },
-        "delegate_call_expr": {
-          "godot_symbol": "source_block_requirements_unlocked_result.delegate_call_expr",
-          "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.delegate_call_expr"
-          ],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "delegate_called": {
-          "godot_symbol": "source_block_requirements_unlocked_result.delegate_called",
-          "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.delegate_call_expr"
-          ],
-          "status": "source-backed",
-          "type": "bool"
-        },
-        "method": {
-          "godot_symbol": "source_block_requirements_unlocked_result.method",
-          "java_expr": "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.method"
-          ],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "source": {
-          "godot_symbol": "source_block_requirements_unlocked_result.source",
-          "java_expr": "core/src/mindustry/world/Block.java",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "source_owner": {
-          "godot_symbol": "source_block_requirements_unlocked_result.source_owner",
-          "java_expr": "PortGame.source_block_requirements_unlocked_state",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "stacks": {
-          "godot_symbol": "source_block_requirements_unlocked_result.stacks",
-          "java_expr": "ItemStack[] stacks",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.stacks"
-          ],
-          "status": "source-backed",
-          "type": "Variant"
-        },
-        "unlocked": {
-          "godot_symbol": "source_block_requirements_unlocked_result.unlocked",
-          "java_expr": "boolean unlocked",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_unlocked_state"
-          ],
-          "source_symbols": [
-            "block_requirements_unlocked.unlocked"
-          ],
-          "status": "source-backed",
-          "type": "bool"
-        }
-      },
-      "owner": "PortGame.source_block_requirements_unlocked_state",
-      "rule": "Dictionary returned by PortGame.source_block_requirements_unlocked_state.",
-      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
-      "source_slice": "N1306",
-      "status": "active"
-    },
-    "source_block_requirements_simple_input": {
-      "keys": {
-        "cat": {
-          "godot_symbol": "source_block_requirements_simple_input.cat",
-          "java_expr": "Category cat",
-          "java_method": "Block.requirements(Category,ItemStack[])",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_simple_state"
-          ],
-          "source_symbols": [
-            "block_requirements_simple.cat"
-          ],
-          "status": "explicit-input",
-          "type": "Variant"
-        },
-        "stacks": {
-          "godot_symbol": "source_block_requirements_simple_input.stacks",
-          "java_expr": "ItemStack[] stacks",
-          "java_method": "Block.requirements(Category,ItemStack[])",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_simple_state"
-          ],
-          "source_symbols": [
-            "block_requirements_simple.stacks"
-          ],
-          "status": "explicit-input",
-          "type": "Variant"
-        }
-      },
-      "owner": "PortGame.source_block_requirements_simple_state",
-      "rule": "Inputs for PortGame.source_block_requirements_simple_state.",
-      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
-      "source_slice": "N1307",
-      "status": "active"
-    },
-    "source_block_requirements_simple_result": {
-      "keys": {
-        "build_visibility": {
-          "godot_symbol": "source_block_requirements_simple_result.build_visibility",
-          "java_expr": "BuildVisibility.shown",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_simple_state"
-          ],
-          "source_symbols": [
-            "block_requirements_simple.build_visibility_shown"
-          ],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "cat": {
-          "godot_symbol": "source_block_requirements_simple_result.cat",
-          "java_expr": "Category cat",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_simple_state"
-          ],
-          "source_symbols": [
-            "block_requirements_simple.cat"
-          ],
-          "status": "source-backed",
-          "type": "Variant"
-        },
-        "delegate_call_expr": {
-          "godot_symbol": "source_block_requirements_simple_result.delegate_call_expr",
-          "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_simple_state"
-          ],
-          "source_symbols": [
-            "block_requirements_simple.delegate_call_expr"
-          ],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "delegate_called": {
-          "godot_symbol": "source_block_requirements_simple_result.delegate_called",
-          "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_simple_state"
-          ],
-          "source_symbols": [
-            "block_requirements_simple.delegate_call_expr"
-          ],
-          "status": "source-backed",
-          "type": "bool"
-        },
-        "method": {
-          "godot_symbol": "source_block_requirements_simple_result.method",
-          "java_expr": "public void requirements(Category cat, ItemStack[] stacks){",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_simple_state"
-          ],
-          "source_symbols": [
-            "block_requirements_simple.method"
-          ],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "source": {
-          "godot_symbol": "source_block_requirements_simple_result.source",
-          "java_expr": "core/src/mindustry/world/Block.java",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_simple_state"
-          ],
-          "source_symbols": [],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "source_owner": {
-          "godot_symbol": "source_block_requirements_simple_result.source_owner",
-          "java_expr": "PortGame.source_block_requirements_simple_state",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_simple_state"
-          ],
-          "source_symbols": [],
-          "status": "source-backed",
-          "type": "String"
-        },
-        "stacks": {
-          "godot_symbol": "source_block_requirements_simple_result.stacks",
-          "java_expr": "ItemStack[] stacks",
-          "java_source": "core/src/mindustry/world/Block.java",
-          "owners": [
-            "PortGame.source_block_requirements_simple_state"
-          ],
-          "source_symbols": [
-            "block_requirements_simple.stacks"
-          ],
-          "status": "source-backed",
-          "type": "Variant"
-        }
-      },
-      "owner": "PortGame.source_block_requirements_simple_state",
-      "rule": "Dictionary returned by PortGame.source_block_requirements_simple_state.",
-      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
-      "source_slice": "N1307",
       "status": "active"
     }
   },

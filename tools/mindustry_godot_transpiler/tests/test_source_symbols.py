@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 781)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 776)
+        self.assertEqual(audit["totalSourceFunctions"], 782)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 777)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 781)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 782)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44505,6 +44505,59 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_requirements_simple_result")
         self.assertEqual(result_schema["keys"]["delegate_called"]["java_expr"], "requirements(cat, BuildVisibility.shown, stacks);")
         self.assertEqual(result_schema["keys"]["build_visibility"]["java_expr"], "BuildVisibility.shown")
+
+    def test_generated_block_requirements_visible_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_requirements_visible.method")
+        self.assertEqual(method["java_expr"], "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.requirements(Category,BuildVisibility,ItemStack[])")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_requirements_visible_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_requirements_visible_state")
+
+        sort_expr = source_symbols.source_symbol(registry, "block_requirements_visible.sort_expr")
+        self.assertEqual(sort_expr["java_expr"], "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));")
+        self.assertEqual(sort_expr["godot_symbol"], "source_block_requirements_visible_result.requirements_after")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1308")
+        self.assertEqual(setup_slice["title"], "Generated Block requirements visible bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.requirements(Category,BuildVisibility,ItemStack[])")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_requirements_visible_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_requirements_116")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_requirements_visible_bridge_state")
+        for expr in [
+            "/** Sets up requirements. Use only this method to set up requirements. */",
+            "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+            "this.category = cat;",
+            "this.requirements = stacks;",
+            "this.buildVisibility = visible;",
+            "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));",
+            "i.item.id",
+            "Category cat",
+            "BuildVisibility visible",
+            "ItemStack[] stacks",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_requirements_visible_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["cat", "build_visibility", "stacks"])
+        for key in ["source_owner", "source", "method", "comment", "category_assignment_expr", "requirements_assignment_expr", "build_visibility_assignment_expr", "sort_expr", "cat", "visible", "stacks", "category_after", "requirements_after", "build_visibility_after", "sort_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_requirements_visible_input")
+        self.assertEqual(input_schema["keys"]["cat"]["java_expr"], "Category cat")
+        self.assertEqual(input_schema["keys"]["build_visibility"]["java_expr"], "BuildVisibility visible")
+        self.assertEqual(input_schema["keys"]["stacks"]["java_expr"], "ItemStack[] stacks")
+        result_schema = source_symbols.state_schema(schema, "source_block_requirements_visible_result")
+        self.assertEqual(result_schema["keys"]["requirements_after"]["java_expr"], "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));")
+        self.assertEqual(result_schema["keys"]["build_visibility_after"]["java_expr"], "this.buildVisibility = visible;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

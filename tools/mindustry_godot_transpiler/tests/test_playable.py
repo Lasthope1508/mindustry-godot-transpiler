@@ -16749,5 +16749,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_requirements_115"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_requirements_visible_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_requirements_visible_state(cat: Variant, build_visibility: Variant, stacks: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_requirements_visible_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){"', source)
+        self.assertIn('"comment": "/** Sets up requirements. Use only this method to set up requirements. */"', source)
+        self.assertIn('"category_assignment_expr": "this.category = cat;"', source)
+        self.assertIn('"requirements_assignment_expr": "this.requirements = stacks;"', source)
+        self.assertIn('"build_visibility_assignment_expr": "this.buildVisibility = visible;"', source)
+        self.assertIn('"sort_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));"', source)
+        self.assertIn('"category_after": cat', source)
+        self.assertIn('"requirements_after": requirements_after', source)
+        self.assertIn('"build_visibility_after": build_visibility', source)
+        self.assertIn('"sort_called": true', source)
+
+    def test_port_game_exposes_generated_block_requirements_visible_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_requirements_visible_bridge_state(cat: Variant, build_visibility: Variant, stacks: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_requirements_116([cat, build_visibility, stacks])", source)
+        self.assertIn("var canonical = source_block_requirements_visible_state(cat, build_visibility, stacks)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_requirements_visible_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_requirements_116"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

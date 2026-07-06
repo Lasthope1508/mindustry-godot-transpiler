@@ -9834,6 +9834,147 @@
       ],
       "title": "Generated Block setupRequirements simple bridge state"
     },
+    "N1305": {
+      "exact_exprs": [
+        "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+        "requirements(cat, visible, stacks);",
+        "requirements(cat, visible, stacks)",
+        "Category cat",
+        "BuildVisibility visible",
+        "ItemStack[] stacks"
+      ],
+      "generated_owner": "Block.java_method_setupRequirements_113",
+      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
+      "java_class": "Block",
+      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_setup_requirements_visible_bridge_state",
+      "source_symbols": [
+        "block_setup_requirements_visible.method",
+        "block_setup_requirements_visible.delegate_call_expr",
+        "block_setup_requirements_visible.cat",
+        "block_setup_requirements_visible.visible",
+        "block_setup_requirements_visible.stacks"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_visible_state",
+        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
+        "test_block_setup_requirements_visible_matches_upstream_source",
+        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block setupRequirements visible bridge state"
+    },
+    "N1306": {
+      "exact_exprs": [
+        "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){",
+        "requirements(cat, BuildVisibility.shown, stacks);",
+        "requirements(cat, BuildVisibility.shown, stacks)",
+        "this.alwaysUnlocked = unlocked;",
+        "Category cat",
+        "ItemStack[] stacks",
+        "boolean unlocked",
+        "BuildVisibility.shown"
+      ],
+      "generated_owner": "Block.java_method_requirements_114",
+      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
+      "java_class": "Block",
+      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_requirements_unlocked_bridge_state",
+      "source_symbols": [
+        "block_requirements_unlocked.method",
+        "block_requirements_unlocked.delegate_call_expr",
+        "block_requirements_unlocked.always_unlocked_assignment_expr",
+        "block_requirements_unlocked.cat",
+        "block_requirements_unlocked.stacks",
+        "block_requirements_unlocked.unlocked",
+        "block_requirements_unlocked.build_visibility_shown"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block requirements unlocked bridge state"
+    },
+    "N1307": {
+      "exact_exprs": [
+        "public void requirements(Category cat, ItemStack[] stacks){",
+        "requirements(cat, BuildVisibility.shown, stacks);",
+        "requirements(cat, BuildVisibility.shown, stacks)",
+        "Category cat",
+        "ItemStack[] stacks",
+        "BuildVisibility.shown"
+      ],
+      "generated_owner": "Block.java_method_requirements_115",
+      "godot_owner": "PortGame.source_block_requirements_simple_state",
+      "java_class": "Block",
+      "java_method": "Block.requirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_requirements_simple_bridge_state",
+      "source_symbols": [
+        "block_requirements_simple.method",
+        "block_requirements_simple.delegate_call_expr",
+        "block_requirements_simple.cat",
+        "block_requirements_simple.stacks",
+        "block_requirements_simple.build_visibility_shown"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_requirements_simple_state",
+        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
+        "test_block_requirements_simple_matches_upstream_source",
+        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block requirements simple bridge state"
+    },
+    "N1308": {
+      "exact_exprs": [
+        "/** Sets up requirements. Use only this method to set up requirements. */",
+        "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+        "this.category = cat;",
+        "this.requirements = stacks;",
+        "this.buildVisibility = visible;",
+        "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));",
+        "i.item.id",
+        "Category cat",
+        "BuildVisibility visible",
+        "ItemStack[] stacks"
+      ],
+      "generated_owner": "Block.java_method_requirements_116",
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "java_class": "Block",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_requirements_visible_bridge_state",
+      "source_symbols": [
+        "block_requirements_visible.method",
+        "block_requirements_visible.comment",
+        "block_requirements_visible.category_assignment_expr",
+        "block_requirements_visible.requirements_assignment_expr",
+        "block_requirements_visible.build_visibility_assignment_expr",
+        "block_requirements_visible.sort_expr",
+        "block_requirements_visible.sort_key_expr",
+        "block_requirements_visible.cat",
+        "block_requirements_visible.visible",
+        "block_requirements_visible.stacks"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block requirements visible bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
@@ -30474,106 +30615,6 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
-    },
-    "N1305": {
-      "exact_exprs": [
-        "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
-        "requirements(cat, visible, stacks);",
-        "requirements(cat, visible, stacks)",
-        "Category cat",
-        "BuildVisibility visible",
-        "ItemStack[] stacks"
-      ],
-      "generated_owner": "Block.java_method_setupRequirements_113",
-      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
-      "java_class": "Block",
-      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_setup_requirements_visible_bridge_state",
-      "source_symbols": [
-        "block_setup_requirements_visible.method",
-        "block_setup_requirements_visible.delegate_call_expr",
-        "block_setup_requirements_visible.cat",
-        "block_setup_requirements_visible.visible",
-        "block_setup_requirements_visible.stacks"
-      ],
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
-        "test_port_game_exposes_source_block_setup_requirements_visible_state",
-        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
-        "test_block_setup_requirements_visible_matches_upstream_source",
-        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block setupRequirements visible bridge state"
-    },
-    "N1306": {
-      "exact_exprs": [
-        "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){",
-        "requirements(cat, BuildVisibility.shown, stacks);",
-        "requirements(cat, BuildVisibility.shown, stacks)",
-        "this.alwaysUnlocked = unlocked;",
-        "Category cat",
-        "ItemStack[] stacks",
-        "boolean unlocked",
-        "BuildVisibility.shown"
-      ],
-      "generated_owner": "Block.java_method_requirements_114",
-      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
-      "java_class": "Block",
-      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_requirements_unlocked_bridge_state",
-      "source_symbols": [
-        "block_requirements_unlocked.method",
-        "block_requirements_unlocked.delegate_call_expr",
-        "block_requirements_unlocked.always_unlocked_assignment_expr",
-        "block_requirements_unlocked.cat",
-        "block_requirements_unlocked.stacks",
-        "block_requirements_unlocked.unlocked",
-        "block_requirements_unlocked.build_visibility_shown"
-      ],
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_unlocked_to_source_state",
-        "test_port_game_exposes_source_block_requirements_unlocked_state",
-        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
-        "test_block_requirements_unlocked_matches_upstream_source",
-        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block requirements unlocked bridge state"
-    },
-    "N1307": {
-      "exact_exprs": [
-        "public void requirements(Category cat, ItemStack[] stacks){",
-        "requirements(cat, BuildVisibility.shown, stacks);",
-        "requirements(cat, BuildVisibility.shown, stacks)",
-        "Category cat",
-        "ItemStack[] stacks",
-        "BuildVisibility.shown"
-      ],
-      "generated_owner": "Block.java_method_requirements_115",
-      "godot_owner": "PortGame.source_block_requirements_simple_state",
-      "java_class": "Block",
-      "java_method": "Block.requirements(Category,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_requirements_simple_bridge_state",
-      "source_symbols": [
-        "block_requirements_simple.method",
-        "block_requirements_simple.delegate_call_expr",
-        "block_requirements_simple.cat",
-        "block_requirements_simple.stacks",
-        "block_requirements_simple.build_visibility_shown"
-      ],
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_simple_to_source_state",
-        "test_port_game_exposes_source_block_requirements_simple_state",
-        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
-        "test_block_requirements_simple_matches_upstream_source",
-        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block requirements simple bridge state"
     }
   },
   "version": 1

@@ -7261,6 +7261,402 @@
         "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
       ]
     },
+    "block_requirements_simple.build_visibility_shown": {
+      "godot_owner": "PortGame.source_block_requirements_simple_state",
+      "godot_symbol": "source_block_requirements_simple_result.build_visibility",
+      "java_expr": "BuildVisibility.shown",
+      "java_method": "Block.requirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve delegate visibility constant BuildVisibility.shown.",
+      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
+      "source_slice": "N1307",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_requirements_simple_state",
+        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
+        "test_block_requirements_simple_matches_upstream_source",
+        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_simple.cat": {
+      "godot_owner": "PortGame.source_block_requirements_simple_state",
+      "godot_symbol": "source_block_requirements_simple_input.cat",
+      "java_expr": "Category cat",
+      "java_method": "Block.requirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose requirements category parameter.",
+      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
+      "source_slice": "N1307",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_requirements_simple_state",
+        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
+        "test_block_requirements_simple_matches_upstream_source",
+        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_simple.delegate_call_expr": {
+      "godot_owner": "PortGame.source_block_requirements_simple_state",
+      "godot_symbol": "source_block_requirements_simple_result.delegate_called",
+      "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
+      "java_method": "Block.requirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve requirements delegate call to requirements(cat, BuildVisibility.shown, stacks).",
+      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
+      "source_slice": "N1307",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_requirements_simple_state",
+        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
+        "test_block_requirements_simple_matches_upstream_source",
+        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_simple.method": {
+      "godot_owner": "PortGame.source_block_requirements_simple_state",
+      "godot_symbol": "source_block_requirements_simple_result.method",
+      "java_expr": "public void requirements(Category cat, ItemStack[] stacks){",
+      "java_method": "Block.requirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.requirements(Category,ItemStack[]) method boundary.",
+      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
+      "source_slice": "N1307",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_requirements_simple_state",
+        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
+        "test_block_requirements_simple_matches_upstream_source",
+        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_simple.stacks": {
+      "godot_owner": "PortGame.source_block_requirements_simple_state",
+      "godot_symbol": "source_block_requirements_simple_input.stacks",
+      "java_expr": "ItemStack[] stacks",
+      "java_method": "Block.requirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose requirements stacks parameter.",
+      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
+      "source_slice": "N1307",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_requirements_simple_state",
+        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
+        "test_block_requirements_simple_matches_upstream_source",
+        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_unlocked.always_unlocked_assignment_expr": {
+      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
+      "godot_symbol": "source_block_requirements_unlocked_result.always_unlocked_after",
+      "java_expr": "this.alwaysUnlocked = unlocked;",
+      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve alwaysUnlocked assignment from unlocked parameter.",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_slice": "N1306",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_unlocked.build_visibility_shown": {
+      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
+      "godot_symbol": "source_block_requirements_unlocked_result.build_visibility",
+      "java_expr": "BuildVisibility.shown",
+      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve delegate visibility constant BuildVisibility.shown.",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_slice": "N1306",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_unlocked.cat": {
+      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
+      "godot_symbol": "source_block_requirements_unlocked_input.cat",
+      "java_expr": "Category cat",
+      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose requirements category parameter.",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_slice": "N1306",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_unlocked.delegate_call_expr": {
+      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
+      "godot_symbol": "source_block_requirements_unlocked_result.delegate_called",
+      "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
+      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve requirements delegate call to requirements(cat, BuildVisibility.shown, stacks).",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_slice": "N1306",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_unlocked.method": {
+      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
+      "godot_symbol": "source_block_requirements_unlocked_result.method",
+      "java_expr": "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){",
+      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.requirements(Category,ItemStack[],boolean) method boundary.",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_slice": "N1306",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_unlocked.stacks": {
+      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
+      "godot_symbol": "source_block_requirements_unlocked_input.stacks",
+      "java_expr": "ItemStack[] stacks",
+      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose requirements stacks parameter.",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_slice": "N1306",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_unlocked.unlocked": {
+      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
+      "godot_symbol": "source_block_requirements_unlocked_input.unlocked",
+      "java_expr": "boolean unlocked",
+      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose requirements unlocked parameter.",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_slice": "N1306",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_visible.build_visibility_assignment_expr": {
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "godot_symbol": "source_block_requirements_visible_result.build_visibility_after",
+      "java_expr": "this.buildVisibility = visible;",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve buildVisibility assignment from visible.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_visible.cat": {
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "godot_symbol": "source_block_requirements_visible_input.cat",
+      "java_expr": "Category cat",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose requirements category parameter.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_visible.category_assignment_expr": {
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "godot_symbol": "source_block_requirements_visible_result.category_after",
+      "java_expr": "this.category = cat;",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve category assignment from cat.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_visible.comment": {
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "godot_symbol": "source_block_requirements_visible_result.comment",
+      "java_expr": "/** Sets up requirements. Use only this method to set up requirements. */",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve requirements setup warning comment.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_visible.method": {
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "godot_symbol": "source_block_requirements_visible_result.method",
+      "java_expr": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.requirements(Category,BuildVisibility,ItemStack[]) method boundary.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_visible.requirements_assignment_expr": {
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "godot_symbol": "source_block_requirements_visible_result.requirements_after",
+      "java_expr": "this.requirements = stacks;",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve requirements assignment from stacks.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_visible.sort_expr": {
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "godot_symbol": "source_block_requirements_visible_result.requirements_after",
+      "java_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve requirement sort by item id.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_visible.sort_key_expr": {
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "godot_symbol": "source_block_requirements_visible_result.requirements_after",
+      "java_expr": "i.item.id",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve requirement sort key i.item.id.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_visible.stacks": {
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "godot_symbol": "source_block_requirements_visible_input.stacks",
+      "java_expr": "ItemStack[] stacks",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose requirements ItemStack array parameter.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_requirements_visible.visible": {
+      "godot_owner": "PortGame.source_block_requirements_visible_state",
+      "godot_symbol": "source_block_requirements_visible_input.build_visibility",
+      "java_expr": "BuildVisibility visible",
+      "java_method": "Block.requirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose requirements BuildVisibility visible parameter as build_visibility in Godot.",
+      "runtime_proof": "/root/Main.source_block_requirements_visible_state",
+      "source_slice": "N1308",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_requirements_visible_state",
+        "test_port_game_exposes_generated_block_requirements_visible_bridge_state",
+        "test_block_requirements_visible_matches_upstream_source",
+        "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_rotated_output.method": {
       "godot_owner": "PortGame.source_block_rotated_output_state",
       "godot_symbol": "source_block_rotated_output_result.method",
@@ -7439,6 +7835,96 @@
         "test_port_game_exposes_generated_block_setup_requirements_simple_bridge_state",
         "test_block_setup_requirements_simple_matches_upstream_source",
         "test_generated_block_setup_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_setup_requirements_visible.cat": {
+      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
+      "godot_symbol": "source_block_setup_requirements_visible_input.cat",
+      "java_expr": "Category cat",
+      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose setupRequirements category parameter.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
+      "source_slice": "N1305",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_visible_state",
+        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
+        "test_block_setup_requirements_visible_matches_upstream_source",
+        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_setup_requirements_visible.delegate_call_expr": {
+      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
+      "godot_symbol": "source_block_setup_requirements_visible_result.delegate_called",
+      "java_expr": "requirements(cat, visible, stacks);",
+      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve setupRequirements delegate call to requirements(cat, visible, stacks).",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
+      "source_slice": "N1305",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_visible_state",
+        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
+        "test_block_setup_requirements_visible_matches_upstream_source",
+        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_setup_requirements_visible.method": {
+      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
+      "godot_symbol": "source_block_setup_requirements_visible_result.method",
+      "java_expr": "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.setupRequirements(Category,BuildVisibility,ItemStack[]) method boundary.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
+      "source_slice": "N1305",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_visible_state",
+        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
+        "test_block_setup_requirements_visible_matches_upstream_source",
+        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_setup_requirements_visible.stacks": {
+      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
+      "godot_symbol": "source_block_setup_requirements_visible_input.stacks",
+      "java_expr": "ItemStack[] stacks",
+      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose setupRequirements stacks parameter.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
+      "source_slice": "N1305",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_visible_state",
+        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
+        "test_block_setup_requirements_visible_matches_upstream_source",
+        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_setup_requirements_visible.visible": {
+      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
+      "godot_symbol": "source_block_setup_requirements_visible_input.build_visibility",
+      "java_expr": "BuildVisibility visible",
+      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose setupRequirements visibility parameter.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
+      "source_slice": "N1305",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_visible_state",
+        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
+        "test_block_setup_requirements_visible_matches_upstream_source",
+        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
       ]
     },
     "block_sprite_base_position.block_input": {
@@ -96631,312 +97117,6 @@
         "test_weapons_update_dispatch_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
-      ]
-    },
-    "block_setup_requirements_visible.method": {
-      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
-      "godot_symbol": "source_block_setup_requirements_visible_result.method",
-      "java_expr": "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
-      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Preserve Block.setupRequirements(Category,BuildVisibility,ItemStack[]) method boundary.",
-      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
-      "source_slice": "N1305",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
-        "test_port_game_exposes_source_block_setup_requirements_visible_state",
-        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
-        "test_block_setup_requirements_visible_matches_upstream_source",
-        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_setup_requirements_visible.delegate_call_expr": {
-      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
-      "godot_symbol": "source_block_setup_requirements_visible_result.delegate_called",
-      "java_expr": "requirements(cat, visible, stacks);",
-      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Preserve setupRequirements delegate call to requirements(cat, visible, stacks).",
-      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
-      "source_slice": "N1305",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
-        "test_port_game_exposes_source_block_setup_requirements_visible_state",
-        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
-        "test_block_setup_requirements_visible_matches_upstream_source",
-        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_setup_requirements_visible.cat": {
-      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
-      "godot_symbol": "source_block_setup_requirements_visible_input.cat",
-      "java_expr": "Category cat",
-      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Expose setupRequirements category parameter.",
-      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
-      "source_slice": "N1305",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
-        "test_port_game_exposes_source_block_setup_requirements_visible_state",
-        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
-        "test_block_setup_requirements_visible_matches_upstream_source",
-        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_setup_requirements_visible.visible": {
-      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
-      "godot_symbol": "source_block_setup_requirements_visible_input.build_visibility",
-      "java_expr": "BuildVisibility visible",
-      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Expose setupRequirements visibility parameter.",
-      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
-      "source_slice": "N1305",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
-        "test_port_game_exposes_source_block_setup_requirements_visible_state",
-        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
-        "test_block_setup_requirements_visible_matches_upstream_source",
-        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_setup_requirements_visible.stacks": {
-      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
-      "godot_symbol": "source_block_setup_requirements_visible_input.stacks",
-      "java_expr": "ItemStack[] stacks",
-      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Expose setupRequirements stacks parameter.",
-      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
-      "source_slice": "N1305",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
-        "test_port_game_exposes_source_block_setup_requirements_visible_state",
-        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
-        "test_block_setup_requirements_visible_matches_upstream_source",
-        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_unlocked.method": {
-      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
-      "godot_symbol": "source_block_requirements_unlocked_result.method",
-      "java_expr": "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){",
-      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Preserve Block.requirements(Category,ItemStack[],boolean) method boundary.",
-      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
-      "source_slice": "N1306",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_unlocked_to_source_state",
-        "test_port_game_exposes_source_block_requirements_unlocked_state",
-        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
-        "test_block_requirements_unlocked_matches_upstream_source",
-        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_unlocked.delegate_call_expr": {
-      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
-      "godot_symbol": "source_block_requirements_unlocked_result.delegate_called",
-      "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
-      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Preserve requirements delegate call to requirements(cat, BuildVisibility.shown, stacks).",
-      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
-      "source_slice": "N1306",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_unlocked_to_source_state",
-        "test_port_game_exposes_source_block_requirements_unlocked_state",
-        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
-        "test_block_requirements_unlocked_matches_upstream_source",
-        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_unlocked.always_unlocked_assignment_expr": {
-      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
-      "godot_symbol": "source_block_requirements_unlocked_result.always_unlocked_after",
-      "java_expr": "this.alwaysUnlocked = unlocked;",
-      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Preserve alwaysUnlocked assignment from unlocked parameter.",
-      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
-      "source_slice": "N1306",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_unlocked_to_source_state",
-        "test_port_game_exposes_source_block_requirements_unlocked_state",
-        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
-        "test_block_requirements_unlocked_matches_upstream_source",
-        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_unlocked.cat": {
-      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
-      "godot_symbol": "source_block_requirements_unlocked_input.cat",
-      "java_expr": "Category cat",
-      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Expose requirements category parameter.",
-      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
-      "source_slice": "N1306",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_unlocked_to_source_state",
-        "test_port_game_exposes_source_block_requirements_unlocked_state",
-        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
-        "test_block_requirements_unlocked_matches_upstream_source",
-        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_unlocked.stacks": {
-      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
-      "godot_symbol": "source_block_requirements_unlocked_input.stacks",
-      "java_expr": "ItemStack[] stacks",
-      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Expose requirements stacks parameter.",
-      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
-      "source_slice": "N1306",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_unlocked_to_source_state",
-        "test_port_game_exposes_source_block_requirements_unlocked_state",
-        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
-        "test_block_requirements_unlocked_matches_upstream_source",
-        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_unlocked.unlocked": {
-      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
-      "godot_symbol": "source_block_requirements_unlocked_input.unlocked",
-      "java_expr": "boolean unlocked",
-      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Expose requirements unlocked parameter.",
-      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
-      "source_slice": "N1306",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_unlocked_to_source_state",
-        "test_port_game_exposes_source_block_requirements_unlocked_state",
-        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
-        "test_block_requirements_unlocked_matches_upstream_source",
-        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_unlocked.build_visibility_shown": {
-      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
-      "godot_symbol": "source_block_requirements_unlocked_result.build_visibility",
-      "java_expr": "BuildVisibility.shown",
-      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Preserve delegate visibility constant BuildVisibility.shown.",
-      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
-      "source_slice": "N1306",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_unlocked_to_source_state",
-        "test_port_game_exposes_source_block_requirements_unlocked_state",
-        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
-        "test_block_requirements_unlocked_matches_upstream_source",
-        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_simple.method": {
-      "godot_owner": "PortGame.source_block_requirements_simple_state",
-      "godot_symbol": "source_block_requirements_simple_result.method",
-      "java_expr": "public void requirements(Category cat, ItemStack[] stacks){",
-      "java_method": "Block.requirements(Category,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Preserve Block.requirements(Category,ItemStack[]) method boundary.",
-      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
-      "source_slice": "N1307",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_simple_to_source_state",
-        "test_port_game_exposes_source_block_requirements_simple_state",
-        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
-        "test_block_requirements_simple_matches_upstream_source",
-        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_simple.delegate_call_expr": {
-      "godot_owner": "PortGame.source_block_requirements_simple_state",
-      "godot_symbol": "source_block_requirements_simple_result.delegate_called",
-      "java_expr": "requirements(cat, BuildVisibility.shown, stacks);",
-      "java_method": "Block.requirements(Category,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Preserve requirements delegate call to requirements(cat, BuildVisibility.shown, stacks).",
-      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
-      "source_slice": "N1307",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_simple_to_source_state",
-        "test_port_game_exposes_source_block_requirements_simple_state",
-        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
-        "test_block_requirements_simple_matches_upstream_source",
-        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_simple.cat": {
-      "godot_owner": "PortGame.source_block_requirements_simple_state",
-      "godot_symbol": "source_block_requirements_simple_input.cat",
-      "java_expr": "Category cat",
-      "java_method": "Block.requirements(Category,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Expose requirements category parameter.",
-      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
-      "source_slice": "N1307",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_simple_to_source_state",
-        "test_port_game_exposes_source_block_requirements_simple_state",
-        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
-        "test_block_requirements_simple_matches_upstream_source",
-        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_simple.stacks": {
-      "godot_owner": "PortGame.source_block_requirements_simple_state",
-      "godot_symbol": "source_block_requirements_simple_input.stacks",
-      "java_expr": "ItemStack[] stacks",
-      "java_method": "Block.requirements(Category,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Expose requirements stacks parameter.",
-      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
-      "source_slice": "N1307",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_simple_to_source_state",
-        "test_port_game_exposes_source_block_requirements_simple_state",
-        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
-        "test_block_requirements_simple_matches_upstream_source",
-        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
-      ]
-    },
-    "block_requirements_simple.build_visibility_shown": {
-      "godot_owner": "PortGame.source_block_requirements_simple_state",
-      "godot_symbol": "source_block_requirements_simple_result.build_visibility",
-      "java_expr": "BuildVisibility.shown",
-      "java_method": "Block.requirements(Category,ItemStack[])",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "rule": "Preserve delegate visibility constant BuildVisibility.shown.",
-      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
-      "source_slice": "N1307",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_block_requirements_simple_to_source_state",
-        "test_port_game_exposes_source_block_requirements_simple_state",
-        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
-        "test_block_requirements_simple_matches_upstream_source",
-        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
       ]
     }
   },

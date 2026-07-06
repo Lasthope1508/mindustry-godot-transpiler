@@ -17902,6 +17902,42 @@ func generated_block_requirements_simple_bridge_state(cat: Variant, stacks: Vari
 		"matches": result == canonical,
 	}
 
+func source_block_requirements_visible_state(cat: Variant, build_visibility: Variant, stacks: Variant) -> Dictionary:
+	var requirements_after: Variant = stacks
+	requirements_after.sort_custom(func(left, right):
+		return int(left["item"]["id"]) < int(right["item"]["id"])
+	)
+	return {
+		"source_owner": "PortGame.source_block_requirements_visible_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void requirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+		"comment": "/** Sets up requirements. Use only this method to set up requirements. */",
+		"category_assignment_expr": "this.category = cat;",
+		"requirements_assignment_expr": "this.requirements = stacks;",
+		"build_visibility_assignment_expr": "this.buildVisibility = visible;",
+		"sort_expr": "Arrays.sort(requirements, Structs.comparingInt(i -> i.item.id));",
+		"cat": cat,
+		"visible": build_visibility,
+		"stacks": stacks,
+		"category_after": cat,
+		"requirements_after": requirements_after,
+		"build_visibility_after": build_visibility,
+		"sort_called": true,
+	}
+
+func generated_block_requirements_visible_bridge_state(cat: Variant, build_visibility: Variant, stacks: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_requirements_116([cat, build_visibility, stacks])
+	var canonical = source_block_requirements_visible_state(cat, build_visibility, stacks)
+	return {
+		"source_owner": "PortGame.source_block_requirements_visible_state",
+		"generated_owner": "Block.java_method_requirements_116",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation
