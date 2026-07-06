@@ -92514,6 +92514,57 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() last target position",
       "java_expr": "lastY = target.y;"
+    },
+    "tractor_beam_turret_build_update_tile_active_strength.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_active_strength_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for active strength slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_active_strength_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_active_strength_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_active_strength_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_active_strength_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_active_strength_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() active strength",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_active_strength.assignment": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_active_strength_result.strength_after",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state",
+      "rule": "Exact active strength assignment from TractorBeamBuild.updateTile.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_active_strength_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_active_strength_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_active_strength_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_active_strength_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_active_strength_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() active strength",
+      "java_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"
+    },
+    "tractor_beam_turret_build_update_tile_active_strength.mathf_lerp_delta": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_active_strength_result.strength_after",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state",
+      "rule": "Arc Mathf.lerpDelta helper used by TractorBeamBuild active strength.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_active_strength_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_active_strength_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_active_strength_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_active_strength_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_active_strength_state",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+      "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){"
     }
   },
   "version": 1

@@ -1001,6 +1001,37 @@ def verify_tractor_beam_turret_build_update_tile_last_target_position_source(ups
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_active_strength_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "last_y": "lastY = target.y;",
+        "active_strength": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
+        "shoot_boundary": "if(Angles.within(rotation, dest, shootCone)){",
+        "lerp_delta": "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
+        "clamp": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+        "lerp": "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+    }
+    source_checks = {
+        "method": source,
+        "last_y": source,
+        "active_strength": source,
+        "shoot_boundary": source,
+        "lerp_delta": mathf_source,
+        "clamp": mathf_source,
+        "lerp": mathf_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_checks[key]]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

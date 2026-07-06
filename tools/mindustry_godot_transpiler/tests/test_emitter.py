@@ -8836,6 +8836,59 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"last_x_after": last_x_after', source_text)
             self.assertIn('"last_y_after": last_y_after', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_active_strength_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            any = false;
+
+            //look at target
+            if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){
+                float dest = angleTo(target);
+                rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);
+                lastX = target.x;
+                lastY = target.y;
+                strength = Mathf.lerpDelta(strength, 1f, 0.1f);
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var strength_before: float = float(_args[36] if _args.size() > 36 else 0.0)", source_text)
+            self.assertIn("var strength_lerp_evaluated: bool = last_target_position_evaluated", source_text)
+            self.assertIn("var strength_lerp_progress: float = 0.1", source_text)
+            self.assertIn("var strength_lerp_scaled_progress: float = strength_lerp_progress * time_delta if strength_lerp_evaluated else 0.0", source_text)
+            self.assertIn("var strength_lerp_clamped_progress: float = clampf(strength_lerp_scaled_progress, 0.0, 1.0)", source_text)
+            self.assertIn("var strength_after: float = strength_before + (1.0 - strength_before) * strength_lerp_clamped_progress if strength_lerp_evaluated else strength_before", source_text)
+            self.assertIn('strength_lerp_call = {"call": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);", "from": strength_before, "to": 1.0, "progress": strength_lerp_progress, "time_delta": time_delta, "result": strength_after}', source_text)
+            self.assertIn('"strength_lerp_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"', source_text)
+            self.assertIn('"strength_after": strength_after', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

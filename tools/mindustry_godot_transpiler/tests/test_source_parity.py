@@ -8752,6 +8752,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_tractor_beam_turret_build_update_tile_active_strength_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_update_tile_active_strength_source"))
+        report = source_parity.verify_tractor_beam_turret_build_update_tile_active_strength_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void updateTile(){",
+            "last_y": "lastY = target.y;",
+            "active_strength": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
+            "shoot_boundary": "if(Angles.within(rotation, dest, shootCone)){",
+            "lerp_delta": "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
+            "clamp": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+            "lerp": "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_get_regions_to_outline_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_get_regions_to_outline_source"))
         report = source_parity.verify_turret_get_regions_to_outline_source(ROOT / "mindustry-upstream")

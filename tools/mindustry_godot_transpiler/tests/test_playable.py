@@ -13634,6 +13634,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.last_target_position"', source)
         self.assertIn('"matches": result.get("last_x_after", null) == canonical.get("last_x_after", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_active_strength_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_build_update_tile_active_strength_state(last_target_position_evaluated: bool, strength_before: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state"', source)
+        self.assertIn('"strength_lerp_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"', source)
+        self.assertIn('"mathf_lerp_delta_method": SOURCE_MATHF_LERP_DELTA_METHOD', source)
+        self.assertIn("var strength_lerp_evaluated: bool = last_target_position_evaluated", source)
+        self.assertIn("var strength_lerp_progress: float = 0.1", source)
+        self.assertIn("var strength_lerp_scaled_progress: float = strength_lerp_progress * time_delta if strength_lerp_evaluated else 0.0", source)
+        self.assertIn("var strength_after: float = source_mathf_lerp_delta(strength_before, 1.0, strength_lerp_progress, time_delta) if strength_lerp_evaluated else strength_before", source)
+        self.assertIn('strength_lerp_call = {"call": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);", "from": strength_before, "to": 1.0, "progress": strength_lerp_progress, "time_delta": time_delta, "result": strength_after}', source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, rotation_before: float, rotate_speed: float, last_x_before: float, last_y_before: float, strength_before: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before])", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_active_strength_state(result.get(\"last_target_position_evaluated\", false), strength_before, time_delta)", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.active_strength"', source)
+        self.assertIn('"matches": result.get("strength_after", null) == canonical.get("strength_after", null)', source)
+
     def test_port_game_exposes_source_tractor_beam_turret_build_draw_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

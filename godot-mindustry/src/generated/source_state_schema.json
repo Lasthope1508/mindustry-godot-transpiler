@@ -108987,6 +108987,128 @@
           "java_expr": "lastX = target.x; lastY = target.y;"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_active_strength_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state.",
+      "keys": {
+        "last_target_position_evaluated": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "lastY = target.y;"
+        },
+        "strength_before": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "strength"
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "Time.delta"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_active_strength_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "public void updateTile(){"
+        },
+        "strength_lerp_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"
+        },
+        "mathf_lerp_delta_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+          "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){"
+        },
+        "last_target_position_evaluated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "lastY = target.y;"
+        },
+        "strength_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "strength"
+        },
+        "time_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "Time.delta"
+        },
+        "strength_lerp_evaluated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"
+        },
+        "strength_lerp_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "0.1f"
+        },
+        "strength_lerp_scaled_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "0.1f * Time.delta"
+        },
+        "strength_lerp_clamped_progress": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+          "java_expr": "clamp(0.1f * Time.delta)"
+        },
+        "strength_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "Mathf.lerpDelta(strength, 1f, 0.1f)"
+        },
+        "strength_lerp_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() active strength",
+          "java_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"
+        }
+      }
     }
   },
   "version": 1

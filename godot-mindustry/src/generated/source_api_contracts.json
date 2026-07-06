@@ -30358,6 +30358,53 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_last_target_position_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile lastX/lastY target position assignments."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state": {
+      "status": "source-backed",
+      "source_slice": "N1254",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() active strength",
+      "params": [
+        {
+          "name": "last_target_position_evaluated",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_active_strength_input.last_target_position_evaluated"
+        },
+        {
+          "name": "strength_before",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_active_strength_input.strength_before"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_active_strength_input.time_delta"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "strength_lerp_expr",
+        "mathf_lerp_delta_method",
+        "last_target_position_evaluated",
+        "strength_before",
+        "time_delta",
+        "strength_lerp_evaluated",
+        "strength_lerp_progress",
+        "strength_lerp_scaled_progress",
+        "strength_lerp_clamped_progress",
+        "strength_after",
+        "strength_lerp_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_active_strength_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_active_strength_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_active_strength_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_active_strength_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_active_strength_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile active strength Mathf.lerpDelta assignment."
     }
   },
   "policy": {
