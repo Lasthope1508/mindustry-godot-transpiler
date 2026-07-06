@@ -10789,6 +10789,7 @@ func source_weapon_update_continuous_laser_aim_state(mount_state: Dictionary, we
 const SOURCE_STATUS_APPLY_RESULT_METHOD := "public void apply(StatusEffect effect, float duration){"
 const SOURCE_STATUS_APPLY_RESULT_GUARD := "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"
 const SOURCE_STATUS_APPLY_RESULT_WEAPON_SHOOT_STATUS_FIELD := "public StatusEffect shootStatus = StatusEffects.none;"
+const SOURCE_STATUS_APPLY_METHOD := "public void apply(StatusEffect effect, float duration){\n        if(effect == StatusEffects.none || effect == null || isImmune(effect)) return; //don't apply empty or immune effects\n    }"
 const SOURCE_STATUS_APPLY_RESULT_WEAPON_DURATION_FIELD := "public float shootStatusDuration = 60f * 5f;"
 const SOURCE_STATUS_APPLY_RESULT_WEAPON_CALL := "unit.apply(shootStatus, shootStatusDuration);"
 
@@ -18038,6 +18039,47 @@ func generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state(
 			and result.get("damage_gate", null) == canonical.get("damage_gate", null)
 			and result.get("block_damage_call", null) == canonical.get("block_damage_call", null)
 			and result.get("damage_continuous_pierce_call", null) == canonical.get("damage_continuous_pierce_call", null),
+	}
+
+func source_tractor_beam_turret_build_update_tile_status_apply_state(shoot_within_guard: bool, target_after: Variant, status: Variant, status_duration: float) -> Dictionary:
+	var status_gate_evaluated: bool = shoot_within_guard
+	var status_is_none: bool = status is String and status == "StatusEffects.none"
+	var status_gate: bool = status_gate_evaluated and not status_is_none
+	var status_apply_call: Dictionary = {}
+	if status_gate:
+		status_apply_call = {"call": "target.apply(status, statusDuration);", "target": target_after, "status": status, "duration": status_duration}
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state",
+		"method": "public void updateTile(){",
+		"shoot_when_possible_guard_expr": "if(Angles.within(rotation, dest, shootCone)){",
+		"status_gate_expr": "if(status != StatusEffects.none){",
+		"status_apply_expr": "target.apply(status, statusDuration);",
+		"status_field_expr": "public StatusEffect status = StatusEffects.none;",
+		"status_duration_field_expr": "public float statusDuration = 300;",
+		"status_apply_method": SOURCE_STATUS_APPLY_METHOD,
+		"any_next_expr": "any = true;",
+		"shoot_within_guard": shoot_within_guard,
+		"target_after": target_after,
+		"status": status,
+		"status_duration": status_duration,
+		"status_is_none": status_is_none,
+		"status_gate_evaluated": status_gate_evaluated,
+		"status_gate": status_gate,
+		"status_apply_call": status_apply_call,
+	}
+
+func generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, rotation_before: float, rotate_speed: float, last_x_before: float, last_y_before: float, strength_before: float, shoot_cone: float, damage: float, time_scale: float, rules_block_damage: float, status: Variant, status_duration: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before, target_within_result, target_team, target_check_result, target_hit_size, headless, shoot_sound, shoot_sound_volume, rotation_before, rotate_speed, last_x_before, last_y_before, strength_before, shoot_cone, damage, time_scale, rules_block_damage, status, status_duration])
+	var canonical = source_tractor_beam_turret_build_update_tile_status_apply_state(result.get("shoot_within_guard", false), result.get("target_after", null), status, status_duration)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.status_apply",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("status_gate", null) == canonical.get("status_gate", null)
+			and result.get("status_apply_call", null) == canonical.get("status_apply_call", null),
 	}
 
 func source_tractor_beam_turret_build_draw_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:

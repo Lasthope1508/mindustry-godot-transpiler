@@ -109353,6 +109353,79 @@
           "java_expr": "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_status_apply_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state.",
+      "keys": {
+        "shoot_within_guard": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() status apply",
+          "java_expr": "Angles.within(rotation, dest, shootCone)"
+        },
+        "target_after": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() status apply",
+          "java_expr": "target"
+        },
+        "status": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() status apply",
+          "java_expr": "status"
+        },
+        "status_duration": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() status apply",
+          "java_expr": "statusDuration"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_status_apply_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() status apply",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() status apply",
+          "java_expr": "public void updateTile(){"
+        },
+        "status_gate": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() status apply",
+          "java_expr": "status != StatusEffects.none"
+        },
+        "status_apply_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() status apply",
+          "java_expr": "target.apply(status, statusDuration);"
+        },
+        "status_apply_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/entities/comp/StatusComp.java",
+          "java_method": "apply(StatusEffect effect, float duration)",
+          "java_expr": "public void apply(StatusEffect effect, float duration){"
+        }
+      }
     }
   },
   "version": 1

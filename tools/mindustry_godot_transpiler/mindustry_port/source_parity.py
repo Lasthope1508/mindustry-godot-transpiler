@@ -51,6 +51,7 @@ CONVEYOR_SOURCE = "core/src/mindustry/world/blocks/distribution/Conveyor.java"
 DRILL_SOURCE = "core/src/mindustry/world/blocks/production/Drill.java"
 BUILDING_COMP_SOURCE = "core/src/mindustry/entities/comp/BuildingComp.java"
 HEALTH_COMP_SOURCE = "core/src/mindustry/entities/comp/HealthComp.java"
+STATUS_COMP_SOURCE = "core/src/mindustry/entities/comp/StatusComp.java"
 BLOCK_SOURCE = "core/src/mindustry/world/Block.java"
 CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
@@ -1098,6 +1099,41 @@ def verify_tractor_beam_turret_build_update_tile_damage_pierce_source(upstream_r
         "rules_source": RULES_SOURCE,
         "building_source": BUILDING_COMP_SOURCE,
         "health_source": HEALTH_COMP_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_tractor_beam_turret_build_update_tile_status_apply_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    status_path = Path(upstream_root) / STATUS_COMP_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    status_source = status_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "shoot_guard": "if(Angles.within(rotation, dest, shootCone)){",
+        "status_field": "public StatusEffect status = StatusEffects.none;",
+        "status_duration_field": "public float statusDuration = 300;",
+        "status_gate": "if(status != StatusEffects.none){",
+        "status_apply": "target.apply(status, statusDuration);",
+        "any_boundary": "any = true;",
+        "status_apply_method": "public void apply(StatusEffect effect, float duration){",
+        "status_apply_guard": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+    }
+    source_checks = {
+        "method": source,
+        "shoot_guard": source,
+        "status_field": source,
+        "status_duration_field": source,
+        "status_gate": source,
+        "status_apply": source,
+        "any_boundary": source,
+        "status_apply_method": status_source,
+        "status_apply_guard": status_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_checks[key]]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "status_source": STATUS_COMP_SOURCE,
         "checked": checked,
         "missing": missing,
     }

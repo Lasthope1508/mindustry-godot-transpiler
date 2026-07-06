@@ -28969,6 +28969,39 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
       "status": "source-backed"
+    },
+    "N1257": {
+      "title": "Generated TractorBeamTurretBuild updateTile status apply bridge state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() status apply",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state",
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.status_apply",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(Angles.within(rotation, dest, shootCone)){",
+        "public StatusEffect status = StatusEffects.none;",
+        "public float statusDuration = 300;",
+        "if(status != StatusEffects.none){",
+        "target.apply(status, statusDuration);",
+        "any = true;",
+        "public void apply(StatusEffect effect, float duration){",
+        "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_status_apply.method",
+        "tractor_beam_turret_build_update_tile_status_apply.gate",
+        "tractor_beam_turret_build_update_tile_status_apply.call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_status_apply_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_status_apply_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_status_apply_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_status_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1

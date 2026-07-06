@@ -8806,6 +8806,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_tractor_beam_turret_build_update_tile_status_apply_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_update_tile_status_apply_source"))
+        report = source_parity.verify_tractor_beam_turret_build_update_tile_status_apply_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(report["status_source"], "core/src/mindustry/entities/comp/StatusComp.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void updateTile(){",
+            "shoot_guard": "if(Angles.within(rotation, dest, shootCone)){",
+            "status_field": "public StatusEffect status = StatusEffects.none;",
+            "status_duration_field": "public float statusDuration = 300;",
+            "status_gate": "if(status != StatusEffects.none){",
+            "status_apply": "target.apply(status, statusDuration);",
+            "any_boundary": "any = true;",
+            "status_apply_method": "public void apply(StatusEffect effect, float duration){",
+            "status_apply_guard": "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_get_regions_to_outline_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_get_regions_to_outline_source"))
         report = source_parity.verify_turret_get_regions_to_outline_source(ROOT / "mindustry-upstream")

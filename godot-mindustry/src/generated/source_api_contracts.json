@@ -30528,6 +30528,59 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile damageContinuousPierce call."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state": {
+      "status": "source-backed",
+      "source_slice": "N1257",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() status apply",
+      "params": [
+        {
+          "name": "shoot_within_guard",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_status_apply_input.shoot_within_guard"
+        },
+        {
+          "name": "target_after",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_status_apply_input.target_after"
+        },
+        {
+          "name": "status",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_status_apply_input.status"
+        },
+        {
+          "name": "status_duration",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_status_apply_input.status_duration"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "status_gate_expr",
+        "status_apply_expr",
+        "status_field_expr",
+        "status_duration_field_expr",
+        "status_apply_method",
+        "shoot_within_guard",
+        "target_after",
+        "status",
+        "status_duration",
+        "status_gate_evaluated",
+        "status_gate",
+        "status_apply_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_status_apply_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_status_apply_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_status_apply_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_status_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_status_apply_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile target status apply call."
     }
   },
   "policy": {

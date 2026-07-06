@@ -92667,6 +92667,57 @@
       "java_source": "core/src/mindustry/game/Rules.java",
       "java_method": "blockDamage(Team team)",
       "java_expr": "public float blockDamage(Team team){"
+    },
+    "tractor_beam_turret_build_update_tile_status_apply.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_status_apply_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for status apply slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_status_apply_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_status_apply_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_status_apply_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_status_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_status_apply_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() status apply",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_status_apply.gate": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_status_apply_result.status_gate",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state",
+      "rule": "Exact status gate from TractorBeamBuild.updateTile.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_status_apply_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_status_apply_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_status_apply_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_status_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_status_apply_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() status apply",
+      "java_expr": "if(status != StatusEffects.none){"
+    },
+    "tractor_beam_turret_build_update_tile_status_apply.call": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_status_apply_result.status_apply_call",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state",
+      "rule": "Exact target status apply call from TractorBeamBuild.updateTile.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_status_apply_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_status_apply_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_status_apply_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_status_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_status_apply_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() status apply",
+      "java_expr": "target.apply(status, statusDuration);"
     }
   },
   "version": 1
