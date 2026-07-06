@@ -65,7 +65,8 @@ func java_method_getColor_16(_args: Array = []) -> Variant:
 	return null
 
 func java_method_outputsItems_17(_args: Array = []) -> Variant:
-	return null
+	var has_items: bool = bool(_args[0] if _args.size() > 0 else false)
+	return {"source_owner": "PortGame.source_block_outputs_items_state", "source": "core/src/mindustry/world/Block.java", "field_comment": "/** If true, buildings have an ItemModule. */", "field_expr": "public @NoPatch boolean hasItems;", "method": "public boolean outputsItems(){", "return_expr": "return hasItems;", "has_items": has_items, "outputs_items": has_items}
 
 func java_method_canPlaceOn_18(_args: Array = []) -> Variant:
 	return null

@@ -31254,6 +31254,39 @@
       ],
       "runtime_proof": "/root/Main.source_ability_get_bundle_state",
       "rule": "Public runtime contract for Ability.getBundle source-backed bundle key formula."
+    },
+    "PortGame.source_block_outputs_items_state": {
+      "status": "source-backed",
+      "source_slice": "N1273",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.outputsItems()",
+      "params": [
+        {
+          "name": "has_items",
+          "type": "bool",
+          "java_expr": "hasItems",
+          "schema": "source_block_outputs_items_input.has_items"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "field_comment",
+        "field_expr",
+        "method",
+        "return_expr",
+        "has_items",
+        "outputs_items"
+      ],
+      "tests": [
+        "test_emit_bridges_block_outputs_items_to_source_state",
+        "test_port_game_exposes_source_block_outputs_items_state",
+        "test_port_game_exposes_generated_block_outputs_items_bridge_state",
+        "test_block_outputs_items_matches_upstream_source",
+        "test_generated_block_outputs_items_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_block_outputs_items_state",
+      "rule": "Public runtime contract for Block.outputsItems source-backed hasItems return."
     }
   },
   "policy": {

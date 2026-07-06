@@ -29465,6 +29465,38 @@
       "deferred_exprs": [
         "Concrete Java getClass(), isAnonymousClass(), getSuperclass(), and getSimpleName() runtime reflection stay explicit class_simple_name, is_anonymous_class, and superclass_simple_name inputs."
       ]
+    },
+    "N1273": {
+      "title": "Generated Block outputsItems bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "mindustry.world.Block",
+      "java_method": "Block.outputsItems()",
+      "godot_owner": "PortGame.source_block_outputs_items_state",
+      "generated_owner": "Block.java_method_outputsItems_17",
+      "exact_exprs": [
+        "/** If true, buildings have an ItemModule. */",
+        "public @NoPatch boolean hasItems;",
+        "public boolean outputsItems(){",
+        "return hasItems;"
+      ],
+      "source_symbols": [
+        "block_outputs_items.method",
+        "block_outputs_items.has_items_field",
+        "block_outputs_items.return_has_items"
+      ],
+      "tests": [
+        "test_emit_bridges_block_outputs_items_to_source_state",
+        "test_port_game_exposes_source_block_outputs_items_state",
+        "test_port_game_exposes_generated_block_outputs_items_bridge_state",
+        "test_block_outputs_items_matches_upstream_source",
+        "test_generated_block_outputs_items_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_block_outputs_items_bridge_state",
+      "status": "done",
+      "rule": "Registers source-backed operation plan for Block.outputsItems() returning hasItems.",
+      "deferred_exprs": [
+        "Concrete block instance storage remains explicit has_items input; this bridge preserves the field-backed return."
+      ]
     }
   },
   "version": 1

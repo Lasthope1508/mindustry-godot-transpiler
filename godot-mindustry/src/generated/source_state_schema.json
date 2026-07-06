@@ -112391,6 +112391,178 @@
       "runtime_proof": "/root/Main.source_ability_get_bundle_state",
       "source_slice": "N1272",
       "status": "source-backed"
+    },
+    "source_block_outputs_items_input": {
+      "rule": "Inputs for PortGame.source_block_outputs_items_state.",
+      "keys": {
+        "has_items": {
+          "godot_symbol": "source_block_outputs_items_input.has_items",
+          "java_expr": "hasItems",
+          "java_method": "Block.outputsItems()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_outputs_items_state"
+          ],
+          "rule": "Explicit hasItems field value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_outputs_items_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_block_outputs_items_state",
+      "runtime_proof": "/root/Main.source_block_outputs_items_state",
+      "source_slice": "N1273",
+      "status": "source-backed"
+    },
+    "source_block_outputs_items_result": {
+      "rule": "Dictionary returned by PortGame.source_block_outputs_items_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_outputs_items_result.source_owner",
+          "java_expr": "PortGame.source_block_outputs_items_state",
+          "java_method": "Block.outputsItems()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_outputs_items_state"
+          ],
+          "rule": "Canonical PortGame owner for Block.outputsItems bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_outputs_items_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_block_outputs_items_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.outputsItems()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_outputs_items_state"
+          ],
+          "rule": "Upstream source file for Block.outputsItems.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_outputs_items_state"
+          ]
+        },
+        "field_comment": {
+          "godot_symbol": "source_block_outputs_items_result.field_comment",
+          "java_expr": "/** If true, buildings have an ItemModule. */",
+          "java_method": "Block.outputsItems()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_outputs_items_state"
+          ],
+          "rule": "Source field comment.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_block_outputs_items_state"
+          ]
+        },
+        "field_expr": {
+          "godot_symbol": "source_block_outputs_items_result.field_expr",
+          "java_expr": "public @NoPatch boolean hasItems;",
+          "java_method": "Block.outputsItems()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_outputs_items_state"
+          ],
+          "rule": "Source hasItems field.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "block_outputs_items.has_items_field"
+          ],
+          "used_by": [
+            "PortGame.source_block_outputs_items_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_block_outputs_items_result.method",
+          "java_expr": "public boolean outputsItems(){",
+          "java_method": "Block.outputsItems()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_outputs_items_state"
+          ],
+          "rule": "Block.outputsItems method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "block_outputs_items.method"
+          ],
+          "used_by": [
+            "PortGame.source_block_outputs_items_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_outputs_items_result.return_expr",
+          "java_expr": "return hasItems;",
+          "java_method": "Block.outputsItems()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_outputs_items_state"
+          ],
+          "rule": "Source return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "block_outputs_items.return_has_items"
+          ],
+          "used_by": [
+            "PortGame.source_block_outputs_items_state"
+          ]
+        },
+        "has_items": {
+          "godot_symbol": "source_block_outputs_items_result.has_items",
+          "java_expr": "hasItems",
+          "java_method": "Block.outputsItems()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_outputs_items_state"
+          ],
+          "rule": "Explicit hasItems field value.",
+          "status": "explicit-input",
+          "type": "bool",
+          "source_symbols": [
+            "block_outputs_items.has_items_field"
+          ],
+          "used_by": [
+            "PortGame.source_block_outputs_items_state"
+          ]
+        },
+        "outputs_items": {
+          "godot_symbol": "source_block_outputs_items_result.outputs_items",
+          "java_expr": "return hasItems;",
+          "java_method": "Block.outputsItems()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_outputs_items_state"
+          ],
+          "rule": "Returned outputsItems value.",
+          "status": "source-backed",
+          "type": "bool",
+          "source_symbols": [
+            "block_outputs_items.return_has_items"
+          ],
+          "used_by": [
+            "PortGame.source_block_outputs_items_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_block_outputs_items_state",
+      "runtime_proof": "/root/Main.source_block_outputs_items_state",
+      "source_slice": "N1273",
+      "status": "source-backed"
     }
   },
   "version": 1

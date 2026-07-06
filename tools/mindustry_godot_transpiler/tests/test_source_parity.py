@@ -4869,6 +4869,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_outputs_items_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_outputs_items_source"))
+        report = source_parity.verify_block_outputs_items_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "field_comment": "/** If true, buildings have an ItemModule. */",
+            "field": "public @NoPatch boolean hasItems;",
+            "method": "public boolean outputsItems(){",
+            "return_expr": "return hasItems;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

@@ -7247,6 +7247,41 @@ public class Turret extends ReloadTurret{
             self.assertIn('"return_expr": "return false;"', source_text)
             self.assertIn('"outputs_items": false', source_text)
 
+    def test_emit_bridges_block_outputs_items_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    /** If true, buildings have an ItemModule. */
+    public @NoPatch boolean hasItems;
+    public boolean outputsItems(){
+        return hasItems;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_outputsItems_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar has_items: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_outputs_items_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/Block.java"', source_text)
+            self.assertIn('"field_expr": "public @NoPatch boolean hasItems;"', source_text)
+            self.assertIn('"method": "public boolean outputsItems(){"', source_text)
+            self.assertIn('"return_expr": "return hasItems;"', source_text)
+            self.assertIn('"outputs_items": has_items', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

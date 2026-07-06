@@ -15775,5 +15775,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Ability.java_method_getBundle_11"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_outputs_items_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_outputs_items_state(has_items: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_outputs_items_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"field_expr": "public @NoPatch boolean hasItems;"', source)
+        self.assertIn('"method": "public boolean outputsItems(){"', source)
+        self.assertIn('"return_expr": "return hasItems;"', source)
+        self.assertIn('"has_items": has_items', source)
+        self.assertIn('"outputs_items": has_items', source)
+
+    def test_port_game_exposes_generated_block_outputs_items_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_outputs_items_bridge_state(has_items: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_outputsItems_17([has_items])", source)
+        self.assertIn("var canonical = source_block_outputs_items_state(has_items)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_outputs_items_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_outputsItems_17"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

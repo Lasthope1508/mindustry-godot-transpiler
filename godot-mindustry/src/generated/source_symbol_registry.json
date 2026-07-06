@@ -93680,6 +93680,60 @@
         "test_ability_get_bundle_matches_upstream_source",
         "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_outputs_items.method": {
+      "godot_owner": "PortGame.source_block_outputs_items_state",
+      "godot_symbol": "source_block_outputs_items_result.method",
+      "java_expr": "public boolean outputsItems(){",
+      "java_method": "Block.outputsItems()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_outputs_items_state",
+      "source_slice": "N1273",
+      "status": "source-backed",
+      "rule": "Block.outputsItems method boundary.",
+      "tests": [
+        "test_emit_bridges_block_outputs_items_to_source_state",
+        "test_port_game_exposes_source_block_outputs_items_state",
+        "test_port_game_exposes_generated_block_outputs_items_bridge_state",
+        "test_block_outputs_items_matches_upstream_source",
+        "test_generated_block_outputs_items_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_outputs_items.has_items_field": {
+      "godot_owner": "PortGame.source_block_outputs_items_state",
+      "godot_symbol": "source_block_outputs_items_result.has_items",
+      "java_expr": "public @NoPatch boolean hasItems;",
+      "java_method": "Block.outputsItems()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_outputs_items_state",
+      "source_slice": "N1273",
+      "status": "source-backed",
+      "rule": "Block hasItems field returned by outputsItems.",
+      "tests": [
+        "test_emit_bridges_block_outputs_items_to_source_state",
+        "test_port_game_exposes_source_block_outputs_items_state",
+        "test_port_game_exposes_generated_block_outputs_items_bridge_state",
+        "test_block_outputs_items_matches_upstream_source",
+        "test_generated_block_outputs_items_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_outputs_items.return_has_items": {
+      "godot_owner": "PortGame.source_block_outputs_items_state",
+      "godot_symbol": "source_block_outputs_items_result.outputs_items",
+      "java_expr": "return hasItems;",
+      "java_method": "Block.outputsItems()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_outputs_items_state",
+      "source_slice": "N1273",
+      "status": "source-backed",
+      "rule": "Block outputsItems returns hasItems.",
+      "tests": [
+        "test_emit_bridges_block_outputs_items_to_source_state",
+        "test_port_game_exposes_source_block_outputs_items_state",
+        "test_port_game_exposes_generated_block_outputs_items_bridge_state",
+        "test_block_outputs_items_matches_upstream_source",
+        "test_generated_block_outputs_items_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
