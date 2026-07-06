@@ -348,7 +348,9 @@ func java_method_findConsumer_95(_args: Array = []) -> Variant:
 	return null
 
 func java_method_hasConsumer_96(_args: Array = []) -> Variant:
-	return null
+	var consume_builder_contains: bool = bool(_args[0] if _args.size() > 0 else false)
+	var cons: Variant = _args[1] if _args.size() > 1 else null
+	return {"source_owner": "PortGame.source_block_has_consumer_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean hasConsumer(Consume cons){", "return_expr": "return consumeBuilder.contains(cons);", "consumeBuilder_contains": consume_builder_contains, "cons": cons, "has_consumer": consume_builder_contains}
 
 func java_method_removeConsumer_97(_args: Array = []) -> Variant:
 	return null

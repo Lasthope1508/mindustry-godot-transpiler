@@ -4666,6 +4666,78 @@
         "test_generated_block_has_building_slice_is_registered_with_source_backing"
       ]
     },
+    "block_has_consumer.cons": {
+      "godot_owner": "PortGame.source_block_has_consumer_state",
+      "godot_symbol": "source_block_has_consumer_input.cons",
+      "java_expr": "Consume cons",
+      "java_method": "Block.hasConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose Block.hasConsumer(Consume) parameter.",
+      "runtime_proof": "/root/Main.source_block_has_consumer_state",
+      "source_slice": "N1288",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_has_consumer_to_source_state",
+        "test_port_game_exposes_source_block_has_consumer_state",
+        "test_port_game_exposes_generated_block_has_consumer_bridge_state",
+        "test_block_has_consumer_matches_upstream_source",
+        "test_generated_block_has_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_has_consumer.consume_builder_contains": {
+      "godot_owner": "PortGame.source_block_has_consumer_state",
+      "godot_symbol": "source_block_has_consumer_input.consumeBuilder_contains",
+      "java_expr": "consumeBuilder.contains(cons)",
+      "java_method": "Block.hasConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose consumeBuilder.contains(cons) result as explicit source input.",
+      "runtime_proof": "/root/Main.source_block_has_consumer_state",
+      "source_slice": "N1288",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_has_consumer_to_source_state",
+        "test_port_game_exposes_source_block_has_consumer_state",
+        "test_port_game_exposes_generated_block_has_consumer_bridge_state",
+        "test_block_has_consumer_matches_upstream_source",
+        "test_generated_block_has_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_has_consumer.method": {
+      "godot_owner": "PortGame.source_block_has_consumer_state",
+      "godot_symbol": "source_block_has_consumer_result.method",
+      "java_expr": "public boolean hasConsumer(Consume cons){",
+      "java_method": "Block.hasConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.hasConsumer(Consume) method boundary.",
+      "runtime_proof": "/root/Main.source_block_has_consumer_state",
+      "source_slice": "N1288",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_has_consumer_to_source_state",
+        "test_port_game_exposes_source_block_has_consumer_state",
+        "test_port_game_exposes_generated_block_has_consumer_bridge_state",
+        "test_block_has_consumer_matches_upstream_source",
+        "test_generated_block_has_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_has_consumer.return_expr": {
+      "godot_owner": "PortGame.source_block_has_consumer_state",
+      "godot_symbol": "source_block_has_consumer_result.has_consumer",
+      "java_expr": "return consumeBuilder.contains(cons);",
+      "java_method": "Block.hasConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.hasConsumer(Consume) return expression.",
+      "runtime_proof": "/root/Main.source_block_has_consumer_state",
+      "source_slice": "N1288",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_has_consumer_to_source_state",
+        "test_port_game_exposes_source_block_has_consumer_state",
+        "test_port_game_exposes_generated_block_has_consumer_bridge_state",
+        "test_block_has_consumer_matches_upstream_source",
+        "test_generated_block_has_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_health.block_id_input": {
       "godot_owner": "PortGame.source_block_health",
       "godot_symbol": "source_block_health_input.blockId",

@@ -2038,6 +2038,42 @@
         "test_generated_block_has_building_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_has_consumer_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "consume_builder_contains",
+          "schema": "source_block_has_consumer_input.consumeBuilder_contains",
+          "type": "bool"
+        },
+        {
+          "name": "cons",
+          "schema": "source_block_has_consumer_input.cons",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "consumeBuilder_contains",
+        "cons",
+        "has_consumer"
+      ],
+      "rule": "Public runtime contract for Block.hasConsumer(Consume) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_has_consumer_state",
+      "source_method": "Block.hasConsumer(Consume)",
+      "source_slice": "N1288",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_has_consumer_to_source_state",
+        "test_port_game_exposes_source_block_has_consumer_state",
+        "test_port_game_exposes_generated_block_has_consumer_bridge_state",
+        "test_block_has_consumer_matches_upstream_source",
+        "test_generated_block_has_consumer_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_health": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [

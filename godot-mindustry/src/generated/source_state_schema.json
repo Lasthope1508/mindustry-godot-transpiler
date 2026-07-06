@@ -18643,6 +18643,131 @@
       "source_slice": "N1283",
       "status": "active"
     },
+    "source_block_has_consumer_input": {
+      "keys": {
+        "cons": {
+          "godot_symbol": "source_block_has_consumer_input.cons",
+          "java_expr": "Consume cons",
+          "java_method": "Block.hasConsumer(Consume)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_consumer_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "consumeBuilder_contains": {
+          "godot_symbol": "source_block_has_consumer_input.consumeBuilder_contains",
+          "java_expr": "consumeBuilder.contains(cons)",
+          "java_method": "Block.hasConsumer(Consume)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_consumer_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_has_consumer_state",
+      "rule": "Inputs for PortGame.source_block_has_consumer_state.",
+      "runtime_proof": "/root/Main.source_block_has_consumer_state",
+      "source_slice": "N1288",
+      "status": "active"
+    },
+    "source_block_has_consumer_result": {
+      "keys": {
+        "cons": {
+          "godot_symbol": "source_block_has_consumer_result.cons",
+          "java_expr": "Consume cons",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_consumer_state"
+          ],
+          "source_symbols": [
+            "block_has_consumer.cons"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "consumeBuilder_contains": {
+          "godot_symbol": "source_block_has_consumer_result.consumeBuilder_contains",
+          "java_expr": "consumeBuilder.contains(cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_consumer_state"
+          ],
+          "source_symbols": [
+            "block_has_consumer.consume_builder_contains"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "has_consumer": {
+          "godot_symbol": "source_block_has_consumer_result.has_consumer",
+          "java_expr": "return consumeBuilder.contains(cons);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_consumer_state"
+          ],
+          "source_symbols": [
+            "block_has_consumer.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "godot_symbol": "source_block_has_consumer_result.method",
+          "java_expr": "public boolean hasConsumer(Consume cons){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_consumer_state"
+          ],
+          "source_symbols": [
+            "block_has_consumer.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_has_consumer_result.return_expr",
+          "java_expr": "return consumeBuilder.contains(cons);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_consumer_state"
+          ],
+          "source_symbols": [
+            "block_has_consumer.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_has_consumer_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_consumer_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_has_consumer_result.source_owner",
+          "java_expr": "PortGame.source_block_has_consumer_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_has_consumer_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_has_consumer_state",
+      "rule": "Dictionary returned by PortGame.source_block_has_consumer_state.",
+      "runtime_proof": "/root/Main.source_block_has_consumer_state",
+      "source_slice": "N1288",
+      "status": "active"
+    },
     "source_block_health_at_cell_input": {
       "keys": {
         "x": {

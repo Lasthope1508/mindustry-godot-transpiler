@@ -9250,6 +9250,35 @@
       ],
       "title": "Generated Block isStatic bridge state"
     },
+    "N1288": {
+      "exact_exprs": [
+        "public boolean hasConsumer(Consume cons){",
+        "return consumeBuilder.contains(cons);",
+        "consumeBuilder.contains(cons)",
+        "Consume cons"
+      ],
+      "generated_owner": "Block.java_method_hasConsumer_96",
+      "godot_owner": "PortGame.source_block_has_consumer_state",
+      "java_class": "Block",
+      "java_method": "Block.hasConsumer(Consume)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_has_consumer_bridge_state",
+      "source_symbols": [
+        "block_has_consumer.method",
+        "block_has_consumer.return_expr",
+        "block_has_consumer.consume_builder_contains",
+        "block_has_consumer.cons"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_has_consumer_to_source_state",
+        "test_port_game_exposes_source_block_has_consumer_state",
+        "test_port_game_exposes_generated_block_has_consumer_bridge_state",
+        "test_block_has_consumer_matches_upstream_source",
+        "test_generated_block_has_consumer_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block hasConsumer bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

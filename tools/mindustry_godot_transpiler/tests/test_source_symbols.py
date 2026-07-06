@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 761)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 756)
+        self.assertEqual(audit["totalSourceFunctions"], 762)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 757)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 761)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 762)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43387,6 +43387,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["cacheLayer"]["java_expr"], "cacheLayer")
         result_schema = source_symbols.state_schema(schema, "source_block_is_static_result")
         self.assertEqual(result_schema["keys"]["is_static"]["java_expr"], "return cacheLayer == CacheLayer.walls;")
+
+    def test_generated_block_has_consumer_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_has_consumer.method")
+        self.assertEqual(method["java_expr"], "public boolean hasConsumer(Consume cons){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.hasConsumer(Consume)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_has_consumer_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_has_consumer_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_has_consumer.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return consumeBuilder.contains(cons);")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_has_consumer_result.has_consumer")
+
+        consume_builder = source_symbols.source_symbol(registry, "block_has_consumer.consume_builder_contains")
+        self.assertEqual(consume_builder["java_expr"], "consumeBuilder.contains(cons)")
+        self.assertEqual(consume_builder["godot_symbol"], "source_block_has_consumer_input.consumeBuilder_contains")
+
+        cons_param = source_symbols.source_symbol(registry, "block_has_consumer.cons")
+        self.assertEqual(cons_param["java_expr"], "Consume cons")
+        self.assertEqual(cons_param["godot_symbol"], "source_block_has_consumer_input.cons")
+
+        has_consumer_slice = source_symbols.source_slice(ledger, "N1288")
+        self.assertEqual(has_consumer_slice["title"], "Generated Block hasConsumer bridge state")
+        self.assertEqual(has_consumer_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(has_consumer_slice["java_method"], "Block.hasConsumer(Consume)")
+        self.assertEqual(has_consumer_slice["godot_owner"], "PortGame.source_block_has_consumer_state")
+        self.assertEqual(has_consumer_slice["generated_owner"], "Block.java_method_hasConsumer_96")
+        self.assertEqual(has_consumer_slice["runtime_proof"], "/root/Main.generated_block_has_consumer_bridge_state")
+        for expr in [
+            "public boolean hasConsumer(Consume cons){",
+            "return consumeBuilder.contains(cons);",
+        ]:
+            self.assertIn(expr, has_consumer_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_has_consumer_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["consume_builder_contains", "cons"])
+        for key in ["source_owner", "source", "method", "return_expr", "consumeBuilder_contains", "cons", "has_consumer"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_has_consumer_input")
+        self.assertEqual(input_schema["keys"]["consumeBuilder_contains"]["java_expr"], "consumeBuilder.contains(cons)")
+        self.assertEqual(input_schema["keys"]["cons"]["java_expr"], "Consume cons")
+        result_schema = source_symbols.state_schema(schema, "source_block_has_consumer_result")
+        self.assertEqual(result_schema["keys"]["has_consumer"]["java_expr"], "return consumeBuilder.contains(cons);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
