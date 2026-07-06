@@ -109911,6 +109911,128 @@
           "java_method": "TractorBeamBuild.updateTile() inactive strength"
         }
       }
+    },
+    "source_ability_update_input": {
+      "rule": "Inputs for PortGame.source_ability_update_state.",
+      "keys": {
+        "unit": {
+          "godot_symbol": "source_ability_update_input.unit",
+          "java_expr": "Unit unit",
+          "status": "explicit-input",
+          "source_symbols": [
+            "ability_update.unit"
+          ],
+          "used_by": [
+            "PortGame.source_ability_update_state"
+          ],
+          "type": "Variant",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.update(Unit unit)",
+          "owners": [
+            "PortGame.source_ability_update_state"
+          ],
+          "rule": "Explicit Unit unit argument passed through unchanged."
+        }
+      },
+      "owner": "PortGame.source_ability_update_state",
+      "runtime_proof": "/root/Main.source_ability_update_state",
+      "source_slice": "N1261",
+      "status": "source-backed"
+    },
+    "source_ability_update_result": {
+      "rule": "Dictionary returned by PortGame.source_ability_update_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_ability_update_result.source_owner",
+          "java_expr": "PortGame.source_ability_update_state",
+          "status": "source-backed",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_update_state"
+          ],
+          "type": "String",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.update(Unit unit)",
+          "owners": [
+            "PortGame.source_ability_update_state"
+          ],
+          "rule": "Canonical PortGame owner for Ability.update bridge."
+        },
+        "source": {
+          "godot_symbol": "source_ability_update_result.source",
+          "java_expr": "core/src/mindustry/entities/abilities/Ability.java",
+          "status": "source-backed",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_update_state"
+          ],
+          "type": "String",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.update(Unit unit)",
+          "owners": [
+            "PortGame.source_ability_update_state"
+          ],
+          "rule": "Upstream source file for Ability.update."
+        },
+        "method": {
+          "godot_symbol": "source_ability_update_result.method",
+          "java_expr": "public void update(Unit unit){}",
+          "status": "source-backed",
+          "source_symbols": [
+            "ability_update.method"
+          ],
+          "used_by": [
+            "PortGame.source_ability_update_state"
+          ],
+          "type": "String",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.update(Unit unit)",
+          "owners": [
+            "PortGame.source_ability_update_state"
+          ],
+          "rule": "Base Ability.update method body."
+        },
+        "unit": {
+          "godot_symbol": "source_ability_update_result.unit",
+          "java_expr": "Unit unit",
+          "status": "explicit-input",
+          "source_symbols": [
+            "ability_update.unit"
+          ],
+          "used_by": [
+            "PortGame.source_ability_update_state"
+          ],
+          "type": "Variant",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.update(Unit unit)",
+          "owners": [
+            "PortGame.source_ability_update_state"
+          ],
+          "rule": "Explicit Unit unit argument returned unchanged."
+        },
+        "no_op": {
+          "godot_symbol": "source_ability_update_result.no_op",
+          "java_expr": "public void update(Unit unit){}",
+          "status": "source-backed",
+          "source_symbols": [
+            "ability_update.no_op"
+          ],
+          "used_by": [
+            "PortGame.source_ability_update_state"
+          ],
+          "type": "bool",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.update(Unit unit)",
+          "owners": [
+            "PortGame.source_ability_update_state"
+          ],
+          "rule": "Empty upstream Ability.update body produces no side effects."
+        }
+      },
+      "owner": "PortGame.source_ability_update_state",
+      "runtime_proof": "/root/Main.source_ability_update_state",
+      "source_slice": "N1261",
+      "status": "source-backed"
     }
   },
   "version": 1

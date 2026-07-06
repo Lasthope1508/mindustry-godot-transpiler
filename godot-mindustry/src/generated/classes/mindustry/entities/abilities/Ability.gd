@@ -14,7 +14,8 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "update", "parameters":
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_update_0(_args: Array = []) -> Variant:
-	return null
+	var unit: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_ability_update_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void update(Unit unit){}", "unit": unit, "no_op": true}
 
 func java_method_draw_1(_args: Array = []) -> Variant:
 	return null

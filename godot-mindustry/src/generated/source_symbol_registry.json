@@ -92888,6 +92888,60 @@
       "java_source": "arc-core/src/arc/math/Mathf.java",
       "java_method": "Mathf.lerpDelta(float,float,float)",
       "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){"
+    },
+    "ability_update.method": {
+      "godot_owner": "PortGame.source_ability_update_state",
+      "godot_symbol": "source_ability_update_result.method",
+      "java_expr": "public void update(Unit unit){}",
+      "java_method": "Ability.update(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_update_state",
+      "source_slice": "N1261",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_update_to_source_state",
+        "test_port_game_exposes_source_ability_update_state",
+        "test_port_game_exposes_generated_ability_update_bridge_state",
+        "test_ability_update_matches_upstream_source",
+        "test_generated_ability_update_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Ability.update(Unit unit) default method identity from upstream Ability.java."
+    },
+    "ability_update.unit": {
+      "godot_owner": "PortGame.source_ability_update_state",
+      "godot_symbol": "source_ability_update_input.unit",
+      "java_expr": "Unit unit",
+      "java_method": "Ability.update(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_update_state",
+      "source_slice": "N1261",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_ability_update_to_source_state",
+        "test_port_game_exposes_source_ability_update_state",
+        "test_port_game_exposes_generated_ability_update_bridge_state",
+        "test_ability_update_matches_upstream_source",
+        "test_generated_ability_update_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit Unit unit argument passed through unchanged."
+    },
+    "ability_update.no_op": {
+      "godot_owner": "PortGame.source_ability_update_state",
+      "godot_symbol": "source_ability_update_result.no_op",
+      "java_expr": "public void update(Unit unit){}",
+      "java_method": "Ability.update(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_update_state",
+      "source_slice": "N1261",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_update_to_source_state",
+        "test_port_game_exposes_source_ability_update_state",
+        "test_port_game_exposes_generated_ability_update_bridge_state",
+        "test_ability_update_matches_upstream_source",
+        "test_generated_ability_update_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Empty upstream Ability.update body produces no side effects."
     }
   },
   "version": 1
