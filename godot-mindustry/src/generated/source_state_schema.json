@@ -18174,6 +18174,177 @@
       "source_slice": "N1279",
       "status": "active"
     },
+    "source_block_consume_liquid_input": {
+      "keys": {
+        "amount": {
+          "godot_symbol": "source_block_consume_liquid_input.amount",
+          "java_expr": "float amount",
+          "java_method": "Block.consumeLiquid(Liquid,float)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consume_liquid.amount"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "liquid": {
+          "godot_symbol": "source_block_consume_liquid_input.liquid",
+          "java_expr": "Liquid liquid",
+          "java_method": "Block.consumeLiquid(Liquid,float)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consume_liquid.liquid"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_consume_liquid_state",
+      "rule": "Inputs for PortGame.source_block_consume_liquid_state.",
+      "runtime_proof": "/root/Main.source_block_consume_liquid_state",
+      "source_slice": "N1291",
+      "status": "active"
+    },
+    "source_block_consume_liquid_result": {
+      "keys": {
+        "amount": {
+          "godot_symbol": "source_block_consume_liquid_result.amount",
+          "java_expr": "float amount",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consume_liquid.amount"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "constructed_consume": {
+          "godot_symbol": "source_block_consume_liquid_result.constructed_consume",
+          "java_expr": "new ConsumeLiquid(liquid, amount)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consume_liquid.constructor_expr",
+            "block_consume_liquid.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "constructor_expr": {
+          "godot_symbol": "source_block_consume_liquid_result.constructor_expr",
+          "java_expr": "new ConsumeLiquid(liquid, amount)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consume_liquid.constructor_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "consume_call_expr": {
+          "godot_symbol": "source_block_consume_liquid_result.consume_call_expr",
+          "java_expr": "consume(new ConsumeLiquid(liquid, amount))",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consume_liquid.consume_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "consume_called": {
+          "godot_symbol": "source_block_consume_liquid_result.consume_called",
+          "java_expr": "consume(new ConsumeLiquid(liquid, amount))",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consume_liquid.consume_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "liquid": {
+          "godot_symbol": "source_block_consume_liquid_result.liquid",
+          "java_expr": "Liquid liquid",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consume_liquid.liquid"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "method": {
+          "godot_symbol": "source_block_consume_liquid_result.method",
+          "java_expr": "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consume_liquid.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_consume_liquid_result.return_expr",
+          "java_expr": "return consume(new ConsumeLiquid(liquid, amount));",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "source_symbols": [
+            "block_consume_liquid.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_consume_liquid_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_consume_liquid_result.source_owner",
+          "java_expr": "PortGame.source_block_consume_liquid_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_liquid_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_consume_liquid_state",
+      "rule": "Dictionary returned by PortGame.source_block_consume_liquid_state.",
+      "runtime_proof": "/root/Main.source_block_consume_liquid_state",
+      "source_slice": "N1291",
+      "status": "active"
+    },
     "source_block_consumes_item_input": {
       "keys": {
         "item": {

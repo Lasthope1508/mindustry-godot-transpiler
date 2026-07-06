@@ -366,7 +366,10 @@ func java_method_removeConsumers_98(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_remove_consumers_state", "source": "core/src/mindustry/world/Block.java", "method": "public void removeConsumers(Boolf<Consume> b){", "remove_all_expr": "consumeBuilder.removeAll(b);", "comment": "//the power was removed, unassign it", "power_guard_expr": "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){", "cons_power_expr": "consPower = null;", "consumeBuilder_contains_power_after_remove": consume_builder_contains_power_after_remove, "b": b, "consume_builder_remove_all_called": true, "cons_power_cleared": cons_power_cleared}
 
 func java_method_consumeLiquid_99(_args: Array = []) -> Variant:
-	return null
+	var liquid: Variant = _args[0] if _args.size() > 0 else null
+	var amount: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var constructed_consume: Dictionary = {"type": "ConsumeLiquid", "liquid": liquid, "amount": amount}
+	return {"source_owner": "PortGame.source_block_consume_liquid_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){", "return_expr": "return consume(new ConsumeLiquid(liquid, amount));", "constructor_expr": "new ConsumeLiquid(liquid, amount)", "consume_call_expr": "consume(new ConsumeLiquid(liquid, amount))", "liquid": liquid, "amount": amount, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumeLiquids_100(_args: Array = []) -> Variant:
 	return null

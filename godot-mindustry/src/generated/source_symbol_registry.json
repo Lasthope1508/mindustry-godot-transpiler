@@ -4411,6 +4411,114 @@
         "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
       ]
     },
+    "block_consume_liquid.amount": {
+      "godot_owner": "PortGame.source_block_consume_liquid_state",
+      "godot_symbol": "source_block_consume_liquid_input.amount",
+      "java_expr": "float amount",
+      "java_method": "Block.consumeLiquid(Liquid,float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose consumeLiquid amount parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_liquid_state",
+      "source_slice": "N1291",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_consume_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquid_state",
+        "test_port_game_exposes_generated_block_consume_liquid_bridge_state",
+        "test_block_consume_liquid_matches_upstream_source",
+        "test_generated_block_consume_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_liquid.constructor_expr": {
+      "godot_owner": "PortGame.source_block_consume_liquid_state",
+      "godot_symbol": "source_block_consume_liquid_result.constructed_consume",
+      "java_expr": "new ConsumeLiquid(liquid, amount)",
+      "java_method": "Block.consumeLiquid(Liquid,float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve ConsumeLiquid constructor arguments.",
+      "runtime_proof": "/root/Main.source_block_consume_liquid_state",
+      "source_slice": "N1291",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquid_state",
+        "test_port_game_exposes_generated_block_consume_liquid_bridge_state",
+        "test_block_consume_liquid_matches_upstream_source",
+        "test_generated_block_consume_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_liquid.consume_call_expr": {
+      "godot_owner": "PortGame.source_block_consume_liquid_state",
+      "godot_symbol": "source_block_consume_liquid_result.consume_called",
+      "java_expr": "consume(new ConsumeLiquid(liquid, amount))",
+      "java_method": "Block.consumeLiquid(Liquid,float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consume(...) delegate call.",
+      "runtime_proof": "/root/Main.source_block_consume_liquid_state",
+      "source_slice": "N1291",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquid_state",
+        "test_port_game_exposes_generated_block_consume_liquid_bridge_state",
+        "test_block_consume_liquid_matches_upstream_source",
+        "test_generated_block_consume_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_liquid.liquid": {
+      "godot_owner": "PortGame.source_block_consume_liquid_state",
+      "godot_symbol": "source_block_consume_liquid_input.liquid",
+      "java_expr": "Liquid liquid",
+      "java_method": "Block.consumeLiquid(Liquid,float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose consumeLiquid liquid parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_liquid_state",
+      "source_slice": "N1291",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_consume_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquid_state",
+        "test_port_game_exposes_generated_block_consume_liquid_bridge_state",
+        "test_block_consume_liquid_matches_upstream_source",
+        "test_generated_block_consume_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_liquid.method": {
+      "godot_owner": "PortGame.source_block_consume_liquid_state",
+      "godot_symbol": "source_block_consume_liquid_result.method",
+      "java_expr": "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){",
+      "java_method": "Block.consumeLiquid(Liquid,float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.consumeLiquid(Liquid,float) method boundary.",
+      "runtime_proof": "/root/Main.source_block_consume_liquid_state",
+      "source_slice": "N1291",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquid_state",
+        "test_port_game_exposes_generated_block_consume_liquid_bridge_state",
+        "test_block_consume_liquid_matches_upstream_source",
+        "test_generated_block_consume_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_liquid.return_expr": {
+      "godot_owner": "PortGame.source_block_consume_liquid_state",
+      "godot_symbol": "source_block_consume_liquid_result.constructed_consume",
+      "java_expr": "return consume(new ConsumeLiquid(liquid, amount));",
+      "java_method": "Block.consumeLiquid(Liquid,float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumeLiquid return expression delegating constructed consumer to consume(...).",
+      "runtime_proof": "/root/Main.source_block_consume_liquid_state",
+      "source_slice": "N1291",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquid_state",
+        "test_port_game_exposes_generated_block_consume_liquid_bridge_state",
+        "test_block_consume_liquid_matches_upstream_source",
+        "test_generated_block_consume_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_consumes_item.item_filter": {
       "godot_owner": "PortGame.source_block_consumes_item_state",
       "godot_symbol": "source_block_consumes_item_input.itemFilter",

@@ -9347,6 +9347,39 @@
       ],
       "title": "Generated Block removeConsumers bridge state"
     },
+    "N1291": {
+      "exact_exprs": [
+        "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){",
+        "return consume(new ConsumeLiquid(liquid, amount));",
+        "new ConsumeLiquid(liquid, amount)",
+        "consume(new ConsumeLiquid(liquid, amount))",
+        "Liquid liquid",
+        "float amount"
+      ],
+      "generated_owner": "Block.java_method_consumeLiquid_99",
+      "godot_owner": "PortGame.source_block_consume_liquid_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeLiquid(Liquid,float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_liquid_bridge_state",
+      "source_symbols": [
+        "block_consume_liquid.method",
+        "block_consume_liquid.return_expr",
+        "block_consume_liquid.constructor_expr",
+        "block_consume_liquid.consume_call_expr",
+        "block_consume_liquid.liquid",
+        "block_consume_liquid.amount"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consume_liquid_state",
+        "test_port_game_exposes_generated_block_consume_liquid_bridge_state",
+        "test_block_consume_liquid_matches_upstream_source",
+        "test_generated_block_consume_liquid_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeLiquid bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

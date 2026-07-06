@@ -5085,6 +5085,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_consume_liquid_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_consume_liquid_source"))
+        report = source_parity.verify_block_consume_liquid_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){",
+            "return_expr": "return consume(new ConsumeLiquid(liquid, amount));",
+            "constructor_expr": "new ConsumeLiquid(liquid, amount)",
+            "consume_call_expr": "consume(new ConsumeLiquid(liquid, amount))",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
