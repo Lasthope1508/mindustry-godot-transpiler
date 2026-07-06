@@ -30581,6 +30581,48 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_status_apply_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile target status apply call."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_any_true_state": {
+      "status": "source-backed",
+      "source_slice": "N1258",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() any true",
+      "params": [
+        {
+          "name": "shoot_within_guard",
+          "type": "bool",
+          "java_expr": "Angles.within(rotation, dest, shootCone)",
+          "schema": "source_tractor_beam_turret_build_update_tile_any_true_input.shoot_within_guard"
+        },
+        {
+          "name": "any_before_shoot",
+          "type": "bool",
+          "java_expr": "any",
+          "schema": "source_tractor_beam_turret_build_update_tile_any_true_input.any_before_shoot"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "shoot_when_possible_guard_expr",
+        "status_apply_expr",
+        "any_true_expr",
+        "impulse_next_expr",
+        "shoot_within_guard",
+        "any_before_shoot",
+        "any_true_evaluated",
+        "any_after",
+        "any_true_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_true_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_true_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_true_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_any_true_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_any_true_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_any_true_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile any=true assignment."
     }
   },
   "policy": {

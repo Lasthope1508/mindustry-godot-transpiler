@@ -109426,6 +109426,107 @@
           "java_expr": "public void apply(StatusEffect effect, float duration){"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_any_true_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_any_true_state.",
+      "keys": {
+        "shoot_within_guard": {
+          "type": "bool",
+          "java_expr": "Angles.within(rotation, dest, shootCone)",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "any_before_shoot": {
+          "type": "bool",
+          "java_expr": "any",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_any_true_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_any_true_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_any_true_state",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "method": {
+          "type": "String",
+          "java_expr": "public void updateTile(){",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "shoot_when_possible_guard_expr": {
+          "type": "String",
+          "java_expr": "if(Angles.within(rotation, dest, shootCone)){",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "status_apply_expr": {
+          "type": "String",
+          "java_expr": "target.apply(status, statusDuration);",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "any_true_expr": {
+          "type": "String",
+          "java_expr": "any = true;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "impulse_next_expr": {
+          "type": "String",
+          "java_expr": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "shoot_within_guard": {
+          "type": "bool",
+          "java_expr": "Angles.within(rotation, dest, shootCone)",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "any_before_shoot": {
+          "type": "bool",
+          "java_expr": "any",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "any_true_evaluated": {
+          "type": "bool",
+          "java_expr": "Angles.within(rotation, dest, shootCone)",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "any_after": {
+          "type": "bool",
+          "java_expr": "any = true;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        },
+        "any_true_call": {
+          "type": "Dictionary",
+          "java_expr": "any = true;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any true"
+        }
+      }
     }
   },
   "version": 1

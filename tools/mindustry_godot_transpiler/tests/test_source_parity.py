@@ -8825,6 +8825,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_tractor_beam_turret_build_update_tile_any_true_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_update_tile_any_true_source"))
+        report = source_parity.verify_tractor_beam_turret_build_update_tile_any_true_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void updateTile(){",
+            "shoot_guard": "if(Angles.within(rotation, dest, shootCone)){",
+            "status_boundary": "if(status != StatusEffects.none){",
+            "status_apply": "target.apply(status, statusDuration);",
+            "any_true": "any = true;",
+            "impulse_boundary": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_get_regions_to_outline_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_get_regions_to_outline_source"))
         report = source_parity.verify_turret_get_regions_to_outline_source(ROOT / "mindustry-upstream")

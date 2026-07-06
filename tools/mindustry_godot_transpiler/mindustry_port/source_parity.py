@@ -1138,6 +1138,24 @@ def verify_tractor_beam_turret_build_update_tile_status_apply_source(upstream_ro
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_any_true_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "shoot_guard": "if(Angles.within(rotation, dest, shootCone)){",
+        "status_boundary": "if(status != StatusEffects.none){",
+        "status_apply": "target.apply(status, statusDuration);",
+        "any_true": "any = true;",
+        "impulse_boundary": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")
