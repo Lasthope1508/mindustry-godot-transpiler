@@ -9411,6 +9411,45 @@
       ],
       "title": "Generated Block consumeLiquids bridge state"
     },
+    "N1293": {
+      "exact_exprs": [
+        "Creates a consumer which directly uses power without buffering it.",
+        "@param powerPerTick The amount of power which is required each tick for 100% efficiency.",
+        "public ConsumePower consumePower(float powerPerTick){",
+        "return consume(new ConsumePower(powerPerTick, 0.0f, false));",
+        "new ConsumePower(powerPerTick, 0.0f, false)",
+        "consume(new ConsumePower(powerPerTick, 0.0f, false))",
+        "float powerPerTick",
+        "0.0f",
+        "false"
+      ],
+      "generated_owner": "Block.java_method_consumePower_101",
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "java_class": "Block",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_power_bridge_state",
+      "source_symbols": [
+        "block_consume_power.comment",
+        "block_consume_power.param",
+        "block_consume_power.method",
+        "block_consume_power.return_expr",
+        "block_consume_power.constructor_expr",
+        "block_consume_power.consume_call_expr",
+        "block_consume_power.power_per_tick",
+        "block_consume_power.capacity",
+        "block_consume_power.buffered"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumePower bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

@@ -1967,6 +1967,43 @@
         "test_generated_block_consume_liquids_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_consume_power_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "power_per_tick",
+          "schema": "source_block_consume_power_input.power_per_tick",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "param",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "powerPerTick",
+        "capacity",
+        "buffered",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumePower bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_method": "Block.consumePower(float)",
+      "source_slice": "N1293",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_consumes_item_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [

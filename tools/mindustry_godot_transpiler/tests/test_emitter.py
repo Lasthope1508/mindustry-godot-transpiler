@@ -7966,6 +7966,44 @@ public class Block{
             self.assertIn('"constructed_consume": constructed_consume', source_text)
             self.assertIn('"consume_called": true', source_text)
 
+    def test_emit_bridges_block_consume_power_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public ConsumePower consumePower(float powerPerTick){
+        return consume(new ConsumePower(powerPerTick, 0.0f, false));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_consumePower_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar power_per_tick: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_consume_power_state"', source_text)
+            self.assertIn('"method": "public ConsumePower consumePower(float powerPerTick){"', source_text)
+            self.assertIn('"return_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));"', source_text)
+            self.assertIn('"constructor_expr": "new ConsumePower(powerPerTick, 0.0f, false)"', source_text)
+            self.assertIn('"consume_call_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))"', source_text)
+            self.assertIn('"powerPerTick": power_per_tick', source_text)
+            self.assertIn('"capacity": 0.0', source_text)
+            self.assertIn('"buffered": false', source_text)
+            self.assertIn('"constructed_consume": constructed_consume', source_text)
+            self.assertIn('"consume_called": true', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

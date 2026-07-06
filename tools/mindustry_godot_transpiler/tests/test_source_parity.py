@@ -5111,6 +5111,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_consume_power_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_consume_power_source"))
+        report = source_parity.verify_block_consume_power_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "comment": "Creates a consumer which directly uses power without buffering it.",
+            "param": "@param powerPerTick The amount of power which is required each tick for 100% efficiency.",
+            "method": "public ConsumePower consumePower(float powerPerTick){",
+            "return_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));",
+            "constructor_expr": "new ConsumePower(powerPerTick, 0.0f, false)",
+            "consume_call_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

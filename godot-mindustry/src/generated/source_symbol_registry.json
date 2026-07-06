@@ -4609,6 +4609,168 @@
         "test_generated_block_consume_liquids_slice_is_registered_with_source_backing"
       ]
     },
+    "block_consume_power.buffered": {
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "godot_symbol": "source_block_consume_power_result.buffered",
+      "java_expr": "false",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumePower unbuffered flag argument.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power.capacity": {
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "godot_symbol": "source_block_consume_power_result.capacity",
+      "java_expr": "0.0f",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumePower unbuffered capacity argument.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power.comment": {
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "godot_symbol": "source_block_consume_power_result.comment",
+      "java_expr": "Creates a consumer which directly uses power without buffering it.",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumePower JavaDoc summary.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power.constructor_expr": {
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "godot_symbol": "source_block_consume_power_result.constructed_consume",
+      "java_expr": "new ConsumePower(powerPerTick, 0.0f, false)",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve ConsumePower constructor arguments.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power.consume_call_expr": {
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "godot_symbol": "source_block_consume_power_result.consume_called",
+      "java_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consume(...) delegate call.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power.method": {
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "godot_symbol": "source_block_consume_power_result.method",
+      "java_expr": "public ConsumePower consumePower(float powerPerTick){",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.consumePower(float) method boundary.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power.param": {
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "godot_symbol": "source_block_consume_power_result.param",
+      "java_expr": "@param powerPerTick The amount of power which is required each tick for 100% efficiency.",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumePower JavaDoc parameter text.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power.power_per_tick": {
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "godot_symbol": "source_block_consume_power_input.power_per_tick",
+      "java_expr": "float powerPerTick",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose consumePower powerPerTick parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_power.return_expr": {
+      "godot_owner": "PortGame.source_block_consume_power_state",
+      "godot_symbol": "source_block_consume_power_result.constructed_consume",
+      "java_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));",
+      "java_method": "Block.consumePower(float)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumePower return expression delegating constructed consumer to consume(...).",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_state",
+        "test_port_game_exposes_generated_block_consume_power_bridge_state",
+        "test_block_consume_power_matches_upstream_source",
+        "test_generated_block_consume_power_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_consumes_item.item_filter": {
       "godot_owner": "PortGame.source_block_consumes_item_state",
       "godot_symbol": "source_block_consumes_item_input.itemFilter",

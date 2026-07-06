@@ -16313,5 +16313,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_consumeLiquids_100"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_consume_power_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_consume_power_state(power_per_tick: float) -> Dictionary:", source)
+        self.assertIn('var constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false}', source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_power_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public ConsumePower consumePower(float powerPerTick){"', source)
+        self.assertIn('"return_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));"', source)
+        self.assertIn('"constructor_expr": "new ConsumePower(powerPerTick, 0.0f, false)"', source)
+        self.assertIn('"consume_call_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))"', source)
+        self.assertIn('"powerPerTick": power_per_tick', source)
+        self.assertIn('"capacity": 0.0', source)
+        self.assertIn('"buffered": false', source)
+        self.assertIn('"constructed_consume": constructed_consume', source)
+        self.assertIn('"consume_called": true', source)
+
+    def test_port_game_exposes_generated_block_consume_power_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_consume_power_bridge_state(power_per_tick: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_consumePower_101([power_per_tick])", source)
+        self.assertIn("var canonical = source_block_consume_power_state(power_per_tick)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_power_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_consumePower_101"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

@@ -1581,6 +1581,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_block_consume_liquids_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeLiquids consumeLiquids(LiquidStack... stacks){", "return_expr": "return consume(new ConsumeLiquids(stacks));", "constructor_expr": "new ConsumeLiquids(stacks)", "consume_call_expr": "consume(new ConsumeLiquids(stacks))", "stacks": stacks, "constructed_consume": constructed_consume, "consume_called": true}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "consumePower"
+        and len(method.get("parameters", [])) == 1
+    ):
+        return [
+            "\tvar power_per_tick: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\tvar constructed_consume: Dictionary = {"type": "ConsumePower", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false}',
+            '\treturn {"source_owner": "PortGame.source_block_consume_power_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which directly uses power without buffering it.", "param": "@param powerPerTick The amount of power which is required each tick for 100% efficiency.", "method": "public ConsumePower consumePower(float powerPerTick){", "return_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));", "constructor_expr": "new ConsumePower(powerPerTick, 0.0f, false)", "consume_call_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false, "constructed_consume": constructed_consume, "consume_called": true}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/ContinuousTurret.java"
         and type_entry.get("name") == "ContinuousTurret"
         and method.get("name") == "setStats"

@@ -18489,6 +18489,202 @@
       "source_slice": "N1292",
       "status": "active"
     },
+    "source_block_consume_power_input": {
+      "keys": {
+        "power_per_tick": {
+          "godot_symbol": "source_block_consume_power_input.power_per_tick",
+          "java_expr": "float powerPerTick",
+          "java_method": "Block.consumePower(float)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.power_per_tick"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_block_consume_power_state",
+      "rule": "Inputs for PortGame.source_block_consume_power_state.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "active"
+    },
+    "source_block_consume_power_result": {
+      "keys": {
+        "buffered": {
+          "godot_symbol": "source_block_consume_power_result.buffered",
+          "java_expr": "false",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.buffered"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "capacity": {
+          "godot_symbol": "source_block_consume_power_result.capacity",
+          "java_expr": "0.0f",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.capacity"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "comment": {
+          "godot_symbol": "source_block_consume_power_result.comment",
+          "java_expr": "Creates a consumer which directly uses power without buffering it.",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.comment"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "constructed_consume": {
+          "godot_symbol": "source_block_consume_power_result.constructed_consume",
+          "java_expr": "new ConsumePower(powerPerTick, 0.0f, false)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.constructor_expr",
+            "block_consume_power.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "constructor_expr": {
+          "godot_symbol": "source_block_consume_power_result.constructor_expr",
+          "java_expr": "new ConsumePower(powerPerTick, 0.0f, false)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.constructor_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "consume_call_expr": {
+          "godot_symbol": "source_block_consume_power_result.consume_call_expr",
+          "java_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.consume_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "consume_called": {
+          "godot_symbol": "source_block_consume_power_result.consume_called",
+          "java_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.consume_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "godot_symbol": "source_block_consume_power_result.method",
+          "java_expr": "public ConsumePower consumePower(float powerPerTick){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "param": {
+          "godot_symbol": "source_block_consume_power_result.param",
+          "java_expr": "@param powerPerTick The amount of power which is required each tick for 100% efficiency.",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.param"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "powerPerTick": {
+          "godot_symbol": "source_block_consume_power_result.powerPerTick",
+          "java_expr": "float powerPerTick",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.power_per_tick"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_consume_power_result.return_expr",
+          "java_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "source_symbols": [
+            "block_consume_power.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_consume_power_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_consume_power_result.source_owner",
+          "java_expr": "PortGame.source_block_consume_power_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_consume_power_state",
+      "rule": "Dictionary returned by PortGame.source_block_consume_power_state.",
+      "runtime_proof": "/root/Main.source_block_consume_power_state",
+      "source_slice": "N1293",
+      "status": "active"
+    },
     "source_block_consumes_item_input": {
       "keys": {
         "item": {

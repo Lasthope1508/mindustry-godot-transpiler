@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 766)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 761)
+        self.assertEqual(audit["totalSourceFunctions"], 767)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 762)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 766)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 767)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43656,6 +43656,66 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_consume_liquids_result")
         self.assertEqual(result_schema["keys"]["constructed_consume"]["java_expr"], "new ConsumeLiquids(stacks)")
         self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume(new ConsumeLiquids(stacks))")
+
+    def test_generated_block_consume_power_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_consume_power.method")
+        self.assertEqual(method["java_expr"], "public ConsumePower consumePower(float powerPerTick){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.consumePower(float)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_consume_power_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_consume_power_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_consume_power.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return consume(new ConsumePower(powerPerTick, 0.0f, false));")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_consume_power_result.constructed_consume")
+
+        constructor_expr = source_symbols.source_symbol(registry, "block_consume_power.constructor_expr")
+        self.assertEqual(constructor_expr["java_expr"], "new ConsumePower(powerPerTick, 0.0f, false)")
+        self.assertEqual(constructor_expr["godot_symbol"], "source_block_consume_power_result.constructed_consume")
+
+        consume_call_expr = source_symbols.source_symbol(registry, "block_consume_power.consume_call_expr")
+        self.assertEqual(consume_call_expr["java_expr"], "consume(new ConsumePower(powerPerTick, 0.0f, false))")
+        self.assertEqual(consume_call_expr["godot_symbol"], "source_block_consume_power_result.consume_called")
+
+        consume_power_slice = source_symbols.source_slice(ledger, "N1293")
+        self.assertEqual(consume_power_slice["title"], "Generated Block consumePower bridge state")
+        self.assertEqual(consume_power_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(consume_power_slice["java_method"], "Block.consumePower(float)")
+        self.assertEqual(consume_power_slice["godot_owner"], "PortGame.source_block_consume_power_state")
+        self.assertEqual(consume_power_slice["generated_owner"], "Block.java_method_consumePower_101")
+        self.assertEqual(consume_power_slice["runtime_proof"], "/root/Main.generated_block_consume_power_bridge_state")
+        for expr in [
+            "Creates a consumer which directly uses power without buffering it.",
+            "@param powerPerTick The amount of power which is required each tick for 100% efficiency.",
+            "public ConsumePower consumePower(float powerPerTick){",
+            "return consume(new ConsumePower(powerPerTick, 0.0f, false));",
+            "new ConsumePower(powerPerTick, 0.0f, false)",
+            "consume(new ConsumePower(powerPerTick, 0.0f, false))",
+            "float powerPerTick",
+            "0.0f",
+            "false",
+        ]:
+            self.assertIn(expr, consume_power_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_consume_power_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["power_per_tick"])
+        for key in ["source_owner", "source", "method", "return_expr", "constructor_expr", "consume_call_expr", "powerPerTick", "capacity", "buffered", "constructed_consume", "consume_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_consume_power_input")
+        self.assertEqual(input_schema["keys"]["power_per_tick"]["java_expr"], "float powerPerTick")
+        result_schema = source_symbols.state_schema(schema, "source_block_consume_power_result")
+        self.assertEqual(result_schema["keys"]["constructed_consume"]["java_expr"], "new ConsumePower(powerPerTick, 0.0f, false)")
+        self.assertEqual(result_schema["keys"]["capacity"]["java_expr"], "0.0f")
+        self.assertEqual(result_schema["keys"]["buffered"]["java_expr"], "false")
+        self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume(new ConsumePower(powerPerTick, 0.0f, false))")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

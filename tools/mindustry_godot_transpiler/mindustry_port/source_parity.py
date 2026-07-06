@@ -9946,6 +9946,24 @@ def verify_block_consume_liquids_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_block_consume_power_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "Creates a consumer which directly uses power without buffering it.",
+        "param": "@param powerPerTick The amount of power which is required each tick for 100% efficiency.",
+        "method": "public ConsumePower consumePower(float powerPerTick){",
+        "return_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));",
+        "constructor_expr": "new ConsumePower(powerPerTick, 0.0f, false)",
+        "consume_call_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
