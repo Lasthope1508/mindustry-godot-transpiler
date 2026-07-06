@@ -108143,6 +108143,107 @@
           "java_expr": "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_any_reset_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state.",
+      "keys": {
+        "activation_returned_early": {
+          "type": "bool",
+          "java_expr": "if(activationTimer > 0){ return; }",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "any_before": {
+          "type": "bool",
+          "java_expr": "any",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_any_reset_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "method": {
+          "type": "String",
+          "java_expr": "public void updateTile(){",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "activation_guard_expr": {
+          "type": "String",
+          "java_expr": "if(activationTimer > 0){",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "return_expr": {
+          "type": "String",
+          "java_expr": "return;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "any_reset_expr": {
+          "type": "String",
+          "java_expr": "any = false;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "activation_returned_early": {
+          "type": "bool",
+          "java_expr": "if(activationTimer > 0){ return; }",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "any_before": {
+          "type": "bool",
+          "java_expr": "any",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "any_reset_evaluated": {
+          "type": "bool",
+          "java_expr": "not activation_returned_early",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "any_reset_called": {
+          "type": "bool",
+          "java_expr": "any = false;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "any_after": {
+          "type": "bool",
+          "java_expr": "any = false;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        },
+        "any_reset_call": {
+          "type": "Dictionary",
+          "java_expr": "any = false;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() any reset"
+        }
+      }
     }
   },
   "version": 1

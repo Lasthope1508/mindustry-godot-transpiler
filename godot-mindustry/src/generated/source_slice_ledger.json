@@ -28704,6 +28704,33 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_state",
       "rule": "Inside the coolant guard, TractorBeamBuild.updateTile assigns coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier). Guard-false keeps previous coolantMultiplier."
+    },
+    "N1248": {
+      "title": "Generated TractorBeamTurretBuild updateTile any reset bridge state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() any reset",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.any_reset",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "return;",
+        "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);",
+        "any = false;"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_any_reset.method",
+        "tractor_beam_turret_build_update_tile_any_reset.assignment"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_reset_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_reset_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_any_reset_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_any_reset_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1

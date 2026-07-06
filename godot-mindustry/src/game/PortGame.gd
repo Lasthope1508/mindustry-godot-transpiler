@@ -17657,6 +17657,41 @@ func generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_s
 			and result.get("coolant_multiplier_assign_called", null) == canonical.get("coolant_multiplier_assign_called", null),
 	}
 
+func source_tractor_beam_turret_build_update_tile_any_reset_state(activation_returned_early: bool, any_before: bool) -> Dictionary:
+	var any_reset_evaluated: bool = not activation_returned_early
+	var any_reset_called: bool = any_reset_evaluated
+	var any_after: bool = false if any_reset_evaluated else any_before
+	var any_reset_call: Dictionary = {}
+	if any_reset_called:
+		any_reset_call = {"call": "any = false;", "value": any_after}
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
+		"method": "public void updateTile(){",
+		"activation_guard_expr": "if(activationTimer > 0){",
+		"return_expr": "return;",
+		"any_reset_expr": "any = false;",
+		"activation_returned_early": activation_returned_early,
+		"any_before": any_before,
+		"any_reset_evaluated": any_reset_evaluated,
+		"any_reset_called": any_reset_called,
+		"any_after": any_after,
+		"any_reset_call": any_reset_call,
+	}
+
+func generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y, any_before])
+	var canonical = source_tractor_beam_turret_build_update_tile_any_reset_state(result.get("activation_returned_early", false), any_before)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.any_reset",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("any_after", null) == canonical.get("any_after", null) and result.get("any_reset_call", null) == canonical.get("any_reset_call", null)
+			and result.get("any_reset_called", null) == canonical.get("any_reset_called", null),
+	}
+
 func source_tractor_beam_turret_build_draw_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:
 	var draw_rotation: float = rotation_value - 90.0
 	var base_rect_call: Dictionary = {"call": "Draw.rect(baseRegion, x, y);", "region": base_region, "x": x, "y": y}

@@ -868,6 +868,22 @@ def verify_tractor_beam_turret_build_update_tile_coolant_multiplier_source(upstr
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_any_reset_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "activation_return": "return;",
+        "coolant_multiplier": "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);",
+        "any_reset": "any = false;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

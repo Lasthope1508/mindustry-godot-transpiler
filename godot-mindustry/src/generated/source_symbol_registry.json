@@ -92291,6 +92291,42 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
       "java_expr": "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);"
+    },
+    "tractor_beam_turret_build_update_tile_any_reset.method": {
+      "java_expr": "public void updateTile(){",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_any_reset_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() any reset",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_reset_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_reset_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_any_reset_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_any_reset_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_any_reset_state",
+      "source_slice": "N1248",
+      "status": "source-backed",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for any reset slice."
+    },
+    "tractor_beam_turret_build_update_tile_any_reset.assignment": {
+      "java_expr": "any = false;",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_any_reset_result.any_after",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() any reset",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_reset_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_reset_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_any_reset_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_any_reset_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_any_reset_state",
+      "source_slice": "N1248",
+      "status": "source-backed",
+      "rule": "Source any reset assignment."
     }
   },
   "version": 1

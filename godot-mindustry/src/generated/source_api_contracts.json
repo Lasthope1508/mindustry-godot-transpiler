@@ -30009,6 +30009,49 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_multiplier_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile coolantMultiplier assignment."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state": {
+      "source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
+      "source_slice": "N1248",
+      "params": [
+        {
+          "name": "activation_returned_early",
+          "type": "bool",
+          "java_expr": "if(activationTimer > 0){ return; }",
+          "schema": "source_tractor_beam_turret_build_update_tile_any_reset_input.activation_returned_early"
+        },
+        {
+          "name": "any_before",
+          "type": "bool",
+          "java_expr": "any",
+          "schema": "source_tractor_beam_turret_build_update_tile_any_reset_input.any_before"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "activation_guard_expr",
+        "return_expr",
+        "any_reset_expr",
+        "activation_returned_early",
+        "any_before",
+        "any_reset_evaluated",
+        "any_reset_called",
+        "any_after",
+        "any_reset_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_reset_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_reset_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_any_reset_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_any_reset_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_any_reset_state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() any reset",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile any reset assignment."
     }
   },
   "policy": {
