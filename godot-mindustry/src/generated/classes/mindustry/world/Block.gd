@@ -372,7 +372,9 @@ func java_method_consumeLiquid_99(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_consume_liquid_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeLiquid consumeLiquid(Liquid liquid, float amount){", "return_expr": "return consume(new ConsumeLiquid(liquid, amount));", "constructor_expr": "new ConsumeLiquid(liquid, amount)", "consume_call_expr": "consume(new ConsumeLiquid(liquid, amount))", "liquid": liquid, "amount": amount, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumeLiquids_100(_args: Array = []) -> Variant:
-	return null
+	var stacks: Variant = _args[0] if _args.size() > 0 else []
+	var constructed_consume: Dictionary = {"type": "ConsumeLiquids", "stacks": stacks}
+	return {"source_owner": "PortGame.source_block_consume_liquids_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeLiquids consumeLiquids(LiquidStack... stacks){", "return_expr": "return consume(new ConsumeLiquids(stacks));", "constructor_expr": "new ConsumeLiquids(stacks)", "consume_call_expr": "consume(new ConsumeLiquids(stacks))", "stacks": stacks, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumePower_101(_args: Array = []) -> Variant:
 	return null

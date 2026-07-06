@@ -17441,6 +17441,33 @@ func generated_block_consume_liquid_bridge_state(liquid: Variant, amount: float)
 		"matches": result == canonical,
 	}
 
+func source_block_consume_liquids_state(stacks: Variant) -> Dictionary:
+	var constructed_consume: Dictionary = {"type": "ConsumeLiquids", "stacks": stacks}
+	return {
+		"source_owner": "PortGame.source_block_consume_liquids_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public ConsumeLiquids consumeLiquids(LiquidStack... stacks){",
+		"return_expr": "return consume(new ConsumeLiquids(stacks));",
+		"constructor_expr": "new ConsumeLiquids(stacks)",
+		"consume_call_expr": "consume(new ConsumeLiquids(stacks))",
+		"stacks": stacks,
+		"constructed_consume": constructed_consume,
+		"consume_called": true,
+	}
+
+func generated_block_consume_liquids_bridge_state(stacks: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_consumeLiquids_100([stacks])
+	var canonical = source_block_consume_liquids_state(stacks)
+	return {
+		"source_owner": "PortGame.source_block_consume_liquids_state",
+		"generated_owner": "Block.java_method_consumeLiquids_100",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation
