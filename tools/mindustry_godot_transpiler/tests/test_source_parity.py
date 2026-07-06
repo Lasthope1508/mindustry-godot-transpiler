@@ -5071,6 +5071,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_remove_consumers_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_remove_consumers_source"))
+        report = source_parity.verify_block_remove_consumers_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void removeConsumers(Boolf<Consume> b){",
+            "remove_all_expr": "consumeBuilder.removeAll(b);",
+            "comment": "//the power was removed, unassign it",
+            "power_guard_expr": "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){",
+            "cons_power_expr": "consPower = null;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

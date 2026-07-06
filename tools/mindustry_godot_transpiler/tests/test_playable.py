@@ -16227,5 +16227,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_removeConsumer_97"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_remove_consumers_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_remove_consumers_state(consume_builder_contains_power_after_remove: bool, b: Variant) -> Dictionary:", source)
+        self.assertIn("var cons_power_cleared: bool = not consume_builder_contains_power_after_remove", source)
+        self.assertIn('"source_owner": "PortGame.source_block_remove_consumers_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void removeConsumers(Boolf<Consume> b){"', source)
+        self.assertIn('"remove_all_expr": "consumeBuilder.removeAll(b);"', source)
+        self.assertIn('"comment": "//the power was removed, unassign it"', source)
+        self.assertIn('"power_guard_expr": "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){"', source)
+        self.assertIn('"cons_power_expr": "consPower = null;"', source)
+        self.assertIn('"consumeBuilder_contains_power_after_remove": consume_builder_contains_power_after_remove', source)
+        self.assertIn('"consume_builder_remove_all_called": true', source)
+        self.assertIn('"cons_power_cleared": cons_power_cleared', source)
+
+    def test_port_game_exposes_generated_block_remove_consumers_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_remove_consumers_bridge_state(consume_builder_contains_power_after_remove: bool, b: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_removeConsumers_98([consume_builder_contains_power_after_remove, b])", source)
+        self.assertIn("var canonical = source_block_remove_consumers_state(consume_builder_contains_power_after_remove, b)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_remove_consumers_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_removeConsumers_98"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

@@ -5443,6 +5443,132 @@
         "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
       ]
     },
+    "block_remove_consumers.b": {
+      "godot_owner": "PortGame.source_block_remove_consumers_state",
+      "godot_symbol": "source_block_remove_consumers_input.b",
+      "java_expr": "Boolf<Consume> b",
+      "java_method": "Block.removeConsumers(Boolf<Consume>)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose removeConsumers predicate parameter.",
+      "runtime_proof": "/root/Main.source_block_remove_consumers_state",
+      "source_slice": "N1290",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_remove_consumers_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumers_state",
+        "test_port_game_exposes_generated_block_remove_consumers_bridge_state",
+        "test_block_remove_consumers_matches_upstream_source",
+        "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumers.comment": {
+      "godot_owner": "PortGame.source_block_remove_consumers_state",
+      "godot_symbol": "source_block_remove_consumers_result.comment",
+      "java_expr": "//the power was removed, unassign it",
+      "java_method": "Block.removeConsumers(Boolf<Consume>)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve source comment explaining consPower unassignment.",
+      "runtime_proof": "/root/Main.source_block_remove_consumers_state",
+      "source_slice": "N1290",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_remove_consumers_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumers_state",
+        "test_port_game_exposes_generated_block_remove_consumers_bridge_state",
+        "test_block_remove_consumers_matches_upstream_source",
+        "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumers.cons_power_expr": {
+      "godot_owner": "PortGame.source_block_remove_consumers_state",
+      "godot_symbol": "source_block_remove_consumers_result.cons_power_cleared",
+      "java_expr": "consPower = null;",
+      "java_method": "Block.removeConsumers(Boolf<Consume>)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consPower clear side effect.",
+      "runtime_proof": "/root/Main.source_block_remove_consumers_state",
+      "source_slice": "N1290",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_remove_consumers_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumers_state",
+        "test_port_game_exposes_generated_block_remove_consumers_bridge_state",
+        "test_block_remove_consumers_matches_upstream_source",
+        "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumers.consume_builder_contains_power_after_remove": {
+      "godot_owner": "PortGame.source_block_remove_consumers_state",
+      "godot_symbol": "source_block_remove_consumers_input.consumeBuilder_contains_power_after_remove",
+      "java_expr": "consumeBuilder.contains(c -> c instanceof ConsumePower)",
+      "java_method": "Block.removeConsumers(Boolf<Consume>)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose post-remove ConsumePower presence as explicit source input.",
+      "runtime_proof": "/root/Main.source_block_remove_consumers_state",
+      "source_slice": "N1290",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_remove_consumers_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumers_state",
+        "test_port_game_exposes_generated_block_remove_consumers_bridge_state",
+        "test_block_remove_consumers_matches_upstream_source",
+        "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumers.method": {
+      "godot_owner": "PortGame.source_block_remove_consumers_state",
+      "godot_symbol": "source_block_remove_consumers_result.method",
+      "java_expr": "public void removeConsumers(Boolf<Consume> b){",
+      "java_method": "Block.removeConsumers(Boolf<Consume>)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.removeConsumers(Boolf<Consume>) method boundary.",
+      "runtime_proof": "/root/Main.source_block_remove_consumers_state",
+      "source_slice": "N1290",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_remove_consumers_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumers_state",
+        "test_port_game_exposes_generated_block_remove_consumers_bridge_state",
+        "test_block_remove_consumers_matches_upstream_source",
+        "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumers.power_guard_expr": {
+      "godot_owner": "PortGame.source_block_remove_consumers_state",
+      "godot_symbol": "source_block_remove_consumers_result.cons_power_cleared",
+      "java_expr": "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){",
+      "java_method": "Block.removeConsumers(Boolf<Consume>)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve no-remaining-ConsumePower guard.",
+      "runtime_proof": "/root/Main.source_block_remove_consumers_state",
+      "source_slice": "N1290",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_remove_consumers_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumers_state",
+        "test_port_game_exposes_generated_block_remove_consumers_bridge_state",
+        "test_block_remove_consumers_matches_upstream_source",
+        "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_remove_consumers.remove_all_expr": {
+      "godot_owner": "PortGame.source_block_remove_consumers_state",
+      "godot_symbol": "source_block_remove_consumers_result.consume_builder_remove_all_called",
+      "java_expr": "consumeBuilder.removeAll(b);",
+      "java_method": "Block.removeConsumers(Boolf<Consume>)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumeBuilder.removeAll(b) side-effect call.",
+      "runtime_proof": "/root/Main.source_block_remove_consumers_state",
+      "source_slice": "N1290",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_remove_consumers_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumers_state",
+        "test_port_game_exposes_generated_block_remove_consumers_bridge_state",
+        "test_block_remove_consumers_matches_upstream_source",
+        "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_rotated_output.method": {
       "godot_owner": "PortGame.source_block_rotated_output_state",
       "godot_symbol": "source_block_rotated_output_result.method",

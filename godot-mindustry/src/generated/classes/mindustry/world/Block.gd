@@ -360,7 +360,10 @@ func java_method_removeConsumer_97(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_remove_consumer_state", "source": "core/src/mindustry/world/Block.java", "method": "public void removeConsumer(Consume cons){", "guard_expr": "if(consumers.length > 0){", "exception_expr": "throw new IllegalStateException(\"You can only remove consumers before init(). After init(), all consumers have already been initialized.\");", "exception_message": "You can only remove consumers before init(). After init(), all consumers have already been initialized.", "remove_expr": "consumeBuilder.remove(cons);", "consumers_length": consumers_length, "cons": cons, "illegal_state_exception_thrown": illegal_state_exception_thrown, "consume_builder_remove_called": consume_builder_remove_called}
 
 func java_method_removeConsumers_98(_args: Array = []) -> Variant:
-	return null
+	var consume_builder_contains_power_after_remove: bool = bool(_args[0] if _args.size() > 0 else false)
+	var b: Variant = _args[1] if _args.size() > 1 else null
+	var cons_power_cleared: bool = not consume_builder_contains_power_after_remove
+	return {"source_owner": "PortGame.source_block_remove_consumers_state", "source": "core/src/mindustry/world/Block.java", "method": "public void removeConsumers(Boolf<Consume> b){", "remove_all_expr": "consumeBuilder.removeAll(b);", "comment": "//the power was removed, unassign it", "power_guard_expr": "if(!consumeBuilder.contains(c -> c instanceof ConsumePower)){", "cons_power_expr": "consPower = null;", "consumeBuilder_contains_power_after_remove": consume_builder_contains_power_after_remove, "b": b, "consume_builder_remove_all_called": true, "cons_power_cleared": cons_power_cleared}
 
 func java_method_consumeLiquid_99(_args: Array = []) -> Variant:
 	return null

@@ -2405,6 +2405,46 @@
         "test_generated_block_remove_consumer_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_remove_consumers_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "consume_builder_contains_power_after_remove",
+          "schema": "source_block_remove_consumers_input.consumeBuilder_contains_power_after_remove",
+          "type": "bool"
+        },
+        {
+          "name": "b",
+          "schema": "source_block_remove_consumers_input.b",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "remove_all_expr",
+        "comment",
+        "power_guard_expr",
+        "cons_power_expr",
+        "consumeBuilder_contains_power_after_remove",
+        "b",
+        "consume_builder_remove_all_called",
+        "cons_power_cleared"
+      ],
+      "rule": "Pin source-backed Block.removeConsumers bridge parameters and return keys.",
+      "runtime_proof": "/root/Main.source_block_remove_consumers_state",
+      "source_method": "Block.removeConsumers(Boolf<Consume>)",
+      "source_slice": "N1290",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_remove_consumers_to_source_state",
+        "test_port_game_exposes_source_block_remove_consumers_state",
+        "test_port_game_exposes_generated_block_remove_consumers_bridge_state",
+        "test_block_remove_consumers_matches_upstream_source",
+        "test_generated_block_remove_consumers_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_rotated_output_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [
