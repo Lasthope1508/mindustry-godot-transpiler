@@ -7369,6 +7369,78 @@
         "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
       ]
     },
+    "block_setup_requirements_simple.cat": {
+      "godot_owner": "PortGame.source_block_setup_requirements_simple_state",
+      "godot_symbol": "source_block_setup_requirements_simple_input.cat",
+      "java_expr": "Category cat",
+      "java_method": "Block.setupRequirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose setupRequirements category parameter.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_simple_state",
+      "source_slice": "N1304",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_simple_state",
+        "test_port_game_exposes_generated_block_setup_requirements_simple_bridge_state",
+        "test_block_setup_requirements_simple_matches_upstream_source",
+        "test_generated_block_setup_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_setup_requirements_simple.delegate_call_expr": {
+      "godot_owner": "PortGame.source_block_setup_requirements_simple_state",
+      "godot_symbol": "source_block_setup_requirements_simple_result.delegate_called",
+      "java_expr": "requirements(cat, stacks);",
+      "java_method": "Block.setupRequirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve setupRequirements delegate call to requirements(cat, stacks).",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_simple_state",
+      "source_slice": "N1304",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_simple_state",
+        "test_port_game_exposes_generated_block_setup_requirements_simple_bridge_state",
+        "test_block_setup_requirements_simple_matches_upstream_source",
+        "test_generated_block_setup_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_setup_requirements_simple.method": {
+      "godot_owner": "PortGame.source_block_setup_requirements_simple_state",
+      "godot_symbol": "source_block_setup_requirements_simple_result.method",
+      "java_expr": "public void setupRequirements(Category cat, ItemStack[] stacks){",
+      "java_method": "Block.setupRequirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.setupRequirements(Category,ItemStack[]) method boundary.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_simple_state",
+      "source_slice": "N1304",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_simple_state",
+        "test_port_game_exposes_generated_block_setup_requirements_simple_bridge_state",
+        "test_block_setup_requirements_simple_matches_upstream_source",
+        "test_generated_block_setup_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_setup_requirements_simple.stacks": {
+      "godot_owner": "PortGame.source_block_setup_requirements_simple_state",
+      "godot_symbol": "source_block_setup_requirements_simple_input.stacks",
+      "java_expr": "ItemStack[] stacks",
+      "java_method": "Block.setupRequirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose setupRequirements stacks parameter.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_simple_state",
+      "source_slice": "N1304",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_simple_state",
+        "test_port_game_exposes_generated_block_setup_requirements_simple_bridge_state",
+        "test_block_setup_requirements_simple_matches_upstream_source",
+        "test_generated_block_setup_requirements_simple_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_sprite_base_position.block_input": {
       "godot_owner": "PortGame.source_block_sprite_base_position",
       "godot_symbol": "source_block_sprite_base_position_input.block",

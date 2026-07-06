@@ -9804,6 +9804,36 @@
       ],
       "title": "Generated Block consume generic bridge state"
     },
+    "N1304": {
+      "exact_exprs": [
+        "public void setupRequirements(Category cat, ItemStack[] stacks){",
+        "requirements(cat, stacks);",
+        "requirements(cat, stacks)",
+        "Category cat",
+        "ItemStack[] stacks"
+      ],
+      "generated_owner": "Block.java_method_setupRequirements_112",
+      "godot_owner": "PortGame.source_block_setup_requirements_simple_state",
+      "java_class": "Block",
+      "java_method": "Block.setupRequirements(Category,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_setup_requirements_simple_bridge_state",
+      "source_symbols": [
+        "block_setup_requirements_simple.method",
+        "block_setup_requirements_simple.delegate_call_expr",
+        "block_setup_requirements_simple.cat",
+        "block_setup_requirements_simple.stacks"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_simple_state",
+        "test_port_game_exposes_generated_block_setup_requirements_simple_bridge_state",
+        "test_block_setup_requirements_simple_matches_upstream_source",
+        "test_generated_block_setup_requirements_simple_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block setupRequirements simple bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

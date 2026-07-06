@@ -16642,5 +16642,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_consume_111"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_setup_requirements_simple_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_setup_requirements_simple_state(cat: Variant, stacks: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_setup_requirements_simple_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void setupRequirements(Category cat, ItemStack[] stacks){"', source)
+        self.assertIn('"delegate_call_expr": "requirements(cat, stacks)"', source)
+        self.assertIn('"cat": cat', source)
+        self.assertIn('"stacks": stacks', source)
+        self.assertIn('"delegate_called": true', source)
+
+    def test_port_game_exposes_generated_block_setup_requirements_simple_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_setup_requirements_simple_bridge_state(cat: Variant, stacks: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_setupRequirements_112([cat, stacks])", source)
+        self.assertIn("var canonical = source_block_setup_requirements_simple_state(cat, stacks)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_setup_requirements_simple_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_setupRequirements_112"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()
