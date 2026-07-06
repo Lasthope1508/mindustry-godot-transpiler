@@ -93950,6 +93950,42 @@
         "test_block_synthetic_matches_upstream_source",
         "test_generated_block_synthetic_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_check_force_dark.method": {
+      "godot_owner": "PortGame.source_block_check_force_dark_state",
+      "godot_symbol": "source_block_check_force_dark_result.method",
+      "java_expr": "public boolean checkForceDark(Tile tile){",
+      "java_method": "Block.checkForceDark(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.checkForceDark(Tile) method boundary.",
+      "runtime_proof": "/root/Main.source_block_check_force_dark_state",
+      "source_slice": "N1279",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_check_force_dark_to_source_state",
+        "test_port_game_exposes_source_block_check_force_dark_state",
+        "test_port_game_exposes_generated_block_check_force_dark_bridge_state",
+        "test_block_check_force_dark_matches_upstream_source",
+        "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_check_force_dark.return_force_dark": {
+      "godot_owner": "PortGame.source_block_check_force_dark_state",
+      "godot_symbol": "source_block_check_force_dark_result.check_force_dark",
+      "java_expr": "return forceDark;",
+      "java_method": "Block.checkForceDark(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Return value is the Block.forceDark field.",
+      "runtime_proof": "/root/Main.source_block_check_force_dark_state",
+      "source_slice": "N1279",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_check_force_dark_to_source_state",
+        "test_port_game_exposes_source_block_check_force_dark_state",
+        "test_port_game_exposes_generated_block_check_force_dark_bridge_state",
+        "test_block_check_force_dark_matches_upstream_source",
+        "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -31494,6 +31494,42 @@
         "test_block_synthetic_matches_upstream_source",
         "test_generated_block_synthetic_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_check_force_dark_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "force_dark_value",
+          "schema": "source_block_check_force_dark_input.forceDark",
+          "type": "bool"
+        },
+        {
+          "name": "tile",
+          "schema": "source_block_check_force_dark_input.tile",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "force_dark",
+        "tile",
+        "check_force_dark"
+      ],
+      "rule": "Public runtime contract for Block.checkForceDark(Tile) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_check_force_dark_state",
+      "source_method": "Block.checkForceDark(Tile tile)",
+      "source_slice": "N1279",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_check_force_dark_to_source_state",
+        "test_port_game_exposes_source_block_check_force_dark_state",
+        "test_port_game_exposes_generated_block_check_force_dark_bridge_state",
+        "test_block_check_force_dark_matches_upstream_source",
+        "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

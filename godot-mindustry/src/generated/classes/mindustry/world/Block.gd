@@ -99,7 +99,9 @@ func java_method_synthetic_22(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_synthetic_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean synthetic(){", "return_expr": "return update || destructible;", "update": update_value, "destructible": destructible_value, "synthetic": synthetic_value}
 
 func java_method_checkForceDark_23(_args: Array = []) -> Variant:
-	return null
+	var force_dark_value: bool = bool(_args[0] if _args.size() > 0 else false)
+	var tile: Variant = _args[1] if _args.size() > 1 else null
+	return {"source_owner": "PortGame.source_block_check_force_dark_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean checkForceDark(Tile tile){", "return_expr": "return forceDark;", "force_dark": force_dark_value, "tile": tile, "check_force_dark": force_dark_value}
 
 func java_method_isDarkened_24(_args: Array = []) -> Variant:
 	return null

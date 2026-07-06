@@ -15937,5 +15937,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_synthetic_22"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_check_force_dark_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_check_force_dark_state(force_dark_value: bool, tile: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_check_force_dark_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public boolean checkForceDark(Tile tile){"', source)
+        self.assertIn('"return_expr": "return forceDark;"', source)
+        self.assertIn('"force_dark": force_dark_value', source)
+        self.assertIn('"tile": tile', source)
+        self.assertIn('"check_force_dark": force_dark_value', source)
+
+    def test_port_game_exposes_generated_block_check_force_dark_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_check_force_dark_bridge_state(force_dark_value: bool, tile: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_checkForceDark_23([force_dark_value, tile])", source)
+        self.assertIn("var canonical = source_block_check_force_dark_state(force_dark_value, tile)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_check_force_dark_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_checkForceDark_23"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

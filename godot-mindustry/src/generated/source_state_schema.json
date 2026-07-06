@@ -113368,6 +113368,125 @@
       "runtime_proof": "/root/Main.source_block_synthetic_state",
       "source_slice": "N1278",
       "status": "active"
+    },
+    "source_block_check_force_dark_input": {
+      "rule": "Inputs for PortGame.source_block_check_force_dark_state.",
+      "keys": {
+        "forceDark": {
+          "godot_symbol": "source_block_check_force_dark_input.forceDark",
+          "java_expr": "forceDark",
+          "java_method": "Block.checkForceDark(Tile tile)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_check_force_dark_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "tile": {
+          "godot_symbol": "source_block_check_force_dark_input.tile",
+          "java_expr": "Tile tile",
+          "java_method": "Block.checkForceDark(Tile tile)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_check_force_dark_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_check_force_dark_state",
+      "runtime_proof": "/root/Main.source_block_check_force_dark_state",
+      "source_slice": "N1279",
+      "status": "active"
+    },
+    "source_block_check_force_dark_result": {
+      "rule": "Dictionary returned by PortGame.source_block_check_force_dark_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_check_force_dark_result.source_owner",
+          "java_expr": "PortGame.source_block_check_force_dark_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_check_force_dark_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_check_force_dark_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_check_force_dark_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_check_force_dark_result.method",
+          "java_expr": "public boolean checkForceDark(Tile tile){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_check_force_dark_state"
+          ],
+          "source_symbols": [
+            "block_check_force_dark.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_check_force_dark_result.return_expr",
+          "java_expr": "return forceDark;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_check_force_dark_state"
+          ],
+          "source_symbols": [
+            "block_check_force_dark.return_force_dark"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "force_dark": {
+          "godot_symbol": "source_block_check_force_dark_result.force_dark",
+          "java_expr": "forceDark",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_check_force_dark_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "tile": {
+          "godot_symbol": "source_block_check_force_dark_result.tile",
+          "java_expr": "Tile tile",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_check_force_dark_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "check_force_dark": {
+          "godot_symbol": "source_block_check_force_dark_result.check_force_dark",
+          "java_expr": "return forceDark;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_check_force_dark_state"
+          ],
+          "source_symbols": [
+            "block_check_force_dark.return_force_dark"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_check_force_dark_state",
+      "runtime_proof": "/root/Main.source_block_check_force_dark_state",
+      "source_slice": "N1279",
+      "status": "active"
     }
   },
   "version": 1

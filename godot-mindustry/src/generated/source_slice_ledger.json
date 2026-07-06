@@ -29633,6 +29633,31 @@
         "test_generated_block_synthetic_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block synthetic bridge state"
+    },
+    "N1279": {
+      "exact_exprs": [
+        "public boolean checkForceDark(Tile tile){",
+        "return forceDark;"
+      ],
+      "generated_owner": "Block.java_method_checkForceDark_23",
+      "godot_owner": "PortGame.source_block_check_force_dark_state",
+      "java_class": "Block",
+      "java_method": "Block.checkForceDark(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_check_force_dark_bridge_state",
+      "source_symbols": [
+        "block_check_force_dark.method",
+        "block_check_force_dark.return_force_dark"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_check_force_dark_to_source_state",
+        "test_port_game_exposes_source_block_check_force_dark_state",
+        "test_port_game_exposes_generated_block_check_force_dark_bridge_state",
+        "test_block_check_force_dark_matches_upstream_source",
+        "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block checkForceDark bridge state"
     }
   },
   "version": 1
