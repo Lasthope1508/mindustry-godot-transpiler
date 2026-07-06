@@ -29064,6 +29064,35 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
       "status": "source-backed"
+    },
+    "N1260": {
+      "title": "Generated TractorBeamTurretBuild updateTile inactive strength bridge state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() inactive strength",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state",
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.inactive_strength",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){",
+        "}else{",
+        "strength = Mathf.lerpDelta(strength, 0, 0.1f);",
+        "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_inactive_strength.method",
+        "tractor_beam_turret_build_update_tile_inactive_strength.assignment",
+        "tractor_beam_turret_build_update_tile_inactive_strength.mathf_lerp_delta"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_inactive_strength_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_inactive_strength_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_inactive_strength_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_inactive_strength_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1

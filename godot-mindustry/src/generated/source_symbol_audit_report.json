@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 728,
+  "registeredSourceOwnerCount": 729,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -567,6 +567,7 @@
     "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
     "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
     "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+    "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state",
     "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state",
     "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
     "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
@@ -3916,6 +3917,11 @@
       "owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state"
     },
     {
+      "function": "source_tractor_beam_turret_build_update_tile_inactive_strength_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state"
+    },
+    {
       "function": "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state"
@@ -4411,6 +4417,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 733,
+  "totalSourceFunctions": 734,
   "version": 1
 }

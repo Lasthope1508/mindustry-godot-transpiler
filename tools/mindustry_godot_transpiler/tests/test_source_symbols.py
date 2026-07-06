@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 733)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 728)
+        self.assertEqual(audit["totalSourceFunctions"], 734)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 729)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 733)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 734)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43768,6 +43768,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_active_strength_result")
         self.assertEqual(result_schema["keys"]["strength_lerp_scaled_progress"]["java_expr"], "0.1f * Time.delta")
         self.assertEqual(result_schema["keys"]["strength_after"]["java_expr"], "Mathf.lerpDelta(strength, 1f, 0.1f)")
+
+    def test_generated_tractor_beam_turret_build_update_tile_inactive_strength_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_inactive_strength.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() inactive strength")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_inactive_strength_state")
+
+        strength = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_inactive_strength.assignment")
+        self.assertEqual(strength["java_expr"], "strength = Mathf.lerpDelta(strength, 0, 0.1f);")
+        self.assertEqual(strength["godot_symbol"], "source_tractor_beam_turret_build_update_tile_inactive_strength_result.inactive_strength_after")
+        mathf_lerp_delta = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_inactive_strength.mathf_lerp_delta")
+        self.assertEqual(mathf_lerp_delta["java_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(mathf_lerp_delta["java_expr"], "public static float lerpDelta(float fromValue, float toValue, float progress){")
+
+        strength_slice = source_symbols.source_slice(ledger, "N1260")
+        self.assertEqual(strength_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(strength_slice["java_method"], "TractorBeamBuild.updateTile() inactive strength")
+        self.assertEqual(strength_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state")
+        self.assertEqual(strength_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state")
+        for expr in ["}else{", "strength = Mathf.lerpDelta(strength, 0, 0.1f);", "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }"]:
+            self.assertIn(expr, strength_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["activation_returned_early", "look_target_guard", "strength_before", "time_delta"],
+        )
+        for key in ["source_owner", "method", "inactive_strength_lerp_expr", "mathf_lerp_delta_method", "activation_returned_early", "look_target_guard", "strength_before", "time_delta", "inactive_strength_evaluated", "inactive_strength_after", "inactive_strength_lerp_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_inactive_strength_input")
+        self.assertEqual(input_schema["keys"]["look_target_guard"]["java_expr"], "target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_inactive_strength_result")
+        self.assertEqual(result_schema["keys"]["inactive_strength_after"]["java_expr"], "Mathf.lerpDelta(strength, 0, 0.1f)")
+        self.assertEqual(result_schema["keys"]["inactive_strength_lerp_call"]["java_expr"], "strength = Mathf.lerpDelta(strength, 0, 0.1f);")
 
     def test_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

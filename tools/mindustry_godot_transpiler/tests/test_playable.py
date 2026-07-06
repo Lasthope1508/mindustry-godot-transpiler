@@ -13659,6 +13659,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.active_strength"', source)
         self.assertIn('"matches": result.get("strength_after", null) == canonical.get("strength_after", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_inactive_strength_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_build_update_tile_inactive_strength_state(activation_returned_early: bool, look_target_guard: bool, strength_before: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state"', source)
+        self.assertIn('"inactive_strength_lerp_expr": "strength = Mathf.lerpDelta(strength, 0, 0.1f);"', source)
+        self.assertIn('"mathf_lerp_delta_method": SOURCE_MATHF_LERP_DELTA_METHOD', source)
+        self.assertIn("var inactive_strength_evaluated: bool = not activation_returned_early and not look_target_guard", source)
+        self.assertIn("var inactive_strength_after: float = source_mathf_lerp_delta(strength_before, 0.0, inactive_strength_lerp_progress, time_delta) if inactive_strength_evaluated else strength_before", source)
+        self.assertIn('inactive_strength_lerp_call = {"call": "strength = Mathf.lerpDelta(strength, 0, 0.1f);", "from": strength_before, "to": 0.0, "progress": inactive_strength_lerp_progress, "time_delta": time_delta, "result": inactive_strength_after}', source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float, any_before: bool, target_within_result: bool, target_team: Variant, target_check_result: bool, target_hit_size: float, headless: bool, shoot_sound: Variant, shoot_sound_volume: float, rotation_before: float, rotate_speed: float, last_x_before: float, last_y_before: float, strength_before: float) -> Dictionary:", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_inactive_strength_state(result.get(\"activation_returned_early\", false), result.get(\"look_target_guard\", false), strength_before, time_delta)", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.inactive_strength"', source)
+        self.assertIn('"matches": result.get("inactive_strength_after", null) == canonical.get("inactive_strength_after", null)', source)
+        self.assertIn("or not result.get(\"inactive_strength_evaluated\", false)", source)
+
     def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

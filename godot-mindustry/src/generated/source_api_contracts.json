@@ -30712,6 +30712,67 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_impulse_net_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile target impulseNet call."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state": {
+      "status": "source-backed",
+      "source_slice": "N1260",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() inactive strength",
+      "params": [
+        {
+          "name": "activation_returned_early",
+          "type": "bool",
+          "java_expr": "activationTimer > 0",
+          "schema": "source_tractor_beam_turret_build_update_tile_inactive_strength_input.activation_returned_early"
+        },
+        {
+          "name": "look_target_guard",
+          "type": "bool",
+          "java_expr": "target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f",
+          "schema": "source_tractor_beam_turret_build_update_tile_inactive_strength_input.look_target_guard"
+        },
+        {
+          "name": "strength_before",
+          "type": "float",
+          "java_expr": "strength",
+          "schema": "source_tractor_beam_turret_build_update_tile_inactive_strength_input.strength_before"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "java_expr": "Time.delta",
+          "schema": "source_tractor_beam_turret_build_update_tile_inactive_strength_input.time_delta"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "look_target_guard_expr",
+        "else_expr",
+        "inactive_strength_lerp_expr",
+        "mathf_lerp_delta_method",
+        "mathf_lerp_delta_clamp_expr",
+        "mathf_lerp_delta_lerp_expr",
+        "activation_returned_early",
+        "look_target_guard",
+        "strength_before",
+        "time_delta",
+        "inactive_strength_evaluated",
+        "inactive_strength_lerp_progress",
+        "inactive_strength_lerp_scaled_progress",
+        "inactive_strength_lerp_clamped_progress",
+        "inactive_strength_after",
+        "inactive_strength_lerp_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_inactive_strength_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_inactive_strength_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_inactive_strength_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_inactive_strength_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_inactive_strength_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile inactive branch strength decay."
     }
   },
   "policy": {

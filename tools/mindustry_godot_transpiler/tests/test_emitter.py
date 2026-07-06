@@ -8889,6 +8889,55 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"strength_lerp_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"', source_text)
             self.assertIn('"strength_after": strength_after', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_inactive_strength_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){
+                strength = Mathf.lerpDelta(strength, 1f, 0.1f);
+            }else{
+                strength = Mathf.lerpDelta(strength, 0, 0.1f);
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var inactive_strength_evaluated: bool = not activation_returned_early and not look_target_guard", source_text)
+            self.assertIn("var inactive_strength_lerp_progress: float = 0.1", source_text)
+            self.assertIn("var inactive_strength_lerp_scaled_progress: float = inactive_strength_lerp_progress * time_delta if inactive_strength_evaluated else 0.0", source_text)
+            self.assertIn("var inactive_strength_after: float = strength_before + (0.0 - strength_before) * inactive_strength_lerp_clamped_progress if inactive_strength_evaluated else strength_after", source_text)
+            self.assertIn("if inactive_strength_evaluated:", source_text)
+            self.assertIn("\t\tstrength_after = inactive_strength_after", source_text)
+            self.assertIn('inactive_strength_lerp_call = {"call": "strength = Mathf.lerpDelta(strength, 0, 0.1f);", "from": strength_before, "to": 0.0, "progress": inactive_strength_lerp_progress, "time_delta": time_delta, "result": inactive_strength_after}', source_text)
+            self.assertIn('"inactive_strength_lerp_expr": "strength = Mathf.lerpDelta(strength, 0, 0.1f);"', source_text)
+            self.assertIn('"inactive_strength_after": inactive_strength_after', source_text)
+            self.assertIn('"inactive_strength_lerp_call": inactive_strength_lerp_call', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

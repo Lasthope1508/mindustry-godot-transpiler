@@ -109747,6 +109747,170 @@
           "java_method": "TractorBeamBuild.updateTile() impulse net"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_inactive_strength_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state.",
+      "keys": {
+        "activation_returned_early": {
+          "type": "bool",
+          "java_expr": "activationTimer > 0",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "look_target_guard": {
+          "type": "bool",
+          "java_expr": "target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "strength_before": {
+          "type": "float",
+          "java_expr": "strength",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "time_delta": {
+          "type": "float",
+          "java_expr": "Time.delta",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_method": "Mathf.lerpDelta(float,float,float)"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_inactive_strength_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "method": {
+          "type": "String",
+          "java_expr": "public void updateTile(){",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "look_target_guard_expr": {
+          "type": "String",
+          "java_expr": "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "else_expr": {
+          "type": "String",
+          "java_expr": "}else{",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "inactive_strength_lerp_expr": {
+          "type": "String",
+          "java_expr": "strength = Mathf.lerpDelta(strength, 0, 0.1f);",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "mathf_lerp_delta_method": {
+          "type": "String",
+          "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "Mathf.lerpDelta(float,float,float)"
+        },
+        "mathf_lerp_delta_clamp_expr": {
+          "type": "String",
+          "java_expr": "clamp(progress * Time.delta)",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "Mathf.lerpDelta(float,float,float)"
+        },
+        "mathf_lerp_delta_lerp_expr": {
+          "type": "String",
+          "java_expr": "lerp(fromValue, toValue, clamp(progress * Time.delta))",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "Mathf.lerpDelta(float,float,float)"
+        },
+        "activation_returned_early": {
+          "type": "bool",
+          "java_expr": "activationTimer > 0",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "look_target_guard": {
+          "type": "bool",
+          "java_expr": "target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "strength_before": {
+          "type": "float",
+          "java_expr": "strength",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "time_delta": {
+          "type": "float",
+          "java_expr": "Time.delta",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/util/Time.java",
+          "java_method": "Mathf.lerpDelta(float,float,float)"
+        },
+        "inactive_strength_evaluated": {
+          "type": "bool",
+          "java_expr": "}else{",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "inactive_strength_lerp_progress": {
+          "type": "float",
+          "java_expr": "0.1f",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "inactive_strength_lerp_scaled_progress": {
+          "type": "float",
+          "java_expr": "0.1f * Time.delta",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "Mathf.lerpDelta(float,float,float)"
+        },
+        "inactive_strength_lerp_clamped_progress": {
+          "type": "float",
+          "java_expr": "clamp(0.1f * Time.delta)",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "Mathf.lerpDelta(float,float,float)"
+        },
+        "inactive_strength_after": {
+          "type": "float",
+          "java_expr": "Mathf.lerpDelta(strength, 0, 0.1f)",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        },
+        "inactive_strength_lerp_call": {
+          "type": "Dictionary",
+          "java_expr": "strength = Mathf.lerpDelta(strength, 0, 0.1f);",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() inactive strength"
+        }
+      }
     }
   },
   "version": 1

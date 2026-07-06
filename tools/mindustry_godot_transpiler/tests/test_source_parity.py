@@ -8769,6 +8769,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_tractor_beam_turret_build_update_tile_inactive_strength_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_update_tile_inactive_strength_source"))
+        report = source_parity.verify_tractor_beam_turret_build_update_tile_inactive_strength_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(report["mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void updateTile(){",
+            "look_target_guard": "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){",
+            "else_branch": "}else{",
+            "inactive_strength": "strength = Mathf.lerpDelta(strength, 0, 0.1f);",
+            "lerp_delta": "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
+            "clamp": "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+            "lerp": "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_source"))
         report = source_parity.verify_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
