@@ -81,4 +81,10 @@ func java_method_localized_10(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_ability_localized_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "comment": "/** @return localized ability name; mods should override this. */", "method": "public String localized(){", "get_bundle_call": "getBundle()", "get_bundle_value": get_bundle_value, "bundle_get_call": "Core.bundle.get(getBundle())", "return_expr": "return Core.bundle.get(getBundle());", "return_value": bundle_value}
 
 func java_method_getBundle_11(_args: Array = []) -> Variant:
-	return null
+	var class_simple_name: String = str(_args[0] if _args.size() > 0 else "")
+	var is_anonymous_class: bool = bool(_args[1] if _args.size() > 1 else false)
+	var superclass_simple_name: String = str(_args[2] if _args.size() > 2 else "")
+	var selected_simple_name: String = superclass_simple_name if is_anonymous_class else class_simple_name
+	var stripped_name: String = selected_simple_name.replace("Ability", "")
+	var return_value: String = "ability." + stripped_name.to_lower()
+	return {"source_owner": "PortGame.source_ability_get_bundle_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public String getBundle(){", "type_assignment": "var type = getClass();", "class_simple_name": class_simple_name, "is_anonymous_class": is_anonymous_class, "superclass_simple_name": superclass_simple_name, "selected_expr": "(type.isAnonymousClass() ? type.getSuperclass() : type)", "selected_simple_name": selected_simple_name, "replace_expr": "getSimpleName().replace(\"Ability\", \"\")", "stripped_name": stripped_name, "lower_expr": "toLowerCase()", "return_expr": "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();", "return_value": return_value}

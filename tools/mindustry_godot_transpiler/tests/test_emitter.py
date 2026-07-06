@@ -9678,6 +9678,44 @@ public abstract class Ability implements Cloneable{
             self.assertIn('"return_expr": "return Core.bundle.get(getBundle());"', source_text)
             self.assertIn('"return_value": bundle_value', source_text)
 
+    def test_emit_bridges_ability_get_bundle_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            ability_path = source_root / "mindustry" / "entities" / "abilities" / "Ability.java"
+            ability_path.parent.mkdir(parents=True, exist_ok=True)
+            ability_path.write_text(
+                """
+package mindustry.entities.abilities;
+
+public abstract class Ability implements Cloneable{
+    public String getBundle(){
+        var type = getClass();
+        return "ability." + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace("Ability", "").toLowerCase();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "abilities" / "Ability.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getBundle_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar class_simple_name: String = str(_args[0] if _args.size() > 0 else \"\")", source_text)
+            self.assertIn("\tvar is_anonymous_class: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\tvar superclass_simple_name: String = str(_args[2] if _args.size() > 2 else \"\")", source_text)
+            self.assertIn("\tvar selected_simple_name: String = superclass_simple_name if is_anonymous_class else class_simple_name", source_text)
+            self.assertIn("\tvar stripped_name: String = selected_simple_name.replace(\"Ability\", \"\")", source_text)
+            self.assertIn("\tvar return_value: String = \"ability.\" + stripped_name.to_lower()", source_text)
+            self.assertIn('"source_owner": "PortGame.source_ability_get_bundle_state"', source_text)
+            self.assertIn('"method": "public String getBundle(){"', source_text)
+            self.assertIn('"type_assignment": "var type = getClass();"', source_text)
+            self.assertIn('"return_expr": "return \\"ability.\\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\\"Ability\\", \\"\\").toLowerCase();"', source_text)
+            self.assertIn('"return_value": return_value', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

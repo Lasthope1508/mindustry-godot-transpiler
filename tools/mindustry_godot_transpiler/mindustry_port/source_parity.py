@@ -9617,6 +9617,25 @@ def verify_ability_localized_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_ability_get_bundle_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / ABILITY_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public abstract class Ability implements Cloneable{",
+        "method": "public String getBundle(){",
+        "type_assignment": "var type = getClass();",
+        "return_expr": "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": ABILITY_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

@@ -15747,5 +15747,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Ability.java_method_localized_10"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_ability_get_bundle_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_ability_get_bundle_state(class_simple_name: String, is_anonymous_class: bool, superclass_simple_name: String) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_ability_get_bundle_state"', source)
+        self.assertIn('"source": "core/src/mindustry/entities/abilities/Ability.java"', source)
+        self.assertIn('"method": "public String getBundle(){"', source)
+        self.assertIn('"type_assignment": "var type = getClass();"', source)
+        self.assertIn('"class_simple_name": class_simple_name', source)
+        self.assertIn('"is_anonymous_class": is_anonymous_class', source)
+        self.assertIn('"superclass_simple_name": superclass_simple_name', source)
+        self.assertIn('"selected_simple_name": selected_simple_name', source)
+        self.assertIn('"stripped_name": stripped_name', source)
+        self.assertIn('"return_value": return_value', source)
+
+    def test_port_game_exposes_generated_ability_get_bundle_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_ability_get_bundle_bridge_state(class_simple_name: String, is_anonymous_class: bool, superclass_simple_name: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")', source)
+        self.assertIn("var result = instance.java_method_getBundle_11([class_simple_name, is_anonymous_class, superclass_simple_name])", source)
+        self.assertIn("var canonical = source_ability_get_bundle_state(class_simple_name, is_anonymous_class, superclass_simple_name)", source)
+        self.assertIn('"source_owner": "PortGame.source_ability_get_bundle_state"', source)
+        self.assertIn('"generated_owner": "Ability.java_method_getBundle_11"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

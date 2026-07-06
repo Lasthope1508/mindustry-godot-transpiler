@@ -15634,6 +15634,40 @@ func generated_ability_localized_bridge_state(get_bundle_value: String, bundle_v
 		"matches": result == canonical,
 	}
 
+func source_ability_get_bundle_state(class_simple_name: String, is_anonymous_class: bool, superclass_simple_name: String) -> Dictionary:
+	var selected_simple_name := superclass_simple_name if is_anonymous_class else class_simple_name
+	var stripped_name := selected_simple_name.replace("Ability", "")
+	var return_value := "ability." + stripped_name.to_lower()
+	return {
+		"source_owner": "PortGame.source_ability_get_bundle_state",
+		"source": "core/src/mindustry/entities/abilities/Ability.java",
+		"method": "public String getBundle(){",
+		"type_assignment": "var type = getClass();",
+		"class_simple_name": class_simple_name,
+		"is_anonymous_class": is_anonymous_class,
+		"superclass_simple_name": superclass_simple_name,
+		"selected_expr": "(type.isAnonymousClass() ? type.getSuperclass() : type)",
+		"selected_simple_name": selected_simple_name,
+		"replace_expr": "getSimpleName().replace(\"Ability\", \"\")",
+		"stripped_name": stripped_name,
+		"lower_expr": "toLowerCase()",
+		"return_expr": "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();",
+		"return_value": return_value,
+	}
+
+func generated_ability_get_bundle_bridge_state(class_simple_name: String, is_anonymous_class: bool, superclass_simple_name: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")
+	var instance = script.new()
+	var result = instance.java_method_getBundle_11([class_simple_name, is_anonymous_class, superclass_simple_name])
+	var canonical = source_ability_get_bundle_state(class_simple_name, is_anonymous_class, superclass_simple_name)
+	return {
+		"source_owner": "PortGame.source_ability_get_bundle_state",
+		"generated_owner": "Ability.java_method_getBundle_11",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
 	var trail_scale := elevation_value if type_use_engine_elevation else 1.0
 	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * trail_scale

@@ -31203,6 +31203,57 @@
       ],
       "runtime_proof": "/root/Main.source_ability_localized_state",
       "rule": "Public runtime contract for Ability.localized source-backed bundle lookup operation plan."
+    },
+    "PortGame.source_ability_get_bundle_state": {
+      "status": "source-backed",
+      "source_slice": "N1272",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.getBundle()",
+      "params": [
+        {
+          "name": "class_simple_name",
+          "type": "String",
+          "java_expr": "type.getSimpleName()",
+          "schema": "source_ability_get_bundle_input.class_simple_name"
+        },
+        {
+          "name": "is_anonymous_class",
+          "type": "bool",
+          "java_expr": "type.isAnonymousClass()",
+          "schema": "source_ability_get_bundle_input.is_anonymous_class"
+        },
+        {
+          "name": "superclass_simple_name",
+          "type": "String",
+          "java_expr": "type.getSuperclass().getSimpleName()",
+          "schema": "source_ability_get_bundle_input.superclass_simple_name"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "type_assignment",
+        "class_simple_name",
+        "is_anonymous_class",
+        "superclass_simple_name",
+        "selected_expr",
+        "selected_simple_name",
+        "replace_expr",
+        "stripped_name",
+        "lower_expr",
+        "return_expr",
+        "return_value"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_get_bundle_to_source_state",
+        "test_port_game_exposes_source_ability_get_bundle_state",
+        "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
+        "test_ability_get_bundle_matches_upstream_source",
+        "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
+      "rule": "Public runtime contract for Ability.getBundle source-backed bundle key formula."
     }
   },
   "policy": {

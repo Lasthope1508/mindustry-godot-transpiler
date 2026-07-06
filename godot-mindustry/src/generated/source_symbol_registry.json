@@ -93626,6 +93626,60 @@
         "test_ability_localized_matches_upstream_source",
         "test_generated_ability_localized_slice_is_registered_with_source_backing"
       ]
+    },
+    "ability_get_bundle.method": {
+      "godot_owner": "PortGame.source_ability_get_bundle_state",
+      "godot_symbol": "source_ability_get_bundle_result.method",
+      "java_expr": "public String getBundle(){",
+      "java_method": "Ability.getBundle()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
+      "source_slice": "N1272",
+      "status": "source-backed",
+      "rule": "Ability.getBundle method boundary.",
+      "tests": [
+        "test_emit_bridges_ability_get_bundle_to_source_state",
+        "test_port_game_exposes_source_ability_get_bundle_state",
+        "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
+        "test_ability_get_bundle_matches_upstream_source",
+        "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_get_bundle.type_assignment": {
+      "godot_owner": "PortGame.source_ability_get_bundle_state",
+      "godot_symbol": "source_ability_get_bundle_result.type_assignment",
+      "java_expr": "var type = getClass();",
+      "java_method": "Ability.getBundle()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
+      "source_slice": "N1272",
+      "status": "source-backed",
+      "rule": "Ability.getBundle source type assignment.",
+      "tests": [
+        "test_emit_bridges_ability_get_bundle_to_source_state",
+        "test_port_game_exposes_source_ability_get_bundle_state",
+        "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
+        "test_ability_get_bundle_matches_upstream_source",
+        "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_get_bundle.return_expr": {
+      "godot_owner": "PortGame.source_ability_get_bundle_state",
+      "godot_symbol": "source_ability_get_bundle_result.return_value",
+      "java_expr": "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();",
+      "java_method": "Ability.getBundle()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
+      "source_slice": "N1272",
+      "status": "source-backed",
+      "rule": "Ability.getBundle source return expression.",
+      "tests": [
+        "test_emit_bridges_ability_get_bundle_to_source_state",
+        "test_port_game_exposes_source_ability_get_bundle_state",
+        "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
+        "test_ability_get_bundle_matches_upstream_source",
+        "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

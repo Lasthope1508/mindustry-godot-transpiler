@@ -112089,6 +112089,308 @@
       "runtime_proof": "/root/Main.source_ability_localized_state",
       "source_slice": "N1271",
       "status": "source-backed"
+    },
+    "source_ability_get_bundle_input": {
+      "rule": "Inputs for PortGame.source_ability_get_bundle_state.",
+      "keys": {
+        "class_simple_name": {
+          "godot_symbol": "source_ability_get_bundle_input.class_simple_name",
+          "java_expr": "type.getSimpleName()",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Explicit simple name for getClass() result.",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "is_anonymous_class": {
+          "godot_symbol": "source_ability_get_bundle_input.is_anonymous_class",
+          "java_expr": "type.isAnonymousClass()",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Explicit anonymous-class branch selector.",
+          "status": "explicit-input",
+          "type": "bool",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "superclass_simple_name": {
+          "godot_symbol": "source_ability_get_bundle_input.superclass_simple_name",
+          "java_expr": "type.getSuperclass().getSimpleName()",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Explicit superclass simple name for anonymous classes.",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_get_bundle_state",
+      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
+      "source_slice": "N1272",
+      "status": "source-backed"
+    },
+    "source_ability_get_bundle_result": {
+      "rule": "Dictionary returned by PortGame.source_ability_get_bundle_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_ability_get_bundle_result.source_owner",
+          "java_expr": "PortGame.source_ability_get_bundle_state",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Canonical PortGame owner for Ability.getBundle bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_ability_get_bundle_result.source",
+          "java_expr": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Upstream source file for Ability.getBundle.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_ability_get_bundle_result.method",
+          "java_expr": "public String getBundle(){",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Ability.getBundle method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_get_bundle.method"
+          ],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "type_assignment": {
+          "godot_symbol": "source_ability_get_bundle_result.type_assignment",
+          "java_expr": "var type = getClass();",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Source type assignment.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_get_bundle.type_assignment"
+          ],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "class_simple_name": {
+          "godot_symbol": "source_ability_get_bundle_result.class_simple_name",
+          "java_expr": "type.getSimpleName()",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Explicit class simple name input.",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "is_anonymous_class": {
+          "godot_symbol": "source_ability_get_bundle_result.is_anonymous_class",
+          "java_expr": "type.isAnonymousClass()",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Explicit anonymous branch selector.",
+          "status": "explicit-input",
+          "type": "bool",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "superclass_simple_name": {
+          "godot_symbol": "source_ability_get_bundle_result.superclass_simple_name",
+          "java_expr": "type.getSuperclass().getSimpleName()",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Explicit superclass simple name input.",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "selected_expr": {
+          "godot_symbol": "source_ability_get_bundle_result.selected_expr",
+          "java_expr": "(type.isAnonymousClass() ? type.getSuperclass() : type)",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Source ternary class selection expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "selected_simple_name": {
+          "godot_symbol": "source_ability_get_bundle_result.selected_simple_name",
+          "java_expr": "(type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName()",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Selected simple name before replace.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_get_bundle.return_expr"
+          ],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "replace_expr": {
+          "godot_symbol": "source_ability_get_bundle_result.replace_expr",
+          "java_expr": "getSimpleName().replace(\"Ability\", \"\")",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Source replace expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "stripped_name": {
+          "godot_symbol": "source_ability_get_bundle_result.stripped_name",
+          "java_expr": "getSimpleName().replace(\"Ability\", \"\")",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Selected name after removing Ability suffix.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_get_bundle.return_expr"
+          ],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "lower_expr": {
+          "godot_symbol": "source_ability_get_bundle_result.lower_expr",
+          "java_expr": "toLowerCase()",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Source lowercase expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_ability_get_bundle_result.return_expr",
+          "java_expr": "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Source return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_get_bundle.return_expr"
+          ],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        },
+        "return_value": {
+          "godot_symbol": "source_ability_get_bundle_result.return_value",
+          "java_expr": "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();",
+          "java_method": "Ability.getBundle()",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_get_bundle_state"
+          ],
+          "rule": "Computed bundle key returned by Ability.getBundle.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_get_bundle.return_expr"
+          ],
+          "used_by": [
+            "PortGame.source_ability_get_bundle_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_get_bundle_state",
+      "runtime_proof": "/root/Main.source_ability_get_bundle_state",
+      "source_slice": "N1272",
+      "status": "source-backed"
     }
   },
   "version": 1
