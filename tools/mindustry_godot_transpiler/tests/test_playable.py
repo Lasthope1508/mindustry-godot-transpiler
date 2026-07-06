@@ -16343,5 +16343,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_consumePower_101"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_consume_power_cond_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_consume_power_cond_state(usage: float, cons: Variant) -> Dictionary:", source)
+        self.assertIn('var constructed_consume: Dictionary = {"type": "ConsumePowerCondition", "usage": usage, "condition": cons}', source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_power_cond_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"comment": "Creates a consumer which only consumes power when the condition is met."', source)
+        self.assertIn('"method": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){"', source)
+        self.assertIn('"return_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));"', source)
+        self.assertIn('"constructor_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)"', source)
+        self.assertIn('"condition_cast_expr": "(Boolf<Building>)cons"', source)
+        self.assertIn('"consume_call_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))"', source)
+        self.assertIn('"usage": usage', source)
+        self.assertIn('"condition": cons', source)
+        self.assertIn('"constructed_consume": constructed_consume', source)
+        self.assertIn('"consume_called": true', source)
+
+    def test_port_game_exposes_generated_block_consume_power_cond_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_consume_power_cond_bridge_state(usage: float, cons: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_consumePowerCond_102([usage, cons])", source)
+        self.assertIn("var canonical = source_block_consume_power_cond_state(usage, cons)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_power_cond_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_consumePowerCond_102"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

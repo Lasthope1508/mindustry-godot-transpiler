@@ -1592,6 +1592,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_block_consume_power_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which directly uses power without buffering it.", "param": "@param powerPerTick The amount of power which is required each tick for 100% efficiency.", "method": "public ConsumePower consumePower(float powerPerTick){", "return_expr": "return consume(new ConsumePower(powerPerTick, 0.0f, false));", "constructor_expr": "new ConsumePower(powerPerTick, 0.0f, false)", "consume_call_expr": "consume(new ConsumePower(powerPerTick, 0.0f, false))", "powerPerTick": power_per_tick, "capacity": 0.0, "buffered": false, "constructed_consume": constructed_consume, "consume_called": true}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "consumePowerCond"
+    ):
+        return [
+            "\tvar usage: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar cons: Variant = _args[1] if _args.size() > 1 else null",
+            '\tvar constructed_consume: Dictionary = {"type": "ConsumePowerCondition", "usage": usage, "condition": cons}',
+            '\treturn {"source_owner": "PortGame.source_block_consume_power_cond_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which only consumes power when the condition is met.", "method": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){", "return_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));", "constructor_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)", "condition_cast_expr": "(Boolf<Building>)cons", "consume_call_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))", "usage": usage, "condition": cons, "constructed_consume": constructed_consume, "consume_called": true}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/ContinuousTurret.java"
         and type_entry.get("name") == "ContinuousTurret"
         and method.get("name") == "setStats"

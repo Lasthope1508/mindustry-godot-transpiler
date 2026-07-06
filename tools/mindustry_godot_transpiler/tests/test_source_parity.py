@@ -5126,6 +5126,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_consume_power_cond_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_consume_power_cond_source"))
+        report = source_parity.verify_block_consume_power_cond_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "comment": "Creates a consumer which only consumes power when the condition is met.",
+            "method": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){",
+            "return_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));",
+            "constructor_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)",
+            "condition_cast_expr": "(Boolf<Building>)cons",
+            "consume_call_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

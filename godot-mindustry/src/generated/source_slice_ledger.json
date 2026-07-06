@@ -9450,6 +9450,43 @@
       ],
       "title": "Generated Block consumePower bridge state"
     },
+    "N1294": {
+      "exact_exprs": [
+        "Creates a consumer which only consumes power when the condition is met.",
+        "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){",
+        "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));",
+        "new ConsumePowerCondition(usage, (Boolf<Building>)cons)",
+        "(Boolf<Building>)cons",
+        "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))",
+        "float usage",
+        "Boolf<T> cons"
+      ],
+      "generated_owner": "Block.java_method_consumePowerCond_102",
+      "godot_owner": "PortGame.source_block_consume_power_cond_state",
+      "java_class": "Block",
+      "java_method": "Block.consumePowerCond(float,Boolf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_power_cond_bridge_state",
+      "source_symbols": [
+        "block_consume_power_cond.comment",
+        "block_consume_power_cond.method",
+        "block_consume_power_cond.return_expr",
+        "block_consume_power_cond.constructor_expr",
+        "block_consume_power_cond.condition_cast_expr",
+        "block_consume_power_cond.consume_call_expr",
+        "block_consume_power_cond.usage",
+        "block_consume_power_cond.cons"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_cond_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_cond_state",
+        "test_port_game_exposes_generated_block_consume_power_cond_bridge_state",
+        "test_block_consume_power_cond_matches_upstream_source",
+        "test_generated_block_consume_power_cond_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumePowerCond bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

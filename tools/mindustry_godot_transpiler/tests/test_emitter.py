@@ -8004,6 +8004,46 @@ public class Block{
             self.assertIn('"constructed_consume": constructed_consume', source_text)
             self.assertIn('"consume_called": true', source_text)
 
+    def test_emit_bridges_block_consume_power_cond_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){
+        return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_consumePowerCond_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar usage: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("\tvar cons: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumePowerCondition", "usage": usage, "condition": cons}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_consume_power_cond_state"', source_text)
+            self.assertIn('"comment": "Creates a consumer which only consumes power when the condition is met."', source_text)
+            self.assertIn('"method": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){"', source_text)
+            self.assertIn('"return_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));"', source_text)
+            self.assertIn('"constructor_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)"', source_text)
+            self.assertIn('"condition_cast_expr": "(Boolf<Building>)cons"', source_text)
+            self.assertIn('"consume_call_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))"', source_text)
+            self.assertIn('"usage": usage', source_text)
+            self.assertIn('"condition": cons', source_text)
+            self.assertIn('"constructed_consume": constructed_consume', source_text)
+            self.assertIn('"consume_called": true', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

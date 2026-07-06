@@ -17499,6 +17499,36 @@ func generated_block_consume_power_bridge_state(power_per_tick: float) -> Dictio
 		"matches": result == canonical,
 	}
 
+func source_block_consume_power_cond_state(usage: float, cons: Variant) -> Dictionary:
+	var constructed_consume: Dictionary = {"type": "ConsumePowerCondition", "usage": usage, "condition": cons}
+	return {
+		"source_owner": "PortGame.source_block_consume_power_cond_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"comment": "Creates a consumer which only consumes power when the condition is met.",
+		"method": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){",
+		"return_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));",
+		"constructor_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)",
+		"condition_cast_expr": "(Boolf<Building>)cons",
+		"consume_call_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))",
+		"usage": usage,
+		"condition": cons,
+		"constructed_consume": constructed_consume,
+		"consume_called": true,
+	}
+
+func generated_block_consume_power_cond_bridge_state(usage: float, cons: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_consumePowerCond_102([usage, cons])
+	var canonical = source_block_consume_power_cond_state(usage, cons)
+	return {
+		"source_owner": "PortGame.source_block_consume_power_cond_state",
+		"generated_owner": "Block.java_method_consumePowerCond_102",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

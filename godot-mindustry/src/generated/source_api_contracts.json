@@ -1967,6 +1967,49 @@
         "test_generated_block_consume_liquids_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_consume_power_cond_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "float usage",
+          "name": "usage",
+          "schema": "source_block_consume_power_cond_input.usage",
+          "type": "float"
+        },
+        {
+          "java_expr": "Boolf<T> cons",
+          "name": "cons",
+          "schema": "source_block_consume_power_cond_input.cons",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "condition_cast_expr",
+        "consume_call_expr",
+        "usage",
+        "condition",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumePowerCond bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_power_cond_state",
+      "source_method": "Block.consumePowerCond(float,Boolf)",
+      "source_slice": "N1294",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_power_cond_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_cond_state",
+        "test_port_game_exposes_generated_block_consume_power_cond_bridge_state",
+        "test_block_consume_power_cond_matches_upstream_source",
+        "test_generated_block_consume_power_cond_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_consume_power_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [

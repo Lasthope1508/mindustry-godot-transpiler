@@ -18489,6 +18489,203 @@
       "source_slice": "N1292",
       "status": "active"
     },
+    "source_block_consume_power_cond_input": {
+      "keys": {
+        "cons": {
+          "godot_symbol": "source_block_consume_power_cond_input.cons",
+          "java_expr": "Boolf<T> cons",
+          "java_method": "Block.consumePowerCond(float,Boolf)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.cons"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "usage": {
+          "godot_symbol": "source_block_consume_power_cond_input.usage",
+          "java_expr": "float usage",
+          "java_method": "Block.consumePowerCond(float,Boolf)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.usage"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_block_consume_power_cond_state",
+      "rule": "Inputs for PortGame.source_block_consume_power_cond_state.",
+      "runtime_proof": "/root/Main.source_block_consume_power_cond_state",
+      "source_slice": "N1294",
+      "status": "active"
+    },
+    "source_block_consume_power_cond_result": {
+      "keys": {
+        "comment": {
+          "godot_symbol": "source_block_consume_power_cond_result.comment",
+          "java_expr": "Creates a consumer which only consumes power when the condition is met.",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.comment"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "condition": {
+          "godot_symbol": "source_block_consume_power_cond_result.condition",
+          "java_expr": "(Boolf<Building>)cons",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.condition_cast_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "condition_cast_expr": {
+          "godot_symbol": "source_block_consume_power_cond_result.condition_cast_expr",
+          "java_expr": "(Boolf<Building>)cons",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.condition_cast_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "constructed_consume": {
+          "godot_symbol": "source_block_consume_power_cond_result.constructed_consume",
+          "java_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.constructor_expr",
+            "block_consume_power_cond.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "constructor_expr": {
+          "godot_symbol": "source_block_consume_power_cond_result.constructor_expr",
+          "java_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.constructor_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "consume_call_expr": {
+          "godot_symbol": "source_block_consume_power_cond_result.consume_call_expr",
+          "java_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.consume_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "consume_called": {
+          "godot_symbol": "source_block_consume_power_cond_result.consume_called",
+          "java_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.consume_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "method": {
+          "godot_symbol": "source_block_consume_power_cond_result.method",
+          "java_expr": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_consume_power_cond_result.return_expr",
+          "java_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_consume_power_cond_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_consume_power_cond_result.source_owner",
+          "java_expr": "PortGame.source_block_consume_power_cond_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "usage": {
+          "godot_symbol": "source_block_consume_power_cond_result.usage",
+          "java_expr": "float usage",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_power_cond_state"
+          ],
+          "source_symbols": [
+            "block_consume_power_cond.usage"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_block_consume_power_cond_state",
+      "rule": "Dictionary returned by PortGame.source_block_consume_power_cond_state.",
+      "runtime_proof": "/root/Main.source_block_consume_power_cond_state",
+      "source_slice": "N1294",
+      "status": "active"
+    },
     "source_block_consume_power_input": {
       "keys": {
         "power_per_tick": {

@@ -9964,6 +9964,24 @@ def verify_block_consume_power_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_block_consume_power_cond_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "comment": "Creates a consumer which only consumes power when the condition is met.",
+        "method": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){",
+        "return_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));",
+        "constructor_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)",
+        "condition_cast_expr": "(Boolf<Building>)cons",
+        "consume_call_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
