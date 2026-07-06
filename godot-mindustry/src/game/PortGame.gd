@@ -15349,6 +15349,29 @@ func generated_ability_update_bridge_state(unit: Variant) -> Dictionary:
 			and result.get("unit", null) == canonical.get("unit", null),
 	}
 
+func source_ability_draw_state(unit: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_ability_draw_state",
+		"source": "core/src/mindustry/entities/abilities/Ability.java",
+		"method": "public void draw(Unit unit){}",
+		"unit": unit,
+		"no_op": true,
+	}
+
+func generated_ability_draw_bridge_state(unit: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")
+	var instance = script.new()
+	var result = instance.java_method_draw_1([unit])
+	var canonical = source_ability_draw_state(unit)
+	return {
+		"source_owner": "PortGame.source_ability_draw_state",
+		"generated_owner": "Ability.java_method_draw_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("no_op", null) == canonical.get("no_op", null)
+			and result.get("unit", null) == canonical.get("unit", null),
+	}
+
 func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
 	var trail_scale := elevation_value if type_use_engine_elevation else 1.0
 	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * trail_scale

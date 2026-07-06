@@ -18,7 +18,8 @@ func java_method_update_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_ability_update_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void update(Unit unit){}", "unit": unit, "no_op": true}
 
 func java_method_draw_1(_args: Array = []) -> Variant:
-	return null
+	var unit: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_ability_draw_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void draw(Unit unit){}", "unit": unit, "no_op": true}
 
 func java_method_death_2(_args: Array = []) -> Variant:
 	return null

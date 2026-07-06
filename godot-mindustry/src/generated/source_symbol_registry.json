@@ -92942,6 +92942,60 @@
         "test_generated_ability_update_slice_is_registered_with_source_backing"
       ],
       "rule": "Empty upstream Ability.update body produces no side effects."
+    },
+    "ability_draw.method": {
+      "godot_owner": "PortGame.source_ability_draw_state",
+      "godot_symbol": "source_ability_draw_result.method",
+      "java_expr": "public void draw(Unit unit){}",
+      "java_method": "Ability.draw(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_draw_state",
+      "source_slice": "N1262",
+      "status": "source-backed",
+      "rule": "Ability.draw(Unit unit) default method identity from upstream Ability.java.",
+      "tests": [
+        "test_emit_bridges_ability_draw_to_source_state",
+        "test_port_game_exposes_source_ability_draw_state",
+        "test_port_game_exposes_generated_ability_draw_bridge_state",
+        "test_ability_draw_matches_upstream_source",
+        "test_generated_ability_draw_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_draw.unit": {
+      "godot_owner": "PortGame.source_ability_draw_state",
+      "godot_symbol": "source_ability_draw_input.unit",
+      "java_expr": "Unit unit",
+      "java_method": "Ability.draw(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_draw_state",
+      "source_slice": "N1262",
+      "status": "explicit-input",
+      "rule": "Explicit Unit unit argument passed through unchanged.",
+      "tests": [
+        "test_emit_bridges_ability_draw_to_source_state",
+        "test_port_game_exposes_source_ability_draw_state",
+        "test_port_game_exposes_generated_ability_draw_bridge_state",
+        "test_ability_draw_matches_upstream_source",
+        "test_generated_ability_draw_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_draw.no_op": {
+      "godot_owner": "PortGame.source_ability_draw_state",
+      "godot_symbol": "source_ability_draw_result.no_op",
+      "java_expr": "public void draw(Unit unit){}",
+      "java_method": "Ability.draw(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_draw_state",
+      "source_slice": "N1262",
+      "status": "source-backed",
+      "rule": "Empty upstream Ability.draw body produces no side effects.",
+      "tests": [
+        "test_emit_bridges_ability_draw_to_source_state",
+        "test_port_game_exposes_source_ability_draw_state",
+        "test_port_game_exposes_generated_ability_draw_bridge_state",
+        "test_ability_draw_matches_upstream_source",
+        "test_generated_ability_draw_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
