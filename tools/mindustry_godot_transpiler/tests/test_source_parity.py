@@ -5198,6 +5198,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_consume_item_amount_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_consume_item_amount_source"))
+        report = source_parity.verify_block_consume_item_amount_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public ConsumeItems consumeItem(Item item, int amount){",
+            "return_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));",
+            "item_stack_expr": "new ItemStack(item, amount)",
+            "item_stack_array_expr": "new ItemStack[]{new ItemStack(item, amount)}",
+            "constructor_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})",
+            "consume_call_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

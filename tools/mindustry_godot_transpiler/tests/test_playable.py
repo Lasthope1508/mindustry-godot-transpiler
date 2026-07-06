@@ -16493,5 +16493,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_consumeItem_106"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_consume_item_amount_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_consume_item_amount_state(item: Variant, amount: int) -> Dictionary:", source)
+        self.assertIn('var item_stack: Dictionary = {"type": "ItemStack", "item": item, "amount": amount}', source)
+        self.assertIn('var constructed_consume: Dictionary = {"type": "ConsumeItems", "items": [item_stack]}', source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_item_amount_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public ConsumeItems consumeItem(Item item, int amount){"', source)
+        self.assertIn('"return_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));"', source)
+        self.assertIn('"item_stack_expr": "new ItemStack(item, amount)"', source)
+        self.assertIn('"item_stack_array_expr": "new ItemStack[]{new ItemStack(item, amount)}"', source)
+        self.assertIn('"constructor_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})"', source)
+        self.assertIn('"consume_call_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))"', source)
+        self.assertIn('"item": item', source)
+        self.assertIn('"amount": amount', source)
+        self.assertIn('"item_stack": item_stack', source)
+        self.assertIn('"constructed_consume": constructed_consume', source)
+        self.assertIn('"consume_called": true', source)
+
+    def test_port_game_exposes_generated_block_consume_item_amount_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_consume_item_amount_bridge_state(item: Variant, amount: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_consumeItem_107([item, amount])", source)
+        self.assertIn("var canonical = source_block_consume_item_amount_state(item, amount)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_item_amount_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_consumeItem_107"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

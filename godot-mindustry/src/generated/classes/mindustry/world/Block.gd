@@ -408,7 +408,11 @@ func java_method_consumeItem_106(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_consume_item_single_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItem(Item item){", "return_expr": "return consumeItem(item, 1);", "delegate_call_expr": "consumeItem(item, 1)", "item": item, "amount": 1, "delegate_called": true}
 
 func java_method_consumeItem_107(_args: Array = []) -> Variant:
-	return null
+	var item: Variant = _args[0] if _args.size() > 0 else null
+	var amount: int = int(_args[1] if _args.size() > 1 else 0)
+	var item_stack: Dictionary = {"type": "ItemStack", "item": item, "amount": amount}
+	var constructed_consume: Dictionary = {"type": "ConsumeItems", "items": [item_stack]}
+	return {"source_owner": "PortGame.source_block_consume_item_amount_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItem(Item item, int amount){", "return_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));", "item_stack_expr": "new ItemStack(item, amount)", "item_stack_array_expr": "new ItemStack[]{new ItemStack(item, amount)}", "constructor_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})", "consume_call_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))", "item": item, "amount": amount, "item_stack": item_stack, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumeItems_108(_args: Array = []) -> Variant:
 	return null

@@ -9629,6 +9629,43 @@
       ],
       "title": "Generated Block consumeItem single bridge state"
     },
+    "N1299": {
+      "exact_exprs": [
+        "public ConsumeItems consumeItem(Item item, int amount){",
+        "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));",
+        "new ItemStack(item, amount)",
+        "new ItemStack[]{new ItemStack(item, amount)}",
+        "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})",
+        "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))",
+        "Item item",
+        "int amount"
+      ],
+      "generated_owner": "Block.java_method_consumeItem_107",
+      "godot_owner": "PortGame.source_block_consume_item_amount_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeItem(Item,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_item_amount_bridge_state",
+      "source_symbols": [
+        "block_consume_item_amount.method",
+        "block_consume_item_amount.return_expr",
+        "block_consume_item_amount.item_stack_expr",
+        "block_consume_item_amount.item_stack_array_expr",
+        "block_consume_item_amount.constructor_expr",
+        "block_consume_item_amount.consume_call_expr",
+        "block_consume_item_amount.item",
+        "block_consume_item_amount.amount"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeItem amount bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

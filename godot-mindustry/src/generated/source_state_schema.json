@@ -18174,6 +18174,219 @@
       "source_slice": "N1279",
       "status": "active"
     },
+    "source_block_consume_item_amount_input": {
+      "keys": {
+        "amount": {
+          "godot_symbol": "source_block_consume_item_amount_input.amount",
+          "java_expr": "int amount",
+          "java_method": "Block.consumeItem(Item,int)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.amount"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "item": {
+          "godot_symbol": "source_block_consume_item_amount_input.item",
+          "java_expr": "Item item",
+          "java_method": "Block.consumeItem(Item,int)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.item"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_consume_item_amount_state",
+      "rule": "Inputs for PortGame.source_block_consume_item_amount_state.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_slice": "N1299",
+      "status": "active"
+    },
+    "source_block_consume_item_amount_result": {
+      "keys": {
+        "amount": {
+          "godot_symbol": "source_block_consume_item_amount_result.amount",
+          "java_expr": "int amount",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.amount"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "constructed_consume": {
+          "godot_symbol": "source_block_consume_item_amount_result.constructed_consume",
+          "java_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.constructor_expr",
+            "block_consume_item_amount.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "constructor_expr": {
+          "godot_symbol": "source_block_consume_item_amount_result.constructor_expr",
+          "java_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.constructor_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "consume_call_expr": {
+          "godot_symbol": "source_block_consume_item_amount_result.consume_call_expr",
+          "java_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.consume_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "consume_called": {
+          "godot_symbol": "source_block_consume_item_amount_result.consume_called",
+          "java_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.consume_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "item": {
+          "godot_symbol": "source_block_consume_item_amount_result.item",
+          "java_expr": "Item item",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.item"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "item_stack": {
+          "godot_symbol": "source_block_consume_item_amount_result.item_stack",
+          "java_expr": "new ItemStack(item, amount)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.item_stack_expr",
+            "block_consume_item_amount.item_stack_array_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "item_stack_array_expr": {
+          "godot_symbol": "source_block_consume_item_amount_result.item_stack_array_expr",
+          "java_expr": "new ItemStack[]{new ItemStack(item, amount)}",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.item_stack_array_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "item_stack_expr": {
+          "godot_symbol": "source_block_consume_item_amount_result.item_stack_expr",
+          "java_expr": "new ItemStack(item, amount)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.item_stack_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_consume_item_amount_result.method",
+          "java_expr": "public ConsumeItems consumeItem(Item item, int amount){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_consume_item_amount_result.return_expr",
+          "java_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_amount.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_consume_item_amount_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_consume_item_amount_result.source_owner",
+          "java_expr": "PortGame.source_block_consume_item_amount_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_consume_item_amount_state",
+      "rule": "Dictionary returned by PortGame.source_block_consume_item_amount_state.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_slice": "N1299",
+      "status": "active"
+    },
     "source_block_consume_item_single_input": {
       "keys": {
         "item": {

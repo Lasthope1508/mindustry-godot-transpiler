@@ -4411,6 +4411,150 @@
         "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
       ]
     },
+    "block_consume_item_amount.amount": {
+      "godot_owner": "PortGame.source_block_consume_item_amount_state",
+      "godot_symbol": "source_block_consume_item_amount_input.amount",
+      "java_expr": "int amount",
+      "java_method": "Block.consumeItem(Item,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose consumeItem amount parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_slice": "N1299",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_item_amount.constructor_expr": {
+      "godot_owner": "PortGame.source_block_consume_item_amount_state",
+      "godot_symbol": "source_block_consume_item_amount_result.constructed_consume",
+      "java_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})",
+      "java_method": "Block.consumeItem(Item,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve ConsumeItems construction.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_slice": "N1299",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_item_amount.consume_call_expr": {
+      "godot_owner": "PortGame.source_block_consume_item_amount_state",
+      "godot_symbol": "source_block_consume_item_amount_result.consume_called",
+      "java_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))",
+      "java_method": "Block.consumeItem(Item,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consume(...) call.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_slice": "N1299",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_item_amount.item": {
+      "godot_owner": "PortGame.source_block_consume_item_amount_state",
+      "godot_symbol": "source_block_consume_item_amount_input.item",
+      "java_expr": "Item item",
+      "java_method": "Block.consumeItem(Item,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose consumeItem item parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_slice": "N1299",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_item_amount.item_stack_array_expr": {
+      "godot_owner": "PortGame.source_block_consume_item_amount_state",
+      "godot_symbol": "source_block_consume_item_amount_result.item_stack",
+      "java_expr": "new ItemStack[]{new ItemStack(item, amount)}",
+      "java_method": "Block.consumeItem(Item,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve ItemStack array construction.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_slice": "N1299",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_item_amount.item_stack_expr": {
+      "godot_owner": "PortGame.source_block_consume_item_amount_state",
+      "godot_symbol": "source_block_consume_item_amount_result.item_stack",
+      "java_expr": "new ItemStack(item, amount)",
+      "java_method": "Block.consumeItem(Item,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve ItemStack construction.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_slice": "N1299",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_item_amount.method": {
+      "godot_owner": "PortGame.source_block_consume_item_amount_state",
+      "godot_symbol": "source_block_consume_item_amount_result.method",
+      "java_expr": "public ConsumeItems consumeItem(Item item, int amount){",
+      "java_method": "Block.consumeItem(Item,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.consumeItem(Item,int) method boundary.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_slice": "N1299",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_item_amount.return_expr": {
+      "godot_owner": "PortGame.source_block_consume_item_amount_state",
+      "godot_symbol": "source_block_consume_item_amount_result.constructed_consume",
+      "java_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));",
+      "java_method": "Block.consumeItem(Item,int)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumeItem(Item,int) return expression.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_slice": "N1299",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_consume_item_single.amount": {
       "godot_owner": "PortGame.source_block_consume_item_single_state",
       "godot_symbol": "source_block_consume_item_single_result.amount",

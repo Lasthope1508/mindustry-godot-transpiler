@@ -1895,6 +1895,50 @@
         "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_consume_item_amount_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Item item",
+          "name": "item",
+          "schema": "source_block_consume_item_amount_input.item",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "int amount",
+          "name": "amount",
+          "schema": "source_block_consume_item_amount_input.amount",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "item_stack_expr",
+        "item_stack_array_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "item",
+        "amount",
+        "item_stack",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumeItem(Item,int) bridge parameters and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_item_amount_state",
+      "source_method": "Block.consumeItem(Item,int)",
+      "source_slice": "N1299",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_item_amount_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_amount_state",
+        "test_port_game_exposes_generated_block_consume_item_amount_bridge_state",
+        "test_block_consume_item_amount_matches_upstream_source",
+        "test_generated_block_consume_item_amount_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_consume_item_single_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [

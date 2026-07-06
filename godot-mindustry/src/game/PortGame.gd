@@ -17644,6 +17644,38 @@ func generated_block_consume_item_single_bridge_state(item: Variant) -> Dictiona
 		"matches": result == canonical,
 	}
 
+func source_block_consume_item_amount_state(item: Variant, amount: int) -> Dictionary:
+	var item_stack: Dictionary = {"type": "ItemStack", "item": item, "amount": amount}
+	var constructed_consume: Dictionary = {"type": "ConsumeItems", "items": [item_stack]}
+	return {
+		"source_owner": "PortGame.source_block_consume_item_amount_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public ConsumeItems consumeItem(Item item, int amount){",
+		"return_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));",
+		"item_stack_expr": "new ItemStack(item, amount)",
+		"item_stack_array_expr": "new ItemStack[]{new ItemStack(item, amount)}",
+		"constructor_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})",
+		"consume_call_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))",
+		"item": item,
+		"amount": amount,
+		"item_stack": item_stack,
+		"constructed_consume": constructed_consume,
+		"consume_called": true,
+	}
+
+func generated_block_consume_item_amount_bridge_state(item: Variant, amount: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_consumeItem_107([item, amount])
+	var canonical = source_block_consume_item_amount_state(item, amount)
+	return {
+		"source_owner": "PortGame.source_block_consume_item_amount_state",
+		"generated_owner": "Block.java_method_consumeItem_107",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

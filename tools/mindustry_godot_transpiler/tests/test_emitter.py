@@ -8196,6 +8196,48 @@ public class Block{
             self.assertIn('"amount": 1', source_text)
             self.assertIn('"delegate_called": true', source_text)
 
+    def test_emit_bridges_block_consume_item_amount_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public ConsumeItems consumeItem(Item item, int amount){
+        return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_consumeItem_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar item: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar amount: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn('\tvar item_stack: Dictionary = {"type": "ItemStack", "item": item, "amount": amount}', source_text)
+            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeItems", "items": [item_stack]}', source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_consume_item_amount_state"', source_text)
+            self.assertIn('"method": "public ConsumeItems consumeItem(Item item, int amount){"', source_text)
+            self.assertIn('"return_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));"', source_text)
+            self.assertIn('"item_stack_expr": "new ItemStack(item, amount)"', source_text)
+            self.assertIn('"item_stack_array_expr": "new ItemStack[]{new ItemStack(item, amount)}"', source_text)
+            self.assertIn('"constructor_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})"', source_text)
+            self.assertIn('"consume_call_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))"', source_text)
+            self.assertIn('"item": item', source_text)
+            self.assertIn('"amount": amount', source_text)
+            self.assertIn('"item_stack": item_stack', source_text)
+            self.assertIn('"constructed_consume": constructed_consume', source_text)
+            self.assertIn('"consume_called": true', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
