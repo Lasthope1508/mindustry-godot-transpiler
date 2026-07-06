@@ -31333,6 +31333,37 @@
       ],
       "runtime_proof": "/root/Main.source_block_can_place_on_state",
       "rule": "Public runtime contract for default Block.canPlaceOn source-backed true return."
+    },
+    "PortGame.source_block_can_break_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "tile",
+          "schema": "source_block_can_break_input.tile",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "tile",
+        "can_break"
+      ],
+      "rule": "Public runtime contract for Block.canBreak(Tile tile) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_can_break_state",
+      "source_method": "Block.canBreak(Tile tile)",
+      "source_slice": "N1275",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_can_break_to_source_state",
+        "test_port_game_exposes_source_block_can_break_state",
+        "test_port_game_exposes_generated_block_can_break_bridge_state",
+        "test_block_can_break_matches_upstream_source",
+        "test_generated_block_can_break_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

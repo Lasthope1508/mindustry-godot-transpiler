@@ -75,7 +75,8 @@ func java_method_canPlaceOn_18(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_can_place_on_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** @return whether this block can be placed on the specified tile. */", "method": "public boolean canPlaceOn(Tile tile, Team team, int rotation){", "return_expr": "return true;", "tile": tile, "team": team, "rotation": rotation, "can_place": true}
 
 func java_method_canBreak_19(_args: Array = []) -> Variant:
-	return null
+	var tile: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_block_can_break_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** @return whether this block can be broken on the specified tile. */", "method": "public boolean canBreak(Tile tile){", "return_expr": "return true;", "tile": tile, "can_break": true}
 
 func java_method_rotatedOutput_20(_args: Array = []) -> Variant:
 	return null

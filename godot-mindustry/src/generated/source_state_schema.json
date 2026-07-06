@@ -112779,6 +112779,114 @@
       "runtime_proof": "/root/Main.source_block_can_place_on_state",
       "source_slice": "N1274",
       "status": "source-backed"
+    },
+    "source_block_can_break_input": {
+      "rule": "Inputs for PortGame.source_block_can_break_state.",
+      "keys": {
+        "tile": {
+          "godot_symbol": "source_block_can_break_input.tile",
+          "java_expr": "Tile tile",
+          "java_method": "Block.canBreak(Tile tile)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_break_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_can_break_state",
+      "runtime_proof": "/root/Main.source_block_can_break_state",
+      "source_slice": "N1275",
+      "status": "active"
+    },
+    "source_block_can_break_result": {
+      "rule": "Dictionary returned by PortGame.source_block_can_break_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_can_break_result.source_owner",
+          "java_expr": "PortGame.source_block_can_break_state",
+          "owners": [
+            "PortGame.source_block_can_break_state"
+          ],
+          "status": "metadata",
+          "type": "String",
+          "java_source": "core/src/mindustry/world/Block.java"
+        },
+        "source": {
+          "godot_symbol": "source_block_can_break_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_can_break_state"
+          ],
+          "status": "metadata",
+          "type": "String",
+          "java_source": "core/src/mindustry/world/Block.java"
+        },
+        "comment": {
+          "godot_symbol": "source_block_can_break_result.comment",
+          "java_expr": "/** @return whether this block can be broken on the specified tile. */",
+          "owners": [
+            "PortGame.source_block_can_break_state"
+          ],
+          "status": "source-backed",
+          "type": "String",
+          "java_source": "core/src/mindustry/world/Block.java"
+        },
+        "method": {
+          "godot_symbol": "source_block_can_break_result.method",
+          "java_expr": "public boolean canBreak(Tile tile){",
+          "owners": [
+            "PortGame.source_block_can_break_state"
+          ],
+          "source_symbols": [
+            "block_can_break.method"
+          ],
+          "status": "source-backed",
+          "type": "String",
+          "java_source": "core/src/mindustry/world/Block.java"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_can_break_result.return_expr",
+          "java_expr": "return true;",
+          "owners": [
+            "PortGame.source_block_can_break_state"
+          ],
+          "source_symbols": [
+            "block_can_break.return_true"
+          ],
+          "status": "source-backed",
+          "type": "String",
+          "java_source": "core/src/mindustry/world/Block.java"
+        },
+        "tile": {
+          "godot_symbol": "source_block_can_break_result.tile",
+          "java_expr": "Tile tile",
+          "owners": [
+            "PortGame.source_block_can_break_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant",
+          "java_source": "core/src/mindustry/world/Block.java"
+        },
+        "can_break": {
+          "godot_symbol": "source_block_can_break_result.can_break",
+          "java_expr": "return true;",
+          "owners": [
+            "PortGame.source_block_can_break_state"
+          ],
+          "source_symbols": [
+            "block_can_break.return_true"
+          ],
+          "status": "source-backed",
+          "type": "bool",
+          "java_source": "core/src/mindustry/world/Block.java"
+        }
+      },
+      "owner": "PortGame.source_block_can_break_state",
+      "runtime_proof": "/root/Main.source_block_can_break_state",
+      "source_slice": "N1275",
+      "status": "active"
     }
   },
   "version": 1

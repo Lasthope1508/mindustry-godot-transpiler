@@ -29527,6 +29527,32 @@
       "deferred_exprs": [
         "Concrete tile/team/rotation semantics remain explicit inputs; default upstream method ignores them and returns true."
       ]
+    },
+    "N1275": {
+      "exact_exprs": [
+        "/** @return whether this block can be broken on the specified tile. */",
+        "public boolean canBreak(Tile tile){",
+        "return true;"
+      ],
+      "generated_owner": "Block.java_method_canBreak_19",
+      "godot_owner": "PortGame.source_block_can_break_state",
+      "java_method": "Block.canBreak(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_can_break_bridge_state",
+      "source_symbols": [
+        "block_can_break.method",
+        "block_can_break.return_true"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_can_break_to_source_state",
+        "test_port_game_exposes_source_block_can_break_state",
+        "test_port_game_exposes_generated_block_can_break_bridge_state",
+        "test_block_can_break_matches_upstream_source",
+        "test_generated_block_can_break_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block canBreak bridge state",
+      "java_class": "Block"
     }
   },
   "version": 1

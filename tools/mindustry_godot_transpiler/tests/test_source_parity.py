@@ -4894,6 +4894,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_can_break_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_can_break_source"))
+        report = source_parity.verify_block_can_break_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "comment": "/** @return whether this block can be broken on the specified tile. */",
+            "method": "public boolean canBreak(Tile tile){",
+            "return_expr": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 748)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 743)
+        self.assertEqual(audit["totalSourceFunctions"], 749)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 744)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 748)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 749)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20382,6 +20382,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_ability_get_bundle_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_outputs_items_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_can_place_on_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_can_break_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_bars_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_init_state", audit["registeredSourceOwners"])
@@ -42781,6 +42782,49 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["rotation"]["java_expr"], "int rotation")
         result_schema = source_symbols.state_schema(schema, "source_block_can_place_on_result")
         self.assertEqual(result_schema["keys"]["can_place"]["java_expr"], "return true;")
+
+    def test_generated_block_can_break_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_can_break.method")
+        self.assertEqual(method["java_expr"], "public boolean canBreak(Tile tile){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.canBreak(Tile tile)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_can_break_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_can_break_state")
+
+        return_true = source_symbols.source_symbol(registry, "block_can_break.return_true")
+        self.assertEqual(return_true["java_expr"], "return true;")
+        self.assertEqual(return_true["godot_symbol"], "source_block_can_break_result.can_break")
+
+        can_break_slice = source_symbols.source_slice(ledger, "N1275")
+        self.assertEqual(can_break_slice["title"], "Generated Block canBreak bridge state")
+        self.assertEqual(can_break_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(can_break_slice["java_method"], "Block.canBreak(Tile tile)")
+        self.assertEqual(can_break_slice["godot_owner"], "PortGame.source_block_can_break_state")
+        self.assertEqual(can_break_slice["generated_owner"], "Block.java_method_canBreak_19")
+        self.assertEqual(can_break_slice["runtime_proof"], "/root/Main.generated_block_can_break_bridge_state")
+        for expr in [
+            "/** @return whether this block can be broken on the specified tile. */",
+            "public boolean canBreak(Tile tile){",
+            "return true;",
+        ]:
+            self.assertIn(expr, can_break_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_can_break_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["tile"])
+        for key in ["source_owner", "source", "comment", "method", "return_expr", "tile", "can_break"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_can_break_input")
+        self.assertEqual(input_schema["keys"]["tile"]["java_expr"], "Tile tile")
+        result_schema = source_symbols.state_schema(schema, "source_block_can_break_result")
+        self.assertEqual(result_schema["keys"]["can_break"]["java_expr"], "return true;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

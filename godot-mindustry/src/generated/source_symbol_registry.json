@@ -93770,6 +93770,42 @@
         "test_block_can_place_on_matches_upstream_source",
         "test_generated_block_can_place_on_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_can_break.method": {
+      "godot_owner": "PortGame.source_block_can_break_state",
+      "godot_symbol": "source_block_can_break_result.method",
+      "java_expr": "public boolean canBreak(Tile tile){",
+      "java_method": "Block.canBreak(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.canBreak method boundary for generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_can_break_state",
+      "source_slice": "N1275",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_can_break_to_source_state",
+        "test_port_game_exposes_source_block_can_break_state",
+        "test_port_game_exposes_generated_block_can_break_bridge_state",
+        "test_block_can_break_matches_upstream_source",
+        "test_generated_block_can_break_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_can_break.return_true": {
+      "godot_owner": "PortGame.source_block_can_break_state",
+      "godot_symbol": "source_block_can_break_result.can_break",
+      "java_expr": "return true;",
+      "java_method": "Block.canBreak(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Block.canBreak default returns true.",
+      "runtime_proof": "/root/Main.source_block_can_break_state",
+      "source_slice": "N1275",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_can_break_to_source_state",
+        "test_port_game_exposes_source_block_can_break_state",
+        "test_port_game_exposes_generated_block_can_break_bridge_state",
+        "test_block_can_break_matches_upstream_source",
+        "test_generated_block_can_break_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
