@@ -28425,6 +28425,42 @@
         "test_tractor_beam_turret_build_draw_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_draw_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1240": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void updateTile(){",
+        "if(activationTimer > 0){",
+        "activationTimer -= Time.delta;",
+        "return;",
+        "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_activation.method",
+        "tractor_beam_turret_build_update_tile_activation.inner_class",
+        "tractor_beam_turret_build_update_tile_activation.override",
+        "tractor_beam_turret_build_update_tile_activation.activation_timer",
+        "tractor_beam_turret_build_update_tile_activation.time_delta",
+        "tractor_beam_turret_build_update_tile_activation.guard",
+        "tractor_beam_turret_build_update_tile_activation.decrement",
+        "tractor_beam_turret_build_update_tile_activation.return",
+        "tractor_beam_turret_build_update_tile_activation.next_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+      "rule": "TractorBeamBuild.updateTile subtracts Time.delta from activationTimer and returns early while activationTimer > 0; later updateTile logic is deferred."
     }
   },
   "version": 1

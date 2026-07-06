@@ -29514,6 +29514,48 @@
         "test_tractor_beam_turret_build_draw_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_draw_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_activation_state": {
+      "status": "source-backed",
+      "source_slice": "N1240",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() activation timer",
+      "params": [
+        {
+          "name": "activation_timer",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_activation_input.activation_timer"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_activation_input.time_delta"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "activation_guard_expr",
+        "activation_decrement_expr",
+        "return_expr",
+        "next_expr",
+        "activation_timer",
+        "time_delta",
+        "activation_guard",
+        "activation_timer_after",
+        "returned_early"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile activation timer early-return state."
     }
   },
   "policy": {

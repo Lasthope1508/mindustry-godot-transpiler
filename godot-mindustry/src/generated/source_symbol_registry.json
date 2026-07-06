@@ -91101,6 +91101,159 @@
         "test_tractor_beam_turret_build_draw_matches_upstream_source",
         "test_generated_tractor_beam_turret_build_draw_slice_is_registered_with_source_backing"
       ]
+    },
+    "tractor_beam_turret_build_update_tile_activation.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_activation_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for activation timer slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_activation.inner_class": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_activation_result.inner_class",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "rule": "Exact TractorBeamBuild inner class boundary.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "java_expr": "public class TractorBeamBuild extends BaseTurretBuild{"
+    },
+    "tractor_beam_turret_build_update_tile_activation.override": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_activation_result.override_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "rule": "Exact updateTile override annotation.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "java_expr": "@Override"
+    },
+    "tractor_beam_turret_build_update_tile_activation.activation_timer": {
+      "status": "explicit-input",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_activation_input.activation_timer",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "rule": "Explicit Java activationTimer value before updateTile.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "java_expr": "activationTimer"
+    },
+    "tractor_beam_turret_build_update_tile_activation.time_delta": {
+      "status": "explicit-input",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_activation_input.time_delta",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "rule": "Explicit Arc Time.delta value used by updateTile activation decrement.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "java_expr": "Time.delta"
+    },
+    "tractor_beam_turret_build_update_tile_activation.guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_activation_result.activation_guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "rule": "Source guard for activation timer early return.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "java_expr": "activationTimer > 0"
+    },
+    "tractor_beam_turret_build_update_tile_activation.decrement": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_activation_result.activation_timer_after",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "rule": "Source activation timer decrement.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "java_expr": "activationTimer -= Time.delta;"
+    },
+    "tractor_beam_turret_build_update_tile_activation.return": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_activation_result.returned_early",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "rule": "Source early return while activation timer is active.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "java_expr": "return;"
+    },
+    "tractor_beam_turret_build_update_tile_activation.next_expr": {
+      "status": "deferred",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_activation_result.next_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "rule": "Next updateTile expression after activation guard; deferred to later slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "java_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"
     }
   },
   "version": 1

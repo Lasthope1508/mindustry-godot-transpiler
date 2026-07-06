@@ -13290,6 +13290,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.read"', source)
         self.assertIn('"matches": result.get("rotation_after", null) == canonical.get("rotation_after", null) and result.get("read_f_call", null) == canonical.get("read_f_call", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_build_update_tile_activation_state(activation_timer: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state"', source)
+        self.assertIn('"method": "public void updateTile(){"', source)
+        self.assertIn('"activation_guard_expr": "if(activationTimer > 0){"', source)
+        self.assertIn('"activation_decrement_expr": "activationTimer -= Time.delta;"', source)
+        self.assertIn('"next_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"', source)
+        self.assertIn("var activation_guard: bool = activation_timer > 0.0", source)
+        self.assertIn("var activation_timer_after: float = activation_timer - time_delta if activation_guard else activation_timer", source)
+        self.assertIn("var returned_early: bool = activation_guard", source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_build_update_tile_activation_bridge_state(activation_timer: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta])", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_activation_state(activation_timer, time_delta)", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.activation"', source)
+        self.assertIn('"matches": result.get("activation_timer_after", null) == canonical.get("activation_timer_after", null) and result.get("returned_early", null) == canonical.get("returned_early", null)', source)
+
     def test_port_game_exposes_source_tractor_beam_turret_build_draw_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

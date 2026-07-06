@@ -17329,6 +17329,42 @@ func generated_tractor_beam_turret_build_read_bridge_state(read_f_value: float, 
 			and result.get("revision_value", null) == canonical.get("revision_value", null),
 	}
 
+func source_tractor_beam_turret_build_update_tile_activation_state(activation_timer: float, time_delta: float) -> Dictionary:
+	var activation_guard: bool = activation_timer > 0.0
+	var activation_timer_after: float = activation_timer - time_delta if activation_guard else activation_timer
+	var returned_early: bool = activation_guard
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+		"inner_class": "public class TractorBeamBuild extends BaseTurretBuild{",
+		"method": "public void updateTile(){",
+		"override_expr": "@Override",
+		"activation_guard_expr": "if(activationTimer > 0){",
+		"activation_decrement_expr": "activationTimer -= Time.delta;",
+		"return_expr": "return;",
+		"next_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();",
+		"activation_timer": activation_timer,
+		"time_delta": time_delta,
+		"activation_guard": activation_guard,
+		"activation_timer_after": activation_timer_after,
+		"returned_early": returned_early,
+	}
+
+func generated_tractor_beam_turret_build_update_tile_activation_bridge_state(activation_timer: float, time_delta: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta])
+	var canonical = source_tractor_beam_turret_build_update_tile_activation_state(activation_timer, time_delta)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.activation",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("activation_timer_after", null) == canonical.get("activation_timer_after", null) and result.get("returned_early", null) == canonical.get("returned_early", null)
+			and result.get("activation_guard", null) == canonical.get("activation_guard", null)
+			and result.get("activation_timer", null) == canonical.get("activation_timer", null)
+			and result.get("time_delta", null) == canonical.get("time_delta", null),
+	}
+
 func source_tractor_beam_turret_build_draw_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:
 	var draw_rotation: float = rotation_value - 90.0
 	var base_rect_call: Dictionary = {"call": "Draw.rect(baseRegion, x, y);", "region": base_region, "x": x, "y": y}

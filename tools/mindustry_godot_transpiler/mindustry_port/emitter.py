@@ -3492,7 +3492,18 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
             if inner_class.get("name") != "TractorBeamBuild":
                 continue
             for index, method in enumerate(inner_class.get("methods", [])):
-                if method.get("name") == "shouldConsume":
+                if method.get("name") == "updateTile":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_TractorBeamBuild_method_updateTile_{index}(_args: Array = []) -> Variant:",
+                        "\tvar activation_timer: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                        "\tvar time_delta: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                        "\tvar activation_guard: bool = activation_timer > 0.0",
+                        "\tvar activation_timer_after: float = activation_timer - time_delta if activation_guard else activation_timer",
+                        "\tvar returned_early: bool = activation_guard",
+                        "\treturn {\"source_owner\": \"PortGame.source_tractor_beam_turret_build_update_tile_activation_state\", \"inner_class\": \"public class TractorBeamBuild extends BaseTurretBuild{\", \"method\": \"public void updateTile(){\", \"override_expr\": \"@Override\", \"activation_guard_expr\": \"if(activationTimer > 0){\", \"activation_decrement_expr\": \"activationTimer -= Time.delta;\", \"return_expr\": \"return;\", \"next_expr\": \"float eff = efficiency * coolantMultiplier, edelta = eff * delta();\", \"activation_timer\": activation_timer, \"time_delta\": time_delta, \"activation_guard\": activation_guard, \"activation_timer_after\": activation_timer_after, \"returned_early\": returned_early}",
+                    ])
+                elif method.get("name") == "shouldConsume":
                     lines.extend([
                         "",
                         f"func java_inner_class_TractorBeamBuild_method_shouldConsume_{index}(_args: Array = []) -> Variant:",

@@ -8012,6 +8012,51 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"super_read_expr": "super.read(read, revision);"', source_text)
             self.assertIn('"read_rotation_expr": "rotation = read.f();"', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_TractorBeamBuild_method_updateTile_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var activation_timer: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var time_delta: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var activation_guard: bool = activation_timer > 0.0", source_text)
+            self.assertIn("var activation_timer_after: float = activation_timer - time_delta if activation_guard else activation_timer", source_text)
+            self.assertIn("var returned_early: bool = activation_guard", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state"', source_text)
+            self.assertIn('"method": "public void updateTile(){"', source_text)
+            self.assertIn('"activation_guard_expr": "if(activationTimer > 0){"', source_text)
+            self.assertIn('"activation_decrement_expr": "activationTimer -= Time.delta;"', source_text)
+            self.assertIn('"return_expr": "return;"', source_text)
+            self.assertIn('"next_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
