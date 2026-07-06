@@ -4795,6 +4795,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_ability_add_stats_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_ability_add_stats_source"))
+        report = source_parity.verify_ability_add_stats_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(report["checked"], {
+            "class": "public abstract class Ability implements Cloneable{",
+            "description_width_field": "protected static final float descriptionWidth = 350f;",
+            "method": "public void addStats(Table t){",
+            "guard": "if(Core.bundle.has(getBundle() + \".description\")){",
+            "add_description": "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);",
+            "row_call": "t.row();",
+            "arc_import": "import arc.*;",
+            "table_import": "import arc.scene.ui.layout.*;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

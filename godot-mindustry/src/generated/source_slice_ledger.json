@@ -29295,6 +29295,43 @@
       ],
       "runtime_proof": "/root/Main.generated_ability_display_bridge_state",
       "status": "source-backed"
+    },
+    "N1268": {
+      "title": "Generated Ability addStats bridge state",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.addStats(Table t)",
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "generated_owner": "Ability.java_method_addStats_7",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import arc.*;",
+        "import arc.scene.ui.layout.*;",
+        "protected static final float descriptionWidth = 350f;",
+        "public void addStats(Table t){",
+        "if(Core.bundle.has(getBundle() + \".description\")){",
+        "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);",
+        "t.row();"
+      ],
+      "source_symbols": [
+        "ability_add_stats.method",
+        "ability_add_stats.guard",
+        "ability_add_stats.description_width",
+        "ability_add_stats.add_description"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_add_stats_to_source_state",
+        "test_port_game_exposes_source_ability_add_stats_state",
+        "test_port_game_exposes_generated_ability_add_stats_bridge_state",
+        "test_ability_add_stats_matches_upstream_source",
+        "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_ability_add_stats_bridge_state",
+      "status": "done",
+      "rule": "Registers source-backed operation plan for Ability.addStats(Table t) description row mutation guarded by Core.bundle.has(getBundle() + \".description\").",
+      "deferred_exprs": [
+        "Concrete Arc Core.bundle lookup and Table widget mutation remain explicit inputs/runtime UI integration; this bridge preserves source guard, key, description text, width, and row operation plan."
+      ]
     }
   },
   "version": 1

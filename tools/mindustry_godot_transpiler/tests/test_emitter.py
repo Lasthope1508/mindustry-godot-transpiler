@@ -9523,6 +9523,47 @@ public abstract class Ability implements Cloneable{
             self.assertIn('"add_stats_call": "addStats(a);"', source_text)
             self.assertIn('"table_mutation": true', source_text)
 
+    def test_emit_bridges_ability_add_stats_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            ability_path = source_root / "mindustry" / "entities" / "abilities" / "Ability.java"
+            ability_path.parent.mkdir(parents=True, exist_ok=True)
+            ability_path.write_text(
+                """
+package mindustry.entities.abilities;
+
+public abstract class Ability implements Cloneable{
+    protected static final float descriptionWidth = 350f;
+    public void addStats(Table t){
+        if(Core.bundle.has(getBundle() + ".description")){
+            t.add(Core.bundle.get(getBundle() + ".description")).wrap().width(descriptionWidth);
+            t.row();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "abilities" / "Ability.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_addStats_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar table_state: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar get_bundle_value: String = str(_args[1] if _args.size() > 1 else \"\")", source_text)
+            self.assertIn("\tvar bundle_has_description: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("\tvar bundle_description: String = str(_args[3] if _args.size() > 3 else \"\")", source_text)
+            self.assertIn('"source_owner": "PortGame.source_ability_add_stats_state"', source_text)
+            self.assertIn('"method": "public void addStats(Table t){"', source_text)
+            self.assertIn('"field_expr": "protected static final float descriptionWidth = 350f;"', source_text)
+            self.assertIn('"description_width": 350.0', source_text)
+            self.assertIn('"guard_passed": bundle_has_description', source_text)
+            self.assertIn('"add_description_call": add_description_call', source_text)
+            self.assertIn('"row_call": row_call', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

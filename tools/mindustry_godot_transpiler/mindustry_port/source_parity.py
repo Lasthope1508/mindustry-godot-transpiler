@@ -9532,6 +9532,29 @@ def verify_ability_display_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_ability_add_stats_source(upstream_root: Path) -> dict[str, Any]:
+    source_path = Path(upstream_root) / ABILITY_SOURCE
+    source = source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class": "public abstract class Ability implements Cloneable{",
+        "description_width_field": "protected static final float descriptionWidth = 350f;",
+        "method": "public void addStats(Table t){",
+        "guard": "if(Core.bundle.has(getBundle() + \".description\")){",
+        "add_description": "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);",
+        "row_call": "t.row();",
+        "arc_import": "import arc.*;",
+        "table_import": "import arc.scene.ui.layout.*;",
+    }
+    missing = []
+    for snippet in checked.values():
+        if snippet not in source:
+            missing.append(snippet)
+    return {
+        "source": ABILITY_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

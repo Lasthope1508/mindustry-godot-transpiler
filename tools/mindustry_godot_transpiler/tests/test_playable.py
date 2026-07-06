@@ -15641,5 +15641,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Ability.java_method_display_6"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_ability_add_stats_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_ability_add_stats_state(table_state: Variant, get_bundle_value: String, bundle_has_description: bool, bundle_description: String) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_ability_add_stats_state"', source)
+        self.assertIn('"source": "core/src/mindustry/entities/abilities/Ability.java"', source)
+        self.assertIn('"method": "public void addStats(Table t){"', source)
+        self.assertIn('"field_expr": "protected static final float descriptionWidth = 350f;"', source)
+        self.assertIn('"description_width": 350.0', source)
+        self.assertIn('"guard_expr": "if(Core.bundle.has(getBundle() + \\".description\\")){"', source)
+        self.assertIn('"guard_passed": bundle_has_description', source)
+        self.assertIn('"add_description_call": add_description_call', source)
+
+    def test_port_game_exposes_generated_ability_add_stats_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_ability_add_stats_bridge_state(table_state: Variant, get_bundle_value: String, bundle_has_description: bool, bundle_description: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")', source)
+        self.assertIn("var result = instance.java_method_addStats_7([table_state, get_bundle_value, bundle_has_description, bundle_description])", source)
+        self.assertIn("var canonical = source_ability_add_stats_state(table_state, get_bundle_value, bundle_has_description, bundle_description)", source)
+        self.assertIn('"source_owner": "PortGame.source_ability_add_stats_state"', source)
+        self.assertIn('"generated_owner": "Ability.java_method_addStats_7"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

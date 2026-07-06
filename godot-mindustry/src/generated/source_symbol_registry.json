@@ -93356,6 +93356,78 @@
         "test_ability_display_matches_upstream_source",
         "test_generated_ability_display_slice_is_registered_with_source_backing"
       ]
+    },
+    "ability_add_stats.method": {
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "godot_symbol": "source_ability_add_stats_result.method",
+      "java_expr": "public void addStats(Table t){",
+      "java_method": "Ability.addStats(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_add_stats_state",
+      "source_slice": "N1268",
+      "status": "source-backed",
+      "rule": "Ability.addStats(Table t) method boundary.",
+      "tests": [
+        "test_emit_bridges_ability_add_stats_to_source_state",
+        "test_port_game_exposes_source_ability_add_stats_state",
+        "test_port_game_exposes_generated_ability_add_stats_bridge_state",
+        "test_ability_add_stats_matches_upstream_source",
+        "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_add_stats.guard": {
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "godot_symbol": "source_ability_add_stats_result.guard_expr",
+      "java_expr": "if(Core.bundle.has(getBundle() + \".description\")){",
+      "java_method": "Ability.addStats(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_add_stats_state",
+      "source_slice": "N1268",
+      "status": "source-backed",
+      "rule": "Core.bundle.has(getBundle() + \".description\") guards description row mutation.",
+      "tests": [
+        "test_emit_bridges_ability_add_stats_to_source_state",
+        "test_port_game_exposes_source_ability_add_stats_state",
+        "test_port_game_exposes_generated_ability_add_stats_bridge_state",
+        "test_ability_add_stats_matches_upstream_source",
+        "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_add_stats.description_width": {
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "godot_symbol": "source_ability_add_stats_result.description_width",
+      "java_expr": "protected static final float descriptionWidth = 350f;",
+      "java_method": "Ability.addStats(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_add_stats_state",
+      "source_slice": "N1268",
+      "status": "source-backed",
+      "rule": "descriptionWidth constant used by width(descriptionWidth).",
+      "tests": [
+        "test_emit_bridges_ability_add_stats_to_source_state",
+        "test_port_game_exposes_source_ability_add_stats_state",
+        "test_port_game_exposes_generated_ability_add_stats_bridge_state",
+        "test_ability_add_stats_matches_upstream_source",
+        "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_add_stats.add_description": {
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "godot_symbol": "source_ability_add_stats_result.add_description_call",
+      "java_expr": "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);",
+      "java_method": "Ability.addStats(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_add_stats_state",
+      "source_slice": "N1268",
+      "status": "source-backed",
+      "rule": "Description add/wrap/width call emitted only when guard passes.",
+      "tests": [
+        "test_emit_bridges_ability_add_stats_to_source_state",
+        "test_port_game_exposes_source_ability_add_stats_state",
+        "test_port_game_exposes_generated_ability_add_stats_bridge_state",
+        "test_ability_add_stats_matches_upstream_source",
+        "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -15499,6 +15499,48 @@ func generated_ability_display_bridge_state(table_state: Variant, localized_valu
 		"matches": result == canonical,
 	}
 
+func source_ability_add_stats_state(table_state: Variant, get_bundle_value: String, bundle_has_description: bool, bundle_description: String) -> Dictionary:
+	var description_key := get_bundle_value + ".description"
+	var add_description_call: Variant = null
+	var row_call: Variant = null
+	if bundle_has_description:
+		add_description_call = {
+			"call": "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);",
+			"description": bundle_description,
+			"width": 350.0,
+		}
+		row_call = "t.row();"
+	return {
+		"source_owner": "PortGame.source_ability_add_stats_state",
+		"source": "core/src/mindustry/entities/abilities/Ability.java",
+		"method": "public void addStats(Table t){",
+		"table": table_state,
+		"field_expr": "protected static final float descriptionWidth = 350f;",
+		"description_width": 350.0,
+		"get_bundle_call": "getBundle()",
+		"get_bundle_value": get_bundle_value,
+		"description_key_expr": "getBundle() + \".description\"",
+		"description_key": description_key,
+		"guard_expr": "if(Core.bundle.has(getBundle() + \".description\")){",
+		"guard_passed": bundle_has_description,
+		"bundle_description": bundle_description,
+		"add_description_call": add_description_call,
+		"row_call": row_call,
+	}
+
+func generated_ability_add_stats_bridge_state(table_state: Variant, get_bundle_value: String, bundle_has_description: bool, bundle_description: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")
+	var instance = script.new()
+	var result = instance.java_method_addStats_7([table_state, get_bundle_value, bundle_has_description, bundle_description])
+	var canonical = source_ability_add_stats_state(table_state, get_bundle_value, bundle_has_description, bundle_description)
+	return {
+		"source_owner": "PortGame.source_ability_add_stats_state",
+		"generated_owner": "Ability.java_method_addStats_7",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
 	var trail_scale := elevation_value if type_use_engine_elevation else 1.0
 	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * trail_scale

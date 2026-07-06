@@ -31007,6 +31007,64 @@
       ],
       "runtime_proof": "/root/Main.source_ability_display_state",
       "rule": "Public runtime contract for Ability.display(Table t) source-backed UI operation plan."
+    },
+    "PortGame.source_ability_add_stats_state": {
+      "status": "source-backed",
+      "source_slice": "N1268",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.addStats(Table t)",
+      "params": [
+        {
+          "name": "table_state",
+          "type": "Variant",
+          "java_expr": "Table t",
+          "schema": "source_ability_add_stats_input.table"
+        },
+        {
+          "name": "get_bundle_value",
+          "type": "String",
+          "java_expr": "getBundle()",
+          "schema": "source_ability_add_stats_input.get_bundle_value"
+        },
+        {
+          "name": "bundle_has_description",
+          "type": "bool",
+          "java_expr": "Core.bundle.has(getBundle() + \".description\")",
+          "schema": "source_ability_add_stats_input.bundle_has_description"
+        },
+        {
+          "name": "bundle_description",
+          "type": "String",
+          "java_expr": "Core.bundle.get(getBundle() + \".description\")",
+          "schema": "source_ability_add_stats_input.bundle_description"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "table",
+        "field_expr",
+        "description_width",
+        "get_bundle_call",
+        "get_bundle_value",
+        "description_key_expr",
+        "description_key",
+        "guard_expr",
+        "guard_passed",
+        "bundle_description",
+        "add_description_call",
+        "row_call"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_add_stats_to_source_state",
+        "test_port_game_exposes_source_ability_add_stats_state",
+        "test_port_game_exposes_generated_ability_add_stats_bridge_state",
+        "test_ability_add_stats_matches_upstream_source",
+        "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_ability_add_stats_state",
+      "rule": "Public runtime contract for Ability.addStats(Table t) source-backed description operation plan."
     }
   },
   "policy": {

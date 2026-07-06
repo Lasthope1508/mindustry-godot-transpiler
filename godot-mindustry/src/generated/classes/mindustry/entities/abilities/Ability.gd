@@ -44,7 +44,17 @@ func java_method_display_6(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_ability_display_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void display(Table t){", "table": table_state, "style_expr": "Styles.grayPanel", "table_call": "t.table(Styles.grayPanel, a -> {", "localized_call": "localized()", "title_expr": "\"[accent]\" + localized()", "localized_value": localized_value, "title_text": "[accent]" + localized_value, "add_call": "a.add(\"[accent]\" + localized()).padBottom(4).center().top().expandX();", "row_call": "a.row();", "defaults_call": "a.left().top().defaults().left();", "add_stats_call": "addStats(a);", "outer_chain": "}).pad(5).margin(10).growX().top().uniformX();", "table_mutation": true}
 
 func java_method_addStats_7(_args: Array = []) -> Variant:
-	return null
+	var table_state: Variant = _args[0] if _args.size() > 0 else null
+	var get_bundle_value: String = str(_args[1] if _args.size() > 1 else "")
+	var bundle_has_description: bool = bool(_args[2] if _args.size() > 2 else false)
+	var bundle_description: String = str(_args[3] if _args.size() > 3 else "")
+	var description_key: String = get_bundle_value + ".description"
+	var add_description_call: Variant = null
+	var row_call: Variant = null
+	if bundle_has_description:
+		add_description_call = {"call": "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);", "description": bundle_description, "width": 350.0}
+		row_call = "t.row();"
+	return {"source_owner": "PortGame.source_ability_add_stats_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void addStats(Table t){", "table": table_state, "field_expr": "protected static final float descriptionWidth = 350f;", "description_width": 350.0, "get_bundle_call": "getBundle()", "get_bundle_value": get_bundle_value, "description_key_expr": "getBundle() + \".description\"", "description_key": description_key, "guard_expr": "if(Core.bundle.has(getBundle() + \".description\")){", "guard_passed": bundle_has_description, "bundle_description": bundle_description, "add_description_call": add_description_call, "row_call": row_call}
 
 func java_method_abilityStat_8(_args: Array = []) -> Variant:
 	return null
