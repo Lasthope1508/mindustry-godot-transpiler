@@ -30506,6 +30506,42 @@
         "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block setupRequirements visible bridge state"
+    },
+    "N1306": {
+      "exact_exprs": [
+        "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){",
+        "requirements(cat, BuildVisibility.shown, stacks);",
+        "requirements(cat, BuildVisibility.shown, stacks)",
+        "this.alwaysUnlocked = unlocked;",
+        "Category cat",
+        "ItemStack[] stacks",
+        "boolean unlocked",
+        "BuildVisibility.shown"
+      ],
+      "generated_owner": "Block.java_method_requirements_114",
+      "godot_owner": "PortGame.source_block_requirements_unlocked_state",
+      "java_class": "Block",
+      "java_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_requirements_unlocked_bridge_state",
+      "source_symbols": [
+        "block_requirements_unlocked.method",
+        "block_requirements_unlocked.delegate_call_expr",
+        "block_requirements_unlocked.always_unlocked_assignment_expr",
+        "block_requirements_unlocked.cat",
+        "block_requirements_unlocked.stacks",
+        "block_requirements_unlocked.unlocked",
+        "block_requirements_unlocked.build_visibility_shown"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block requirements unlocked bridge state"
     }
   },
   "version": 1

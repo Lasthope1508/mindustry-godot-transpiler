@@ -16693,5 +16693,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_setupRequirements_113"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_requirements_unlocked_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_requirements_unlocked_state(cat: Variant, stacks: Variant, unlocked: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_requirements_unlocked_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){"', source)
+        self.assertIn('"delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)"', source)
+        self.assertIn('"always_unlocked_assignment_expr": "this.alwaysUnlocked = unlocked;"', source)
+        self.assertIn('"cat": cat', source)
+        self.assertIn('"build_visibility": "BuildVisibility.shown"', source)
+        self.assertIn('"stacks": stacks', source)
+        self.assertIn('"unlocked": unlocked', source)
+        self.assertIn('"delegate_called": true', source)
+        self.assertIn('"always_unlocked_assigned": true', source)
+        self.assertIn('"always_unlocked_after": unlocked', source)
+
+    def test_port_game_exposes_generated_block_requirements_unlocked_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_requirements_unlocked_bridge_state(cat: Variant, stacks: Variant, unlocked: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_requirements_114([cat, stacks, unlocked])", source)
+        self.assertIn("var canonical = source_block_requirements_unlocked_state(cat, stacks, unlocked)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_requirements_unlocked_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_requirements_114"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

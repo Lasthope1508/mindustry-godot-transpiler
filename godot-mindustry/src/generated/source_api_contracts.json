@@ -32563,6 +32563,55 @@
         "test_block_setup_requirements_visible_matches_upstream_source",
         "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_requirements_unlocked_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Category cat",
+          "name": "cat",
+          "schema": "source_block_requirements_unlocked_input.cat",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "ItemStack[] stacks",
+          "name": "stacks",
+          "schema": "source_block_requirements_unlocked_input.stacks",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "boolean unlocked",
+          "name": "unlocked",
+          "schema": "source_block_requirements_unlocked_input.unlocked",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "delegate_call_expr",
+        "always_unlocked_assignment_expr",
+        "cat",
+        "build_visibility",
+        "stacks",
+        "unlocked",
+        "delegate_called",
+        "always_unlocked_assigned",
+        "always_unlocked_after"
+      ],
+      "rule": "Pin source-backed Block.requirements(Category,ItemStack[],boolean) delegate and alwaysUnlocked assignment state.",
+      "runtime_proof": "/root/Main.source_block_requirements_unlocked_state",
+      "source_method": "Block.requirements(Category,ItemStack[],boolean)",
+      "source_slice": "N1306",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_requirements_unlocked_to_source_state",
+        "test_port_game_exposes_source_block_requirements_unlocked_state",
+        "test_port_game_exposes_generated_block_requirements_unlocked_bridge_state",
+        "test_block_requirements_unlocked_matches_upstream_source",
+        "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

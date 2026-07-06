@@ -17848,6 +17848,35 @@ func generated_block_setup_requirements_visible_bridge_state(cat: Variant, build
 		"matches": result == canonical,
 	}
 
+func source_block_requirements_unlocked_state(cat: Variant, stacks: Variant, unlocked: bool) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_block_requirements_unlocked_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){",
+		"delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)",
+		"always_unlocked_assignment_expr": "this.alwaysUnlocked = unlocked;",
+		"cat": cat,
+		"build_visibility": "BuildVisibility.shown",
+		"stacks": stacks,
+		"unlocked": unlocked,
+		"delegate_called": true,
+		"always_unlocked_assigned": true,
+		"always_unlocked_after": unlocked,
+	}
+
+func generated_block_requirements_unlocked_bridge_state(cat: Variant, stacks: Variant, unlocked: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_requirements_114([cat, stacks, unlocked])
+	var canonical = source_block_requirements_unlocked_state(cat, stacks, unlocked)
+	return {
+		"source_owner": "PortGame.source_block_requirements_unlocked_state",
+		"generated_owner": "Block.java_method_requirements_114",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation
