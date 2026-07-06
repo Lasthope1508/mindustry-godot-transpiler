@@ -34,7 +34,9 @@ func java_method_init_4(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_ability_init_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void init(UnitType type){}", "type": type_value, "no_op": true}
 
 func java_method_displayBars_5(_args: Array = []) -> Variant:
-	return null
+	var unit: Variant = _args[0] if _args.size() > 0 else null
+	var bars: Variant = _args[1] if _args.size() > 1 else null
+	return {"source_owner": "PortGame.source_ability_display_bars_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void displayBars(Unit unit, Table bars){}", "unit": unit, "bars": bars, "no_op": true}
 
 func java_method_display_6(_args: Array = []) -> Variant:
 	return null

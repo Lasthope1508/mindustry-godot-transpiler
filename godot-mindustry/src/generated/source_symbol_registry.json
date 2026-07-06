@@ -93158,6 +93158,78 @@
         "test_ability_init_matches_upstream_source",
         "test_generated_ability_init_slice_is_registered_with_source_backing"
       ]
+    },
+    "ability_display_bars.method": {
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "godot_symbol": "source_ability_display_bars_result.method",
+      "java_expr": "public void displayBars(Unit unit, Table bars){}",
+      "java_method": "Ability.displayBars(Unit unit, Table bars)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_bars_state",
+      "source_slice": "N1266",
+      "status": "source-backed",
+      "rule": "Ability.displayBars(Unit unit, Table bars) default method identity from upstream Ability.java.",
+      "tests": [
+        "test_emit_bridges_ability_display_bars_to_source_state",
+        "test_port_game_exposes_source_ability_display_bars_state",
+        "test_port_game_exposes_generated_ability_display_bars_bridge_state",
+        "test_ability_display_bars_matches_upstream_source",
+        "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_display_bars.unit": {
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "godot_symbol": "source_ability_display_bars_input.unit",
+      "java_expr": "Unit unit",
+      "java_method": "Ability.displayBars(Unit unit, Table bars)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_bars_state",
+      "source_slice": "N1266",
+      "status": "explicit-input",
+      "rule": "Explicit Unit unit argument passed through unchanged.",
+      "tests": [
+        "test_emit_bridges_ability_display_bars_to_source_state",
+        "test_port_game_exposes_source_ability_display_bars_state",
+        "test_port_game_exposes_generated_ability_display_bars_bridge_state",
+        "test_ability_display_bars_matches_upstream_source",
+        "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_display_bars.bars": {
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "godot_symbol": "source_ability_display_bars_input.bars",
+      "java_expr": "Table bars",
+      "java_method": "Ability.displayBars(Unit unit, Table bars)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_bars_state",
+      "source_slice": "N1266",
+      "status": "explicit-input",
+      "rule": "Explicit Table bars argument passed through unchanged.",
+      "tests": [
+        "test_emit_bridges_ability_display_bars_to_source_state",
+        "test_port_game_exposes_source_ability_display_bars_state",
+        "test_port_game_exposes_generated_ability_display_bars_bridge_state",
+        "test_ability_display_bars_matches_upstream_source",
+        "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_display_bars.no_op": {
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "godot_symbol": "source_ability_display_bars_result.no_op",
+      "java_expr": "public void displayBars(Unit unit, Table bars){}",
+      "java_method": "Ability.displayBars(Unit unit, Table bars)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_display_bars_state",
+      "source_slice": "N1266",
+      "status": "source-backed",
+      "rule": "Empty upstream Ability.displayBars body produces no side effects.",
+      "tests": [
+        "test_emit_bridges_ability_display_bars_to_source_state",
+        "test_port_game_exposes_source_ability_display_bars_state",
+        "test_port_game_exposes_generated_ability_display_bars_bridge_state",
+        "test_ability_display_bars_matches_upstream_source",
+        "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

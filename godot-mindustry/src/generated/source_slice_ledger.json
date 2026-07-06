@@ -29228,6 +29228,35 @@
       ],
       "runtime_proof": "/root/Main.generated_ability_init_bridge_state",
       "status": "source-backed"
+    },
+    "N1266": {
+      "title": "Generated Ability displayBars bridge state",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.displayBars(Unit unit, Table bars)",
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "generated_owner": "Ability.java_method_displayBars_5",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "import arc.scene.ui.layout.*;",
+        "public void displayBars(Unit unit, Table bars){}"
+      ],
+      "source_symbols": [
+        "ability_display_bars.method",
+        "ability_display_bars.unit",
+        "ability_display_bars.bars",
+        "ability_display_bars.no_op"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_display_bars_to_source_state",
+        "test_port_game_exposes_source_ability_display_bars_state",
+        "test_port_game_exposes_generated_ability_display_bars_bridge_state",
+        "test_ability_display_bars_matches_upstream_source",
+        "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_ability_display_bars_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1

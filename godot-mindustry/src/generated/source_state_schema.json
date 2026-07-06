@@ -110521,6 +110521,164 @@
       "runtime_proof": "/root/Main.source_ability_init_state",
       "source_slice": "N1265",
       "status": "source-backed"
+    },
+    "source_ability_display_bars_input": {
+      "rule": "Inputs for PortGame.source_ability_display_bars_state.",
+      "keys": {
+        "unit": {
+          "godot_symbol": "source_ability_display_bars_input.unit",
+          "java_expr": "Unit unit",
+          "java_method": "Ability.displayBars(Unit unit, Table bars)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_display_bars_state"
+          ],
+          "rule": "Explicit Unit unit argument passed through unchanged.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_display_bars.unit"
+          ],
+          "used_by": [
+            "PortGame.source_ability_display_bars_state"
+          ]
+        },
+        "bars": {
+          "godot_symbol": "source_ability_display_bars_input.bars",
+          "java_expr": "Table bars",
+          "java_method": "Ability.displayBars(Unit unit, Table bars)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_display_bars_state"
+          ],
+          "rule": "Explicit Table bars argument passed through unchanged.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_display_bars.bars"
+          ],
+          "used_by": [
+            "PortGame.source_ability_display_bars_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_display_bars_state",
+      "runtime_proof": "/root/Main.source_ability_display_bars_state",
+      "source_slice": "N1266",
+      "status": "source-backed"
+    },
+    "source_ability_display_bars_result": {
+      "rule": "Dictionary returned by PortGame.source_ability_display_bars_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_ability_display_bars_result.source_owner",
+          "java_expr": "PortGame.source_ability_display_bars_state",
+          "java_method": "Ability.displayBars(Unit unit, Table bars)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_display_bars_state"
+          ],
+          "rule": "Canonical PortGame owner for Ability.displayBars bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_display_bars_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_ability_display_bars_result.source",
+          "java_expr": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.displayBars(Unit unit, Table bars)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_display_bars_state"
+          ],
+          "rule": "Upstream source file for Ability.displayBars.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_display_bars_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_ability_display_bars_result.method",
+          "java_expr": "public void displayBars(Unit unit, Table bars){}",
+          "java_method": "Ability.displayBars(Unit unit, Table bars)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_display_bars_state"
+          ],
+          "rule": "Base Ability.displayBars method body.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_display_bars.method"
+          ],
+          "used_by": [
+            "PortGame.source_ability_display_bars_state"
+          ]
+        },
+        "unit": {
+          "godot_symbol": "source_ability_display_bars_result.unit",
+          "java_expr": "Unit unit",
+          "java_method": "Ability.displayBars(Unit unit, Table bars)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_display_bars_state"
+          ],
+          "rule": "Explicit Unit unit argument returned unchanged.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_display_bars.unit"
+          ],
+          "used_by": [
+            "PortGame.source_ability_display_bars_state"
+          ]
+        },
+        "bars": {
+          "godot_symbol": "source_ability_display_bars_result.bars",
+          "java_expr": "Table bars",
+          "java_method": "Ability.displayBars(Unit unit, Table bars)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_display_bars_state"
+          ],
+          "rule": "Explicit Table bars argument returned unchanged.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_display_bars.bars"
+          ],
+          "used_by": [
+            "PortGame.source_ability_display_bars_state"
+          ]
+        },
+        "no_op": {
+          "godot_symbol": "source_ability_display_bars_result.no_op",
+          "java_expr": "public void displayBars(Unit unit, Table bars){}",
+          "java_method": "Ability.displayBars(Unit unit, Table bars)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_display_bars_state"
+          ],
+          "rule": "Empty upstream Ability.displayBars body produces no side effects.",
+          "status": "source-backed",
+          "type": "bool",
+          "source_symbols": [
+            "ability_display_bars.no_op"
+          ],
+          "used_by": [
+            "PortGame.source_ability_display_bars_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_display_bars_state",
+      "runtime_proof": "/root/Main.source_ability_display_bars_state",
+      "source_slice": "N1266",
+      "status": "source-backed"
     }
   },
   "version": 1

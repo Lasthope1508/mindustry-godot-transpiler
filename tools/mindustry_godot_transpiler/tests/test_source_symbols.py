@@ -7272,6 +7272,63 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_ability_init_result")
         self.assertEqual(result_schema["keys"]["no_op"]["java_expr"], "public void init(UnitType type){}")
 
+    def test_generated_ability_display_bars_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "ability_display_bars.method")
+        self.assertEqual(method["java_expr"], "public void displayBars(Unit unit, Table bars){}")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(method["java_method"], "Ability.displayBars(Unit unit, Table bars)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_ability_display_bars_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_ability_display_bars_state")
+        self.assertEqual(method["godot_symbol"], "source_ability_display_bars_result.method")
+
+        unit = source_symbols.source_symbol(registry, "ability_display_bars.unit")
+        self.assertEqual(unit["status"], "explicit-input")
+        self.assertEqual(unit["java_expr"], "Unit unit")
+        self.assertEqual(unit["godot_symbol"], "source_ability_display_bars_input.unit")
+
+        bars = source_symbols.source_symbol(registry, "ability_display_bars.bars")
+        self.assertEqual(bars["status"], "explicit-input")
+        self.assertEqual(bars["java_expr"], "Table bars")
+        self.assertEqual(bars["godot_symbol"], "source_ability_display_bars_input.bars")
+
+        no_op = source_symbols.source_symbol(registry, "ability_display_bars.no_op")
+        self.assertEqual(no_op["java_expr"], "public void displayBars(Unit unit, Table bars){}")
+        self.assertEqual(no_op["godot_symbol"], "source_ability_display_bars_result.no_op")
+
+        display_bars_slice = source_symbols.source_slice(ledger, "N1266")
+        self.assertEqual(display_bars_slice["title"], "Generated Ability displayBars bridge state")
+        self.assertEqual(display_bars_slice["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(display_bars_slice["java_method"], "Ability.displayBars(Unit unit, Table bars)")
+        self.assertEqual(display_bars_slice["godot_owner"], "PortGame.source_ability_display_bars_state")
+        self.assertEqual(display_bars_slice["generated_owner"], "Ability.java_method_displayBars_5")
+        self.assertEqual(display_bars_slice["runtime_proof"], "/root/Main.generated_ability_display_bars_bridge_state")
+        for expr in [
+            "public abstract class Ability implements Cloneable{",
+            "import mindustry.gen.*;",
+            "import arc.scene.ui.layout.*;",
+            "public void displayBars(Unit unit, Table bars){}",
+        ]:
+            self.assertIn(expr, display_bars_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_ability_display_bars_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["unit", "bars"])
+        for key in ["source_owner", "source", "method", "unit", "bars", "no_op"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_ability_display_bars_input")
+        self.assertEqual(input_schema["keys"]["unit"]["java_expr"], "Unit unit")
+        self.assertEqual(input_schema["keys"]["bars"]["java_expr"], "Table bars")
+        result_schema = source_symbols.state_schema(schema, "source_ability_display_bars_result")
+        self.assertEqual(result_schema["keys"]["no_op"]["java_expr"], "public void displayBars(Unit unit, Table bars){}")
+
     def test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -19975,15 +20032,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 739)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 734)
+        self.assertEqual(audit["totalSourceFunctions"], 740)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 735)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 739)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 740)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
+        self.assertIn("PortGame.source_ability_display_bars_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_init_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_bullet_type_draw_parts_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_building_dump_accumulate_default_state", audit["registeredSourceOwners"])

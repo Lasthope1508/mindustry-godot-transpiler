@@ -72,6 +72,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_ability_init_state\", \"source\": \"core/src/mindustry/entities/abilities/Ability.java\", \"method\": \"public void init(UnitType type){}\", \"type\": type_value, \"no_op\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/abilities/Ability.java"
+        and type_entry.get("name") == "Ability"
+        and method.get("name") == "displayBars"
+    ):
+        return [
+            "\tvar unit: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar bars: Variant = _args[1] if _args.size() > 1 else null",
+            "\treturn {\"source_owner\": \"PortGame.source_ability_display_bars_state\", \"source\": \"core/src/mindustry/entities/abilities/Ability.java\", \"method\": \"public void displayBars(Unit unit, Table bars){}\", \"unit\": unit, \"bars\": bars, \"no_op\": true}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "getProgressIncrease"
