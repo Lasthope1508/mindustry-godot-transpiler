@@ -8840,6 +8840,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_tractor_beam_turret_build_update_tile_impulse_net_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_update_tile_impulse_net_source"))
+        report = source_parity.verify_tractor_beam_turret_build_update_tile_impulse_net_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void updateTile(){",
+            "force_field": "public float force = 0.3f;",
+            "scaled_force_field": "public float scaledForce = 0f;",
+            "any_true": "any = true;",
+            "impulse_net": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+            "physics_impulse_net": "void impulseNet(Vec2 v){",
+            "physics_impulse_vec": "impulse(v.x, v.y);",
+            "vec2_set_position": "public Vec2 set(Position v){",
+            "vec2_sub_position": "public Vec2 sub(Position v){",
+            "vec2_limit": "public Vec2 limit(float limit){",
+            "vec2_limit2_scale": "return scl((float)Math.sqrt(limit2 / len2));",
+            "position_dst": "default float dst(Position other){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_get_regions_to_outline_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_get_regions_to_outline_source"))
         report = source_parity.verify_turret_get_regions_to_outline_source(ROOT / "mindustry-upstream")

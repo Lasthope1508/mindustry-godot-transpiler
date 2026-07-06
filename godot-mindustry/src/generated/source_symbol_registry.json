@@ -92769,6 +92769,74 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() any true",
       "java_expr": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));"
+    },
+    "tractor_beam_turret_build_update_tile_impulse_net.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_impulse_net_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for impulse net slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_impulse_net_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_impulse_net_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_impulse_net_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_impulse_net_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() impulse net",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_impulse_net.force": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_impulse_net_input.force_value",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "rule": "Exact TractorBeamTurret force field.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_impulse_net_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_impulse_net_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_impulse_net_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_impulse_net_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() impulse net",
+      "java_expr": "public float force = 0.3f;"
+    },
+    "tractor_beam_turret_build_update_tile_impulse_net.scaled_force": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_impulse_net_input.scaled_force",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "rule": "Exact TractorBeamTurret scaledForce field.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_impulse_net_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_impulse_net_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_impulse_net_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_impulse_net_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() impulse net",
+      "java_expr": "public float scaledForce = 0f;"
+    },
+    "tractor_beam_turret_build_update_tile_impulse_net.call": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_impulse_net_result.impulse_net_call",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "rule": "Exact target impulseNet call from TractorBeamBuild.updateTile.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_impulse_net_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_impulse_net_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_impulse_net_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_impulse_net_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() impulse net",
+      "java_expr": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));"
     }
   },
   "version": 1

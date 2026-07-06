@@ -109527,6 +109527,226 @@
           "java_method": "TractorBeamBuild.updateTile() any true"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_impulse_net_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state.",
+      "keys": {
+        "shoot_within_guard": {
+          "type": "bool",
+          "java_expr": "Angles.within(rotation, dest, shootCone)",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "target_after": {
+          "type": "Variant",
+          "java_expr": "target",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "x": {
+          "type": "float",
+          "java_expr": "this.x",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "y": {
+          "type": "float",
+          "java_expr": "this.y",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "range_value": {
+          "type": "float",
+          "java_expr": "range",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "edelta": {
+          "type": "float",
+          "java_expr": "edelta",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "force_value": {
+          "type": "float",
+          "java_expr": "force",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "scaled_force": {
+          "type": "float",
+          "java_expr": "scaledForce",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_impulse_net_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "method": {
+          "type": "String",
+          "java_expr": "public void updateTile(){",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "force_expr": {
+          "type": "String",
+          "java_expr": "public float force = 0.3f;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "scaled_force_expr": {
+          "type": "String",
+          "java_expr": "public float scaledForce = 0f;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "any_true_expr": {
+          "type": "String",
+          "java_expr": "any = true;",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "impulse_net_expr": {
+          "type": "String",
+          "java_expr": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "shoot_within_guard": {
+          "type": "bool",
+          "java_expr": "Angles.within(rotation, dest, shootCone)",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "target_after": {
+          "type": "Variant",
+          "java_expr": "target",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "x": {
+          "type": "float",
+          "java_expr": "this.x",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "y": {
+          "type": "float",
+          "java_expr": "this.y",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "range_value": {
+          "type": "float",
+          "java_expr": "range",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "edelta": {
+          "type": "float",
+          "java_expr": "edelta",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "force_value": {
+          "type": "float",
+          "java_expr": "force",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "scaled_force": {
+          "type": "float",
+          "java_expr": "scaledForce",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "target_x_for_impulse": {
+          "type": "float",
+          "java_expr": "target.getX()",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "target_y_for_impulse": {
+          "type": "float",
+          "java_expr": "target.getY()",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "target_dst_to_building": {
+          "type": "float",
+          "java_expr": "target.dst(this)",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "impulse_limit": {
+          "type": "float",
+          "java_expr": "(force + (1f - target.dst(this) / range) * scaledForce) * edelta",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "impulse_vector_x": {
+          "type": "float",
+          "java_expr": "Tmp.v1.set(this).sub(target).limit(...).x",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "impulse_vector_y": {
+          "type": "float",
+          "java_expr": "Tmp.v1.set(this).sub(target).limit(...).y",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "impulse_net_called": {
+          "type": "bool",
+          "java_expr": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        },
+        "impulse_net_call": {
+          "type": "Dictionary",
+          "java_expr": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() impulse net"
+        }
+      }
     }
   },
   "version": 1

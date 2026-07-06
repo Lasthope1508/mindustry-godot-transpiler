@@ -1156,6 +1156,50 @@ def verify_tractor_beam_turret_build_update_tile_any_true_source(upstream_root: 
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_impulse_net_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    physics_path = Path(upstream_root) / "core/src/mindustry/entities/comp/PhysicsComp.java"
+    vec2_path = Path(arc_root) / "arc-core/src/arc/math/geom/Vec2.java"
+    position_path = Path(arc_root) / "arc-core/src/arc/math/geom/Position.java"
+    turret_source = turret_path.read_text(encoding="utf-8", errors="replace")
+    physics_source = physics_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    position_source = position_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "force_field": "public float force = 0.3f;",
+        "scaled_force_field": "public float scaledForce = 0f;",
+        "any_true": "any = true;",
+        "impulse_net": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+        "physics_impulse_net": "void impulseNet(Vec2 v){",
+        "physics_impulse_vec": "impulse(v.x, v.y);",
+        "vec2_set_position": "public Vec2 set(Position v){",
+        "vec2_sub_position": "public Vec2 sub(Position v){",
+        "vec2_limit": "public Vec2 limit(float limit){",
+        "vec2_limit2_scale": "return scl((float)Math.sqrt(limit2 / len2));",
+        "position_dst": "default float dst(Position other){",
+    }
+    source_by_key = {
+        "method": turret_source,
+        "force_field": turret_source,
+        "scaled_force_field": turret_source,
+        "any_true": turret_source,
+        "impulse_net": turret_source,
+        "physics_impulse_net": physics_source,
+        "physics_impulse_vec": physics_source,
+        "vec2_set_position": vec2_source,
+        "vec2_sub_position": vec2_source,
+        "vec2_limit": vec2_source,
+        "vec2_limit2_scale": vec2_source,
+        "position_dst": position_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

@@ -29031,6 +29031,39 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_any_true_bridge_state",
       "status": "source-backed"
+    },
+    "N1259": {
+      "title": "Generated TractorBeamTurretBuild updateTile impulse net bridge state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() impulse net",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.impulse_net",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "public float force = 0.3f;",
+        "public float scaledForce = 0f;",
+        "any = true;",
+        "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+        "void impulseNet(Vec2 v){",
+        "public Vec2 limit(float limit){",
+        "default float dst(Position other){"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_impulse_net.method",
+        "tractor_beam_turret_build_update_tile_impulse_net.force",
+        "tractor_beam_turret_build_update_tile_impulse_net.scaled_force",
+        "tractor_beam_turret_build_update_tile_impulse_net.call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_impulse_net_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_impulse_net_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_impulse_net_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_impulse_net_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1

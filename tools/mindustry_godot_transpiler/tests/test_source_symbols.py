@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 732)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 727)
+        self.assertEqual(audit["totalSourceFunctions"], 733)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 728)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 732)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 733)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43948,6 +43948,53 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_any_true_result")
         self.assertEqual(result_schema["keys"]["any_after"]["java_expr"], "any = true;")
         self.assertEqual(result_schema["keys"]["any_true_call"]["java_expr"], "any = true;")
+
+    def test_generated_tractor_beam_turret_build_update_tile_impulse_net_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_impulse_net.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() impulse net")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_impulse_net_state")
+
+        force = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_impulse_net.force")
+        self.assertEqual(force["java_expr"], "public float force = 0.3f;")
+        self.assertEqual(force["godot_symbol"], "source_tractor_beam_turret_build_update_tile_impulse_net_input.force_value")
+        scaled_force = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_impulse_net.scaled_force")
+        self.assertEqual(scaled_force["java_expr"], "public float scaledForce = 0f;")
+        impulse = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_impulse_net.call")
+        self.assertEqual(impulse["java_expr"], "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));")
+        self.assertEqual(impulse["godot_symbol"], "source_tractor_beam_turret_build_update_tile_impulse_net_result.impulse_net_call")
+
+        impulse_slice = source_symbols.source_slice(ledger, "N1259")
+        self.assertEqual(impulse_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(impulse_slice["java_method"], "TractorBeamBuild.updateTile() impulse net")
+        self.assertEqual(impulse_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state")
+        self.assertEqual(impulse_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state")
+        for expr in ["public float force = 0.3f;", "public float scaledForce = 0f;", "any = true;", "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));"]:
+            self.assertIn(expr, impulse_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["shoot_within_guard", "target_after", "x", "y", "range_value", "edelta", "force_value", "scaled_force"],
+        )
+        for key in ["source_owner", "method", "force_expr", "scaled_force_expr", "impulse_net_expr", "shoot_within_guard", "target_dst_to_building", "impulse_limit", "impulse_vector_x", "impulse_vector_y", "impulse_net_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_impulse_net_input")
+        self.assertEqual(input_schema["keys"]["force_value"]["java_expr"], "force")
+        self.assertEqual(input_schema["keys"]["scaled_force"]["java_expr"], "scaledForce")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_impulse_net_result")
+        self.assertEqual(result_schema["keys"]["impulse_limit"]["java_expr"], "(force + (1f - target.dst(this) / range) * scaledForce) * edelta")
+        self.assertEqual(result_schema["keys"]["impulse_net_call"]["java_expr"], "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

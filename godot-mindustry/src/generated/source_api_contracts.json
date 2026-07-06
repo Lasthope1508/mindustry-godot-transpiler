@@ -30623,6 +30623,95 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_any_true_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile any=true assignment."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state": {
+      "status": "source-backed",
+      "source_slice": "N1259",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() impulse net",
+      "params": [
+        {
+          "name": "shoot_within_guard",
+          "type": "bool",
+          "java_expr": "Angles.within(rotation, dest, shootCone)",
+          "schema": "source_tractor_beam_turret_build_update_tile_impulse_net_input.shoot_within_guard"
+        },
+        {
+          "name": "target_after",
+          "type": "Variant",
+          "java_expr": "target",
+          "schema": "source_tractor_beam_turret_build_update_tile_impulse_net_input.target_after"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "java_expr": "this.x",
+          "schema": "source_tractor_beam_turret_build_update_tile_impulse_net_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "java_expr": "this.y",
+          "schema": "source_tractor_beam_turret_build_update_tile_impulse_net_input.y"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "java_expr": "range",
+          "schema": "source_tractor_beam_turret_build_update_tile_impulse_net_input.range_value"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "java_expr": "edelta",
+          "schema": "source_tractor_beam_turret_build_update_tile_impulse_net_input.edelta"
+        },
+        {
+          "name": "force_value",
+          "type": "float",
+          "java_expr": "force",
+          "schema": "source_tractor_beam_turret_build_update_tile_impulse_net_input.force_value"
+        },
+        {
+          "name": "scaled_force",
+          "type": "float",
+          "java_expr": "scaledForce",
+          "schema": "source_tractor_beam_turret_build_update_tile_impulse_net_input.scaled_force"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "force_expr",
+        "scaled_force_expr",
+        "any_true_expr",
+        "impulse_net_expr",
+        "shoot_within_guard",
+        "target_after",
+        "x",
+        "y",
+        "range_value",
+        "edelta",
+        "force_value",
+        "scaled_force",
+        "target_x_for_impulse",
+        "target_y_for_impulse",
+        "target_dst_to_building",
+        "impulse_limit",
+        "impulse_vector_x",
+        "impulse_vector_y",
+        "impulse_net_called",
+        "impulse_net_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_impulse_net_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_impulse_net_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_impulse_net_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_impulse_net_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile target impulseNet call."
     }
   },
   "policy": {

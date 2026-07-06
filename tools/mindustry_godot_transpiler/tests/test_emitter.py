@@ -9137,6 +9137,68 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"any_before_shoot": any_before_shoot', source_text)
             self.assertIn('"any_true_call": any_true_call', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_impulse_net_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public float force = 0.3f;
+    public float scaledForce = 0f;
+
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            any = false;
+
+            if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){
+                float dest = angleTo(target);
+                rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);
+                lastX = target.x;
+                lastY = target.y;
+                strength = Mathf.lerpDelta(strength, 1f, 0.1f);
+
+                if(Angles.within(rotation, dest, shootCone)){
+                    any = true;
+                    target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var force_value: float = float(_args[43]) if _args.size() > 43 else 0.3", source_text)
+            self.assertIn("var scaled_force: float = float(_args[44]) if _args.size() > 44 else 0.0", source_text)
+            self.assertIn("var target_dst_to_building: float = sqrt(pow(target_x_for_impulse - x, 2) + pow(target_y_for_impulse - y, 2))", source_text)
+            self.assertIn("var impulse_limit: float = (force_value + (1.0 - target_dst_to_building / range_value) * scaled_force) * edelta", source_text)
+            self.assertIn("var impulse_net_called: bool = any_true_called", source_text)
+            self.assertIn("var impulse_net_call: Dictionary = {}", source_text)
+            self.assertIn('impulse_net_call = {"call": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));"', source_text)
+            self.assertIn('"force_expr": "public float force = 0.3f;"', source_text)
+            self.assertIn('"scaled_force_expr": "public float scaledForce = 0f;"', source_text)
+            self.assertIn('"impulse_net_expr": "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));"', source_text)
+            self.assertIn('"impulse_net_call": impulse_net_call', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
