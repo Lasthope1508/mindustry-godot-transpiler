@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 728)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 723)
+        self.assertEqual(audit["totalSourceFunctions"], 729)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 724)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 728)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 729)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43768,6 +43768,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_active_strength_result")
         self.assertEqual(result_schema["keys"]["strength_lerp_scaled_progress"]["java_expr"], "0.1f * Time.delta")
         self.assertEqual(result_schema["keys"]["strength_after"]["java_expr"], "Mathf.lerpDelta(strength, 1f, 0.1f)")
+
+    def test_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() shoot when possible guard")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state")
+
+        guard = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.guard")
+        self.assertEqual(guard["java_expr"], "if(Angles.within(rotation, dest, shootCone)){")
+        self.assertEqual(guard["godot_symbol"], "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_result.shoot_within_guard")
+        angles_within = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.angles_within")
+        self.assertEqual(angles_within["java_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(angles_within["java_expr"], "public static boolean within(float a, float b, float margin){")
+
+        guard_slice = source_symbols.source_slice(ledger, "N1255")
+        self.assertEqual(guard_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(guard_slice["java_method"], "TractorBeamBuild.updateTile() shoot when possible guard")
+        self.assertEqual(guard_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state")
+        self.assertEqual(guard_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state")
+        for expr in ["//shoot when possible", "if(Angles.within(rotation, dest, shootCone)){", "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }", "if(damage > 0){"]:
+            self.assertIn(expr, guard_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["strength_lerp_evaluated", "rotation_after", "dest", "shoot_cone"],
+        )
+        for key in ["source_owner", "method", "shoot_when_possible_guard_expr", "angles_within_method", "strength_lerp_evaluated", "rotation_after", "dest", "shoot_cone", "shoot_when_possible_evaluated", "shoot_within_angle_dist", "shoot_within_guard", "shoot_within_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_input")
+        self.assertEqual(input_schema["keys"]["rotation_after"]["java_expr"], "rotation")
+        self.assertEqual(input_schema["keys"]["dest"]["java_expr"], "dest")
+        self.assertEqual(input_schema["keys"]["shoot_cone"]["java_expr"], "shootCone")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_result")
+        self.assertEqual(result_schema["keys"]["shoot_within_angle_dist"]["java_expr"], "Angles.angleDist(rotation, dest)")
+        self.assertEqual(result_schema["keys"]["shoot_within_guard"]["java_expr"], "Angles.within(rotation, dest, shootCone)")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

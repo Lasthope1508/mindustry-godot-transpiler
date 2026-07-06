@@ -8889,6 +8889,62 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"strength_lerp_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"', source_text)
             self.assertIn('"strength_after": strength_after', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            any = false;
+
+            //look at target
+            if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){
+                float dest = angleTo(target);
+                rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);
+                lastX = target.x;
+                lastY = target.y;
+                strength = Mathf.lerpDelta(strength, 1f, 0.1f);
+
+                //shoot when possible
+                if(Angles.within(rotation, dest, shootCone)){
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var shoot_cone: float = float(_args[37] if _args.size() > 37 else 0.0)", source_text)
+            self.assertIn("var shoot_when_possible_evaluated: bool = strength_lerp_evaluated", source_text)
+            self.assertIn("var shoot_within_angle_dist: float = 0.0", source_text)
+            self.assertIn("var shoot_within_guard: bool = shoot_when_possible_evaluated and shoot_within_angle_dist <= shoot_cone", source_text)
+            self.assertIn('shoot_within_call = {"call": "Angles.within(rotation, dest, shootCone)", "rotation": rotation_after, "dest": dest, "shoot_cone": shoot_cone, "angle_dist": shoot_within_angle_dist, "result": shoot_within_guard}', source_text)
+            self.assertIn('"shoot_when_possible_guard_expr": "if(Angles.within(rotation, dest, shootCone)){"', source_text)
+            self.assertIn('"angles_within_method": "public static boolean within(float a, float b, float margin){\\n        return angleDist(a, b) <= margin;\\n    }"', source_text)
+            self.assertIn('"shoot_within_guard": shoot_within_guard', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

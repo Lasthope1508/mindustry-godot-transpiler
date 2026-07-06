@@ -30405,6 +30405,57 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_active_strength_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile active strength Mathf.lerpDelta assignment."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state": {
+      "status": "source-backed",
+      "source_slice": "N1255",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+      "params": [
+        {
+          "name": "strength_lerp_evaluated",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_input.strength_lerp_evaluated"
+        },
+        {
+          "name": "rotation_after",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_input.rotation_after"
+        },
+        {
+          "name": "dest",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_input.dest"
+        },
+        {
+          "name": "shoot_cone",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_input.shoot_cone"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "shoot_when_possible_guard_expr",
+        "angles_within_method",
+        "strength_lerp_evaluated",
+        "rotation_after",
+        "dest",
+        "shoot_cone",
+        "shoot_when_possible_evaluated",
+        "shoot_within_angle_dist",
+        "shoot_within_guard",
+        "shoot_within_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile Angles.within shootCone guard."
     }
   },
   "policy": {

@@ -109109,6 +109109,128 @@
           "java_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state.",
+      "keys": {
+        "strength_lerp_evaluated": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"
+        },
+        "rotation_after": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "rotation"
+        },
+        "dest": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "dest"
+        },
+        "shoot_cone": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "shootCone"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "public void updateTile(){"
+        },
+        "shoot_when_possible_guard_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "if(Angles.within(rotation, dest, shootCone)){"
+        },
+        "angles_within_method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "within(float a, float b, float margin)",
+          "java_expr": "public static boolean within(float a, float b, float margin){"
+        },
+        "strength_lerp_evaluated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"
+        },
+        "rotation_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "rotation"
+        },
+        "dest": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "dest"
+        },
+        "shoot_cone": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "shootCone"
+        },
+        "shoot_when_possible_evaluated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "//shoot when possible"
+        },
+        "shoot_within_angle_dist": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "java_method": "angleDist(float a, float b)",
+          "java_expr": "Angles.angleDist(rotation, dest)"
+        },
+        "shoot_within_guard": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "Angles.within(rotation, dest, shootCone)"
+        },
+        "shoot_within_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+          "java_expr": "if(Angles.within(rotation, dest, shootCone)){"
+        }
+      }
     }
   },
   "version": 1

@@ -8769,6 +8769,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_source"))
+        report = source_parity.verify_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(report["angles_source"], "arc-core/src/arc/math/Angles.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void updateTile(){",
+            "active_strength": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
+            "shoot_comment": "//shoot when possible",
+            "shoot_guard": "if(Angles.within(rotation, dest, shootCone)){",
+            "damage_boundary": "if(damage > 0){",
+            "within": "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }",
+            "angle_dist": "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_get_regions_to_outline_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_get_regions_to_outline_source"))
         report = source_parity.verify_turret_get_regions_to_outline_source(ROOT / "mindustry-upstream")

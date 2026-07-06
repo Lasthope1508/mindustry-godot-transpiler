@@ -28906,6 +28906,37 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state",
       "status": "source-backed"
+    },
+    "N1255": {
+      "title": "Generated TractorBeamTurretBuild updateTile shoot when possible guard bridge state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.shoot_when_possible_guard",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
+        "//shoot when possible",
+        "if(Angles.within(rotation, dest, shootCone)){",
+        "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }",
+        "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+        "if(damage > 0){"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.method",
+        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.guard",
+        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.angles_within"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1

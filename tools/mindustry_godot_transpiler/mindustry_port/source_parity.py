@@ -1032,6 +1032,37 @@ def verify_tractor_beam_turret_build_update_tile_active_strength_source(upstream
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    angles_path = Path(arc_root) / ARC_ANGLES_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    angles_source = angles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "active_strength": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
+        "shoot_comment": "//shoot when possible",
+        "shoot_guard": "if(Angles.within(rotation, dest, shootCone)){",
+        "damage_boundary": "if(damage > 0){",
+        "within": "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }",
+        "angle_dist": "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+    }
+    source_checks = {
+        "method": source,
+        "active_strength": source,
+        "shoot_comment": source,
+        "shoot_guard": source,
+        "damage_boundary": source,
+        "within": angles_source,
+        "angle_dist": angles_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_checks[key]]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "angles_source": ARC_ANGLES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

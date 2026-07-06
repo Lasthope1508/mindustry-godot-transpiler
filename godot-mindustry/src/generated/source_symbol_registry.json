@@ -92565,6 +92565,57 @@
       "java_source": "arc-core/src/arc/math/Mathf.java",
       "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
       "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){"
+    },
+    "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for shoot when possible guard slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_result.shoot_within_guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+      "rule": "Exact Angles.within guard from TractorBeamBuild.updateTile.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+      "java_expr": "if(Angles.within(rotation, dest, shootCone)){"
+    },
+    "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.angles_within": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_result.shoot_within_guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+      "rule": "Arc Angles.within helper used by TractorBeamBuild shoot guard.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_method": "within(float a, float b, float margin)",
+      "java_expr": "public static boolean within(float a, float b, float margin){"
     }
   },
   "version": 1
