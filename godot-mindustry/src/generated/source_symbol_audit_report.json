@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 721,
+  "registeredSourceOwnerCount": 722,
   "registeredSourceOwners": [
     "PortGame.source_absin",
     "PortGame.source_angle_distance",
@@ -563,6 +563,7 @@
     "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
     "PortGame.source_tractor_beam_turret_build_update_tile_coolant_used_state",
     "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+    "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state",
     "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
     "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
     "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state",
@@ -3899,6 +3900,11 @@
       "owner": "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state"
     },
     {
+      "function": "source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state"
+    },
+    {
       "function": "source_tractor_beam_turret_build_draw_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_tractor_beam_turret_build_draw_state"
@@ -4369,6 +4375,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 726,
+  "totalSourceFunctions": 727,
   "version": 1
 }

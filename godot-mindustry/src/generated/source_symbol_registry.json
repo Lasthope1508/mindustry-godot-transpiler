@@ -92463,6 +92463,57 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() rotation move",
       "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);"
+    },
+    "tractor_beam_turret_build_update_tile_last_target_position.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_last_target_position_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for last target position slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_last_target_position_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_last_target_position_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_last_target_position_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() last target position",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_last_target_position.last_x": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_last_target_position_result.last_x_after",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "rule": "Exact lastX assignment from TractorBeamBuild.updateTile target tracking.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_last_target_position_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_last_target_position_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_last_target_position_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() last target position",
+      "java_expr": "lastX = target.x;"
+    },
+    "tractor_beam_turret_build_update_tile_last_target_position.last_y": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_last_target_position_result.last_y_after",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "rule": "Exact lastY assignment from TractorBeamBuild.updateTile target tracking.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_last_target_position_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_last_target_position_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_last_target_position_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() last target position",
+      "java_expr": "lastY = target.y;"
     }
   },
   "version": 1

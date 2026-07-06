@@ -28846,6 +28846,35 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state",
       "status": "source-backed"
+    },
+    "N1253": {
+      "title": "Generated TractorBeamTurretBuild updateTile last target position bridge state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() last target position",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.last_target_position",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
+        "lastX = target.x;",
+        "lastY = target.y;",
+        "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_last_target_position.method",
+        "tractor_beam_turret_build_update_tile_last_target_position.last_x",
+        "tractor_beam_turret_build_update_tile_last_target_position.last_y"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_last_target_position_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_last_target_position_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_last_target_position_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
+      "status": "source-backed"
     }
   },
   "version": 1

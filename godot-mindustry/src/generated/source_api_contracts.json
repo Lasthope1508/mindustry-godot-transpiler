@@ -30307,6 +30307,57 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_rotation_move_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile rotation move assignment."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state": {
+      "status": "source-backed",
+      "source_slice": "N1253",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() last target position",
+      "params": [
+        {
+          "name": "rotation_move_evaluated",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_last_target_position_input.rotation_move_evaluated"
+        },
+        {
+          "name": "target_after",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_last_target_position_input.target_after"
+        },
+        {
+          "name": "last_x_before",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_last_target_position_input.last_x_before"
+        },
+        {
+          "name": "last_y_before",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_last_target_position_input.last_y_before"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "last_x_expr",
+        "last_y_expr",
+        "rotation_move_evaluated",
+        "target_after",
+        "last_x_before",
+        "last_y_before",
+        "last_target_position_evaluated",
+        "last_x_after",
+        "last_y_after",
+        "last_target_position_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_last_target_position_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_last_target_position_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_last_target_position_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile lastX/lastY target position assignments."
     }
   },
   "policy": {

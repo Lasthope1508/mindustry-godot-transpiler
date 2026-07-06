@@ -984,6 +984,23 @@ def verify_tractor_beam_turret_build_update_tile_rotation_move_source(upstream_r
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_last_target_position_source(upstream_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "rotation_move": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
+        "last_x": "lastX = target.x;",
+        "last_y": "lastY = target.y;",
+        "strength_boundary": "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

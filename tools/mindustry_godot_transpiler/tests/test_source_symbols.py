@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 726)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 721)
+        self.assertEqual(audit["totalSourceFunctions"], 727)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 722)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 726)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 727)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43678,6 +43678,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_rotation_move_result")
         self.assertEqual(result_schema["keys"]["rotation_max_delta"]["java_expr"], "rotateSpeed * edelta")
         self.assertEqual(result_schema["keys"]["rotation_after"]["java_expr"], "Angles.moveToward(rotation, dest, rotateSpeed * edelta)")
+
+    def test_generated_tractor_beam_turret_build_update_tile_last_target_position_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_last_target_position.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() last target position")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_last_target_position_state")
+
+        last_x = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_last_target_position.last_x")
+        self.assertEqual(last_x["java_expr"], "lastX = target.x;")
+        self.assertEqual(last_x["godot_symbol"], "source_tractor_beam_turret_build_update_tile_last_target_position_result.last_x_after")
+        last_y = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_last_target_position.last_y")
+        self.assertEqual(last_y["java_expr"], "lastY = target.y;")
+        self.assertEqual(last_y["godot_symbol"], "source_tractor_beam_turret_build_update_tile_last_target_position_result.last_y_after")
+
+        position_slice = source_symbols.source_slice(ledger, "N1253")
+        self.assertEqual(position_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(position_slice["java_method"], "TractorBeamBuild.updateTile() last target position")
+        self.assertEqual(position_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state")
+        self.assertEqual(position_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state")
+        for expr in ["rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);", "lastX = target.x;", "lastY = target.y;", "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"]:
+            self.assertIn(expr, position_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["rotation_move_evaluated", "target_after", "last_x_before", "last_y_before"],
+        )
+        for key in ["source_owner", "method", "last_x_expr", "last_y_expr", "rotation_move_evaluated", "target_after", "last_x_before", "last_y_before", "last_target_position_evaluated", "last_x_after", "last_y_after", "last_target_position_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_last_target_position_input")
+        self.assertEqual(input_schema["keys"]["last_x_before"]["java_expr"], "lastX")
+        self.assertEqual(input_schema["keys"]["last_y_before"]["java_expr"], "lastY")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_last_target_position_result")
+        self.assertEqual(result_schema["keys"]["last_x_after"]["java_expr"], "target.x")
+        self.assertEqual(result_schema["keys"]["last_y_after"]["java_expr"], "target.y")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

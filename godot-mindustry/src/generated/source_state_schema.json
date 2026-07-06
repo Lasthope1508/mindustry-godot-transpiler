@@ -108865,6 +108865,128 @@
           "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_last_target_position_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state.",
+      "keys": {
+        "rotation_move_evaluated": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);"
+        },
+        "target_after": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "target"
+        },
+        "last_x_before": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "lastX"
+        },
+        "last_y_before": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "lastY"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_last_target_position_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "public void updateTile(){"
+        },
+        "last_x_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "lastX = target.x;"
+        },
+        "last_y_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "lastY = target.y;"
+        },
+        "rotation_move_evaluated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);"
+        },
+        "target_after": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "target"
+        },
+        "last_x_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "lastX"
+        },
+        "last_y_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "lastY"
+        },
+        "last_target_position_evaluated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "lastX = target.x;"
+        },
+        "last_x_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "target.x"
+        },
+        "last_y_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "target.y"
+        },
+        "last_target_position_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() last target position",
+          "java_expr": "lastX = target.x; lastY = target.y;"
+        }
+      }
     }
   },
   "version": 1
