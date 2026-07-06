@@ -1895,6 +1895,54 @@
         "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_consume_coolant_filtered_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "float amount",
+          "name": "amount",
+          "schema": "source_block_consume_coolant_filtered_input.amount",
+          "type": "float"
+        },
+        {
+          "java_expr": "boolean allowLiquid",
+          "name": "allow_liquid",
+          "schema": "source_block_consume_coolant_filtered_input.allow_liquid",
+          "type": "bool"
+        },
+        {
+          "java_expr": "boolean allowGas",
+          "name": "allow_gas",
+          "schema": "source_block_consume_coolant_filtered_input.allow_gas",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "consume_call_expr",
+        "amount",
+        "allowLiquid",
+        "allowGas",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumeCoolant(float,boolean,boolean) bridge parameters and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_coolant_filtered_state",
+      "source_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "source_slice": "N1302",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_consume_coolant_single_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [

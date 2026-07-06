@@ -8310,6 +8310,46 @@ public class Block{
             self.assertIn('"constructed_consume": constructed_consume', source_text)
             self.assertIn('"consume_called": true', source_text)
 
+    def test_emit_bridges_block_consume_coolant_filtered_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){
+        return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_consumeCoolant_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar amount: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("\tvar allow_liquid: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\tvar allow_gas: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn('\tvar constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas}', source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_consume_coolant_filtered_state"', source_text)
+            self.assertIn('"method": "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){"', source_text)
+            self.assertIn('"return_expr": "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));"', source_text)
+            self.assertIn('"constructor_expr": "new ConsumeCoolant(amount, allowLiquid, allowGas)"', source_text)
+            self.assertIn('"consume_call_expr": "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))"', source_text)
+            self.assertIn('"amount": amount', source_text)
+            self.assertIn('"allowLiquid": allow_liquid', source_text)
+            self.assertIn('"allowGas": allow_gas', source_text)
+            self.assertIn('"constructed_consume": constructed_consume', source_text)
+            self.assertIn('"consume_called": true', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

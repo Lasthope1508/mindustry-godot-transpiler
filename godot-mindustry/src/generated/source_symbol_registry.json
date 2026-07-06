@@ -4411,6 +4411,132 @@
         "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
       ]
     },
+    "block_consume_coolant_filtered.allow_gas": {
+      "godot_owner": "PortGame.source_block_consume_coolant_filtered_state",
+      "godot_symbol": "source_block_consume_coolant_filtered_input.allow_gas",
+      "java_expr": "boolean allowGas",
+      "java_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose filtered consumeCoolant allowGas parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_coolant_filtered_state",
+      "source_slice": "N1302",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_coolant_filtered.allow_liquid": {
+      "godot_owner": "PortGame.source_block_consume_coolant_filtered_state",
+      "godot_symbol": "source_block_consume_coolant_filtered_input.allow_liquid",
+      "java_expr": "boolean allowLiquid",
+      "java_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose filtered consumeCoolant allowLiquid parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_coolant_filtered_state",
+      "source_slice": "N1302",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_coolant_filtered.amount": {
+      "godot_owner": "PortGame.source_block_consume_coolant_filtered_state",
+      "godot_symbol": "source_block_consume_coolant_filtered_input.amount",
+      "java_expr": "float amount",
+      "java_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose filtered consumeCoolant amount parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_coolant_filtered_state",
+      "source_slice": "N1302",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_coolant_filtered.constructor_expr": {
+      "godot_owner": "PortGame.source_block_consume_coolant_filtered_state",
+      "godot_symbol": "source_block_consume_coolant_filtered_result.constructed_consume",
+      "java_expr": "new ConsumeCoolant(amount, allowLiquid, allowGas)",
+      "java_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve filtered ConsumeCoolant construction.",
+      "runtime_proof": "/root/Main.source_block_consume_coolant_filtered_state",
+      "source_slice": "N1302",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_coolant_filtered.consume_call_expr": {
+      "godot_owner": "PortGame.source_block_consume_coolant_filtered_state",
+      "godot_symbol": "source_block_consume_coolant_filtered_result.consume_called",
+      "java_expr": "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))",
+      "java_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve filtered consume(...) delegate call.",
+      "runtime_proof": "/root/Main.source_block_consume_coolant_filtered_state",
+      "source_slice": "N1302",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_coolant_filtered.method": {
+      "godot_owner": "PortGame.source_block_consume_coolant_filtered_state",
+      "godot_symbol": "source_block_consume_coolant_filtered_result.method",
+      "java_expr": "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){",
+      "java_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.consumeCoolant(float,boolean,boolean) method boundary.",
+      "runtime_proof": "/root/Main.source_block_consume_coolant_filtered_state",
+      "source_slice": "N1302",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_coolant_filtered.return_expr": {
+      "godot_owner": "PortGame.source_block_consume_coolant_filtered_state",
+      "godot_symbol": "source_block_consume_coolant_filtered_result.constructed_consume",
+      "java_expr": "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));",
+      "java_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve filtered consumeCoolant return expression.",
+      "runtime_proof": "/root/Main.source_block_consume_coolant_filtered_state",
+      "source_slice": "N1302",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_consume_coolant_single.amount": {
       "godot_owner": "PortGame.source_block_consume_coolant_single_state",
       "godot_symbol": "source_block_consume_coolant_single_input.amount",

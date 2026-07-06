@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 775)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 770)
+        self.assertEqual(audit["totalSourceFunctions"], 776)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 771)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 775)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 776)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44187,6 +44187,64 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_consume_coolant_single_result")
         self.assertEqual(result_schema["keys"]["constructed_consume"]["java_expr"], "new ConsumeCoolant(amount)")
         self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume(new ConsumeCoolant(amount))")
+
+    def test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_consume_coolant_filtered.method")
+        self.assertEqual(method["java_expr"], "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.consumeCoolant(float,boolean,boolean)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_consume_coolant_filtered_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_consume_coolant_filtered_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_consume_coolant_filtered.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_consume_coolant_filtered_result.constructed_consume")
+
+        constructor_expr = source_symbols.source_symbol(registry, "block_consume_coolant_filtered.constructor_expr")
+        self.assertEqual(constructor_expr["java_expr"], "new ConsumeCoolant(amount, allowLiquid, allowGas)")
+        self.assertEqual(constructor_expr["godot_symbol"], "source_block_consume_coolant_filtered_result.constructed_consume")
+
+        consume_call_expr = source_symbols.source_symbol(registry, "block_consume_coolant_filtered.consume_call_expr")
+        self.assertEqual(consume_call_expr["java_expr"], "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))")
+        self.assertEqual(consume_call_expr["godot_symbol"], "source_block_consume_coolant_filtered_result.consume_called")
+
+        filtered_slice = source_symbols.source_slice(ledger, "N1302")
+        self.assertEqual(filtered_slice["title"], "Generated Block consumeCoolant filtered bridge state")
+        self.assertEqual(filtered_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(filtered_slice["java_method"], "Block.consumeCoolant(float,boolean,boolean)")
+        self.assertEqual(filtered_slice["godot_owner"], "PortGame.source_block_consume_coolant_filtered_state")
+        self.assertEqual(filtered_slice["generated_owner"], "Block.java_method_consumeCoolant_110")
+        self.assertEqual(filtered_slice["runtime_proof"], "/root/Main.generated_block_consume_coolant_filtered_bridge_state")
+        for expr in [
+            "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){",
+            "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));",
+            "new ConsumeCoolant(amount, allowLiquid, allowGas)",
+            "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))",
+            "float amount",
+            "boolean allowLiquid",
+            "boolean allowGas",
+        ]:
+            self.assertIn(expr, filtered_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_consume_coolant_filtered_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["amount", "allow_liquid", "allow_gas"])
+        for key in ["source_owner", "source", "method", "return_expr", "constructor_expr", "consume_call_expr", "amount", "allowLiquid", "allowGas", "constructed_consume", "consume_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_consume_coolant_filtered_input")
+        self.assertEqual(input_schema["keys"]["amount"]["java_expr"], "float amount")
+        self.assertEqual(input_schema["keys"]["allow_liquid"]["java_expr"], "boolean allowLiquid")
+        self.assertEqual(input_schema["keys"]["allow_gas"]["java_expr"], "boolean allowGas")
+        result_schema = source_symbols.state_schema(schema, "source_block_consume_coolant_filtered_result")
+        self.assertEqual(result_schema["keys"]["constructed_consume"]["java_expr"], "new ConsumeCoolant(amount, allowLiquid, allowGas)")
+        self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

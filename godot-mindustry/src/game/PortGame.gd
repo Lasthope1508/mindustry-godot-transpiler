@@ -17730,6 +17730,35 @@ func generated_block_consume_coolant_single_bridge_state(amount: float) -> Dicti
 		"matches": result == canonical,
 	}
 
+func source_block_consume_coolant_filtered_state(amount: float, allow_liquid: bool, allow_gas: bool) -> Dictionary:
+	var constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas}
+	return {
+		"source_owner": "PortGame.source_block_consume_coolant_filtered_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){",
+		"return_expr": "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));",
+		"constructor_expr": "new ConsumeCoolant(amount, allowLiquid, allowGas)",
+		"consume_call_expr": "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))",
+		"amount": amount,
+		"allowLiquid": allow_liquid,
+		"allowGas": allow_gas,
+		"constructed_consume": constructed_consume,
+		"consume_called": true,
+	}
+
+func generated_block_consume_coolant_filtered_bridge_state(amount: float, allow_liquid: bool, allow_gas: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_consumeCoolant_110([amount, allow_liquid, allow_gas])
+	var canonical = source_block_consume_coolant_filtered_state(amount, allow_liquid, allow_gas)
+	return {
+		"source_owner": "PortGame.source_block_consume_coolant_filtered_state",
+		"generated_owner": "Block.java_method_consumeCoolant_110",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

@@ -1661,6 +1661,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
         and method.get("name") == "consumeCoolant"
+        and len(method.get("parameters", [])) == 3
+    ):
+        return [
+            "\tvar amount: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar allow_liquid: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar allow_gas: bool = bool(_args[2] if _args.size() > 2 else false)",
+            '\tvar constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas}',
+            '\treturn {"source_owner": "PortGame.source_block_consume_coolant_filtered_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){", "return_expr": "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));", "constructor_expr": "new ConsumeCoolant(amount, allowLiquid, allowGas)", "consume_call_expr": "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas, "constructed_consume": constructed_consume, "consume_called": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
+        and method.get("name") == "consumeCoolant"
         and len(method.get("parameters", [])) == 1
     ):
         return [

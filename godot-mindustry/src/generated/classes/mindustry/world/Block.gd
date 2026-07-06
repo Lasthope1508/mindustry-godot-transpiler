@@ -425,7 +425,11 @@ func java_method_consumeCoolant_109(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_consume_coolant_single_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeCoolant consumeCoolant(float amount){", "return_expr": "return consume(new ConsumeCoolant(amount));", "constructor_expr": "new ConsumeCoolant(amount)", "consume_call_expr": "consume(new ConsumeCoolant(amount))", "amount": amount, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumeCoolant_110(_args: Array = []) -> Variant:
-	return null
+	var amount: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var allow_liquid: bool = bool(_args[1] if _args.size() > 1 else false)
+	var allow_gas: bool = bool(_args[2] if _args.size() > 2 else false)
+	var constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas}
+	return {"source_owner": "PortGame.source_block_consume_coolant_filtered_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){", "return_expr": "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));", "constructor_expr": "new ConsumeCoolant(amount, allowLiquid, allowGas)", "consume_call_expr": "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consume_111(_args: Array = []) -> Variant:
 	return null

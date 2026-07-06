@@ -9728,6 +9728,41 @@
       ],
       "title": "Generated Block consumeCoolant single bridge state"
     },
+    "N1302": {
+      "exact_exprs": [
+        "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){",
+        "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));",
+        "new ConsumeCoolant(amount, allowLiquid, allowGas)",
+        "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))",
+        "float amount",
+        "boolean allowLiquid",
+        "boolean allowGas"
+      ],
+      "generated_owner": "Block.java_method_consumeCoolant_110",
+      "godot_owner": "PortGame.source_block_consume_coolant_filtered_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeCoolant(float,boolean,boolean)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_coolant_filtered_bridge_state",
+      "source_symbols": [
+        "block_consume_coolant_filtered.method",
+        "block_consume_coolant_filtered.return_expr",
+        "block_consume_coolant_filtered.constructor_expr",
+        "block_consume_coolant_filtered.consume_call_expr",
+        "block_consume_coolant_filtered.amount",
+        "block_consume_coolant_filtered.allow_liquid",
+        "block_consume_coolant_filtered.allow_gas"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_coolant_filtered_to_source_state",
+        "test_port_game_exposes_source_block_consume_coolant_filtered_state",
+        "test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state",
+        "test_block_consume_coolant_filtered_matches_upstream_source",
+        "test_generated_block_consume_coolant_filtered_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeCoolant filtered bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

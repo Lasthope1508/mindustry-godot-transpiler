@@ -16582,5 +16582,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_consumeCoolant_109"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_consume_coolant_filtered_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_consume_coolant_filtered_state(amount: float, allow_liquid: bool, allow_gas: bool) -> Dictionary:", source)
+        self.assertIn('var constructed_consume: Dictionary = {"type": "ConsumeCoolant", "amount": amount, "allowLiquid": allow_liquid, "allowGas": allow_gas}', source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_coolant_filtered_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public ConsumeCoolant consumeCoolant(float amount, boolean allowLiquid, boolean allowGas){"', source)
+        self.assertIn('"return_expr": "return consume(new ConsumeCoolant(amount, allowLiquid, allowGas));"', source)
+        self.assertIn('"constructor_expr": "new ConsumeCoolant(amount, allowLiquid, allowGas)"', source)
+        self.assertIn('"consume_call_expr": "consume(new ConsumeCoolant(amount, allowLiquid, allowGas))"', source)
+        self.assertIn('"amount": amount', source)
+        self.assertIn('"allowLiquid": allow_liquid', source)
+        self.assertIn('"allowGas": allow_gas', source)
+        self.assertIn('"constructed_consume": constructed_consume', source)
+        self.assertIn('"consume_called": true', source)
+
+    def test_port_game_exposes_generated_block_consume_coolant_filtered_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_consume_coolant_filtered_bridge_state(amount: float, allow_liquid: bool, allow_gas: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_consumeCoolant_110([amount, allow_liquid, allow_gas])", source)
+        self.assertIn("var canonical = source_block_consume_coolant_filtered_state(amount, allow_liquid, allow_gas)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_coolant_filtered_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_consumeCoolant_110"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()
