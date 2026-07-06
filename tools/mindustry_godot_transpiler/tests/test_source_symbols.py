@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 722)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 717)
+        self.assertEqual(audit["totalSourceFunctions"], 723)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 718)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 722)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 723)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43510,6 +43510,48 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_any_reset_result")
         self.assertEqual(result_schema["keys"]["any_after"]["java_expr"], "any = false;")
         self.assertEqual(result_schema["keys"]["any_reset_call"]["java_expr"], "any = false;")
+
+    def test_generated_tractor_beam_turret_build_update_tile_look_target_guard_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_look_target_guard.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() look target guard")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_look_target_guard_state")
+
+        guard = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_look_target_guard.guard")
+        self.assertEqual(guard["java_expr"], "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){")
+        self.assertEqual(guard["godot_symbol"], "source_tractor_beam_turret_build_update_tile_look_target_guard_result.look_target_guard")
+
+        guard_slice = source_symbols.source_slice(ledger, "N1249")
+        self.assertEqual(guard_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(guard_slice["java_method"], "TractorBeamBuild.updateTile() look target guard")
+        self.assertEqual(guard_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state")
+        self.assertEqual(guard_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state")
+        for expr in ["any = false;", "//look at target", "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){"]:
+            self.assertIn(expr, guard_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["activation_returned_early", "target_after", "range_value", "target_hit_size", "target_within_result", "target_team", "team", "target_air", "target_ground", "target_check_result", "efficiency"],
+        )
+        for key in ["source_owner", "method", "look_target_comment_expr", "look_target_guard_expr", "activation_returned_early", "target_after", "target_within_radius", "target_within_call", "target_enemy", "target_check_call", "look_target_guard"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_look_target_guard_input")
+        self.assertEqual(input_schema["keys"]["target_within_result"]["java_expr"], "target.within(this, range + target.hitSize/2f)")
+        self.assertEqual(input_schema["keys"]["target_check_result"]["java_expr"], "target.checkTarget(targetAir, targetGround)")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_look_target_guard_result")
+        self.assertEqual(result_schema["keys"]["target_within_radius"]["java_expr"], "range + target.hitSize/2f")
+        self.assertEqual(result_schema["keys"]["look_target_guard"]["java_expr"], "target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

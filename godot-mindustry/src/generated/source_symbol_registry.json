@@ -92327,6 +92327,40 @@
       "source_slice": "N1248",
       "status": "source-backed",
       "rule": "Source any reset assignment."
+    },
+    "tractor_beam_turret_build_update_tile_look_target_guard.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_look_target_guard_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for look target guard slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_look_target_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_look_target_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_look_target_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() look target guard",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_look_target_guard.guard": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_look_target_guard_result.look_target_guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+      "rule": "Source look-at-target guard short-circuit result.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_look_target_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_look_target_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_look_target_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() look target guard",
+      "java_expr": "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){"
     }
   },
   "version": 1

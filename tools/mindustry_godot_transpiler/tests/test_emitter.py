@@ -8542,6 +8542,82 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"any_reset_expr": "any = false;"', source_text)
             self.assertIn('"any_after": any_after', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_look_target_guard_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            //retarget
+            if(timer(timerTarget, retargetTime)){
+                target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));
+            }
+
+            //consume coolant
+            if(target != null && coolant != null){
+                float maxUsed = coolant.amount;
+
+                Liquid liquid = liquids.current();
+
+                float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));
+
+                liquids.remove(liquid, used);
+
+                if(Mathf.chance(0.06 * used)){
+                    coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));
+                }
+
+                coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);
+            }
+
+            any = false;
+
+            //look at target
+            if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var target_within_result: bool = bool(_args[25] if _args.size() > 25 else false)", source_text)
+            self.assertIn("var target_team: Variant = _args[26] if _args.size() > 26 else null", source_text)
+            self.assertIn("var target_check_result: bool = bool(_args[27] if _args.size() > 27 else false)", source_text)
+            self.assertIn("var target_hit_size: float = float(_args[28] if _args.size() > 28 else 0.0)", source_text)
+            self.assertIn("var look_target_evaluated: bool = not activation_returned_early", source_text)
+            self.assertIn("var target_exists_for_look: bool = look_target_evaluated and target_after != null", source_text)
+            self.assertIn("var target_within_radius: float = range_value + target_hit_size / 2.0 if target_exists_for_look else 0.0", source_text)
+            self.assertIn("var target_within_evaluated: bool = target_exists_for_look", source_text)
+            self.assertIn("var target_enemy: bool = target_team != team if target_team_evaluated else false", source_text)
+            self.assertIn("var target_check_evaluated: bool = target_team_evaluated and target_enemy", source_text)
+            self.assertIn("var efficiency_gate_evaluated: bool = target_check_evaluated and target_check_result", source_text)
+            self.assertIn("var look_target_guard: bool = efficiency_gate_evaluated and efficiency > 0.02", source_text)
+            self.assertIn('"look_target_comment_expr": "//look at target"', source_text)
+            self.assertIn('"look_target_guard_expr": "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){"', source_text)
+            self.assertIn('"look_target_guard": look_target_guard', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

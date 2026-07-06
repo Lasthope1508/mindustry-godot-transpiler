@@ -30052,6 +30052,106 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "source_method": "TractorBeamBuild.updateTile() any reset",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile any reset assignment."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state": {
+      "status": "source-backed",
+      "source_slice": "N1249",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() look target guard",
+      "params": [
+        {
+          "name": "activation_returned_early",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.activation_returned_early"
+        },
+        {
+          "name": "target_after",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.target_after"
+        },
+        {
+          "name": "range_value",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.range_value"
+        },
+        {
+          "name": "target_hit_size",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.target_hit_size"
+        },
+        {
+          "name": "target_within_result",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.target_within_result"
+        },
+        {
+          "name": "target_team",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.target_team"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.team"
+        },
+        {
+          "name": "target_air",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.target_air"
+        },
+        {
+          "name": "target_ground",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.target_ground"
+        },
+        {
+          "name": "target_check_result",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.target_check_result"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_look_target_guard_input.efficiency"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "look_target_comment_expr",
+        "look_target_guard_expr",
+        "activation_returned_early",
+        "target_after",
+        "range_value",
+        "target_hit_size",
+        "target_within_result",
+        "target_team",
+        "team",
+        "target_air",
+        "target_ground",
+        "target_check_result",
+        "efficiency",
+        "look_target_evaluated",
+        "target_exists_for_look",
+        "target_within_radius",
+        "target_within_evaluated",
+        "target_within_call",
+        "target_team_evaluated",
+        "target_enemy",
+        "target_check_evaluated",
+        "target_check_call",
+        "efficiency_gate_evaluated",
+        "look_target_guard"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_look_target_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_look_target_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_look_target_guard_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile look-at-target guard."
     }
   },
   "policy": {
