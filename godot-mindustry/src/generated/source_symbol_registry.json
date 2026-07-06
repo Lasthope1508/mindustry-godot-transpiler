@@ -93914,6 +93914,42 @@
         "test_block_rotated_output_tile_matches_upstream_source",
         "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_synthetic.method": {
+      "godot_owner": "PortGame.source_block_synthetic_state",
+      "godot_symbol": "source_block_synthetic_result.method",
+      "java_expr": "public boolean synthetic(){",
+      "java_method": "Block.synthetic()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.synthetic() method boundary.",
+      "runtime_proof": "/root/Main.source_block_synthetic_state",
+      "source_slice": "N1278",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_synthetic_to_source_state",
+        "test_port_game_exposes_source_block_synthetic_state",
+        "test_port_game_exposes_generated_block_synthetic_bridge_state",
+        "test_block_synthetic_matches_upstream_source",
+        "test_generated_block_synthetic_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_synthetic.return_update_or_destructible": {
+      "godot_owner": "PortGame.source_block_synthetic_state",
+      "godot_symbol": "source_block_synthetic_result.synthetic",
+      "java_expr": "return update || destructible;",
+      "java_method": "Block.synthetic()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Synthetic block state is true when update or destructible is true.",
+      "runtime_proof": "/root/Main.source_block_synthetic_state",
+      "source_slice": "N1278",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_synthetic_to_source_state",
+        "test_port_game_exposes_source_block_synthetic_state",
+        "test_port_game_exposes_generated_block_synthetic_bridge_state",
+        "test_block_synthetic_matches_upstream_source",
+        "test_generated_block_synthetic_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

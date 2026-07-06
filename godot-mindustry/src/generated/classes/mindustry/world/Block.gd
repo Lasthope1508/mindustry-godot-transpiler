@@ -93,7 +93,10 @@ func java_method_rotatedOutput_21(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_rotated_output_tile_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean rotatedOutput(int fromX, int fromY, Tile destination){", "delegate_call": "rotatedOutput(fromX, fromY)", "return_expr": "return rotatedOutput(fromX, fromY);", "rotate": rotate_value, "fromX": from_x, "fromY": from_y, "destination": destination, "base_state": base_state, "rotated_output": base_state["rotated_output"]}
 
 func java_method_synthetic_22(_args: Array = []) -> Variant:
-	return null
+	var update_value: bool = bool(_args[0] if _args.size() > 0 else false)
+	var destructible_value: bool = bool(_args[1] if _args.size() > 1 else false)
+	var synthetic_value: bool = update_value or destructible_value
+	return {"source_owner": "PortGame.source_block_synthetic_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean synthetic(){", "return_expr": "return update || destructible;", "update": update_value, "destructible": destructible_value, "synthetic": synthetic_value}
 
 func java_method_checkForceDark_23(_args: Array = []) -> Variant:
 	return null

@@ -31458,6 +31458,42 @@
         "test_block_rotated_output_tile_matches_upstream_source",
         "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_synthetic_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "update_value",
+          "schema": "source_block_synthetic_input.update",
+          "type": "bool"
+        },
+        {
+          "name": "destructible_value",
+          "schema": "source_block_synthetic_input.destructible",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "update",
+        "destructible",
+        "synthetic"
+      ],
+      "rule": "Public runtime contract for Block.synthetic() generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_synthetic_state",
+      "source_method": "Block.synthetic()",
+      "source_slice": "N1278",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_synthetic_to_source_state",
+        "test_port_game_exposes_source_block_synthetic_state",
+        "test_port_game_exposes_generated_block_synthetic_bridge_state",
+        "test_block_synthetic_matches_upstream_source",
+        "test_generated_block_synthetic_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

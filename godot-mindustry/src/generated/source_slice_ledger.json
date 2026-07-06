@@ -29608,6 +29608,31 @@
         "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block rotatedOutput tile bridge state"
+    },
+    "N1278": {
+      "exact_exprs": [
+        "public boolean synthetic(){",
+        "return update || destructible;"
+      ],
+      "generated_owner": "Block.java_method_synthetic_22",
+      "godot_owner": "PortGame.source_block_synthetic_state",
+      "java_class": "Block",
+      "java_method": "Block.synthetic()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_synthetic_bridge_state",
+      "source_symbols": [
+        "block_synthetic.method",
+        "block_synthetic.return_update_or_destructible"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_synthetic_to_source_state",
+        "test_port_game_exposes_source_block_synthetic_state",
+        "test_port_game_exposes_generated_block_synthetic_bridge_state",
+        "test_block_synthetic_matches_upstream_source",
+        "test_generated_block_synthetic_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block synthetic bridge state"
     }
   },
   "version": 1

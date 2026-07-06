@@ -113249,6 +113249,125 @@
       "runtime_proof": "/root/Main.source_block_rotated_output_tile_state",
       "source_slice": "N1277",
       "status": "active"
+    },
+    "source_block_synthetic_input": {
+      "rule": "Inputs for PortGame.source_block_synthetic_state.",
+      "keys": {
+        "update": {
+          "godot_symbol": "source_block_synthetic_input.update",
+          "java_expr": "update",
+          "java_method": "Block.synthetic()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_synthetic_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "destructible": {
+          "godot_symbol": "source_block_synthetic_input.destructible",
+          "java_expr": "destructible",
+          "java_method": "Block.synthetic()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_synthetic_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_synthetic_state",
+      "runtime_proof": "/root/Main.source_block_synthetic_state",
+      "source_slice": "N1278",
+      "status": "active"
+    },
+    "source_block_synthetic_result": {
+      "rule": "Dictionary returned by PortGame.source_block_synthetic_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_synthetic_result.source_owner",
+          "java_expr": "PortGame.source_block_synthetic_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_synthetic_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_synthetic_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_synthetic_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_synthetic_result.method",
+          "java_expr": "public boolean synthetic(){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_synthetic_state"
+          ],
+          "source_symbols": [
+            "block_synthetic.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_synthetic_result.return_expr",
+          "java_expr": "return update || destructible;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_synthetic_state"
+          ],
+          "source_symbols": [
+            "block_synthetic.return_update_or_destructible"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "update": {
+          "godot_symbol": "source_block_synthetic_result.update",
+          "java_expr": "update",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_synthetic_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "destructible": {
+          "godot_symbol": "source_block_synthetic_result.destructible",
+          "java_expr": "destructible",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_synthetic_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "synthetic": {
+          "godot_symbol": "source_block_synthetic_result.synthetic",
+          "java_expr": "return update || destructible;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_synthetic_state"
+          ],
+          "source_symbols": [
+            "block_synthetic.return_update_or_destructible"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_synthetic_state",
+      "runtime_proof": "/root/Main.source_block_synthetic_state",
+      "source_slice": "N1278",
+      "status": "active"
     }
   },
   "version": 1

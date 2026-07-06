@@ -17073,6 +17073,31 @@ func generated_block_rotated_output_tile_bridge_state(rotate_value: bool, from_x
 		"matches": result == canonical,
 	}
 
+func source_block_synthetic_state(update_value: bool, destructible_value: bool) -> Dictionary:
+	var synthetic_value: bool = update_value or destructible_value
+	return {
+		"source_owner": "PortGame.source_block_synthetic_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public boolean synthetic(){",
+		"return_expr": "return update || destructible;",
+		"update": update_value,
+		"destructible": destructible_value,
+		"synthetic": synthetic_value,
+	}
+
+func generated_block_synthetic_bridge_state(update_value: bool, destructible_value: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_synthetic_22([update_value, destructible_value])
+	var canonical = source_block_synthetic_state(update_value, destructible_value)
+	return {
+		"source_owner": "PortGame.source_block_synthetic_state",
+		"generated_owner": "Block.java_method_synthetic_22",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation
