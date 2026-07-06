@@ -85,7 +85,12 @@ func java_method_rotatedOutput_20(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_rotated_output_state", "source": "core/src/mindustry/world/Block.java", "field_comment": "/** whether this is rotatable */", "field_expr": "public boolean rotate;", "method": "public boolean rotatedOutput(int x, int y){", "return_expr": "return rotate;", "rotate": rotate_value, "x": x_value, "y": y_value, "rotated_output": rotate_value}
 
 func java_method_rotatedOutput_21(_args: Array = []) -> Variant:
-	return null
+	var rotate_value: bool = bool(_args[0] if _args.size() > 0 else false)
+	var from_x: int = int(_args[1] if _args.size() > 1 else 0)
+	var from_y: int = int(_args[2] if _args.size() > 2 else 0)
+	var destination: Variant = _args[3] if _args.size() > 3 else null
+	var base_state := {"source_owner": "PortGame.source_block_rotated_output_state", "source": "core/src/mindustry/world/Block.java", "field_comment": "/** whether this is rotatable */", "field_expr": "public boolean rotate;", "method": "public boolean rotatedOutput(int x, int y){", "return_expr": "return rotate;", "rotate": rotate_value, "x": from_x, "y": from_y, "rotated_output": rotate_value}
+	return {"source_owner": "PortGame.source_block_rotated_output_tile_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean rotatedOutput(int fromX, int fromY, Tile destination){", "delegate_call": "rotatedOutput(fromX, fromY)", "return_expr": "return rotatedOutput(fromX, fromY);", "rotate": rotate_value, "fromX": from_x, "fromY": from_y, "destination": destination, "base_state": base_state, "rotated_output": base_state["rotated_output"]}
 
 func java_method_synthetic_22(_args: Array = []) -> Variant:
 	return null

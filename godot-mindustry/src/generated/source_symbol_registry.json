@@ -93860,6 +93860,60 @@
         "test_block_rotated_output_matches_upstream_source",
         "test_generated_block_rotated_output_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_rotated_output_tile.method": {
+      "godot_owner": "PortGame.source_block_rotated_output_tile_state",
+      "godot_symbol": "source_block_rotated_output_tile_result.method",
+      "java_expr": "public boolean rotatedOutput(int fromX, int fromY, Tile destination){",
+      "java_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.rotatedOutput(int,int,Tile) overload method boundary.",
+      "runtime_proof": "/root/Main.source_block_rotated_output_tile_state",
+      "source_slice": "N1277",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_tile_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_tile_state",
+        "test_port_game_exposes_generated_block_rotated_output_tile_bridge_state",
+        "test_block_rotated_output_tile_matches_upstream_source",
+        "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_rotated_output_tile.delegate_call": {
+      "godot_owner": "PortGame.source_block_rotated_output_tile_state",
+      "godot_symbol": "source_block_rotated_output_tile_result.delegate_call",
+      "java_expr": "rotatedOutput(fromX, fromY)",
+      "java_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Tile overload delegates to two-int rotatedOutput overload.",
+      "runtime_proof": "/root/Main.source_block_rotated_output_tile_state",
+      "source_slice": "N1277",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_tile_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_tile_state",
+        "test_port_game_exposes_generated_block_rotated_output_tile_bridge_state",
+        "test_block_rotated_output_tile_matches_upstream_source",
+        "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_rotated_output_tile.return_delegate": {
+      "godot_owner": "PortGame.source_block_rotated_output_tile_state",
+      "godot_symbol": "source_block_rotated_output_tile_result.rotated_output",
+      "java_expr": "return rotatedOutput(fromX, fromY);",
+      "java_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Return value is delegated two-int rotatedOutput result.",
+      "runtime_proof": "/root/Main.source_block_rotated_output_tile_state",
+      "source_slice": "N1277",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_tile_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_tile_state",
+        "test_port_game_exposes_generated_block_rotated_output_tile_bridge_state",
+        "test_block_rotated_output_tile_matches_upstream_source",
+        "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

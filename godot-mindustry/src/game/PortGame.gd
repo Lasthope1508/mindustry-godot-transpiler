@@ -17044,6 +17044,35 @@ func generated_block_rotated_output_bridge_state(rotate_value: bool, x_value: in
 		"matches": result == canonical,
 	}
 
+func source_block_rotated_output_tile_state(rotate_value: bool, from_x: int, from_y: int, destination: Variant) -> Dictionary:
+	var base_state = source_block_rotated_output_state(rotate_value, from_x, from_y)
+	return {
+		"source_owner": "PortGame.source_block_rotated_output_tile_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public boolean rotatedOutput(int fromX, int fromY, Tile destination){",
+		"delegate_call": "rotatedOutput(fromX, fromY)",
+		"return_expr": "return rotatedOutput(fromX, fromY);",
+		"rotate": rotate_value,
+		"fromX": from_x,
+		"fromY": from_y,
+		"destination": destination,
+		"base_state": base_state,
+		"rotated_output": base_state["rotated_output"],
+	}
+
+func generated_block_rotated_output_tile_bridge_state(rotate_value: bool, from_x: int, from_y: int, destination: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_rotatedOutput_21([rotate_value, from_x, from_y, destination])
+	var canonical = source_block_rotated_output_tile_state(rotate_value, from_x, from_y, destination)
+	return {
+		"source_owner": "PortGame.source_block_rotated_output_tile_state",
+		"generated_owner": "Block.java_method_rotatedOutput_21",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

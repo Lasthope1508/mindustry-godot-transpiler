@@ -7390,6 +7390,46 @@ public class Block{
             self.assertIn('"return_expr": "return rotate;"', source_text)
             self.assertIn('"rotated_output": rotate_value', source_text)
 
+    def test_emit_bridges_block_rotated_output_tile_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public boolean rotatedOutput(int x, int y){
+        return rotate;
+    }
+
+    public boolean rotatedOutput(int fromX, int fromY, Tile destination){
+        return rotatedOutput(fromX, fromY);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_rotatedOutput_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar rotate_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\tvar from_x: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("\tvar from_y: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("\tvar destination: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_rotated_output_tile_state"', source_text)
+            self.assertIn('"method": "public boolean rotatedOutput(int fromX, int fromY, Tile destination){"', source_text)
+            self.assertIn('"delegate_call": "rotatedOutput(fromX, fromY)"', source_text)
+            self.assertIn('"return_expr": "return rotatedOutput(fromX, fromY);"', source_text)
+            self.assertIn('"base_state": base_state', source_text)
+            self.assertIn('"rotated_output": base_state["rotated_output"]', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -113056,6 +113056,199 @@
       "runtime_proof": "/root/Main.source_block_rotated_output_state",
       "source_slice": "N1276",
       "status": "active"
+    },
+    "source_block_rotated_output_tile_input": {
+      "rule": "Inputs for PortGame.source_block_rotated_output_tile_state.",
+      "keys": {
+        "rotate": {
+          "godot_symbol": "source_block_rotated_output_tile_input.rotate",
+          "java_expr": "public boolean rotate;",
+          "java_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output.rotate_field"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "fromX": {
+          "godot_symbol": "source_block_rotated_output_tile_input.fromX",
+          "java_expr": "int fromX",
+          "java_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "fromY": {
+          "godot_symbol": "source_block_rotated_output_tile_input.fromY",
+          "java_expr": "int fromY",
+          "java_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "destination": {
+          "godot_symbol": "source_block_rotated_output_tile_input.destination",
+          "java_expr": "Tile destination",
+          "java_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_rotated_output_tile_state",
+      "runtime_proof": "/root/Main.source_block_rotated_output_tile_state",
+      "source_slice": "N1277",
+      "status": "active"
+    },
+    "source_block_rotated_output_tile_result": {
+      "rule": "Dictionary returned by PortGame.source_block_rotated_output_tile_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_rotated_output_tile_result.source_owner",
+          "java_expr": "PortGame.source_block_rotated_output_tile_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_rotated_output_tile_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_rotated_output_tile_result.method",
+          "java_expr": "public boolean rotatedOutput(int fromX, int fromY, Tile destination){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output_tile.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "delegate_call": {
+          "godot_symbol": "source_block_rotated_output_tile_result.delegate_call",
+          "java_expr": "rotatedOutput(fromX, fromY)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output_tile.delegate_call"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_rotated_output_tile_result.return_expr",
+          "java_expr": "return rotatedOutput(fromX, fromY);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output_tile.return_delegate"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "rotate": {
+          "godot_symbol": "source_block_rotated_output_tile_result.rotate",
+          "java_expr": "public boolean rotate;",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output.rotate_field"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "fromX": {
+          "godot_symbol": "source_block_rotated_output_tile_result.fromX",
+          "java_expr": "int fromX",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "fromY": {
+          "godot_symbol": "source_block_rotated_output_tile_result.fromY",
+          "java_expr": "int fromY",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "destination": {
+          "godot_symbol": "source_block_rotated_output_tile_result.destination",
+          "java_expr": "Tile destination",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "base_state": {
+          "godot_symbol": "source_block_rotated_output_tile_result.base_state",
+          "java_expr": "rotatedOutput(fromX, fromY)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output_tile.delegate_call"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "rotated_output": {
+          "godot_symbol": "source_block_rotated_output_tile_result.rotated_output",
+          "java_expr": "return rotatedOutput(fromX, fromY);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_rotated_output_tile_state"
+          ],
+          "source_symbols": [
+            "block_rotated_output_tile.return_delegate"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_rotated_output_tile_state",
+      "runtime_proof": "/root/Main.source_block_rotated_output_tile_state",
+      "source_slice": "N1277",
+      "status": "active"
     }
   },
   "version": 1

@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 750)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 745)
+        self.assertEqual(audit["totalSourceFunctions"], 751)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 746)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 750)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 751)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20384,6 +20384,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_can_place_on_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_can_break_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_rotated_output_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_rotated_output_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_bars_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_init_state", audit["registeredSourceOwners"])
@@ -42876,6 +42877,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["y"]["java_expr"], "int y")
         result_schema = source_symbols.state_schema(schema, "source_block_rotated_output_result")
         self.assertEqual(result_schema["keys"]["rotated_output"]["java_expr"], "return rotate;")
+
+    def test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_rotated_output_tile.method")
+        self.assertEqual(method["java_expr"], "public boolean rotatedOutput(int fromX, int fromY, Tile destination){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.rotatedOutput(int fromX, int fromY, Tile destination)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_rotated_output_tile_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_rotated_output_tile_state")
+
+        delegate = source_symbols.source_symbol(registry, "block_rotated_output_tile.delegate_call")
+        self.assertEqual(delegate["java_expr"], "rotatedOutput(fromX, fromY)")
+        self.assertEqual(delegate["godot_symbol"], "source_block_rotated_output_tile_result.delegate_call")
+
+        return_delegate = source_symbols.source_symbol(registry, "block_rotated_output_tile.return_delegate")
+        self.assertEqual(return_delegate["java_expr"], "return rotatedOutput(fromX, fromY);")
+        self.assertEqual(return_delegate["godot_symbol"], "source_block_rotated_output_tile_result.rotated_output")
+
+        rotated_output_slice = source_symbols.source_slice(ledger, "N1277")
+        self.assertEqual(rotated_output_slice["title"], "Generated Block rotatedOutput tile bridge state")
+        self.assertEqual(rotated_output_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(rotated_output_slice["java_method"], "Block.rotatedOutput(int fromX, int fromY, Tile destination)")
+        self.assertEqual(rotated_output_slice["godot_owner"], "PortGame.source_block_rotated_output_tile_state")
+        self.assertEqual(rotated_output_slice["generated_owner"], "Block.java_method_rotatedOutput_21")
+        self.assertEqual(rotated_output_slice["runtime_proof"], "/root/Main.generated_block_rotated_output_tile_bridge_state")
+        for expr in [
+            "public boolean rotatedOutput(int fromX, int fromY, Tile destination){",
+            "rotatedOutput(fromX, fromY)",
+            "return rotatedOutput(fromX, fromY);",
+        ]:
+            self.assertIn(expr, rotated_output_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_rotated_output_tile_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["rotate_value", "from_x", "from_y", "destination"])
+        for key in ["source_owner", "source", "method", "delegate_call", "return_expr", "rotate", "fromX", "fromY", "destination", "base_state", "rotated_output"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_rotated_output_tile_input")
+        self.assertEqual(input_schema["keys"]["fromX"]["java_expr"], "int fromX")
+        self.assertEqual(input_schema["keys"]["fromY"]["java_expr"], "int fromY")
+        self.assertEqual(input_schema["keys"]["destination"]["java_expr"], "Tile destination")
+        result_schema = source_symbols.state_schema(schema, "source_block_rotated_output_tile_result")
+        self.assertEqual(result_schema["keys"]["rotated_output"]["java_expr"], "return rotatedOutput(fromX, fromY);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
