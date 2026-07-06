@@ -388,7 +388,9 @@ func java_method_consumePowerCond_102(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_consume_power_cond_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer which only consumes power when the condition is met.", "method": "public <T extends Building> ConsumePower consumePowerCond(float usage, Boolf<T> cons){", "return_expr": "return consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons));", "constructor_expr": "new ConsumePowerCondition(usage, (Boolf<Building>)cons)", "condition_cast_expr": "(Boolf<Building>)cons", "consume_call_expr": "consume(new ConsumePowerCondition(usage, (Boolf<Building>)cons))", "usage": usage, "condition": cons, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumePowerDynamic_103(_args: Array = []) -> Variant:
-	return null
+	var usage: Variant = _args[0] if _args.size() > 0 else null
+	var constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "usage": usage}
+	return {"source_owner": "PortGame.source_block_consume_power_dynamic_state", "source": "core/src/mindustry/world/Block.java", "comment": "Creates a consumer that consumes a dynamic amount of power.", "method": "public <T extends Building> ConsumePower consumePowerDynamic(Floatf<T> usage){", "return_expr": "return consume(new ConsumePowerDynamic((Floatf<Building>)usage));", "constructor_expr": "new ConsumePowerDynamic((Floatf<Building>)usage)", "usage_cast_expr": "(Floatf<Building>)usage", "consume_call_expr": "consume(new ConsumePowerDynamic((Floatf<Building>)usage))", "usage": usage, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumePowerDynamic_104(_args: Array = []) -> Variant:
 	return null

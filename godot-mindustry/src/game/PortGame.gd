@@ -17529,6 +17529,35 @@ func generated_block_consume_power_cond_bridge_state(usage: float, cons: Variant
 		"matches": result == canonical,
 	}
 
+func source_block_consume_power_dynamic_state(usage: Variant) -> Dictionary:
+	var constructed_consume: Dictionary = {"type": "ConsumePowerDynamic", "usage": usage}
+	return {
+		"source_owner": "PortGame.source_block_consume_power_dynamic_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"comment": "Creates a consumer that consumes a dynamic amount of power.",
+		"method": "public <T extends Building> ConsumePower consumePowerDynamic(Floatf<T> usage){",
+		"return_expr": "return consume(new ConsumePowerDynamic((Floatf<Building>)usage));",
+		"constructor_expr": "new ConsumePowerDynamic((Floatf<Building>)usage)",
+		"usage_cast_expr": "(Floatf<Building>)usage",
+		"consume_call_expr": "consume(new ConsumePowerDynamic((Floatf<Building>)usage))",
+		"usage": usage,
+		"constructed_consume": constructed_consume,
+		"consume_called": true,
+	}
+
+func generated_block_consume_power_dynamic_bridge_state(usage: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_consumePowerDynamic_103([usage])
+	var canonical = source_block_consume_power_dynamic_state(usage)
+	return {
+		"source_owner": "PortGame.source_block_consume_power_dynamic_state",
+		"generated_owner": "Block.java_method_consumePowerDynamic_103",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

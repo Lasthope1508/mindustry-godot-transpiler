@@ -9487,6 +9487,41 @@
       ],
       "title": "Generated Block consumePowerCond bridge state"
     },
+    "N1295": {
+      "exact_exprs": [
+        "Creates a consumer that consumes a dynamic amount of power.",
+        "public <T extends Building> ConsumePower consumePowerDynamic(Floatf<T> usage){",
+        "return consume(new ConsumePowerDynamic((Floatf<Building>)usage));",
+        "new ConsumePowerDynamic((Floatf<Building>)usage)",
+        "(Floatf<Building>)usage",
+        "consume(new ConsumePowerDynamic((Floatf<Building>)usage))",
+        "Floatf<T> usage"
+      ],
+      "generated_owner": "Block.java_method_consumePowerDynamic_103",
+      "godot_owner": "PortGame.source_block_consume_power_dynamic_state",
+      "java_class": "Block",
+      "java_method": "Block.consumePowerDynamic(Floatf)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_power_dynamic_bridge_state",
+      "source_symbols": [
+        "block_consume_power_dynamic.comment",
+        "block_consume_power_dynamic.method",
+        "block_consume_power_dynamic.return_expr",
+        "block_consume_power_dynamic.constructor_expr",
+        "block_consume_power_dynamic.usage_cast_expr",
+        "block_consume_power_dynamic.consume_call_expr",
+        "block_consume_power_dynamic.usage"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_bridge_state",
+        "test_block_consume_power_dynamic_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumePowerDynamic bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

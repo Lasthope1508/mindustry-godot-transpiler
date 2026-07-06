@@ -2010,6 +2010,42 @@
         "test_generated_block_consume_power_cond_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_consume_power_dynamic_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Floatf<T> usage",
+          "name": "usage",
+          "schema": "source_block_consume_power_dynamic_input.usage",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "constructor_expr",
+        "usage_cast_expr",
+        "consume_call_expr",
+        "usage",
+        "constructed_consume",
+        "consume_called"
+      ],
+      "rule": "Pin source-backed Block.consumePowerDynamic bridge parameter and return keys.",
+      "runtime_proof": "/root/Main.source_block_consume_power_dynamic_state",
+      "source_method": "Block.consumePowerDynamic(Floatf)",
+      "source_slice": "N1295",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_consume_power_dynamic_to_source_state",
+        "test_port_game_exposes_source_block_consume_power_dynamic_state",
+        "test_port_game_exposes_generated_block_consume_power_dynamic_bridge_state",
+        "test_block_consume_power_dynamic_matches_upstream_source",
+        "test_generated_block_consume_power_dynamic_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_consume_power_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [
