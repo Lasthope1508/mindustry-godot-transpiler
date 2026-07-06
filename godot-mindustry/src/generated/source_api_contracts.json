@@ -29556,6 +29556,60 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_activation_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile activation timer early-return state."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_eff_state": {
+      "status": "source-backed",
+      "source_slice": "N1241",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "params": [
+        {
+          "name": "activation_returned_early",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_eff_input.activation_returned_early"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_eff_input.efficiency"
+        },
+        {
+          "name": "coolant_multiplier",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_eff_input.coolant_multiplier"
+        },
+        {
+          "name": "delta_value",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_eff_input.delta_value"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "inner_class",
+        "method",
+        "override_expr",
+        "activation_return_expr",
+        "eff_expr",
+        "retarget_comment_expr",
+        "retarget_guard_expr",
+        "activation_returned_early",
+        "eff_calculated",
+        "efficiency",
+        "coolant_multiplier",
+        "delta_value",
+        "eff",
+        "edelta"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile eff/edelta calculation state."
     }
   },
   "policy": {

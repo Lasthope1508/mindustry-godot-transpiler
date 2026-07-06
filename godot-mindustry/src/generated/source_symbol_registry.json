@@ -91254,6 +91254,227 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() activation timer",
       "java_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"
+    },
+    "tractor_beam_turret_build_update_tile_eff.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for eff/edelta slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_eff.inner_class": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_result.inner_class",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Exact TractorBeamBuild inner class boundary.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "public class TractorBeamBuild extends BaseTurretBuild{"
+    },
+    "tractor_beam_turret_build_update_tile_eff.override": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_result.override_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Exact updateTile override annotation.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "@Override"
+    },
+    "tractor_beam_turret_build_update_tile_eff.activation_returned_early": {
+      "status": "explicit-input",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_input.activation_returned_early",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Explicit result of prior activation timer return slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "return;"
+    },
+    "tractor_beam_turret_build_update_tile_eff.efficiency": {
+      "status": "explicit-input",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_input.efficiency",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Explicit Java efficiency value used by eff expression.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "efficiency"
+    },
+    "tractor_beam_turret_build_update_tile_eff.coolant_multiplier": {
+      "status": "explicit-input",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_input.coolant_multiplier",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Explicit Java coolantMultiplier value used by eff expression.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "coolantMultiplier"
+    },
+    "tractor_beam_turret_build_update_tile_eff.delta_value": {
+      "status": "explicit-input",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_input.delta_value",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Explicit Java delta() value used by edelta expression.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "delta()"
+    },
+    "tractor_beam_turret_build_update_tile_eff.eff_calculated": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_result.eff_calculated",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "The eff line is reached only after the activation return boundary.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "after return;"
+    },
+    "tractor_beam_turret_build_update_tile_eff.eff_expr": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_result.eff_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Exact source declaration for eff and edelta.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"
+    },
+    "tractor_beam_turret_build_update_tile_eff.eff": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_result.eff",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Source eff sub-expression.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "efficiency * coolantMultiplier"
+    },
+    "tractor_beam_turret_build_update_tile_eff.edelta": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_result.edelta",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Source edelta sub-expression.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "eff * delta()"
+    },
+    "tractor_beam_turret_build_update_tile_eff.retarget_comment": {
+      "status": "deferred",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_result.retarget_comment_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Next updateTile block boundary deferred to later retarget slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "//retarget"
+    },
+    "tractor_beam_turret_build_update_tile_eff.retarget_guard": {
+      "status": "deferred",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_eff_result.retarget_guard_expr",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "rule": "Next retarget guard boundary deferred to later slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_expr": "if(timer(timerTarget, retargetTime)){"
     }
   },
   "version": 1

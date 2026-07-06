@@ -28461,6 +28461,46 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
       "rule": "TractorBeamBuild.updateTile subtracts Time.delta from activationTimer and returns early while activationTimer > 0; later updateTile logic is deferred."
+    },
+    "N1241": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void updateTile(){",
+        "return;",
+        "float eff = efficiency * coolantMultiplier, edelta = eff * delta();",
+        "//retarget",
+        "if(timer(timerTarget, retargetTime)){"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_eff.method",
+        "tractor_beam_turret_build_update_tile_eff.inner_class",
+        "tractor_beam_turret_build_update_tile_eff.override",
+        "tractor_beam_turret_build_update_tile_eff.activation_returned_early",
+        "tractor_beam_turret_build_update_tile_eff.efficiency",
+        "tractor_beam_turret_build_update_tile_eff.coolant_multiplier",
+        "tractor_beam_turret_build_update_tile_eff.delta_value",
+        "tractor_beam_turret_build_update_tile_eff.eff_calculated",
+        "tractor_beam_turret_build_update_tile_eff.eff_expr",
+        "tractor_beam_turret_build_update_tile_eff.eff",
+        "tractor_beam_turret_build_update_tile_eff.edelta",
+        "tractor_beam_turret_build_update_tile_eff.retarget_comment",
+        "tractor_beam_turret_build_update_tile_eff.retarget_guard"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+      "rule": "After the activation timer early-return boundary, TractorBeamBuild.updateTile computes eff = efficiency * coolantMultiplier and edelta = eff * delta(); retarget logic is deferred."
     }
   },
   "version": 1

@@ -45,7 +45,14 @@ func java_inner_class_TractorBeamBuild_method_updateTile_0(_args: Array = []) ->
 	var activation_guard: bool = activation_timer > 0.0
 	var activation_timer_after: float = activation_timer - time_delta if activation_guard else activation_timer
 	var returned_early: bool = activation_guard
-	return {"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state", "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{", "method": "public void updateTile(){", "override_expr": "@Override", "activation_guard_expr": "if(activationTimer > 0){", "activation_decrement_expr": "activationTimer -= Time.delta;", "return_expr": "return;", "next_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();", "activation_timer": activation_timer, "time_delta": time_delta, "activation_guard": activation_guard, "activation_timer_after": activation_timer_after, "returned_early": returned_early}
+	var activation_returned_early: bool = activation_guard
+	var efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)
+	var delta_value: float = float(_args[4] if _args.size() > 4 else 0.0)
+	var eff_calculated: bool = not activation_returned_early
+	var eff: float = efficiency * coolant_multiplier if eff_calculated else 0.0
+	var edelta: float = eff * delta_value if eff_calculated else 0.0
+	return {"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state", "inner_class": "public class TractorBeamBuild extends BaseTurretBuild{", "method": "public void updateTile(){", "override_expr": "@Override", "activation_guard_expr": "if(activationTimer > 0){", "activation_decrement_expr": "activationTimer -= Time.delta;", "return_expr": "return;", "next_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();", "eff_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();", "retarget_comment_expr": "//retarget", "retarget_guard_expr": "if(timer(timerTarget, retargetTime)){", "activation_timer": activation_timer, "time_delta": time_delta, "activation_guard": activation_guard, "activation_timer_after": activation_timer_after, "returned_early": returned_early, "activation_returned_early": activation_returned_early, "efficiency": efficiency, "coolant_multiplier": coolant_multiplier, "delta_value": delta_value, "eff_calculated": eff_calculated, "eff": eff, "edelta": edelta}
 
 func java_inner_class_TractorBeamBuild_method_shouldConsume_1(_args: Array = []) -> Variant:
 	var super_should_consume: bool = bool(_args[0] if _args.size() > 0 else false)

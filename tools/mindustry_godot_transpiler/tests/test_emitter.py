@@ -8057,6 +8057,57 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"return_expr": "return;"', source_text)
             self.assertIn('"next_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            //retarget
+            if(timer(timerTarget, retargetTime)){
+                target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_TractorBeamBuild_method_updateTile_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var activation_returned_early: bool = activation_guard", source_text)
+            self.assertIn("var efficiency: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var coolant_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
+            self.assertIn("var delta_value: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var eff_calculated: bool = not activation_returned_early", source_text)
+            self.assertIn("var eff: float = efficiency * coolant_multiplier if eff_calculated else 0.0", source_text)
+            self.assertIn("var edelta: float = eff * delta_value if eff_calculated else 0.0", source_text)
+            self.assertIn('"eff_expr": "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"', source_text)
+            self.assertIn('"retarget_comment_expr": "//retarget"', source_text)
+            self.assertIn('"retarget_guard_expr": "if(timer(timerTarget, retargetTime)){"', source_text)
+            self.assertIn('"eff": eff', source_text)
+            self.assertIn('"edelta": edelta', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 714)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 709)
+        self.assertEqual(audit["totalSourceFunctions"], 715)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 710)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 714)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 715)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43088,6 +43088,62 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["activation_guard"]["java_expr"], "activationTimer > 0")
         self.assertEqual(result_schema["keys"]["activation_timer_after"]["java_expr"], "activationTimer -= Time.delta;")
         self.assertEqual(result_schema["keys"]["returned_early"]["java_expr"], "return;")
+
+    def test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_eff.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() eff/edelta")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_eff_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_eff_state")
+
+        eff = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_eff.eff")
+        self.assertEqual(eff["java_expr"], "efficiency * coolantMultiplier")
+        self.assertEqual(eff["godot_symbol"], "source_tractor_beam_turret_build_update_tile_eff_result.eff")
+        edelta = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_eff.edelta")
+        self.assertEqual(edelta["java_expr"], "eff * delta()")
+        self.assertEqual(edelta["godot_symbol"], "source_tractor_beam_turret_build_update_tile_eff_result.edelta")
+
+        eff_slice = source_symbols.source_slice(ledger, "N1241")
+        self.assertEqual(eff_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(eff_slice["java_method"], "TractorBeamBuild.updateTile() eff/edelta")
+        self.assertEqual(eff_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_eff_state")
+        self.assertEqual(eff_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_eff_bridge_state")
+        for expr in [
+            "public class TractorBeamBuild extends BaseTurretBuild{",
+            "@Override",
+            "public void updateTile(){",
+            "return;",
+            "float eff = efficiency * coolantMultiplier, edelta = eff * delta();",
+            "//retarget",
+            "if(timer(timerTarget, retargetTime)){",
+        ]:
+            self.assertIn(expr, eff_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_eff_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["activation_returned_early", "efficiency", "coolant_multiplier", "delta_value"],
+        )
+        for key in ["source_owner", "inner_class", "method", "override_expr", "activation_return_expr", "eff_expr", "retarget_comment_expr", "retarget_guard_expr", "activation_returned_early", "eff_calculated", "efficiency", "coolant_multiplier", "delta_value", "eff", "edelta"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_eff_input")
+        self.assertEqual(input_schema["keys"]["activation_returned_early"]["java_expr"], "return;")
+        self.assertEqual(input_schema["keys"]["efficiency"]["java_expr"], "efficiency")
+        self.assertEqual(input_schema["keys"]["coolant_multiplier"]["java_expr"], "coolantMultiplier")
+        self.assertEqual(input_schema["keys"]["delta_value"]["java_expr"], "delta()")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_eff_result")
+        self.assertEqual(result_schema["keys"]["eff"]["java_expr"], "efficiency * coolantMultiplier")
+        self.assertEqual(result_schema["keys"]["edelta"]["java_expr"], "eff * delta()")
+        self.assertEqual(result_schema["keys"]["eff_calculated"]["java_expr"], "after return;")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
