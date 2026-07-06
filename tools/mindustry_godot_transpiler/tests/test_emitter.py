@@ -8509,6 +8509,41 @@ public class Block{
             self.assertIn('"always_unlocked_assigned": true', source_text)
             self.assertIn('"always_unlocked_after": unlocked', source_text)
 
+    def test_emit_bridges_block_requirements_simple_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public void requirements(Category cat, ItemStack[] stacks){
+        requirements(cat, BuildVisibility.shown, stacks);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_requirements_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar cat: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar stacks: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_requirements_simple_state"', source_text)
+            self.assertIn('"method": "public void requirements(Category cat, ItemStack[] stacks){"', source_text)
+            self.assertIn('"delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)"', source_text)
+            self.assertIn('"cat": cat', source_text)
+            self.assertIn('"build_visibility": "BuildVisibility.shown"', source_text)
+            self.assertIn('"stacks": stacks', source_text)
+            self.assertIn('"delegate_called": true', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -461,7 +461,9 @@ func java_method_requirements_114(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_requirements_unlocked_state", "source": "core/src/mindustry/world/Block.java", "method": "public void requirements(Category cat, ItemStack[] stacks, boolean unlocked){", "delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)", "always_unlocked_assignment_expr": "this.alwaysUnlocked = unlocked;", "cat": cat, "build_visibility": "BuildVisibility.shown", "stacks": stacks, "unlocked": unlocked, "delegate_called": true, "always_unlocked_assigned": true, "always_unlocked_after": unlocked}
 
 func java_method_requirements_115(_args: Array = []) -> Variant:
-	return null
+	var cat: Variant = _args[0] if _args.size() > 0 else null
+	var stacks: Variant = _args[1] if _args.size() > 1 else null
+	return {"source_owner": "PortGame.source_block_requirements_simple_state", "source": "core/src/mindustry/world/Block.java", "method": "public void requirements(Category cat, ItemStack[] stacks){", "delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)", "cat": cat, "build_visibility": "BuildVisibility.shown", "stacks": stacks, "delegate_called": true}
 
 func java_method_requirements_116(_args: Array = []) -> Variant:
 	return null

@@ -32612,6 +32612,45 @@
         "test_block_requirements_unlocked_matches_upstream_source",
         "test_generated_block_requirements_unlocked_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_requirements_simple_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Category cat",
+          "name": "cat",
+          "schema": "source_block_requirements_simple_input.cat",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "ItemStack[] stacks",
+          "name": "stacks",
+          "schema": "source_block_requirements_simple_input.stacks",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "delegate_call_expr",
+        "cat",
+        "build_visibility",
+        "stacks",
+        "delegate_called"
+      ],
+      "rule": "Pin source-backed Block.requirements(Category,ItemStack[]) delegate state.",
+      "runtime_proof": "/root/Main.source_block_requirements_simple_state",
+      "source_method": "Block.requirements(Category,ItemStack[])",
+      "source_slice": "N1307",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_requirements_simple_to_source_state",
+        "test_port_game_exposes_source_block_requirements_simple_state",
+        "test_port_game_exposes_generated_block_requirements_simple_bridge_state",
+        "test_block_requirements_simple_matches_upstream_source",
+        "test_generated_block_requirements_simple_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -1737,6 +1737,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "requirements"
+        and [param.get("type") for param in method.get("parameters", [])] == ["Category", "ItemStack"]
+    ):
+        return [
+            "\tvar cat: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar stacks: Variant = _args[1] if _args.size() > 1 else null",
+            '\treturn {"source_owner": "PortGame.source_block_requirements_simple_state", "source": "core/src/mindustry/world/Block.java", "method": "public void requirements(Category cat, ItemStack[] stacks){", "delegate_call_expr": "requirements(cat, BuildVisibility.shown, stacks)", "cat": cat, "build_visibility": "BuildVisibility.shown", "stacks": stacks, "delegate_called": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):
