@@ -93428,6 +93428,78 @@
         "test_ability_add_stats_matches_upstream_source",
         "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
       ]
+    },
+    "ability_ability_stat.method": {
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "godot_symbol": "source_ability_ability_stat_result.method",
+      "java_expr": "public String abilityStat(String stat, Object... values){",
+      "java_method": "Ability.abilityStat(String stat, Object... values)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
+      "source_slice": "N1269",
+      "status": "source-backed",
+      "rule": "Ability.abilityStat method boundary.",
+      "tests": [
+        "test_emit_bridges_ability_ability_stat_to_source_state",
+        "test_port_game_exposes_source_ability_ability_stat_state",
+        "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
+        "test_ability_ability_stat_matches_upstream_source",
+        "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_ability_stat.bundle_key": {
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "godot_symbol": "source_ability_ability_stat_result.bundle_key",
+      "java_expr": "\"ability.stat.\" + stat",
+      "java_method": "Ability.abilityStat(String stat, Object... values)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
+      "source_slice": "N1269",
+      "status": "source-backed",
+      "rule": "Bundle key expression for ability stat localization.",
+      "tests": [
+        "test_emit_bridges_ability_ability_stat_to_source_state",
+        "test_port_game_exposes_source_ability_ability_stat_state",
+        "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
+        "test_ability_ability_stat_matches_upstream_source",
+        "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_ability_stat.format_call": {
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "godot_symbol": "source_ability_ability_stat_result.format_call",
+      "java_expr": "Core.bundle.format(\"ability.stat.\" + stat, values)",
+      "java_method": "Ability.abilityStat(String stat, Object... values)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
+      "source_slice": "N1269",
+      "status": "source-backed",
+      "rule": "Core.bundle.format call uses ability.stat prefix and varargs values.",
+      "tests": [
+        "test_emit_bridges_ability_ability_stat_to_source_state",
+        "test_port_game_exposes_source_ability_ability_stat_state",
+        "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
+        "test_ability_ability_stat_matches_upstream_source",
+        "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
+      ]
+    },
+    "ability_ability_stat.return_value": {
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "godot_symbol": "source_ability_ability_stat_result.return_value",
+      "java_expr": "return Core.bundle.format(\"ability.stat.\" + stat, values);",
+      "java_method": "Ability.abilityStat(String stat, Object... values)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
+      "source_slice": "N1269",
+      "status": "explicit-input",
+      "rule": "Return value is supplied as formatted_value, preserving Core.bundle.format result without inventing bundle lookup.",
+      "tests": [
+        "test_emit_bridges_ability_ability_stat_to_source_state",
+        "test_port_game_exposes_source_ability_ability_stat_state",
+        "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
+        "test_ability_ability_stat_matches_upstream_source",
+        "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

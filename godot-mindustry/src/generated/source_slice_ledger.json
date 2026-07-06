@@ -29332,6 +29332,39 @@
       "deferred_exprs": [
         "Concrete Arc Core.bundle lookup and Table widget mutation remain explicit inputs/runtime UI integration; this bridge preserves source guard, key, description text, width, and row operation plan."
       ]
+    },
+    "N1269": {
+      "title": "Generated Ability abilityStat bridge state",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.abilityStat(String stat, Object... values)",
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "generated_owner": "Ability.java_method_abilityStat_8",
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import arc.*;",
+        "public String abilityStat(String stat, Object... values){",
+        "return Core.bundle.format(\"ability.stat.\" + stat, values);"
+      ],
+      "source_symbols": [
+        "ability_ability_stat.method",
+        "ability_ability_stat.bundle_key",
+        "ability_ability_stat.format_call",
+        "ability_ability_stat.return_value"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_ability_stat_to_source_state",
+        "test_port_game_exposes_source_ability_ability_stat_state",
+        "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
+        "test_ability_ability_stat_matches_upstream_source",
+        "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_ability_ability_stat_bridge_state",
+      "status": "done",
+      "rule": "Registers source-backed operation plan for Ability.abilityStat(String stat, Object... values) bundle format return.",
+      "deferred_exprs": [
+        "Concrete Arc Core.bundle.format lookup remains explicit formatted_value input; this bridge preserves key expression, values varargs, and return expression."
+      ]
     }
   },
   "version": 1

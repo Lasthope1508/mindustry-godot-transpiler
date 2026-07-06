@@ -111341,6 +111341,260 @@
       "runtime_proof": "/root/Main.source_ability_add_stats_state",
       "source_slice": "N1268",
       "status": "source-backed"
+    },
+    "source_ability_ability_stat_input": {
+      "rule": "Inputs for PortGame.source_ability_ability_stat_state.",
+      "keys": {
+        "stat": {
+          "godot_symbol": "source_ability_ability_stat_input.stat",
+          "java_expr": "String stat",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Explicit stat argument.",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "values": {
+          "godot_symbol": "source_ability_ability_stat_input.values",
+          "java_expr": "Object... values",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Explicit Object... values varargs as array.",
+          "status": "explicit-input",
+          "type": "Array",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "formatted_value": {
+          "godot_symbol": "source_ability_ability_stat_input.formatted_value",
+          "java_expr": "Core.bundle.format(\"ability.stat.\" + stat, values)",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Explicit Core.bundle.format result supplied by caller.",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_ability_stat_state",
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
+      "source_slice": "N1269",
+      "status": "source-backed"
+    },
+    "source_ability_ability_stat_result": {
+      "rule": "Dictionary returned by PortGame.source_ability_ability_stat_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_ability_ability_stat_result.source_owner",
+          "java_expr": "PortGame.source_ability_ability_stat_state",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Canonical PortGame owner for Ability.abilityStat bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_ability_ability_stat_result.source",
+          "java_expr": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Upstream source file for Ability.abilityStat.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_ability_ability_stat_result.method",
+          "java_expr": "public String abilityStat(String stat, Object... values){",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Ability.abilityStat method boundary.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_ability_stat.method"
+          ],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "stat": {
+          "godot_symbol": "source_ability_ability_stat_result.stat",
+          "java_expr": "String stat",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Explicit stat argument returned unchanged.",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "values": {
+          "godot_symbol": "source_ability_ability_stat_result.values",
+          "java_expr": "Object... values",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Explicit values varargs returned unchanged.",
+          "status": "explicit-input",
+          "type": "Array",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "bundle_key_expr": {
+          "godot_symbol": "source_ability_ability_stat_result.bundle_key_expr",
+          "java_expr": "\"ability.stat.\" + stat",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Source bundle key expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_ability_stat.bundle_key"
+          ],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "bundle_key": {
+          "godot_symbol": "source_ability_ability_stat_result.bundle_key",
+          "java_expr": "\"ability.stat.\" + stat",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Evaluated bundle key using explicit stat_value.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_ability_stat.bundle_key"
+          ],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "format_call": {
+          "godot_symbol": "source_ability_ability_stat_result.format_call",
+          "java_expr": "Core.bundle.format(\"ability.stat.\" + stat, values)",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Source Core.bundle.format call.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_ability_stat.format_call"
+          ],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "formatted_value": {
+          "godot_symbol": "source_ability_ability_stat_result.formatted_value",
+          "java_expr": "Core.bundle.format(\"ability.stat.\" + stat, values)",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Explicit formatted bundle value.",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_ability_ability_stat_result.return_expr",
+          "java_expr": "return Core.bundle.format(\"ability.stat.\" + stat, values);",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Source return expression.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_ability_stat.return_value"
+          ],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        },
+        "return_value": {
+          "godot_symbol": "source_ability_ability_stat_result.return_value",
+          "java_expr": "return Core.bundle.format(\"ability.stat.\" + stat, values);",
+          "java_method": "Ability.abilityStat(String stat, Object... values)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_ability_stat_state"
+          ],
+          "rule": "Returned formatted value.",
+          "status": "explicit-input",
+          "type": "String",
+          "source_symbols": [
+            "ability_ability_stat.return_value"
+          ],
+          "used_by": [
+            "PortGame.source_ability_ability_stat_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_ability_stat_state",
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
+      "source_slice": "N1269",
+      "status": "source-backed"
     }
   },
   "version": 1

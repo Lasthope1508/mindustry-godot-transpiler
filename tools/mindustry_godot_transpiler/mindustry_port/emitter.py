@@ -110,6 +110,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_ability_add_stats_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void addStats(Table t){", "table": table_state, "field_expr": "protected static final float descriptionWidth = 350f;", "description_width": 350.0, "get_bundle_call": "getBundle()", "get_bundle_value": get_bundle_value, "description_key_expr": "getBundle() + \\".description\\"", "description_key": description_key, "guard_expr": "if(Core.bundle.has(getBundle() + \\".description\\")){", "guard_passed": bundle_has_description, "bundle_description": bundle_description, "add_description_call": add_description_call, "row_call": row_call}',
         ]
     if (
+        java_file.get("path") == "mindustry/entities/abilities/Ability.java"
+        and type_entry.get("name") == "Ability"
+        and method.get("name") == "abilityStat"
+    ):
+        return [
+            "\tvar stat_value: String = str(_args[0] if _args.size() > 0 else \"\")",
+            "\tvar values: Array = []",
+            "\tif _args.size() > 1 and _args[1] is Array:",
+            "\t\tvalues = _args[1]",
+            "\tvar formatted_value: String = str(_args[2] if _args.size() > 2 else \"\")",
+            '\tvar bundle_key: String = "ability.stat." + stat_value',
+            '\treturn {"source_owner": "PortGame.source_ability_ability_stat_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public String abilityStat(String stat, Object... values){", "stat": stat_value, "values": values, "bundle_key_expr": "\\"ability.stat.\\" + stat", "bundle_key": bundle_key, "format_call": "Core.bundle.format(\\"ability.stat.\\" + stat, values)", "formatted_value": formatted_value, "return_expr": "return Core.bundle.format(\\"ability.stat.\\" + stat, values);", "return_value": formatted_value}',
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "getProgressIncrease"

@@ -15541,6 +15541,35 @@ func generated_ability_add_stats_bridge_state(table_state: Variant, get_bundle_v
 		"matches": result == canonical,
 	}
 
+func source_ability_ability_stat_state(stat_value: String, values: Array, formatted_value: String) -> Dictionary:
+	var bundle_key := "ability.stat." + stat_value
+	return {
+		"source_owner": "PortGame.source_ability_ability_stat_state",
+		"source": "core/src/mindustry/entities/abilities/Ability.java",
+		"method": "public String abilityStat(String stat, Object... values){",
+		"stat": stat_value,
+		"values": values,
+		"bundle_key_expr": "\"ability.stat.\" + stat",
+		"bundle_key": bundle_key,
+		"format_call": "Core.bundle.format(\"ability.stat.\" + stat, values)",
+		"formatted_value": formatted_value,
+		"return_expr": "return Core.bundle.format(\"ability.stat.\" + stat, values);",
+		"return_value": formatted_value,
+	}
+
+func generated_ability_ability_stat_bridge_state(stat_value: String, values: Array, formatted_value: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/entities/abilities/Ability.gd")
+	var instance = script.new()
+	var result = instance.java_method_abilityStat_8([stat_value, values, formatted_value])
+	var canonical = source_ability_ability_stat_state(stat_value, values, formatted_value)
+	return {
+		"source_owner": "PortGame.source_ability_ability_stat_state",
+		"generated_owner": "Ability.java_method_abilityStat_8",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_unit_update_trail_position_state(trail_exists: bool, type_trail_length: int, type_use_engine_elevation: bool, elevation_value: float, type_engine_offset: float, x_value: float, y_value: float, source_rotation_degrees: float) -> Dictionary:
 	var trail_scale := elevation_value if type_use_engine_elevation else 1.0
 	var offset := type_engine_offset / 2.0 + type_engine_offset / 2.0 * trail_scale

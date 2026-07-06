@@ -9564,6 +9564,42 @@ public abstract class Ability implements Cloneable{
             self.assertIn('"add_description_call": add_description_call', source_text)
             self.assertIn('"row_call": row_call', source_text)
 
+    def test_emit_bridges_ability_ability_stat_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            ability_path = source_root / "mindustry" / "entities" / "abilities" / "Ability.java"
+            ability_path.parent.mkdir(parents=True, exist_ok=True)
+            ability_path.write_text(
+                """
+package mindustry.entities.abilities;
+
+public abstract class Ability implements Cloneable{
+    public String abilityStat(String stat, Object... values){
+        return Core.bundle.format("ability.stat." + stat, values);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "entities" / "abilities" / "Ability.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_abilityStat_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar stat_value: String = str(_args[0] if _args.size() > 0 else \"\")", source_text)
+            self.assertIn("\tvar values: Array = []", source_text)
+            self.assertIn("\tvar formatted_value: String = str(_args[2] if _args.size() > 2 else \"\")", source_text)
+            self.assertIn("\tvar bundle_key: String = \"ability.stat.\" + stat_value", source_text)
+            self.assertIn('"source_owner": "PortGame.source_ability_ability_stat_state"', source_text)
+            self.assertIn('"method": "public String abilityStat(String stat, Object... values){"', source_text)
+            self.assertIn('"bundle_key_expr": "\\"ability.stat.\\" + stat"', source_text)
+            self.assertIn('"format_call": "Core.bundle.format(\\"ability.stat.\\" + stat, values)"', source_text)
+            self.assertIn('"formatted_value": formatted_value', source_text)
+            self.assertIn('"return_value": formatted_value', source_text)
+
     def test_emit_bridges_turret_get_regions_to_outline_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -7447,6 +7447,61 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_ability_add_stats_result")
         self.assertEqual(result_schema["keys"]["guard_expr"]["java_expr"], "if(Core.bundle.has(getBundle() + \".description\")){")
 
+    def test_generated_ability_ability_stat_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "ability_ability_stat.method")
+        self.assertEqual(method["java_expr"], "public String abilityStat(String stat, Object... values){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(method["java_method"], "Ability.abilityStat(String stat, Object... values)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_ability_ability_stat_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_ability_ability_stat_state")
+        self.assertEqual(method["godot_symbol"], "source_ability_ability_stat_result.method")
+
+        bundle_key = source_symbols.source_symbol(registry, "ability_ability_stat.bundle_key")
+        self.assertEqual(bundle_key["java_expr"], "\"ability.stat.\" + stat")
+        self.assertEqual(bundle_key["godot_symbol"], "source_ability_ability_stat_result.bundle_key")
+
+        format_call = source_symbols.source_symbol(registry, "ability_ability_stat.format_call")
+        self.assertEqual(format_call["java_expr"], "Core.bundle.format(\"ability.stat.\" + stat, values)")
+        self.assertEqual(format_call["godot_symbol"], "source_ability_ability_stat_result.format_call")
+
+        return_value = source_symbols.source_symbol(registry, "ability_ability_stat.return_value")
+        self.assertEqual(return_value["java_expr"], "return Core.bundle.format(\"ability.stat.\" + stat, values);")
+        self.assertEqual(return_value["godot_symbol"], "source_ability_ability_stat_result.return_value")
+
+        ability_stat_slice = source_symbols.source_slice(ledger, "N1269")
+        self.assertEqual(ability_stat_slice["title"], "Generated Ability abilityStat bridge state")
+        self.assertEqual(ability_stat_slice["java_source"], "core/src/mindustry/entities/abilities/Ability.java")
+        self.assertEqual(ability_stat_slice["java_method"], "Ability.abilityStat(String stat, Object... values)")
+        self.assertEqual(ability_stat_slice["godot_owner"], "PortGame.source_ability_ability_stat_state")
+        self.assertEqual(ability_stat_slice["generated_owner"], "Ability.java_method_abilityStat_8")
+        self.assertEqual(ability_stat_slice["runtime_proof"], "/root/Main.generated_ability_ability_stat_bridge_state")
+        for expr in [
+            "public abstract class Ability implements Cloneable{",
+            "import arc.*;",
+            "public String abilityStat(String stat, Object... values){",
+            "return Core.bundle.format(\"ability.stat.\" + stat, values);",
+        ]:
+            self.assertIn(expr, ability_stat_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_ability_ability_stat_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["stat_value", "values", "formatted_value"])
+        for key in ["source_owner", "source", "method", "stat", "values", "bundle_key", "format_call", "formatted_value", "return_value"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_ability_ability_stat_input")
+        self.assertEqual(input_schema["keys"]["stat"]["java_expr"], "String stat")
+        self.assertEqual(input_schema["keys"]["values"]["java_expr"], "Object... values")
+        result_schema = source_symbols.state_schema(schema, "source_ability_ability_stat_result")
+        self.assertEqual(result_schema["keys"]["return_value"]["java_expr"], "return Core.bundle.format(\"ability.stat.\" + stat, values);")
+
     def test_unit_update_ai_controller_server_gate_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -20150,16 +20205,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 742)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 737)
+        self.assertEqual(audit["totalSourceFunctions"], 743)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 738)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 742)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 743)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_ability_add_stats_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_ability_ability_stat_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_bars_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_init_state", audit["registeredSourceOwners"])

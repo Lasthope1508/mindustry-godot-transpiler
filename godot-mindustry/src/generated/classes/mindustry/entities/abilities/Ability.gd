@@ -57,7 +57,13 @@ func java_method_addStats_7(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_ability_add_stats_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public void addStats(Table t){", "table": table_state, "field_expr": "protected static final float descriptionWidth = 350f;", "description_width": 350.0, "get_bundle_call": "getBundle()", "get_bundle_value": get_bundle_value, "description_key_expr": "getBundle() + \".description\"", "description_key": description_key, "guard_expr": "if(Core.bundle.has(getBundle() + \".description\")){", "guard_passed": bundle_has_description, "bundle_description": bundle_description, "add_description_call": add_description_call, "row_call": row_call}
 
 func java_method_abilityStat_8(_args: Array = []) -> Variant:
-	return null
+	var stat_value: String = str(_args[0] if _args.size() > 0 else "")
+	var values: Array = []
+	if _args.size() > 1 and _args[1] is Array:
+		values = _args[1]
+	var formatted_value: String = str(_args[2] if _args.size() > 2 else "")
+	var bundle_key: String = "ability.stat." + stat_value
+	return {"source_owner": "PortGame.source_ability_ability_stat_state", "source": "core/src/mindustry/entities/abilities/Ability.java", "method": "public String abilityStat(String stat, Object... values){", "stat": stat_value, "values": values, "bundle_key_expr": "\"ability.stat.\" + stat", "bundle_key": bundle_key, "format_call": "Core.bundle.format(\"ability.stat.\" + stat, values)", "formatted_value": formatted_value, "return_expr": "return Core.bundle.format(\"ability.stat.\" + stat, values);", "return_value": formatted_value}
 
 func java_method_copy_9(_args: Array = []) -> Variant:
 	return null

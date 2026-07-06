@@ -31065,6 +31065,54 @@
       ],
       "runtime_proof": "/root/Main.source_ability_add_stats_state",
       "rule": "Public runtime contract for Ability.addStats(Table t) source-backed description operation plan."
+    },
+    "PortGame.source_ability_ability_stat_state": {
+      "status": "source-backed",
+      "source_slice": "N1269",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.abilityStat(String stat, Object... values)",
+      "params": [
+        {
+          "name": "stat_value",
+          "type": "String",
+          "java_expr": "String stat",
+          "schema": "source_ability_ability_stat_input.stat"
+        },
+        {
+          "name": "values",
+          "type": "Array",
+          "java_expr": "Object... values",
+          "schema": "source_ability_ability_stat_input.values"
+        },
+        {
+          "name": "formatted_value",
+          "type": "String",
+          "java_expr": "Core.bundle.format(\"ability.stat.\" + stat, values)",
+          "schema": "source_ability_ability_stat_input.formatted_value"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "stat",
+        "values",
+        "bundle_key_expr",
+        "bundle_key",
+        "format_call",
+        "formatted_value",
+        "return_expr",
+        "return_value"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_ability_stat_to_source_state",
+        "test_port_game_exposes_source_ability_ability_stat_state",
+        "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
+        "test_ability_ability_stat_matches_upstream_source",
+        "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_ability_ability_stat_state",
+      "rule": "Public runtime contract for Ability.abilityStat source-backed bundle-format return."
     }
   },
   "policy": {
