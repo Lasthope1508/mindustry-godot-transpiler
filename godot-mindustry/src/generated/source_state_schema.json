@@ -110155,6 +110155,128 @@
       "runtime_proof": "/root/Main.source_ability_draw_state",
       "source_slice": "N1262",
       "status": "source-backed"
+    },
+    "source_ability_death_input": {
+      "rule": "Inputs for PortGame.source_ability_death_state.",
+      "keys": {
+        "unit": {
+          "godot_symbol": "source_ability_death_input.unit",
+          "java_expr": "Unit unit",
+          "java_method": "Ability.death(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_death_state"
+          ],
+          "rule": "Explicit Unit unit argument passed through unchanged.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_death.unit"
+          ],
+          "used_by": [
+            "PortGame.source_ability_death_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_death_state",
+      "runtime_proof": "/root/Main.source_ability_death_state",
+      "source_slice": "N1263",
+      "status": "source-backed"
+    },
+    "source_ability_death_result": {
+      "rule": "Dictionary returned by PortGame.source_ability_death_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_ability_death_result.source_owner",
+          "java_expr": "PortGame.source_ability_death_state",
+          "java_method": "Ability.death(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_death_state"
+          ],
+          "rule": "Canonical PortGame owner for Ability.death bridge.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_death_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_ability_death_result.source",
+          "java_expr": "core/src/mindustry/entities/abilities/Ability.java",
+          "java_method": "Ability.death(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_death_state"
+          ],
+          "rule": "Upstream source file for Ability.death.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [],
+          "used_by": [
+            "PortGame.source_ability_death_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_ability_death_result.method",
+          "java_expr": "public void death(Unit unit){}",
+          "java_method": "Ability.death(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_death_state"
+          ],
+          "rule": "Base Ability.death method body.",
+          "status": "source-backed",
+          "type": "String",
+          "source_symbols": [
+            "ability_death.method"
+          ],
+          "used_by": [
+            "PortGame.source_ability_death_state"
+          ]
+        },
+        "unit": {
+          "godot_symbol": "source_ability_death_result.unit",
+          "java_expr": "Unit unit",
+          "java_method": "Ability.death(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_death_state"
+          ],
+          "rule": "Explicit Unit unit argument returned unchanged.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "source_symbols": [
+            "ability_death.unit"
+          ],
+          "used_by": [
+            "PortGame.source_ability_death_state"
+          ]
+        },
+        "no_op": {
+          "godot_symbol": "source_ability_death_result.no_op",
+          "java_expr": "public void death(Unit unit){}",
+          "java_method": "Ability.death(Unit unit)",
+          "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+          "owners": [
+            "PortGame.source_ability_death_state"
+          ],
+          "rule": "Empty upstream Ability.death body produces no side effects.",
+          "status": "source-backed",
+          "type": "bool",
+          "source_symbols": [
+            "ability_death.no_op"
+          ],
+          "used_by": [
+            "PortGame.source_ability_death_state"
+          ]
+        }
+      },
+      "owner": "PortGame.source_ability_death_state",
+      "runtime_proof": "/root/Main.source_ability_death_state",
+      "source_slice": "N1263",
+      "status": "source-backed"
     }
   },
   "version": 1

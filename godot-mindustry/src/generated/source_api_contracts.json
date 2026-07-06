@@ -30833,6 +30833,36 @@
       ],
       "runtime_proof": "/root/Main.source_ability_draw_state",
       "rule": "Public runtime contract for Ability.draw(Unit unit) default no-op."
+    },
+    "PortGame.source_ability_death_state": {
+      "status": "source-backed",
+      "source_slice": "N1263",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "source_method": "Ability.death(Unit unit)",
+      "params": [
+        {
+          "name": "unit",
+          "type": "Variant",
+          "java_expr": "Unit unit",
+          "schema": "source_ability_death_input.unit"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "unit",
+        "no_op"
+      ],
+      "tests": [
+        "test_emit_bridges_ability_death_to_source_state",
+        "test_port_game_exposes_source_ability_death_state",
+        "test_port_game_exposes_generated_ability_death_bridge_state",
+        "test_ability_death_matches_upstream_source",
+        "test_generated_ability_death_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_ability_death_state",
+      "rule": "Public runtime contract for Ability.death(Unit unit) default no-op."
     }
   },
   "policy": {

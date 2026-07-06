@@ -45,6 +45,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_ability_draw_state\", \"source\": \"core/src/mindustry/entities/abilities/Ability.java\", \"method\": \"public void draw(Unit unit){}\", \"unit\": unit, \"no_op\": true}",
         ]
     if (
+        java_file.get("path") == "mindustry/entities/abilities/Ability.java"
+        and type_entry.get("name") == "Ability"
+        and method.get("name") == "death"
+    ):
+        return [
+            "\tvar unit: Variant = _args[0] if _args.size() > 0 else null",
+            "\treturn {\"source_owner\": \"PortGame.source_ability_death_state\", \"source\": \"core/src/mindustry/entities/abilities/Ability.java\", \"method\": \"public void death(Unit unit){}\", \"unit\": unit, \"no_op\": true}",
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BuildingComp.java"
         and type_entry.get("name") == "BuildingComp"
         and method.get("name") == "getProgressIncrease"
