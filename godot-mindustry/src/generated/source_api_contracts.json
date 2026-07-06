@@ -30251,6 +30251,62 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_angle_to_target_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile angleTo(target) dest assignment."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state": {
+      "status": "source-backed",
+      "source_slice": "N1252",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() rotation move",
+      "params": [
+        {
+          "name": "angle_to_target_evaluated",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_rotation_move_input.angle_to_target_evaluated"
+        },
+        {
+          "name": "rotation_before",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_rotation_move_input.rotation_before"
+        },
+        {
+          "name": "dest",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_rotation_move_input.dest"
+        },
+        {
+          "name": "rotate_speed",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_rotation_move_input.rotate_speed"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_rotation_move_input.edelta"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "rotation_move_expr",
+        "angle_to_target_evaluated",
+        "rotation_before",
+        "dest",
+        "rotate_speed",
+        "edelta",
+        "rotation_move_evaluated",
+        "rotation_max_delta",
+        "rotation_after",
+        "rotation_move_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_rotation_move_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_rotation_move_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_rotation_move_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_rotation_move_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_rotation_move_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile rotation move assignment."
     }
   },
   "policy": {

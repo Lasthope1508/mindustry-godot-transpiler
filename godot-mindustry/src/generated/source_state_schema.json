@@ -108736,6 +108736,135 @@
           "java_expr": "float dest = angleTo(target);"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_rotation_move_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state.",
+      "keys": {
+        "angle_to_target_evaluated": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "float dest = angleTo(target);"
+        },
+        "rotation_before": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "rotation"
+        },
+        "dest": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "dest"
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "rotateSpeed"
+        },
+        "edelta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "edelta"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_rotation_move_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "public void updateTile(){"
+        },
+        "rotation_move_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);"
+        },
+        "angle_to_target_evaluated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "float dest = angleTo(target);"
+        },
+        "rotation_before": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "rotation"
+        },
+        "dest": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "dest"
+        },
+        "rotate_speed": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "rotateSpeed"
+        },
+        "edelta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "edelta"
+        },
+        "rotation_move_evaluated": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "float dest = angleTo(target);"
+        },
+        "rotation_max_delta": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "rotateSpeed * edelta"
+        },
+        "rotation_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "Angles.moveToward(rotation, dest, rotateSpeed * edelta)"
+        },
+        "rotation_move_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() rotation move",
+          "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);"
+        }
+      }
     }
   },
   "version": 1

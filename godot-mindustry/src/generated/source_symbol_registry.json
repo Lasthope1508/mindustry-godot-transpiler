@@ -92429,6 +92429,40 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() angle to target",
       "java_expr": "float dest = angleTo(target);"
+    },
+    "tractor_beam_turret_build_update_tile_rotation_move.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_rotation_move_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for rotation move slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_rotation_move_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_rotation_move_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_rotation_move_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_rotation_move_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_rotation_move_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() rotation move",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_rotation_move.call": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_rotation_move_result.rotation_after",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state",
+      "rule": "Source rotation assignment using Arc Angles.moveToward.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_rotation_move_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_rotation_move_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_rotation_move_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_rotation_move_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_rotation_move_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() rotation move",
+      "java_expr": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);"
     }
   },
   "version": 1

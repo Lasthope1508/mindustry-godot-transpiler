@@ -953,6 +953,37 @@ def verify_tractor_beam_turret_build_update_tile_angle_to_target_source(upstream
         "missing": missing,
     }
 
+def verify_tractor_beam_turret_build_update_tile_rotation_move_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    turret_path = Path(upstream_root) / TRACTOR_BEAM_TURRET_SOURCE
+    angles_path = Path(arc_root) / ARC_ANGLES_SOURCE
+    source = turret_path.read_text(encoding="utf-8", errors="replace")
+    angles_source = angles_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void updateTile(){",
+        "dest": "float dest = angleTo(target);",
+        "rotation_move": "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
+        "last_x_boundary": "lastX = target.x;",
+        "move_toward": "public static float moveToward(float angle, float to, float speed){",
+        "move_toward_gate": "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+        "move_toward_branch": "if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){",
+    }
+    source_checks = {
+        "method": source,
+        "dest": source,
+        "rotation_move": source,
+        "last_x_boundary": source,
+        "move_toward": angles_source,
+        "move_toward_gate": angles_source,
+        "move_toward_branch": angles_source,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_checks[key]]
+    return {
+        "source": TRACTOR_BEAM_TURRET_SOURCE,
+        "angles_source": ARC_ANGLES_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_turret_get_regions_to_outline_source(upstream_root: Path) -> dict[str, Any]:
     turret_path = Path(upstream_root) / TURRET_SOURCE
     source = turret_path.read_text(encoding="utf-8", errors="replace")

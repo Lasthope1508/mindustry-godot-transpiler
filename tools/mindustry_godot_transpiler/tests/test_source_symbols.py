@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 725)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 720)
+        self.assertEqual(audit["totalSourceFunctions"], 726)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 721)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 725)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 726)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43636,6 +43636,48 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_angle_to_target_result")
         self.assertEqual(result_schema["keys"]["dest"]["java_expr"], "angleTo(target)")
         self.assertEqual(result_schema["keys"]["angle_to_target_call"]["java_expr"], "float dest = angleTo(target);")
+
+    def test_generated_tractor_beam_turret_build_update_tile_rotation_move_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_rotation_move.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() rotation move")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_rotation_move_state")
+
+        rotation_move = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_rotation_move.call")
+        self.assertEqual(rotation_move["java_expr"], "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);")
+        self.assertEqual(rotation_move["godot_symbol"], "source_tractor_beam_turret_build_update_tile_rotation_move_result.rotation_after")
+
+        move_slice = source_symbols.source_slice(ledger, "N1252")
+        self.assertEqual(move_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(move_slice["java_method"], "TractorBeamBuild.updateTile() rotation move")
+        self.assertEqual(move_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state")
+        self.assertEqual(move_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state")
+        for expr in ["rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);", "public static float moveToward(float angle, float to, float speed){", "if(Math.abs(angleDist(angle, to)) < speed) return to;", "lastX = target.x;"]:
+            self.assertIn(expr, move_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["angle_to_target_evaluated", "rotation_before", "dest", "rotate_speed", "edelta"],
+        )
+        for key in ["source_owner", "method", "rotation_move_expr", "angle_to_target_evaluated", "rotation_before", "dest", "rotate_speed", "edelta", "rotation_move_evaluated", "rotation_max_delta", "rotation_after", "rotation_move_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_rotation_move_input")
+        self.assertEqual(input_schema["keys"]["rotation_before"]["java_expr"], "rotation")
+        self.assertEqual(input_schema["keys"]["rotate_speed"]["java_expr"], "rotateSpeed")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_rotation_move_result")
+        self.assertEqual(result_schema["keys"]["rotation_max_delta"]["java_expr"], "rotateSpeed * edelta")
+        self.assertEqual(result_schema["keys"]["rotation_after"]["java_expr"], "Angles.moveToward(rotation, dest, rotateSpeed * edelta)")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
