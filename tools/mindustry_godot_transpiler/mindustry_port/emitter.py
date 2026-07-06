@@ -1713,6 +1713,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "setupRequirements"
+        and len(method.get("parameters", [])) == 3
+    ):
+        return [
+            "\tvar cat: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar build_visibility: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar stacks: Variant = _args[2] if _args.size() > 2 else null",
+            '\treturn {"source_owner": "PortGame.source_block_setup_requirements_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){", "delegate_call_expr": "requirements(cat, visible, stacks)", "cat": cat, "visible": build_visibility, "stacks": stacks, "delegate_called": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):

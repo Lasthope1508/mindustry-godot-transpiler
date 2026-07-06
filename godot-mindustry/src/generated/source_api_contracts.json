@@ -32518,6 +32518,51 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_block_setup_requirements_visible_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "Category cat",
+          "name": "cat",
+          "schema": "source_block_setup_requirements_visible_input.cat",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "BuildVisibility visible",
+          "name": "build_visibility",
+          "schema": "source_block_setup_requirements_visible_input.build_visibility",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "ItemStack[] stacks",
+          "name": "stacks",
+          "schema": "source_block_setup_requirements_visible_input.stacks",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "delegate_call_expr",
+        "cat",
+        "visible",
+        "stacks",
+        "delegate_called"
+      ],
+      "rule": "Pin source-backed Block.setupRequirements(Category,BuildVisibility,ItemStack[]) delegate state.",
+      "runtime_proof": "/root/Main.source_block_setup_requirements_visible_state",
+      "source_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+      "source_slice": "N1305",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_visible_state",
+        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
+        "test_block_setup_requirements_visible_matches_upstream_source",
+        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

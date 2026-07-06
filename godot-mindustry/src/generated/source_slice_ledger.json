@@ -30474,6 +30474,38 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N1305": {
+      "exact_exprs": [
+        "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+        "requirements(cat, visible, stacks);",
+        "requirements(cat, visible, stacks)",
+        "Category cat",
+        "BuildVisibility visible",
+        "ItemStack[] stacks"
+      ],
+      "generated_owner": "Block.java_method_setupRequirements_113",
+      "godot_owner": "PortGame.source_block_setup_requirements_visible_state",
+      "java_class": "Block",
+      "java_method": "Block.setupRequirements(Category,BuildVisibility,ItemStack[])",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_setup_requirements_visible_bridge_state",
+      "source_symbols": [
+        "block_setup_requirements_visible.method",
+        "block_setup_requirements_visible.delegate_call_expr",
+        "block_setup_requirements_visible.cat",
+        "block_setup_requirements_visible.visible",
+        "block_setup_requirements_visible.stacks"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_setup_requirements_visible_to_source_state",
+        "test_port_game_exposes_source_block_setup_requirements_visible_state",
+        "test_port_game_exposes_generated_block_setup_requirements_visible_bridge_state",
+        "test_block_setup_requirements_visible_matches_upstream_source",
+        "test_generated_block_setup_requirements_visible_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block setupRequirements visible bridge state"
     }
   },
   "version": 1

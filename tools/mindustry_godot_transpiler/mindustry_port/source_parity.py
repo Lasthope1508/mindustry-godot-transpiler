@@ -10151,6 +10151,21 @@ def verify_block_setup_requirements_simple_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_block_setup_requirements_visible_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){",
+        "delegate_call_expr": "requirements(cat, visible, stacks);",
+        "delegate_call": "requirements(cat, visible, stacks)",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

@@ -449,7 +449,10 @@ func java_method_setupRequirements_112(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_setup_requirements_simple_state", "source": "core/src/mindustry/world/Block.java", "method": "public void setupRequirements(Category cat, ItemStack[] stacks){", "delegate_call_expr": "requirements(cat, stacks)", "cat": cat, "stacks": stacks, "delegate_called": true}
 
 func java_method_setupRequirements_113(_args: Array = []) -> Variant:
-	return null
+	var cat: Variant = _args[0] if _args.size() > 0 else null
+	var build_visibility: Variant = _args[1] if _args.size() > 1 else null
+	var stacks: Variant = _args[2] if _args.size() > 2 else null
+	return {"source_owner": "PortGame.source_block_setup_requirements_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public void setupRequirements(Category cat, BuildVisibility visible, ItemStack[] stacks){", "delegate_call_expr": "requirements(cat, visible, stacks)", "cat": cat, "visible": build_visibility, "stacks": stacks, "delegate_called": true}
 
 func java_method_requirements_114(_args: Array = []) -> Variant:
 	return null
