@@ -17122,6 +17122,37 @@ func generated_block_check_force_dark_bridge_state(force_dark_value: bool, tile:
 		"matches": result == canonical,
 	}
 
+func source_block_is_darkened_state(solid_value: bool, update_value: bool, destructible_value: bool, fills_tile_value: bool, force_dark_value: bool, tile: Variant) -> Dictionary:
+	var synthetic_state = source_block_synthetic_state(update_value, destructible_value)
+	var check_force_dark_state = source_block_check_force_dark_state(force_dark_value, tile)
+	var is_darkened_value: bool = solid_value and ((not bool(synthetic_state["synthetic"]) and fills_tile_value) or bool(check_force_dark_state["check_force_dark"]))
+	return {
+		"source_owner": "PortGame.source_block_is_darkened_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"comment": "/** If true, the 'map edge' darkness will be applied to this block. */",
+		"method": "public boolean isDarkened(Tile tile){",
+		"return_expr": "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));",
+		"solid": solid_value,
+		"fillsTile": fills_tile_value,
+		"synthetic_state": synthetic_state,
+		"check_force_dark_state": check_force_dark_state,
+		"tile": tile,
+		"is_darkened": is_darkened_value,
+	}
+
+func generated_block_is_darkened_bridge_state(solid_value: bool, update_value: bool, destructible_value: bool, fills_tile_value: bool, force_dark_value: bool, tile: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_isDarkened_24([solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile])
+	var canonical = source_block_is_darkened_state(solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile)
+	return {
+		"source_owner": "PortGame.source_block_is_darkened_state",
+		"generated_owner": "Block.java_method_isDarkened_24",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

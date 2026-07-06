@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 753)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 748)
+        self.assertEqual(audit["totalSourceFunctions"], 754)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 749)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 753)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 754)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20387,6 +20387,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_rotated_output_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_synthetic_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_check_force_dark_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_is_darkened_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_display_bars_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_init_state", audit["registeredSourceOwners"])
@@ -43014,6 +43015,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["tile"]["java_expr"], "Tile tile")
         result_schema = source_symbols.state_schema(schema, "source_block_check_force_dark_result")
         self.assertEqual(result_schema["keys"]["check_force_dark"]["java_expr"], "return forceDark;")
+
+    def test_generated_block_is_darkened_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_is_darkened.method")
+        self.assertEqual(method["java_expr"], "public boolean isDarkened(Tile tile){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.isDarkened(Tile tile)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_is_darkened_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_is_darkened_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_is_darkened.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_is_darkened_result.is_darkened")
+
+        is_darkened_slice = source_symbols.source_slice(ledger, "N1280")
+        self.assertEqual(is_darkened_slice["title"], "Generated Block isDarkened bridge state")
+        self.assertEqual(is_darkened_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(is_darkened_slice["java_method"], "Block.isDarkened(Tile tile)")
+        self.assertEqual(is_darkened_slice["godot_owner"], "PortGame.source_block_is_darkened_state")
+        self.assertEqual(is_darkened_slice["generated_owner"], "Block.java_method_isDarkened_24")
+        self.assertEqual(is_darkened_slice["runtime_proof"], "/root/Main.generated_block_is_darkened_bridge_state")
+        for expr in [
+            "/** If true, the 'map edge' darkness will be applied to this block. */",
+            "public boolean isDarkened(Tile tile){",
+            "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));",
+        ]:
+            self.assertIn(expr, is_darkened_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_is_darkened_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["solid_value", "update_value", "destructible_value", "fills_tile_value", "force_dark_value", "tile"],
+        )
+        for key in ["source_owner", "source", "comment", "method", "return_expr", "solid", "fillsTile", "synthetic_state", "check_force_dark_state", "tile", "is_darkened"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_is_darkened_input")
+        self.assertEqual(input_schema["keys"]["solid"]["java_expr"], "solid")
+        self.assertEqual(input_schema["keys"]["fillsTile"]["java_expr"], "fillsTile")
+        self.assertEqual(input_schema["keys"]["tile"]["java_expr"], "Tile tile")
+        result_schema = source_symbols.state_schema(schema, "source_block_is_darkened_result")
+        self.assertEqual(result_schema["keys"]["is_darkened"]["java_expr"], "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

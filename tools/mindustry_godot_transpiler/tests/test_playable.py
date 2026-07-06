@@ -15962,5 +15962,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_checkForceDark_23"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_is_darkened_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_is_darkened_state(solid_value: bool, update_value: bool, destructible_value: bool, fills_tile_value: bool, force_dark_value: bool, tile: Variant) -> Dictionary:", source)
+        self.assertIn("var synthetic_state = source_block_synthetic_state(update_value, destructible_value)", source)
+        self.assertIn("var check_force_dark_state = source_block_check_force_dark_state(force_dark_value, tile)", source)
+        self.assertIn("var is_darkened_value: bool = solid_value and ((not bool(synthetic_state[\"synthetic\"]) and fills_tile_value) or bool(check_force_dark_state[\"check_force_dark\"]))", source)
+        self.assertIn('"source_owner": "PortGame.source_block_is_darkened_state"', source)
+        self.assertIn('"comment": "/** If true, the \'map edge\' darkness will be applied to this block. */"', source)
+        self.assertIn('"method": "public boolean isDarkened(Tile tile){"', source)
+        self.assertIn('"return_expr": "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));"', source)
+        self.assertIn('"synthetic_state": synthetic_state', source)
+        self.assertIn('"check_force_dark_state": check_force_dark_state', source)
+        self.assertIn('"is_darkened": is_darkened_value', source)
+
+    def test_port_game_exposes_generated_block_is_darkened_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_is_darkened_bridge_state(solid_value: bool, update_value: bool, destructible_value: bool, fills_tile_value: bool, force_dark_value: bool, tile: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_isDarkened_24([solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile])", source)
+        self.assertIn("var canonical = source_block_is_darkened_state(solid_value, update_value, destructible_value, fills_tile_value, force_dark_value, tile)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_is_darkened_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_isDarkened_24"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

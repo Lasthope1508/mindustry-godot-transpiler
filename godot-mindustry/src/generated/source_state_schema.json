@@ -113487,6 +113487,218 @@
       "runtime_proof": "/root/Main.source_block_check_force_dark_state",
       "source_slice": "N1279",
       "status": "active"
+    },
+    "source_block_is_darkened_input": {
+      "rule": "Inputs for PortGame.source_block_is_darkened_state.",
+      "keys": {
+        "solid": {
+          "godot_symbol": "source_block_is_darkened_input.solid",
+          "java_expr": "solid",
+          "java_method": "Block.isDarkened(Tile tile)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "update": {
+          "godot_symbol": "source_block_is_darkened_input.update",
+          "java_expr": "update",
+          "java_method": "Block.isDarkened(Tile tile)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "destructible": {
+          "godot_symbol": "source_block_is_darkened_input.destructible",
+          "java_expr": "destructible",
+          "java_method": "Block.isDarkened(Tile tile)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "fillsTile": {
+          "godot_symbol": "source_block_is_darkened_input.fillsTile",
+          "java_expr": "fillsTile",
+          "java_method": "Block.isDarkened(Tile tile)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "forceDark": {
+          "godot_symbol": "source_block_is_darkened_input.forceDark",
+          "java_expr": "forceDark",
+          "java_method": "Block.isDarkened(Tile tile)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "tile": {
+          "godot_symbol": "source_block_is_darkened_input.tile",
+          "java_expr": "Tile tile",
+          "java_method": "Block.isDarkened(Tile tile)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_is_darkened_state",
+      "runtime_proof": "/root/Main.source_block_is_darkened_state",
+      "source_slice": "N1280",
+      "status": "active"
+    },
+    "source_block_is_darkened_result": {
+      "rule": "Dictionary returned by PortGame.source_block_is_darkened_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_is_darkened_result.source_owner",
+          "java_expr": "PortGame.source_block_is_darkened_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_is_darkened_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "metadata",
+          "type": "String"
+        },
+        "comment": {
+          "godot_symbol": "source_block_is_darkened_result.comment",
+          "java_expr": "/** If true, the 'map edge' darkness will be applied to this block. */",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "source_symbols": [
+            "block_is_darkened.comment"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_is_darkened_result.method",
+          "java_expr": "public boolean isDarkened(Tile tile){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "source_symbols": [
+            "block_is_darkened.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_is_darkened_result.return_expr",
+          "java_expr": "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "source_symbols": [
+            "block_is_darkened.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "solid": {
+          "godot_symbol": "source_block_is_darkened_result.solid",
+          "java_expr": "solid",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "fillsTile": {
+          "godot_symbol": "source_block_is_darkened_result.fillsTile",
+          "java_expr": "fillsTile",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "synthetic_state": {
+          "godot_symbol": "source_block_is_darkened_result.synthetic_state",
+          "java_expr": "synthetic()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "source_symbols": [
+            "block_is_darkened.synthetic_call"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "check_force_dark_state": {
+          "godot_symbol": "source_block_is_darkened_result.check_force_dark_state",
+          "java_expr": "checkForceDark(tile)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "source_symbols": [
+            "block_is_darkened.check_force_dark_call"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "tile": {
+          "godot_symbol": "source_block_is_darkened_result.tile",
+          "java_expr": "Tile tile",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "is_darkened": {
+          "godot_symbol": "source_block_is_darkened_result.is_darkened",
+          "java_expr": "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_is_darkened_state"
+          ],
+          "source_symbols": [
+            "block_is_darkened.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_is_darkened_state",
+      "runtime_proof": "/root/Main.source_block_is_darkened_state",
+      "source_slice": "N1280",
+      "status": "active"
     }
   },
   "version": 1

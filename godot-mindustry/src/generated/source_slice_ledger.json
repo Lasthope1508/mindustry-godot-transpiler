@@ -29658,6 +29658,37 @@
         "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block checkForceDark bridge state"
+    },
+    "N1280": {
+      "exact_exprs": [
+        "/** If true, the 'map edge' darkness will be applied to this block. */",
+        "public boolean isDarkened(Tile tile){",
+        "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));",
+        "synthetic()",
+        "checkForceDark(tile)"
+      ],
+      "generated_owner": "Block.java_method_isDarkened_24",
+      "godot_owner": "PortGame.source_block_is_darkened_state",
+      "java_class": "Block",
+      "java_method": "Block.isDarkened(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_darkened_bridge_state",
+      "source_symbols": [
+        "block_is_darkened.comment",
+        "block_is_darkened.method",
+        "block_is_darkened.return_expr",
+        "block_is_darkened.synthetic_call",
+        "block_is_darkened.check_force_dark_call"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_darkened_to_source_state",
+        "test_port_game_exposes_source_block_is_darkened_state",
+        "test_port_game_exposes_generated_block_is_darkened_bridge_state",
+        "test_block_is_darkened_matches_upstream_source",
+        "test_generated_block_is_darkened_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isDarkened bridge state"
     }
   },
   "version": 1

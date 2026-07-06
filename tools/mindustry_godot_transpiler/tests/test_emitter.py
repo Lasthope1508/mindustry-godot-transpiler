@@ -7496,6 +7496,46 @@ public class Block{
             self.assertIn('"force_dark": force_dark_value', source_text)
             self.assertIn('"tile": tile', source_text)
 
+    def test_emit_bridges_block_is_darkened_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    /** If true, the 'map edge' darkness will be applied to this block. */
+    public boolean isDarkened(Tile tile){
+        return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_isDarkened_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar solid_value: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\tvar update_value: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\tvar destructible_value: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("\tvar fills_tile_value: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("\tvar force_dark_value: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("\tvar tile: Variant = _args[5] if _args.size() > 5 else null", source_text)
+            self.assertIn("\tvar synthetic_state := {", source_text)
+            self.assertIn("\tvar check_force_dark_state := {", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_is_darkened_state"', source_text)
+            self.assertIn('"comment": "/** If true, the \'map edge\' darkness will be applied to this block. */"', source_text)
+            self.assertIn('"method": "public boolean isDarkened(Tile tile){"', source_text)
+            self.assertIn('"return_expr": "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));"', source_text)
+            self.assertIn('"is_darkened": is_darkened_value', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

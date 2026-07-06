@@ -31530,6 +31530,66 @@
         "test_block_check_force_dark_matches_upstream_source",
         "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_is_darkened_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "name": "solid_value",
+          "schema": "source_block_is_darkened_input.solid",
+          "type": "bool"
+        },
+        {
+          "name": "update_value",
+          "schema": "source_block_is_darkened_input.update",
+          "type": "bool"
+        },
+        {
+          "name": "destructible_value",
+          "schema": "source_block_is_darkened_input.destructible",
+          "type": "bool"
+        },
+        {
+          "name": "fills_tile_value",
+          "schema": "source_block_is_darkened_input.fillsTile",
+          "type": "bool"
+        },
+        {
+          "name": "force_dark_value",
+          "schema": "source_block_is_darkened_input.forceDark",
+          "type": "bool"
+        },
+        {
+          "name": "tile",
+          "schema": "source_block_is_darkened_input.tile",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "return_expr",
+        "solid",
+        "fillsTile",
+        "synthetic_state",
+        "check_force_dark_state",
+        "tile",
+        "is_darkened"
+      ],
+      "rule": "Public runtime contract for Block.isDarkened(Tile) generated bridge state.",
+      "runtime_proof": "/root/Main.source_block_is_darkened_state",
+      "source_method": "Block.isDarkened(Tile tile)",
+      "source_slice": "N1280",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_is_darkened_to_source_state",
+        "test_port_game_exposes_source_block_is_darkened_state",
+        "test_port_game_exposes_generated_block_is_darkened_bridge_state",
+        "test_block_is_darkened_matches_upstream_source",
+        "test_generated_block_is_darkened_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
