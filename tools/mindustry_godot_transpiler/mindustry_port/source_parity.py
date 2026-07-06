@@ -10036,6 +10036,21 @@ def verify_block_consume_power_buffered_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_block_consume_item_single_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public ConsumeItems consumeItem(Item item){",
+        "return_expr": "return consumeItem(item, 1);",
+        "delegate_call_expr": "consumeItem(item, 1)",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

@@ -16467,5 +16467,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_consumePowerBuffered_105"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_consume_item_single_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_consume_item_single_state(item: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_item_single_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public ConsumeItems consumeItem(Item item){"', source)
+        self.assertIn('"return_expr": "return consumeItem(item, 1);"', source)
+        self.assertIn('"delegate_call_expr": "consumeItem(item, 1)"', source)
+        self.assertIn('"item": item', source)
+        self.assertIn('"amount": 1', source)
+        self.assertIn('"delegate_called": true', source)
+
+    def test_port_game_exposes_generated_block_consume_item_single_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_consume_item_single_bridge_state(item: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_consumeItem_106([item])", source)
+        self.assertIn("var canonical = source_block_consume_item_single_state(item)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_consume_item_single_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_consumeItem_106"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

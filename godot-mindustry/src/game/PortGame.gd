@@ -17619,6 +17619,31 @@ func generated_block_consume_power_buffered_bridge_state(power_capacity: float) 
 		"matches": result == canonical,
 	}
 
+func source_block_consume_item_single_state(item: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_block_consume_item_single_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public ConsumeItems consumeItem(Item item){",
+		"return_expr": "return consumeItem(item, 1);",
+		"delegate_call_expr": "consumeItem(item, 1)",
+		"item": item,
+		"amount": 1,
+		"delegate_called": true,
+	}
+
+func generated_block_consume_item_single_bridge_state(item: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_consumeItem_106([item])
+	var canonical = source_block_consume_item_single_state(item)
+	return {
+		"source_owner": "PortGame.source_block_consume_item_single_state",
+		"generated_owner": "Block.java_method_consumeItem_106",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

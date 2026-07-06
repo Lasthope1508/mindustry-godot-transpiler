@@ -18174,6 +18174,139 @@
       "source_slice": "N1279",
       "status": "active"
     },
+    "source_block_consume_item_single_input": {
+      "keys": {
+        "item": {
+          "godot_symbol": "source_block_consume_item_single_input.item",
+          "java_expr": "Item item",
+          "java_method": "Block.consumeItem(Item)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_single_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_single.item"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_consume_item_single_state",
+      "rule": "Inputs for PortGame.source_block_consume_item_single_state.",
+      "runtime_proof": "/root/Main.source_block_consume_item_single_state",
+      "source_slice": "N1298",
+      "status": "active"
+    },
+    "source_block_consume_item_single_result": {
+      "keys": {
+        "amount": {
+          "godot_symbol": "source_block_consume_item_single_result.amount",
+          "java_expr": "1",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_single_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_single.amount"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "delegate_call_expr": {
+          "godot_symbol": "source_block_consume_item_single_result.delegate_call_expr",
+          "java_expr": "consumeItem(item, 1)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_single_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_single.delegate_call_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "delegate_called": {
+          "godot_symbol": "source_block_consume_item_single_result.delegate_called",
+          "java_expr": "consumeItem(item, 1)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_single_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_single.delegate_call_expr",
+            "block_consume_item_single.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "item": {
+          "godot_symbol": "source_block_consume_item_single_result.item",
+          "java_expr": "Item item",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_single_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_single.item"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "method": {
+          "godot_symbol": "source_block_consume_item_single_result.method",
+          "java_expr": "public ConsumeItems consumeItem(Item item){",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_single_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_single.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_consume_item_single_result.return_expr",
+          "java_expr": "return consumeItem(item, 1);",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_single_state"
+          ],
+          "source_symbols": [
+            "block_consume_item_single.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_consume_item_single_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_single_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_consume_item_single_result.source_owner",
+          "java_expr": "PortGame.source_block_consume_item_single_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_consume_item_single_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_consume_item_single_state",
+      "rule": "Dictionary returned by PortGame.source_block_consume_item_single_state.",
+      "runtime_proof": "/root/Main.source_block_consume_item_single_state",
+      "source_slice": "N1298",
+      "status": "active"
+    },
     "source_block_consume_liquid_input": {
       "keys": {
         "amount": {

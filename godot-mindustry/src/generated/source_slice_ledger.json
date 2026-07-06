@@ -9598,6 +9598,37 @@
       ],
       "title": "Generated Block consumePowerBuffered bridge state"
     },
+    "N1298": {
+      "exact_exprs": [
+        "public ConsumeItems consumeItem(Item item){",
+        "return consumeItem(item, 1);",
+        "consumeItem(item, 1)",
+        "Item item",
+        "1"
+      ],
+      "generated_owner": "Block.java_method_consumeItem_106",
+      "godot_owner": "PortGame.source_block_consume_item_single_state",
+      "java_class": "Block",
+      "java_method": "Block.consumeItem(Item)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consume_item_single_bridge_state",
+      "source_symbols": [
+        "block_consume_item_single.method",
+        "block_consume_item_single.return_expr",
+        "block_consume_item_single.delegate_call_expr",
+        "block_consume_item_single.item",
+        "block_consume_item_single.amount"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_item_single_to_source_state",
+        "test_port_game_exposes_source_block_consume_item_single_state",
+        "test_port_game_exposes_generated_block_consume_item_single_bridge_state",
+        "test_block_consume_item_single_matches_upstream_source",
+        "test_generated_block_consume_item_single_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumeItem single bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
