@@ -13424,6 +13424,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.coolant_used"', source)
         self.assertIn('"matches": result.get("used", null) == canonical.get("used", null) and result.get("max_used_time_delta", null) == canonical.get("max_used_time_delta", null)', source)
 
+    def test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_remove_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_tractor_beam_turret_build_update_tile_coolant_remove_state(coolant_guard: bool, liquid: Variant, used: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state"', source)
+        self.assertIn('"method": "public void updateTile(){"', source)
+        self.assertIn('"remove_expr": "liquids.remove(liquid, used);"', source)
+        self.assertIn("var remove_called: bool = coolant_guard", source)
+        self.assertIn("var remove_call: Dictionary = {}", source)
+        self.assertIn("if remove_called:", source)
+        self.assertIn('remove_call = {"call": "liquids.remove(liquid, used);", "liquid": liquid, "amount": used}', source)
+
+    def test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity])", source)
+        self.assertIn("var canonical = source_tractor_beam_turret_build_update_tile_coolant_remove_state(result.get(\"coolant_guard\", false), result.get(\"liquid\", null), result.get(\"used\", 0.0))", source)
+        self.assertIn('"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state"', source)
+        self.assertIn('"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.coolant_remove"', source)
+        self.assertIn('"matches": result.get("remove_called", null) == canonical.get("remove_called", null) and result.get("remove_call", null) == canonical.get("remove_call", null)', source)
+
     def test_port_game_exposes_source_tractor_beam_turret_build_draw_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

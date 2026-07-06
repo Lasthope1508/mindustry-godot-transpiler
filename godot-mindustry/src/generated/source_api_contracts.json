@@ -29832,6 +29832,50 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_used_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile coolant used formula."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state": {
+      "status": "source-backed",
+      "source_slice": "N1245",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() coolant remove",
+      "params": [
+        {
+          "name": "coolant_guard",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_remove_input.coolant_guard"
+        },
+        {
+          "name": "liquid",
+          "type": "Variant",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_remove_input.liquid"
+        },
+        {
+          "name": "used",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_remove_input.used"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "coolant_guard_expr",
+        "used_expr",
+        "remove_expr",
+        "coolant_guard",
+        "liquid",
+        "used",
+        "remove_called",
+        "remove_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_remove_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_remove_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_remove_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile coolant liquid removal side-effect."
     }
   },
   "policy": {

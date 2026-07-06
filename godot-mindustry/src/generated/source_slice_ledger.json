@@ -28626,6 +28626,32 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state",
       "rule": "Inside the coolant guard, TractorBeamBuild.updateTile computes used as Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity)); removal/effects/multiplier update stay deferred."
+    },
+    "N1245": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() coolant remove",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(target != null && coolant != null){",
+        "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
+        "liquids.remove(liquid, used);"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_remove.method",
+        "tractor_beam_turret_build_update_tile_coolant_remove.remove"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_remove_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_remove_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_remove_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
+      "rule": "Inside the coolant guard, TractorBeamBuild.updateTile removes the exact computed used amount from liquids. LiquidModule internal clamping/effects stay deferred."
     }
   },
   "version": 1

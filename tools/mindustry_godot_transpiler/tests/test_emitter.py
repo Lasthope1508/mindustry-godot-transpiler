@@ -8291,6 +8291,63 @@ public class TractorBeamTurret extends BaseTurret{
             self.assertIn('"liquid_heat_capacity": liquid_heat_capacity', source_text)
             self.assertIn('"used": used', source_text)
 
+    def test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_remove_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            turret_path = source_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.java"
+            turret_path.parent.mkdir(parents=True, exist_ok=True)
+            turret_path.write_text(
+                """
+package mindustry.world.blocks.defense.turrets;
+
+public class TractorBeamTurret extends BaseTurret{
+    public class TractorBeamBuild extends BaseTurretBuild{
+        @Override
+        public void updateTile(){
+            if(activationTimer > 0){
+                activationTimer -= Time.delta;
+                return;
+            }
+
+            float eff = efficiency * coolantMultiplier, edelta = eff * delta();
+
+            //retarget
+            if(timer(timerTarget, retargetTime)){
+                target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));
+            }
+
+            //consume coolant
+            if(target != null && coolant != null){
+                float maxUsed = coolant.amount;
+
+                Liquid liquid = liquids.current();
+
+                float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));
+
+                liquids.remove(liquid, used);
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "defense" / "turrets" / "TractorBeamTurret.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_TractorBeamBuild_method_updateTile_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var remove_called: bool = coolant_guard", source_text)
+            self.assertIn("var remove_call: Dictionary = {}", source_text)
+            self.assertIn("if remove_called:", source_text)
+            self.assertIn('remove_call = {"call": "liquids.remove(liquid, used);", "liquid": liquid, "amount": used}', source_text)
+            self.assertIn('"remove_expr": "liquids.remove(liquid, used);"', source_text)
+            self.assertIn('"remove_called": remove_called', source_text)
+            self.assertIn('"remove_call": remove_call', source_text)
+
     def test_emit_bridges_tractor_beam_turret_build_draw_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

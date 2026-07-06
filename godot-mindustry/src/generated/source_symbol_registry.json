@@ -92172,6 +92172,40 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() coolant used",
       "java_expr": "liquids.remove(liquid, used);"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_remove.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_remove_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for coolant remove slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_remove_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_remove_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_remove_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant remove",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_remove.remove": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_remove_result.remove_call",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+      "rule": "Source coolant removal side-effect call.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_remove_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_remove_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_remove_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant remove",
+      "java_expr": "liquids.remove(liquid, used);"
     }
   },
   "version": 1

@@ -107721,6 +107721,107 @@
           "java_expr": "Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity))"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_coolant_remove_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state.",
+      "keys": {
+        "coolant_guard": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "target != null && coolant != null"
+        },
+        "liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "liquids.current()"
+        },
+        "used": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "used"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_coolant_remove_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "public void updateTile(){"
+        },
+        "coolant_guard_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "if(target != null && coolant != null){"
+        },
+        "used_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));"
+        },
+        "remove_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "liquids.remove(liquid, used);"
+        },
+        "coolant_guard": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "target != null && coolant != null"
+        },
+        "liquid": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "liquids.current()"
+        },
+        "used": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "used"
+        },
+        "remove_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "target != null && coolant != null"
+        },
+        "remove_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant remove",
+          "java_expr": "liquids.remove(liquid, used);"
+        }
+      }
     }
   },
   "version": 1

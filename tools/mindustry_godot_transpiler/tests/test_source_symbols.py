@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 718)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 713)
+        self.assertEqual(audit["totalSourceFunctions"], 719)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 714)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 718)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 719)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43321,6 +43321,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["max_used_time_delta"]["java_expr"], "maxUsed * Time.delta")
         self.assertEqual(result_schema["keys"]["heat_capacity_limit"]["java_expr"], "(1f / coolantMultiplier) / liquid.heatCapacity")
         self.assertEqual(result_schema["keys"]["used"]["java_expr"], "Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity))")
+
+    def test_generated_tractor_beam_turret_build_update_tile_coolant_remove_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_coolant_remove.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() coolant remove")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_remove_state")
+
+        remove = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_coolant_remove.remove")
+        self.assertEqual(remove["java_expr"], "liquids.remove(liquid, used);")
+        self.assertEqual(remove["godot_symbol"], "source_tractor_beam_turret_build_update_tile_coolant_remove_result.remove_call")
+
+        remove_slice = source_symbols.source_slice(ledger, "N1245")
+        self.assertEqual(remove_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(remove_slice["java_method"], "TractorBeamBuild.updateTile() coolant remove")
+        self.assertEqual(remove_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state")
+        self.assertEqual(remove_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state")
+        for expr in [
+            "public void updateTile(){",
+            "if(target != null && coolant != null){",
+            "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
+            "liquids.remove(liquid, used);",
+        ]:
+            self.assertIn(expr, remove_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["coolant_guard", "liquid", "used"],
+        )
+        for key in ["source_owner", "method", "coolant_guard_expr", "used_expr", "remove_expr", "coolant_guard", "liquid", "used", "remove_called", "remove_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_coolant_remove_input")
+        self.assertEqual(input_schema["keys"]["coolant_guard"]["java_expr"], "target != null && coolant != null")
+        self.assertEqual(input_schema["keys"]["liquid"]["java_expr"], "liquids.current()")
+        self.assertEqual(input_schema["keys"]["used"]["java_expr"], "used")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_coolant_remove_result")
+        self.assertEqual(result_schema["keys"]["remove_called"]["java_expr"], "target != null && coolant != null")
+        self.assertEqual(result_schema["keys"]["remove_call"]["java_expr"], "liquids.remove(liquid, used);")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
