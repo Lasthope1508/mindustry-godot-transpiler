@@ -17304,6 +17304,32 @@ func generated_block_can_be_built_bridge_state(build_visibility_value: String) -
 		"matches": result == canonical,
 	}
 
+func source_block_is_static_state(cache_layer_value: String) -> Dictionary:
+	var is_static_value: bool = cache_layer_value == "walls"
+	return {
+		"source_owner": "PortGame.source_block_is_static_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"cache_layer_source": "core/src/mindustry/graphics/CacheLayer.java",
+		"method": "public boolean isStatic(){",
+		"return_expr": "return cacheLayer == CacheLayer.walls;",
+		"cacheLayer": cache_layer_value,
+		"walls_constant": "CacheLayer.walls",
+		"is_static": is_static_value,
+	}
+
+func generated_block_is_static_bridge_state(cache_layer_value: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_isStatic_94([cache_layer_value])
+	var canonical = source_block_is_static_state(cache_layer_value)
+	return {
+		"source_owner": "PortGame.source_block_is_static_state",
+		"generated_owner": "Block.java_method_isStatic_94",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

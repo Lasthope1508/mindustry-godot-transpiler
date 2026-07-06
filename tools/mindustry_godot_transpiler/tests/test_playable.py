@@ -16147,5 +16147,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_canBeBuilt_92"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_is_static_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_is_static_state(cache_layer_value: String) -> Dictionary:", source)
+        self.assertIn('var is_static_value: bool = cache_layer_value == "walls"', source)
+        self.assertIn('"source_owner": "PortGame.source_block_is_static_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"cache_layer_source": "core/src/mindustry/graphics/CacheLayer.java"', source)
+        self.assertIn('"method": "public boolean isStatic(){"', source)
+        self.assertIn('"return_expr": "return cacheLayer == CacheLayer.walls;"', source)
+        self.assertIn('"cacheLayer": cache_layer_value', source)
+        self.assertIn('"walls_constant": "CacheLayer.walls"', source)
+        self.assertIn('"is_static": is_static_value', source)
+
+    def test_port_game_exposes_generated_block_is_static_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_is_static_bridge_state(cache_layer_value: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_isStatic_94([cache_layer_value])", source)
+        self.assertIn("var canonical = source_block_is_static_state(cache_layer_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_is_static_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_isStatic_94"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

@@ -54,6 +54,7 @@ HEALTH_COMP_SOURCE = "core/src/mindustry/entities/comp/HealthComp.java"
 STATUS_COMP_SOURCE = "core/src/mindustry/entities/comp/StatusComp.java"
 BLOCK_SOURCE = "core/src/mindustry/world/Block.java"
 BUILD_VISIBILITY_SOURCE = "core/src/mindustry/world/meta/BuildVisibility.java"
+CACHE_LAYER_SOURCE = "core/src/mindustry/graphics/CacheLayer.java"
 CORE_BLOCK_SOURCE = "core/src/mindustry/world/blocks/storage/CoreBlock.java"
 ITEM_MODULE_SOURCE = "core/src/mindustry/world/modules/ItemModule.java"
 WORLD_SOURCE = "core/src/mindustry/core/World.java"
@@ -9843,6 +9844,25 @@ def verify_block_can_be_built_source(upstream_root: Path) -> dict[str, Any]:
     return {
         "source": BLOCK_SOURCE,
         "build_visibility_source": BUILD_VISIBILITY_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_block_is_static_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    cache_layer_path = Path(upstream_root) / CACHE_LAYER_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    cache_layer_source = cache_layer_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public boolean isStatic(){",
+        "return_expr": "return cacheLayer == CacheLayer.walls;",
+        "walls_constant": "walls = new CacheLayer()",
+    }
+    missing = [snippet for snippet in [checked["method"], checked["return_expr"]] if snippet not in source]
+    missing.extend(snippet for snippet in [checked["walls_constant"]] if snippet not in cache_layer_source)
+    return {
+        "source": BLOCK_SOURCE,
+        "cache_layer_source": CACHE_LAYER_SOURCE,
         "checked": checked,
         "missing": missing,
     }

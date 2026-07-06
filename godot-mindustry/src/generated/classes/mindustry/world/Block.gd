@@ -340,7 +340,9 @@ func java_method_environmentBuildable_93(_args: Array = []) -> Variant:
 	return null
 
 func java_method_isStatic_94(_args: Array = []) -> Variant:
-	return null
+	var cache_layer_value: String = str(_args[0] if _args.size() > 0 else "normal")
+	var is_static_value: bool = cache_layer_value == "walls"
+	return {"source_owner": "PortGame.source_block_is_static_state", "source": "core/src/mindustry/world/Block.java", "cache_layer_source": "core/src/mindustry/graphics/CacheLayer.java", "method": "public boolean isStatic(){", "return_expr": "return cacheLayer == CacheLayer.walls;", "cacheLayer": cache_layer_value, "walls_constant": "CacheLayer.walls", "is_static": is_static_value}
 
 func java_method_findConsumer_95(_args: Array = []) -> Variant:
 	return null

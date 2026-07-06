@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 760)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 755)
+        self.assertEqual(audit["totalSourceFunctions"], 761)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 756)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 760)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 761)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43337,6 +43337,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["buildVisibility"]["java_expr"], "buildVisibility")
         result_schema = source_symbols.state_schema(schema, "source_block_can_be_built_result")
         self.assertEqual(result_schema["keys"]["can_be_built"]["java_expr"], "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;")
+
+    def test_generated_block_is_static_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_is_static.method")
+        self.assertEqual(method["java_expr"], "public boolean isStatic(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.isStatic()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_is_static_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_is_static_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_is_static.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return cacheLayer == CacheLayer.walls;")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_is_static_result.is_static")
+
+        cache_layer = source_symbols.source_symbol(registry, "block_is_static.cache_layer")
+        self.assertEqual(cache_layer["java_expr"], "cacheLayer")
+        self.assertEqual(cache_layer["godot_symbol"], "source_block_is_static_input.cacheLayer")
+
+        walls_constant = source_symbols.source_symbol(registry, "block_is_static.walls_constant")
+        self.assertEqual(walls_constant["java_expr"], "CacheLayer.walls")
+        self.assertEqual(walls_constant["godot_symbol"], "source_block_is_static_result.walls_constant")
+
+        is_static_slice = source_symbols.source_slice(ledger, "N1287")
+        self.assertEqual(is_static_slice["title"], "Generated Block isStatic bridge state")
+        self.assertEqual(is_static_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(is_static_slice["java_method"], "Block.isStatic()")
+        self.assertEqual(is_static_slice["godot_owner"], "PortGame.source_block_is_static_state")
+        self.assertEqual(is_static_slice["generated_owner"], "Block.java_method_isStatic_94")
+        self.assertEqual(is_static_slice["runtime_proof"], "/root/Main.generated_block_is_static_bridge_state")
+        for expr in [
+            "public boolean isStatic(){",
+            "return cacheLayer == CacheLayer.walls;",
+        ]:
+            self.assertIn(expr, is_static_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_is_static_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["cache_layer_value"])
+        for key in ["source_owner", "source", "cache_layer_source", "method", "return_expr", "cacheLayer", "walls_constant", "is_static"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_is_static_input")
+        self.assertEqual(input_schema["keys"]["cacheLayer"]["java_expr"], "cacheLayer")
+        result_schema = source_symbols.state_schema(schema, "source_block_is_static_result")
+        self.assertEqual(result_schema["keys"]["is_static"]["java_expr"], "return cacheLayer == CacheLayer.walls;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

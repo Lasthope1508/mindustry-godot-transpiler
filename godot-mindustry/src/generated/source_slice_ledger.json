@@ -7442,6 +7442,1814 @@
         "test_generated_continuous_liquid_turret_build_accept_item_slice_is_registered_with_source_backing"
       ]
     },
+    "N1231": {
+      "deferred_exprs": [
+        "ObjectMap<Liquid, BulletType>, LiquidModule, Building, and Liquid internals stay deferred; explicit inputs carry exact Java lookup results.",
+        "Replacement threshold is evaluated only on the Java short-circuit path where ammoTypes.get(liquid) is non-null, current liquid differs, and ammoTypes.containsKey(liquids.current()) is true."
+      ],
+      "exact_exprs": [
+        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
+        "boolean activated;",
+        "@Override",
+        "public boolean acceptLiquid(Building source, Liquid liquid){",
+        "return ammoTypes.get(liquid) != null &&",
+        "(liquids.current() == liquid ||",
+        "((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));"
+      ],
+      "godot_owner": "PortGame.source_continuous_liquid_turret_build_accept_liquid_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
+      "java_method": "ContinuousLiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
+      "rule": "ContinuousLiquidTurretBuild.acceptLiquid accepts liquids with ammo types, same current liquid, or drained/unmapped current liquid replacement gate.",
+      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_accept_liquid_bridge_state",
+      "source_symbols": [
+        "continuous_liquid_turret_build_accept_liquid.method",
+        "continuous_liquid_turret_build_accept_liquid.source_building",
+        "continuous_liquid_turret_build_accept_liquid.liquid",
+        "continuous_liquid_turret_build_accept_liquid.ammo_type",
+        "continuous_liquid_turret_build_accept_liquid.current_liquid",
+        "continuous_liquid_turret_build_accept_liquid.current_liquid_ammo_type_present",
+        "continuous_liquid_turret_build_accept_liquid.current_liquid_amount",
+        "continuous_liquid_turret_build_accept_liquid.current_ammo_multiplier",
+        "continuous_liquid_turret_build_accept_liquid.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_continuous_liquid_turret_build_accept_liquid_to_source_state",
+        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_liquid_state",
+        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_liquid_bridge_state",
+        "test_continuous_liquid_turret_build_accept_liquid_matches_upstream_source",
+        "test_generated_continuous_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1232": {
+      "deferred_exprs": [
+        "TextureRegion internals and inherited region loading remain deferred; explicit inputs carry baseRegion and region field values."
+      ],
+      "exact_exprs": [
+        "public @Load(value = \"@-base\", fallback = \"block-@size\") TextureRegion baseRegion;",
+        "@Override",
+        "public TextureRegion[] icons(){",
+        "return new TextureRegion[]{baseRegion, region};"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_icons_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamTurret.icons()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamTurret.icons returns baseRegion then region exactly as upstream.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_icons_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_icons.method",
+        "tractor_beam_turret_icons.base_region",
+        "tractor_beam_turret_icons.region",
+        "tractor_beam_turret_icons.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_icons_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_icons_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state",
+        "test_tractor_beam_turret_icons_matches_upstream_source",
+        "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1233": {
+      "deferred_exprs": [
+        "Stats storage, Stat objects, StatUnit formatting, and inherited BaseTurret.setStats internals remain deferred; this slice records exact TractorBeamTurret stat calls and computed damage per second."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void setStats(){",
+        "super.setStats();",
+        "stats.add(Stat.targetsAir, targetAir);",
+        "stats.add(Stat.targetsGround, targetGround);",
+        "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_set_stats_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamTurret.setStats()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamTurret.setStats adds targetAir, targetGround, and positive damage per-second stats exactly as upstream.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_set_stats_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_set_stats.method",
+        "tractor_beam_turret_set_stats.target_air",
+        "tractor_beam_turret_set_stats.target_ground",
+        "tractor_beam_turret_set_stats.damage",
+        "tractor_beam_turret_set_stats.damage_per_second"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_set_stats_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_set_stats_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_set_stats_bridge_state",
+        "test_tractor_beam_turret_set_stats_matches_upstream_source",
+        "test_generated_tractor_beam_turret_set_stats_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1234": {
+      "deferred_exprs": [
+        "Inherited BaseTurret.init internals and Block.updateClipRadius side effects remain deferred; this slice records the exact TractorBeamTurret updateClipRadius argument."
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public void init(){",
+        "super.init();",
+        "updateClipRadius(range + tilesize);"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_init_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamTurret.init()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamTurret.init calls super.init and updates clip radius with range plus tilesize exactly as upstream.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_init_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_init.method",
+        "tractor_beam_turret_init.range",
+        "tractor_beam_turret_init.tilesize",
+        "tractor_beam_turret_init.clip_radius"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_init_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_init_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_init_bridge_state",
+        "test_tractor_beam_turret_init_matches_upstream_source",
+        "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1235": {
+      "deferred_exprs": [
+        "BaseTurretBuild.super.shouldConsume() internals",
+        "target acquisition lifecycle outside shouldConsume"
+      ],
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "public @Nullable Unit target;",
+        "@Override",
+        "public boolean shouldConsume(){",
+        "return super.shouldConsume() && target != null;"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.shouldConsume()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.shouldConsume returns super.shouldConsume() && target != null.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_should_consume_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_should_consume.method",
+        "tractor_beam_turret_build_should_consume.super_should_consume",
+        "tractor_beam_turret_build_should_consume.target",
+        "tractor_beam_turret_build_should_consume.target_present",
+        "tractor_beam_turret_build_should_consume.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state",
+        "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1236": {
+      "deferred_exprs": [
+        "BaseTurretBuild inherited efficiency lifecycle",
+        "TractorBeamBuild any lifecycle outside estimateDps",
+        "coolantMultiplier update lifecycle outside estimateDps"
+      ],
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "public boolean any;",
+        "public float coolantMultiplier = 1f;",
+        "@Override",
+        "public float estimateDps(){",
+        "if(!any || damage <= 0) return 0f;",
+        "return damage * 60f * efficiency * coolantMultiplier;"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.estimateDps()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.estimateDps returns zero when inactive/non-damaging, otherwise damage * 60f * efficiency * coolantMultiplier.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_estimate_dps.method",
+        "tractor_beam_turret_build_estimate_dps.any",
+        "tractor_beam_turret_build_estimate_dps.damage",
+        "tractor_beam_turret_build_estimate_dps.efficiency",
+        "tractor_beam_turret_build_estimate_dps.coolant_multiplier",
+        "tractor_beam_turret_build_estimate_dps.zero_guard",
+        "tractor_beam_turret_build_estimate_dps.return_expr"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
+        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1237": {
+      "deferred_exprs": [
+        "BaseTurretBuild super.write(write) serialized fields outside this slice",
+        "Writes stream implementation outside this source-state bridge"
+      ],
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void write(Writes write){",
+        "super.write(write);",
+        "write.f(rotation);"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_write_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.write(Writes write)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.write delegates inherited serialization then writes rotation as a float.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_write_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_write.method",
+        "tractor_beam_turret_build_write.rotation",
+        "tractor_beam_turret_build_write.super_write",
+        "tractor_beam_turret_build_write.write_rotation"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_write_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_write_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state",
+        "test_tractor_beam_turret_build_write_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1238": {
+      "deferred_exprs": [
+        "BaseTurretBuild super.read(read, revision) deserialized fields outside this slice",
+        "Reads stream implementation outside this source-state bridge"
+      ],
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void read(Reads read, byte revision){",
+        "super.read(read, revision);",
+        "rotation = read.f();"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_read_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.read delegates inherited deserialization then reads rotation from Reads.f().",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_read_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_read.method",
+        "tractor_beam_turret_build_read.read_f_value",
+        "tractor_beam_turret_build_read.revision",
+        "tractor_beam_turret_build_read.super_read",
+        "tractor_beam_turret_build_read.read_rotation"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state",
+        "test_tractor_beam_turret_build_read_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1239": {
+      "deferred_exprs": [
+        "Actual Arc Draw and Drawf rendering side effects are represented as call dictionaries in this slice",
+        "TextureRegion loading and isPayload implementation are supplied as explicit inputs"
+      ],
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void draw(){",
+        "Draw.rect(baseRegion, x, y);",
+        "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
+        "Draw.rect(region, x, y, rotation - 90);",
+        "//draw laser if applicable",
+        "if(any && !isPayload()){",
+        "Draw.z(Layer.bullet);",
+        "float ang = angleTo(lastX, lastY);",
+        "Draw.mixcol(laserColor, Mathf.absin(4f, 0.6f));",
+        "Drawf.laser(laser, laserStart, laserEnd,",
+        "x + Angles.trnsx(ang, shootLength)",
+        "y + Angles.trnsy(ang, shootLength)",
+        "lastX, lastY, strength * efficiency * laserWidth);",
+        "Draw.mixcol();"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_draw_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.draw()",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.draw emits base/shadow/region draw calls and conditionally emits laser draw calls when any && !isPayload().",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_draw_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_draw.method",
+        "tractor_beam_turret_build_draw.base_region",
+        "tractor_beam_turret_build_draw.region",
+        "tractor_beam_turret_build_draw.x",
+        "tractor_beam_turret_build_draw.y",
+        "tractor_beam_turret_build_draw.rotation",
+        "tractor_beam_turret_build_draw.size",
+        "tractor_beam_turret_build_draw.any",
+        "tractor_beam_turret_build_draw.is_payload",
+        "tractor_beam_turret_build_draw.last_x",
+        "tractor_beam_turret_build_draw.last_y",
+        "tractor_beam_turret_build_draw.laser_color",
+        "tractor_beam_turret_build_draw.mathf_absin",
+        "tractor_beam_turret_build_draw.laser_texture",
+        "tractor_beam_turret_build_draw.laser_start_texture",
+        "tractor_beam_turret_build_draw.laser_end_texture",
+        "tractor_beam_turret_build_draw.shoot_length",
+        "tractor_beam_turret_build_draw.strength",
+        "tractor_beam_turret_build_draw.efficiency",
+        "tractor_beam_turret_build_draw.laser_width",
+        "tractor_beam_turret_build_draw.base_rect",
+        "tractor_beam_turret_build_draw.shadow",
+        "tractor_beam_turret_build_draw.region_rect",
+        "tractor_beam_turret_build_draw.laser_guard",
+        "tractor_beam_turret_build_draw.angle",
+        "tractor_beam_turret_build_draw.mixcol",
+        "tractor_beam_turret_build_draw.laser"
+      ],
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_draw_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_draw_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_draw_bridge_state",
+        "test_tractor_beam_turret_build_draw_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_draw_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1240": {
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void updateTile(){",
+        "if(activationTimer > 0){",
+        "activationTimer -= Time.delta;",
+        "return;",
+        "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() activation timer",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "TractorBeamBuild.updateTile subtracts Time.delta from activationTimer and returns early while activationTimer > 0; later updateTile logic is deferred.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_activation.method",
+        "tractor_beam_turret_build_update_tile_activation.inner_class",
+        "tractor_beam_turret_build_update_tile_activation.override",
+        "tractor_beam_turret_build_update_tile_activation.activation_timer",
+        "tractor_beam_turret_build_update_tile_activation.time_delta",
+        "tractor_beam_turret_build_update_tile_activation.guard",
+        "tractor_beam_turret_build_update_tile_activation.decrement",
+        "tractor_beam_turret_build_update_tile_activation.return",
+        "tractor_beam_turret_build_update_tile_activation.next_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1241": {
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void updateTile(){",
+        "return;",
+        "float eff = efficiency * coolantMultiplier, edelta = eff * delta();",
+        "//retarget",
+        "if(timer(timerTarget, retargetTime)){"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "After the activation timer early-return boundary, TractorBeamBuild.updateTile computes eff = efficiency * coolantMultiplier and edelta = eff * delta(); retarget logic is deferred.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_eff.method",
+        "tractor_beam_turret_build_update_tile_eff.inner_class",
+        "tractor_beam_turret_build_update_tile_eff.override",
+        "tractor_beam_turret_build_update_tile_eff.activation_returned_early",
+        "tractor_beam_turret_build_update_tile_eff.efficiency",
+        "tractor_beam_turret_build_update_tile_eff.coolant_multiplier",
+        "tractor_beam_turret_build_update_tile_eff.delta_value",
+        "tractor_beam_turret_build_update_tile_eff.eff_calculated",
+        "tractor_beam_turret_build_update_tile_eff.eff_expr",
+        "tractor_beam_turret_build_update_tile_eff.eff",
+        "tractor_beam_turret_build_update_tile_eff.edelta",
+        "tractor_beam_turret_build_update_tile_eff.retarget_comment",
+        "tractor_beam_turret_build_update_tile_eff.retarget_guard"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1242": {
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void updateTile(){",
+        "float eff = efficiency * coolantMultiplier, edelta = eff * delta();",
+        "//retarget",
+        "if(timer(timerTarget, retargetTime)){",
+        "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+        "u -> u.checkTarget(targetAir, targetGround)"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() retarget",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "After eff/edelta, TractorBeamBuild.updateTile optionally assigns target from Units.closestEnemy when timer(timerTarget, retargetTime) is true; Units.closestEnemy internals stay deferred as explicit input closest_enemy_result.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_retarget.method",
+        "tractor_beam_turret_build_update_tile_retarget.inner_class",
+        "tractor_beam_turret_build_update_tile_retarget.override",
+        "tractor_beam_turret_build_update_tile_retarget.eff_expr",
+        "tractor_beam_turret_build_update_tile_retarget.comment",
+        "tractor_beam_turret_build_update_tile_retarget.guard",
+        "tractor_beam_turret_build_update_tile_retarget.existing_target",
+        "tractor_beam_turret_build_update_tile_retarget.closest_enemy",
+        "tractor_beam_turret_build_update_tile_retarget.team",
+        "tractor_beam_turret_build_update_tile_retarget.x",
+        "tractor_beam_turret_build_update_tile_retarget.y",
+        "tractor_beam_turret_build_update_tile_retarget.range",
+        "tractor_beam_turret_build_update_tile_retarget.target_air",
+        "tractor_beam_turret_build_update_tile_retarget.target_ground",
+        "tractor_beam_turret_build_update_tile_retarget.filter",
+        "tractor_beam_turret_build_update_tile_retarget.assign",
+        "tractor_beam_turret_build_update_tile_retarget.retarget_called",
+        "tractor_beam_turret_build_update_tile_retarget.target_after"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile retarget bridge state"
+    },
+    "N1243": {
+      "exact_exprs": [
+        "public class TractorBeamBuild extends BaseTurretBuild{",
+        "@Override",
+        "public void updateTile(){",
+        "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
+        "//consume coolant",
+        "if(target != null && coolant != null){",
+        "float maxUsed = coolant.amount;",
+        "Liquid liquid = liquids.current();",
+        "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() coolant guard",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "After retarget, TractorBeamBuild.updateTile enters coolant consumption only when target and coolant are present, reads coolant.amount as maxUsed, then reads liquids.current(); used/remove/effect/multiplier stay deferred.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_guard.method",
+        "tractor_beam_turret_build_update_tile_coolant_guard.inner_class",
+        "tractor_beam_turret_build_update_tile_coolant_guard.override",
+        "tractor_beam_turret_build_update_tile_coolant_guard.retarget_assign",
+        "tractor_beam_turret_build_update_tile_coolant_guard.comment",
+        "tractor_beam_turret_build_update_tile_coolant_guard.guard",
+        "tractor_beam_turret_build_update_tile_coolant_guard.coolant_present",
+        "tractor_beam_turret_build_update_tile_coolant_guard.target_after",
+        "tractor_beam_turret_build_update_tile_coolant_guard.coolant_amount",
+        "tractor_beam_turret_build_update_tile_coolant_guard.max_used",
+        "tractor_beam_turret_build_update_tile_coolant_guard.current_liquid",
+        "tractor_beam_turret_build_update_tile_coolant_guard.used_next"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1244": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(target != null && coolant != null){",
+        "float maxUsed = coolant.amount;",
+        "Liquid liquid = liquids.current();",
+        "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
+        "liquids.remove(liquid, used);"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_used_state",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() coolant used",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Inside the coolant guard, TractorBeamBuild.updateTile computes used as Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity)); removal/effects/multiplier update stay deferred.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_used.method",
+        "tractor_beam_turret_build_update_tile_coolant_used.guard",
+        "tractor_beam_turret_build_update_tile_coolant_used.liquids_get",
+        "tractor_beam_turret_build_update_tile_coolant_used.max_used",
+        "tractor_beam_turret_build_update_tile_coolant_used.time_delta",
+        "tractor_beam_turret_build_update_tile_coolant_used.coolant_multiplier",
+        "tractor_beam_turret_build_update_tile_coolant_used.liquid_heat_capacity",
+        "tractor_beam_turret_build_update_tile_coolant_used.max_used_time_delta",
+        "tractor_beam_turret_build_update_tile_coolant_used.heat_capacity_limit",
+        "tractor_beam_turret_build_update_tile_coolant_used.used",
+        "tractor_beam_turret_build_update_tile_coolant_used.remove_next"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_used_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_used_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_used_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_used_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1245": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(target != null && coolant != null){",
+        "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
+        "liquids.remove(liquid, used);"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() coolant remove",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Inside the coolant guard, TractorBeamBuild.updateTile removes the exact computed used amount from liquids. LiquidModule internal clamping/effects stay deferred.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_remove.method",
+        "tractor_beam_turret_build_update_tile_coolant_remove.remove"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_remove_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_remove_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_remove_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_remove_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1246": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(target != null && coolant != null){",
+        "if(Mathf.chance(0.06 * used)){",
+        "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() coolant effect",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Inside the coolant guard, TractorBeamBuild.updateTile gates coolEffect.at by Mathf.chance(0.06 * used). RNG outcome and Mathf.range offsets are explicit inputs; no random output is fabricated.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_effect.method",
+        "tractor_beam_turret_build_update_tile_coolant_effect.chance",
+        "tractor_beam_turret_build_update_tile_coolant_effect.cool_effect"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_effect_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_effect_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_effect_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1247": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(target != null && coolant != null){",
+        "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);"
+      ],
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_multiplier_state",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "rule": "Inside the coolant guard, TractorBeamBuild.updateTile assigns coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier). Guard-false keeps previous coolantMultiplier.",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_multiplier.method",
+        "tractor_beam_turret_build_update_tile_coolant_multiplier.assignment"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_multiplier_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_multiplier_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_multiplier_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
+    "N1248": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "return;",
+        "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);",
+        "any = false;"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.any_reset",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() any reset",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_any_reset.method",
+        "tractor_beam_turret_build_update_tile_any_reset.assignment"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_reset_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_reset_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_any_reset_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_any_reset_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile any reset bridge state"
+    },
+    "N1249": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "any = false;",
+        "//look at target",
+        "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){",
+        "if(!headless){"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.look_target_guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() look target guard",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_look_target_guard.method",
+        "tractor_beam_turret_build_update_tile_look_target_guard.guard"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_look_target_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_look_target_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_look_target_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_look_target_guard_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile look target guard bridge state"
+    },
+    "N1250": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){",
+        "if(!headless){",
+        "control.sound.loop(shootSound, this, shootSoundVolume);",
+        "float dest = angleTo(target);"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.sound_loop",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() sound loop",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_sound_loop.method",
+        "tractor_beam_turret_build_update_tile_sound_loop.call"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_sound_loop_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_sound_loop_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_sound_loop_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_sound_loop_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile sound loop bridge state"
+    },
+    "N1251": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "float dest = angleTo(target);",
+        "default float angleTo(Position other){",
+        "return Angles.angle(getX(), getY(), other.getX(), other.getY());",
+        "public static float angle(float x, float y, float x2, float y2){",
+        "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.angle_to_target",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() angle to target",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_angle_to_target.method",
+        "tractor_beam_turret_build_update_tile_angle_to_target.call"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_angle_to_target_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_angle_to_target_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_angle_to_target_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_angle_to_target_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile angle to target bridge state"
+    },
+    "N1252": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "float dest = angleTo(target);",
+        "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
+        "lastX = target.x;",
+        "public static float moveToward(float angle, float to, float speed){",
+        "if(Math.abs(angleDist(angle, to)) < speed) return to;",
+        "if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.rotation_move",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() rotation move",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_rotation_move.method",
+        "tractor_beam_turret_build_update_tile_rotation_move.call"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_rotation_move_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_rotation_move_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_rotation_move_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_rotation_move_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile rotation move bridge state"
+    },
+    "N1253": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
+        "lastX = target.x;",
+        "lastY = target.y;",
+        "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.last_target_position",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() last target position",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_last_target_position.method",
+        "tractor_beam_turret_build_update_tile_last_target_position.last_x",
+        "tractor_beam_turret_build_update_tile_last_target_position.last_y"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_last_target_position_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_last_target_position_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_last_target_position_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile last target position bridge state"
+    },
+    "N1254": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "lastY = target.y;",
+        "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
+        "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
+        "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
+        "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
+        "if(Angles.within(rotation, dest, shootCone)){"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.active_strength",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() active strength",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_active_strength.method",
+        "tractor_beam_turret_build_update_tile_active_strength.assignment",
+        "tractor_beam_turret_build_update_tile_active_strength.mathf_lerp_delta"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_active_strength_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_active_strength_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_active_strength_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_active_strength_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile active strength bridge state"
+    },
+    "N1255": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
+        "//shoot when possible",
+        "if(Angles.within(rotation, dest, shootCone)){",
+        "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }",
+        "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
+        "if(damage > 0){"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.shoot_when_possible_guard",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.method",
+        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.guard",
+        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.angles_within"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile shoot when possible guard bridge state"
+    },
+    "N1256": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(Angles.within(rotation, dest, shootCone)){",
+        "if(damage > 0){",
+        "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));",
+        "public float blockDamage(Team team){\n        return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;\n    }",
+        "private transient float timeScale = 1f, timeScaleDuration;",
+        "void damageContinuousPierce(float amount){\n        damagePierce(amount * Time.delta, hitTime <= -20 + hitDuration);\n    }",
+        "if(status != StatusEffects.none){"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.damage_pierce",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() damage pierce",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_damage_pierce.method",
+        "tractor_beam_turret_build_update_tile_damage_pierce.call",
+        "tractor_beam_turret_build_update_tile_damage_pierce.rules_block_damage"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_damage_pierce_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_damage_pierce_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_damage_pierce_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_damage_pierce_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile damage pierce bridge state"
+    },
+    "N1257": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(Angles.within(rotation, dest, shootCone)){",
+        "public StatusEffect status = StatusEffects.none;",
+        "public float statusDuration = 300;",
+        "if(status != StatusEffects.none){",
+        "target.apply(status, statusDuration);",
+        "any = true;",
+        "public void apply(StatusEffect effect, float duration){",
+        "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.status_apply",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() status apply",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_status_apply.method",
+        "tractor_beam_turret_build_update_tile_status_apply.gate",
+        "tractor_beam_turret_build_update_tile_status_apply.call"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_status_apply_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_status_apply_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_status_apply_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_status_apply_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile status apply bridge state"
+    },
+    "N1258": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(Angles.within(rotation, dest, shootCone)){",
+        "target.apply(status, statusDuration);",
+        "any = true;",
+        "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.any_true",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_true_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() any true",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_any_true_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_any_true.method",
+        "tractor_beam_turret_build_update_tile_any_true.assignment",
+        "tractor_beam_turret_build_update_tile_any_true.impulse_boundary"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_true_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_true_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_true_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_any_true_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_any_true_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile any true bridge state"
+    },
+    "N1259": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "public float force = 0.3f;",
+        "public float scaledForce = 0f;",
+        "any = true;",
+        "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
+        "void impulseNet(Vec2 v){",
+        "public Vec2 limit(float limit){",
+        "default float dst(Position other){"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.impulse_net",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() impulse net",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_impulse_net.method",
+        "tractor_beam_turret_build_update_tile_impulse_net.force",
+        "tractor_beam_turret_build_update_tile_impulse_net.scaled_force",
+        "tractor_beam_turret_build_update_tile_impulse_net.call"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_impulse_net_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_impulse_net_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_impulse_net_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_impulse_net_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile impulse net bridge state"
+    },
+    "N1260": {
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){",
+        "}else{",
+        "strength = Mathf.lerpDelta(strength, 0, 0.1f);",
+        "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }"
+      ],
+      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.inactive_strength",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state",
+      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
+      "java_method": "TractorBeamBuild.updateTile() inactive strength",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state",
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_inactive_strength.method",
+        "tractor_beam_turret_build_update_tile_inactive_strength.assignment",
+        "tractor_beam_turret_build_update_tile_inactive_strength.mathf_lerp_delta"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_inactive_strength_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_inactive_strength_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_inactive_strength_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_inactive_strength_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated TractorBeamTurretBuild updateTile inactive strength bridge state"
+    },
+    "N1261": {
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "public void update(Unit unit){}"
+      ],
+      "generated_owner": "Ability.java_method_update_0",
+      "godot_owner": "PortGame.source_ability_update_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.update(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_update_bridge_state",
+      "source_symbols": [
+        "ability_update.method",
+        "ability_update.unit",
+        "ability_update.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_update_to_source_state",
+        "test_port_game_exposes_source_ability_update_state",
+        "test_port_game_exposes_generated_ability_update_bridge_state",
+        "test_ability_update_matches_upstream_source",
+        "test_generated_ability_update_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability update bridge state"
+    },
+    "N1262": {
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "public void draw(Unit unit){}"
+      ],
+      "generated_owner": "Ability.java_method_draw_1",
+      "godot_owner": "PortGame.source_ability_draw_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.draw(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_draw_bridge_state",
+      "source_symbols": [
+        "ability_draw.method",
+        "ability_draw.unit",
+        "ability_draw.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_draw_to_source_state",
+        "test_port_game_exposes_source_ability_draw_state",
+        "test_port_game_exposes_generated_ability_draw_bridge_state",
+        "test_ability_draw_matches_upstream_source",
+        "test_generated_ability_draw_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability draw bridge state"
+    },
+    "N1263": {
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "public void death(Unit unit){}"
+      ],
+      "generated_owner": "Ability.java_method_death_2",
+      "godot_owner": "PortGame.source_ability_death_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.death(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_death_bridge_state",
+      "source_symbols": [
+        "ability_death.method",
+        "ability_death.unit",
+        "ability_death.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_death_to_source_state",
+        "test_port_game_exposes_source_ability_death_state",
+        "test_port_game_exposes_generated_ability_death_bridge_state",
+        "test_ability_death_matches_upstream_source",
+        "test_generated_ability_death_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability death bridge state"
+    },
+    "N1264": {
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "public void created(Unit unit){}"
+      ],
+      "generated_owner": "Ability.java_method_created_3",
+      "godot_owner": "PortGame.source_ability_created_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.created(Unit unit)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_created_bridge_state",
+      "source_symbols": [
+        "ability_created.method",
+        "ability_created.unit",
+        "ability_created.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_created_to_source_state",
+        "test_port_game_exposes_source_ability_created_state",
+        "test_port_game_exposes_generated_ability_created_bridge_state",
+        "test_ability_created_matches_upstream_source",
+        "test_generated_ability_created_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability created bridge state"
+    },
+    "N1265": {
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.type.*;",
+        "public void init(UnitType type){}"
+      ],
+      "generated_owner": "Ability.java_method_init_4",
+      "godot_owner": "PortGame.source_ability_init_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.init(UnitType type)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_init_bridge_state",
+      "source_symbols": [
+        "ability_init.method",
+        "ability_init.type",
+        "ability_init.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_init_to_source_state",
+        "test_port_game_exposes_source_ability_init_state",
+        "test_port_game_exposes_generated_ability_init_bridge_state",
+        "test_ability_init_matches_upstream_source",
+        "test_generated_ability_init_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability init bridge state"
+    },
+    "N1266": {
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import mindustry.gen.*;",
+        "import arc.scene.ui.layout.*;",
+        "public void displayBars(Unit unit, Table bars){}"
+      ],
+      "generated_owner": "Ability.java_method_displayBars_5",
+      "godot_owner": "PortGame.source_ability_display_bars_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.displayBars(Unit unit, Table bars)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_display_bars_bridge_state",
+      "source_symbols": [
+        "ability_display_bars.method",
+        "ability_display_bars.unit",
+        "ability_display_bars.bars",
+        "ability_display_bars.no_op"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_display_bars_to_source_state",
+        "test_port_game_exposes_source_ability_display_bars_state",
+        "test_port_game_exposes_generated_ability_display_bars_bridge_state",
+        "test_ability_display_bars_matches_upstream_source",
+        "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability displayBars bridge state"
+    },
+    "N1267": {
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import arc.scene.ui.layout.*;",
+        "import mindustry.ui.*;",
+        "public void display(Table t){",
+        "t.table(Styles.grayPanel, a -> {",
+        "a.add(\"[accent]\" + localized()).padBottom(4).center().top().expandX();",
+        "a.row();",
+        "a.left().top().defaults().left();",
+        "addStats(a);",
+        "}).pad(5).margin(10).growX().top().uniformX();"
+      ],
+      "generated_owner": "Ability.java_method_display_6",
+      "godot_owner": "PortGame.source_ability_display_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.display(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "runtime_proof": "/root/Main.generated_ability_display_bridge_state",
+      "source_symbols": [
+        "ability_display.method",
+        "ability_display.table",
+        "ability_display.localized_call",
+        "ability_display.add_stats_call",
+        "ability_display.style_expr",
+        "ability_display.title_expr",
+        "ability_display.outer_chain"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_ability_display_to_source_state",
+        "test_port_game_exposes_source_ability_display_state",
+        "test_port_game_exposes_generated_ability_display_bridge_state",
+        "test_ability_display_matches_upstream_source",
+        "test_generated_ability_display_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability display bridge state"
+    },
+    "N1268": {
+      "deferred_exprs": [
+        "Concrete Arc Core.bundle lookup and Table widget mutation remain explicit inputs/runtime UI integration; this bridge preserves source guard, key, description text, width, and row operation plan."
+      ],
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import arc.*;",
+        "import arc.scene.ui.layout.*;",
+        "protected static final float descriptionWidth = 350f;",
+        "public void addStats(Table t){",
+        "if(Core.bundle.has(getBundle() + \".description\")){",
+        "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);",
+        "t.row();"
+      ],
+      "generated_owner": "Ability.java_method_addStats_7",
+      "godot_owner": "PortGame.source_ability_add_stats_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.addStats(Table t)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Registers source-backed operation plan for Ability.addStats(Table t) description row mutation guarded by Core.bundle.has(getBundle() + \".description\").",
+      "runtime_proof": "/root/Main.generated_ability_add_stats_bridge_state",
+      "source_symbols": [
+        "ability_add_stats.method",
+        "ability_add_stats.guard",
+        "ability_add_stats.description_width",
+        "ability_add_stats.add_description"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_ability_add_stats_to_source_state",
+        "test_port_game_exposes_source_ability_add_stats_state",
+        "test_port_game_exposes_generated_ability_add_stats_bridge_state",
+        "test_ability_add_stats_matches_upstream_source",
+        "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability addStats bridge state"
+    },
+    "N1269": {
+      "deferred_exprs": [
+        "Concrete Arc Core.bundle.format lookup remains explicit formatted_value input; this bridge preserves key expression, values varargs, and return expression."
+      ],
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "import arc.*;",
+        "public String abilityStat(String stat, Object... values){",
+        "return Core.bundle.format(\"ability.stat.\" + stat, values);"
+      ],
+      "generated_owner": "Ability.java_method_abilityStat_8",
+      "godot_owner": "PortGame.source_ability_ability_stat_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.abilityStat(String stat, Object... values)",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Registers source-backed operation plan for Ability.abilityStat(String stat, Object... values) bundle format return.",
+      "runtime_proof": "/root/Main.generated_ability_ability_stat_bridge_state",
+      "source_symbols": [
+        "ability_ability_stat.method",
+        "ability_ability_stat.bundle_key",
+        "ability_ability_stat.format_call",
+        "ability_ability_stat.return_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_ability_ability_stat_to_source_state",
+        "test_port_game_exposes_source_ability_ability_stat_state",
+        "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
+        "test_ability_ability_stat_matches_upstream_source",
+        "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability abilityStat bridge state"
+    },
+    "N1270": {
+      "deferred_exprs": [
+        "Concrete Java Object.clone() behavior remains explicit clone_supported/clone_value input; this bridge preserves try/catch and RuntimeException wrapper semantics."
+      ],
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "public Ability copy(){",
+        "try{",
+        "return (Ability)clone();",
+        "}catch(CloneNotSupportedException e){",
+        "//I am disgusted",
+        "throw new RuntimeException(\"java sucks\", e);"
+      ],
+      "generated_owner": "Ability.java_method_copy_9",
+      "godot_owner": "PortGame.source_ability_copy_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.copy()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Registers source-backed operation plan for Ability.copy() clone success and CloneNotSupportedException wrapper branches.",
+      "runtime_proof": "/root/Main.generated_ability_copy_bridge_state",
+      "source_symbols": [
+        "ability_copy.method",
+        "ability_copy.clone_return",
+        "ability_copy.catch",
+        "ability_copy.runtime_exception"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_ability_copy_to_source_state",
+        "test_port_game_exposes_source_ability_copy_state",
+        "test_port_game_exposes_generated_ability_copy_bridge_state",
+        "test_ability_copy_matches_upstream_source",
+        "test_generated_ability_copy_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability copy bridge state"
+    },
+    "N1271": {
+      "deferred_exprs": [
+        "Concrete Core.bundle lookup and getBundle() internals remain explicit get_bundle_value and bundle_value inputs; this bridge preserves localized() return expression without inventing bundle state."
+      ],
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "/** @return localized ability name; mods should override this. */",
+        "public String localized(){",
+        "return Core.bundle.get(getBundle());"
+      ],
+      "generated_owner": "Ability.java_method_localized_10",
+      "godot_owner": "PortGame.source_ability_localized_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.localized()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Registers source-backed operation plan for Ability.localized() using explicit bundle lookup facts.",
+      "runtime_proof": "/root/Main.generated_ability_localized_bridge_state",
+      "source_symbols": [
+        "ability_localized.method",
+        "ability_localized.get_bundle_call",
+        "ability_localized.bundle_get"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_ability_localized_to_source_state",
+        "test_port_game_exposes_source_ability_localized_state",
+        "test_port_game_exposes_generated_ability_localized_bridge_state",
+        "test_ability_localized_matches_upstream_source",
+        "test_generated_ability_localized_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability localized bridge state"
+    },
+    "N1272": {
+      "deferred_exprs": [
+        "Concrete Java getClass(), isAnonymousClass(), getSuperclass(), and getSimpleName() runtime reflection stay explicit class_simple_name, is_anonymous_class, and superclass_simple_name inputs."
+      ],
+      "exact_exprs": [
+        "public abstract class Ability implements Cloneable{",
+        "public String getBundle(){",
+        "var type = getClass();",
+        "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();"
+      ],
+      "generated_owner": "Ability.java_method_getBundle_11",
+      "godot_owner": "PortGame.source_ability_get_bundle_state",
+      "java_class": "mindustry.entities.abilities.Ability",
+      "java_method": "Ability.getBundle()",
+      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
+      "rule": "Registers source-backed operation plan for Ability.getBundle() class/simple-name bundle key formula.",
+      "runtime_proof": "/root/Main.generated_ability_get_bundle_bridge_state",
+      "source_symbols": [
+        "ability_get_bundle.method",
+        "ability_get_bundle.type_assignment",
+        "ability_get_bundle.return_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_ability_get_bundle_to_source_state",
+        "test_port_game_exposes_source_ability_get_bundle_state",
+        "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
+        "test_ability_get_bundle_matches_upstream_source",
+        "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Ability getBundle bridge state"
+    },
+    "N1273": {
+      "deferred_exprs": [
+        "Concrete block instance storage remains explicit has_items input; this bridge preserves the field-backed return."
+      ],
+      "exact_exprs": [
+        "/** If true, buildings have an ItemModule. */",
+        "public @NoPatch boolean hasItems;",
+        "public boolean outputsItems(){",
+        "return hasItems;"
+      ],
+      "generated_owner": "Block.java_method_outputsItems_17",
+      "godot_owner": "PortGame.source_block_outputs_items_state",
+      "java_class": "mindustry.world.Block",
+      "java_method": "Block.outputsItems()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Registers source-backed operation plan for Block.outputsItems() returning hasItems.",
+      "runtime_proof": "/root/Main.generated_block_outputs_items_bridge_state",
+      "source_symbols": [
+        "block_outputs_items.method",
+        "block_outputs_items.has_items_field",
+        "block_outputs_items.return_has_items"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_outputs_items_to_source_state",
+        "test_port_game_exposes_source_block_outputs_items_state",
+        "test_port_game_exposes_generated_block_outputs_items_bridge_state",
+        "test_block_outputs_items_matches_upstream_source",
+        "test_generated_block_outputs_items_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block outputsItems bridge state"
+    },
+    "N1274": {
+      "deferred_exprs": [
+        "Concrete tile/team/rotation semantics remain explicit inputs; default upstream method ignores them and returns true."
+      ],
+      "exact_exprs": [
+        "/** @return whether this block can be placed on the specified tile. */",
+        "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
+        "return true;"
+      ],
+      "generated_owner": "Block.java_method_canPlaceOn_18",
+      "godot_owner": "PortGame.source_block_can_place_on_state",
+      "java_class": "mindustry.world.Block",
+      "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Registers source-backed operation plan for default Block.canPlaceOn returning true.",
+      "runtime_proof": "/root/Main.generated_block_can_place_on_bridge_state",
+      "source_symbols": [
+        "block_can_place_on.method",
+        "block_can_place_on.return_true"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_can_place_on_to_source_state",
+        "test_port_game_exposes_source_block_can_place_on_state",
+        "test_port_game_exposes_generated_block_can_place_on_bridge_state",
+        "test_block_can_place_on_matches_upstream_source",
+        "test_generated_block_can_place_on_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block canPlaceOn bridge state"
+    },
+    "N1275": {
+      "exact_exprs": [
+        "/** @return whether this block can be broken on the specified tile. */",
+        "public boolean canBreak(Tile tile){",
+        "return true;"
+      ],
+      "generated_owner": "Block.java_method_canBreak_19",
+      "godot_owner": "PortGame.source_block_can_break_state",
+      "java_class": "Block",
+      "java_method": "Block.canBreak(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_can_break_bridge_state",
+      "source_symbols": [
+        "block_can_break.method",
+        "block_can_break.return_true"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_can_break_to_source_state",
+        "test_port_game_exposes_source_block_can_break_state",
+        "test_port_game_exposes_generated_block_can_break_bridge_state",
+        "test_block_can_break_matches_upstream_source",
+        "test_generated_block_can_break_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block canBreak bridge state"
+    },
+    "N1276": {
+      "exact_exprs": [
+        "/** whether this is rotatable */",
+        "public boolean rotate;",
+        "public boolean rotatedOutput(int x, int y){",
+        "return rotate;"
+      ],
+      "generated_owner": "Block.java_method_rotatedOutput_20",
+      "godot_owner": "PortGame.source_block_rotated_output_state",
+      "java_class": "Block",
+      "java_method": "Block.rotatedOutput(int x, int y)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_rotated_output_bridge_state",
+      "source_symbols": [
+        "block_rotated_output.method",
+        "block_rotated_output.rotate_field",
+        "block_rotated_output.return_rotate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_state",
+        "test_port_game_exposes_generated_block_rotated_output_bridge_state",
+        "test_block_rotated_output_matches_upstream_source",
+        "test_generated_block_rotated_output_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block rotatedOutput bridge state"
+    },
+    "N1277": {
+      "exact_exprs": [
+        "public boolean rotatedOutput(int fromX, int fromY, Tile destination){",
+        "rotatedOutput(fromX, fromY)",
+        "return rotatedOutput(fromX, fromY);"
+      ],
+      "generated_owner": "Block.java_method_rotatedOutput_21",
+      "godot_owner": "PortGame.source_block_rotated_output_tile_state",
+      "java_class": "Block",
+      "java_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_rotated_output_tile_bridge_state",
+      "source_symbols": [
+        "block_rotated_output_tile.method",
+        "block_rotated_output_tile.delegate_call",
+        "block_rotated_output_tile.return_delegate"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_rotated_output_tile_to_source_state",
+        "test_port_game_exposes_source_block_rotated_output_tile_state",
+        "test_port_game_exposes_generated_block_rotated_output_tile_bridge_state",
+        "test_block_rotated_output_tile_matches_upstream_source",
+        "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block rotatedOutput tile bridge state"
+    },
+    "N1278": {
+      "exact_exprs": [
+        "public boolean synthetic(){",
+        "return update || destructible;"
+      ],
+      "generated_owner": "Block.java_method_synthetic_22",
+      "godot_owner": "PortGame.source_block_synthetic_state",
+      "java_class": "Block",
+      "java_method": "Block.synthetic()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_synthetic_bridge_state",
+      "source_symbols": [
+        "block_synthetic.method",
+        "block_synthetic.return_update_or_destructible"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_synthetic_to_source_state",
+        "test_port_game_exposes_source_block_synthetic_state",
+        "test_port_game_exposes_generated_block_synthetic_bridge_state",
+        "test_block_synthetic_matches_upstream_source",
+        "test_generated_block_synthetic_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block synthetic bridge state"
+    },
+    "N1279": {
+      "exact_exprs": [
+        "public boolean checkForceDark(Tile tile){",
+        "return forceDark;"
+      ],
+      "generated_owner": "Block.java_method_checkForceDark_23",
+      "godot_owner": "PortGame.source_block_check_force_dark_state",
+      "java_class": "Block",
+      "java_method": "Block.checkForceDark(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_check_force_dark_bridge_state",
+      "source_symbols": [
+        "block_check_force_dark.method",
+        "block_check_force_dark.return_force_dark"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_check_force_dark_to_source_state",
+        "test_port_game_exposes_source_block_check_force_dark_state",
+        "test_port_game_exposes_generated_block_check_force_dark_bridge_state",
+        "test_block_check_force_dark_matches_upstream_source",
+        "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block checkForceDark bridge state"
+    },
+    "N1280": {
+      "exact_exprs": [
+        "/** If true, the 'map edge' darkness will be applied to this block. */",
+        "public boolean isDarkened(Tile tile){",
+        "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));",
+        "synthetic()",
+        "checkForceDark(tile)"
+      ],
+      "generated_owner": "Block.java_method_isDarkened_24",
+      "godot_owner": "PortGame.source_block_is_darkened_state",
+      "java_class": "Block",
+      "java_method": "Block.isDarkened(Tile tile)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_darkened_bridge_state",
+      "source_symbols": [
+        "block_is_darkened.comment",
+        "block_is_darkened.method",
+        "block_is_darkened.return_expr",
+        "block_is_darkened.synthetic_call",
+        "block_is_darkened.check_force_dark_call"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_darkened_to_source_state",
+        "test_port_game_exposes_source_block_is_darkened_state",
+        "test_port_game_exposes_generated_block_is_darkened_bridge_state",
+        "test_block_is_darkened_matches_upstream_source",
+        "test_generated_block_is_darkened_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isDarkened bridge state"
+    },
+    "N1281": {
+      "exact_exprs": [
+        "public boolean consumesItem(Item item){",
+        "return itemFilter[item.id];",
+        "itemFilter",
+        "item.id"
+      ],
+      "generated_owner": "Block.java_method_consumesItem_33",
+      "godot_owner": "PortGame.source_block_consumes_item_state",
+      "java_class": "Block",
+      "java_method": "Block.consumesItem(Item item)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consumes_item_bridge_state",
+      "source_symbols": [
+        "block_consumes_item.method",
+        "block_consumes_item.return_expr",
+        "block_consumes_item.item_filter",
+        "block_consumes_item.item_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_consumes_item_to_source_state",
+        "test_port_game_exposes_source_block_consumes_item_state",
+        "test_port_game_exposes_generated_block_consumes_item_bridge_state",
+        "test_block_consumes_item_matches_upstream_source",
+        "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumesItem bridge state"
+    },
+    "N1282": {
+      "exact_exprs": [
+        "public boolean consumesLiquid(Liquid liq){",
+        "return liquidFilter[liq.id];",
+        "liquidFilter",
+        "liq.id"
+      ],
+      "generated_owner": "Block.java_method_consumesLiquid_34",
+      "godot_owner": "PortGame.source_block_consumes_liquid_state",
+      "java_class": "Block",
+      "java_method": "Block.consumesLiquid(Liquid liq)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_consumes_liquid_bridge_state",
+      "source_symbols": [
+        "block_consumes_liquid.method",
+        "block_consumes_liquid.return_expr",
+        "block_consumes_liquid.liquid_filter",
+        "block_consumes_liquid.liq_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_consumes_liquid_to_source_state",
+        "test_port_game_exposes_source_block_consumes_liquid_state",
+        "test_port_game_exposes_generated_block_consumes_liquid_bridge_state",
+        "test_block_consumes_liquid_matches_upstream_source",
+        "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block consumesLiquid bridge state"
+    },
+    "N1283": {
+      "exact_exprs": [
+        "public boolean hasBuilding(){",
+        "return destructible || update;",
+        "destructible",
+        "update"
+      ],
+      "generated_owner": "Block.java_method_hasBuilding_70",
+      "godot_owner": "PortGame.source_block_has_building_state",
+      "java_class": "Block",
+      "java_method": "Block.hasBuilding()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_has_building_bridge_state",
+      "source_symbols": [
+        "block_has_building.method",
+        "block_has_building.return_expr",
+        "block_has_building.destructible",
+        "block_has_building.update"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_has_building_to_source_state",
+        "test_port_game_exposes_source_block_has_building_state",
+        "test_port_game_exposes_generated_block_has_building_bridge_state",
+        "test_block_has_building_matches_upstream_source",
+        "test_generated_block_has_building_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block hasBuilding bridge state"
+    },
+    "N1284": {
+      "exact_exprs": [
+        "public boolean isMultiblock(){",
+        "return size > 1;",
+        "size"
+      ],
+      "generated_owner": "Block.java_method_isMultiblock_74",
+      "godot_owner": "PortGame.source_block_is_multiblock_state",
+      "java_class": "Block",
+      "java_method": "Block.isMultiblock()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_multiblock_bridge_state",
+      "source_symbols": [
+        "block_is_multiblock.method",
+        "block_is_multiblock.return_expr",
+        "block_is_multiblock.size"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_multiblock_to_source_state",
+        "test_port_game_exposes_source_block_is_multiblock_state",
+        "test_port_game_exposes_generated_block_is_multiblock_bridge_state",
+        "test_block_is_multiblock_matches_upstream_source",
+        "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isMultiblock bridge state"
+    },
+    "N1285": {
+      "exact_exprs": [
+        "public boolean isAir(){",
+        "return id == 0;",
+        "id"
+      ],
+      "generated_owner": "Block.java_method_isAir_91",
+      "godot_owner": "PortGame.source_block_is_air_state",
+      "java_class": "Block",
+      "java_method": "Block.isAir()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_air_bridge_state",
+      "source_symbols": [
+        "block_is_air.method",
+        "block_is_air.return_expr",
+        "block_is_air.id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_air_to_source_state",
+        "test_port_game_exposes_source_block_is_air_state",
+        "test_port_game_exposes_generated_block_is_air_bridge_state",
+        "test_block_is_air_matches_upstream_source",
+        "test_generated_block_is_air_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isAir bridge state"
+    },
+    "N1286": {
+      "exact_exprs": [
+        "public boolean canBeBuilt(){",
+        "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;",
+        "buildVisibility",
+        "BuildVisibility.hidden",
+        "BuildVisibility.debugOnly"
+      ],
+      "generated_owner": "Block.java_method_canBeBuilt_92",
+      "godot_owner": "PortGame.source_block_can_be_built_state",
+      "java_class": "Block",
+      "java_method": "Block.canBeBuilt()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_can_be_built_bridge_state",
+      "source_symbols": [
+        "block_can_be_built.method",
+        "block_can_be_built.return_expr",
+        "block_can_be_built.build_visibility",
+        "block_can_be_built.hidden_constant",
+        "block_can_be_built.debug_only_constant"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_can_be_built_to_source_state",
+        "test_port_game_exposes_source_block_can_be_built_state",
+        "test_port_game_exposes_generated_block_can_be_built_bridge_state",
+        "test_block_can_be_built_matches_upstream_source",
+        "test_generated_block_can_be_built_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block canBeBuilt bridge state"
+    },
+    "N1287": {
+      "exact_exprs": [
+        "public boolean isStatic(){",
+        "return cacheLayer == CacheLayer.walls;",
+        "cacheLayer",
+        "CacheLayer.walls"
+      ],
+      "generated_owner": "Block.java_method_isStatic_94",
+      "godot_owner": "PortGame.source_block_is_static_state",
+      "java_class": "Block",
+      "java_method": "Block.isStatic()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_is_static_bridge_state",
+      "source_symbols": [
+        "block_is_static.method",
+        "block_is_static.return_expr",
+        "block_is_static.cache_layer",
+        "block_is_static.walls_constant"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_is_static_to_source_state",
+        "test_port_game_exposes_source_block_is_static_state",
+        "test_port_game_exposes_generated_block_is_static_bridge_state",
+        "test_block_is_static_matches_upstream_source",
+        "test_generated_block_is_static_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block isStatic bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
@@ -28082,1785 +29890,6 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
-    },
-    "N1231": {
-      "deferred_exprs": [
-        "ObjectMap<Liquid, BulletType>, LiquidModule, Building, and Liquid internals stay deferred; explicit inputs carry exact Java lookup results.",
-        "Replacement threshold is evaluated only on the Java short-circuit path where ammoTypes.get(liquid) is non-null, current liquid differs, and ammoTypes.containsKey(liquids.current()) is true."
-      ],
-      "exact_exprs": [
-        "public class ContinuousLiquidTurretBuild extends ContinuousTurretBuild{",
-        "boolean activated;",
-        "@Override",
-        "public boolean acceptLiquid(Building source, Liquid liquid){",
-        "return ammoTypes.get(liquid) != null &&",
-        "(liquids.current() == liquid ||",
-        "((!ammoTypes.containsKey(liquids.current()) || liquids.get(liquids.current()) <= 1f / ammoTypes.get(liquids.current()).ammoMultiplier + 0.001f)));"
-      ],
-      "godot_owner": "PortGame.source_continuous_liquid_turret_build_accept_liquid_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.ContinuousLiquidTurret.ContinuousLiquidTurretBuild",
-      "java_method": "ContinuousLiquidTurretBuild.acceptLiquid(Building source, Liquid liquid)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/ContinuousLiquidTurret.java",
-      "rule": "ContinuousLiquidTurretBuild.acceptLiquid accepts liquids with ammo types, same current liquid, or drained/unmapped current liquid replacement gate.",
-      "runtime_proof": "/root/Main.generated_continuous_liquid_turret_build_accept_liquid_bridge_state",
-      "source_symbols": [
-        "continuous_liquid_turret_build_accept_liquid.method",
-        "continuous_liquid_turret_build_accept_liquid.source_building",
-        "continuous_liquid_turret_build_accept_liquid.liquid",
-        "continuous_liquid_turret_build_accept_liquid.ammo_type",
-        "continuous_liquid_turret_build_accept_liquid.current_liquid",
-        "continuous_liquid_turret_build_accept_liquid.current_liquid_ammo_type_present",
-        "continuous_liquid_turret_build_accept_liquid.current_liquid_amount",
-        "continuous_liquid_turret_build_accept_liquid.current_ammo_multiplier",
-        "continuous_liquid_turret_build_accept_liquid.return_expr"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_continuous_liquid_turret_build_accept_liquid_to_source_state",
-        "test_port_game_exposes_source_continuous_liquid_turret_build_accept_liquid_state",
-        "test_port_game_exposes_generated_continuous_liquid_turret_build_accept_liquid_bridge_state",
-        "test_continuous_liquid_turret_build_accept_liquid_matches_upstream_source",
-        "test_generated_continuous_liquid_turret_build_accept_liquid_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1232": {
-      "deferred_exprs": [
-        "TextureRegion internals and inherited region loading remain deferred; explicit inputs carry baseRegion and region field values."
-      ],
-      "exact_exprs": [
-        "public @Load(value = \"@-base\", fallback = \"block-@size\") TextureRegion baseRegion;",
-        "@Override",
-        "public TextureRegion[] icons(){",
-        "return new TextureRegion[]{baseRegion, region};"
-      ],
-      "godot_owner": "PortGame.source_tractor_beam_turret_icons_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamTurret.icons()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "rule": "TractorBeamTurret.icons returns baseRegion then region exactly as upstream.",
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_icons_bridge_state",
-      "source_symbols": [
-        "tractor_beam_turret_icons.method",
-        "tractor_beam_turret_icons.base_region",
-        "tractor_beam_turret_icons.region",
-        "tractor_beam_turret_icons.return_expr"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_icons_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_icons_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_icons_bridge_state",
-        "test_tractor_beam_turret_icons_matches_upstream_source",
-        "test_generated_tractor_beam_turret_icons_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1233": {
-      "deferred_exprs": [
-        "Stats storage, Stat objects, StatUnit formatting, and inherited BaseTurret.setStats internals remain deferred; this slice records exact TractorBeamTurret stat calls and computed damage per second."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void setStats(){",
-        "super.setStats();",
-        "stats.add(Stat.targetsAir, targetAir);",
-        "stats.add(Stat.targetsGround, targetGround);",
-        "if(damage > 0) stats.add(Stat.damage, damage * 60f, StatUnit.perSecond);"
-      ],
-      "godot_owner": "PortGame.source_tractor_beam_turret_set_stats_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamTurret.setStats()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "rule": "TractorBeamTurret.setStats adds targetAir, targetGround, and positive damage per-second stats exactly as upstream.",
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_set_stats_bridge_state",
-      "source_symbols": [
-        "tractor_beam_turret_set_stats.method",
-        "tractor_beam_turret_set_stats.target_air",
-        "tractor_beam_turret_set_stats.target_ground",
-        "tractor_beam_turret_set_stats.damage",
-        "tractor_beam_turret_set_stats.damage_per_second"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_set_stats_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_set_stats_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_set_stats_bridge_state",
-        "test_tractor_beam_turret_set_stats_matches_upstream_source",
-        "test_generated_tractor_beam_turret_set_stats_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1234": {
-      "deferred_exprs": [
-        "Inherited BaseTurret.init internals and Block.updateClipRadius side effects remain deferred; this slice records the exact TractorBeamTurret updateClipRadius argument."
-      ],
-      "exact_exprs": [
-        "@Override",
-        "public void init(){",
-        "super.init();",
-        "updateClipRadius(range + tilesize);"
-      ],
-      "godot_owner": "PortGame.source_tractor_beam_turret_init_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamTurret.init()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "rule": "TractorBeamTurret.init calls super.init and updates clip radius with range plus tilesize exactly as upstream.",
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_init_bridge_state",
-      "source_symbols": [
-        "tractor_beam_turret_init.method",
-        "tractor_beam_turret_init.range",
-        "tractor_beam_turret_init.tilesize",
-        "tractor_beam_turret_init.clip_radius"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_init_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_init_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_init_bridge_state",
-        "test_tractor_beam_turret_init_matches_upstream_source",
-        "test_generated_tractor_beam_turret_init_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1235": {
-      "deferred_exprs": [
-        "BaseTurretBuild.super.shouldConsume() internals",
-        "target acquisition lifecycle outside shouldConsume"
-      ],
-      "exact_exprs": [
-        "public class TractorBeamBuild extends BaseTurretBuild{",
-        "public @Nullable Unit target;",
-        "@Override",
-        "public boolean shouldConsume(){",
-        "return super.shouldConsume() && target != null;"
-      ],
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_should_consume_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.shouldConsume()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "rule": "TractorBeamBuild.shouldConsume returns super.shouldConsume() && target != null.",
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_should_consume_bridge_state",
-      "source_symbols": [
-        "tractor_beam_turret_build_should_consume.method",
-        "tractor_beam_turret_build_should_consume.super_should_consume",
-        "tractor_beam_turret_build_should_consume.target",
-        "tractor_beam_turret_build_should_consume.target_present",
-        "tractor_beam_turret_build_should_consume.return_expr"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_should_consume_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_should_consume_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_should_consume_bridge_state",
-        "test_tractor_beam_turret_build_should_consume_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_should_consume_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1236": {
-      "deferred_exprs": [
-        "BaseTurretBuild inherited efficiency lifecycle",
-        "TractorBeamBuild any lifecycle outside estimateDps",
-        "coolantMultiplier update lifecycle outside estimateDps"
-      ],
-      "exact_exprs": [
-        "public class TractorBeamBuild extends BaseTurretBuild{",
-        "public boolean any;",
-        "public float coolantMultiplier = 1f;",
-        "@Override",
-        "public float estimateDps(){",
-        "if(!any || damage <= 0) return 0f;",
-        "return damage * 60f * efficiency * coolantMultiplier;"
-      ],
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_estimate_dps_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.estimateDps()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "rule": "TractorBeamBuild.estimateDps returns zero when inactive/non-damaging, otherwise damage * 60f * efficiency * coolantMultiplier.",
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_estimate_dps_bridge_state",
-      "source_symbols": [
-        "tractor_beam_turret_build_estimate_dps.method",
-        "tractor_beam_turret_build_estimate_dps.any",
-        "tractor_beam_turret_build_estimate_dps.damage",
-        "tractor_beam_turret_build_estimate_dps.efficiency",
-        "tractor_beam_turret_build_estimate_dps.coolant_multiplier",
-        "tractor_beam_turret_build_estimate_dps.zero_guard",
-        "tractor_beam_turret_build_estimate_dps.return_expr"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_estimate_dps_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_estimate_dps_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_estimate_dps_bridge_state",
-        "test_tractor_beam_turret_build_estimate_dps_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_estimate_dps_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1237": {
-      "deferred_exprs": [
-        "BaseTurretBuild super.write(write) serialized fields outside this slice",
-        "Writes stream implementation outside this source-state bridge"
-      ],
-      "exact_exprs": [
-        "public class TractorBeamBuild extends BaseTurretBuild{",
-        "@Override",
-        "public void write(Writes write){",
-        "super.write(write);",
-        "write.f(rotation);"
-      ],
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_write_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.write(Writes write)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "rule": "TractorBeamBuild.write delegates inherited serialization then writes rotation as a float.",
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_write_bridge_state",
-      "source_symbols": [
-        "tractor_beam_turret_build_write.method",
-        "tractor_beam_turret_build_write.rotation",
-        "tractor_beam_turret_build_write.super_write",
-        "tractor_beam_turret_build_write.write_rotation"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_write_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_write_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_write_bridge_state",
-        "test_tractor_beam_turret_build_write_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_write_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1238": {
-      "deferred_exprs": [
-        "BaseTurretBuild super.read(read, revision) deserialized fields outside this slice",
-        "Reads stream implementation outside this source-state bridge"
-      ],
-      "exact_exprs": [
-        "public class TractorBeamBuild extends BaseTurretBuild{",
-        "@Override",
-        "public void read(Reads read, byte revision){",
-        "super.read(read, revision);",
-        "rotation = read.f();"
-      ],
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_read_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.read(Reads read, byte revision)",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "rule": "TractorBeamBuild.read delegates inherited deserialization then reads rotation from Reads.f().",
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_read_bridge_state",
-      "source_symbols": [
-        "tractor_beam_turret_build_read.method",
-        "tractor_beam_turret_build_read.read_f_value",
-        "tractor_beam_turret_build_read.revision",
-        "tractor_beam_turret_build_read.super_read",
-        "tractor_beam_turret_build_read.read_rotation"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_read_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_read_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_read_bridge_state",
-        "test_tractor_beam_turret_build_read_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_read_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1239": {
-      "deferred_exprs": [
-        "Actual Arc Draw and Drawf rendering side effects are represented as call dictionaries in this slice",
-        "TextureRegion loading and isPayload implementation are supplied as explicit inputs"
-      ],
-      "exact_exprs": [
-        "public class TractorBeamBuild extends BaseTurretBuild{",
-        "@Override",
-        "public void draw(){",
-        "Draw.rect(baseRegion, x, y);",
-        "Drawf.shadow(region, x - (size / 2f), y - (size / 2f), rotation - 90);",
-        "Draw.rect(region, x, y, rotation - 90);",
-        "//draw laser if applicable",
-        "if(any && !isPayload()){",
-        "Draw.z(Layer.bullet);",
-        "float ang = angleTo(lastX, lastY);",
-        "Draw.mixcol(laserColor, Mathf.absin(4f, 0.6f));",
-        "Drawf.laser(laser, laserStart, laserEnd,",
-        "x + Angles.trnsx(ang, shootLength)",
-        "y + Angles.trnsy(ang, shootLength)",
-        "lastX, lastY, strength * efficiency * laserWidth);",
-        "Draw.mixcol();"
-      ],
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_draw_state",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.draw()",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "rule": "TractorBeamBuild.draw emits base/shadow/region draw calls and conditionally emits laser draw calls when any && !isPayload().",
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_draw_bridge_state",
-      "source_symbols": [
-        "tractor_beam_turret_build_draw.method",
-        "tractor_beam_turret_build_draw.base_region",
-        "tractor_beam_turret_build_draw.region",
-        "tractor_beam_turret_build_draw.x",
-        "tractor_beam_turret_build_draw.y",
-        "tractor_beam_turret_build_draw.rotation",
-        "tractor_beam_turret_build_draw.size",
-        "tractor_beam_turret_build_draw.any",
-        "tractor_beam_turret_build_draw.is_payload",
-        "tractor_beam_turret_build_draw.last_x",
-        "tractor_beam_turret_build_draw.last_y",
-        "tractor_beam_turret_build_draw.laser_color",
-        "tractor_beam_turret_build_draw.mathf_absin",
-        "tractor_beam_turret_build_draw.laser_texture",
-        "tractor_beam_turret_build_draw.laser_start_texture",
-        "tractor_beam_turret_build_draw.laser_end_texture",
-        "tractor_beam_turret_build_draw.shoot_length",
-        "tractor_beam_turret_build_draw.strength",
-        "tractor_beam_turret_build_draw.efficiency",
-        "tractor_beam_turret_build_draw.laser_width",
-        "tractor_beam_turret_build_draw.base_rect",
-        "tractor_beam_turret_build_draw.shadow",
-        "tractor_beam_turret_build_draw.region_rect",
-        "tractor_beam_turret_build_draw.laser_guard",
-        "tractor_beam_turret_build_draw.angle",
-        "tractor_beam_turret_build_draw.mixcol",
-        "tractor_beam_turret_build_draw.laser"
-      ],
-      "status": "active",
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_draw_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_draw_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_draw_bridge_state",
-        "test_tractor_beam_turret_build_draw_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_draw_slice_is_registered_with_source_backing"
-      ]
-    },
-    "N1240": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.updateTile() activation timer",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_activation_state",
-      "exact_exprs": [
-        "public class TractorBeamBuild extends BaseTurretBuild{",
-        "@Override",
-        "public void updateTile(){",
-        "if(activationTimer > 0){",
-        "activationTimer -= Time.delta;",
-        "return;",
-        "float eff = efficiency * coolantMultiplier, edelta = eff * delta();"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_activation.method",
-        "tractor_beam_turret_build_update_tile_activation.inner_class",
-        "tractor_beam_turret_build_update_tile_activation.override",
-        "tractor_beam_turret_build_update_tile_activation.activation_timer",
-        "tractor_beam_turret_build_update_tile_activation.time_delta",
-        "tractor_beam_turret_build_update_tile_activation.guard",
-        "tractor_beam_turret_build_update_tile_activation.decrement",
-        "tractor_beam_turret_build_update_tile_activation.return",
-        "tractor_beam_turret_build_update_tile_activation.next_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_activation_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_activation_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_activation_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_activation_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_activation_bridge_state",
-      "rule": "TractorBeamBuild.updateTile subtracts Time.delta from activationTimer and returns early while activationTimer > 0; later updateTile logic is deferred."
-    },
-    "N1241": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.updateTile() eff/edelta",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_eff_state",
-      "exact_exprs": [
-        "public class TractorBeamBuild extends BaseTurretBuild{",
-        "@Override",
-        "public void updateTile(){",
-        "return;",
-        "float eff = efficiency * coolantMultiplier, edelta = eff * delta();",
-        "//retarget",
-        "if(timer(timerTarget, retargetTime)){"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_eff.method",
-        "tractor_beam_turret_build_update_tile_eff.inner_class",
-        "tractor_beam_turret_build_update_tile_eff.override",
-        "tractor_beam_turret_build_update_tile_eff.activation_returned_early",
-        "tractor_beam_turret_build_update_tile_eff.efficiency",
-        "tractor_beam_turret_build_update_tile_eff.coolant_multiplier",
-        "tractor_beam_turret_build_update_tile_eff.delta_value",
-        "tractor_beam_turret_build_update_tile_eff.eff_calculated",
-        "tractor_beam_turret_build_update_tile_eff.eff_expr",
-        "tractor_beam_turret_build_update_tile_eff.eff",
-        "tractor_beam_turret_build_update_tile_eff.edelta",
-        "tractor_beam_turret_build_update_tile_eff.retarget_comment",
-        "tractor_beam_turret_build_update_tile_eff.retarget_guard"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_eff_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_eff_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_eff_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_eff_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_eff_bridge_state",
-      "rule": "After the activation timer early-return boundary, TractorBeamBuild.updateTile computes eff = efficiency * coolantMultiplier and edelta = eff * delta(); retarget logic is deferred."
-    },
-    "N1242": {
-      "status": "source-backed",
-      "title": "Generated TractorBeamTurretBuild updateTile retarget bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_method": "TractorBeamBuild.updateTile() retarget",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_retarget_state",
-      "exact_exprs": [
-        "public class TractorBeamBuild extends BaseTurretBuild{",
-        "@Override",
-        "public void updateTile(){",
-        "float eff = efficiency * coolantMultiplier, edelta = eff * delta();",
-        "//retarget",
-        "if(timer(timerTarget, retargetTime)){",
-        "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
-        "u -> u.checkTarget(targetAir, targetGround)"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_retarget_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_retarget_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_retarget_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_retarget_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_retarget_bridge_state",
-      "java_class": "TractorBeamTurret.TractorBeamBuild",
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_retarget.method",
-        "tractor_beam_turret_build_update_tile_retarget.inner_class",
-        "tractor_beam_turret_build_update_tile_retarget.override",
-        "tractor_beam_turret_build_update_tile_retarget.eff_expr",
-        "tractor_beam_turret_build_update_tile_retarget.comment",
-        "tractor_beam_turret_build_update_tile_retarget.guard",
-        "tractor_beam_turret_build_update_tile_retarget.existing_target",
-        "tractor_beam_turret_build_update_tile_retarget.closest_enemy",
-        "tractor_beam_turret_build_update_tile_retarget.team",
-        "tractor_beam_turret_build_update_tile_retarget.x",
-        "tractor_beam_turret_build_update_tile_retarget.y",
-        "tractor_beam_turret_build_update_tile_retarget.range",
-        "tractor_beam_turret_build_update_tile_retarget.target_air",
-        "tractor_beam_turret_build_update_tile_retarget.target_ground",
-        "tractor_beam_turret_build_update_tile_retarget.filter",
-        "tractor_beam_turret_build_update_tile_retarget.assign",
-        "tractor_beam_turret_build_update_tile_retarget.retarget_called",
-        "tractor_beam_turret_build_update_tile_retarget.target_after"
-      ],
-      "rule": "After eff/edelta, TractorBeamBuild.updateTile optionally assigns target from Units.closestEnemy when timer(timerTarget, retargetTime) is true; Units.closestEnemy internals stay deferred as explicit input closest_enemy_result."
-    },
-    "N1243": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.updateTile() coolant guard",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_guard_state",
-      "exact_exprs": [
-        "public class TractorBeamBuild extends BaseTurretBuild{",
-        "@Override",
-        "public void updateTile(){",
-        "target = Units.closestEnemy(team, x, y, range, u -> u.checkTarget(targetAir, targetGround));",
-        "//consume coolant",
-        "if(target != null && coolant != null){",
-        "float maxUsed = coolant.amount;",
-        "Liquid liquid = liquids.current();",
-        "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_coolant_guard.method",
-        "tractor_beam_turret_build_update_tile_coolant_guard.inner_class",
-        "tractor_beam_turret_build_update_tile_coolant_guard.override",
-        "tractor_beam_turret_build_update_tile_coolant_guard.retarget_assign",
-        "tractor_beam_turret_build_update_tile_coolant_guard.comment",
-        "tractor_beam_turret_build_update_tile_coolant_guard.guard",
-        "tractor_beam_turret_build_update_tile_coolant_guard.coolant_present",
-        "tractor_beam_turret_build_update_tile_coolant_guard.target_after",
-        "tractor_beam_turret_build_update_tile_coolant_guard.coolant_amount",
-        "tractor_beam_turret_build_update_tile_coolant_guard.max_used",
-        "tractor_beam_turret_build_update_tile_coolant_guard.current_liquid",
-        "tractor_beam_turret_build_update_tile_coolant_guard.used_next"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_guard_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_guard_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_coolant_guard_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_coolant_guard_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_guard_bridge_state",
-      "rule": "After retarget, TractorBeamBuild.updateTile enters coolant consumption only when target and coolant are present, reads coolant.amount as maxUsed, then reads liquids.current(); used/remove/effect/multiplier stay deferred."
-    },
-    "N1244": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.updateTile() coolant used",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_used_state",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "if(target != null && coolant != null){",
-        "float maxUsed = coolant.amount;",
-        "Liquid liquid = liquids.current();",
-        "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
-        "liquids.remove(liquid, used);"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_coolant_used.method",
-        "tractor_beam_turret_build_update_tile_coolant_used.guard",
-        "tractor_beam_turret_build_update_tile_coolant_used.liquids_get",
-        "tractor_beam_turret_build_update_tile_coolant_used.max_used",
-        "tractor_beam_turret_build_update_tile_coolant_used.time_delta",
-        "tractor_beam_turret_build_update_tile_coolant_used.coolant_multiplier",
-        "tractor_beam_turret_build_update_tile_coolant_used.liquid_heat_capacity",
-        "tractor_beam_turret_build_update_tile_coolant_used.max_used_time_delta",
-        "tractor_beam_turret_build_update_tile_coolant_used.heat_capacity_limit",
-        "tractor_beam_turret_build_update_tile_coolant_used.used",
-        "tractor_beam_turret_build_update_tile_coolant_used.remove_next"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_used_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_used_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_coolant_used_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_coolant_used_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_used_bridge_state",
-      "rule": "Inside the coolant guard, TractorBeamBuild.updateTile computes used as Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity)); removal/effects/multiplier update stay deferred."
-    },
-    "N1245": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.updateTile() coolant remove",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "if(target != null && coolant != null){",
-        "float used = Math.min(Math.min(liquids.get(liquid), maxUsed * Time.delta), Math.max(0, (1f / coolantMultiplier) / liquid.heatCapacity));",
-        "liquids.remove(liquid, used);"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_coolant_remove.method",
-        "tractor_beam_turret_build_update_tile_coolant_remove.remove"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_remove_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_remove_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_coolant_remove_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_coolant_remove_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
-      "rule": "Inside the coolant guard, TractorBeamBuild.updateTile removes the exact computed used amount from liquids. LiquidModule internal clamping/effects stay deferred."
-    },
-    "N1246": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.updateTile() coolant effect",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "if(target != null && coolant != null){",
-        "if(Mathf.chance(0.06 * used)){",
-        "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_coolant_effect.method",
-        "tractor_beam_turret_build_update_tile_coolant_effect.chance",
-        "tractor_beam_turret_build_update_tile_coolant_effect.cool_effect"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_effect_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_effect_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_coolant_effect_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_coolant_effect_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
-      "rule": "Inside the coolant guard, TractorBeamBuild.updateTile gates coolEffect.at by Mathf.chance(0.06 * used). RNG outcome and Mathf.range offsets are explicit inputs; no random output is fabricated."
-    },
-    "N1247": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "TractorBeamTurret.TractorBeamBuild",
-      "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_multiplier_state",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "if(target != null && coolant != null){",
-        "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_coolant_multiplier.method",
-        "tractor_beam_turret_build_update_tile_coolant_multiplier.assignment"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_multiplier_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_multiplier_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_coolant_multiplier_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_coolant_multiplier_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_multiplier_bridge_state",
-      "rule": "Inside the coolant guard, TractorBeamBuild.updateTile assigns coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier). Guard-false keeps previous coolantMultiplier."
-    },
-    "N1248": {
-      "title": "Generated TractorBeamTurretBuild updateTile any reset bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() any reset",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_reset_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.any_reset",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "return;",
-        "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);",
-        "any = false;"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_any_reset.method",
-        "tractor_beam_turret_build_update_tile_any_reset.assignment"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_reset_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_reset_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_any_reset_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_any_reset_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_any_reset_bridge_state",
-      "status": "source-backed"
-    },
-    "N1249": {
-      "title": "Generated TractorBeamTurretBuild updateTile look target guard bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() look target guard",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_look_target_guard_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.look_target_guard",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "any = false;",
-        "//look at target",
-        "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){",
-        "if(!headless){"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_look_target_guard.method",
-        "tractor_beam_turret_build_update_tile_look_target_guard.guard"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_look_target_guard_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_look_target_guard_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_look_target_guard_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_look_target_guard_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_look_target_guard_bridge_state",
-      "status": "source-backed"
-    },
-    "N1250": {
-      "title": "Generated TractorBeamTurretBuild updateTile sound loop bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() sound loop",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_sound_loop_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.sound_loop",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){",
-        "if(!headless){",
-        "control.sound.loop(shootSound, this, shootSoundVolume);",
-        "float dest = angleTo(target);"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_sound_loop.method",
-        "tractor_beam_turret_build_update_tile_sound_loop.call"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_sound_loop_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_sound_loop_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_sound_loop_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_sound_loop_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_sound_loop_bridge_state",
-      "status": "source-backed"
-    },
-    "N1251": {
-      "title": "Generated TractorBeamTurretBuild updateTile angle to target bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() angle to target",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_angle_to_target_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.angle_to_target",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "float dest = angleTo(target);",
-        "default float angleTo(Position other){",
-        "return Angles.angle(getX(), getY(), other.getX(), other.getY());",
-        "public static float angle(float x, float y, float x2, float y2){",
-        "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_angle_to_target.method",
-        "tractor_beam_turret_build_update_tile_angle_to_target.call"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_angle_to_target_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_angle_to_target_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_angle_to_target_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_angle_to_target_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_angle_to_target_bridge_state",
-      "status": "source-backed"
-    },
-    "N1252": {
-      "title": "Generated TractorBeamTurretBuild updateTile rotation move bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() rotation move",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_rotation_move_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.rotation_move",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "float dest = angleTo(target);",
-        "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
-        "lastX = target.x;",
-        "public static float moveToward(float angle, float to, float speed){",
-        "if(Math.abs(angleDist(angle, to)) < speed) return to;",
-        "if(angle > to == backwardDistance(angle, to) > forwardDistance(angle, to)){"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_rotation_move.method",
-        "tractor_beam_turret_build_update_tile_rotation_move.call"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_rotation_move_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_rotation_move_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_rotation_move_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_rotation_move_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_rotation_move_bridge_state",
-      "status": "source-backed"
-    },
-    "N1253": {
-      "title": "Generated TractorBeamTurretBuild updateTile last target position bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() last target position",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_last_target_position_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.last_target_position",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "rotation = Angles.moveToward(rotation, dest, rotateSpeed * edelta);",
-        "lastX = target.x;",
-        "lastY = target.y;",
-        "strength = Mathf.lerpDelta(strength, 1f, 0.1f);"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_last_target_position.method",
-        "tractor_beam_turret_build_update_tile_last_target_position.last_x",
-        "tractor_beam_turret_build_update_tile_last_target_position.last_y"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_last_target_position_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_last_target_position_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_last_target_position_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_last_target_position_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_last_target_position_bridge_state",
-      "status": "source-backed"
-    },
-    "N1254": {
-      "title": "Generated TractorBeamTurretBuild updateTile active strength bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() active strength",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_active_strength_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.active_strength",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "lastY = target.y;",
-        "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
-        "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
-        "public static float clamp(float value){\n        return Math.max(Math.min(value, 1f), 0f);\n    }",
-        "public static float lerp(float fromValue, float toValue, float progress){\n        return fromValue + (toValue - fromValue) * progress;\n    }",
-        "if(Angles.within(rotation, dest, shootCone)){"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_active_strength.method",
-        "tractor_beam_turret_build_update_tile_active_strength.assignment",
-        "tractor_beam_turret_build_update_tile_active_strength.mathf_lerp_delta"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_active_strength_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_active_strength_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_active_strength_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_active_strength_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_active_strength_bridge_state",
-      "status": "source-backed"
-    },
-    "N1255": {
-      "title": "Generated TractorBeamTurretBuild updateTile shoot when possible guard bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() shoot when possible guard",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.shoot_when_possible_guard",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "strength = Mathf.lerpDelta(strength, 1f, 0.1f);",
-        "//shoot when possible",
-        "if(Angles.within(rotation, dest, shootCone)){",
-        "public static boolean within(float a, float b, float margin){\n        return angleDist(a, b) <= margin;\n    }",
-        "public static float angleDist(float a, float b){\n        a = Mathf.mod(a, 360f);\n        b = Mathf.mod(b, 360f);\n        return Math.min((a - b) < 0 ? a - b + 360 : a - b, (b - a) < 0 ? b - a + 360 : b - a);\n    }",
-        "if(damage > 0){"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.method",
-        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.guard",
-        "tractor_beam_turret_build_update_tile_shoot_when_possible_guard.angles_within"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_shoot_when_possible_guard_bridge_state",
-      "status": "source-backed"
-    },
-    "N1256": {
-      "title": "Generated TractorBeamTurretBuild updateTile damage pierce bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() damage pierce",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_damage_pierce_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.damage_pierce",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "if(Angles.within(rotation, dest, shootCone)){",
-        "if(damage > 0){",
-        "target.damageContinuousPierce(damage * eff * timeScale * state.rules.blockDamage(team));",
-        "public float blockDamage(Team team){\n        return blockDamageMultiplier * teams.get(team).blockDamageMultiplier;\n    }",
-        "private transient float timeScale = 1f, timeScaleDuration;",
-        "void damageContinuousPierce(float amount){\n        damagePierce(amount * Time.delta, hitTime <= -20 + hitDuration);\n    }",
-        "if(status != StatusEffects.none){"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_damage_pierce.method",
-        "tractor_beam_turret_build_update_tile_damage_pierce.call",
-        "tractor_beam_turret_build_update_tile_damage_pierce.rules_block_damage"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_damage_pierce_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_damage_pierce_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_damage_pierce_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_damage_pierce_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_damage_pierce_bridge_state",
-      "status": "source-backed"
-    },
-    "N1257": {
-      "title": "Generated TractorBeamTurretBuild updateTile status apply bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() status apply",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_status_apply_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.status_apply",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "if(Angles.within(rotation, dest, shootCone)){",
-        "public StatusEffect status = StatusEffects.none;",
-        "public float statusDuration = 300;",
-        "if(status != StatusEffects.none){",
-        "target.apply(status, statusDuration);",
-        "any = true;",
-        "public void apply(StatusEffect effect, float duration){",
-        "if(effect == StatusEffects.none || effect == null || isImmune(effect)) return;"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_status_apply.method",
-        "tractor_beam_turret_build_update_tile_status_apply.gate",
-        "tractor_beam_turret_build_update_tile_status_apply.call"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_status_apply_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_status_apply_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_status_apply_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_status_apply_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_status_apply_bridge_state",
-      "status": "source-backed"
-    },
-    "N1258": {
-      "title": "Generated TractorBeamTurretBuild updateTile any true bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() any true",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_any_true_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.any_true",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "if(Angles.within(rotation, dest, shootCone)){",
-        "target.apply(status, statusDuration);",
-        "any = true;",
-        "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_any_true.method",
-        "tractor_beam_turret_build_update_tile_any_true.assignment",
-        "tractor_beam_turret_build_update_tile_any_true.impulse_boundary"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_any_true_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_any_true_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_any_true_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_any_true_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_any_true_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_any_true_bridge_state",
-      "status": "source-backed"
-    },
-    "N1259": {
-      "title": "Generated TractorBeamTurretBuild updateTile impulse net bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() impulse net",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_impulse_net_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.impulse_net",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "public float force = 0.3f;",
-        "public float scaledForce = 0f;",
-        "any = true;",
-        "target.impulseNet(Tmp.v1.set(this).sub(target).limit((force + (1f - target.dst(this) / range) * scaledForce) * edelta));",
-        "void impulseNet(Vec2 v){",
-        "public Vec2 limit(float limit){",
-        "default float dst(Position other){"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_impulse_net.method",
-        "tractor_beam_turret_build_update_tile_impulse_net.force",
-        "tractor_beam_turret_build_update_tile_impulse_net.scaled_force",
-        "tractor_beam_turret_build_update_tile_impulse_net.call"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_impulse_net_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_impulse_net_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_impulse_net_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_impulse_net_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_impulse_net_bridge_state",
-      "status": "source-backed"
-    },
-    "N1260": {
-      "title": "Generated TractorBeamTurretBuild updateTile inactive strength bridge state",
-      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
-      "java_class": "mindustry.world.blocks.defense.turrets.TractorBeamTurret",
-      "java_method": "TractorBeamBuild.updateTile() inactive strength",
-      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_inactive_strength_state",
-      "generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.inactive_strength",
-      "exact_exprs": [
-        "public void updateTile(){",
-        "if(target != null && target.within(this, range + target.hitSize/2f) && target.team() != team && target.checkTarget(targetAir, targetGround) && efficiency > 0.02f){",
-        "}else{",
-        "strength = Mathf.lerpDelta(strength, 0, 0.1f);",
-        "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }"
-      ],
-      "source_symbols": [
-        "tractor_beam_turret_build_update_tile_inactive_strength.method",
-        "tractor_beam_turret_build_update_tile_inactive_strength.assignment",
-        "tractor_beam_turret_build_update_tile_inactive_strength.mathf_lerp_delta"
-      ],
-      "tests": [
-        "test_emit_bridges_tractor_beam_turret_build_update_tile_inactive_strength_to_source_state",
-        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_inactive_strength_state",
-        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state",
-        "test_tractor_beam_turret_build_update_tile_inactive_strength_matches_upstream_source",
-        "test_generated_tractor_beam_turret_build_update_tile_inactive_strength_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_inactive_strength_bridge_state",
-      "status": "source-backed"
-    },
-    "N1261": {
-      "title": "Generated Ability update bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.update(Unit unit)",
-      "godot_owner": "PortGame.source_ability_update_state",
-      "generated_owner": "Ability.java_method_update_0",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "import mindustry.gen.*;",
-        "public void update(Unit unit){}"
-      ],
-      "source_symbols": [
-        "ability_update.method",
-        "ability_update.unit",
-        "ability_update.no_op"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_update_to_source_state",
-        "test_port_game_exposes_source_ability_update_state",
-        "test_port_game_exposes_generated_ability_update_bridge_state",
-        "test_ability_update_matches_upstream_source",
-        "test_generated_ability_update_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_update_bridge_state",
-      "status": "source-backed"
-    },
-    "N1262": {
-      "title": "Generated Ability draw bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.draw(Unit unit)",
-      "godot_owner": "PortGame.source_ability_draw_state",
-      "generated_owner": "Ability.java_method_draw_1",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "import mindustry.gen.*;",
-        "public void draw(Unit unit){}"
-      ],
-      "source_symbols": [
-        "ability_draw.method",
-        "ability_draw.unit",
-        "ability_draw.no_op"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_draw_to_source_state",
-        "test_port_game_exposes_source_ability_draw_state",
-        "test_port_game_exposes_generated_ability_draw_bridge_state",
-        "test_ability_draw_matches_upstream_source",
-        "test_generated_ability_draw_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_draw_bridge_state",
-      "status": "source-backed"
-    },
-    "N1263": {
-      "title": "Generated Ability death bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.death(Unit unit)",
-      "godot_owner": "PortGame.source_ability_death_state",
-      "generated_owner": "Ability.java_method_death_2",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "import mindustry.gen.*;",
-        "public void death(Unit unit){}"
-      ],
-      "source_symbols": [
-        "ability_death.method",
-        "ability_death.unit",
-        "ability_death.no_op"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_death_to_source_state",
-        "test_port_game_exposes_source_ability_death_state",
-        "test_port_game_exposes_generated_ability_death_bridge_state",
-        "test_ability_death_matches_upstream_source",
-        "test_generated_ability_death_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_death_bridge_state",
-      "status": "source-backed"
-    },
-    "N1264": {
-      "title": "Generated Ability created bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.created(Unit unit)",
-      "godot_owner": "PortGame.source_ability_created_state",
-      "generated_owner": "Ability.java_method_created_3",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "import mindustry.gen.*;",
-        "public void created(Unit unit){}"
-      ],
-      "source_symbols": [
-        "ability_created.method",
-        "ability_created.unit",
-        "ability_created.no_op"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_created_to_source_state",
-        "test_port_game_exposes_source_ability_created_state",
-        "test_port_game_exposes_generated_ability_created_bridge_state",
-        "test_ability_created_matches_upstream_source",
-        "test_generated_ability_created_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_created_bridge_state",
-      "status": "source-backed"
-    },
-    "N1265": {
-      "title": "Generated Ability init bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.init(UnitType type)",
-      "godot_owner": "PortGame.source_ability_init_state",
-      "generated_owner": "Ability.java_method_init_4",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "import mindustry.type.*;",
-        "public void init(UnitType type){}"
-      ],
-      "source_symbols": [
-        "ability_init.method",
-        "ability_init.type",
-        "ability_init.no_op"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_init_to_source_state",
-        "test_port_game_exposes_source_ability_init_state",
-        "test_port_game_exposes_generated_ability_init_bridge_state",
-        "test_ability_init_matches_upstream_source",
-        "test_generated_ability_init_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_init_bridge_state",
-      "status": "source-backed"
-    },
-    "N1266": {
-      "title": "Generated Ability displayBars bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.displayBars(Unit unit, Table bars)",
-      "godot_owner": "PortGame.source_ability_display_bars_state",
-      "generated_owner": "Ability.java_method_displayBars_5",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "import mindustry.gen.*;",
-        "import arc.scene.ui.layout.*;",
-        "public void displayBars(Unit unit, Table bars){}"
-      ],
-      "source_symbols": [
-        "ability_display_bars.method",
-        "ability_display_bars.unit",
-        "ability_display_bars.bars",
-        "ability_display_bars.no_op"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_display_bars_to_source_state",
-        "test_port_game_exposes_source_ability_display_bars_state",
-        "test_port_game_exposes_generated_ability_display_bars_bridge_state",
-        "test_ability_display_bars_matches_upstream_source",
-        "test_generated_ability_display_bars_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_display_bars_bridge_state",
-      "status": "source-backed"
-    },
-    "N1267": {
-      "title": "Generated Ability display bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.display(Table t)",
-      "godot_owner": "PortGame.source_ability_display_state",
-      "generated_owner": "Ability.java_method_display_6",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "import arc.scene.ui.layout.*;",
-        "import mindustry.ui.*;",
-        "public void display(Table t){",
-        "t.table(Styles.grayPanel, a -> {",
-        "a.add(\"[accent]\" + localized()).padBottom(4).center().top().expandX();",
-        "a.row();",
-        "a.left().top().defaults().left();",
-        "addStats(a);",
-        "}).pad(5).margin(10).growX().top().uniformX();"
-      ],
-      "source_symbols": [
-        "ability_display.method",
-        "ability_display.table",
-        "ability_display.localized_call",
-        "ability_display.add_stats_call",
-        "ability_display.style_expr",
-        "ability_display.title_expr",
-        "ability_display.outer_chain"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_display_to_source_state",
-        "test_port_game_exposes_source_ability_display_state",
-        "test_port_game_exposes_generated_ability_display_bridge_state",
-        "test_ability_display_matches_upstream_source",
-        "test_generated_ability_display_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_display_bridge_state",
-      "status": "source-backed"
-    },
-    "N1268": {
-      "title": "Generated Ability addStats bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.addStats(Table t)",
-      "godot_owner": "PortGame.source_ability_add_stats_state",
-      "generated_owner": "Ability.java_method_addStats_7",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "import arc.*;",
-        "import arc.scene.ui.layout.*;",
-        "protected static final float descriptionWidth = 350f;",
-        "public void addStats(Table t){",
-        "if(Core.bundle.has(getBundle() + \".description\")){",
-        "t.add(Core.bundle.get(getBundle() + \".description\")).wrap().width(descriptionWidth);",
-        "t.row();"
-      ],
-      "source_symbols": [
-        "ability_add_stats.method",
-        "ability_add_stats.guard",
-        "ability_add_stats.description_width",
-        "ability_add_stats.add_description"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_add_stats_to_source_state",
-        "test_port_game_exposes_source_ability_add_stats_state",
-        "test_port_game_exposes_generated_ability_add_stats_bridge_state",
-        "test_ability_add_stats_matches_upstream_source",
-        "test_generated_ability_add_stats_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_add_stats_bridge_state",
-      "status": "done",
-      "rule": "Registers source-backed operation plan for Ability.addStats(Table t) description row mutation guarded by Core.bundle.has(getBundle() + \".description\").",
-      "deferred_exprs": [
-        "Concrete Arc Core.bundle lookup and Table widget mutation remain explicit inputs/runtime UI integration; this bridge preserves source guard, key, description text, width, and row operation plan."
-      ]
-    },
-    "N1269": {
-      "title": "Generated Ability abilityStat bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.abilityStat(String stat, Object... values)",
-      "godot_owner": "PortGame.source_ability_ability_stat_state",
-      "generated_owner": "Ability.java_method_abilityStat_8",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "import arc.*;",
-        "public String abilityStat(String stat, Object... values){",
-        "return Core.bundle.format(\"ability.stat.\" + stat, values);"
-      ],
-      "source_symbols": [
-        "ability_ability_stat.method",
-        "ability_ability_stat.bundle_key",
-        "ability_ability_stat.format_call",
-        "ability_ability_stat.return_value"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_ability_stat_to_source_state",
-        "test_port_game_exposes_source_ability_ability_stat_state",
-        "test_port_game_exposes_generated_ability_ability_stat_bridge_state",
-        "test_ability_ability_stat_matches_upstream_source",
-        "test_generated_ability_ability_stat_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_ability_stat_bridge_state",
-      "status": "done",
-      "rule": "Registers source-backed operation plan for Ability.abilityStat(String stat, Object... values) bundle format return.",
-      "deferred_exprs": [
-        "Concrete Arc Core.bundle.format lookup remains explicit formatted_value input; this bridge preserves key expression, values varargs, and return expression."
-      ]
-    },
-    "N1270": {
-      "title": "Generated Ability copy bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.copy()",
-      "godot_owner": "PortGame.source_ability_copy_state",
-      "generated_owner": "Ability.java_method_copy_9",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "public Ability copy(){",
-        "try{",
-        "return (Ability)clone();",
-        "}catch(CloneNotSupportedException e){",
-        "//I am disgusted",
-        "throw new RuntimeException(\"java sucks\", e);"
-      ],
-      "source_symbols": [
-        "ability_copy.method",
-        "ability_copy.clone_return",
-        "ability_copy.catch",
-        "ability_copy.runtime_exception"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_copy_to_source_state",
-        "test_port_game_exposes_source_ability_copy_state",
-        "test_port_game_exposes_generated_ability_copy_bridge_state",
-        "test_ability_copy_matches_upstream_source",
-        "test_generated_ability_copy_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_copy_bridge_state",
-      "status": "done",
-      "rule": "Registers source-backed operation plan for Ability.copy() clone success and CloneNotSupportedException wrapper branches.",
-      "deferred_exprs": [
-        "Concrete Java Object.clone() behavior remains explicit clone_supported/clone_value input; this bridge preserves try/catch and RuntimeException wrapper semantics."
-      ]
-    },
-    "N1271": {
-      "title": "Generated Ability localized bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.localized()",
-      "godot_owner": "PortGame.source_ability_localized_state",
-      "generated_owner": "Ability.java_method_localized_10",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "/** @return localized ability name; mods should override this. */",
-        "public String localized(){",
-        "return Core.bundle.get(getBundle());"
-      ],
-      "source_symbols": [
-        "ability_localized.method",
-        "ability_localized.get_bundle_call",
-        "ability_localized.bundle_get"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_localized_to_source_state",
-        "test_port_game_exposes_source_ability_localized_state",
-        "test_port_game_exposes_generated_ability_localized_bridge_state",
-        "test_ability_localized_matches_upstream_source",
-        "test_generated_ability_localized_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_localized_bridge_state",
-      "status": "done",
-      "rule": "Registers source-backed operation plan for Ability.localized() using explicit bundle lookup facts.",
-      "deferred_exprs": [
-        "Concrete Core.bundle lookup and getBundle() internals remain explicit get_bundle_value and bundle_value inputs; this bridge preserves localized() return expression without inventing bundle state."
-      ]
-    },
-    "N1272": {
-      "title": "Generated Ability getBundle bridge state",
-      "java_source": "core/src/mindustry/entities/abilities/Ability.java",
-      "java_class": "mindustry.entities.abilities.Ability",
-      "java_method": "Ability.getBundle()",
-      "godot_owner": "PortGame.source_ability_get_bundle_state",
-      "generated_owner": "Ability.java_method_getBundle_11",
-      "exact_exprs": [
-        "public abstract class Ability implements Cloneable{",
-        "public String getBundle(){",
-        "var type = getClass();",
-        "return \"ability.\" + (type.isAnonymousClass() ? type.getSuperclass() : type).getSimpleName().replace(\"Ability\", \"\").toLowerCase();"
-      ],
-      "source_symbols": [
-        "ability_get_bundle.method",
-        "ability_get_bundle.type_assignment",
-        "ability_get_bundle.return_expr"
-      ],
-      "tests": [
-        "test_emit_bridges_ability_get_bundle_to_source_state",
-        "test_port_game_exposes_source_ability_get_bundle_state",
-        "test_port_game_exposes_generated_ability_get_bundle_bridge_state",
-        "test_ability_get_bundle_matches_upstream_source",
-        "test_generated_ability_get_bundle_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_ability_get_bundle_bridge_state",
-      "status": "done",
-      "rule": "Registers source-backed operation plan for Ability.getBundle() class/simple-name bundle key formula.",
-      "deferred_exprs": [
-        "Concrete Java getClass(), isAnonymousClass(), getSuperclass(), and getSimpleName() runtime reflection stay explicit class_simple_name, is_anonymous_class, and superclass_simple_name inputs."
-      ]
-    },
-    "N1273": {
-      "title": "Generated Block outputsItems bridge state",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "java_class": "mindustry.world.Block",
-      "java_method": "Block.outputsItems()",
-      "godot_owner": "PortGame.source_block_outputs_items_state",
-      "generated_owner": "Block.java_method_outputsItems_17",
-      "exact_exprs": [
-        "/** If true, buildings have an ItemModule. */",
-        "public @NoPatch boolean hasItems;",
-        "public boolean outputsItems(){",
-        "return hasItems;"
-      ],
-      "source_symbols": [
-        "block_outputs_items.method",
-        "block_outputs_items.has_items_field",
-        "block_outputs_items.return_has_items"
-      ],
-      "tests": [
-        "test_emit_bridges_block_outputs_items_to_source_state",
-        "test_port_game_exposes_source_block_outputs_items_state",
-        "test_port_game_exposes_generated_block_outputs_items_bridge_state",
-        "test_block_outputs_items_matches_upstream_source",
-        "test_generated_block_outputs_items_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_block_outputs_items_bridge_state",
-      "status": "done",
-      "rule": "Registers source-backed operation plan for Block.outputsItems() returning hasItems.",
-      "deferred_exprs": [
-        "Concrete block instance storage remains explicit has_items input; this bridge preserves the field-backed return."
-      ]
-    },
-    "N1274": {
-      "title": "Generated Block canPlaceOn bridge state",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "java_class": "mindustry.world.Block",
-      "java_method": "Block.canPlaceOn(Tile tile, Team team, int rotation)",
-      "godot_owner": "PortGame.source_block_can_place_on_state",
-      "generated_owner": "Block.java_method_canPlaceOn_18",
-      "exact_exprs": [
-        "/** @return whether this block can be placed on the specified tile. */",
-        "public boolean canPlaceOn(Tile tile, Team team, int rotation){",
-        "return true;"
-      ],
-      "source_symbols": [
-        "block_can_place_on.method",
-        "block_can_place_on.return_true"
-      ],
-      "tests": [
-        "test_emit_bridges_block_can_place_on_to_source_state",
-        "test_port_game_exposes_source_block_can_place_on_state",
-        "test_port_game_exposes_generated_block_can_place_on_bridge_state",
-        "test_block_can_place_on_matches_upstream_source",
-        "test_generated_block_can_place_on_slice_is_registered_with_source_backing"
-      ],
-      "runtime_proof": "/root/Main.generated_block_can_place_on_bridge_state",
-      "status": "done",
-      "rule": "Registers source-backed operation plan for default Block.canPlaceOn returning true.",
-      "deferred_exprs": [
-        "Concrete tile/team/rotation semantics remain explicit inputs; default upstream method ignores them and returns true."
-      ]
-    },
-    "N1275": {
-      "exact_exprs": [
-        "/** @return whether this block can be broken on the specified tile. */",
-        "public boolean canBreak(Tile tile){",
-        "return true;"
-      ],
-      "generated_owner": "Block.java_method_canBreak_19",
-      "godot_owner": "PortGame.source_block_can_break_state",
-      "java_method": "Block.canBreak(Tile tile)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_can_break_bridge_state",
-      "source_symbols": [
-        "block_can_break.method",
-        "block_can_break.return_true"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_can_break_to_source_state",
-        "test_port_game_exposes_source_block_can_break_state",
-        "test_port_game_exposes_generated_block_can_break_bridge_state",
-        "test_block_can_break_matches_upstream_source",
-        "test_generated_block_can_break_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block canBreak bridge state",
-      "java_class": "Block"
-    },
-    "N1276": {
-      "exact_exprs": [
-        "/** whether this is rotatable */",
-        "public boolean rotate;",
-        "public boolean rotatedOutput(int x, int y){",
-        "return rotate;"
-      ],
-      "generated_owner": "Block.java_method_rotatedOutput_20",
-      "godot_owner": "PortGame.source_block_rotated_output_state",
-      "java_class": "Block",
-      "java_method": "Block.rotatedOutput(int x, int y)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_rotated_output_bridge_state",
-      "source_symbols": [
-        "block_rotated_output.method",
-        "block_rotated_output.rotate_field",
-        "block_rotated_output.return_rotate"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_rotated_output_to_source_state",
-        "test_port_game_exposes_source_block_rotated_output_state",
-        "test_port_game_exposes_generated_block_rotated_output_bridge_state",
-        "test_block_rotated_output_matches_upstream_source",
-        "test_generated_block_rotated_output_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block rotatedOutput bridge state"
-    },
-    "N1277": {
-      "exact_exprs": [
-        "public boolean rotatedOutput(int fromX, int fromY, Tile destination){",
-        "rotatedOutput(fromX, fromY)",
-        "return rotatedOutput(fromX, fromY);"
-      ],
-      "generated_owner": "Block.java_method_rotatedOutput_21",
-      "godot_owner": "PortGame.source_block_rotated_output_tile_state",
-      "java_class": "Block",
-      "java_method": "Block.rotatedOutput(int fromX, int fromY, Tile destination)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_rotated_output_tile_bridge_state",
-      "source_symbols": [
-        "block_rotated_output_tile.method",
-        "block_rotated_output_tile.delegate_call",
-        "block_rotated_output_tile.return_delegate"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_rotated_output_tile_to_source_state",
-        "test_port_game_exposes_source_block_rotated_output_tile_state",
-        "test_port_game_exposes_generated_block_rotated_output_tile_bridge_state",
-        "test_block_rotated_output_tile_matches_upstream_source",
-        "test_generated_block_rotated_output_tile_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block rotatedOutput tile bridge state"
-    },
-    "N1278": {
-      "exact_exprs": [
-        "public boolean synthetic(){",
-        "return update || destructible;"
-      ],
-      "generated_owner": "Block.java_method_synthetic_22",
-      "godot_owner": "PortGame.source_block_synthetic_state",
-      "java_class": "Block",
-      "java_method": "Block.synthetic()",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_synthetic_bridge_state",
-      "source_symbols": [
-        "block_synthetic.method",
-        "block_synthetic.return_update_or_destructible"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_synthetic_to_source_state",
-        "test_port_game_exposes_source_block_synthetic_state",
-        "test_port_game_exposes_generated_block_synthetic_bridge_state",
-        "test_block_synthetic_matches_upstream_source",
-        "test_generated_block_synthetic_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block synthetic bridge state"
-    },
-    "N1279": {
-      "exact_exprs": [
-        "public boolean checkForceDark(Tile tile){",
-        "return forceDark;"
-      ],
-      "generated_owner": "Block.java_method_checkForceDark_23",
-      "godot_owner": "PortGame.source_block_check_force_dark_state",
-      "java_class": "Block",
-      "java_method": "Block.checkForceDark(Tile tile)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_check_force_dark_bridge_state",
-      "source_symbols": [
-        "block_check_force_dark.method",
-        "block_check_force_dark.return_force_dark"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_check_force_dark_to_source_state",
-        "test_port_game_exposes_source_block_check_force_dark_state",
-        "test_port_game_exposes_generated_block_check_force_dark_bridge_state",
-        "test_block_check_force_dark_matches_upstream_source",
-        "test_generated_block_check_force_dark_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block checkForceDark bridge state"
-    },
-    "N1280": {
-      "exact_exprs": [
-        "/** If true, the 'map edge' darkness will be applied to this block. */",
-        "public boolean isDarkened(Tile tile){",
-        "return solid && ((!synthetic() && fillsTile) || checkForceDark(tile));",
-        "synthetic()",
-        "checkForceDark(tile)"
-      ],
-      "generated_owner": "Block.java_method_isDarkened_24",
-      "godot_owner": "PortGame.source_block_is_darkened_state",
-      "java_class": "Block",
-      "java_method": "Block.isDarkened(Tile tile)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_is_darkened_bridge_state",
-      "source_symbols": [
-        "block_is_darkened.comment",
-        "block_is_darkened.method",
-        "block_is_darkened.return_expr",
-        "block_is_darkened.synthetic_call",
-        "block_is_darkened.check_force_dark_call"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_is_darkened_to_source_state",
-        "test_port_game_exposes_source_block_is_darkened_state",
-        "test_port_game_exposes_generated_block_is_darkened_bridge_state",
-        "test_block_is_darkened_matches_upstream_source",
-        "test_generated_block_is_darkened_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block isDarkened bridge state"
-    },
-    "N1281": {
-      "exact_exprs": [
-        "public boolean consumesItem(Item item){",
-        "return itemFilter[item.id];",
-        "itemFilter",
-        "item.id"
-      ],
-      "generated_owner": "Block.java_method_consumesItem_33",
-      "godot_owner": "PortGame.source_block_consumes_item_state",
-      "java_class": "Block",
-      "java_method": "Block.consumesItem(Item item)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_consumes_item_bridge_state",
-      "source_symbols": [
-        "block_consumes_item.method",
-        "block_consumes_item.return_expr",
-        "block_consumes_item.item_filter",
-        "block_consumes_item.item_id"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_consumes_item_to_source_state",
-        "test_port_game_exposes_source_block_consumes_item_state",
-        "test_port_game_exposes_generated_block_consumes_item_bridge_state",
-        "test_block_consumes_item_matches_upstream_source",
-        "test_generated_block_consumes_item_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block consumesItem bridge state"
-    },
-    "N1282": {
-      "exact_exprs": [
-        "public boolean consumesLiquid(Liquid liq){",
-        "return liquidFilter[liq.id];",
-        "liquidFilter",
-        "liq.id"
-      ],
-      "generated_owner": "Block.java_method_consumesLiquid_34",
-      "godot_owner": "PortGame.source_block_consumes_liquid_state",
-      "java_class": "Block",
-      "java_method": "Block.consumesLiquid(Liquid liq)",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_consumes_liquid_bridge_state",
-      "source_symbols": [
-        "block_consumes_liquid.method",
-        "block_consumes_liquid.return_expr",
-        "block_consumes_liquid.liquid_filter",
-        "block_consumes_liquid.liq_id"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_consumes_liquid_to_source_state",
-        "test_port_game_exposes_source_block_consumes_liquid_state",
-        "test_port_game_exposes_generated_block_consumes_liquid_bridge_state",
-        "test_block_consumes_liquid_matches_upstream_source",
-        "test_generated_block_consumes_liquid_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block consumesLiquid bridge state"
-    },
-    "N1283": {
-      "exact_exprs": [
-        "public boolean hasBuilding(){",
-        "return destructible || update;",
-        "destructible",
-        "update"
-      ],
-      "generated_owner": "Block.java_method_hasBuilding_70",
-      "godot_owner": "PortGame.source_block_has_building_state",
-      "java_class": "Block",
-      "java_method": "Block.hasBuilding()",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_has_building_bridge_state",
-      "source_symbols": [
-        "block_has_building.method",
-        "block_has_building.return_expr",
-        "block_has_building.destructible",
-        "block_has_building.update"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_has_building_to_source_state",
-        "test_port_game_exposes_source_block_has_building_state",
-        "test_port_game_exposes_generated_block_has_building_bridge_state",
-        "test_block_has_building_matches_upstream_source",
-        "test_generated_block_has_building_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block hasBuilding bridge state"
-    },
-    "N1284": {
-      "exact_exprs": [
-        "public boolean isMultiblock(){",
-        "return size > 1;",
-        "size"
-      ],
-      "generated_owner": "Block.java_method_isMultiblock_74",
-      "godot_owner": "PortGame.source_block_is_multiblock_state",
-      "java_class": "Block",
-      "java_method": "Block.isMultiblock()",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_is_multiblock_bridge_state",
-      "source_symbols": [
-        "block_is_multiblock.method",
-        "block_is_multiblock.return_expr",
-        "block_is_multiblock.size"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_is_multiblock_to_source_state",
-        "test_port_game_exposes_source_block_is_multiblock_state",
-        "test_port_game_exposes_generated_block_is_multiblock_bridge_state",
-        "test_block_is_multiblock_matches_upstream_source",
-        "test_generated_block_is_multiblock_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block isMultiblock bridge state"
-    },
-    "N1285": {
-      "exact_exprs": [
-        "public boolean isAir(){",
-        "return id == 0;",
-        "id"
-      ],
-      "generated_owner": "Block.java_method_isAir_91",
-      "godot_owner": "PortGame.source_block_is_air_state",
-      "java_class": "Block",
-      "java_method": "Block.isAir()",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_is_air_bridge_state",
-      "source_symbols": [
-        "block_is_air.method",
-        "block_is_air.return_expr",
-        "block_is_air.id"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_is_air_to_source_state",
-        "test_port_game_exposes_source_block_is_air_state",
-        "test_port_game_exposes_generated_block_is_air_bridge_state",
-        "test_block_is_air_matches_upstream_source",
-        "test_generated_block_is_air_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block isAir bridge state"
-    },
-    "N1286": {
-      "exact_exprs": [
-        "public boolean canBeBuilt(){",
-        "return buildVisibility != BuildVisibility.hidden && buildVisibility != BuildVisibility.debugOnly;",
-        "buildVisibility",
-        "BuildVisibility.hidden",
-        "BuildVisibility.debugOnly"
-      ],
-      "generated_owner": "Block.java_method_canBeBuilt_92",
-      "godot_owner": "PortGame.source_block_can_be_built_state",
-      "java_class": "Block",
-      "java_method": "Block.canBeBuilt()",
-      "java_source": "core/src/mindustry/world/Block.java",
-      "runtime_proof": "/root/Main.generated_block_can_be_built_bridge_state",
-      "source_symbols": [
-        "block_can_be_built.method",
-        "block_can_be_built.return_expr",
-        "block_can_be_built.build_visibility",
-        "block_can_be_built.hidden_constant",
-        "block_can_be_built.debug_only_constant"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_block_can_be_built_to_source_state",
-        "test_port_game_exposes_source_block_can_be_built_state",
-        "test_port_game_exposes_generated_block_can_be_built_bridge_state",
-        "test_block_can_be_built_matches_upstream_source",
-        "test_generated_block_can_be_built_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated Block canBeBuilt bridge state"
     }
   },
   "version": 1
