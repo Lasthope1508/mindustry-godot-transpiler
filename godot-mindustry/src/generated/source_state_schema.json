@@ -108028,6 +108028,121 @@
           "java_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));"
         }
       }
+    },
+    "source_tractor_beam_turret_build_update_tile_coolant_multiplier_input": {
+      "rule": "Inputs for PortGame.source_tractor_beam_turret_build_update_tile_coolant_multiplier_state.",
+      "keys": {
+        "coolant_guard": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "target != null && coolant != null"
+        },
+        "used": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "used"
+        },
+        "liquid_heat_capacity": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "liquid.heatCapacity"
+        },
+        "coolant_multiplier": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "coolantMultiplier"
+        }
+      }
+    },
+    "source_tractor_beam_turret_build_update_tile_coolant_multiplier_result": {
+      "rule": "Dictionary returned by PortGame.source_tractor_beam_turret_build_update_tile_coolant_multiplier_state.",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_multiplier_state"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "public void updateTile(){"
+        },
+        "coolant_guard_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "if(target != null && coolant != null){"
+        },
+        "coolant_multiplier_assign_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);"
+        },
+        "coolant_guard": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "target != null && coolant != null"
+        },
+        "used": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "used"
+        },
+        "liquid_heat_capacity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "liquid.heatCapacity"
+        },
+        "coolant_multiplier": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "coolantMultiplier"
+        },
+        "coolant_multiplier_assign_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "target != null && coolant != null"
+        },
+        "coolant_multiplier_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "1f + (used * liquid.heatCapacity * coolantMultiplier)"
+        },
+        "coolant_multiplier_assign_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+          "java_method": "TractorBeamBuild.updateTile() coolant multiplier",
+          "java_expr": "coolantMultiplier = 1f + (used * liquid.heatCapacity * coolantMultiplier);"
+        }
+      }
     }
   },
   "version": 1
