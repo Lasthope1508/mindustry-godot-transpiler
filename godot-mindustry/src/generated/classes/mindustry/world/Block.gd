@@ -415,7 +415,9 @@ func java_method_consumeItem_107(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_consume_item_amount_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItem(Item item, int amount){", "return_expr": "return consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}));", "item_stack_expr": "new ItemStack(item, amount)", "item_stack_array_expr": "new ItemStack[]{new ItemStack(item, amount)}", "constructor_expr": "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})", "consume_call_expr": "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))", "item": item, "amount": amount, "item_stack": item_stack, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumeItems_108(_args: Array = []) -> Variant:
-	return null
+	var items: Array = _args
+	var constructed_consume: Dictionary = {"type": "ConsumeItems", "items": items}
+	return {"source_owner": "PortGame.source_block_consume_items_varargs_state", "source": "core/src/mindustry/world/Block.java", "method": "public ConsumeItems consumeItems(ItemStack... items){", "return_expr": "return consume(new ConsumeItems(items));", "constructor_expr": "new ConsumeItems(items)", "consume_call_expr": "consume(new ConsumeItems(items))", "items": items, "constructed_consume": constructed_consume, "consume_called": true}
 
 func java_method_consumeCoolant_109(_args: Array = []) -> Variant:
 	return null

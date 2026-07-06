@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 773)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 768)
+        self.assertEqual(audit["totalSourceFunctions"], 774)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 769)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 773)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 774)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44079,6 +44079,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["item_stack"]["java_expr"], "new ItemStack(item, amount)")
         self.assertEqual(result_schema["keys"]["constructed_consume"]["java_expr"], "new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)})")
         self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume(new ConsumeItems(new ItemStack[]{new ItemStack(item, amount)}))")
+
+    def test_generated_block_consume_items_varargs_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_consume_items_varargs.method")
+        self.assertEqual(method["java_expr"], "public ConsumeItems consumeItems(ItemStack... items){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.consumeItems(ItemStack...)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_consume_items_varargs_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_consume_items_varargs_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_consume_items_varargs.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return consume(new ConsumeItems(items));")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_consume_items_varargs_result.constructed_consume")
+
+        constructor_expr = source_symbols.source_symbol(registry, "block_consume_items_varargs.constructor_expr")
+        self.assertEqual(constructor_expr["java_expr"], "new ConsumeItems(items)")
+        self.assertEqual(constructor_expr["godot_symbol"], "source_block_consume_items_varargs_result.constructed_consume")
+
+        consume_call_expr = source_symbols.source_symbol(registry, "block_consume_items_varargs.consume_call_expr")
+        self.assertEqual(consume_call_expr["java_expr"], "consume(new ConsumeItems(items))")
+        self.assertEqual(consume_call_expr["godot_symbol"], "source_block_consume_items_varargs_result.consume_called")
+
+        varargs_slice = source_symbols.source_slice(ledger, "N1300")
+        self.assertEqual(varargs_slice["title"], "Generated Block consumeItems varargs bridge state")
+        self.assertEqual(varargs_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(varargs_slice["java_method"], "Block.consumeItems(ItemStack...)")
+        self.assertEqual(varargs_slice["godot_owner"], "PortGame.source_block_consume_items_varargs_state")
+        self.assertEqual(varargs_slice["generated_owner"], "Block.java_method_consumeItems_108")
+        self.assertEqual(varargs_slice["runtime_proof"], "/root/Main.generated_block_consume_items_varargs_bridge_state")
+        for expr in [
+            "public ConsumeItems consumeItems(ItemStack... items){",
+            "return consume(new ConsumeItems(items));",
+            "new ConsumeItems(items)",
+            "consume(new ConsumeItems(items))",
+            "ItemStack... items",
+        ]:
+            self.assertIn(expr, varargs_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_consume_items_varargs_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["items"])
+        for key in ["source_owner", "source", "method", "return_expr", "constructor_expr", "consume_call_expr", "items", "constructed_consume", "consume_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_consume_items_varargs_input")
+        self.assertEqual(input_schema["keys"]["items"]["java_expr"], "ItemStack... items")
+        result_schema = source_symbols.state_schema(schema, "source_block_consume_items_varargs_result")
+        self.assertEqual(result_schema["keys"]["constructed_consume"]["java_expr"], "new ConsumeItems(items)")
+        self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume(new ConsumeItems(items))")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

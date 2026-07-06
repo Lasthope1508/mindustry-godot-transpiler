@@ -4645,6 +4645,96 @@
         "test_generated_block_consume_item_single_slice_is_registered_with_source_backing"
       ]
     },
+    "block_consume_items_varargs.constructor_expr": {
+      "godot_owner": "PortGame.source_block_consume_items_varargs_state",
+      "godot_symbol": "source_block_consume_items_varargs_result.constructed_consume",
+      "java_expr": "new ConsumeItems(items)",
+      "java_method": "Block.consumeItems(ItemStack...)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve ConsumeItems varargs construction.",
+      "runtime_proof": "/root/Main.source_block_consume_items_varargs_state",
+      "source_slice": "N1300",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_items_varargs_to_source_state",
+        "test_port_game_exposes_source_block_consume_items_varargs_state",
+        "test_port_game_exposes_generated_block_consume_items_varargs_bridge_state",
+        "test_block_consume_items_varargs_matches_upstream_source",
+        "test_generated_block_consume_items_varargs_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_items_varargs.consume_call_expr": {
+      "godot_owner": "PortGame.source_block_consume_items_varargs_state",
+      "godot_symbol": "source_block_consume_items_varargs_result.consume_called",
+      "java_expr": "consume(new ConsumeItems(items))",
+      "java_method": "Block.consumeItems(ItemStack...)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consume(...) delegate call.",
+      "runtime_proof": "/root/Main.source_block_consume_items_varargs_state",
+      "source_slice": "N1300",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_items_varargs_to_source_state",
+        "test_port_game_exposes_source_block_consume_items_varargs_state",
+        "test_port_game_exposes_generated_block_consume_items_varargs_bridge_state",
+        "test_block_consume_items_varargs_matches_upstream_source",
+        "test_generated_block_consume_items_varargs_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_items_varargs.items": {
+      "godot_owner": "PortGame.source_block_consume_items_varargs_state",
+      "godot_symbol": "source_block_consume_items_varargs_input.items",
+      "java_expr": "ItemStack... items",
+      "java_method": "Block.consumeItems(ItemStack...)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose consumeItems varargs parameter.",
+      "runtime_proof": "/root/Main.source_block_consume_items_varargs_state",
+      "source_slice": "N1300",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_items_varargs_to_source_state",
+        "test_port_game_exposes_source_block_consume_items_varargs_state",
+        "test_port_game_exposes_generated_block_consume_items_varargs_bridge_state",
+        "test_block_consume_items_varargs_matches_upstream_source",
+        "test_generated_block_consume_items_varargs_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_items_varargs.method": {
+      "godot_owner": "PortGame.source_block_consume_items_varargs_state",
+      "godot_symbol": "source_block_consume_items_varargs_result.method",
+      "java_expr": "public ConsumeItems consumeItems(ItemStack... items){",
+      "java_method": "Block.consumeItems(ItemStack...)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.consumeItems(ItemStack...) method boundary.",
+      "runtime_proof": "/root/Main.source_block_consume_items_varargs_state",
+      "source_slice": "N1300",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_items_varargs_to_source_state",
+        "test_port_game_exposes_source_block_consume_items_varargs_state",
+        "test_port_game_exposes_generated_block_consume_items_varargs_bridge_state",
+        "test_block_consume_items_varargs_matches_upstream_source",
+        "test_generated_block_consume_items_varargs_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_consume_items_varargs.return_expr": {
+      "godot_owner": "PortGame.source_block_consume_items_varargs_state",
+      "godot_symbol": "source_block_consume_items_varargs_result.constructed_consume",
+      "java_expr": "return consume(new ConsumeItems(items));",
+      "java_method": "Block.consumeItems(ItemStack...)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumeItems return expression.",
+      "runtime_proof": "/root/Main.source_block_consume_items_varargs_state",
+      "source_slice": "N1300",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_consume_items_varargs_to_source_state",
+        "test_port_game_exposes_source_block_consume_items_varargs_state",
+        "test_port_game_exposes_generated_block_consume_items_varargs_bridge_state",
+        "test_block_consume_items_varargs_matches_upstream_source",
+        "test_generated_block_consume_items_varargs_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_consume_liquid.amount": {
       "godot_owner": "PortGame.source_block_consume_liquid_state",
       "godot_symbol": "source_block_consume_liquid_input.amount",
