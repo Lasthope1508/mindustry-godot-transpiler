@@ -17578,6 +17578,51 @@ func generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state
 		"matches": result.get("remove_called", null) == canonical.get("remove_called", null) and result.get("remove_call", null) == canonical.get("remove_call", null),
 	}
 
+func source_tractor_beam_turret_build_update_tile_coolant_effect_state(coolant_guard: bool, used: float, chance_result: bool, x: float, y: float, size: float, source_tilesize: float, range_x: float, range_y: float) -> Dictionary:
+	var chance_threshold: float = 0.06 * used if coolant_guard else 0.0
+	var particle_range: float = size * source_tilesize / 2.0 if coolant_guard else 0.0
+	var chance_called: bool = coolant_guard
+	var cool_effect_called: bool = coolant_guard and chance_result
+	var cool_effect_call: Dictionary = {}
+	if cool_effect_called:
+		cool_effect_call = {"call": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));", "x": x + range_x, "y": y + range_y, "range": particle_range}
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+		"method": "public void updateTile(){",
+		"coolant_guard_expr": "if(target != null && coolant != null){",
+		"chance_expr": "Mathf.chance(0.06 * used)",
+		"cool_effect_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+		"coolant_guard": coolant_guard,
+		"used": used,
+		"chance_result": chance_result,
+		"x": x,
+		"y": y,
+		"size": size,
+		"source_tilesize": source_tilesize,
+		"range_x": range_x,
+		"range_y": range_y,
+		"chance_threshold": chance_threshold,
+		"particle_range": particle_range,
+		"chance_called": chance_called,
+		"cool_effect_called": cool_effect_called,
+		"cool_effect_call": cool_effect_call,
+	}
+
+func generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state(activation_timer: float, time_delta: float, efficiency: float, coolant_multiplier: float, delta_value: float, timer_target_ready: bool, existing_target: Variant, closest_enemy_result: Variant, team: Variant, x: float, y: float, range_value: float, target_air: bool, target_ground: bool, coolant_present: bool, coolant_amount: float, current_liquid: Variant, liquid_amount: float, liquid_heat_capacity: float, chance_result: bool, size: float, source_tilesize: float, range_x: float, range_y: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/defense/turrets/TractorBeamTurret.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_TractorBeamBuild_method_updateTile_0([activation_timer, time_delta, efficiency, coolant_multiplier, delta_value, timer_target_ready, existing_target, closest_enemy_result, team, x, y, range_value, target_air, target_ground, coolant_present, coolant_amount, current_liquid, liquid_amount, liquid_heat_capacity, chance_result, size, source_tilesize, range_x, range_y])
+	var canonical = source_tractor_beam_turret_build_update_tile_coolant_effect_state(result.get("coolant_guard", false), result.get("used", 0.0), chance_result, x, y, size, source_tilesize, range_x, range_y)
+	return {
+		"source_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+		"generated_owner": "TractorBeamTurret.TractorBeamBuild.updateTile.coolant_effect",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("chance_threshold", null) == canonical.get("chance_threshold", null) and result.get("cool_effect_call", null) == canonical.get("cool_effect_call", null)
+			and result.get("cool_effect_called", null) == canonical.get("cool_effect_called", null)
+			and result.get("particle_range", null) == canonical.get("particle_range", null),
+	}
+
 func source_tractor_beam_turret_build_draw_state(base_region: Variant, region: Variant, x: float, y: float, rotation_value: float, size: float, any_state: bool, is_payload: bool, last_x: float, last_y: float, laser_color: Variant, mathf_absin_4_0_6: float, laser: Variant, laser_start: Variant, laser_end: Variant, shoot_length: float, strength: float, efficiency: float, laser_width: float) -> Dictionary:
 	var draw_rotation: float = rotation_value - 90.0
 	var base_rect_call: Dictionary = {"call": "Draw.rect(baseRegion, x, y);", "region": base_region, "x": x, "y": y}

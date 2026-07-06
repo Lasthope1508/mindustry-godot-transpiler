@@ -29876,6 +29876,89 @@
       ],
       "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_remove_state",
       "rule": "Public runtime contract for TractorBeamBuild.updateTile coolant liquid removal side-effect."
+    },
+    "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state": {
+      "status": "source-backed",
+      "source_slice": "N1246",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "source_method": "TractorBeamBuild.updateTile() coolant effect",
+      "params": [
+        {
+          "name": "coolant_guard",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_effect_input.coolant_guard"
+        },
+        {
+          "name": "used",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_effect_input.used"
+        },
+        {
+          "name": "chance_result",
+          "type": "bool",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_effect_input.chance_result"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_effect_input.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_effect_input.y"
+        },
+        {
+          "name": "size",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_effect_input.size"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_effect_input.source_tilesize"
+        },
+        {
+          "name": "range_x",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_effect_input.range_x"
+        },
+        {
+          "name": "range_y",
+          "type": "float",
+          "schema": "source_tractor_beam_turret_build_update_tile_coolant_effect_input.range_y"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "method",
+        "coolant_guard_expr",
+        "chance_expr",
+        "cool_effect_expr",
+        "coolant_guard",
+        "used",
+        "chance_result",
+        "x",
+        "y",
+        "size",
+        "source_tilesize",
+        "range_x",
+        "range_y",
+        "chance_threshold",
+        "particle_range",
+        "chance_called",
+        "cool_effect_called",
+        "cool_effect_call"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_effect_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_effect_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_effect_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+      "rule": "Public runtime contract for TractorBeamBuild.updateTile coolant chance/effect side-effect state."
     }
   },
   "policy": {

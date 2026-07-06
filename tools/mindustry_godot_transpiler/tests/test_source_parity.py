@@ -8636,6 +8636,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_tractor_beam_turret_build_update_tile_coolant_effect_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_tractor_beam_turret_build_update_tile_coolant_effect_source"))
+        report = source_parity.verify_tractor_beam_turret_build_update_tile_coolant_effect_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void updateTile(){",
+            "coolant_guard": "if(target != null && coolant != null){",
+            "remove": "liquids.remove(liquid, used);",
+            "chance": "if(Mathf.chance(0.06 * used)){",
+            "cool_effect": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_turret_get_regions_to_outline_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_turret_get_regions_to_outline_source"))
         report = source_parity.verify_turret_get_regions_to_outline_source(ROOT / "mindustry-upstream")

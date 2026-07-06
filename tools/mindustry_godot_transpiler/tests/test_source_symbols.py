@@ -19725,10 +19725,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 719)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 714)
+        self.assertEqual(audit["totalSourceFunctions"], 720)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 715)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 719)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 720)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -43369,6 +43369,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_coolant_remove_result")
         self.assertEqual(result_schema["keys"]["remove_called"]["java_expr"], "target != null && coolant != null")
         self.assertEqual(result_schema["keys"]["remove_call"]["java_expr"], "liquids.remove(liquid, used);")
+
+    def test_generated_tractor_beam_turret_build_update_tile_coolant_effect_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_coolant_effect.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(method["java_method"], "TractorBeamBuild.updateTile() coolant effect")
+        self.assertEqual(method["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_effect_state")
+
+        chance = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_coolant_effect.chance")
+        self.assertEqual(chance["java_expr"], "Mathf.chance(0.06 * used)")
+        self.assertEqual(chance["godot_symbol"], "source_tractor_beam_turret_build_update_tile_coolant_effect_result.chance_threshold")
+        effect = source_symbols.source_symbol(registry, "tractor_beam_turret_build_update_tile_coolant_effect.cool_effect")
+        self.assertEqual(effect["java_expr"], "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));")
+        self.assertEqual(effect["godot_symbol"], "source_tractor_beam_turret_build_update_tile_coolant_effect_result.cool_effect_call")
+
+        effect_slice = source_symbols.source_slice(ledger, "N1246")
+        self.assertEqual(effect_slice["java_source"], "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java")
+        self.assertEqual(effect_slice["java_method"], "TractorBeamBuild.updateTile() coolant effect")
+        self.assertEqual(effect_slice["godot_owner"], "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state")
+        self.assertEqual(effect_slice["runtime_proof"], "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state")
+        for expr in [
+            "public void updateTile(){",
+            "if(target != null && coolant != null){",
+            "if(Mathf.chance(0.06 * used)){",
+            "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));",
+        ]:
+            self.assertIn(expr, effect_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["coolant_guard", "used", "chance_result", "x", "y", "size", "source_tilesize", "range_x", "range_y"],
+        )
+        for key in ["source_owner", "method", "coolant_guard_expr", "chance_expr", "cool_effect_expr", "coolant_guard", "used", "chance_result", "x", "y", "size", "source_tilesize", "range_x", "range_y", "chance_threshold", "particle_range", "chance_called", "cool_effect_called", "cool_effect_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_coolant_effect_input")
+        self.assertEqual(input_schema["keys"]["chance_result"]["java_expr"], "Mathf.chance(0.06 * used)")
+        self.assertEqual(input_schema["keys"]["range_x"]["java_expr"], "Mathf.range(size * tilesize / 2f)")
+        self.assertEqual(input_schema["keys"]["range_y"]["java_expr"], "Mathf.range(size * tilesize / 2f)")
+        result_schema = source_symbols.state_schema(schema, "source_tractor_beam_turret_build_update_tile_coolant_effect_result")
+        self.assertEqual(result_schema["keys"]["chance_threshold"]["java_expr"], "0.06 * used")
+        self.assertEqual(result_schema["keys"]["particle_range"]["java_expr"], "size * tilesize / 2f")
+        self.assertEqual(result_schema["keys"]["cool_effect_call"]["java_expr"], "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));")
 
     def test_generated_turret_get_regions_to_outline_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

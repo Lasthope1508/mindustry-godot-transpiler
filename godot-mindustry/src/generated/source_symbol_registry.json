@@ -92206,6 +92206,57 @@
       "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
       "java_method": "TractorBeamBuild.updateTile() coolant remove",
       "java_expr": "liquids.remove(liquid, used);"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_effect.method": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_effect_result.method",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+      "rule": "Exact TractorBeamBuild.updateTile method boundary for coolant effect slice.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_effect_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_effect_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_effect_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant effect",
+      "java_expr": "public void updateTile(){"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_effect.chance": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_effect_result.chance_threshold",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+      "rule": "Source chance threshold for coolant effect.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_effect_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_effect_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_effect_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant effect",
+      "java_expr": "Mathf.chance(0.06 * used)"
+    },
+    "tractor_beam_turret_build_update_tile_coolant_effect.cool_effect": {
+      "status": "source-backed",
+      "godot_symbol": "source_tractor_beam_turret_build_update_tile_coolant_effect_result.cool_effect_call",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+      "rule": "Source coolant effect call geometry.",
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_effect_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_effect_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_effect_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_method": "TractorBeamBuild.updateTile() coolant effect",
+      "java_expr": "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));"
     }
   },
   "version": 1

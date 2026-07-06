@@ -28652,6 +28652,33 @@
       ],
       "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_remove_bridge_state",
       "rule": "Inside the coolant guard, TractorBeamBuild.updateTile removes the exact computed used amount from liquids. LiquidModule internal clamping/effects stay deferred."
+    },
+    "N1246": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/defense/turrets/TractorBeamTurret.java",
+      "java_class": "TractorBeamTurret.TractorBeamBuild",
+      "java_method": "TractorBeamBuild.updateTile() coolant effect",
+      "godot_owner": "PortGame.source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+      "exact_exprs": [
+        "public void updateTile(){",
+        "if(target != null && coolant != null){",
+        "if(Mathf.chance(0.06 * used)){",
+        "coolEffect.at(x + Mathf.range(size * tilesize / 2f), y + Mathf.range(size * tilesize / 2f));"
+      ],
+      "source_symbols": [
+        "tractor_beam_turret_build_update_tile_coolant_effect.method",
+        "tractor_beam_turret_build_update_tile_coolant_effect.chance",
+        "tractor_beam_turret_build_update_tile_coolant_effect.cool_effect"
+      ],
+      "tests": [
+        "test_emit_bridges_tractor_beam_turret_build_update_tile_coolant_effect_to_source_state",
+        "test_port_game_exposes_source_tractor_beam_turret_build_update_tile_coolant_effect_state",
+        "test_port_game_exposes_generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
+        "test_tractor_beam_turret_build_update_tile_coolant_effect_matches_upstream_source",
+        "test_generated_tractor_beam_turret_build_update_tile_coolant_effect_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_tractor_beam_turret_build_update_tile_coolant_effect_bridge_state",
+      "rule": "Inside the coolant guard, TractorBeamBuild.updateTile gates coolEffect.at by Mathf.chance(0.06 * used). RNG outcome and Mathf.range offsets are explicit inputs; no random output is fabricated."
     }
   },
   "version": 1
