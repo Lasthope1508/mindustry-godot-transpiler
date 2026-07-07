@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 810)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 805)
+        self.assertEqual(audit["totalSourceFunctions"], 811)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 806)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 810)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 811)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46066,6 +46066,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_emit_light_radius_result")
         self.assertEqual(result_schema["keys"]["light_radius_clip_size"]["java_expr"], "lightRadius * 2f")
         self.assertEqual(result_schema["keys"]["light_clip_size_after"]["java_expr"], "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);")
+
+    def test_generated_block_init_accepts_items_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_accepts_items.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_accepts_items_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_accepts_items_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_accepts_items.accepts_items_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(group == BlockGroup.transportation || category == Category.distribution){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_accepts_items_result.accepts_items_gate")
+
+        assign = source_symbols.source_symbol(registry, "block_init_accepts_items.accepts_items_assign_expr")
+        self.assertEqual(assign["java_expr"], "acceptsItems = true;")
+        self.assertEqual(assign["godot_symbol"], "source_block_init_accepts_items_result.accepts_items_after")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1337")
+        self.assertEqual(setup_slice["title"], "Generated Block init accepts items bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_accepts_items_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_accepts_items_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "if(group == BlockGroup.transportation || category == Category.distribution){",
+            "acceptsItems = true;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_accepts_items_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["block_group", "category_value", "accepts_items_before"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "accepts_items_guard_expr", "accepts_items_assign_expr", "block_group", "category", "accepts_items_before", "accepts_items_gate", "accepts_items_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_accepts_items_input")
+        self.assertEqual(input_schema["keys"]["block_group"]["java_expr"], "group")
+        self.assertEqual(input_schema["keys"]["category_value"]["java_expr"], "category")
+        self.assertEqual(input_schema["keys"]["accepts_items_before"]["java_expr"], "acceptsItems")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_accepts_items_result")
+        self.assertEqual(result_schema["keys"]["accepts_items_gate"]["java_expr"], "group == BlockGroup.transportation || category == Category.distribution")
+        self.assertEqual(result_schema["keys"]["accepts_items_after"]["java_expr"], "acceptsItems = true;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

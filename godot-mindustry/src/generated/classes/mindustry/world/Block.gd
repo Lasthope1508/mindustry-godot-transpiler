@@ -716,6 +716,13 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		var light_radius_clip_size: float = light_radius * 2.0
 		var light_clip_size_after: float = max(light_clip_size_before, light_radius_clip_size) if emit_light else light_clip_size_before
 		return {"source_owner": "PortGame.source_block_init_emit_light_radius_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "emit_light_guard_expr": "if(emitLight){", "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);", "emit_light": emit_light, "light_clip_size_before": light_clip_size_before, "light_radius": light_radius, "light_radius_clip_size": light_radius_clip_size, "light_clip_size_after": light_clip_size_after}
+	if init_bridge_mode == "accepts_items":
+		var block_group: Variant = _args[0] if _args.size() > 0 else ""
+		var category_value: Variant = _args[1] if _args.size() > 1 else ""
+		var accepts_items_before: bool = bool(_args[2] if _args.size() > 2 else false)
+		var accepts_items_gate: bool = block_group == "BlockGroup.transportation" or category_value == "Category.distribution"
+		var accepts_items_after: bool = true if accepts_items_gate else accepts_items_before
+		return {"source_owner": "PortGame.source_block_init_accepts_items_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "accepts_items_guard_expr": "if(group == BlockGroup.transportation || category == Category.distribution){", "accepts_items_assign_expr": "acceptsItems = true;", "block_group": block_group, "category": category_value, "accepts_items_before": accepts_items_before, "accepts_items_gate": accepts_items_gate, "accepts_items_after": accepts_items_after}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

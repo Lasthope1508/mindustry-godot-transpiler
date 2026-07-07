@@ -33962,6 +33962,54 @@
         "test_block_init_emit_light_radius_matches_upstream_source",
         "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_accepts_items_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "group",
+          "name": "block_group",
+          "schema": "source_block_init_accepts_items_input.block_group",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "category",
+          "name": "category_value",
+          "schema": "source_block_init_accepts_items_input.category_value",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "acceptsItems",
+          "name": "accepts_items_before",
+          "schema": "source_block_init_accepts_items_input.accepts_items_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "accepts_items_guard_expr",
+        "accepts_items_assign_expr",
+        "block_group",
+        "category",
+        "accepts_items_before",
+        "accepts_items_gate",
+        "accepts_items_after"
+      ],
+      "rule": "Pin source-backed Block.init() acceptsItems transportation/distribution branch.",
+      "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1337",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

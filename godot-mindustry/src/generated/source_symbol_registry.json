@@ -100736,6 +100736,150 @@
       "godot_symbol": "source_block_init_emit_light_radius_result.light_radius_clip_size",
       "java_expr": "lightRadius * 2f",
       "rule": "Runtime computed clamp candidate mirrors source lightRadius * 2f."
+    },
+    "block_init_accepts_items.method": {
+      "godot_owner": "PortGame.source_block_init_accepts_items_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
+      "source_slice": "N1337",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_accepts_items_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for acceptsItems branch."
+    },
+    "block_init_accepts_items.super_init_expr": {
+      "godot_owner": "PortGame.source_block_init_accepts_items_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
+      "source_slice": "N1337",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_accepts_items_result.super_init_expr",
+      "java_expr": "super.init();",
+      "rule": "Block.init() runs after super.init()."
+    },
+    "block_init_accepts_items.accepts_items_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_accepts_items_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
+      "source_slice": "N1337",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_accepts_items_result.accepts_items_gate",
+      "java_expr": "if(group == BlockGroup.transportation || category == Category.distribution){",
+      "rule": "acceptsItems branch runs for transportation group or distribution category."
+    },
+    "block_init_accepts_items.accepts_items_assign_expr": {
+      "godot_owner": "PortGame.source_block_init_accepts_items_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
+      "source_slice": "N1337",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_accepts_items_result.accepts_items_after",
+      "java_expr": "acceptsItems = true;",
+      "rule": "When guard passes, source assigns acceptsItems true."
+    },
+    "block_init_accepts_items.group": {
+      "godot_owner": "PortGame.source_block_init_accepts_items_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
+      "source_slice": "N1337",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_accepts_items_input.block_group",
+      "java_expr": "group",
+      "rule": "Block group is an explicit input for the source guard."
+    },
+    "block_init_accepts_items.category": {
+      "godot_owner": "PortGame.source_block_init_accepts_items_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
+      "source_slice": "N1337",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_accepts_items_input.category_value",
+      "java_expr": "category",
+      "rule": "Block category is an explicit input for the source guard."
+    },
+    "block_init_accepts_items.accepts_items": {
+      "godot_owner": "PortGame.source_block_init_accepts_items_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
+      "source_slice": "N1337",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_accepts_items_input.accepts_items_before",
+      "java_expr": "acceptsItems",
+      "rule": "acceptsItems before this branch is an explicit input."
+    },
+    "block_init_accepts_items.accepts_items_gate": {
+      "godot_owner": "PortGame.source_block_init_accepts_items_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
+      "source_slice": "N1337",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_accepts_items_result.accepts_items_gate",
+      "java_expr": "group == BlockGroup.transportation || category == Category.distribution",
+      "rule": "Runtime gate mirrors the source disjunction."
     }
   },
   "version": 1

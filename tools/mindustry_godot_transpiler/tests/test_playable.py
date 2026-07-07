@@ -17562,5 +17562,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_accepts_items_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_accepts_items_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_accepts_items_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"accepts_items_guard_expr": "if(group == BlockGroup.transportation || category == Category.distribution){"', source)
+        self.assertIn('"accepts_items_assign_expr": "acceptsItems = true;"', source)
+        self.assertIn('"accepts_items_gate": accepts_items_gate', source)
+        self.assertIn('"accepts_items_after": accepts_items_after', source)
+
+    def test_port_game_exposes_generated_block_init_accepts_items_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_accepts_items_bridge_state(block_group: Variant, category_value: Variant, accepts_items_before: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "accepts_items")', source)
+        self.assertIn("var result = instance.java_method_init_123([block_group, category_value, accepts_items_before])", source)
+        self.assertIn("var canonical = source_block_init_accepts_items_state(block_group, category_value, accepts_items_before)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_accepts_items_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

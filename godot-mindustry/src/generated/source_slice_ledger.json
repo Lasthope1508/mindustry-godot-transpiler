@@ -31575,6 +31575,40 @@
         "test_block_init_emit_light_radius_matches_upstream_source",
         "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1337": {
+      "title": "Generated Block init accepts items bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_accepts_items_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_accepts_items_bridge_state",
+      "source_symbols": [
+        "block_init_accepts_items.method",
+        "block_init_accepts_items.super_init_expr",
+        "block_init_accepts_items.accepts_items_guard_expr",
+        "block_init_accepts_items.accepts_items_assign_expr",
+        "block_init_accepts_items.group",
+        "block_init_accepts_items.category",
+        "block_init_accepts_items.accepts_items",
+        "block_init_accepts_items.accepts_items_gate"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(group == BlockGroup.transportation || category == Category.distribution){",
+        "acceptsItems = true;"
+      ],
+      "rule": "Bridge generated Block.init() acceptsItems branch to source-backed canonical state, preserving prior acceptsItems unless group is BlockGroup.transportation or category is Category.distribution.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_accepts_items_to_source_state",
+        "test_port_game_exposes_source_block_init_accepts_items_state",
+        "test_port_game_exposes_generated_block_init_accepts_items_bridge_state",
+        "test_block_init_accepts_items_matches_upstream_source",
+        "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
