@@ -11944,6 +11944,39 @@
       ],
       "title": "Generated Block sense Content bridge state"
     },
+    "N1365": {
+      "exact_exprs": [
+        "@Override",
+        "public Object senseObject(LAccess sensor){",
+        "if(sensor == LAccess.name) return name;",
+        "return noSensed;"
+      ],
+      "generated_owner": "Block.java_method_senseObject_134",
+      "godot_owner": "PortGame.source_block_sense_object_state",
+      "java_class": "Block",
+      "java_method": "Block.senseObject(LAccess sensor)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_sense_object_bridge_state",
+      "source_symbols": [
+        "block_sense_object.override_expr",
+        "block_sense_object.method",
+        "block_sense_object.name_guard_expr",
+        "block_sense_object.default_return_expr",
+        "block_sense_object.sensor",
+        "block_sense_object.block_name",
+        "block_sense_object.no_sensed",
+        "block_sense_object.sense_object_value"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_block_sense_object_to_source_state",
+        "test_port_game_exposes_source_block_sense_object_state",
+        "test_port_game_exposes_generated_block_sense_object_bridge_state",
+        "test_block_sense_object_matches_upstream_source",
+        "test_generated_block_sense_object_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block senseObject LAccess bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

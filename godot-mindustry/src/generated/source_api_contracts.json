@@ -5805,6 +5805,53 @@
         "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_sense_object_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "LAccess sensor",
+          "name": "sensor",
+          "schema": "source_block_sense_object_input.sensor",
+          "type": "String"
+        },
+        {
+          "java_expr": "name",
+          "name": "block_name",
+          "schema": "source_block_sense_object_input.block_name",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "noSensed",
+          "name": "no_sensed",
+          "schema": "source_block_sense_object_input.no_sensed",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "override_expr",
+        "method",
+        "name_guard_expr",
+        "default_return_expr",
+        "sensor",
+        "block_name",
+        "no_sensed",
+        "sense_object_value"
+      ],
+      "rule": "PortGame.source_block_sense_object_state pins Block.senseObject(LAccess sensor) object sensing contract.",
+      "runtime_proof": "/root/Main.source_block_sense_object_state",
+      "source_method": "Block.senseObject(LAccess sensor)",
+      "source_slice": "N1365",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_sense_object_to_source_state",
+        "test_port_game_exposes_source_block_sense_object_state",
+        "test_port_game_exposes_generated_block_sense_object_bridge_state",
+        "test_block_sense_object_matches_upstream_source",
+        "test_generated_block_sense_object_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_setup_requirements_simple_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [

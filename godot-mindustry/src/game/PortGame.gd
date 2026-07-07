@@ -19760,6 +19760,36 @@ func generated_block_sense_content_bridge_state(content_type: String, content_it
 		"matches": matches,
 	}
 
+func source_block_sense_object_state(sensor: String, block_name: Variant, no_sensed: Variant) -> Dictionary:
+	var sense_object_value: Variant = no_sensed
+	if sensor == "name":
+		sense_object_value = block_name
+	return {
+		"source_owner": "PortGame.source_block_sense_object_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"override_expr": "@Override",
+		"method": "public Object senseObject(LAccess sensor){",
+		"name_guard_expr": "if(sensor == LAccess.name) return name;",
+		"default_return_expr": "return noSensed;",
+		"sensor": sensor,
+		"block_name": block_name,
+		"no_sensed": no_sensed,
+		"sense_object_value": sense_object_value,
+	}
+
+func generated_block_sense_object_bridge_state(sensor: String, block_name: Variant, no_sensed: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_senseObject_134([sensor, block_name, no_sensed])
+	var canonical = source_block_sense_object_state(sensor, block_name, no_sensed)
+	return {
+		"source_owner": "PortGame.source_block_sense_object_state",
+		"generated_owner": "Block.java_method_senseObject_134",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

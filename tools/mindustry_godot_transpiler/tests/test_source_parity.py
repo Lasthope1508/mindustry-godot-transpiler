@@ -6061,6 +6061,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_sense_object_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_sense_object_source"))
+        report = source_parity.verify_block_sense_object_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "override_expr": "@Override",
+            "method": "public Object senseObject(LAccess sensor){",
+            "name_guard_expr": "if(sensor == LAccess.name) return name;",
+            "default_return_expr": "return noSensed;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_block_init_item_liquid_filters_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_block_init_item_liquid_filters_source"))
         report = source_parity.verify_block_init_item_liquid_filters_source(ROOT / "mindustry-upstream")

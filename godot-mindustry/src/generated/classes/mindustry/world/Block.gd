@@ -1067,4 +1067,10 @@ func java_method_sense_133(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_sense_content_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public double sense(Content content){", "item_instanceof_expr": "if(content instanceof Item item){", "infinite_resources_return_expr": "if(state.rules.infiniteResources) return 0;", "requirements_loop_expr": "for(ItemStack r : requirements){", "item_match_guard_expr": "if(r.item == item){", "amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);", "missing_item_return_expr": "return 0f;", "invalid_return_expr": "return Double.NaN;", "content_type": content_type, "content_item": content_item, "state_rules_infinite_resources": state_rules_infinite_resources, "requirements": requirements, "build_cost_multiplier": build_cost_multiplier, "matched_requirement_index": matched_requirement_index, "matched_requirement": matched_requirement, "matched_amount": matched_amount, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}
 
 func java_method_senseObject_134(_args: Array = []) -> Variant:
-	return null
+	var sensor: String = str(_args[0] if _args.size() > 0 else "")
+	var block_name: Variant = _args[1] if _args.size() > 1 else null
+	var no_sensed: Variant = _args[2] if _args.size() > 2 else null
+	var sense_object_value: Variant = no_sensed
+	if sensor == "name":
+		sense_object_value = block_name
+	return {"source_owner": "PortGame.source_block_sense_object_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public Object senseObject(LAccess sensor){", "name_guard_expr": "if(sensor == LAccess.name) return name;", "default_return_expr": "return noSensed;", "sensor": sensor, "block_name": block_name, "no_sensed": no_sensed, "sense_object_value": sense_object_value}

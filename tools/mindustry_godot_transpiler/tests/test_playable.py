@@ -18155,6 +18155,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_sense_133"', source)
         self.assertIn('"matches": matches', source)
 
+    def test_port_game_exposes_source_block_sense_object_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_sense_object_state(sensor: String, block_name: Variant, no_sensed: Variant) -> Dictionary:", source)
+        self.assertIn("var sense_object_value: Variant = no_sensed", source)
+        self.assertIn('if sensor == "name":', source)
+        self.assertIn("sense_object_value = block_name", source)
+        self.assertIn('"source_owner": "PortGame.source_block_sense_object_state"', source)
+        self.assertIn('"method": "public Object senseObject(LAccess sensor){"', source)
+        self.assertIn('"name_guard_expr": "if(sensor == LAccess.name) return name;"', source)
+        self.assertIn('"default_return_expr": "return noSensed;"', source)
+        self.assertIn('"sense_object_value": sense_object_value', source)
+
+    def test_port_game_exposes_generated_block_sense_object_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_sense_object_bridge_state(sensor: String, block_name: Variant, no_sensed: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_senseObject_134([sensor, block_name, no_sensed])", source)
+        self.assertIn("var canonical = source_block_sense_object_state(sensor, block_name, no_sensed)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_sense_object_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_senseObject_134"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -10863,6 +10863,45 @@ public class Block{
             self.assertIn('"sense_value": sense_value_wire', source_text)
             self.assertIn('"sense_value_is_nan": is_nan(sense_value)', source_text)
 
+    def test_emit_bridges_block_sense_object_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public Object senseObject(LAccess sensor){
+        if(sensor == LAccess.name) return name;
+        return noSensed;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_senseObject_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar sensor: String = str(_args[0] if _args.size() > 0 else \"\")", source_text)
+            self.assertIn("\tvar block_name: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("\tvar no_sensed: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("\tvar sense_object_value: Variant = no_sensed", source_text)
+            self.assertIn('\tif sensor == "name":', source_text)
+            self.assertIn("\t\tsense_object_value = block_name", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_sense_object_state"', source_text)
+            self.assertIn('"method": "public Object senseObject(LAccess sensor){"', source_text)
+            self.assertIn('"name_guard_expr": "if(sensor == LAccess.name) return name;"', source_text)
+            self.assertIn('"default_return_expr": "return noSensed;"', source_text)
+            self.assertIn('"sense_object_value": sense_object_value', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

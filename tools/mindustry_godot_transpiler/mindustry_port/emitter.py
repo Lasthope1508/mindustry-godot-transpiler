@@ -1595,6 +1595,22 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "senseObject"
+        and method.get("parameters")
+        and method["parameters"][0].get("type") == "LAccess"
+    ):
+        return [
+            '\tvar sensor: String = str(_args[0] if _args.size() > 0 else "")',
+            "\tvar block_name: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar no_sensed: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar sense_object_value: Variant = no_sensed",
+            '\tif sensor == "name":',
+            "\t\tsense_object_value = block_name",
+            '\treturn {"source_owner": "PortGame.source_block_sense_object_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public Object senseObject(LAccess sensor){", "name_guard_expr": "if(sensor == LAccess.name) return name;", "default_return_expr": "return noSensed;", "sensor": sensor, "block_name": block_name, "no_sensed": no_sensed, "sense_object_value": sense_object_value}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumesItem"
     ):
         return [

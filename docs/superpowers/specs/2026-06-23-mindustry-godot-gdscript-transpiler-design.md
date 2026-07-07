@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 1230 |
-| Done | 1227 |
+| Total tracked work items | 1231 |
+| Done | 1228 |
 | Not done | 3 |
 | Blocked | 0 |
 
@@ -1177,6 +1177,7 @@
 - [x] N1362: Generated Block getPlanConfigs bridge state.
 - [x] N1363: Generated Block sense LAccess bridge state.
 - [x] N1364: Generated Block sense Content bridge state.
+- [x] N1365: Generated Block senseObject LAccess bridge state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode

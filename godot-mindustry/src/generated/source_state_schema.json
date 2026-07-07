@@ -36056,6 +36056,208 @@
       "source_slice": "N1363",
       "status": "active"
     },
+    "source_block_sense_object_input": {
+      "keys": {
+        "block_name": {
+          "godot_symbol": "source_block_sense_object_input.block_name",
+          "java_expr": "name",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.block_name"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "no_sensed": {
+          "godot_symbol": "source_block_sense_object_input.no_sensed",
+          "java_expr": "noSensed",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.no_sensed"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "sensor": {
+          "godot_symbol": "source_block_sense_object_input.sensor",
+          "java_expr": "LAccess sensor",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.sensor"
+          ],
+          "status": "explicit-input",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_sense_object_state",
+      "rule": "Inputs for PortGame.source_block_sense_object_state.",
+      "runtime_proof": "/root/Main.source_block_sense_object_state",
+      "source_slice": "N1365",
+      "status": "active"
+    },
+    "source_block_sense_object_result": {
+      "keys": {
+        "block_name": {
+          "godot_symbol": "source_block_sense_object_result.block_name",
+          "java_expr": "name",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.block_name"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "default_return_expr": {
+          "godot_symbol": "source_block_sense_object_result.default_return_expr",
+          "java_expr": "return noSensed;",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.default_return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_sense_object_result.method",
+          "java_expr": "public Object senseObject(LAccess sensor){",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "name_guard_expr": {
+          "godot_symbol": "source_block_sense_object_result.name_guard_expr",
+          "java_expr": "if(sensor == LAccess.name) return name;",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.name_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "no_sensed": {
+          "godot_symbol": "source_block_sense_object_result.no_sensed",
+          "java_expr": "noSensed",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.no_sensed"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "override_expr": {
+          "godot_symbol": "source_block_sense_object_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "sense_object_value": {
+          "godot_symbol": "source_block_sense_object_result.sense_object_value",
+          "java_expr": "name / noSensed",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.sense_object_value",
+            "block_sense_object.name_guard_expr",
+            "block_sense_object.default_return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "sensor": {
+          "godot_symbol": "source_block_sense_object_result.sensor",
+          "java_expr": "LAccess sensor",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.sensor"
+          ],
+          "status": "explicit-input",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_sense_object_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_sense_object_result.source_owner",
+          "java_expr": "PortGame.source_block_sense_object_state",
+          "java_method": "Block.senseObject(LAccess sensor)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_sense_object_state"
+          ],
+          "source_symbols": [
+            "block_sense_object.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_sense_object_state",
+      "rule": "Dictionary returned by PortGame.source_block_sense_object_state.",
+      "runtime_proof": "/root/Main.source_block_sense_object_state",
+      "source_slice": "N1365",
+      "status": "active"
+    },
     "source_block_setup_requirements_simple_input": {
       "keys": {
         "cat": {
