@@ -33769,6 +33769,46 @@
         "test_block_init_clip_size_matches_upstream_source",
         "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_light_clip_size_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "lightClipSize",
+          "name": "light_clip_size_before",
+          "schema": "source_block_init_light_clip_size_input.light_clip_size_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "clipSize",
+          "name": "clip_size",
+          "schema": "source_block_init_light_clip_size_input.clip_size",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "clip_size_expr",
+        "light_clip_size_expr",
+        "light_clip_size_before",
+        "clip_size",
+        "light_clip_size_after"
+      ],
+      "rule": "Pin source-backed Block.init() lightClipSize clamp.",
+      "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1333",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_light_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_light_clip_size_state",
+        "test_port_game_exposes_generated_block_init_light_clip_size_bridge_state",
+        "test_block_init_light_clip_size_matches_upstream_source",
+        "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

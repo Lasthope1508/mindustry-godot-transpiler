@@ -18815,6 +18815,34 @@ func generated_block_init_clip_size_bridge_state(clip_size_before: float, size_v
 		"matches": result == canonical,
 	}
 
+func source_block_init_light_clip_size_state(light_clip_size_before: float, clip_size: float) -> Dictionary:
+	var light_clip_size_after: float = max(light_clip_size_before, clip_size)
+	return {
+		"source_owner": "PortGame.source_block_init_light_clip_size_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);",
+		"light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, clipSize);",
+		"light_clip_size_before": light_clip_size_before,
+		"clip_size": clip_size,
+		"light_clip_size_after": light_clip_size_after,
+	}
+
+func generated_block_init_light_clip_size_bridge_state(light_clip_size_before: float, clip_size: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "light_clip_size")
+	var result = instance.java_method_init_123([light_clip_size_before, clip_size])
+	var canonical = source_block_init_light_clip_size_state(light_clip_size_before, clip_size)
+	return {
+		"source_owner": "PortGame.source_block_init_light_clip_size_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

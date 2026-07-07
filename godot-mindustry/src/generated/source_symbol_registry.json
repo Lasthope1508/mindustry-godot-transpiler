@@ -100070,6 +100070,114 @@
       "godot_symbol": "source_block_init_clip_size_result.size_tilesize",
       "java_expr": "size * tilesize",
       "rule": "Minimum clipSize threshold is size * tilesize."
+    },
+    "block_init_light_clip_size.method": {
+      "godot_owner": "PortGame.source_block_init_light_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
+      "source_slice": "N1333",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_light_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_light_clip_size_state",
+        "test_port_game_exposes_generated_block_init_light_clip_size_bridge_state",
+        "test_block_init_light_clip_size_matches_upstream_source",
+        "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_light_clip_size_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for lightClipSize clamp."
+    },
+    "block_init_light_clip_size.super_init_expr": {
+      "godot_owner": "PortGame.source_block_init_light_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
+      "source_slice": "N1333",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_light_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_light_clip_size_state",
+        "test_port_game_exposes_generated_block_init_light_clip_size_bridge_state",
+        "test_block_init_light_clip_size_matches_upstream_source",
+        "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_light_clip_size_result.super_init_expr",
+      "java_expr": "super.init();",
+      "rule": "Block.init() runs after super.init()."
+    },
+    "block_init_light_clip_size.clip_size_expr": {
+      "godot_owner": "PortGame.source_block_init_light_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
+      "source_slice": "N1333",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_light_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_light_clip_size_state",
+        "test_port_game_exposes_generated_block_init_light_clip_size_bridge_state",
+        "test_block_init_light_clip_size_matches_upstream_source",
+        "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_light_clip_size_result.clip_size",
+      "java_expr": "clipSize = Math.max(clipSize, size * tilesize);",
+      "rule": "Prior source statement establishes clipSize before lightClipSize clamp."
+    },
+    "block_init_light_clip_size.light_clip_size_expr": {
+      "godot_owner": "PortGame.source_block_init_light_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
+      "source_slice": "N1333",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_light_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_light_clip_size_state",
+        "test_port_game_exposes_generated_block_init_light_clip_size_bridge_state",
+        "test_block_init_light_clip_size_matches_upstream_source",
+        "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_light_clip_size_result.light_clip_size_after",
+      "java_expr": "lightClipSize = Math.max(lightClipSize, clipSize);",
+      "rule": "lightClipSize is clamped to at least clipSize."
+    },
+    "block_init_light_clip_size.light_clip_size": {
+      "godot_owner": "PortGame.source_block_init_light_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
+      "source_slice": "N1333",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_light_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_light_clip_size_state",
+        "test_port_game_exposes_generated_block_init_light_clip_size_bridge_state",
+        "test_block_init_light_clip_size_matches_upstream_source",
+        "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_light_clip_size_input.light_clip_size_before",
+      "java_expr": "lightClipSize",
+      "rule": "lightClipSize before clamp is an explicit input."
+    },
+    "block_init_light_clip_size.clip_size": {
+      "godot_owner": "PortGame.source_block_init_light_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
+      "source_slice": "N1333",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_light_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_light_clip_size_state",
+        "test_port_game_exposes_generated_block_init_light_clip_size_bridge_state",
+        "test_block_init_light_clip_size_matches_upstream_source",
+        "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_light_clip_size_input.clip_size",
+      "java_expr": "clipSize",
+      "rule": "clipSize after its prior clamp is an explicit input for this slice."
     }
   },
   "version": 1

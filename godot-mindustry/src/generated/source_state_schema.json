@@ -123356,6 +123356,174 @@
       "runtime_proof": "/root/Main.source_block_init_clip_size_state",
       "source_slice": "N1332",
       "status": "active"
+    },
+    "source_block_init_light_clip_size_input": {
+      "keys": {
+        "light_clip_size_before": {
+          "godot_symbol": "source_block_init_light_clip_size_input.light_clip_size_before",
+          "java_expr": "lightClipSize",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [
+            "block_init_light_clip_size.light_clip_size"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "clip_size": {
+          "godot_symbol": "source_block_init_light_clip_size_input.clip_size",
+          "java_expr": "clipSize",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [
+            "block_init_light_clip_size.clip_size"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_block_init_light_clip_size_state",
+      "rule": "Inputs for PortGame.source_block_init_light_clip_size_state.",
+      "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
+      "source_slice": "N1333",
+      "status": "active"
+    },
+    "source_block_init_light_clip_size_result": {
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_init_light_clip_size_result.source_owner",
+          "java_expr": "PortGame.source_block_init_light_clip_size_state",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_init_light_clip_size_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_init_light_clip_size_result.method",
+          "java_expr": "public void init(){",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [
+            "block_init_light_clip_size.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "super_init_expr": {
+          "godot_symbol": "source_block_init_light_clip_size_result.super_init_expr",
+          "java_expr": "super.init();",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [
+            "block_init_light_clip_size.super_init_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "clip_size_expr": {
+          "godot_symbol": "source_block_init_light_clip_size_result.clip_size_expr",
+          "java_expr": "clipSize = Math.max(clipSize, size * tilesize);",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [
+            "block_init_light_clip_size.clip_size_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "light_clip_size_expr": {
+          "godot_symbol": "source_block_init_light_clip_size_result.light_clip_size_expr",
+          "java_expr": "lightClipSize = Math.max(lightClipSize, clipSize);",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [
+            "block_init_light_clip_size.light_clip_size_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "light_clip_size_before": {
+          "godot_symbol": "source_block_init_light_clip_size_result.light_clip_size_before",
+          "java_expr": "lightClipSize",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [
+            "block_init_light_clip_size.light_clip_size"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "clip_size": {
+          "godot_symbol": "source_block_init_light_clip_size_result.clip_size",
+          "java_expr": "clipSize = Math.max(clipSize, size * tilesize);",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [
+            "block_init_light_clip_size.clip_size_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "light_clip_size_after": {
+          "godot_symbol": "source_block_init_light_clip_size_result.light_clip_size_after",
+          "java_expr": "lightClipSize = Math.max(lightClipSize, clipSize);",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_light_clip_size_state"
+          ],
+          "source_symbols": [
+            "block_init_light_clip_size.light_clip_size_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_block_init_light_clip_size_state",
+      "rule": "Dictionary returned by PortGame.source_block_init_light_clip_size_state.",
+      "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
+      "source_slice": "N1333",
+      "status": "active"
     }
   },
   "version": 1

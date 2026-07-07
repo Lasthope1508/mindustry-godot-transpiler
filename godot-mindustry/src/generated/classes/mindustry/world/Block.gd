@@ -687,6 +687,11 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		var size_tilesize: float = float(clip_size_size_value) * source_tilesize
 		var clip_size_after: float = max(clip_size_before, size_tilesize)
 		return {"source_owner": "PortGame.source_block_init_clip_size_state", "source": "core/src/mindustry/world/Block.java", "vars_source": "core/src/mindustry/Vars.java", "method": "public void init(){", "super_init_expr": "super.init();", "clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);", "tilesize_comment": "/** size of tiles in units */", "tilesize_field_expr": "public static final int tilesize = 8;", "clip_size_before": clip_size_before, "size": clip_size_size_value, "source_tilesize": source_tilesize, "size_tilesize": size_tilesize, "clip_size_after": clip_size_after}
+	if init_bridge_mode == "light_clip_size":
+		var light_clip_size_before: float = float(_args[0] if _args.size() > 0 else 0.0)
+		var clip_size: float = float(_args[1] if _args.size() > 1 else 0.0)
+		var light_clip_size_after: float = max(light_clip_size_before, clip_size)
+		return {"source_owner": "PortGame.source_block_init_light_clip_size_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);", "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, clipSize);", "light_clip_size_before": light_clip_size_before, "clip_size": clip_size, "light_clip_size_after": light_clip_size_after}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

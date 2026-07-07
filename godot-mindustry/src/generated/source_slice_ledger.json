@@ -31429,6 +31429,38 @@
         "test_block_init_clip_size_matches_upstream_source",
         "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1333": {
+      "title": "Generated Block init light clip size bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_light_clip_size_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_light_clip_size_bridge_state",
+      "source_symbols": [
+        "block_init_light_clip_size.method",
+        "block_init_light_clip_size.super_init_expr",
+        "block_init_light_clip_size.clip_size_expr",
+        "block_init_light_clip_size.light_clip_size_expr",
+        "block_init_light_clip_size.light_clip_size",
+        "block_init_light_clip_size.clip_size"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "clipSize = Math.max(clipSize, size * tilesize);",
+        "lightClipSize = Math.max(lightClipSize, clipSize);"
+      ],
+      "rule": "Bridge generated Block.init() lightClipSize minimum clamp to source-backed canonical state after clipSize is established.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_light_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_light_clip_size_state",
+        "test_port_game_exposes_generated_block_init_light_clip_size_bridge_state",
+        "test_block_init_light_clip_size_matches_upstream_source",
+        "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

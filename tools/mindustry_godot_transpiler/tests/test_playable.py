@@ -17458,5 +17458,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_light_clip_size_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_light_clip_size_state(light_clip_size_before: float, clip_size: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_light_clip_size_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, clipSize);"', source)
+        self.assertIn('"light_clip_size_before": light_clip_size_before', source)
+        self.assertIn('"clip_size": clip_size', source)
+        self.assertIn('"light_clip_size_after": light_clip_size_after', source)
+
+    def test_port_game_exposes_generated_block_init_light_clip_size_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_light_clip_size_bridge_state(light_clip_size_before: float, clip_size: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "light_clip_size")', source)
+        self.assertIn("var result = instance.java_method_init_123([light_clip_size_before, clip_size])", source)
+        self.assertIn("var canonical = source_block_init_light_clip_size_state(light_clip_size_before, clip_size)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_light_clip_size_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()
