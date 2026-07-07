@@ -10905,6 +10905,40 @@ def verify_block_init_consumer_arrays_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_block_reinitialize_consumers_arrays_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    consume_path = Path(upstream_root) / "core/src/mindustry/world/consumers/Consume.java"
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    consume_source = consume_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void reinitializeConsumers(){",
+        "consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+        "cons_power_expr": "consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);",
+        "optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+        "non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+        "update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+        "has_consumers_expr": "hasConsumers = consumers.length > 0;",
+        "consume_optional_field_expr": "public boolean optional;",
+        "consume_update_field_expr": "public boolean update = true;",
+        "consume_ignore_method_expr": "public boolean ignore(){",
+    }
+    source_by_key = {
+        "consume_optional_field_expr": consume_source,
+        "consume_update_field_expr": consume_source,
+        "consume_ignore_method_expr": consume_source,
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, source)
+    ]
+    return {
+        "source": BLOCK_SOURCE,
+        "consume_source": "core/src/mindustry/world/consumers/Consume.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

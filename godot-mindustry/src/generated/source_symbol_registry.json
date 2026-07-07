@@ -102482,6 +102482,222 @@
         "test_generated_block_init_sandbox_visibility_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed Block.init() sandboxOnly buildVisibility hideDetails reveal branch."
+    },
+    "block_reinitialize_consumers_arrays.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "public void reinitializeConsumers(){",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_result.method",
+      "status": "source-backed",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.consumers_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_result.consumers",
+      "status": "source-backed",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.cons_power_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_result.cons_power",
+      "status": "source-backed",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.optional_consumers_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_result.optional_consumers",
+      "status": "source-backed",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.non_optional_consumers_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_result.non_optional_consumers",
+      "status": "source-backed",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.update_consumers_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_result.update_consumers",
+      "status": "source-backed",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.has_consumers_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "hasConsumers = consumers.length > 0;",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_result.has_consumers",
+      "status": "source-backed",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.consume_optional_field_expr": {
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume",
+      "java_expr": "public boolean optional;",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_input.consume_builder.optional",
+      "status": "explicit-input",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.consume_update_field_expr": {
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume",
+      "java_expr": "public boolean update = true;",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_input.consume_builder.update",
+      "status": "explicit-input",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.consume_ignore_method_expr": {
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume",
+      "java_expr": "public boolean ignore(){",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_input.consume_builder.ignored",
+      "status": "explicit-input",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.consume_is_power": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "c instanceof ConsumePower",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_input.consume_builder.is_consume_power",
+      "status": "explicit-input",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_arrays.consume_builder": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "consumeBuilder",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "godot_symbol": "source_block_reinitialize_consumers_arrays_input.consume_builder",
+      "status": "explicit-input",
+      "source_slice": "N1350",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
     }
   },
   "version": 1

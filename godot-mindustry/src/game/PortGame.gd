@@ -19162,6 +19162,62 @@ func generated_block_init_consumer_arrays_bridge_state(consume_builder: Array) -
 		"matches": result == canonical,
 	}
 
+func source_block_reinitialize_consumers_arrays_state(consume_builder: Array) -> Dictionary:
+	var consumers: Array = consume_builder.duplicate()
+	var cons_power: Variant = null
+	var optional_consumers: Array = []
+	var non_optional_consumers: Array = []
+	var update_consumers: Array = []
+	for consumer in consume_builder:
+		if not consumer is Dictionary:
+			continue
+		var ignored: bool = bool(consumer.get("ignored", false))
+		if cons_power == null and bool(consumer.get("is_consume_power", false)):
+			cons_power = consumer
+		if bool(consumer.get("optional", false)) and not ignored:
+			optional_consumers.append(consumer)
+		if not bool(consumer.get("optional", false)) and not ignored:
+			non_optional_consumers.append(consumer)
+		if bool(consumer.get("update", true)) and not ignored:
+			update_consumers.append(consumer)
+	var has_consumers: bool = consumers.size() > 0
+	return {
+		"source_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"consume_source": "core/src/mindustry/world/consumers/Consume.java",
+		"method": "public void reinitializeConsumers(){",
+		"consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+		"cons_power_expr": "consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);",
+		"optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+		"non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+		"update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+		"has_consumers_expr": "hasConsumers = consumers.length > 0;",
+		"consume_optional_field_expr": "public boolean optional;",
+		"consume_update_field_expr": "public boolean update = true;",
+		"consume_ignore_method_expr": "public boolean ignore(){",
+		"consume_is_power_expr": "c instanceof ConsumePower",
+		"consume_builder": consume_builder,
+		"consumers": consumers,
+		"cons_power": cons_power,
+		"optional_consumers": optional_consumers,
+		"non_optional_consumers": non_optional_consumers,
+		"update_consumers": update_consumers,
+		"has_consumers": has_consumers,
+	}
+
+func generated_block_reinitialize_consumers_arrays_bridge_state(consume_builder: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_reinitializeConsumers_124([consume_builder])
+	var canonical = source_block_reinitialize_consumers_arrays_state(consume_builder)
+	return {
+		"source_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+		"generated_owner": "Block.java_method_reinitializeConsumers_124",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

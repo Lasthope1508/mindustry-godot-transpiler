@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 818,
+  "registeredSourceOwnerCount": 819,
   "registeredSourceOwners": [
     "PortGame.source_ability_ability_stat_state",
     "PortGame.source_ability_add_stats_state",
@@ -126,6 +126,7 @@
     "PortGame.source_block_outputs_items_state",
     "PortGame.source_block_post_init_database_tag_state",
     "PortGame.source_block_post_init_shown_planets_state",
+    "PortGame.source_block_reinitialize_consumers_arrays_state",
     "PortGame.source_block_remove_consumer_state",
     "PortGame.source_block_remove_consumers_state",
     "PortGame.source_block_requirements_simple_state",
@@ -4246,6 +4247,11 @@
       "owner": "PortGame.source_block_init_consumer_arrays_state"
     },
     {
+      "function": "source_block_reinitialize_consumers_arrays_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_block_reinitialize_consumers_arrays_state"
+    },
+    {
       "function": "source_block_init_item_liquid_filters_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_block_init_item_liquid_filters_state"
@@ -4951,6 +4957,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 823,
+  "totalSourceFunctions": 824,
   "version": 1
 }

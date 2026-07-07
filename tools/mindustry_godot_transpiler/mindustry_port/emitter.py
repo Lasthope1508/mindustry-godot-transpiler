@@ -1561,6 +1561,33 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "reinitializeConsumers"
+    ):
+        return [
+            "\tvar consumer_builder_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar consumers: Array = consumer_builder_entries.duplicate()",
+            "\tvar cons_power: Variant = null",
+            "\tvar optional_consumers: Array = []",
+            "\tvar non_optional_consumers: Array = []",
+            "\tvar update_consumers: Array = []",
+            "\tfor consumer in consumer_builder_entries:",
+            "\t\tif not consumer is Dictionary:",
+            "\t\t\tcontinue",
+            '\t\tvar ignored: bool = bool(consumer.get("ignored", false))',
+            '\t\tif cons_power == null and bool(consumer.get("is_consume_power", false)):',
+            "\t\t\tcons_power = consumer",
+            '\t\tif bool(consumer.get("optional", false)) and not ignored:',
+            "\t\t\toptional_consumers.append(consumer)",
+            '\t\tif not bool(consumer.get("optional", false)) and not ignored:',
+            "\t\t\tnon_optional_consumers.append(consumer)",
+            '\t\tif bool(consumer.get("update", true)) and not ignored:',
+            "\t\t\tupdate_consumers.append(consumer)",
+            "\tvar has_consumers: bool = consumers.size() > 0",
+            '\treturn {"source_owner": "PortGame.source_block_reinitialize_consumers_arrays_state", "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void reinitializeConsumers(){", "consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);", "cons_power_expr": "consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);", "optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);", "non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);", "update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);", "has_consumers_expr": "hasConsumers = consumers.length > 0;", "consume_optional_field_expr": "public boolean optional;", "consume_update_field_expr": "public boolean update = true;", "consume_ignore_method_expr": "public boolean ignore(){", "consume_is_power_expr": "c instanceof ConsumePower", "consume_builder": consumer_builder_entries, "consumers": consumers, "cons_power": cons_power, "optional_consumers": optional_consumers, "non_optional_consumers": non_optional_consumers, "update_consumers": update_consumers, "has_consumers": has_consumers}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumeLiquid"
         and len(method.get("parameters", [])) == 2
     ):

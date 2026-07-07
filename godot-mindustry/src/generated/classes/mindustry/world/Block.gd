@@ -849,7 +849,26 @@ func java_method_init_123(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_init_destroy_sound_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "destroy_sound_guard_expr": "if(destroySound == Sounds.unset){", "destroy_sound_assign_expr": "destroySound =", "destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :", "destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :", "destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);", "destroy_sound_before": destroy_sound_before, "size": size_value, "destroy_sound_after": destroy_sound_after, "destroy_sound_assigned": destroy_sound_assigned}
 
 func java_method_reinitializeConsumers_124(_args: Array = []) -> Variant:
-	return null
+	var consumer_builder_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []
+	var consumers: Array = consumer_builder_entries.duplicate()
+	var cons_power: Variant = null
+	var optional_consumers: Array = []
+	var non_optional_consumers: Array = []
+	var update_consumers: Array = []
+	for consumer in consumer_builder_entries:
+		if not consumer is Dictionary:
+			continue
+		var ignored: bool = bool(consumer.get("ignored", false))
+		if cons_power == null and bool(consumer.get("is_consume_power", false)):
+			cons_power = consumer
+		if bool(consumer.get("optional", false)) and not ignored:
+			optional_consumers.append(consumer)
+		if not bool(consumer.get("optional", false)) and not ignored:
+			non_optional_consumers.append(consumer)
+		if bool(consumer.get("update", true)) and not ignored:
+			update_consumers.append(consumer)
+	var has_consumers: bool = consumers.size() > 0
+	return {"source_owner": "PortGame.source_block_reinitialize_consumers_arrays_state", "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void reinitializeConsumers(){", "consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);", "cons_power_expr": "consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);", "optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);", "non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);", "update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);", "has_consumers_expr": "hasConsumers = consumers.length > 0;", "consume_optional_field_expr": "public boolean optional;", "consume_update_field_expr": "public boolean update = true;", "consume_ignore_method_expr": "public boolean ignore(){", "consume_is_power_expr": "c instanceof ConsumePower", "consume_builder": consumer_builder_entries, "consumers": consumers, "cons_power": cons_power, "optional_consumers": optional_consumers, "non_optional_consumers": non_optional_consumers, "update_consumers": update_consumers, "has_consumers": has_consumers}
 
 func java_method_checkContentArrayCapacity_125(_args: Array = []) -> Variant:
 	return null

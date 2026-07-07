@@ -32039,6 +32039,51 @@
       ],
       "status": "done",
       "rule": "Pin source-backed Block.init() sandboxOnly buildVisibility hideDetails reveal branch."
+    },
+    "N1350": {
+      "title": "Generated Block reinitializeConsumers consumer arrays bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.reinitializeConsumers()",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_arrays_state",
+      "generated_owner": "Block.java_method_reinitializeConsumers_124",
+      "runtime_proof": "/root/Main.generated_block_reinitialize_consumers_arrays_bridge_state",
+      "source_symbols": [
+        "block_reinitialize_consumers_arrays.method",
+        "block_reinitialize_consumers_arrays.consumers_expr",
+        "block_reinitialize_consumers_arrays.cons_power_expr",
+        "block_reinitialize_consumers_arrays.optional_consumers_expr",
+        "block_reinitialize_consumers_arrays.non_optional_consumers_expr",
+        "block_reinitialize_consumers_arrays.update_consumers_expr",
+        "block_reinitialize_consumers_arrays.has_consumers_expr",
+        "block_reinitialize_consumers_arrays.consume_optional_field_expr",
+        "block_reinitialize_consumers_arrays.consume_update_field_expr",
+        "block_reinitialize_consumers_arrays.consume_ignore_method_expr",
+        "block_reinitialize_consumers_arrays.consume_is_power",
+        "block_reinitialize_consumers_arrays.consume_builder"
+      ],
+      "exact_exprs": [
+        "public void reinitializeConsumers(){",
+        "consumers = consumeBuilder.toArray(Consume.class);",
+        "consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);",
+        "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+        "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+        "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+        "hasConsumers = consumers.length > 0;",
+        "public boolean optional;",
+        "public boolean update = true;",
+        "public boolean ignore(){",
+        "c instanceof ConsumePower"
+      ],
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_arrays_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_arrays_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_arrays_bridge_state",
+        "test_block_reinitialize_consumers_arrays_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.reinitializeConsumers() consumer array rebuild and consPower discovery to source-backed canonical state."
     }
   },
   "version": 1
