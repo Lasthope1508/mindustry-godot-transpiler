@@ -8636,6 +8636,46 @@ public class Block{
             self.assertIn('"build_type_after": build_type_after', source_text)
             self.assertIn('"default_assigned": default_assigned', source_text)
 
+    def test_emit_bridges_block_research_requirements_research_cost_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public ItemStack[] researchRequirements(){
+        if(researchCost != null) return researchCost;
+        if(researchCostMultiplier <= 0f) return ItemStack.empty;
+        return null;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_researchRequirements_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar research_cost: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar returned_early: bool = research_cost != null", source_text)
+            self.assertIn("\tvar returned_requirements: Variant = research_cost if returned_early else null", source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_research_requirements_research_cost_state"', source_text)
+            self.assertIn('"method": "public ItemStack[] researchRequirements(){"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"research_cost_guard_expr": "if(researchCost != null) return researchCost;"', source_text)
+            self.assertIn('"return_expr": "return researchCost;"', source_text)
+            self.assertIn('"research_cost": research_cost', source_text)
+            self.assertIn('"returned_requirements": returned_requirements', source_text)
+            self.assertIn('"returned_early": returned_early', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

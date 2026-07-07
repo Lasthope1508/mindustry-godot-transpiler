@@ -3149,6 +3149,40 @@
         "test_generated_block_requirements_visible_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_research_requirements_research_cost_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "researchCost",
+          "name": "research_cost",
+          "schema": "source_block_research_requirements_research_cost_input.research_cost",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "override_expr",
+        "research_cost_guard_expr",
+        "return_expr",
+        "research_cost",
+        "returned_requirements",
+        "returned_early"
+      ],
+      "rule": "Pin source-backed Block.researchRequirements() researchCost early-return state.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_research_cost_state",
+      "source_method": "Block.researchRequirements()",
+      "source_slice": "N1310",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_research_cost_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_research_cost_state",
+        "test_port_game_exposes_generated_block_research_requirements_research_cost_bridge_state",
+        "test_block_research_requirements_research_cost_matches_upstream_source",
+        "test_generated_block_research_requirements_research_cost_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_rotated_output_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [

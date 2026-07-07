@@ -23374,6 +23374,160 @@
       "source_slice": "N1308",
       "status": "active"
     },
+    "source_block_research_requirements_research_cost_input": {
+      "keys": {
+        "research_cost": {
+          "godot_symbol": "source_block_research_requirements_research_cost_input.research_cost",
+          "java_expr": "researchCost",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_research_cost_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_research_cost.research_cost"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_block_research_requirements_research_cost_state",
+      "rule": "Inputs for PortGame.source_block_research_requirements_research_cost_state.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_research_cost_state",
+      "source_slice": "N1310",
+      "status": "active"
+    },
+    "source_block_research_requirements_research_cost_result": {
+      "keys": {
+        "method": {
+          "godot_symbol": "source_block_research_requirements_research_cost_result.method",
+          "java_expr": "public ItemStack[] researchRequirements(){",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_research_cost_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_research_cost.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_block_research_requirements_research_cost_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_research_cost_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_research_cost.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "research_cost": {
+          "godot_symbol": "source_block_research_requirements_research_cost_result.research_cost",
+          "java_expr": "researchCost",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_research_cost_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_research_cost.research_cost"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "research_cost_guard_expr": {
+          "godot_symbol": "source_block_research_requirements_research_cost_result.research_cost_guard_expr",
+          "java_expr": "if(researchCost != null) return researchCost;",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_research_cost_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_research_cost.guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_research_requirements_research_cost_result.return_expr",
+          "java_expr": "return researchCost;",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_research_cost_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_research_cost.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "returned_early": {
+          "godot_symbol": "source_block_research_requirements_research_cost_result.returned_early",
+          "java_expr": "if(researchCost != null) return researchCost;",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_research_cost_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_research_cost.guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "returned_requirements": {
+          "godot_symbol": "source_block_research_requirements_research_cost_result.returned_requirements",
+          "java_expr": "return researchCost;",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_research_cost_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_research_cost.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "source": {
+          "godot_symbol": "source_block_research_requirements_research_cost_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_research_cost_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_research_requirements_research_cost_result.source_owner",
+          "java_expr": "PortGame.source_block_research_requirements_research_cost_state",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_research_cost_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_research_requirements_research_cost_state",
+      "rule": "Dictionary returned by PortGame.source_block_research_requirements_research_cost_state.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_research_cost_state",
+      "source_slice": "N1310",
+      "status": "active"
+    },
     "source_block_rotated_output_input": {
       "keys": {
         "rotate": {

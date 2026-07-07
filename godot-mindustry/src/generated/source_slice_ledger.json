@@ -10009,6 +10009,36 @@
       ],
       "title": "Generated Block initBuilding default bridge state"
     },
+    "N1310": {
+      "exact_exprs": [
+        "@Override",
+        "public ItemStack[] researchRequirements(){",
+        "if(researchCost != null) return researchCost;",
+        "return researchCost;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_research_cost_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_research_cost_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_research_cost.override_expr",
+        "block_research_requirements_research_cost.method",
+        "block_research_requirements_research_cost.guard_expr",
+        "block_research_requirements_research_cost.return_expr",
+        "block_research_requirements_research_cost.research_cost"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_research_cost_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_research_cost_state",
+        "test_port_game_exposes_generated_block_research_requirements_research_cost_bridge_state",
+        "test_block_research_requirements_research_cost_matches_upstream_source",
+        "test_generated_block_research_requirements_research_cost_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements researchCost bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

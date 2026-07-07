@@ -1776,6 +1776,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "researchRequirements"
+        and len(method.get("parameters", [])) == 0
+    ):
+        return [
+            "\tvar research_cost: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar returned_early: bool = research_cost != null",
+            "\tvar returned_requirements: Variant = research_cost if returned_early else null",
+            '\treturn {"source_owner": "PortGame.source_block_research_requirements_research_cost_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "override_expr": "@Override", "research_cost_guard_expr": "if(researchCost != null) return researchCost;", "return_expr": "return researchCost;", "research_cost": research_cost, "returned_requirements": returned_requirements, "returned_early": returned_early}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):

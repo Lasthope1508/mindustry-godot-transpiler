@@ -17966,6 +17966,34 @@ func generated_block_init_building_default_bridge_state(build_type_before: Varia
 		"matches": result == canonical,
 	}
 
+func source_block_research_requirements_research_cost_state(research_cost: Variant) -> Dictionary:
+	var returned_early: bool = research_cost != null
+	var returned_requirements: Variant = research_cost if returned_early else null
+	return {
+		"source_owner": "PortGame.source_block_research_requirements_research_cost_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public ItemStack[] researchRequirements(){",
+		"override_expr": "@Override",
+		"research_cost_guard_expr": "if(researchCost != null) return researchCost;",
+		"return_expr": "return researchCost;",
+		"research_cost": research_cost,
+		"returned_requirements": returned_requirements,
+		"returned_early": returned_early,
+	}
+
+func generated_block_research_requirements_research_cost_bridge_state(research_cost: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_researchRequirements_118([research_cost])
+	var canonical = source_block_research_requirements_research_cost_state(research_cost)
+	return {
+		"source_owner": "PortGame.source_block_research_requirements_research_cost_state",
+		"generated_owner": "Block.java_method_researchRequirements_118",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

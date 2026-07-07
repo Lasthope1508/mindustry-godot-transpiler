@@ -482,7 +482,10 @@ func java_method_initBuilding_117(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_init_building_default_state", "source": "core/src/mindustry/world/Block.java", "method": "protected void initBuilding(){", "default_guard_expr": "if(buildType == null){", "default_comment": "//assign default value", "default_assignment_expr": "buildType = Building::create;", "build_type_before": build_type_before, "build_type_after": build_type_after, "default_assigned": default_assigned}
 
 func java_method_researchRequirements_118(_args: Array = []) -> Variant:
-	return null
+	var research_cost: Variant = _args[0] if _args.size() > 0 else null
+	var returned_early: bool = research_cost != null
+	var returned_requirements: Variant = research_cost if returned_early else null
+	return {"source_owner": "PortGame.source_block_research_requirements_research_cost_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "override_expr": "@Override", "research_cost_guard_expr": "if(researchCost != null) return researchCost;", "return_expr": "return researchCost;", "research_cost": research_cost, "returned_requirements": returned_requirements, "returned_early": returned_early}
 
 func java_method_getDependencies_119(_args: Array = []) -> Variant:
 	return null
