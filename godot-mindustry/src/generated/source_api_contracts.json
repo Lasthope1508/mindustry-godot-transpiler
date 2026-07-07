@@ -35666,6 +35666,58 @@
         "test_build_payload_write_matches_upstream_source",
         "test_generated_build_payload_write_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_build_payload_set_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "java_expr": "x",
+          "schema": "source_build_payload_set_input.x",
+          "source_symbol": "build_payload_set.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "java_expr": "y",
+          "schema": "source_build_payload_set_input.y",
+          "source_symbol": "build_payload_set.y"
+        },
+        {
+          "name": "rotation_value",
+          "type": "float",
+          "java_expr": "rotation",
+          "schema": "source_build_payload_set_input.rotation_value",
+          "source_symbol": "build_payload_set.rotation"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "set_expr",
+        "x",
+        "y",
+        "rotation",
+        "set_called",
+        "set_call"
+      ],
+      "rule": "PortGame.source_build_payload_set_state pins BuildPayload.set(float x, float y, float rotation) set-call contract.",
+      "runtime_proof": "/root/Main.source_build_payload_set_state",
+      "source_method": "BuildPayload.set(float x, float y, float rotation)",
+      "source_slice": "N1376",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

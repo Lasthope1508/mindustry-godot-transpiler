@@ -17563,6 +17563,11 @@ public class BuildPayload implements Payload{
         write.b(build.version());
         build.writeAll(write);
     }
+
+    @Override
+    public void set(float x, float y, float rotation){
+        build.set(x, y);
+    }
 }
 """,
                 encoding="utf-8",
@@ -17594,6 +17599,100 @@ public class BuildPayload implements Payload{
             self.assertIn('"build_block_id": build_block_id', source_text)
             self.assertIn('"build_version": build_version', source_text)
             self.assertIn('"write_all_called": true', source_text)
+
+    def test_emit_bridges_build_payload_set_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class BuildPayload implements Payload{
+    public Building build;
+
+    public Block block(){
+        return build.block;
+    }
+
+    public void place(Tile tile){
+    }
+
+    public void place(Tile tile, int rotation){
+    }
+
+    public boolean contentEquals(Payload other){
+        return false;
+    }
+
+    public UnlockableContent content(){
+        return build.block;
+    }
+
+    public void update(Unit unitHolder, Building buildingHolder){
+    }
+
+    public void destroyed(){
+    }
+
+    public ItemStack[] requirements(){
+        return build.block.requirements;
+    }
+
+    public float buildTime(){
+        return build.block.buildTime;
+    }
+
+    public float x(){
+        return build.x;
+    }
+
+    public float y(){
+        return build.y;
+    }
+
+    public float size(){
+        return build.block.size * tilesize;
+    }
+
+    public void remove(){
+        build.remove();
+    }
+
+    public void write(Writes write){
+    }
+
+    @Override
+    public void set(float x, float y, float rotation){
+        build.set(x, y);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_set_14(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var x: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var y: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var rotation: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn('{"call": "build.set(x, y);", "x": x, "y": y}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_build_payload_set_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
+            self.assertIn('"field_expr": "public Building build;"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public void set(float x, float y, float rotation){"', source_text)
+            self.assertIn('"set_expr": "build.set(x, y);"', source_text)
+            self.assertIn('"x": x', source_text)
+            self.assertIn('"y": y', source_text)
+            self.assertIn('"rotation": rotation', source_text)
+            self.assertIn('"set_called": true', source_text)
 
     def test_emit_bridges_drill_get_drill_time_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

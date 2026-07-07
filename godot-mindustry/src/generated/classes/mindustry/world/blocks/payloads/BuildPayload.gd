@@ -69,7 +69,11 @@ func java_method_write_13(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_build_payload_write_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void write(Writes write){", "payload_block_write_expr": "write.b(payloadBlock);", "block_id_write_expr": "write.s(build.block.id);", "version_write_expr": "write.b(build.version());", "write_all_expr": "build.writeAll(write);", "payload_block": payload_block, "build_block_id": build_block_id, "build_version": build_version, "write_all_called": true, "write_calls": write_calls}
 
 func java_method_set_14(_args: Array = []) -> Variant:
-	return null
+	var x: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var y: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var rotation: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var set_call: Dictionary = {"call": "build.set(x, y);", "x": x, "y": y}
+	return {"source_owner": "PortGame.source_build_payload_set_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void set(float x, float y, float rotation){", "set_expr": "build.set(x, y);", "x": x, "y": y, "rotation": rotation, "set_called": true, "set_call": set_call}
 
 func java_method_drawShadow_15(_args: Array = []) -> Variant:
 	return null

@@ -32969,6 +32969,45 @@
         "test_generated_build_payload_write_slice_is_registered_with_source_backing"
       ],
       "title": "Generated BuildPayload write bridge state"
+    },
+    "N1376": {
+      "deferred_exprs": [
+        "Building.set(float x, float y) internals",
+        "rotation effects absent from BuildPayload.set body"
+      ],
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "@Override",
+        "public void set(float x, float y, float rotation){",
+        "build.set(x, y);"
+      ],
+      "generated_owner": "BuildPayload.java_method_set_14",
+      "godot_owner": "PortGame.source_build_payload_set_state",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.set(float x, float y, float rotation)",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Generated BuildPayload.set(float x, float y, float rotation) bridge records build.set(x, y) delegation without inventing rotation behavior.",
+      "runtime_proof": "/root/Main.generated_build_payload_set_bridge_state",
+      "source_symbols": [
+        "build_payload_set.class_expr",
+        "build_payload_set.field_expr",
+        "build_payload_set.override_expr",
+        "build_payload_set.method",
+        "build_payload_set.x",
+        "build_payload_set.y",
+        "build_payload_set.rotation",
+        "build_payload_set.set_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated BuildPayload set bridge state"
     }
   },
   "version": 1

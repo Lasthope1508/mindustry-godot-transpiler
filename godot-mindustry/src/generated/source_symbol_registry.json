@@ -106154,6 +106154,150 @@
       "java_expr": "build.writeAll(write);",
       "rule": "BuildPayload.write delegates remaining building serialization to build.writeAll(write).",
       "status": "source-backed"
+    },
+    "build_payload_set.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.set(float x, float y, float rotation)",
+      "godot_owner": "PortGame.source_build_payload_set_state",
+      "runtime_proof": "/root/Main.source_build_payload_set_state",
+      "source_slice": "N1376",
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_set_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "Pin BuildPayload class boundary for set payload bridge.",
+      "status": "source-backed"
+    },
+    "build_payload_set.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.set(float x, float y, float rotation)",
+      "godot_owner": "PortGame.source_build_payload_set_state",
+      "runtime_proof": "/root/Main.source_build_payload_set_state",
+      "source_slice": "N1376",
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_set_result.field_expr",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload build field receives set call.",
+      "status": "source-backed"
+    },
+    "build_payload_set.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.set(float x, float y, float rotation)",
+      "godot_owner": "PortGame.source_build_payload_set_state",
+      "runtime_proof": "/root/Main.source_build_payload_set_state",
+      "source_slice": "N1376",
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_set_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "BuildPayload.set(float x, float y, float rotation) implements Payload.set().",
+      "status": "source-backed"
+    },
+    "build_payload_set.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.set(float x, float y, float rotation)",
+      "godot_owner": "PortGame.source_build_payload_set_state",
+      "runtime_proof": "/root/Main.source_build_payload_set_state",
+      "source_slice": "N1376",
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_set_result.method",
+      "java_expr": "public void set(float x, float y, float rotation){",
+      "rule": "Pin BuildPayload.set(float x, float y, float rotation) method boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_set.x": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.set(float x, float y, float rotation)",
+      "godot_owner": "PortGame.source_build_payload_set_state",
+      "runtime_proof": "/root/Main.source_build_payload_set_state",
+      "source_slice": "N1376",
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_set_input.x",
+      "java_expr": "x",
+      "rule": "Explicit runtime value for x parameter passed to build.set(x, y).",
+      "status": "explicit-input"
+    },
+    "build_payload_set.y": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.set(float x, float y, float rotation)",
+      "godot_owner": "PortGame.source_build_payload_set_state",
+      "runtime_proof": "/root/Main.source_build_payload_set_state",
+      "source_slice": "N1376",
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_set_input.y",
+      "java_expr": "y",
+      "rule": "Explicit runtime value for y parameter passed to build.set(x, y).",
+      "status": "explicit-input"
+    },
+    "build_payload_set.rotation": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.set(float x, float y, float rotation)",
+      "godot_owner": "PortGame.source_build_payload_set_state",
+      "runtime_proof": "/root/Main.source_build_payload_set_state",
+      "source_slice": "N1376",
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_set_input.rotation_value",
+      "java_expr": "rotation",
+      "rule": "Explicit runtime value for rotation parameter present in BuildPayload.set signature.",
+      "status": "explicit-input"
+    },
+    "build_payload_set.set_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.set(float x, float y, float rotation)",
+      "godot_owner": "PortGame.source_build_payload_set_state",
+      "runtime_proof": "/root/Main.source_build_payload_set_state",
+      "source_slice": "N1376",
+      "tests": [
+        "test_emit_bridges_build_payload_set_to_source_state",
+        "test_port_game_exposes_source_build_payload_set_state",
+        "test_port_game_exposes_generated_build_payload_set_bridge_state",
+        "test_build_payload_set_matches_upstream_source",
+        "test_generated_build_payload_set_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_set_result.set_called",
+      "java_expr": "build.set(x, y);",
+      "rule": "BuildPayload.set delegates x/y positioning to build.set(x, y).",
+      "status": "source-backed"
     }
   },
   "version": 1
