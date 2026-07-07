@@ -128234,6 +128234,276 @@
           ]
         }
       }
+    },
+    "source_block_load_team_regions_input": {
+      "owner": "PortGame.source_block_load_team_regions_state",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_load_team_regions_state.",
+      "keys": {
+        "name_value": {
+          "godot_symbol": "source_block_load_team_regions_input.name_value",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "name",
+          "type": "String",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.name"
+          ]
+        },
+        "team_region_found": {
+          "godot_symbol": "source_block_load_team_regions_input.team_region_found",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "teamRegion.found()",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.team_region_found"
+          ]
+        },
+        "team_region": {
+          "godot_symbol": "source_block_load_team_regions_input.team_region",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "teamRegion",
+          "type": "Variant",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.team_region"
+          ]
+        },
+        "teams": {
+          "godot_symbol": "source_block_load_team_regions_input.teams",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "Team.all",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.teams"
+          ]
+        }
+      }
+    },
+    "source_block_load_team_regions_result": {
+      "owner": "PortGame.source_block_load_team_regions_state",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_load_team_regions_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_load_team_regions_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "PortGame.source_block_load_team_regions_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.method"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_block_load_team_regions_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.method"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_block_load_team_regions_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "public void load(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.method"
+          ]
+        },
+        "comment": {
+          "godot_symbol": "source_block_load_team_regions_result.comment",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "//load specific team regions",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.comment"
+          ]
+        },
+        "team_regions_expr": {
+          "godot_symbol": "source_block_load_team_regions_result.team_regions_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "teamRegions = new TextureRegion[Team.all.length];",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.team_regions_expr"
+          ]
+        },
+        "team_loop_expr": {
+          "godot_symbol": "source_block_load_team_regions_result.team_loop_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "for(Team team : Team.all){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.team_loop_expr"
+          ]
+        },
+        "team_assignment_expr": {
+          "godot_symbol": "source_block_load_team_regions_result.team_assignment_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.team_assignment_expr"
+          ]
+        },
+        "name": {
+          "godot_symbol": "source_block_load_team_regions_result.name",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "name",
+          "type": "String",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.name"
+          ]
+        },
+        "team_region_found": {
+          "godot_symbol": "source_block_load_team_regions_result.team_region_found",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "teamRegion.found()",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.team_region_found"
+          ]
+        },
+        "team_region": {
+          "godot_symbol": "source_block_load_team_regions_result.team_region",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "teamRegion",
+          "type": "Variant",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.team_region"
+          ]
+        },
+        "teams": {
+          "godot_symbol": "source_block_load_team_regions_result.teams",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "Team.all",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.teams"
+          ]
+        },
+        "team_all_length": {
+          "godot_symbol": "source_block_load_team_regions_result.team_all_length",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "Team.all.length",
+          "type": "int",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.team_regions_expr"
+          ]
+        },
+        "team_regions": {
+          "godot_symbol": "source_block_load_team_regions_result.team_regions",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "teamRegions = new TextureRegion[Team.all.length];",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.team_regions_expr"
+          ]
+        },
+        "assignments": {
+          "godot_symbol": "source_block_load_team_regions_result.assignments",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_team_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_team_regions.team_assignment_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

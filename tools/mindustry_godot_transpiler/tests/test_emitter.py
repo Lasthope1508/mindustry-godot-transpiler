@@ -10447,6 +10447,48 @@ public class Block{
             self.assertIn('"content_regions_expr": "ContentRegions.loadRegions(this);"', source_text)
             self.assertIn('"region": region_value', source_text)
 
+    def test_emit_bridges_block_load_team_regions_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public void load(){
+        //load specific team regions
+        teamRegions = new TextureRegion[Team.all.length];
+        for(Team team : Team.all){
+            teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + "-team-" + team.name, teamRegion) : teamRegion;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_load_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('if str(get_meta("mindustry_load_bridge_mode", "")) == "team_regions":', source_text)
+            self.assertIn('\t\tvar team_load_name_value: String = str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertNotIn('\t\tvar name_value: String = str(_args[0] if _args.size() > 0 else "")', source_text)
+            self.assertIn("\t\tvar team_region_found: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\t\tvar teams: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []", source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_load_team_regions_state"', source_text)
+            self.assertIn('"team_regions_expr": "teamRegions = new TextureRegion[Team.all.length];"', source_text)
+            self.assertIn('"team_loop_expr": "for(Team team : Team.all){"', source_text)
+            self.assertIn('"team_assignment_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \\"-team-\\" + team.name, teamRegion) : teamRegion;"', source_text)
+            self.assertIn('"team_regions": team_regions', source_text)
+            self.assertIn('"assignments": assignments', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

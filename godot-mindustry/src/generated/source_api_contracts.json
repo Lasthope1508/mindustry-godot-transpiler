@@ -34751,6 +34751,63 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.load() base region and ContentRegions load calls."
+    },
+    "PortGame.source_block_load_team_regions_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.load()",
+      "source_slice": "N1356",
+      "params": [
+        {
+          "name": "name_value",
+          "type": "String",
+          "java_expr": "name",
+          "schema": "source_block_load_team_regions_input.name_value"
+        },
+        {
+          "name": "team_region_found",
+          "type": "bool",
+          "java_expr": "teamRegion.found()",
+          "schema": "source_block_load_team_regions_input.team_region_found"
+        },
+        {
+          "name": "team_region",
+          "type": "Variant",
+          "java_expr": "teamRegion",
+          "schema": "source_block_load_team_regions_input.team_region"
+        },
+        {
+          "name": "teams",
+          "type": "Array",
+          "java_expr": "Team.all",
+          "schema": "source_block_load_team_regions_input.teams"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "comment",
+        "team_regions_expr",
+        "team_loop_expr",
+        "team_assignment_expr",
+        "name",
+        "team_region_found",
+        "team_region",
+        "teams",
+        "team_all_length",
+        "team_regions",
+        "assignments"
+      ],
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
     }
   },
   "policy": {

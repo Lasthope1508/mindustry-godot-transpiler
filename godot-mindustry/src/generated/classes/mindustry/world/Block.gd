@@ -906,6 +906,28 @@ func java_method_checkContentArrayCapacity_125(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_check_content_array_capacity_state", "source": "core/src/mindustry/world/Block.java", "method": "public void checkContentArrayCapacity(int items, int liquids){", "liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);", "item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);", "item_filter_before": item_filter, "liquid_filter_before": liquid_filter, "items": items, "liquids": liquids, "item_filter_after": item_filter_after, "liquid_filter_after": liquid_filter_after}
 
 func java_method_load_126(_args: Array = []) -> Variant:
+	if str(get_meta("mindustry_load_bridge_mode", "")) == "team_regions":
+		var team_load_name_value: String = str(_args[0] if _args.size() > 0 else "")
+		var team_region_found: bool = bool(_args[1] if _args.size() > 1 else false)
+		var team_region: Variant = _args[2] if _args.size() > 2 else "teamRegion"
+		var teams: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []
+		var team_regions: Array = []
+		for _i in range(teams.size()):
+			team_regions.append(team_region)
+		var assignments: Array = []
+		for team in teams:
+			if not team is Dictionary:
+				continue
+			var team_id: int = int(team.get("id", 0))
+			var team_name: String = str(team.get("name", ""))
+			var team_has_palette: bool = bool(team.get("hasPalette", false))
+			var assigned_region: Variant = team_region
+			if team_region_found and team_has_palette:
+				assigned_region = "Core.atlas.find(%s-team-%s, %s)" % [team_load_name_value, team_name, str(team_region)]
+			if team_id >= 0 and team_id < team_regions.size():
+				team_regions[team_id] = assigned_region
+			assignments.append({"team_id": team_id, "team_name": team_name, "team_has_palette": team_has_palette, "assigned_region": assigned_region})
+		return {"source_owner": "PortGame.source_block_load_team_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "comment": "//load specific team regions", "team_regions_expr": "teamRegions = new TextureRegion[Team.all.length];", "team_loop_expr": "for(Team team : Team.all){", "team_assignment_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;", "name": team_load_name_value, "team_region_found": team_region_found, "team_region": team_region, "teams": teams, "team_all_length": teams.size(), "team_regions": team_regions, "assignments": assignments}
 	var name_value: String = str(_args[0] if _args.size() > 0 else "")
 	var region_value: String = "Core.atlas.find(%s)" % name_value
 	return {"source_owner": "PortGame.source_block_load_base_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "super_load_expr": "super.load();", "region_expr": "region = Core.atlas.find(name);", "content_regions_expr": "ContentRegions.loadRegions(this);", "name": name_value, "region": region_value, "super_load_called": true, "content_regions_loaded": true}

@@ -11026,6 +11026,23 @@ def verify_block_load_base_regions_source(upstream_root: Path) -> dict[str, Any]
         "missing": missing,
     }
 
+def verify_block_load_team_regions_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void load(){",
+        "comment": "//load specific team regions",
+        "team_regions_expr": "teamRegions = new TextureRegion[Team.all.length];",
+        "team_loop_expr": "for(Team team : Team.all){",
+        "team_assignment_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

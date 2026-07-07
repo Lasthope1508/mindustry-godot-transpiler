@@ -19372,6 +19372,54 @@ func generated_block_load_base_regions_bridge_state(name_value: String) -> Dicti
 		"matches": result == canonical,
 	}
 
+func source_block_load_team_regions_state(name_value: String, team_region_found: bool, team_region: Variant, teams: Array) -> Dictionary:
+	var team_regions: Array = []
+	for _i in range(teams.size()):
+		team_regions.append(team_region)
+	var assignments: Array = []
+	for team in teams:
+		if not team is Dictionary:
+			continue
+		var team_id: int = int(team.get("id", 0))
+		var team_name: String = str(team.get("name", ""))
+		var team_has_palette: bool = bool(team.get("hasPalette", false))
+		var assigned_region: Variant = team_region
+		if team_region_found and team_has_palette:
+			assigned_region = "Core.atlas.find(%s-team-%s, %s)" % [name_value, team_name, str(team_region)]
+		if team_id >= 0 and team_id < team_regions.size():
+			team_regions[team_id] = assigned_region
+		assignments.append({"team_id": team_id, "team_name": team_name, "team_has_palette": team_has_palette, "assigned_region": assigned_region})
+	return {
+		"source_owner": "PortGame.source_block_load_team_regions_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void load(){",
+		"comment": "//load specific team regions",
+		"team_regions_expr": "teamRegions = new TextureRegion[Team.all.length];",
+		"team_loop_expr": "for(Team team : Team.all){",
+		"team_assignment_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;",
+		"name": name_value,
+		"team_region_found": team_region_found,
+		"team_region": team_region,
+		"teams": teams,
+		"team_all_length": teams.size(),
+		"team_regions": team_regions,
+		"assignments": assignments,
+	}
+
+func generated_block_load_team_regions_bridge_state(name_value: String, team_region_found: bool, team_region: Variant, teams: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_load_bridge_mode", "team_regions")
+	var result = instance.java_method_load_126([name_value, team_region_found, team_region, teams])
+	var canonical = source_block_load_team_regions_state(name_value, team_region_found, team_region, teams)
+	return {
+		"source_owner": "PortGame.source_block_load_team_regions_state",
+		"generated_owner": "Block.java_method_load_126",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

@@ -17884,6 +17884,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_load_126"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_load_team_regions_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_load_team_regions_state(name_value: String, team_region_found: bool, team_region: Variant, teams: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_load_team_regions_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void load(){"', source)
+        self.assertIn('"team_regions_expr": "teamRegions = new TextureRegion[Team.all.length];"', source)
+        self.assertIn('"team_loop_expr": "for(Team team : Team.all){"', source)
+        self.assertIn('"team_assignment_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \\"-team-\\" + team.name, teamRegion) : teamRegion;"', source)
+        self.assertIn('"team_all_length": teams.size()', source)
+        self.assertIn('"team_regions": team_regions', source)
+        self.assertIn('"assignments": assignments', source)
+
+    def test_port_game_exposes_generated_block_load_team_regions_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_load_team_regions_bridge_state(name_value: String, team_region_found: bool, team_region: Variant, teams: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_load_bridge_mode", "team_regions")', source)
+        self.assertIn("var result = instance.java_method_load_126([name_value, team_region_found, team_region, teams])", source)
+        self.assertIn("var canonical = source_block_load_team_regions_state(name_value, team_region_found, team_region, teams)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_load_team_regions_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_load_126"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

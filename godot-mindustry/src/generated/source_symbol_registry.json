@@ -103166,6 +103166,168 @@
         "test_generated_block_load_base_regions_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed Block.load() base region and ContentRegions load calls."
+    },
+    "block_load_team_regions.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "public void load(){",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "godot_symbol": "source_block_load_team_regions_result.method",
+      "status": "source-backed",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
+    },
+    "block_load_team_regions.comment": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "//load specific team regions",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "godot_symbol": "source_block_load_team_regions_result.comment",
+      "status": "source-backed",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
+    },
+    "block_load_team_regions.team_regions_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "teamRegions = new TextureRegion[Team.all.length];",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "godot_symbol": "source_block_load_team_regions_result.team_regions",
+      "status": "source-backed",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
+    },
+    "block_load_team_regions.team_loop_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "for(Team team : Team.all){",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "godot_symbol": "source_block_load_team_regions_result.assignments",
+      "status": "source-backed",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
+    },
+    "block_load_team_regions.team_assignment_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "godot_symbol": "source_block_load_team_regions_result.assignments",
+      "status": "source-backed",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
+    },
+    "block_load_team_regions.name": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "name",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "godot_symbol": "source_block_load_team_regions_input.name_value",
+      "status": "explicit-input",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
+    },
+    "block_load_team_regions.team_region_found": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "teamRegion.found()",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "godot_symbol": "source_block_load_team_regions_input.team_region_found",
+      "status": "explicit-input",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
+    },
+    "block_load_team_regions.team_region": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "teamRegion",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "godot_symbol": "source_block_load_team_regions_input.team_region",
+      "status": "explicit-input",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
+    },
+    "block_load_team_regions.teams": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "Team.all",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "godot_symbol": "source_block_load_team_regions_input.teams",
+      "status": "explicit-input",
+      "source_slice": "N1356",
+      "runtime_proof": "/root/Main.source_block_load_team_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
     }
   },
   "version": 1

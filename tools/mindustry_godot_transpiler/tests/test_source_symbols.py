@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 829)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 824)
+        self.assertEqual(audit["totalSourceFunctions"], 830)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 825)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 829)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 830)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20384,6 +20384,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_can_place_on_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_can_break_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_load_base_regions_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_load_team_regions_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_rotated_output_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_rotated_output_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_synthetic_state", audit["registeredSourceOwners"])
@@ -46683,6 +46684,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_load_base_regions_result")
         self.assertEqual(result_schema["keys"]["region"]["java_expr"], "region = Core.atlas.find(name);")
         self.assertEqual(result_schema["keys"]["content_regions_loaded"]["java_expr"], "ContentRegions.loadRegions(this);")
+
+    def test_generated_block_load_team_regions_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_load_team_regions.method")
+        self.assertEqual(method["java_expr"], "public void load(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.load()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_load_team_regions_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_load_team_regions_state")
+
+        team_regions_expr = source_symbols.source_symbol(registry, "block_load_team_regions.team_regions_expr")
+        self.assertEqual(team_regions_expr["java_expr"], "teamRegions = new TextureRegion[Team.all.length];")
+        self.assertEqual(team_regions_expr["godot_symbol"], "source_block_load_team_regions_result.team_regions")
+        team_assignment_expr = source_symbols.source_symbol(registry, "block_load_team_regions.team_assignment_expr")
+        self.assertEqual(team_assignment_expr["java_expr"], "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;")
+        self.assertEqual(team_assignment_expr["godot_symbol"], "source_block_load_team_regions_result.assignments")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1356")
+        self.assertEqual(setup_slice["title"], "Generated Block load team regions bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.load()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_load_team_regions_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_load_126")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_load_team_regions_bridge_state")
+        for expr in [
+            "public void load(){",
+            "//load specific team regions",
+            "teamRegions = new TextureRegion[Team.all.length];",
+            "for(Team team : Team.all){",
+            "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_load_team_regions_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["name_value", "team_region_found", "team_region", "teams"])
+        for key in ["source_owner", "source", "method", "comment", "team_regions_expr", "team_loop_expr", "team_assignment_expr", "name", "team_region_found", "team_region", "teams", "team_all_length", "team_regions", "assignments"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_load_team_regions_input")
+        self.assertEqual(input_schema["keys"]["team_region_found"]["java_expr"], "teamRegion.found()")
+        self.assertEqual(input_schema["keys"]["teams"]["java_expr"], "Team.all")
+        result_schema = source_symbols.state_schema(schema, "source_block_load_team_regions_result")
+        self.assertEqual(result_schema["keys"]["team_regions"]["java_expr"], "teamRegions = new TextureRegion[Team.all.length];")
+        self.assertEqual(result_schema["keys"]["assignments"]["java_expr"], "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;")
 
     def test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

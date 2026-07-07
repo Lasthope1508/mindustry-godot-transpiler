@@ -32236,6 +32236,42 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.load() base region loading to source-backed canonical state before team region and variant slices."
+    },
+    "N1356": {
+      "title": "Generated Block load team regions bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.load()",
+      "godot_owner": "PortGame.source_block_load_team_regions_state",
+      "generated_owner": "Block.java_method_load_126",
+      "runtime_proof": "/root/Main.generated_block_load_team_regions_bridge_state",
+      "source_symbols": [
+        "block_load_team_regions.method",
+        "block_load_team_regions.comment",
+        "block_load_team_regions.team_regions_expr",
+        "block_load_team_regions.team_loop_expr",
+        "block_load_team_regions.team_assignment_expr",
+        "block_load_team_regions.name",
+        "block_load_team_regions.team_region_found",
+        "block_load_team_regions.team_region",
+        "block_load_team_regions.teams"
+      ],
+      "exact_exprs": [
+        "public void load(){",
+        "//load specific team regions",
+        "teamRegions = new TextureRegion[Team.all.length];",
+        "for(Team team : Team.all){",
+        "teamRegions[team.id] = teamRegion.found() && team.hasPalette ? Core.atlas.find(name + \"-team-\" + team.name, teamRegion) : teamRegion;"
+      ],
+      "tests": [
+        "test_emit_bridges_block_load_team_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_team_regions_state",
+        "test_port_game_exposes_generated_block_load_team_regions_bridge_state",
+        "test_block_load_team_regions_matches_upstream_source",
+        "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.load() teamRegions allocation and Team.all loop to source-backed canonical state before variant slices."
     }
   },
   "version": 1
