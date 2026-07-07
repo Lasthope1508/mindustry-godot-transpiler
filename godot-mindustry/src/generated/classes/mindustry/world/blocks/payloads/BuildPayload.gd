@@ -59,7 +59,7 @@ func java_method_size_11(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_build_payload_size_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public float size(){", "return_expr": "return build.block.size * tilesize;", "build_block_size": build_block_size, "source_tilesize": source_tilesize, "size": size}
 
 func java_method_remove_12(_args: Array = []) -> Variant:
-	return null
+	return {"source_owner": "PortGame.source_build_payload_remove_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void remove(){", "remove_expr": "build.remove();", "remove_called": true}
 
 func java_method_write_13(_args: Array = []) -> Variant:
 	return null

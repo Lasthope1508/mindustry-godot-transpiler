@@ -35585,6 +35585,32 @@
         "test_build_payload_size_matches_upstream_source",
         "test_generated_build_payload_size_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_build_payload_remove_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "remove_expr",
+        "remove_called"
+      ],
+      "rule": "PortGame.source_build_payload_remove_state pins BuildPayload.remove() side-effect contract.",
+      "runtime_proof": "/root/Main.source_build_payload_remove_state",
+      "source_method": "BuildPayload.remove()",
+      "source_slice": "N1374",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_build_payload_remove_to_source_state",
+        "test_port_game_exposes_source_build_payload_remove_state",
+        "test_port_game_exposes_generated_build_payload_remove_bridge_state",
+        "test_build_payload_remove_matches_upstream_source",
+        "test_generated_build_payload_remove_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

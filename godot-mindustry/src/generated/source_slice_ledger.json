@@ -32894,6 +32894,39 @@
         "test_generated_build_payload_size_slice_is_registered_with_source_backing"
       ],
       "title": "Generated BuildPayload size bridge state"
+    },
+    "N1374": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "@Override",
+        "public void remove(){",
+        "build.remove();"
+      ],
+      "generated_owner": "BuildPayload.java_method_remove_12",
+      "godot_owner": "PortGame.source_build_payload_remove_state",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.remove()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Generated BuildPayload.remove() bridge delegates removal to build.remove().",
+      "runtime_proof": "/root/Main.generated_build_payload_remove_bridge_state",
+      "source_symbols": [
+        "build_payload_remove.class_expr",
+        "build_payload_remove.field_expr",
+        "build_payload_remove.method",
+        "build_payload_remove.override_expr",
+        "build_payload_remove.remove_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_build_payload_remove_to_source_state",
+        "test_port_game_exposes_source_build_payload_remove_state",
+        "test_port_game_exposes_generated_build_payload_remove_bridge_state",
+        "test_build_payload_remove_matches_upstream_source",
+        "test_generated_build_payload_remove_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated BuildPayload remove bridge state"
     }
   },
   "version": 1

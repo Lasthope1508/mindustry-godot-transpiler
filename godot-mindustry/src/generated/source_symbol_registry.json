@@ -105866,6 +105866,96 @@
       "java_expr": "return build.block.size * tilesize;",
       "rule": "BuildPayload.size() returns block size multiplied by Vars.tilesize.",
       "status": "source-backed"
+    },
+    "build_payload_remove.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.remove()",
+      "godot_owner": "PortGame.source_build_payload_remove_state",
+      "runtime_proof": "/root/Main.source_build_payload_remove_state",
+      "source_slice": "N1374",
+      "tests": [
+        "test_emit_bridges_build_payload_remove_to_source_state",
+        "test_port_game_exposes_source_build_payload_remove_state",
+        "test_port_game_exposes_generated_build_payload_remove_bridge_state",
+        "test_build_payload_remove_matches_upstream_source",
+        "test_generated_build_payload_remove_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_remove_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "Pin BuildPayload class boundary for remove payload bridge.",
+      "status": "source-backed"
+    },
+    "build_payload_remove.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.remove()",
+      "godot_owner": "PortGame.source_build_payload_remove_state",
+      "runtime_proof": "/root/Main.source_build_payload_remove_state",
+      "source_slice": "N1374",
+      "tests": [
+        "test_emit_bridges_build_payload_remove_to_source_state",
+        "test_port_game_exposes_source_build_payload_remove_state",
+        "test_port_game_exposes_generated_build_payload_remove_bridge_state",
+        "test_build_payload_remove_matches_upstream_source",
+        "test_generated_build_payload_remove_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_remove_result.field_expr",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload build field receives remove call.",
+      "status": "source-backed"
+    },
+    "build_payload_remove.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.remove()",
+      "godot_owner": "PortGame.source_build_payload_remove_state",
+      "runtime_proof": "/root/Main.source_build_payload_remove_state",
+      "source_slice": "N1374",
+      "tests": [
+        "test_emit_bridges_build_payload_remove_to_source_state",
+        "test_port_game_exposes_source_build_payload_remove_state",
+        "test_port_game_exposes_generated_build_payload_remove_bridge_state",
+        "test_build_payload_remove_matches_upstream_source",
+        "test_generated_build_payload_remove_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_remove_result.method",
+      "java_expr": "public void remove(){",
+      "rule": "Pin BuildPayload.remove() method boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_remove.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.remove()",
+      "godot_owner": "PortGame.source_build_payload_remove_state",
+      "runtime_proof": "/root/Main.source_build_payload_remove_state",
+      "source_slice": "N1374",
+      "tests": [
+        "test_emit_bridges_build_payload_remove_to_source_state",
+        "test_port_game_exposes_source_build_payload_remove_state",
+        "test_port_game_exposes_generated_build_payload_remove_bridge_state",
+        "test_build_payload_remove_matches_upstream_source",
+        "test_generated_build_payload_remove_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_remove_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "BuildPayload.remove() implements Payload.remove().",
+      "status": "source-backed"
+    },
+    "build_payload_remove.remove_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.remove()",
+      "godot_owner": "PortGame.source_build_payload_remove_state",
+      "runtime_proof": "/root/Main.source_build_payload_remove_state",
+      "source_slice": "N1374",
+      "tests": [
+        "test_emit_bridges_build_payload_remove_to_source_state",
+        "test_port_game_exposes_source_build_payload_remove_state",
+        "test_port_game_exposes_generated_build_payload_remove_bridge_state",
+        "test_build_payload_remove_matches_upstream_source",
+        "test_generated_build_payload_remove_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_remove_result.remove_called",
+      "java_expr": "build.remove();",
+      "rule": "BuildPayload.remove() delegates removal to contained building.",
+      "status": "source-backed"
     }
   },
   "version": 1

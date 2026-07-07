@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 846)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 841)
+        self.assertEqual(audit["totalSourceFunctions"], 847)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 842)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 846)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 847)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -47558,6 +47558,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["source_tilesize"]["java_expr"], "tilesize")
         result_schema = source_symbols.state_schema(schema, "source_build_payload_size_result")
         self.assertEqual(result_schema["keys"]["size"]["java_expr"], "return build.block.size * tilesize;")
+
+    def test_generated_build_payload_remove_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "build_payload_remove.method")
+        self.assertEqual(method["java_expr"], "public void remove(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(method["java_method"], "BuildPayload.remove()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_build_payload_remove_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_build_payload_remove_state")
+
+        field_expr = source_symbols.source_symbol(registry, "build_payload_remove.field_expr")
+        self.assertEqual(field_expr["java_expr"], "public Building build;")
+        self.assertEqual(field_expr["godot_symbol"], "source_build_payload_remove_result.field_expr")
+        override_expr = source_symbols.source_symbol(registry, "build_payload_remove.override_expr")
+        self.assertEqual(override_expr["java_expr"], "@Override")
+        remove_expr = source_symbols.source_symbol(registry, "build_payload_remove.remove_expr")
+        self.assertEqual(remove_expr["java_expr"], "build.remove();")
+        self.assertEqual(remove_expr["godot_symbol"], "source_build_payload_remove_result.remove_called")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1374")
+        self.assertEqual(payload_slice["title"], "Generated BuildPayload remove bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(payload_slice["java_method"], "BuildPayload.remove()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_build_payload_remove_state")
+        self.assertEqual(payload_slice["generated_owner"], "BuildPayload.java_method_remove_12")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_build_payload_remove_bridge_state")
+        for expr in [
+            "public class BuildPayload implements Payload{",
+            "public Building build;",
+            "@Override",
+            "public void remove(){",
+            "build.remove();",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("build_payload_remove.remove_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_build_payload_remove_state")
+        self.assertEqual([param["name"] for param in contract["params"]], [])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "override_expr", "method", "remove_expr", "remove_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        result_schema = source_symbols.state_schema(schema, "source_build_payload_remove_result")
+        self.assertEqual(result_schema["keys"]["remove_called"]["java_expr"], "build.remove();")
 
     def test_generated_drill_get_drill_time_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

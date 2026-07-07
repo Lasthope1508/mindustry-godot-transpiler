@@ -1674,6 +1674,14 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_build_payload_size_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public float size(){", "return_expr": "return build.block.size * tilesize;", "build_block_size": build_block_size, "source_tilesize": source_tilesize, "size": size}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
+        and method.get("name") == "remove"
+    ):
+        return [
+            '\treturn {"source_owner": "PortGame.source_build_payload_remove_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void remove(){", "remove_expr": "build.remove();", "remove_called": true}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/production/Drill.java"
         and type_entry.get("name") == "Drill"
         and method.get("name") == "getDrillTime"
