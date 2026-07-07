@@ -8676,6 +8676,48 @@ public class Block{
             self.assertIn('"returned_requirements": returned_requirements', source_text)
             self.assertIn('"returned_early": returned_early', source_text)
 
+    def test_emit_bridges_block_research_requirements_empty_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public ItemStack[] researchRequirements(){
+        if(researchCost != null) return researchCost;
+        if(researchCostMultiplier <= 0f) return ItemStack.empty;
+        return null;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_researchRequirements_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar research_cost: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("\tvar research_cost_multiplier: float = float(_args[1] if _args.size() > 1 else 1.0)", source_text)
+            self.assertIn("\tif _args.size() <= 1:", source_text)
+            self.assertIn("\t\treturn {\"source_owner\": \"PortGame.source_block_research_requirements_research_cost_state\"", source_text)
+            self.assertIn("\tvar returned_empty: bool = research_cost == null and research_cost_multiplier <= 0.0", source_text)
+            self.assertIn('\tvar returned_requirements_after_multiplier: Variant = "ItemStack.empty" if returned_empty else returned_requirements', source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_research_requirements_empty_state"', source_text)
+            self.assertIn('"method": "public ItemStack[] researchRequirements(){"', source_text)
+            self.assertIn('"empty_guard_expr": "if(researchCostMultiplier <= 0f) return ItemStack.empty;"', source_text)
+            self.assertIn('"empty_return_expr": "return ItemStack.empty;"', source_text)
+            self.assertIn('"research_cost_multiplier": research_cost_multiplier', source_text)
+            self.assertIn('"returned_requirements": returned_requirements_after_multiplier', source_text)
+            self.assertIn('"returned_empty": returned_empty', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

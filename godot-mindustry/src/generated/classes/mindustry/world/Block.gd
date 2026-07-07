@@ -483,9 +483,14 @@ func java_method_initBuilding_117(_args: Array = []) -> Variant:
 
 func java_method_researchRequirements_118(_args: Array = []) -> Variant:
 	var research_cost: Variant = _args[0] if _args.size() > 0 else null
+	var research_cost_multiplier: float = float(_args[1] if _args.size() > 1 else 1.0)
 	var returned_early: bool = research_cost != null
 	var returned_requirements: Variant = research_cost if returned_early else null
-	return {"source_owner": "PortGame.source_block_research_requirements_research_cost_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "override_expr": "@Override", "research_cost_guard_expr": "if(researchCost != null) return researchCost;", "return_expr": "return researchCost;", "research_cost": research_cost, "returned_requirements": returned_requirements, "returned_early": returned_early}
+	if _args.size() <= 1:
+		return {"source_owner": "PortGame.source_block_research_requirements_research_cost_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "override_expr": "@Override", "research_cost_guard_expr": "if(researchCost != null) return researchCost;", "return_expr": "return researchCost;", "research_cost": research_cost, "returned_requirements": returned_requirements, "returned_early": returned_early}
+	var returned_empty: bool = research_cost == null and research_cost_multiplier <= 0.0
+	var returned_requirements_after_multiplier: Variant = "ItemStack.empty" if returned_empty else returned_requirements
+	return {"source_owner": "PortGame.source_block_research_requirements_empty_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "override_expr": "@Override", "research_cost_guard_expr": "if(researchCost != null) return researchCost;", "empty_guard_expr": "if(researchCostMultiplier <= 0f) return ItemStack.empty;", "empty_return_expr": "return ItemStack.empty;", "research_cost": research_cost, "research_cost_multiplier": research_cost_multiplier, "returned_requirements": returned_requirements_after_multiplier, "returned_empty": returned_empty}
 
 func java_method_getDependencies_119(_args: Array = []) -> Variant:
 	return null

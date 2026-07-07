@@ -10039,6 +10039,39 @@
       ],
       "title": "Generated Block researchRequirements researchCost bridge state"
     },
+    "N1311": {
+      "exact_exprs": [
+        "@Override",
+        "public ItemStack[] researchRequirements(){",
+        "if(researchCost != null) return researchCost;",
+        "if(researchCostMultiplier <= 0f) return ItemStack.empty;",
+        "return ItemStack.empty;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_empty_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_empty_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_empty.override_expr",
+        "block_research_requirements_empty.method",
+        "block_research_requirements_empty.research_cost_guard_expr",
+        "block_research_requirements_empty.empty_guard_expr",
+        "block_research_requirements_empty.empty_return_expr",
+        "block_research_requirements_empty.research_cost",
+        "block_research_requirements_empty.research_cost_multiplier"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_empty_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_empty_state",
+        "test_port_game_exposes_generated_block_research_requirements_empty_bridge_state",
+        "test_block_research_requirements_empty_matches_upstream_source",
+        "test_generated_block_research_requirements_empty_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements empty bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

@@ -10250,6 +10250,23 @@ def verify_block_research_requirements_research_cost_source(upstream_root: Path)
         "missing": missing,
     }
 
+def verify_block_research_requirements_empty_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override_expr": "@Override",
+        "method": "public ItemStack[] researchRequirements(){",
+        "research_cost_guard_expr": "if(researchCost != null) return researchCost;",
+        "empty_guard_expr": "if(researchCostMultiplier <= 0f) return ItemStack.empty;",
+        "empty_return_expr": "return ItemStack.empty;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
