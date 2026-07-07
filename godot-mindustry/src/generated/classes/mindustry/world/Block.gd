@@ -649,6 +649,14 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		if has_fog_radius_flag_added and not flags_after.has("BlockFlag.hasFogRadius"):
 			flags_after.append("BlockFlag.hasFogRadius")
 		return {"source_owner": "PortGame.source_block_init_fog_radius_flag_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "fog_radius_guard_expr": "if(fogRadius > 0){", "flags_assign_expr": "flags = flags.with(BlockFlag.hasFogRadius);", "block_flag_has_fog_radius_expr": "BlockFlag.hasFogRadius", "fog_radius": fog_radius, "flags_before": flags_before, "flags_after": flags_after, "has_fog_radius_flag_added": has_fog_radius_flag_added}
+	if init_bridge_mode == "sync_flag":
+		var sync_value: bool = bool(_args[0] if _args.size() > 0 else false)
+		var flags_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+		var flags_after: Array = flags_before.duplicate()
+		var synced_flag_added: bool = sync_value
+		if synced_flag_added and not flags_after.has("BlockFlag.synced"):
+			flags_after.append("BlockFlag.synced")
+		return {"source_owner": "PortGame.source_block_init_sync_flag_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "sync_guard_expr": "if(sync){", "flags_assign_expr": "flags = flags.with(BlockFlag.synced);", "block_flag_synced_expr": "BlockFlag.synced", "sync": sync_value, "flags_before": flags_before, "flags_after": flags_after, "synced_flag_added": synced_flag_added}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

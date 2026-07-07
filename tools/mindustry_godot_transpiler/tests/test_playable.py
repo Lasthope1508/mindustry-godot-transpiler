@@ -17327,5 +17327,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_sync_flag_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_sync_flag_state(sync_value: bool, flags_before: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_sync_flag_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"super_init_expr": "super.init();"', source)
+        self.assertIn('"sync_guard_expr": "if(sync){"', source)
+        self.assertIn('"flags_assign_expr": "flags = flags.with(BlockFlag.synced);"', source)
+        self.assertIn('"block_flag_synced_expr": "BlockFlag.synced"', source)
+        self.assertIn('"sync": sync_value', source)
+        self.assertIn('"flags_before": flags_before', source)
+        self.assertIn('"flags_after": flags_after', source)
+        self.assertIn('"synced_flag_added": synced_flag_added', source)
+
+    def test_port_game_exposes_generated_block_init_sync_flag_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_sync_flag_bridge_state(sync_value: bool, flags_before: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "sync_flag")', source)
+        self.assertIn("var result = instance.java_method_init_123([sync_value, flags_before])", source)
+        self.assertIn("var canonical = source_block_init_sync_flag_state(sync_value, flags_before)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_sync_flag_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

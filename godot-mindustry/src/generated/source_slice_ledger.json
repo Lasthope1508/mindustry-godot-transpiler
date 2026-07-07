@@ -31267,6 +31267,39 @@
         "test_block_init_fog_radius_flag_matches_upstream_source",
         "test_generated_block_init_fog_radius_flag_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1329": {
+      "title": "Generated Block init sync flag bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_sync_flag_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_sync_flag_bridge_state",
+      "source_symbols": [
+        "block_init_sync_flag.method",
+        "block_init_sync_flag.sync_guard_expr",
+        "block_init_sync_flag.flags_assign_expr",
+        "block_init_sync_flag.block_flag_synced_expr",
+        "block_init_sync_flag.sync",
+        "block_init_sync_flag.flags"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(sync){",
+        "flags = flags.with(BlockFlag.synced);",
+        "BlockFlag.synced"
+      ],
+      "rule": "Bridge generated Block.init() sync flag assignment to source-backed canonical state without claiming health, liquid, or other init branches.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_sync_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_sync_flag_state",
+        "test_port_game_exposes_generated_block_init_sync_flag_bridge_state",
+        "test_block_init_sync_flag_matches_upstream_source",
+        "test_generated_block_init_sync_flag_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

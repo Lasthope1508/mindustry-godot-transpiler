@@ -18658,6 +18658,39 @@ func generated_block_init_fog_radius_flag_bridge_state(fog_radius: int, flags_be
 		"matches": result == canonical,
 	}
 
+func source_block_init_sync_flag_state(sync_value: bool, flags_before: Array) -> Dictionary:
+	var flags_after: Array = flags_before.duplicate()
+	var synced_flag_added: bool = sync_value
+	if synced_flag_added and not flags_after.has("BlockFlag.synced"):
+		flags_after.append("BlockFlag.synced")
+	return {
+		"source_owner": "PortGame.source_block_init_sync_flag_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"sync_guard_expr": "if(sync){",
+		"flags_assign_expr": "flags = flags.with(BlockFlag.synced);",
+		"block_flag_synced_expr": "BlockFlag.synced",
+		"sync": sync_value,
+		"flags_before": flags_before,
+		"flags_after": flags_after,
+		"synced_flag_added": synced_flag_added,
+	}
+
+func generated_block_init_sync_flag_bridge_state(sync_value: bool, flags_before: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "sync_flag")
+	var result = instance.java_method_init_123([sync_value, flags_before])
+	var canonical = source_block_init_sync_flag_state(sync_value, flags_before)
+	return {
+		"source_owner": "PortGame.source_block_init_sync_flag_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

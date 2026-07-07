@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 802)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 797)
+        self.assertEqual(audit["totalSourceFunctions"], 803)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 798)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 802)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 803)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45605,6 +45605,69 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_fog_radius_flag_result")
         self.assertEqual(result_schema["keys"]["has_fog_radius_flag_added"]["java_expr"], "if(fogRadius > 0){")
         self.assertEqual(result_schema["keys"]["flags_after"]["java_expr"], "flags = flags.with(BlockFlag.hasFogRadius);")
+
+    def test_generated_block_init_sync_flag_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_sync_flag.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_sync_flag_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_sync_flag_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_sync_flag.sync_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(sync){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_sync_flag_result.synced_flag_added")
+
+        assign = source_symbols.source_symbol(registry, "block_init_sync_flag.flags_assign_expr")
+        self.assertEqual(assign["java_expr"], "flags = flags.with(BlockFlag.synced);")
+        self.assertEqual(assign["godot_symbol"], "source_block_init_sync_flag_result.flags_after")
+
+        flag = source_symbols.source_symbol(registry, "block_init_sync_flag.block_flag_synced_expr")
+        self.assertEqual(flag["java_expr"], "BlockFlag.synced")
+        self.assertEqual(flag["godot_symbol"], "source_block_init_sync_flag_result.flags_after")
+
+        sync_value = source_symbols.source_symbol(registry, "block_init_sync_flag.sync")
+        self.assertEqual(sync_value["java_expr"], "sync")
+        self.assertEqual(sync_value["godot_symbol"], "source_block_init_sync_flag_input.sync_value")
+
+        flags = source_symbols.source_symbol(registry, "block_init_sync_flag.flags")
+        self.assertEqual(flags["java_expr"], "flags")
+        self.assertEqual(flags["godot_symbol"], "source_block_init_sync_flag_input.flags_before")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1329")
+        self.assertEqual(setup_slice["title"], "Generated Block init sync flag bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_sync_flag_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_sync_flag_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "if(sync){",
+            "flags = flags.with(BlockFlag.synced);",
+            "BlockFlag.synced",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_sync_flag_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["sync_value", "flags_before"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "sync_guard_expr", "flags_assign_expr", "block_flag_synced_expr", "sync", "flags_before", "flags_after", "synced_flag_added"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_sync_flag_input")
+        self.assertEqual(input_schema["keys"]["sync_value"]["java_expr"], "sync")
+        self.assertEqual(input_schema["keys"]["flags_before"]["java_expr"], "flags")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_sync_flag_result")
+        self.assertEqual(result_schema["keys"]["synced_flag_added"]["java_expr"], "if(sync){")
+        self.assertEqual(result_schema["keys"]["flags_after"]["java_expr"], "flags = flags.with(BlockFlag.synced);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

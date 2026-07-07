@@ -99314,6 +99314,114 @@
       "godot_symbol": "source_block_init_fog_radius_flag_input.flags_before",
       "java_expr": "flags",
       "rule": "Runtime flags_before supplies source flags before Block.init() fogRadius branch."
+    },
+    "block_init_sync_flag.method": {
+      "godot_owner": "PortGame.source_block_init_sync_flag_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_sync_flag_state",
+      "source_slice": "N1329",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_sync_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_sync_flag_state",
+        "test_port_game_exposes_generated_block_init_sync_flag_bridge_state",
+        "test_block_init_sync_flag_matches_upstream_source",
+        "test_generated_block_init_sync_flag_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_sync_flag_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for sync flag assignment."
+    },
+    "block_init_sync_flag.sync_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_sync_flag_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_sync_flag_state",
+      "source_slice": "N1329",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_sync_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_sync_flag_state",
+        "test_port_game_exposes_generated_block_init_sync_flag_bridge_state",
+        "test_block_init_sync_flag_matches_upstream_source",
+        "test_generated_block_init_sync_flag_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_sync_flag_result.synced_flag_added",
+      "java_expr": "if(sync){",
+      "rule": "Sync guard adds BlockFlag.synced when sync is true."
+    },
+    "block_init_sync_flag.flags_assign_expr": {
+      "godot_owner": "PortGame.source_block_init_sync_flag_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_sync_flag_state",
+      "source_slice": "N1329",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_sync_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_sync_flag_state",
+        "test_port_game_exposes_generated_block_init_sync_flag_bridge_state",
+        "test_block_init_sync_flag_matches_upstream_source",
+        "test_generated_block_init_sync_flag_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_sync_flag_result.flags_after",
+      "java_expr": "flags = flags.with(BlockFlag.synced);",
+      "rule": "Sync branch assigns flags.with(BlockFlag.synced)."
+    },
+    "block_init_sync_flag.block_flag_synced_expr": {
+      "godot_owner": "PortGame.source_block_init_sync_flag_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_sync_flag_state",
+      "source_slice": "N1329",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_sync_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_sync_flag_state",
+        "test_port_game_exposes_generated_block_init_sync_flag_bridge_state",
+        "test_block_init_sync_flag_matches_upstream_source",
+        "test_generated_block_init_sync_flag_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_sync_flag_result.flags_after",
+      "java_expr": "BlockFlag.synced",
+      "rule": "BlockFlag.synced is the exact flag added by Block.init()."
+    },
+    "block_init_sync_flag.sync": {
+      "godot_owner": "PortGame.source_block_init_sync_flag_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_sync_flag_state",
+      "source_slice": "N1329",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_sync_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_sync_flag_state",
+        "test_port_game_exposes_generated_block_init_sync_flag_bridge_state",
+        "test_block_init_sync_flag_matches_upstream_source",
+        "test_generated_block_init_sync_flag_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_sync_flag_input.sync_value",
+      "java_expr": "sync",
+      "rule": "sync is an explicit input for the source-backed bridge."
+    },
+    "block_init_sync_flag.flags": {
+      "godot_owner": "PortGame.source_block_init_sync_flag_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_sync_flag_state",
+      "source_slice": "N1329",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_sync_flag_to_source_state",
+        "test_port_game_exposes_source_block_init_sync_flag_state",
+        "test_port_game_exposes_generated_block_init_sync_flag_bridge_state",
+        "test_block_init_sync_flag_matches_upstream_source",
+        "test_generated_block_init_sync_flag_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_sync_flag_input.flags_before",
+      "java_expr": "flags",
+      "rule": "flags is an explicit input to preserve prior flag state."
     }
   },
   "version": 1
