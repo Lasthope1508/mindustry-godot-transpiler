@@ -10392,6 +10392,57 @@ public class Block{
             self.assertIn('"stats_use_categories_before": stats_use_categories_before', source_text)
             self.assertIn('"stats_use_categories_after": stats_use_categories_after', source_text)
 
+    def test_emit_bridges_block_init_logic_configurable_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public boolean logicConfigurable = false;
+
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        if(!logicConfigurable){
+            configurations.each((key, val) -> {
+                if(UnlockableContent.class.isAssignableFrom(key)){
+                    logicConfigurable = true;
+                }
+            });
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "logic_configurable":', source_text)
+            self.assertIn("\t\tvar logic_configurable_before: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\t\tvar config_key_assignable_to_unlockable_content: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\t\tvar logic_configurable_after: bool = logic_configurable_before or config_key_assignable_to_unlockable_content", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_logic_configurable_state"', source_text)
+            self.assertIn('"logic_configurable_field_expr": "public boolean logicConfigurable = false;"', source_text)
+            self.assertIn('"logic_configurable_guard_expr": "if(!logicConfigurable){"', source_text)
+            self.assertIn('"configurations_each_expr": "configurations.each((key, val) -> {"', source_text)
+            self.assertIn('"unlockable_assignable_expr": "if(UnlockableContent.class.isAssignableFrom(key)){"', source_text)
+            self.assertIn('"logic_configurable_assignment_expr": "logicConfigurable = true;"', source_text)
+            self.assertIn('"logic_configurable_before": logic_configurable_before', source_text)
+            self.assertIn('"config_key_assignable_to_unlockable_content": config_key_assignable_to_unlockable_content', source_text)
+            self.assertIn('"logic_configurable_after": logic_configurable_after', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

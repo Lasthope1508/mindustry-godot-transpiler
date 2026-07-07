@@ -791,6 +791,11 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		var stats_use_categories_before: bool = bool(_args[0] if _args.size() > 0 else false)
 		var stats_use_categories_after: bool = true
 		return {"source_owner": "PortGame.source_block_init_stats_categories_state", "source": "core/src/mindustry/world/Block.java", "stats_source": "core/src/mindustry/world/meta/Stats.java", "method": "public void init(){", "super_init_expr": "super.init();", "stats_use_categories_expr": "stats.useCategories = true;", "stats_use_categories_field_expr": "public boolean useCategories = false;", "stats_use_categories_before": stats_use_categories_before, "stats_use_categories_after": stats_use_categories_after}
+	if init_bridge_mode == "logic_configurable":
+		var logic_configurable_before: bool = bool(_args[0] if _args.size() > 0 else false)
+		var config_key_assignable_to_unlockable_content: bool = bool(_args[1] if _args.size() > 1 else false)
+		var logic_configurable_after: bool = logic_configurable_before or config_key_assignable_to_unlockable_content
+		return {"source_owner": "PortGame.source_block_init_logic_configurable_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "logic_configurable_field_expr": "public boolean logicConfigurable = false;", "logic_configurable_guard_expr": "if(!logicConfigurable){", "configurations_each_expr": "configurations.each((key, val) -> {", "unlockable_assignable_expr": "if(UnlockableContent.class.isAssignableFrom(key)){", "logic_configurable_assignment_expr": "logicConfigurable = true;", "logic_configurable_before": logic_configurable_before, "config_key_assignable_to_unlockable_content": config_key_assignable_to_unlockable_content, "logic_configurable_after": logic_configurable_after}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

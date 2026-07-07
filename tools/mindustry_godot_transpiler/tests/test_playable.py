@@ -17829,5 +17829,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_logic_configurable_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_logic_configurable_state(logic_configurable_before: bool, config_key_assignable_to_unlockable_content: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_logic_configurable_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"logic_configurable_field_expr": "public boolean logicConfigurable = false;"', source)
+        self.assertIn('"logic_configurable_guard_expr": "if(!logicConfigurable){"', source)
+        self.assertIn('"configurations_each_expr": "configurations.each((key, val) -> {"', source)
+        self.assertIn('"unlockable_assignable_expr": "if(UnlockableContent.class.isAssignableFrom(key)){"', source)
+        self.assertIn('"logic_configurable_assignment_expr": "logicConfigurable = true;"', source)
+        self.assertIn('"logic_configurable_before": logic_configurable_before', source)
+        self.assertIn('"config_key_assignable_to_unlockable_content": config_key_assignable_to_unlockable_content', source)
+        self.assertIn('"logic_configurable_after": logic_configurable_before or config_key_assignable_to_unlockable_content', source)
+
+    def test_port_game_exposes_generated_block_init_logic_configurable_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_logic_configurable_bridge_state(logic_configurable_before: bool, config_key_assignable_to_unlockable_content: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "logic_configurable")', source)
+        self.assertIn("var result = instance.java_method_init_123([logic_configurable_before, config_key_assignable_to_unlockable_content])", source)
+        self.assertIn("var canonical = source_block_init_logic_configurable_state(logic_configurable_before, config_key_assignable_to_unlockable_content)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_logic_configurable_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

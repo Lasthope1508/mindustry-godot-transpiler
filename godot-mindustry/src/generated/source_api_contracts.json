@@ -34359,6 +34359,49 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.init() stats.useCategories assignment."
+    },
+    "PortGame.source_block_init_logic_configurable_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1347",
+      "params": [
+        {
+          "name": "logic_configurable_before",
+          "type": "bool",
+          "java_expr": "logicConfigurable",
+          "schema": "source_block_init_logic_configurable_input.logic_configurable_before"
+        },
+        {
+          "name": "config_key_assignable_to_unlockable_content",
+          "type": "bool",
+          "java_expr": "UnlockableContent.class.isAssignableFrom(key)",
+          "schema": "source_block_init_logic_configurable_input.config_key_assignable_to_unlockable_content"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "logic_configurable_field_expr",
+        "logic_configurable_guard_expr",
+        "configurations_each_expr",
+        "unlockable_assignable_expr",
+        "logic_configurable_assignment_expr",
+        "logic_configurable_before",
+        "config_key_assignable_to_unlockable_content",
+        "logic_configurable_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_logic_configurable_state",
+      "tests": [
+        "test_emit_bridges_block_init_logic_configurable_to_source_state",
+        "test_port_game_exposes_source_block_init_logic_configurable_state",
+        "test_port_game_exposes_generated_block_init_logic_configurable_bridge_state",
+        "test_block_init_logic_configurable_matches_upstream_source",
+        "test_generated_block_init_logic_configurable_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() logicConfigurable unlockable configuration detection."
     }
   },
   "policy": {

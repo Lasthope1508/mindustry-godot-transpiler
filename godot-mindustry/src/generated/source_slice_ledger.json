@@ -31922,6 +31922,44 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.init() stats.useCategories assignment to source-backed state."
+    },
+    "N1347": {
+      "title": "Generated Block init logic configurable bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_logic_configurable_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_logic_configurable_bridge_state",
+      "source_symbols": [
+        "block_init_logic_configurable.method",
+        "block_init_logic_configurable.super_init_expr",
+        "block_init_logic_configurable.logic_configurable_field_expr",
+        "block_init_logic_configurable.logic_configurable_guard_expr",
+        "block_init_logic_configurable.configurations_each_expr",
+        "block_init_logic_configurable.unlockable_assignable_expr",
+        "block_init_logic_configurable.logic_configurable_assignment_expr",
+        "block_init_logic_configurable.logic_configurable_before",
+        "block_init_logic_configurable.config_key_assignable_to_unlockable_content"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "public boolean logicConfigurable = false;",
+        "if(!logicConfigurable){",
+        "configurations.each((key, val) -> {",
+        "if(UnlockableContent.class.isAssignableFrom(key)){",
+        "logicConfigurable = true;"
+      ],
+      "tests": [
+        "test_emit_bridges_block_init_logic_configurable_to_source_state",
+        "test_port_game_exposes_source_block_init_logic_configurable_state",
+        "test_port_game_exposes_generated_block_init_logic_configurable_bridge_state",
+        "test_block_init_logic_configurable_matches_upstream_source",
+        "test_generated_block_init_logic_configurable_slice_is_registered_with_source_backing"
+      ],
+      "status": "done",
+      "rule": "Pin source-backed Block.init() logicConfigurable unlockable configuration detection."
     }
   },
   "version": 1

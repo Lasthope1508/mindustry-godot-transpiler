@@ -126264,6 +126264,217 @@
           ]
         }
       }
+    },
+    "source_block_init_logic_configurable_input": {
+      "owner": "PortGame.source_block_init_logic_configurable_state",
+      "source_slice": "N1347",
+      "runtime_proof": "/root/Main.source_block_init_logic_configurable_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_init_logic_configurable_state.",
+      "keys": {
+        "logic_configurable_before": {
+          "godot_symbol": "source_block_init_logic_configurable_input.logic_configurable_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "logicConfigurable",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.logic_configurable_before"
+          ]
+        },
+        "config_key_assignable_to_unlockable_content": {
+          "godot_symbol": "source_block_init_logic_configurable_input.config_key_assignable_to_unlockable_content",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "UnlockableContent.class.isAssignableFrom(key)",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.config_key_assignable_to_unlockable_content"
+          ]
+        }
+      }
+    },
+    "source_block_init_logic_configurable_result": {
+      "owner": "PortGame.source_block_init_logic_configurable_state",
+      "source_slice": "N1347",
+      "runtime_proof": "/root/Main.source_block_init_logic_configurable_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_init_logic_configurable_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_init_logic_configurable_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "PortGame.source_block_init_logic_configurable_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "godot_symbol": "source_block_init_logic_configurable_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": []
+        },
+        "method": {
+          "godot_symbol": "source_block_init_logic_configurable_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "public void init(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.method"
+          ]
+        },
+        "super_init_expr": {
+          "godot_symbol": "source_block_init_logic_configurable_result.super_init_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "super.init();",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.super_init_expr"
+          ]
+        },
+        "logic_configurable_field_expr": {
+          "godot_symbol": "source_block_init_logic_configurable_result.logic_configurable_field_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "public boolean logicConfigurable = false;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.logic_configurable_field_expr"
+          ]
+        },
+        "logic_configurable_guard_expr": {
+          "godot_symbol": "source_block_init_logic_configurable_result.logic_configurable_guard_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "if(!logicConfigurable){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.logic_configurable_guard_expr"
+          ]
+        },
+        "configurations_each_expr": {
+          "godot_symbol": "source_block_init_logic_configurable_result.configurations_each_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "configurations.each((key, val) -> {",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.configurations_each_expr"
+          ]
+        },
+        "unlockable_assignable_expr": {
+          "godot_symbol": "source_block_init_logic_configurable_result.unlockable_assignable_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "if(UnlockableContent.class.isAssignableFrom(key)){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.unlockable_assignable_expr"
+          ]
+        },
+        "logic_configurable_assignment_expr": {
+          "godot_symbol": "source_block_init_logic_configurable_result.logic_configurable_assignment_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "logicConfigurable = true;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.logic_configurable_assignment_expr"
+          ]
+        },
+        "logic_configurable_before": {
+          "godot_symbol": "source_block_init_logic_configurable_result.logic_configurable_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "logicConfigurable",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.logic_configurable_before"
+          ]
+        },
+        "config_key_assignable_to_unlockable_content": {
+          "godot_symbol": "source_block_init_logic_configurable_result.config_key_assignable_to_unlockable_content",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "UnlockableContent.class.isAssignableFrom(key)",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.config_key_assignable_to_unlockable_content"
+          ]
+        },
+        "logic_configurable_after": {
+          "godot_symbol": "source_block_init_logic_configurable_result.logic_configurable_after",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "logicConfigurable = true;",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_logic_configurable_state"
+          ],
+          "source_symbols": [
+            "block_init_logic_configurable.logic_configurable_guard_expr",
+            "block_init_logic_configurable.logic_configurable_assignment_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1
