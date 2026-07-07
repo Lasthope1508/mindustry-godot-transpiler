@@ -120359,6 +120359,81 @@
       "runtime_proof": "/root/Main.source_block_get_dependencies_consume_items_state",
       "source_slice": "N1318",
       "status": "active"
+    },
+    "source_block_get_content_type_result": {
+      "keys": {
+        "content_type": {
+          "godot_symbol": "source_block_get_content_type_result.content_type",
+          "java_expr": "return ContentType.block;",
+          "java_method": "Block.getContentType()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_content_type_state"
+          ],
+          "source_symbols": [
+            "block_get_content_type.content_type_return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "content_type_return_expr": {
+          "godot_symbol": "source_block_get_content_type_result.content_type_return_expr",
+          "java_expr": "return ContentType.block;",
+          "java_method": "Block.getContentType()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_content_type_state"
+          ],
+          "source_symbols": [
+            "block_get_content_type.content_type_return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_get_content_type_result.method",
+          "java_expr": "public ContentType getContentType(){",
+          "java_method": "Block.getContentType()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_content_type_state"
+          ],
+          "source_symbols": [
+            "block_get_content_type.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_get_content_type_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getContentType()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_content_type_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_get_content_type_result.source_owner",
+          "java_expr": "PortGame.source_block_get_content_type_state",
+          "java_method": "Block.getContentType()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_content_type_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_get_content_type_state",
+      "rule": "Dictionary returned by PortGame.source_block_get_content_type_state.",
+      "runtime_proof": "/root/Main.source_block_get_content_type_state",
+      "source_slice": "N1319",
+      "status": "active"
     }
   },
   "version": 1

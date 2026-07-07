@@ -18304,6 +18304,28 @@ func generated_block_get_dependencies_consume_items_bridge_state(requirements: A
 		"matches": result == canonical,
 	}
 
+func source_block_get_content_type_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_block_get_content_type_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public ContentType getContentType(){",
+		"content_type_return_expr": "return ContentType.block;",
+		"content_type": "ContentType.block",
+	}
+
+func generated_block_get_content_type_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_getContentType_120([])
+	var canonical = source_block_get_content_type_state()
+	return {
+		"source_owner": "PortGame.source_block_get_content_type_state",
+		"generated_owner": "Block.java_method_getContentType_120",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

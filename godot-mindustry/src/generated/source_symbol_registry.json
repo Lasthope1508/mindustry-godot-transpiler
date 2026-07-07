@@ -98270,6 +98270,42 @@
         "test_block_get_dependencies_consume_items_matches_upstream_source",
         "test_generated_block_get_dependencies_consume_items_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_get_content_type.method": {
+      "godot_owner": "PortGame.source_block_get_content_type_state",
+      "godot_symbol": "source_block_get_content_type_result.method",
+      "java_expr": "public ContentType getContentType(){",
+      "java_method": "Block.getContentType()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.getContentType method boundary.",
+      "runtime_proof": "/root/Main.source_block_get_content_type_state",
+      "source_slice": "N1319",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_content_type_to_source_state",
+        "test_port_game_exposes_source_block_get_content_type_state",
+        "test_port_game_exposes_generated_block_get_content_type_bridge_state",
+        "test_block_get_content_type_matches_upstream_source",
+        "test_generated_block_get_content_type_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_get_content_type.content_type_return_expr": {
+      "godot_owner": "PortGame.source_block_get_content_type_state",
+      "godot_symbol": "source_block_get_content_type_result.content_type",
+      "java_expr": "return ContentType.block;",
+      "java_method": "Block.getContentType()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block content type enum return.",
+      "runtime_proof": "/root/Main.source_block_get_content_type_state",
+      "source_slice": "N1319",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_content_type_to_source_state",
+        "test_port_game_exposes_source_block_get_content_type_state",
+        "test_port_game_exposes_generated_block_get_content_type_bridge_state",
+        "test_block_get_content_type_matches_upstream_source",
+        "test_generated_block_get_content_type_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

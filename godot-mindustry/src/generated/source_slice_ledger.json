@@ -30943,6 +30943,31 @@
         "test_generated_block_get_dependencies_consume_items_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block getDependencies ConsumeItems bridge state"
+    },
+    "N1319": {
+      "exact_exprs": [
+        "public ContentType getContentType(){",
+        "return ContentType.block;"
+      ],
+      "generated_owner": "Block.java_method_getContentType_120",
+      "godot_owner": "PortGame.source_block_get_content_type_state",
+      "java_class": "Block",
+      "java_method": "Block.getContentType()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_get_content_type_bridge_state",
+      "source_symbols": [
+        "block_get_content_type.method",
+        "block_get_content_type.content_type_return_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_content_type_to_source_state",
+        "test_port_game_exposes_source_block_get_content_type_state",
+        "test_port_game_exposes_generated_block_get_content_type_bridge_state",
+        "test_block_get_content_type_matches_upstream_source",
+        "test_generated_block_get_content_type_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block getContentType bridge state"
     }
   },
   "version": 1

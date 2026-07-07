@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 792)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 787)
+        self.assertEqual(audit["totalSourceFunctions"], 793)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 788)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 792)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 793)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45007,6 +45007,46 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_get_dependencies_consume_items_result")
         self.assertEqual(result_schema["keys"]["consume_items_indices"]["java_expr"], "if(c instanceof ConsumeItems i){")
         self.assertEqual(result_schema["keys"]["consume_item_dependency_items"]["java_expr"], "cons.get(stack.item);")
+
+    def test_generated_block_get_content_type_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_get_content_type.method")
+        self.assertEqual(method["java_expr"], "public ContentType getContentType(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.getContentType()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_get_content_type_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_get_content_type_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_get_content_type.content_type_return_expr")
+        self.assertEqual(return_expr["java_expr"], "return ContentType.block;")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_get_content_type_result.content_type")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1319")
+        self.assertEqual(setup_slice["title"], "Generated Block getContentType bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.getContentType()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_get_content_type_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_getContentType_120")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_get_content_type_bridge_state")
+        for expr in [
+            "public ContentType getContentType(){",
+            "return ContentType.block;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_get_content_type_state")
+        self.assertEqual([param["name"] for param in contract["params"]], [])
+        for key in ["source_owner", "source", "method", "content_type_return_expr", "content_type"]:
+            self.assertIn(key, contract["return_keys"])
+
+        result_schema = source_symbols.state_schema(schema, "source_block_get_content_type_result")
+        self.assertEqual(result_schema["keys"]["content_type"]["java_expr"], "return ContentType.block;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
