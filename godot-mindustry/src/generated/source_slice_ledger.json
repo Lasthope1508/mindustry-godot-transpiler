@@ -10147,6 +10147,48 @@
       ],
       "title": "Generated Block researchRequirements quantity formula bridge state"
     },
+    "N1314": {
+      "exact_exprs": [
+        "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));",
+        "UI.roundAmount(quantity)",
+        "public static int roundAmount(int number){",
+        "if(number >= 1_000_000_000){",
+        "}else if(number >= 1_000_000){",
+        "}else if(number >= 10_000){",
+        "}else if(number >= 1000){",
+        "}else if(number >= 100){",
+        "}else if(number >= 10){",
+        "public static int round(int value, int step){",
+        "return (value / step) * step;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_round_amount_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_round_amount.itemstack_fill_expr",
+        "block_research_requirements_round_amount.round_amount_expr",
+        "block_research_requirements_round_amount.ui_round_amount_method",
+        "block_research_requirements_round_amount.billion_guard_expr",
+        "block_research_requirements_round_amount.million_guard_expr",
+        "block_research_requirements_round_amount.ten_thousand_guard_expr",
+        "block_research_requirements_round_amount.thousand_guard_expr",
+        "block_research_requirements_round_amount.hundred_guard_expr",
+        "block_research_requirements_round_amount.ten_guard_expr",
+        "block_research_requirements_round_amount.mathf_round_int_step_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements round amount bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

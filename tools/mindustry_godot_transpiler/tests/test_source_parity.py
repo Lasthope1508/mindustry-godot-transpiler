@@ -5407,6 +5407,28 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_research_requirements_round_amount_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_research_requirements_round_amount_source"))
+        report = source_parity.verify_block_research_requirements_round_amount_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["ui_source"], "core/src/mindustry/core/UI.java")
+        self.assertEqual(report["arc_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "itemstack_fill_expr": "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));",
+            "round_amount_expr": "UI.roundAmount(quantity)",
+            "ui_round_amount_method": "public static int roundAmount(int number){",
+            "billion_guard_expr": "if(number >= 1_000_000_000){",
+            "million_guard_expr": "}else if(number >= 1_000_000){",
+            "ten_thousand_guard_expr": "}else if(number >= 10_000){",
+            "thousand_guard_expr": "}else if(number >= 1000){",
+            "hundred_guard_expr": "}else if(number >= 100){",
+            "ten_guard_expr": "}else if(number >= 10){",
+            "round_int_step_signature": "public static int round(int value, int step){",
+            "mathf_round_int_step_expr": "return (value / step) * step;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

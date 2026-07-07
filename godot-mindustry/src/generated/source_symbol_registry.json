@@ -8359,6 +8359,186 @@
         "test_generated_block_research_requirements_research_cost_slice_is_registered_with_source_backing"
       ]
     },
+    "block_research_requirements_round_amount.billion_guard_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "godot_symbol": "source_block_research_requirements_round_amount_result.rounded_amount_values",
+      "java_expr": "if(number >= 1_000_000_000){",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/core/UI.java",
+      "rule": "Preserve billion threshold for UI.roundAmount.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_round_amount.hundred_guard_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "godot_symbol": "source_block_research_requirements_round_amount_result.rounded_amount_values",
+      "java_expr": "}else if(number >= 100){",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/core/UI.java",
+      "rule": "Preserve hundred threshold for UI.roundAmount.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_round_amount.itemstack_fill_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "godot_symbol": "source_block_research_requirements_round_amount_result.round_amount_expr",
+      "java_expr": "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.researchRequirements() output fill line boundary while deferring ItemStack construction.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_round_amount.mathf_round_int_step_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "godot_symbol": "source_block_research_requirements_round_amount_result.mathf_round_int_step_expr",
+      "java_expr": "return (value / step) * step;",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Preserve Arc Mathf.round(int,int) integer step rounding.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_round_amount.million_guard_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "godot_symbol": "source_block_research_requirements_round_amount_result.rounded_amount_values",
+      "java_expr": "}else if(number >= 1_000_000){",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/core/UI.java",
+      "rule": "Preserve million threshold for UI.roundAmount.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_round_amount.round_amount_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "godot_symbol": "source_block_research_requirements_round_amount_result.rounded_amount_values",
+      "java_expr": "UI.roundAmount(quantity)",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve UI.roundAmount(quantity) call over raw quantity.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_round_amount.ten_guard_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "godot_symbol": "source_block_research_requirements_round_amount_result.rounded_amount_values",
+      "java_expr": "}else if(number >= 10){",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/core/UI.java",
+      "rule": "Preserve ten threshold for UI.roundAmount.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_round_amount.ten_thousand_guard_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "godot_symbol": "source_block_research_requirements_round_amount_result.rounded_amount_values",
+      "java_expr": "}else if(number >= 10_000){",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/core/UI.java",
+      "rule": "Preserve ten-thousand threshold for UI.roundAmount.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_round_amount.thousand_guard_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "godot_symbol": "source_block_research_requirements_round_amount_result.rounded_amount_values",
+      "java_expr": "}else if(number >= 1000){",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/core/UI.java",
+      "rule": "Preserve thousand threshold for UI.roundAmount.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_round_amount.ui_round_amount_method": {
+      "godot_owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "godot_symbol": "source_block_research_requirements_round_amount_result.ui_round_amount_method",
+      "java_expr": "public static int roundAmount(int number){",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/core/UI.java",
+      "rule": "Preserve UI.roundAmount method boundary.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_rotated_output.method": {
       "godot_owner": "PortGame.source_block_rotated_output_state",
       "godot_symbol": "source_block_rotated_output_result.method",

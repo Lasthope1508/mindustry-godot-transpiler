@@ -3333,6 +3333,58 @@
         "test_generated_block_research_requirements_research_cost_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_research_requirements_round_amount_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "researchCost",
+          "name": "research_cost",
+          "schema": "source_block_research_requirements_round_amount_input.research_cost",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "researchCostMultiplier",
+          "name": "research_cost_multiplier",
+          "schema": "source_block_research_requirements_round_amount_input.research_cost_multiplier",
+          "type": "float"
+        },
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_research_requirements_round_amount_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "researchCostMultipliers",
+          "name": "research_cost_multipliers",
+          "schema": "source_block_research_requirements_round_amount_input.research_cost_multipliers",
+          "type": "Dictionary"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "ui_source",
+        "method",
+        "round_amount_expr",
+        "ui_round_amount_method",
+        "mathf_round_int_step_expr",
+        "quantity_values",
+        "rounded_amount_values"
+      ],
+      "rule": "Pin source-backed Block.researchRequirements() UI.roundAmount(quantity) result before ItemStack output fill.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_method": "Block.researchRequirements()",
+      "source_slice": "N1314",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_round_amount_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_round_amount_state",
+        "test_port_game_exposes_generated_block_research_requirements_round_amount_bridge_state",
+        "test_block_research_requirements_round_amount_matches_upstream_source",
+        "test_generated_block_research_requirements_round_amount_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_rotated_output_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [

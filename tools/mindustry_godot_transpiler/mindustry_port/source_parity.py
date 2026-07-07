@@ -39,6 +39,7 @@ TEAM_SOURCE = "core/src/mindustry/game/Team.java"
 GAME_STATE_SOURCE = "core/src/mindustry/core/GameState.java"
 SECTOR_SOURCE = "core/src/mindustry/type/Sector.java"
 VARS_SOURCE = "core/src/mindustry/Vars.java"
+UI_SOURCE = "core/src/mindustry/core/UI.java"
 SOUND_CONTROL_SOURCE = "core/src/mindustry/audio/SoundControl.java"
 TEAMS_SOURCE = "core/src/mindustry/game/Teams.java"
 RULES_SOURCE = "core/src/mindustry/game/Rules.java"
@@ -10306,6 +10307,44 @@ def verify_block_research_requirements_quantity_formula_source(upstream_root: Pa
     ]
     return {
         "source": BLOCK_SOURCE,
+        "arc_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
+def verify_block_research_requirements_round_amount_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    ui_path = Path(upstream_root) / UI_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    ui_source = ui_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "itemstack_fill_expr": "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));",
+        "round_amount_expr": "UI.roundAmount(quantity)",
+        "ui_round_amount_method": "public static int roundAmount(int number){",
+        "billion_guard_expr": "if(number >= 1_000_000_000){",
+        "million_guard_expr": "}else if(number >= 1_000_000){",
+        "ten_thousand_guard_expr": "}else if(number >= 10_000){",
+        "thousand_guard_expr": "}else if(number >= 1000){",
+        "hundred_guard_expr": "}else if(number >= 100){",
+        "ten_guard_expr": "}else if(number >= 10){",
+        "round_int_step_signature": "public static int round(int value, int step){",
+        "mathf_round_int_step_expr": "return (value / step) * step;",
+    }
+    missing = []
+    for key, snippet in checked.items():
+        if key in {"itemstack_fill_expr", "round_amount_expr"}:
+            haystack = source
+        elif key in {"round_int_step_signature", "mathf_round_int_step_expr"}:
+            haystack = mathf_source
+        else:
+            haystack = ui_source
+        if snippet not in haystack:
+            missing.append(snippet)
+    return {
+        "source": BLOCK_SOURCE,
+        "ui_source": UI_SOURCE,
         "arc_source": ARC_MATHF_SOURCE,
         "checked": checked,
         "missing": missing,

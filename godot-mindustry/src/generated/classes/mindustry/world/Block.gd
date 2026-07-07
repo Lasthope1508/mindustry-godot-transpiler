@@ -515,7 +515,25 @@ func java_method_researchRequirements_118(_args: Array = []) -> Variant:
 		multiplier_values.append(cost_multiplier)
 		amount_power_values.append(amount_power)
 		quantity_values.append(quantity)
-	return {"source_owner": "PortGame.source_block_research_requirements_quantity_formula_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "quantity_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);", "mathf_round_expr": "Mathf.round(value, 10)", "mathf_round_step_expr": "return (int)(value / step) * step;", "research_cost": research_cost, "research_cost_multiplier": research_cost_multiplier, "requirements": requirements, "research_cost_multipliers": research_cost_multipliers, "quantity_values": quantity_values, "multiplier_values": multiplier_values, "amount_power_values": amount_power_values}
+	if _args.size() <= 4:
+		return {"source_owner": "PortGame.source_block_research_requirements_quantity_formula_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "quantity_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);", "mathf_round_expr": "Mathf.round(value, 10)", "mathf_round_step_expr": "return (int)(value / step) * step;", "research_cost": research_cost, "research_cost_multiplier": research_cost_multiplier, "requirements": requirements, "research_cost_multipliers": research_cost_multipliers, "quantity_values": quantity_values, "multiplier_values": multiplier_values, "amount_power_values": amount_power_values}
+	var rounded_amount_values: Array = []
+	for quantity in quantity_values:
+		var rounded_amount: int = int(quantity)
+		if rounded_amount >= 1000000000:
+			rounded_amount = int(float(rounded_amount) / 100000000.0) * 100000000
+		elif rounded_amount >= 1000000:
+			rounded_amount = int(float(rounded_amount) / 100000.0) * 100000
+		elif rounded_amount >= 10000:
+			rounded_amount = int(float(rounded_amount) / 1000.0) * 1000
+		elif rounded_amount >= 1000:
+			rounded_amount = int(float(rounded_amount) / 100.0) * 100
+		elif rounded_amount >= 100:
+			rounded_amount = int(float(rounded_amount) / 100.0) * 100
+		elif rounded_amount >= 10:
+			rounded_amount = int(float(rounded_amount) / 10.0) * 10
+		rounded_amount_values.append(rounded_amount)
+	return {"source_owner": "PortGame.source_block_research_requirements_round_amount_state", "source": "core/src/mindustry/world/Block.java", "ui_source": "core/src/mindustry/core/UI.java", "method": "public ItemStack[] researchRequirements(){", "round_amount_expr": "UI.roundAmount(quantity)", "ui_round_amount_method": "public static int roundAmount(int number){", "mathf_round_int_step_expr": "return (value / step) * step;", "quantity_values": quantity_values, "rounded_amount_values": rounded_amount_values}
 
 func java_method_getDependencies_119(_args: Array = []) -> Variant:
 	return null

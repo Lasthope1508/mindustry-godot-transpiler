@@ -24240,6 +24240,188 @@
       "source_slice": "N1310",
       "status": "active"
     },
+    "source_block_research_requirements_round_amount_input": {
+      "keys": {
+        "requirements": {
+          "godot_symbol": "source_block_research_requirements_round_amount_input.requirements",
+          "java_expr": "requirements",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "research_cost": {
+          "godot_symbol": "source_block_research_requirements_round_amount_input.research_cost",
+          "java_expr": "researchCost",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "research_cost_multiplier": {
+          "godot_symbol": "source_block_research_requirements_round_amount_input.research_cost_multiplier",
+          "java_expr": "researchCostMultiplier",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "research_cost_multipliers": {
+          "godot_symbol": "source_block_research_requirements_round_amount_input.research_cost_multipliers",
+          "java_expr": "researchCostMultipliers",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "explicit-input",
+          "type": "Dictionary"
+        }
+      },
+      "owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "rule": "Inputs for PortGame.source_block_research_requirements_round_amount_state.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "active"
+    },
+    "source_block_research_requirements_round_amount_result": {
+      "keys": {
+        "mathf_round_int_step_expr": {
+          "godot_symbol": "source_block_research_requirements_round_amount_result.mathf_round_int_step_expr",
+          "java_expr": "return (value / step) * step;",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_round_amount.mathf_round_int_step_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_research_requirements_round_amount_result.method",
+          "java_expr": "public ItemStack[] researchRequirements(){",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "quantity_values": {
+          "godot_symbol": "source_block_research_requirements_round_amount_result.quantity_values",
+          "java_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "round_amount_expr": {
+          "godot_symbol": "source_block_research_requirements_round_amount_result.round_amount_expr",
+          "java_expr": "UI.roundAmount(quantity)",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_round_amount.round_amount_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "rounded_amount_values": {
+          "godot_symbol": "source_block_research_requirements_round_amount_result.rounded_amount_values",
+          "java_expr": "UI.roundAmount(quantity)",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_round_amount.round_amount_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "source": {
+          "godot_symbol": "source_block_research_requirements_round_amount_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_research_requirements_round_amount_result.source_owner",
+          "java_expr": "PortGame.source_block_research_requirements_round_amount_state",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "ui_round_amount_method": {
+          "godot_symbol": "source_block_research_requirements_round_amount_result.ui_round_amount_method",
+          "java_expr": "public static int roundAmount(int number){",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/core/UI.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [
+            "block_research_requirements_round_amount.ui_round_amount_method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "ui_source": {
+          "godot_symbol": "source_block_research_requirements_round_amount_result.ui_source",
+          "java_expr": "core/src/mindustry/core/UI.java",
+          "java_method": "Block.researchRequirements()",
+          "java_source": "core/src/mindustry/core/UI.java",
+          "owners": [
+            "PortGame.source_block_research_requirements_round_amount_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_research_requirements_round_amount_state",
+      "rule": "Dictionary returned by PortGame.source_block_research_requirements_round_amount_state.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_round_amount_state",
+      "source_slice": "N1314",
+      "status": "active"
+    },
     "source_block_rotated_output_input": {
       "keys": {
         "rotate": {

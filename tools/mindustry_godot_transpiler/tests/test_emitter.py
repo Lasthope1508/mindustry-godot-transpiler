@@ -8819,6 +8819,57 @@ public class Block{
             self.assertIn('"multiplier_values": multiplier_values', source_text)
             self.assertIn('"amount_power_values": amount_power_values', source_text)
 
+    def test_emit_bridges_block_research_requirements_round_amount_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public ItemStack[] researchRequirements(){
+        if(researchCost != null) return researchCost;
+        if(researchCostMultiplier <= 0f) return ItemStack.empty;
+        ItemStack[] out = new ItemStack[requirements.length];
+        for(int i = 0; i < out.length; i++){
+            int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);
+            out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));
+        }
+        return out;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_researchRequirements_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tif _args.size() <= 4:", source_text)
+            self.assertIn('\t\treturn {"source_owner": "PortGame.source_block_research_requirements_quantity_formula_state"', source_text)
+            self.assertIn("\tvar rounded_amount_values: Array = []", source_text)
+            self.assertIn("\tfor quantity in quantity_values:", source_text)
+            self.assertIn("\t\tvar rounded_amount: int = int(quantity)", source_text)
+            self.assertIn("\t\tif rounded_amount >= 1000000000:", source_text)
+            self.assertIn("\t\telif rounded_amount >= 1000000:", source_text)
+            self.assertIn("\t\telif rounded_amount >= 10000:", source_text)
+            self.assertIn("\t\telif rounded_amount >= 1000:", source_text)
+            self.assertIn("\t\telif rounded_amount >= 100:", source_text)
+            self.assertIn("\t\telif rounded_amount >= 10:", source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_research_requirements_round_amount_state"', source_text)
+            self.assertIn('"round_amount_expr": "UI.roundAmount(quantity)"', source_text)
+            self.assertIn('"ui_round_amount_method": "public static int roundAmount(int number){"', source_text)
+            self.assertIn('"mathf_round_int_step_expr": "return (value / step) * step;"', source_text)
+            self.assertIn('"quantity_values": quantity_values', source_text)
+            self.assertIn('"rounded_amount_values": rounded_amount_values', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
