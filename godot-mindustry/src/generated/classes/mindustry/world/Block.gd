@@ -657,6 +657,15 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		if synced_flag_added and not flags_after.has("BlockFlag.synced"):
 			flags_after.append("BlockFlag.synced")
 		return {"source_owner": "PortGame.source_block_init_sync_flag_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "sync_guard_expr": "if(sync){", "flags_assign_expr": "flags = flags.with(BlockFlag.synced);", "block_flag_synced_expr": "BlockFlag.synced", "sync": sync_value, "flags_before": flags_before, "flags_after": flags_after, "synced_flag_added": synced_flag_added}
+	if init_bridge_mode == "health_scaled":
+		var health_before: int = int(_args[0] if _args.size() > 0 else -1)
+		var health_size_value: int = int(_args[1] if _args.size() > 1 else 1)
+		var scaled_health: float = float(_args[2] if _args.size() > 2 else 0.0)
+		var health_after: int = health_before
+		var health_assigned: bool = health_before == -1 and scaled_health >= 0.0
+		if health_assigned:
+			health_after = int(health_size_value * health_size_value * scaled_health)
+		return {"source_owner": "PortGame.source_block_init_health_scaled_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "health_comment": "//initialize default health based on size", "health_guard_expr": "if(health == -1){", "round_init_expr": "boolean round = false;", "scaled_health_negative_guard_expr": "if(scaledHealth < 0){", "health_assign_expr": "health = round ? Mathf.round(size * size * scaledHealth, 5) : (int)(size * size * scaledHealth);", "int_cast_expr": "(int)(size * size * scaledHealth)", "health_before": health_before, "size": health_size_value, "scaled_health": scaled_health, "round": false, "health_after": health_after, "health_assigned": health_assigned}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

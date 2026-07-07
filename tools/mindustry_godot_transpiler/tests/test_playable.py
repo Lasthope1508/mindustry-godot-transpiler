@@ -17357,5 +17357,40 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_health_scaled_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_health_scaled_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_health_scaled_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"super_init_expr": "super.init();"', source)
+        self.assertIn('"health_comment": "//initialize default health based on size"', source)
+        self.assertIn('"health_guard_expr": "if(health == -1){"', source)
+        self.assertIn('"round_init_expr": "boolean round = false;"', source)
+        self.assertIn('"scaled_health_negative_guard_expr": "if(scaledHealth < 0){"', source)
+        self.assertIn('"health_assign_expr": "health = round ? Mathf.round(size * size * scaledHealth, 5) : (int)(size * size * scaledHealth);"', source)
+        self.assertIn('"int_cast_expr": "(int)(size * size * scaledHealth)"', source)
+        self.assertIn('"health_before": health_before', source)
+        self.assertIn('"size": size_value', source)
+        self.assertIn('"scaled_health": scaled_health', source)
+        self.assertIn('"round": false', source)
+        self.assertIn('"health_after": health_after', source)
+        self.assertIn('"health_assigned": health_assigned', source)
+
+    def test_port_game_exposes_generated_block_init_health_scaled_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_health_scaled_bridge_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "health_scaled")', source)
+        self.assertIn("var result = instance.java_method_init_123([health_before, size_value, scaled_health])", source)
+        self.assertIn("var canonical = source_block_init_health_scaled_state(health_before, size_value, scaled_health)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_health_scaled_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

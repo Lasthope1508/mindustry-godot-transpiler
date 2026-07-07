@@ -9598,6 +9598,67 @@ public class Block{
             self.assertIn('"flags_after": flags_after', source_text)
             self.assertIn('"synced_flag_added": synced_flag_added', source_text)
 
+    def test_emit_bridges_block_init_health_scaled_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        //initialize default health based on size
+        if(health == -1){
+            boolean round = false;
+            if(scaledHealth < 0){
+                scaledHealth = 40;
+                round = true;
+            }
+
+            health = round ?
+                Mathf.round(size * size * scaledHealth, 5) :
+                (int)(size * size * scaledHealth);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "health_scaled":', source_text)
+            self.assertIn("\t\tvar health_before: int = int(_args[0] if _args.size() > 0 else -1)", source_text)
+            self.assertIn("\t\tvar health_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
+            self.assertIn("\t\tvar scaled_health: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("\t\tvar health_after: int = health_before", source_text)
+            self.assertIn("\t\tvar health_assigned: bool = health_before == -1 and scaled_health >= 0.0", source_text)
+            self.assertIn("\t\tif health_assigned:", source_text)
+            self.assertIn("\t\t\thealth_after = int(health_size_value * health_size_value * scaled_health)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_health_scaled_state"', source_text)
+            self.assertIn('"health_guard_expr": "if(health == -1){"', source_text)
+            self.assertIn('"round_init_expr": "boolean round = false;"', source_text)
+            self.assertIn('"scaled_health_negative_guard_expr": "if(scaledHealth < 0){"', source_text)
+            self.assertIn('"health_assign_expr": "health = round ? Mathf.round(size * size * scaledHealth, 5) : (int)(size * size * scaledHealth);"', source_text)
+            self.assertIn('"int_cast_expr": "(int)(size * size * scaledHealth)"', source_text)
+            self.assertIn('"health_before": health_before', source_text)
+            self.assertIn('"size": health_size_value', source_text)
+            self.assertIn('"scaled_health": scaled_health', source_text)
+            self.assertIn('"round": false', source_text)
+            self.assertIn('"health_after": health_after', source_text)
+            self.assertIn('"health_assigned": health_assigned', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

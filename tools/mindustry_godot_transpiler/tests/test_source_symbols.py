@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 803)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 798)
+        self.assertEqual(audit["totalSourceFunctions"], 804)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 799)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 803)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 804)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45668,6 +45668,77 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_sync_flag_result")
         self.assertEqual(result_schema["keys"]["synced_flag_added"]["java_expr"], "if(sync){")
         self.assertEqual(result_schema["keys"]["flags_after"]["java_expr"], "flags = flags.with(BlockFlag.synced);")
+
+    def test_generated_block_init_health_scaled_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_health_scaled.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_health_scaled_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_health_scaled_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_health_scaled.health_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(health == -1){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_health_scaled_result.health_assigned")
+
+        formula = source_symbols.source_symbol(registry, "block_init_health_scaled.health_assign_expr")
+        self.assertEqual(formula["java_expr"], "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);")
+        self.assertEqual(formula["godot_symbol"], "source_block_init_health_scaled_result.health_after")
+
+        int_cast = source_symbols.source_symbol(registry, "block_init_health_scaled.int_cast_expr")
+        self.assertEqual(int_cast["java_expr"], "(int)(size * size * scaledHealth)")
+        self.assertEqual(int_cast["godot_symbol"], "source_block_init_health_scaled_result.health_after")
+
+        health_before = source_symbols.source_symbol(registry, "block_init_health_scaled.health")
+        self.assertEqual(health_before["java_expr"], "health")
+        self.assertEqual(health_before["godot_symbol"], "source_block_init_health_scaled_input.health_before")
+
+        size_value = source_symbols.source_symbol(registry, "block_init_health_scaled.size")
+        self.assertEqual(size_value["java_expr"], "size")
+        self.assertEqual(size_value["godot_symbol"], "source_block_init_health_scaled_input.size_value")
+
+        scaled_health = source_symbols.source_symbol(registry, "block_init_health_scaled.scaled_health")
+        self.assertEqual(scaled_health["java_expr"], "scaledHealth")
+        self.assertEqual(scaled_health["godot_symbol"], "source_block_init_health_scaled_input.scaled_health")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1330")
+        self.assertEqual(setup_slice["title"], "Generated Block init scaled health bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_health_scaled_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_health_scaled_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "//initialize default health based on size",
+            "if(health == -1){",
+            "boolean round = false;",
+            "if(scaledHealth < 0){",
+            "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_health_scaled_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["health_before", "size_value", "scaled_health"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "health_comment", "health_guard_expr", "round_init_expr", "scaled_health_negative_guard_expr", "health_assign_expr", "int_cast_expr", "health_before", "size", "scaled_health", "round", "health_after", "health_assigned"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_health_scaled_input")
+        self.assertEqual(input_schema["keys"]["health_before"]["java_expr"], "health")
+        self.assertEqual(input_schema["keys"]["size_value"]["java_expr"], "size")
+        self.assertEqual(input_schema["keys"]["scaled_health"]["java_expr"], "scaledHealth")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_health_scaled_result")
+        self.assertEqual(result_schema["keys"]["health_assigned"]["java_expr"], "if(health == -1){")
+        self.assertEqual(result_schema["keys"]["round"]["java_expr"], "boolean round = false;")
+        self.assertEqual(result_schema["keys"]["health_after"]["java_expr"], "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

@@ -99422,6 +99422,186 @@
       "godot_symbol": "source_block_init_sync_flag_input.flags_before",
       "java_expr": "flags",
       "rule": "flags is an explicit input to preserve prior flag state."
+    },
+    "block_init_health_scaled.method": {
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_scaled_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for scaled health branch."
+    },
+    "block_init_health_scaled.health_comment": {
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_scaled_result.health_comment",
+      "java_expr": "//initialize default health based on size",
+      "rule": "Block.init() documents default health initialization based on size."
+    },
+    "block_init_health_scaled.health_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_scaled_result.health_assigned",
+      "java_expr": "if(health == -1){",
+      "rule": "Default health branch only runs when health is unset."
+    },
+    "block_init_health_scaled.round_init_expr": {
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_scaled_result.round",
+      "java_expr": "boolean round = false;",
+      "rule": "Non-negative scaledHealth path keeps round false."
+    },
+    "block_init_health_scaled.scaled_health_negative_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_scaled_result.scaled_health_negative_guard_expr",
+      "java_expr": "if(scaledHealth < 0){",
+      "rule": "Negative scaledHealth requirements scaling branch is deferred to the next slice."
+    },
+    "block_init_health_scaled.health_assign_expr": {
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_scaled_result.health_after",
+      "java_expr": "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+      "rule": "Block.init() assigns health through the round ternary."
+    },
+    "block_init_health_scaled.int_cast_expr": {
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_scaled_result.health_after",
+      "java_expr": "(int)(size * size * scaledHealth)",
+      "rule": "Non-round scaledHealth path uses Java int cast of size squared times scaledHealth."
+    },
+    "block_init_health_scaled.health": {
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_scaled_input.health_before",
+      "java_expr": "health",
+      "rule": "health is an explicit input preserving prior value."
+    },
+    "block_init_health_scaled.size": {
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_scaled_input.size_value",
+      "java_expr": "size",
+      "rule": "size is an explicit input for size squared health formula."
+    },
+    "block_init_health_scaled.scaled_health": {
+      "godot_owner": "PortGame.source_block_init_health_scaled_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_scaled_input.scaled_health",
+      "java_expr": "scaledHealth",
+      "rule": "scaledHealth is an explicit input for the non-negative health formula."
     }
   },
   "version": 1

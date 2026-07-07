@@ -18691,6 +18691,44 @@ func generated_block_init_sync_flag_bridge_state(sync_value: bool, flags_before:
 		"matches": result == canonical,
 	}
 
+func source_block_init_health_scaled_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:
+	var health_after: int = health_before
+	var health_assigned: bool = health_before == -1 and scaled_health >= 0.0
+	if health_assigned:
+		health_after = int(size_value * size_value * scaled_health)
+	return {
+		"source_owner": "PortGame.source_block_init_health_scaled_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"health_comment": "//initialize default health based on size",
+		"health_guard_expr": "if(health == -1){",
+		"round_init_expr": "boolean round = false;",
+		"scaled_health_negative_guard_expr": "if(scaledHealth < 0){",
+		"health_assign_expr": "health = round ? Mathf.round(size * size * scaledHealth, 5) : (int)(size * size * scaledHealth);",
+		"int_cast_expr": "(int)(size * size * scaledHealth)",
+		"health_before": health_before,
+		"size": size_value,
+		"scaled_health": scaled_health,
+		"round": false,
+		"health_after": health_after,
+		"health_assigned": health_assigned,
+	}
+
+func generated_block_init_health_scaled_bridge_state(health_before: int, size_value: int, scaled_health: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "health_scaled")
+	var result = instance.java_method_init_123([health_before, size_value, scaled_health])
+	var canonical = source_block_init_health_scaled_state(health_before, size_value, scaled_health)
+	return {
+		"source_owner": "PortGame.source_block_init_health_scaled_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

@@ -122395,6 +122395,285 @@
       "runtime_proof": "/root/Main.source_block_init_sync_flag_state",
       "source_slice": "N1329",
       "status": "active"
+    },
+    "source_block_init_health_scaled_input": {
+      "keys": {
+        "health_before": {
+          "godot_symbol": "source_block_init_health_scaled_input.health_before",
+          "java_expr": "health",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.health"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "size_value": {
+          "godot_symbol": "source_block_init_health_scaled_input.size_value",
+          "java_expr": "size",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.size"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "scaled_health": {
+          "godot_symbol": "source_block_init_health_scaled_input.scaled_health",
+          "java_expr": "scaledHealth",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.scaled_health"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_block_init_health_scaled_state",
+      "rule": "Inputs for PortGame.source_block_init_health_scaled_state.",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "active"
+    },
+    "source_block_init_health_scaled_result": {
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_init_health_scaled_result.source_owner",
+          "java_expr": "PortGame.source_block_init_health_scaled_state",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_init_health_scaled_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_init_health_scaled_result.method",
+          "java_expr": "public void init(){",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "super_init_expr": {
+          "godot_symbol": "source_block_init_health_scaled_result.super_init_expr",
+          "java_expr": "super.init();",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "health_comment": {
+          "godot_symbol": "source_block_init_health_scaled_result.health_comment",
+          "java_expr": "//initialize default health based on size",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.health_comment"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "health_guard_expr": {
+          "godot_symbol": "source_block_init_health_scaled_result.health_guard_expr",
+          "java_expr": "if(health == -1){",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.health_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "round_init_expr": {
+          "godot_symbol": "source_block_init_health_scaled_result.round_init_expr",
+          "java_expr": "boolean round = false;",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.round_init_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "scaled_health_negative_guard_expr": {
+          "godot_symbol": "source_block_init_health_scaled_result.scaled_health_negative_guard_expr",
+          "java_expr": "if(scaledHealth < 0){",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.scaled_health_negative_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "health_assign_expr": {
+          "godot_symbol": "source_block_init_health_scaled_result.health_assign_expr",
+          "java_expr": "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.health_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "int_cast_expr": {
+          "godot_symbol": "source_block_init_health_scaled_result.int_cast_expr",
+          "java_expr": "(int)(size * size * scaledHealth)",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.int_cast_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "health_before": {
+          "godot_symbol": "source_block_init_health_scaled_result.health_before",
+          "java_expr": "health",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.health"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "size": {
+          "godot_symbol": "source_block_init_health_scaled_result.size",
+          "java_expr": "size",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.size"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "scaled_health": {
+          "godot_symbol": "source_block_init_health_scaled_result.scaled_health",
+          "java_expr": "scaledHealth",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.scaled_health"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "round": {
+          "godot_symbol": "source_block_init_health_scaled_result.round",
+          "java_expr": "boolean round = false;",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.round_init_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "health_after": {
+          "godot_symbol": "source_block_init_health_scaled_result.health_after",
+          "java_expr": "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.health_assign_expr",
+            "block_init_health_scaled.int_cast_expr"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "health_assigned": {
+          "godot_symbol": "source_block_init_health_scaled_result.health_assigned",
+          "java_expr": "if(health == -1){",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_health_scaled_state"
+          ],
+          "source_symbols": [
+            "block_init_health_scaled.health_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      },
+      "owner": "PortGame.source_block_init_health_scaled_state",
+      "rule": "Dictionary returned by PortGame.source_block_init_health_scaled_state.",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_slice": "N1330",
+      "status": "active"
     }
   },
   "version": 1

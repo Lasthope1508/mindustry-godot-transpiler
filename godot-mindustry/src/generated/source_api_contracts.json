@@ -33596,6 +33596,59 @@
         "test_block_init_sync_flag_matches_upstream_source",
         "test_generated_block_init_sync_flag_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_health_scaled_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "health",
+          "name": "health_before",
+          "schema": "source_block_init_health_scaled_input.health_before",
+          "type": "int"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_health_scaled_input.size_value",
+          "type": "int"
+        },
+        {
+          "java_expr": "scaledHealth",
+          "name": "scaled_health",
+          "schema": "source_block_init_health_scaled_input.scaled_health",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "health_comment",
+        "health_guard_expr",
+        "round_init_expr",
+        "scaled_health_negative_guard_expr",
+        "health_assign_expr",
+        "int_cast_expr",
+        "health_before",
+        "size",
+        "scaled_health",
+        "round",
+        "health_after",
+        "health_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() non-negative scaledHealth health assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_health_scaled_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1330",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_health_scaled_to_source_state",
+        "test_port_game_exposes_source_block_init_health_scaled_state",
+        "test_port_game_exposes_generated_block_init_health_scaled_bridge_state",
+        "test_block_init_health_scaled_matches_upstream_source",
+        "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

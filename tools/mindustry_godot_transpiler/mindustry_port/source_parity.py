@@ -10601,6 +10601,26 @@ def verify_block_init_sync_flag_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_block_init_health_scaled_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "health_comment": "//initialize default health based on size",
+        "health_guard_expr": "if(health == -1){",
+        "round_init_expr": "boolean round = false;",
+        "scaled_health_negative_guard_expr": "if(scaledHealth < 0){",
+        "health_assign_expr": "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+        "int_cast_expr": "(int)(size * size * scaledHealth)",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
