@@ -6563,6 +6563,39 @@
         "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_build_payload_x_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [
+        {
+          "java_expr": "build.x",
+          "name": "build_x",
+          "schema": "source_build_payload_x_input.build_x",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "x"
+      ],
+      "rule": "PortGame.source_build_payload_x_state pins BuildPayload.x() return contract.",
+      "runtime_proof": "/root/Main.source_build_payload_x_state",
+      "source_method": "BuildPayload.x()",
+      "source_slice": "N1371",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_build_payload_x_to_source_state",
+        "test_port_game_exposes_source_build_payload_x_state",
+        "test_port_game_exposes_generated_build_payload_x_bridge_state",
+        "test_build_payload_x_matches_upstream_source",
+        "test_generated_build_payload_x_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_builder_actively_building_state": {
       "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
       "params": [
