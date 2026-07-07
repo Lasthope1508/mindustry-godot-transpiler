@@ -638,6 +638,19 @@ func java_method_init_123(_args: Array = []) -> Variant:
 			else:
 				place_sound_after = "Sounds.blockPlace1"
 		return {"source_owner": "PortGame.source_block_init_place_sound_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "place_sound_guard_expr": "if(placeSound == Sounds.unset){", "place_sound_assign_expr": "placeSound =", "place_sound_size_3_expr": "size >= 3 ? Sounds.blockPlace3 :", "place_sound_size_2_expr": "size >= 2 ? Sounds.blockPlace2 :", "place_sound_size_1_expr": "Sounds.blockPlace1;", "place_sound_before": place_sound_before, "size": place_size_value, "place_sound_after": place_sound_after, "place_sound_assigned": place_sound_assigned}
+	if init_bridge_mode == "break_sound":
+		var break_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
+		var break_size_value: int = int(_args[1] if _args.size() > 1 else 1)
+		var break_sound_after: Variant = break_sound_before
+		var break_sound_assigned: bool = break_sound_before == "Sounds.unset"
+		if break_sound_assigned:
+			if break_size_value >= 3:
+				break_sound_after = "Sounds.blockBreak3"
+			elif break_size_value >= 2:
+				break_sound_after = "Sounds.blockBreak2"
+			else:
+				break_sound_after = "Sounds.blockBreak1"
+		return {"source_owner": "PortGame.source_block_init_break_sound_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "break_sound_guard_expr": "if(breakSound == Sounds.unset){", "break_sound_assign_expr": "breakSound =", "break_sound_size_3_expr": "size >= 3 ? Sounds.blockBreak3 :", "break_sound_size_2_expr": "size >= 2 ? Sounds.blockBreak2 :", "break_sound_size_1_expr": "Sounds.blockBreak1;", "break_sound_before": break_sound_before, "size": break_size_value, "break_sound_after": break_sound_after, "break_sound_assigned": break_sound_assigned}
 	var destroy_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 	var size_value: int = int(_args[1] if _args.size() > 1 else 1)
 	var destroy_sound_after: Variant = destroy_sound_before

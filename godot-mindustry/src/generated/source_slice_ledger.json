@@ -31131,6 +31131,43 @@
         "test_block_init_place_sound_matches_upstream_source",
         "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1325": {
+      "title": "Generated Block init breakSound bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_break_sound_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_break_sound_bridge_state",
+      "source_symbols": [
+        "block_init_break_sound.method",
+        "block_init_break_sound.break_sound_guard_expr",
+        "block_init_break_sound.break_sound_assign_expr",
+        "block_init_break_sound.break_sound_size_3_expr",
+        "block_init_break_sound.break_sound_size_2_expr",
+        "block_init_break_sound.break_sound_size_1_expr",
+        "block_init_break_sound.break_sound",
+        "block_init_break_sound.size"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(breakSound == Sounds.unset){",
+        "breakSound =",
+        "size >= 3 ? Sounds.blockBreak3 :",
+        "size >= 2 ? Sounds.blockBreak2 :",
+        "Sounds.blockBreak1;"
+      ],
+      "rule": "Bridge generated Block.init() breakSound default assignment to source-backed canonical state without claiming health, liquid, fog, shadow, priority, or other init branches.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

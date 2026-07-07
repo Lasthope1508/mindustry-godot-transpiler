@@ -98846,6 +98846,150 @@
       "godot_symbol": "source_block_init_place_sound_input.size_value",
       "java_expr": "size",
       "rule": "Runtime size_value supplies source Block.size for placeSound default branch."
+    },
+    "block_init_break_sound.method": {
+      "godot_owner": "PortGame.source_block_init_break_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_break_sound_state",
+      "source_slice": "N1325",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_break_sound_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for breakSound default assignment."
+    },
+    "block_init_break_sound.break_sound_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_break_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_break_sound_state",
+      "source_slice": "N1325",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_break_sound_result.break_sound_assigned",
+      "java_expr": "if(breakSound == Sounds.unset){",
+      "rule": "Break sound defaults are assigned only when breakSound is Sounds.unset."
+    },
+    "block_init_break_sound.break_sound_assign_expr": {
+      "godot_owner": "PortGame.source_block_init_break_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_break_sound_state",
+      "source_slice": "N1325",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_break_sound_result.break_sound_assign_expr",
+      "java_expr": "breakSound =",
+      "rule": "BreakSound assignment expression for Block.init() default branch."
+    },
+    "block_init_break_sound.break_sound_size_3_expr": {
+      "godot_owner": "PortGame.source_block_init_break_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_break_sound_state",
+      "source_slice": "N1325",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_break_sound_result.break_sound_after",
+      "java_expr": "size >= 3 ? Sounds.blockBreak3 :",
+      "rule": "Blocks with size >= 3 use Sounds.blockBreak3 as breakSound default."
+    },
+    "block_init_break_sound.break_sound_size_2_expr": {
+      "godot_owner": "PortGame.source_block_init_break_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_break_sound_state",
+      "source_slice": "N1325",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_break_sound_result.break_sound_after",
+      "java_expr": "size >= 2 ? Sounds.blockBreak2 :",
+      "rule": "Blocks with size >= 2 use Sounds.blockBreak2 as breakSound default."
+    },
+    "block_init_break_sound.break_sound_size_1_expr": {
+      "godot_owner": "PortGame.source_block_init_break_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_break_sound_state",
+      "source_slice": "N1325",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_break_sound_result.break_sound_after",
+      "java_expr": "Sounds.blockBreak1;",
+      "rule": "Smaller blocks use Sounds.blockBreak1 as breakSound default."
+    },
+    "block_init_break_sound.break_sound": {
+      "godot_owner": "PortGame.source_block_init_break_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_break_sound_state",
+      "source_slice": "N1325",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_break_sound_input.break_sound_before",
+      "java_expr": "breakSound",
+      "rule": "Runtime break_sound_before supplies source breakSound before Block.init() defaulting."
+    },
+    "block_init_break_sound.size": {
+      "godot_owner": "PortGame.source_block_init_break_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_break_sound_state",
+      "source_slice": "N1325",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_break_sound_input.size_value",
+      "java_expr": "size",
+      "rule": "Runtime size_value supplies source Block.size for breakSound default branch."
     }
   },
   "version": 1

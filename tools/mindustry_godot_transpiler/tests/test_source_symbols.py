@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 798)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 793)
+        self.assertEqual(audit["totalSourceFunctions"], 799)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 794)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 798)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 799)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45351,6 +45351,71 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_place_sound_result")
         self.assertEqual(result_schema["keys"]["place_sound_assigned"]["java_expr"], "if(placeSound == Sounds.unset){")
         self.assertEqual(result_schema["keys"]["place_sound_after"]["java_expr"], "placeSound =")
+
+    def test_generated_block_init_break_sound_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_break_sound.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_break_sound_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_break_sound_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_break_sound.break_sound_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(breakSound == Sounds.unset){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_break_sound_result.break_sound_assigned")
+
+        size_3 = source_symbols.source_symbol(registry, "block_init_break_sound.break_sound_size_3_expr")
+        self.assertEqual(size_3["java_expr"], "size >= 3 ? Sounds.blockBreak3 :")
+        self.assertEqual(size_3["godot_symbol"], "source_block_init_break_sound_result.break_sound_after")
+
+        size_2 = source_symbols.source_symbol(registry, "block_init_break_sound.break_sound_size_2_expr")
+        self.assertEqual(size_2["java_expr"], "size >= 2 ? Sounds.blockBreak2 :")
+        self.assertEqual(size_2["godot_symbol"], "source_block_init_break_sound_result.break_sound_after")
+
+        break_sound = source_symbols.source_symbol(registry, "block_init_break_sound.break_sound")
+        self.assertEqual(break_sound["java_expr"], "breakSound")
+        self.assertEqual(break_sound["godot_symbol"], "source_block_init_break_sound_input.break_sound_before")
+
+        size_value = source_symbols.source_symbol(registry, "block_init_break_sound.size")
+        self.assertEqual(size_value["java_expr"], "size")
+        self.assertEqual(size_value["godot_symbol"], "source_block_init_break_sound_input.size_value")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1325")
+        self.assertEqual(setup_slice["title"], "Generated Block init breakSound bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_break_sound_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_break_sound_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "if(breakSound == Sounds.unset){",
+            "breakSound =",
+            "size >= 3 ? Sounds.blockBreak3 :",
+            "size >= 2 ? Sounds.blockBreak2 :",
+            "Sounds.blockBreak1;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_break_sound_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["break_sound_before", "size_value"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "break_sound_guard_expr", "break_sound_assign_expr", "break_sound_size_3_expr", "break_sound_size_2_expr", "break_sound_size_1_expr", "break_sound_before", "size", "break_sound_after", "break_sound_assigned"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_break_sound_input")
+        self.assertEqual(input_schema["keys"]["break_sound_before"]["java_expr"], "breakSound")
+        self.assertEqual(input_schema["keys"]["size_value"]["java_expr"], "size")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_break_sound_result")
+        self.assertEqual(result_schema["keys"]["break_sound_assigned"]["java_expr"], "if(breakSound == Sounds.unset){")
+        self.assertEqual(result_schema["keys"]["break_sound_after"]["java_expr"], "breakSound =")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

@@ -5563,6 +5563,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_break_sound_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_break_sound_source"))
+        report = source_parity.verify_block_init_break_sound_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "break_sound_guard_expr": "if(breakSound == Sounds.unset){",
+            "break_sound_assign_expr": "breakSound =",
+            "break_sound_size_3_expr": "size >= 3 ? Sounds.blockBreak3 :",
+            "break_sound_size_2_expr": "size >= 2 ? Sounds.blockBreak2 :",
+            "break_sound_size_1_expr": "Sounds.blockBreak1;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

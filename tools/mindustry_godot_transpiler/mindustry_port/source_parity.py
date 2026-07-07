@@ -10514,6 +10514,25 @@ def verify_block_init_place_sound_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_block_init_break_sound_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "break_sound_guard_expr": "if(breakSound == Sounds.unset){",
+        "break_sound_assign_expr": "breakSound =",
+        "break_sound_size_3_expr": "size >= 3 ? Sounds.blockBreak3 :",
+        "break_sound_size_2_expr": "size >= 2 ? Sounds.blockBreak2 :",
+        "break_sound_size_1_expr": "Sounds.blockBreak1;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

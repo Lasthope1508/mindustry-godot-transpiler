@@ -9344,6 +9344,63 @@ public class Block{
             self.assertIn('"place_sound_after": place_sound_after', source_text)
             self.assertIn('"place_sound_assigned": place_sound_assigned', source_text)
 
+    def test_emit_bridges_block_init_break_sound_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        if(breakSound == Sounds.unset){
+            breakSound =
+                size >= 3 ? Sounds.blockBreak3 :
+                size >= 2 ? Sounds.blockBreak2 :
+                Sounds.blockBreak1;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "break_sound":', source_text)
+            self.assertIn('\t\tvar break_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"', source_text)
+            self.assertIn("\t\tvar break_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
+            self.assertIn("\t\tvar break_sound_after: Variant = break_sound_before", source_text)
+            self.assertIn('\t\tvar break_sound_assigned: bool = break_sound_before == "Sounds.unset"', source_text)
+            self.assertIn("\t\tif break_sound_assigned:", source_text)
+            self.assertIn("\t\t\tif break_size_value >= 3:", source_text)
+            self.assertIn('\t\t\t\tbreak_sound_after = "Sounds.blockBreak3"', source_text)
+            self.assertIn("\t\t\telif break_size_value >= 2:", source_text)
+            self.assertIn('\t\t\t\tbreak_sound_after = "Sounds.blockBreak2"', source_text)
+            self.assertIn('\t\t\t\tbreak_sound_after = "Sounds.blockBreak1"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_break_sound_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"super_init_expr": "super.init();"', source_text)
+            self.assertIn('"break_sound_guard_expr": "if(breakSound == Sounds.unset){"', source_text)
+            self.assertIn('"break_sound_assign_expr": "breakSound ="', source_text)
+            self.assertIn('"break_sound_size_3_expr": "size >= 3 ? Sounds.blockBreak3 :"', source_text)
+            self.assertIn('"break_sound_size_2_expr": "size >= 2 ? Sounds.blockBreak2 :"', source_text)
+            self.assertIn('"break_sound_size_1_expr": "Sounds.blockBreak1;"', source_text)
+            self.assertIn('"break_sound_before": break_sound_before', source_text)
+            self.assertIn('"break_sound_after": break_sound_after', source_text)
+            self.assertIn('"break_sound_assigned": break_sound_assigned', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

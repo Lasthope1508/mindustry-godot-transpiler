@@ -33384,6 +33384,50 @@
         "test_block_init_place_sound_matches_upstream_source",
         "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_break_sound_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "breakSound",
+          "name": "break_sound_before",
+          "schema": "source_block_init_break_sound_input.break_sound_before",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_break_sound_input.size_value",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "break_sound_guard_expr",
+        "break_sound_assign_expr",
+        "break_sound_size_3_expr",
+        "break_sound_size_2_expr",
+        "break_sound_size_1_expr",
+        "break_sound_before",
+        "size",
+        "break_sound_after",
+        "break_sound_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() breakSound default assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_break_sound_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1325",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_break_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_break_sound_state",
+        "test_port_game_exposes_generated_block_init_break_sound_bridge_state",
+        "test_block_init_break_sound_matches_upstream_source",
+        "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
