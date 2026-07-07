@@ -12183,6 +12183,40 @@
       ],
       "title": "Generated BuildPayload x bridge state"
     },
+    "N1372": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "@Override",
+        "public float y(){",
+        "return build.y;"
+      ],
+      "generated_owner": "BuildPayload.java_method_y_10",
+      "godot_owner": "PortGame.source_build_payload_y_state",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.y()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Generated BuildPayload.y() bridge returns the contained building y coordinate.",
+      "runtime_proof": "/root/Main.generated_build_payload_y_bridge_state",
+      "source_symbols": [
+        "build_payload_y.build_y",
+        "build_payload_y.class_expr",
+        "build_payload_y.field_expr",
+        "build_payload_y.method",
+        "build_payload_y.override_expr",
+        "build_payload_y.return_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_build_payload_y_to_source_state",
+        "test_port_game_exposes_source_build_payload_y_state",
+        "test_port_game_exposes_generated_build_payload_y_bridge_state",
+        "test_build_payload_y_matches_upstream_source",
+        "test_generated_build_payload_y_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated BuildPayload y bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

@@ -49,7 +49,8 @@ func java_method_x_9(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_build_payload_x_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public float x(){", "return_expr": "return build.x;", "x": build_x}
 
 func java_method_y_10(_args: Array = []) -> Variant:
-	return null
+	var build_y: float = float(_args[0] if _args.size() > 0 else 0.0)
+	return {"source_owner": "PortGame.source_build_payload_y_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public float y(){", "return_expr": "return build.y;", "y": build_y}
 
 func java_method_size_11(_args: Array = []) -> Variant:
 	return null
