@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 826)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 821)
+        self.assertEqual(audit["totalSourceFunctions"], 827)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 822)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 826)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 827)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46535,6 +46535,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["has_power_before"]["java_expr"], "hasPower")
         result_schema = source_symbols.state_schema(schema, "source_block_reinitialize_consumers_outputs_power_result")
         self.assertEqual(result_schema["keys"]["has_power_after"]["java_expr"], "if(outputsPower) hasPower = true;")
+
+    def test_generated_block_reinitialize_consumers_apply_loop_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_reinitialize_consumers_apply_loop.method")
+        self.assertEqual(method["java_expr"], "public void reinitializeConsumers(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.reinitializeConsumers()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_reinitialize_consumers_apply_loop_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_reinitialize_consumers_apply_loop_state")
+
+        loop_expr = source_symbols.source_symbol(registry, "block_reinitialize_consumers_apply_loop.consumers_loop_expr")
+        self.assertEqual(loop_expr["java_expr"], "for(Consume cons : consumers){")
+        self.assertEqual(loop_expr["godot_symbol"], "source_block_reinitialize_consumers_apply_loop_result.apply_calls")
+        apply_expr = source_symbols.source_symbol(registry, "block_reinitialize_consumers_apply_loop.consume_apply_expr")
+        self.assertEqual(apply_expr["java_expr"], "cons.apply(this);")
+        self.assertEqual(apply_expr["godot_symbol"], "source_block_reinitialize_consumers_apply_loop_result.apply_calls")
+        apply_method = source_symbols.source_symbol(registry, "block_reinitialize_consumers_apply_loop.consume_apply_method_expr")
+        self.assertEqual(apply_method["java_source"], "core/src/mindustry/world/consumers/Consume.java")
+        self.assertEqual(apply_method["java_expr"], "public void apply(Block block){")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1353")
+        self.assertEqual(setup_slice["title"], "Generated Block reinitializeConsumers consumer apply loop bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.reinitializeConsumers()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_reinitialize_consumers_apply_loop_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_reinitializeConsumers_124")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_reinitialize_consumers_apply_loop_bridge_state")
+        for expr in [
+            "public void reinitializeConsumers(){",
+            "for(Consume cons : consumers){",
+            "cons.apply(this);",
+            "public void apply(Block block){",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_reinitialize_consumers_apply_loop_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["consumers"])
+        for key in ["source_owner", "source", "consume_source", "method", "consumers_loop_expr", "consume_apply_expr", "consume_apply_method_expr", "consumers", "apply_calls", "apply_call_count"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_reinitialize_consumers_apply_loop_input")
+        self.assertEqual(input_schema["keys"]["consumers"]["java_expr"], "consumers")
+        result_schema = source_symbols.state_schema(schema, "source_block_reinitialize_consumers_apply_loop_result")
+        self.assertEqual(result_schema["keys"]["apply_calls"]["java_expr"], "cons.apply(this);")
+        self.assertEqual(result_schema["keys"]["apply_call_count"]["java_expr"], "consumers.length")
 
     def test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

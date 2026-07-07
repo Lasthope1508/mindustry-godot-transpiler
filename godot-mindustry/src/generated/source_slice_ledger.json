@@ -32142,6 +32142,37 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.reinitializeConsumers() outputsPower hasPower assignment to source-backed canonical state."
+    },
+    "N1353": {
+      "title": "Generated Block reinitializeConsumers consumer apply loop bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.reinitializeConsumers()",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state",
+      "generated_owner": "Block.java_method_reinitializeConsumers_124",
+      "runtime_proof": "/root/Main.generated_block_reinitialize_consumers_apply_loop_bridge_state",
+      "source_symbols": [
+        "block_reinitialize_consumers_apply_loop.method",
+        "block_reinitialize_consumers_apply_loop.consumers_loop_expr",
+        "block_reinitialize_consumers_apply_loop.consume_apply_expr",
+        "block_reinitialize_consumers_apply_loop.consume_apply_method_expr",
+        "block_reinitialize_consumers_apply_loop.consumers"
+      ],
+      "exact_exprs": [
+        "public void reinitializeConsumers(){",
+        "for(Consume cons : consumers){",
+        "cons.apply(this);",
+        "public void apply(Block block){"
+      ],
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_apply_loop_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_apply_loop_bridge_state",
+        "test_block_reinitialize_consumers_apply_loop_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_apply_loop_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.reinitializeConsumers() consumer apply loop to source-backed canonical state."
     }
   },
   "version": 1

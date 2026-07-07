@@ -102860,6 +102860,96 @@
         "test_generated_block_reinitialize_consumers_outputs_power_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed Block.reinitializeConsumers() outputsPower hasPower assignment."
+    },
+    "block_reinitialize_consumers_apply_loop.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "public void reinitializeConsumers(){",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state",
+      "godot_symbol": "source_block_reinitialize_consumers_apply_loop_result.method",
+      "status": "source-backed",
+      "source_slice": "N1353",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_apply_loop_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_apply_loop_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_apply_loop_bridge_state",
+        "test_block_reinitialize_consumers_apply_loop_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_apply_loop_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer apply loop."
+    },
+    "block_reinitialize_consumers_apply_loop.consumers_loop_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "for(Consume cons : consumers){",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state",
+      "godot_symbol": "source_block_reinitialize_consumers_apply_loop_result.apply_calls",
+      "status": "source-backed",
+      "source_slice": "N1353",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_apply_loop_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_apply_loop_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_apply_loop_bridge_state",
+        "test_block_reinitialize_consumers_apply_loop_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_apply_loop_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer apply loop."
+    },
+    "block_reinitialize_consumers_apply_loop.consume_apply_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "cons.apply(this);",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state",
+      "godot_symbol": "source_block_reinitialize_consumers_apply_loop_result.apply_calls",
+      "status": "source-backed",
+      "source_slice": "N1353",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_apply_loop_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_apply_loop_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_apply_loop_bridge_state",
+        "test_block_reinitialize_consumers_apply_loop_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_apply_loop_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer apply loop."
+    },
+    "block_reinitialize_consumers_apply_loop.consume_apply_method_expr": {
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume.apply(Block)",
+      "java_expr": "public void apply(Block block){",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state",
+      "godot_symbol": "source_block_reinitialize_consumers_apply_loop_result.consume_apply_method_expr",
+      "status": "source-backed",
+      "source_slice": "N1353",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_apply_loop_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_apply_loop_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_apply_loop_bridge_state",
+        "test_block_reinitialize_consumers_apply_loop_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_apply_loop_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer apply loop."
+    },
+    "block_reinitialize_consumers_apply_loop.consumers": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "consumers",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state",
+      "godot_symbol": "source_block_reinitialize_consumers_apply_loop_input.consumers",
+      "status": "explicit-input",
+      "source_slice": "N1353",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_apply_loop_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_apply_loop_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_apply_loop_bridge_state",
+        "test_block_reinitialize_consumers_apply_loop_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_apply_loop_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() consumer apply loop."
     }
   },
   "version": 1

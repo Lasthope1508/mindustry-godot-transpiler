@@ -19279,6 +19279,37 @@ func generated_block_reinitialize_consumers_outputs_power_bridge_state(outputs_p
 		"matches": result == canonical,
 	}
 
+func source_block_reinitialize_consumers_apply_loop_state(consumers: Array) -> Dictionary:
+	var apply_calls: Array = []
+	for consumer in consumers:
+		apply_calls.append({"call": "cons.apply(this);", "consumer": consumer, "block_arg": "this"})
+	return {
+		"source_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"consume_source": "core/src/mindustry/world/consumers/Consume.java",
+		"method": "public void reinitializeConsumers(){",
+		"consumers_loop_expr": "for(Consume cons : consumers){",
+		"consume_apply_expr": "cons.apply(this);",
+		"consume_apply_method_expr": "public void apply(Block block){",
+		"consumers": consumers,
+		"apply_calls": apply_calls,
+		"apply_call_count": apply_calls.size(),
+	}
+
+func generated_block_reinitialize_consumers_apply_loop_bridge_state(consumers: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_reinitialize_consumers_bridge_mode", "consumer_apply_loop")
+	var result = instance.java_method_reinitializeConsumers_124([consumers])
+	var canonical = source_block_reinitialize_consumers_apply_loop_state(consumers)
+	return {
+		"source_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state",
+		"generated_owner": "Block.java_method_reinitializeConsumers_124",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

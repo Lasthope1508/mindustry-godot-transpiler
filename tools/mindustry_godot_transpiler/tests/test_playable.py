@@ -17803,6 +17803,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_reinitializeConsumers_124"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_reinitialize_consumers_apply_loop_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_reinitialize_consumers_apply_loop_state(consumers: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"consume_source": "core/src/mindustry/world/consumers/Consume.java"', source)
+        self.assertIn('"method": "public void reinitializeConsumers(){"', source)
+        self.assertIn('"consumers_loop_expr": "for(Consume cons : consumers){"', source)
+        self.assertIn('"consume_apply_expr": "cons.apply(this);"', source)
+        self.assertIn('"consume_apply_method_expr": "public void apply(Block block){"', source)
+        self.assertIn('"consumers": consumers', source)
+        self.assertIn('"apply_calls": apply_calls', source)
+        self.assertIn('"apply_call_count": apply_calls.size()', source)
+
+    def test_port_game_exposes_generated_block_reinitialize_consumers_apply_loop_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_reinitialize_consumers_apply_loop_bridge_state(consumers: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_reinitialize_consumers_bridge_mode", "consumer_apply_loop")', source)
+        self.assertIn("var result = instance.java_method_reinitializeConsumers_124([consumers])", source)
+        self.assertIn("var canonical = source_block_reinitialize_consumers_apply_loop_state(consumers)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_reinitializeConsumers_124"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

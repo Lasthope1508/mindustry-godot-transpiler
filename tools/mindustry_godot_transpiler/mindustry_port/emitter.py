@@ -1565,6 +1565,12 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         return [
             '\tvar reinitialize_bridge_mode: String = str(get_meta("mindustry_reinitialize_consumers_bridge_mode", "consumer_arrays"))',
+            '\tif reinitialize_bridge_mode == "consumer_apply_loop":',
+            "\t\tvar consumer_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\t\tvar apply_calls: Array = []",
+            "\t\tfor consumer in consumer_entries:",
+            '\t\t\tapply_calls.append({"call": "cons.apply(this);", "consumer": consumer, "block_arg": "this"})',
+            '\t\treturn {"source_owner": "PortGame.source_block_reinitialize_consumers_apply_loop_state", "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void reinitializeConsumers(){", "consumers_loop_expr": "for(Consume cons : consumers){", "consume_apply_expr": "cons.apply(this);", "consume_apply_method_expr": "public void apply(Block block){", "consumers": consumer_entries, "apply_calls": apply_calls, "apply_call_count": apply_calls.size()}',
             '\tif reinitialize_bridge_mode == "outputs_power":',
             "\t\tvar outputs_power: bool = bool(_args[0] if _args.size() > 0 else false)",
             "\t\tvar has_power_before: bool = bool(_args[1] if _args.size() > 1 else false)",
