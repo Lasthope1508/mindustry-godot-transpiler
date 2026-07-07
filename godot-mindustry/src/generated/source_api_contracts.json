@@ -34852,6 +34852,57 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.load() variantRegions branch. params are explicit name and variants inputs."
+    },
+    "PortGame.source_block_load_variant_shadow_regions_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.load()",
+      "source_slice": "N1358",
+      "params": [
+        {
+          "name": "name_value",
+          "type": "String",
+          "java_expr": "name",
+          "schema": "source_block_load_variant_shadow_regions_input.name_value"
+        },
+        {
+          "name": "variants",
+          "type": "int",
+          "java_expr": "variants",
+          "schema": "source_block_load_variant_shadow_regions_input.variants"
+        },
+        {
+          "name": "custom_shadow",
+          "type": "bool",
+          "java_expr": "customShadow",
+          "schema": "source_block_load_variant_shadow_regions_input.custom_shadow"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "variants_guard_expr",
+        "custom_shadow_guard_expr",
+        "variant_shadow_regions_expr",
+        "variant_shadow_loop_expr",
+        "variant_shadow_assignment_expr",
+        "name",
+        "variants",
+        "custom_shadow",
+        "variants_guard",
+        "custom_shadow_guard",
+        "variant_shadow_regions"
+      ],
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.load() variantShadowRegions branch. params are explicit name, variants, and customShadow inputs."
     }
   },
   "policy": {

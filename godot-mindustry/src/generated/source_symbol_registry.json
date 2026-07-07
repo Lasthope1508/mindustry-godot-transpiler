@@ -103472,6 +103472,168 @@
         "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
       ],
       "rule": "Explicit input for Block.load() variants count."
+    },
+    "block_load_variant_shadow_regions.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "public void load(){",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "godot_symbol": "source_block_load_variant_shadow_regions_result.method",
+      "status": "source-backed",
+      "source_slice": "N1358",
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() variant shadow branch method boundary."
+    },
+    "block_load_variant_shadow_regions.variants_guard_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "if(variants != 0){",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "godot_symbol": "source_block_load_variant_shadow_regions_result.variants_guard",
+      "status": "source-backed",
+      "source_slice": "N1358",
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed outer variants guard for variant shadows."
+    },
+    "block_load_variant_shadow_regions.custom_shadow_guard_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "if(customShadow){",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "godot_symbol": "source_block_load_variant_shadow_regions_result.custom_shadow_guard",
+      "status": "source-backed",
+      "source_slice": "N1358",
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed customShadow guard."
+    },
+    "block_load_variant_shadow_regions.variant_shadow_regions_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "variantShadowRegions = new TextureRegion[variants];",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "godot_symbol": "source_block_load_variant_shadow_regions_result.variant_shadow_regions",
+      "status": "source-backed",
+      "source_slice": "N1358",
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed variantShadowRegions allocation."
+    },
+    "block_load_variant_shadow_regions.variant_shadow_loop_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "for(int i = 0; i < variants; i++){",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "godot_symbol": "source_block_load_variant_shadow_regions_result.variant_shadow_regions",
+      "status": "source-backed",
+      "source_slice": "N1358",
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed variant shadow lookup loop."
+    },
+    "block_load_variant_shadow_regions.variant_shadow_assignment_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "variantShadowRegions[i] = Core.atlas.find(name + \"-shadow\" + (i + 1));",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "godot_symbol": "source_block_load_variant_shadow_regions_result.variant_shadow_regions",
+      "status": "source-backed",
+      "source_slice": "N1358",
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed variant shadow atlas lookup."
+    },
+    "block_load_variant_shadow_regions.name": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "name",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "godot_symbol": "source_block_load_variant_shadow_regions_input.name_value",
+      "status": "explicit-input",
+      "source_slice": "N1358",
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.load() name used by variant shadow atlas lookups."
+    },
+    "block_load_variant_shadow_regions.variants": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "variants",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "godot_symbol": "source_block_load_variant_shadow_regions_input.variants",
+      "status": "explicit-input",
+      "source_slice": "N1358",
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.load() variants count used by variant shadows."
+    },
+    "block_load_variant_shadow_regions.custom_shadow": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "customShadow",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "godot_symbol": "source_block_load_variant_shadow_regions_input.custom_shadow",
+      "status": "explicit-input",
+      "source_slice": "N1358",
+      "runtime_proof": "/root/Main.source_block_load_variant_shadow_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.load() customShadow guard."
     }
   },
   "version": 1

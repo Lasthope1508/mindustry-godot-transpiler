@@ -32308,6 +32308,43 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.load() variantRegions allocation, atlas lookup loop, and first variant region assignment to source-backed canonical state before customShadow slice."
+    },
+    "N1358": {
+      "title": "Generated Block load variant shadow regions bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.load()",
+      "godot_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+      "generated_owner": "Block.java_method_load_126",
+      "runtime_proof": "/root/Main.generated_block_load_variant_shadow_regions_bridge_state",
+      "source_symbols": [
+        "block_load_variant_shadow_regions.method",
+        "block_load_variant_shadow_regions.variants_guard_expr",
+        "block_load_variant_shadow_regions.custom_shadow_guard_expr",
+        "block_load_variant_shadow_regions.variant_shadow_regions_expr",
+        "block_load_variant_shadow_regions.variant_shadow_loop_expr",
+        "block_load_variant_shadow_regions.variant_shadow_assignment_expr",
+        "block_load_variant_shadow_regions.name",
+        "block_load_variant_shadow_regions.variants",
+        "block_load_variant_shadow_regions.custom_shadow"
+      ],
+      "exact_exprs": [
+        "public void load(){",
+        "if(variants != 0){",
+        "if(customShadow){",
+        "variantShadowRegions = new TextureRegion[variants];",
+        "for(int i = 0; i < variants; i++){",
+        "variantShadowRegions[i] = Core.atlas.find(name + \"-shadow\" + (i + 1));"
+      ],
+      "tests": [
+        "test_emit_bridges_block_load_variant_shadow_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_shadow_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state",
+        "test_block_load_variant_shadow_regions_matches_upstream_source",
+        "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.load() customShadow variantShadowRegions allocation and atlas lookup loop to source-backed canonical state."
     }
   },
   "version": 1

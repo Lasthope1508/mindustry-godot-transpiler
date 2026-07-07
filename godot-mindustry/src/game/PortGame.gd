@@ -19459,6 +19459,44 @@ func generated_block_load_variant_regions_bridge_state(name_value: String, varia
 		"matches": result == canonical,
 	}
 
+func source_block_load_variant_shadow_regions_state(name_value: String, variants: int, custom_shadow: bool) -> Dictionary:
+	var variants_guard := variants != 0
+	var custom_shadow_guard := variants_guard and custom_shadow
+	var variant_shadow_regions: Array = []
+	if custom_shadow_guard:
+		for i in range(variants):
+			variant_shadow_regions.append("Core.atlas.find(%s-shadow%d)" % [name_value, i + 1])
+	return {
+		"source_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void load(){",
+		"variants_guard_expr": "if(variants != 0){",
+		"custom_shadow_guard_expr": "if(customShadow){",
+		"variant_shadow_regions_expr": "variantShadowRegions = new TextureRegion[variants];",
+		"variant_shadow_loop_expr": "for(int i = 0; i < variants; i++){",
+		"variant_shadow_assignment_expr": "variantShadowRegions[i] = Core.atlas.find(name + \"-shadow\" + (i + 1));",
+		"name": name_value,
+		"variants": variants,
+		"custom_shadow": custom_shadow,
+		"variants_guard": variants_guard,
+		"custom_shadow_guard": custom_shadow_guard,
+		"variant_shadow_regions": variant_shadow_regions,
+	}
+
+func generated_block_load_variant_shadow_regions_bridge_state(name_value: String, variants: int, custom_shadow: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_load_bridge_mode", "variant_shadow_regions")
+	var result = instance.java_method_load_126([name_value, variants, custom_shadow])
+	var canonical = source_block_load_variant_shadow_regions_state(name_value, variants, custom_shadow)
+	return {
+		"source_owner": "PortGame.source_block_load_variant_shadow_regions_state",
+		"generated_owner": "Block.java_method_load_126",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

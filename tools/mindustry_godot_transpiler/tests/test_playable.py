@@ -17941,6 +17941,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_load_126"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_load_variant_shadow_regions_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_load_variant_shadow_regions_state(name_value: String, variants: int, custom_shadow: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_load_variant_shadow_regions_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void load(){"', source)
+        self.assertIn('"variants_guard_expr": "if(variants != 0){"', source)
+        self.assertIn('"custom_shadow_guard_expr": "if(customShadow){"', source)
+        self.assertIn('"variant_shadow_regions_expr": "variantShadowRegions = new TextureRegion[variants];"', source)
+        self.assertIn('"variant_shadow_loop_expr": "for(int i = 0; i < variants; i++){"', source)
+        self.assertIn('"variant_shadow_assignment_expr": "variantShadowRegions[i] = Core.atlas.find(name + \\"-shadow\\" + (i + 1));"', source)
+        self.assertIn('"variant_shadow_regions": variant_shadow_regions', source)
+        self.assertIn('"custom_shadow_guard": custom_shadow_guard', source)
+
+    def test_port_game_exposes_generated_block_load_variant_shadow_regions_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_load_variant_shadow_regions_bridge_state(name_value: String, variants: int, custom_shadow: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_load_bridge_mode", "variant_shadow_regions")', source)
+        self.assertIn("var result = instance.java_method_load_126([name_value, variants, custom_shadow])", source)
+        self.assertIn("var canonical = source_block_load_variant_shadow_regions_state(name_value, variants, custom_shadow)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_load_variant_shadow_regions_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_load_126"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

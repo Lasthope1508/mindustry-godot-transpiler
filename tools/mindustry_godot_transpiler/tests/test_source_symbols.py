@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 831)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 826)
+        self.assertEqual(audit["totalSourceFunctions"], 832)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 827)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 831)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 832)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20386,6 +20386,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_load_base_regions_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_load_team_regions_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_load_variant_regions_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_load_variant_shadow_regions_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_rotated_output_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_rotated_output_tile_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_synthetic_state", audit["registeredSourceOwners"])
@@ -46788,6 +46789,59 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_load_variant_regions_result")
         self.assertEqual(result_schema["keys"]["variant_regions"]["java_expr"], "variantRegions = new TextureRegion[variants];")
         self.assertEqual(result_schema["keys"]["region"]["java_expr"], "region = variantRegions[0];")
+
+    def test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_load_variant_shadow_regions.method")
+        self.assertEqual(method["java_expr"], "public void load(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.load()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_load_variant_shadow_regions_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_load_variant_shadow_regions_state")
+
+        custom_shadow_guard_expr = source_symbols.source_symbol(registry, "block_load_variant_shadow_regions.custom_shadow_guard_expr")
+        self.assertEqual(custom_shadow_guard_expr["java_expr"], "if(customShadow){")
+        self.assertEqual(custom_shadow_guard_expr["godot_symbol"], "source_block_load_variant_shadow_regions_result.custom_shadow_guard")
+        variant_shadow_regions_expr = source_symbols.source_symbol(registry, "block_load_variant_shadow_regions.variant_shadow_regions_expr")
+        self.assertEqual(variant_shadow_regions_expr["java_expr"], "variantShadowRegions = new TextureRegion[variants];")
+        self.assertEqual(variant_shadow_regions_expr["godot_symbol"], "source_block_load_variant_shadow_regions_result.variant_shadow_regions")
+        variant_shadow_assignment_expr = source_symbols.source_symbol(registry, "block_load_variant_shadow_regions.variant_shadow_assignment_expr")
+        self.assertEqual(variant_shadow_assignment_expr["java_expr"], "variantShadowRegions[i] = Core.atlas.find(name + \"-shadow\" + (i + 1));")
+        self.assertEqual(variant_shadow_assignment_expr["godot_symbol"], "source_block_load_variant_shadow_regions_result.variant_shadow_regions")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1358")
+        self.assertEqual(setup_slice["title"], "Generated Block load variant shadow regions bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.load()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_load_variant_shadow_regions_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_load_126")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_load_variant_shadow_regions_bridge_state")
+        for expr in [
+            "public void load(){",
+            "if(variants != 0){",
+            "if(customShadow){",
+            "variantShadowRegions = new TextureRegion[variants];",
+            "for(int i = 0; i < variants; i++){",
+            "variantShadowRegions[i] = Core.atlas.find(name + \"-shadow\" + (i + 1));",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_load_variant_shadow_regions_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["name_value", "variants", "custom_shadow"])
+        for key in ["source_owner", "source", "method", "variants_guard_expr", "custom_shadow_guard_expr", "variant_shadow_regions_expr", "variant_shadow_loop_expr", "variant_shadow_assignment_expr", "name", "variants", "custom_shadow", "variants_guard", "custom_shadow_guard", "variant_shadow_regions"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_load_variant_shadow_regions_input")
+        self.assertEqual(input_schema["keys"]["custom_shadow"]["java_expr"], "customShadow")
+        result_schema = source_symbols.state_schema(schema, "source_block_load_variant_shadow_regions_result")
+        self.assertEqual(result_schema["keys"]["custom_shadow_guard"]["java_expr"], "variants != 0 && customShadow")
+        self.assertEqual(result_schema["keys"]["variant_shadow_regions"]["java_expr"], "variantShadowRegions = new TextureRegion[variants];")
 
     def test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

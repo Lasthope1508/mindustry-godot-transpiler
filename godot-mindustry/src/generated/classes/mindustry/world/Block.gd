@@ -906,6 +906,17 @@ func java_method_checkContentArrayCapacity_125(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_check_content_array_capacity_state", "source": "core/src/mindustry/world/Block.java", "method": "public void checkContentArrayCapacity(int items, int liquids){", "liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);", "item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);", "item_filter_before": item_filter, "liquid_filter_before": liquid_filter, "items": items, "liquids": liquids, "item_filter_after": item_filter_after, "liquid_filter_after": liquid_filter_after}
 
 func java_method_load_126(_args: Array = []) -> Variant:
+	if str(get_meta("mindustry_load_bridge_mode", "")) == "variant_shadow_regions":
+		var shadow_load_name_value: String = str(_args[0] if _args.size() > 0 else "")
+		var shadow_variants: int = int(_args[1] if _args.size() > 1 else 0)
+		var shadow_custom_shadow: bool = bool(_args[2] if _args.size() > 2 else false)
+		var shadow_variants_guard: bool = shadow_variants != 0
+		var shadow_custom_shadow_guard: bool = shadow_variants_guard and shadow_custom_shadow
+		var variant_shadow_regions: Array = []
+		if shadow_custom_shadow_guard:
+			for i in range(shadow_variants):
+				variant_shadow_regions.append("Core.atlas.find(%s-shadow%d)" % [shadow_load_name_value, i + 1])
+		return {"source_owner": "PortGame.source_block_load_variant_shadow_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "variants_guard_expr": "if(variants != 0){", "custom_shadow_guard_expr": "if(customShadow){", "variant_shadow_regions_expr": "variantShadowRegions = new TextureRegion[variants];", "variant_shadow_loop_expr": "for(int i = 0; i < variants; i++){", "variant_shadow_assignment_expr": "variantShadowRegions[i] = Core.atlas.find(name + \"-shadow\" + (i + 1));", "name": shadow_load_name_value, "variants": shadow_variants, "custom_shadow": shadow_custom_shadow, "variants_guard": shadow_variants_guard, "custom_shadow_guard": shadow_custom_shadow_guard, "variant_shadow_regions": variant_shadow_regions}
 	if str(get_meta("mindustry_load_bridge_mode", "")) == "variant_regions":
 		var variant_load_name_value: String = str(_args[0] if _args.size() > 0 else "")
 		var variants: int = int(_args[1] if _args.size() > 1 else 0)
