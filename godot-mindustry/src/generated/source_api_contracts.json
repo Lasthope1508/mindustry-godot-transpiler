@@ -33428,6 +33428,48 @@
         "test_block_init_break_sound_matches_upstream_source",
         "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_custom_shadow_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "customShadow",
+          "name": "custom_shadow",
+          "schema": "source_block_init_custom_shadow_input.custom_shadow",
+          "type": "bool"
+        },
+        {
+          "java_expr": "hasShadow",
+          "name": "has_shadow_before",
+          "schema": "source_block_init_custom_shadow_input.has_shadow_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "custom_shadow_comment",
+        "custom_shadow_guard_expr",
+        "has_shadow_assign_expr",
+        "custom_shadow",
+        "has_shadow_before",
+        "has_shadow_after",
+        "has_shadow_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() customShadow standard shadow suppression branch.",
+      "runtime_proof": "/root/Main.source_block_init_custom_shadow_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1326",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_custom_shadow_to_source_state",
+        "test_port_game_exposes_source_block_init_custom_shadow_state",
+        "test_port_game_exposes_generated_block_init_custom_shadow_bridge_state",
+        "test_block_init_custom_shadow_matches_upstream_source",
+        "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

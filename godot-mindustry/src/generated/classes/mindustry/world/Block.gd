@@ -625,6 +625,14 @@ func java_method_postInit_122(_args: Array = []) -> Variant:
 
 func java_method_init_123(_args: Array = []) -> Variant:
 	var init_bridge_mode: String = str(get_meta("mindustry_init_bridge_mode", "destroy_sound"))
+	if init_bridge_mode == "custom_shadow":
+		var custom_shadow: bool = bool(_args[0] if _args.size() > 0 else false)
+		var has_shadow_before: bool = bool(_args[1] if _args.size() > 1 else true)
+		var has_shadow_after: bool = has_shadow_before
+		var has_shadow_assigned: bool = custom_shadow
+		if has_shadow_assigned:
+			has_shadow_after = false
+		return {"source_owner": "PortGame.source_block_init_custom_shadow_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "custom_shadow_comment": "//disable standard shadow", "custom_shadow_guard_expr": "if(customShadow){", "has_shadow_assign_expr": "hasShadow = false;", "custom_shadow": custom_shadow, "has_shadow_before": has_shadow_before, "has_shadow_after": has_shadow_after, "has_shadow_assigned": has_shadow_assigned}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

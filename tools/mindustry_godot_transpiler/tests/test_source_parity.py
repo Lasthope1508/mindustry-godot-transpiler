@@ -5579,6 +5579,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_custom_shadow_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_custom_shadow_source"))
+        report = source_parity.verify_block_init_custom_shadow_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "custom_shadow_comment": "//disable standard shadow",
+            "custom_shadow_guard_expr": "if(customShadow){",
+            "has_shadow_assign_expr": "hasShadow = false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

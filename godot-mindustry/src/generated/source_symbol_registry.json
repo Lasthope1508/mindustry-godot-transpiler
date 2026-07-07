@@ -98990,6 +98990,114 @@
       "godot_symbol": "source_block_init_break_sound_input.size_value",
       "java_expr": "size",
       "rule": "Runtime size_value supplies source Block.size for breakSound default branch."
+    },
+    "block_init_custom_shadow.method": {
+      "godot_owner": "PortGame.source_block_init_custom_shadow_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_custom_shadow_state",
+      "source_slice": "N1326",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_custom_shadow_to_source_state",
+        "test_port_game_exposes_source_block_init_custom_shadow_state",
+        "test_port_game_exposes_generated_block_init_custom_shadow_bridge_state",
+        "test_block_init_custom_shadow_matches_upstream_source",
+        "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_custom_shadow_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for customShadow standard shadow suppression."
+    },
+    "block_init_custom_shadow.custom_shadow_comment": {
+      "godot_owner": "PortGame.source_block_init_custom_shadow_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_custom_shadow_state",
+      "source_slice": "N1326",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_custom_shadow_to_source_state",
+        "test_port_game_exposes_source_block_init_custom_shadow_state",
+        "test_port_game_exposes_generated_block_init_custom_shadow_bridge_state",
+        "test_block_init_custom_shadow_matches_upstream_source",
+        "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_custom_shadow_result.custom_shadow_comment",
+      "java_expr": "//disable standard shadow",
+      "rule": "Block.init() documents that customShadow disables standard shadow."
+    },
+    "block_init_custom_shadow.custom_shadow_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_custom_shadow_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_custom_shadow_state",
+      "source_slice": "N1326",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_custom_shadow_to_source_state",
+        "test_port_game_exposes_source_block_init_custom_shadow_state",
+        "test_port_game_exposes_generated_block_init_custom_shadow_bridge_state",
+        "test_block_init_custom_shadow_matches_upstream_source",
+        "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_custom_shadow_result.has_shadow_assigned",
+      "java_expr": "if(customShadow){",
+      "rule": "Standard shadow is disabled only when customShadow is true."
+    },
+    "block_init_custom_shadow.has_shadow_assign_expr": {
+      "godot_owner": "PortGame.source_block_init_custom_shadow_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_custom_shadow_state",
+      "source_slice": "N1326",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_custom_shadow_to_source_state",
+        "test_port_game_exposes_source_block_init_custom_shadow_state",
+        "test_port_game_exposes_generated_block_init_custom_shadow_bridge_state",
+        "test_block_init_custom_shadow_matches_upstream_source",
+        "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_custom_shadow_result.has_shadow_after",
+      "java_expr": "hasShadow = false;",
+      "rule": "Custom shadow sets hasShadow false in Block.init()."
+    },
+    "block_init_custom_shadow.custom_shadow": {
+      "godot_owner": "PortGame.source_block_init_custom_shadow_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_custom_shadow_state",
+      "source_slice": "N1326",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_custom_shadow_to_source_state",
+        "test_port_game_exposes_source_block_init_custom_shadow_state",
+        "test_port_game_exposes_generated_block_init_custom_shadow_bridge_state",
+        "test_block_init_custom_shadow_matches_upstream_source",
+        "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_custom_shadow_input.custom_shadow",
+      "java_expr": "customShadow",
+      "rule": "Runtime custom_shadow supplies source customShadow before Block.init() shadow suppression."
+    },
+    "block_init_custom_shadow.has_shadow": {
+      "godot_owner": "PortGame.source_block_init_custom_shadow_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_custom_shadow_state",
+      "source_slice": "N1326",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_custom_shadow_to_source_state",
+        "test_port_game_exposes_source_block_init_custom_shadow_state",
+        "test_port_game_exposes_generated_block_init_custom_shadow_bridge_state",
+        "test_block_init_custom_shadow_matches_upstream_source",
+        "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_custom_shadow_input.has_shadow_before",
+      "java_expr": "hasShadow",
+      "rule": "Runtime has_shadow_before supplies source hasShadow before Block.init() shadow suppression."
     }
   },
   "version": 1

@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 799)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 794)
+        self.assertEqual(audit["totalSourceFunctions"], 800)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 795)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 799)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 800)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45416,6 +45416,69 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_break_sound_result")
         self.assertEqual(result_schema["keys"]["break_sound_assigned"]["java_expr"], "if(breakSound == Sounds.unset){")
         self.assertEqual(result_schema["keys"]["break_sound_after"]["java_expr"], "breakSound =")
+
+    def test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_custom_shadow.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_custom_shadow_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_custom_shadow_state")
+
+        comment = source_symbols.source_symbol(registry, "block_init_custom_shadow.custom_shadow_comment")
+        self.assertEqual(comment["java_expr"], "//disable standard shadow")
+        self.assertEqual(comment["godot_symbol"], "source_block_init_custom_shadow_result.custom_shadow_comment")
+
+        guard = source_symbols.source_symbol(registry, "block_init_custom_shadow.custom_shadow_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(customShadow){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_custom_shadow_result.has_shadow_assigned")
+
+        assign = source_symbols.source_symbol(registry, "block_init_custom_shadow.has_shadow_assign_expr")
+        self.assertEqual(assign["java_expr"], "hasShadow = false;")
+        self.assertEqual(assign["godot_symbol"], "source_block_init_custom_shadow_result.has_shadow_after")
+
+        custom_shadow = source_symbols.source_symbol(registry, "block_init_custom_shadow.custom_shadow")
+        self.assertEqual(custom_shadow["java_expr"], "customShadow")
+        self.assertEqual(custom_shadow["godot_symbol"], "source_block_init_custom_shadow_input.custom_shadow")
+
+        has_shadow = source_symbols.source_symbol(registry, "block_init_custom_shadow.has_shadow")
+        self.assertEqual(has_shadow["java_expr"], "hasShadow")
+        self.assertEqual(has_shadow["godot_symbol"], "source_block_init_custom_shadow_input.has_shadow_before")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1326")
+        self.assertEqual(setup_slice["title"], "Generated Block init customShadow bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_custom_shadow_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_custom_shadow_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "//disable standard shadow",
+            "if(customShadow){",
+            "hasShadow = false;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_custom_shadow_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["custom_shadow", "has_shadow_before"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "custom_shadow_comment", "custom_shadow_guard_expr", "has_shadow_assign_expr", "custom_shadow", "has_shadow_before", "has_shadow_after", "has_shadow_assigned"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_custom_shadow_input")
+        self.assertEqual(input_schema["keys"]["custom_shadow"]["java_expr"], "customShadow")
+        self.assertEqual(input_schema["keys"]["has_shadow_before"]["java_expr"], "hasShadow")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_custom_shadow_result")
+        self.assertEqual(result_schema["keys"]["has_shadow_assigned"]["java_expr"], "if(customShadow){")
+        self.assertEqual(result_schema["keys"]["has_shadow_after"]["java_expr"], "hasShadow = false;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

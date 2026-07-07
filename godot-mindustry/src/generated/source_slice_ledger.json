@@ -31168,6 +31168,39 @@
         "test_block_init_break_sound_matches_upstream_source",
         "test_generated_block_init_break_sound_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1326": {
+      "title": "Generated Block init customShadow bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_custom_shadow_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_custom_shadow_bridge_state",
+      "source_symbols": [
+        "block_init_custom_shadow.method",
+        "block_init_custom_shadow.custom_shadow_comment",
+        "block_init_custom_shadow.custom_shadow_guard_expr",
+        "block_init_custom_shadow.has_shadow_assign_expr",
+        "block_init_custom_shadow.custom_shadow",
+        "block_init_custom_shadow.has_shadow"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "//disable standard shadow",
+        "if(customShadow){",
+        "hasShadow = false;"
+      ],
+      "rule": "Bridge generated Block.init() customShadow standard shadow suppression to source-backed canonical state without claiming underBullets, fogRadius, sync, health, liquid, or other init branches.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_custom_shadow_to_source_state",
+        "test_port_game_exposes_source_block_init_custom_shadow_state",
+        "test_port_game_exposes_generated_block_init_custom_shadow_bridge_state",
+        "test_block_init_custom_shadow_matches_upstream_source",
+        "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

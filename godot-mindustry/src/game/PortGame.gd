@@ -18559,6 +18559,39 @@ func generated_block_init_break_sound_bridge_state(break_sound_before: Variant, 
 		"matches": result == canonical,
 	}
 
+func source_block_init_custom_shadow_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:
+	var has_shadow_after: bool = has_shadow_before
+	var has_shadow_assigned: bool = custom_shadow
+	if has_shadow_assigned:
+		has_shadow_after = false
+	return {
+		"source_owner": "PortGame.source_block_init_custom_shadow_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"custom_shadow_comment": "//disable standard shadow",
+		"custom_shadow_guard_expr": "if(customShadow){",
+		"has_shadow_assign_expr": "hasShadow = false;",
+		"custom_shadow": custom_shadow,
+		"has_shadow_before": has_shadow_before,
+		"has_shadow_after": has_shadow_after,
+		"has_shadow_assigned": has_shadow_assigned,
+	}
+
+func generated_block_init_custom_shadow_bridge_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "custom_shadow")
+	var result = instance.java_method_init_123([custom_shadow, has_shadow_before])
+	var canonical = source_block_init_custom_shadow_state(custom_shadow, has_shadow_before)
+	return {
+		"source_owner": "PortGame.source_block_init_custom_shadow_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

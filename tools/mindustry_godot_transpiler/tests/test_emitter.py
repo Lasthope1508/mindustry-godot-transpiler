@@ -9401,6 +9401,56 @@ public class Block{
             self.assertIn('"break_sound_after": break_sound_after', source_text)
             self.assertIn('"break_sound_assigned": break_sound_assigned', source_text)
 
+    def test_emit_bridges_block_init_custom_shadow_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        //disable standard shadow
+        if(customShadow){
+            hasShadow = false;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "custom_shadow":', source_text)
+            self.assertIn("\t\tvar custom_shadow: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\t\tvar has_shadow_before: bool = bool(_args[1] if _args.size() > 1 else true)", source_text)
+            self.assertIn("\t\tvar has_shadow_after: bool = has_shadow_before", source_text)
+            self.assertIn("\t\tvar has_shadow_assigned: bool = custom_shadow", source_text)
+            self.assertIn("\t\tif has_shadow_assigned:", source_text)
+            self.assertIn("\t\t\thas_shadow_after = false", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_custom_shadow_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"super_init_expr": "super.init();"', source_text)
+            self.assertIn('"custom_shadow_comment": "//disable standard shadow"', source_text)
+            self.assertIn('"custom_shadow_guard_expr": "if(customShadow){"', source_text)
+            self.assertIn('"has_shadow_assign_expr": "hasShadow = false;"', source_text)
+            self.assertIn('"custom_shadow": custom_shadow', source_text)
+            self.assertIn('"has_shadow_before": has_shadow_before', source_text)
+            self.assertIn('"has_shadow_after": has_shadow_after', source_text)
+            self.assertIn('"has_shadow_assigned": has_shadow_assigned', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

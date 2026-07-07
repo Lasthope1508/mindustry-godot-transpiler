@@ -17237,5 +17237,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_custom_shadow_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_custom_shadow_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_custom_shadow_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"super_init_expr": "super.init();"', source)
+        self.assertIn('"custom_shadow_comment": "//disable standard shadow"', source)
+        self.assertIn('"custom_shadow_guard_expr": "if(customShadow){"', source)
+        self.assertIn('"has_shadow_assign_expr": "hasShadow = false;"', source)
+        self.assertIn('"custom_shadow": custom_shadow', source)
+        self.assertIn('"has_shadow_before": has_shadow_before', source)
+        self.assertIn('"has_shadow_after": has_shadow_after', source)
+        self.assertIn('"has_shadow_assigned": has_shadow_assigned', source)
+
+    def test_port_game_exposes_generated_block_init_custom_shadow_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_custom_shadow_bridge_state(custom_shadow: bool, has_shadow_before: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "custom_shadow")', source)
+        self.assertIn("var result = instance.java_method_init_123([custom_shadow, has_shadow_before])", source)
+        self.assertIn("var canonical = source_block_init_custom_shadow_state(custom_shadow, has_shadow_before)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_custom_shadow_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()
