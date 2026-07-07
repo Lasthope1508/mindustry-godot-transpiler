@@ -31461,6 +31461,45 @@
         "test_block_init_light_clip_size_matches_upstream_source",
         "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1334": {
+      "title": "Generated Block init liquid light bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_liquid_light_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_liquid_light_bridge_state",
+      "source_symbols": [
+        "block_init_liquid_light.method",
+        "block_init_liquid_light.super_init_expr",
+        "block_init_liquid_light.liquid_light_guard_expr",
+        "block_init_liquid_light.emit_light_assign_expr",
+        "block_init_liquid_light.light_clip_size_expr",
+        "block_init_liquid_light.has_liquids",
+        "block_init_liquid_light.draw_liquid_light",
+        "block_init_liquid_light.emit_light",
+        "block_init_liquid_light.light_clip_size",
+        "block_init_liquid_light.size",
+        "block_init_liquid_light.liquid_light_gate",
+        "block_init_liquid_light.liquid_light_clip_size"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(hasLiquids && drawLiquidLight){",
+        "emitLight = true;",
+        "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);"
+      ],
+      "rule": "Bridge generated Block.init() liquid-light branch to source-backed canonical state, preserving branch false state and applying emitLight/lightClipSize only when the source guard passes.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_light_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_light_state",
+        "test_port_game_exposes_generated_block_init_liquid_light_bridge_state",
+        "test_block_init_liquid_light_matches_upstream_source",
+        "test_generated_block_init_liquid_light_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

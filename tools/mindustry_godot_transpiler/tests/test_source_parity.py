@@ -5706,6 +5706,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_liquid_light_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_liquid_light_source"))
+        report = source_parity.verify_block_init_liquid_light_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "liquid_light_guard_expr": "if(hasLiquids && drawLiquidLight){",
+            "emit_light_assign_expr": "emitLight = true;",
+            "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

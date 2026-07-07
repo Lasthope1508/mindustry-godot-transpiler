@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 807)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 802)
+        self.assertEqual(audit["totalSourceFunctions"], 808)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 803)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 807)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 808)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45906,6 +45906,64 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_light_clip_size_result")
         self.assertEqual(result_schema["keys"]["clip_size"]["java_expr"], "clipSize = Math.max(clipSize, size * tilesize);")
         self.assertEqual(result_schema["keys"]["light_clip_size_after"]["java_expr"], "lightClipSize = Math.max(lightClipSize, clipSize);")
+
+    def test_generated_block_init_liquid_light_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_liquid_light.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_liquid_light_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_liquid_light_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_liquid_light.liquid_light_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(hasLiquids && drawLiquidLight){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_liquid_light_result.liquid_light_gate")
+
+        emit_light = source_symbols.source_symbol(registry, "block_init_liquid_light.emit_light_assign_expr")
+        self.assertEqual(emit_light["java_expr"], "emitLight = true;")
+        self.assertEqual(emit_light["godot_symbol"], "source_block_init_liquid_light_result.emit_light_after")
+
+        light_clip = source_symbols.source_symbol(registry, "block_init_liquid_light.light_clip_size_expr")
+        self.assertEqual(light_clip["java_expr"], "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);")
+        self.assertEqual(light_clip["godot_symbol"], "source_block_init_liquid_light_result.light_clip_size_after")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1334")
+        self.assertEqual(setup_slice["title"], "Generated Block init liquid light bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_liquid_light_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_liquid_light_bridge_state")
+        for expr in [
+            "if(hasLiquids && drawLiquidLight){",
+            "emitLight = true;",
+            "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_liquid_light_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["has_liquids", "draw_liquid_light", "emit_light_before", "light_clip_size_before", "size_value"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "liquid_light_guard_expr", "emit_light_assign_expr", "light_clip_size_expr", "has_liquids", "draw_liquid_light", "emit_light_before", "light_clip_size_before", "size", "liquid_light_gate", "liquid_light_clip_size", "emit_light_after", "light_clip_size_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_liquid_light_input")
+        self.assertEqual(input_schema["keys"]["has_liquids"]["java_expr"], "hasLiquids")
+        self.assertEqual(input_schema["keys"]["draw_liquid_light"]["java_expr"], "drawLiquidLight")
+        self.assertEqual(input_schema["keys"]["emit_light_before"]["java_expr"], "emitLight")
+        self.assertEqual(input_schema["keys"]["light_clip_size_before"]["java_expr"], "lightClipSize")
+        self.assertEqual(input_schema["keys"]["size_value"]["java_expr"], "size")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_liquid_light_result")
+        self.assertEqual(result_schema["keys"]["liquid_light_gate"]["java_expr"], "hasLiquids && drawLiquidLight")
+        self.assertEqual(result_schema["keys"]["liquid_light_clip_size"]["java_expr"], "size * 30f * 2f")
+        self.assertEqual(result_schema["keys"]["emit_light_after"]["java_expr"], "emitLight = true;")
+        self.assertEqual(result_schema["keys"]["light_clip_size_after"]["java_expr"], "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

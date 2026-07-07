@@ -123524,6 +123524,315 @@
       "runtime_proof": "/root/Main.source_block_init_light_clip_size_state",
       "source_slice": "N1333",
       "status": "active"
+    },
+    "source_block_init_liquid_light_input": {
+      "keys": {
+        "has_liquids": {
+          "godot_symbol": "source_block_init_liquid_light_input.has_liquids",
+          "java_expr": "hasLiquids",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.has_liquids"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "draw_liquid_light": {
+          "godot_symbol": "source_block_init_liquid_light_input.draw_liquid_light",
+          "java_expr": "drawLiquidLight",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.draw_liquid_light"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "emit_light_before": {
+          "godot_symbol": "source_block_init_liquid_light_input.emit_light_before",
+          "java_expr": "emitLight",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.emit_light"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "light_clip_size_before": {
+          "godot_symbol": "source_block_init_liquid_light_input.light_clip_size_before",
+          "java_expr": "lightClipSize",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.light_clip_size"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "size_value": {
+          "godot_symbol": "source_block_init_liquid_light_input.size_value",
+          "java_expr": "size",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.size"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        }
+      },
+      "owner": "PortGame.source_block_init_liquid_light_state",
+      "rule": "Inputs for PortGame.source_block_init_liquid_light_state.",
+      "runtime_proof": "/root/Main.source_block_init_liquid_light_state",
+      "source_slice": "N1334",
+      "status": "active"
+    },
+    "source_block_init_liquid_light_result": {
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_init_liquid_light_result.source_owner",
+          "java_expr": "PortGame.source_block_init_liquid_light_state",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_init_liquid_light_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_init_liquid_light_result.method",
+          "java_expr": "public void init(){",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "super_init_expr": {
+          "godot_symbol": "source_block_init_liquid_light_result.super_init_expr",
+          "java_expr": "super.init();",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.super_init_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "liquid_light_guard_expr": {
+          "godot_symbol": "source_block_init_liquid_light_result.liquid_light_guard_expr",
+          "java_expr": "if(hasLiquids && drawLiquidLight){",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.liquid_light_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "emit_light_assign_expr": {
+          "godot_symbol": "source_block_init_liquid_light_result.emit_light_assign_expr",
+          "java_expr": "emitLight = true;",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.emit_light_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "light_clip_size_expr": {
+          "godot_symbol": "source_block_init_liquid_light_result.light_clip_size_expr",
+          "java_expr": "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.light_clip_size_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "has_liquids": {
+          "godot_symbol": "source_block_init_liquid_light_result.has_liquids",
+          "java_expr": "hasLiquids",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.has_liquids"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "draw_liquid_light": {
+          "godot_symbol": "source_block_init_liquid_light_result.draw_liquid_light",
+          "java_expr": "drawLiquidLight",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.draw_liquid_light"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "emit_light_before": {
+          "godot_symbol": "source_block_init_liquid_light_result.emit_light_before",
+          "java_expr": "emitLight",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.emit_light"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "light_clip_size_before": {
+          "godot_symbol": "source_block_init_liquid_light_result.light_clip_size_before",
+          "java_expr": "lightClipSize",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.light_clip_size"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "size": {
+          "godot_symbol": "source_block_init_liquid_light_result.size",
+          "java_expr": "size",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.size"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "liquid_light_gate": {
+          "godot_symbol": "source_block_init_liquid_light_result.liquid_light_gate",
+          "java_expr": "hasLiquids && drawLiquidLight",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.liquid_light_gate",
+            "block_init_liquid_light.liquid_light_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "liquid_light_clip_size": {
+          "godot_symbol": "source_block_init_liquid_light_result.liquid_light_clip_size",
+          "java_expr": "size * 30f * 2f",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.liquid_light_clip_size"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "emit_light_after": {
+          "godot_symbol": "source_block_init_liquid_light_result.emit_light_after",
+          "java_expr": "emitLight = true;",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.emit_light_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "light_clip_size_after": {
+          "godot_symbol": "source_block_init_liquid_light_result.light_clip_size_after",
+          "java_expr": "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);",
+          "java_method": "Block.init()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_init_liquid_light_state"
+          ],
+          "source_symbols": [
+            "block_init_liquid_light.light_clip_size_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_block_init_liquid_light_state",
+      "rule": "Dictionary returned by PortGame.source_block_init_liquid_light_state.",
+      "runtime_proof": "/root/Main.source_block_init_liquid_light_state",
+      "source_slice": "N1334",
+      "status": "active"
     }
   },
   "version": 1

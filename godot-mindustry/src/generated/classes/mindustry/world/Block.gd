@@ -692,6 +692,17 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		var clip_size: float = float(_args[1] if _args.size() > 1 else 0.0)
 		var light_clip_size_after: float = max(light_clip_size_before, clip_size)
 		return {"source_owner": "PortGame.source_block_init_light_clip_size_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);", "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, clipSize);", "light_clip_size_before": light_clip_size_before, "clip_size": clip_size, "light_clip_size_after": light_clip_size_after}
+	if init_bridge_mode == "liquid_light":
+		var has_liquids: bool = bool(_args[0] if _args.size() > 0 else false)
+		var draw_liquid_light: bool = bool(_args[1] if _args.size() > 1 else false)
+		var emit_light_before: bool = bool(_args[2] if _args.size() > 2 else false)
+		var light_clip_size_before: float = float(_args[3] if _args.size() > 3 else 0.0)
+		var liquid_light_size_value: int = int(_args[4] if _args.size() > 4 else 1)
+		var liquid_light_gate: bool = has_liquids and draw_liquid_light
+		var liquid_light_clip_size: float = float(liquid_light_size_value) * 30.0 * 2.0
+		var emit_light_after: bool = true if liquid_light_gate else emit_light_before
+		var light_clip_size_after: float = max(light_clip_size_before, liquid_light_clip_size) if liquid_light_gate else light_clip_size_before
+		return {"source_owner": "PortGame.source_block_init_liquid_light_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "liquid_light_guard_expr": "if(hasLiquids && drawLiquidLight){", "emit_light_assign_expr": "emitLight = true;", "light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);", "has_liquids": has_liquids, "draw_liquid_light": draw_liquid_light, "emit_light_before": emit_light_before, "light_clip_size_before": light_clip_size_before, "size": liquid_light_size_value, "liquid_light_gate": liquid_light_gate, "liquid_light_clip_size": liquid_light_clip_size, "emit_light_after": emit_light_after, "light_clip_size_after": light_clip_size_after}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

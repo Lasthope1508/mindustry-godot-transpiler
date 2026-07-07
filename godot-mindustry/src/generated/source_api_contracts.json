@@ -33809,6 +33809,71 @@
         "test_block_init_light_clip_size_matches_upstream_source",
         "test_generated_block_init_light_clip_size_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_liquid_light_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "hasLiquids",
+          "name": "has_liquids",
+          "schema": "source_block_init_liquid_light_input.has_liquids",
+          "type": "bool"
+        },
+        {
+          "java_expr": "drawLiquidLight",
+          "name": "draw_liquid_light",
+          "schema": "source_block_init_liquid_light_input.draw_liquid_light",
+          "type": "bool"
+        },
+        {
+          "java_expr": "emitLight",
+          "name": "emit_light_before",
+          "schema": "source_block_init_liquid_light_input.emit_light_before",
+          "type": "bool"
+        },
+        {
+          "java_expr": "lightClipSize",
+          "name": "light_clip_size_before",
+          "schema": "source_block_init_liquid_light_input.light_clip_size_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_liquid_light_input.size_value",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "liquid_light_guard_expr",
+        "emit_light_assign_expr",
+        "light_clip_size_expr",
+        "has_liquids",
+        "draw_liquid_light",
+        "emit_light_before",
+        "light_clip_size_before",
+        "size",
+        "liquid_light_gate",
+        "liquid_light_clip_size",
+        "emit_light_after",
+        "light_clip_size_after"
+      ],
+      "rule": "Pin source-backed Block.init() liquid light guarded branch.",
+      "runtime_proof": "/root/Main.source_block_init_liquid_light_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1334",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_light_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_light_state",
+        "test_port_game_exposes_generated_block_init_liquid_light_bridge_state",
+        "test_block_init_liquid_light_matches_upstream_source",
+        "test_generated_block_init_liquid_light_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

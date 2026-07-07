@@ -18843,6 +18843,44 @@ func generated_block_init_light_clip_size_bridge_state(light_clip_size_before: f
 		"matches": result == canonical,
 	}
 
+func source_block_init_liquid_light_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:
+	var liquid_light_gate: bool = has_liquids and draw_liquid_light
+	var liquid_light_clip_size: float = float(size_value) * 30.0 * 2.0
+	var emit_light_after: bool = true if liquid_light_gate else emit_light_before
+	var light_clip_size_after: float = max(light_clip_size_before, liquid_light_clip_size) if liquid_light_gate else light_clip_size_before
+	return {
+		"source_owner": "PortGame.source_block_init_liquid_light_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"liquid_light_guard_expr": "if(hasLiquids && drawLiquidLight){",
+		"emit_light_assign_expr": "emitLight = true;",
+		"light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);",
+		"has_liquids": has_liquids,
+		"draw_liquid_light": draw_liquid_light,
+		"emit_light_before": emit_light_before,
+		"light_clip_size_before": light_clip_size_before,
+		"size": size_value,
+		"liquid_light_gate": liquid_light_gate,
+		"liquid_light_clip_size": liquid_light_clip_size,
+		"emit_light_after": emit_light_after,
+		"light_clip_size_after": light_clip_size_after,
+	}
+
+func generated_block_init_liquid_light_bridge_state(has_liquids: bool, draw_liquid_light: bool, emit_light_before: bool, light_clip_size_before: float, size_value: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "liquid_light")
+	var result = instance.java_method_init_123([has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value])
+	var canonical = source_block_init_liquid_light_state(has_liquids, draw_liquid_light, emit_light_before, light_clip_size_before, size_value)
+	return {
+		"source_owner": "PortGame.source_block_init_liquid_light_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation
