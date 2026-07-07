@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 785)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 780)
+        self.assertEqual(audit["totalSourceFunctions"], 786)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 781)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 785)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 786)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44697,6 +44697,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_research_requirements_empty_result")
         self.assertEqual(result_schema["keys"]["returned_requirements"]["java_expr"], "return ItemStack.empty;")
         self.assertEqual(result_schema["keys"]["returned_empty"]["java_expr"], "if(researchCostMultiplier <= 0f) return ItemStack.empty;")
+
+    def test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_research_requirements_loop_shape.method")
+        self.assertEqual(method["java_expr"], "public ItemStack[] researchRequirements(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.researchRequirements()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_research_requirements_loop_shape_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_research_requirements_loop_shape_state")
+
+        out_alloc = source_symbols.source_symbol(registry, "block_research_requirements_loop_shape.out_alloc_expr")
+        self.assertEqual(out_alloc["java_expr"], "ItemStack[] out = new ItemStack[requirements.length];")
+        self.assertEqual(out_alloc["godot_symbol"], "source_block_research_requirements_loop_shape_result.allocated_out_length")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1312")
+        self.assertEqual(setup_slice["title"], "Generated Block researchRequirements loop shape bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.researchRequirements()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_research_requirements_loop_shape_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_researchRequirements_118")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_research_requirements_loop_shape_bridge_state")
+        for expr in [
+            "@Override",
+            "public ItemStack[] researchRequirements(){",
+            "if(researchCost != null) return researchCost;",
+            "if(researchCostMultiplier <= 0f) return ItemStack.empty;",
+            "ItemStack[] out = new ItemStack[requirements.length];",
+            "for(int i = 0; i < out.length; i++){",
+            "return out;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_research_requirements_loop_shape_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["research_cost", "research_cost_multiplier", "requirements"])
+        for key in ["source_owner", "source", "method", "override_expr", "research_cost_guard_expr", "empty_guard_expr", "out_alloc_expr", "loop_expr", "return_out_expr", "requirements", "allocation_reached", "allocated_out_length", "loop_indices"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_research_requirements_loop_shape_input")
+        self.assertEqual(input_schema["keys"]["requirements"]["java_expr"], "requirements")
+        result_schema = source_symbols.state_schema(schema, "source_block_research_requirements_loop_shape_result")
+        self.assertEqual(result_schema["keys"]["allocated_out_length"]["java_expr"], "requirements.length")
+        self.assertEqual(result_schema["keys"]["loop_indices"]["java_expr"], "for(int i = 0; i < out.length; i++){")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

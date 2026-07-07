@@ -3191,6 +3191,58 @@
         "test_generated_block_research_requirements_empty_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_research_requirements_loop_shape_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "researchCost",
+          "name": "research_cost",
+          "schema": "source_block_research_requirements_loop_shape_input.research_cost",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "researchCostMultiplier",
+          "name": "research_cost_multiplier",
+          "schema": "source_block_research_requirements_loop_shape_input.research_cost_multiplier",
+          "type": "float"
+        },
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_research_requirements_loop_shape_input.requirements",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "override_expr",
+        "research_cost_guard_expr",
+        "empty_guard_expr",
+        "out_alloc_expr",
+        "loop_expr",
+        "return_out_expr",
+        "research_cost",
+        "research_cost_multiplier",
+        "requirements",
+        "allocation_reached",
+        "allocated_out_length",
+        "loop_indices"
+      ],
+      "rule": "Pin source-backed Block.researchRequirements() allocation and loop shape state after early guards.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_method": "Block.researchRequirements()",
+      "source_slice": "N1312",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_research_requirements_research_cost_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [

@@ -8718,6 +8718,54 @@ public class Block{
             self.assertIn('"returned_requirements": returned_requirements_after_multiplier', source_text)
             self.assertIn('"returned_empty": returned_empty', source_text)
 
+    def test_emit_bridges_block_research_requirements_loop_shape_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public ItemStack[] researchRequirements(){
+        if(researchCost != null) return researchCost;
+        if(researchCostMultiplier <= 0f) return ItemStack.empty;
+        ItemStack[] out = new ItemStack[requirements.length];
+        for(int i = 0; i < out.length; i++){
+            return null;
+        }
+        return out;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_researchRequirements_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar requirements: Array = _args[2] if _args.size() > 2 else []", source_text)
+            self.assertIn("\tif _args.size() <= 2:", source_text)
+            self.assertIn('\t\treturn {"source_owner": "PortGame.source_block_research_requirements_empty_state"', source_text)
+            self.assertIn("\tvar allocation_reached: bool = research_cost == null and research_cost_multiplier > 0.0", source_text)
+            self.assertIn("\tvar allocated_out_length: int = requirements.size() if allocation_reached else 0", source_text)
+            self.assertIn("\tvar loop_indices: Array = []", source_text)
+            self.assertIn("\tfor i in range(allocated_out_length):", source_text)
+            self.assertIn("\t\tloop_indices.append(i)", source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_research_requirements_loop_shape_state"', source_text)
+            self.assertIn('"out_alloc_expr": "ItemStack[] out = new ItemStack[requirements.length];"', source_text)
+            self.assertIn('"loop_expr": "for(int i = 0; i < out.length; i++){"', source_text)
+            self.assertIn('"return_out_expr": "return out;"', source_text)
+            self.assertIn('"requirements": requirements', source_text)
+            self.assertIn('"allocated_out_length": allocated_out_length', source_text)
+            self.assertIn('"loop_indices": loop_indices', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

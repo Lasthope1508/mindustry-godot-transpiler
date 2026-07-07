@@ -7909,6 +7909,186 @@
         "test_generated_block_research_requirements_empty_slice_is_registered_with_source_backing"
       ]
     },
+    "block_research_requirements_loop_shape.empty_guard_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "godot_symbol": "source_block_research_requirements_loop_shape_result.empty_guard_expr",
+      "java_expr": "if(researchCostMultiplier <= 0f) return ItemStack.empty;",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve multiplier guard before allocation.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_slice": "N1312",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_loop_shape.loop_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "godot_symbol": "source_block_research_requirements_loop_shape_result.loop_indices",
+      "java_expr": "for(int i = 0; i < out.length; i++){",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve loop index domain over allocated output length.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_slice": "N1312",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_loop_shape.method": {
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "godot_symbol": "source_block_research_requirements_loop_shape_result.method",
+      "java_expr": "public ItemStack[] researchRequirements(){",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.researchRequirements() method boundary for loop shape.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_slice": "N1312",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_loop_shape.out_alloc_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "godot_symbol": "source_block_research_requirements_loop_shape_result.allocated_out_length",
+      "java_expr": "ItemStack[] out = new ItemStack[requirements.length];",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve research requirements output array allocation length.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_slice": "N1312",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_loop_shape.override_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "godot_symbol": "source_block_research_requirements_loop_shape_result.override_expr",
+      "java_expr": "@Override",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.researchRequirements() override marker for loop shape.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_slice": "N1312",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_loop_shape.requirements": {
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "godot_symbol": "source_block_research_requirements_loop_shape_input.requirements",
+      "java_expr": "requirements",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose requirements array for source output allocation length.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_slice": "N1312",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_loop_shape.research_cost": {
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "godot_symbol": "source_block_research_requirements_loop_shape_input.research_cost",
+      "java_expr": "researchCost",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose researchCost field for guard precedence before allocation.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_slice": "N1312",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_loop_shape.research_cost_guard_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "godot_symbol": "source_block_research_requirements_loop_shape_result.research_cost_guard_expr",
+      "java_expr": "if(researchCost != null) return researchCost;",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve researchCost guard before allocation.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_slice": "N1312",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_loop_shape.research_cost_multiplier": {
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "godot_symbol": "source_block_research_requirements_loop_shape_input.research_cost_multiplier",
+      "java_expr": "researchCostMultiplier",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose researchCostMultiplier field for guard precedence before allocation.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_slice": "N1312",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_loop_shape.return_out_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "godot_symbol": "source_block_research_requirements_loop_shape_result.return_out_expr",
+      "java_expr": "return out;",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve final output array return boundary without filling formula internals.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_loop_shape_state",
+      "source_slice": "N1312",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_research_requirements_research_cost.guard_expr": {
       "godot_owner": "PortGame.source_block_research_requirements_research_cost_state",
       "godot_symbol": "source_block_research_requirements_research_cost_result.returned_early",

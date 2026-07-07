@@ -10072,6 +10072,44 @@
       ],
       "title": "Generated Block researchRequirements empty bridge state"
     },
+    "N1312": {
+      "exact_exprs": [
+        "@Override",
+        "public ItemStack[] researchRequirements(){",
+        "if(researchCost != null) return researchCost;",
+        "if(researchCostMultiplier <= 0f) return ItemStack.empty;",
+        "ItemStack[] out = new ItemStack[requirements.length];",
+        "for(int i = 0; i < out.length; i++){",
+        "return out;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_loop_shape_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_loop_shape_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_loop_shape.override_expr",
+        "block_research_requirements_loop_shape.method",
+        "block_research_requirements_loop_shape.research_cost_guard_expr",
+        "block_research_requirements_loop_shape.empty_guard_expr",
+        "block_research_requirements_loop_shape.out_alloc_expr",
+        "block_research_requirements_loop_shape.loop_expr",
+        "block_research_requirements_loop_shape.return_out_expr",
+        "block_research_requirements_loop_shape.research_cost",
+        "block_research_requirements_loop_shape.research_cost_multiplier",
+        "block_research_requirements_loop_shape.requirements"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_loop_shape_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_loop_shape_state",
+        "test_port_game_exposes_generated_block_research_requirements_loop_shape_bridge_state",
+        "test_block_research_requirements_loop_shape_matches_upstream_source",
+        "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements loop shape bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
