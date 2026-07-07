@@ -11560,6 +11560,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_build_payload_destroyed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_build_payload_destroyed_source"))
+        report = source_parity.verify_build_payload_destroyed_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class BuildPayload implements Payload{",
+            "field_expr": "public Building build;",
+            "override_expr": "@Override",
+            "method": "public void destroyed(){",
+            "dead_assign_expr": "build.dead = true;",
+            "on_destroyed_expr": "build.onDestroyed();",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_build_payload_content_equals_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_build_payload_content_equals_source"))
         report = source_parity.verify_build_payload_content_equals_source(ROOT / "mindustry-upstream")

@@ -107612,6 +107612,114 @@
       "java_expr": "build.updatePayload(unitHolder, buildingHolder);",
       "rule": "BuildPayload.update delegates updatePayload when guard does not return.",
       "status": "source-backed"
+    },
+    "build_payload_destroyed.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.destroyed()",
+      "godot_owner": "PortGame.source_build_payload_destroyed_state",
+      "runtime_proof": "/root/Main.source_build_payload_destroyed_state",
+      "source_slice": "N1383",
+      "tests": [
+        "test_emit_bridges_build_payload_destroyed_to_source_state",
+        "test_port_game_exposes_source_build_payload_destroyed_state",
+        "test_port_game_exposes_generated_build_payload_destroyed_bridge_state",
+        "test_build_payload_destroyed_matches_upstream_source",
+        "test_generated_build_payload_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_destroyed_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "BuildPayload.destroyed class boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_destroyed.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.destroyed()",
+      "godot_owner": "PortGame.source_build_payload_destroyed_state",
+      "runtime_proof": "/root/Main.source_build_payload_destroyed_state",
+      "source_slice": "N1383",
+      "tests": [
+        "test_emit_bridges_build_payload_destroyed_to_source_state",
+        "test_port_game_exposes_source_build_payload_destroyed_state",
+        "test_port_game_exposes_generated_build_payload_destroyed_bridge_state",
+        "test_build_payload_destroyed_matches_upstream_source",
+        "test_generated_build_payload_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_destroyed_result.field_expr",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload.destroyed operates on build field.",
+      "status": "source-backed"
+    },
+    "build_payload_destroyed.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.destroyed()",
+      "godot_owner": "PortGame.source_build_payload_destroyed_state",
+      "runtime_proof": "/root/Main.source_build_payload_destroyed_state",
+      "source_slice": "N1383",
+      "tests": [
+        "test_emit_bridges_build_payload_destroyed_to_source_state",
+        "test_port_game_exposes_source_build_payload_destroyed_state",
+        "test_port_game_exposes_generated_build_payload_destroyed_bridge_state",
+        "test_build_payload_destroyed_matches_upstream_source",
+        "test_generated_build_payload_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_destroyed_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "BuildPayload.destroyed overrides Payload.destroyed.",
+      "status": "source-backed"
+    },
+    "build_payload_destroyed.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.destroyed()",
+      "godot_owner": "PortGame.source_build_payload_destroyed_state",
+      "runtime_proof": "/root/Main.source_build_payload_destroyed_state",
+      "source_slice": "N1383",
+      "tests": [
+        "test_emit_bridges_build_payload_destroyed_to_source_state",
+        "test_port_game_exposes_source_build_payload_destroyed_state",
+        "test_port_game_exposes_generated_build_payload_destroyed_bridge_state",
+        "test_build_payload_destroyed_matches_upstream_source",
+        "test_generated_build_payload_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_destroyed_result.method",
+      "java_expr": "public void destroyed(){",
+      "rule": "Pin BuildPayload.destroyed method boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_destroyed.dead_assign_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.destroyed()",
+      "godot_owner": "PortGame.source_build_payload_destroyed_state",
+      "runtime_proof": "/root/Main.source_build_payload_destroyed_state",
+      "source_slice": "N1383",
+      "tests": [
+        "test_emit_bridges_build_payload_destroyed_to_source_state",
+        "test_port_game_exposes_source_build_payload_destroyed_state",
+        "test_port_game_exposes_generated_build_payload_destroyed_bridge_state",
+        "test_build_payload_destroyed_matches_upstream_source",
+        "test_generated_build_payload_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_destroyed_result.dead_after",
+      "java_expr": "build.dead = true;",
+      "rule": "BuildPayload.destroyed marks build.dead true.",
+      "status": "source-backed"
+    },
+    "build_payload_destroyed.on_destroyed_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.destroyed()",
+      "godot_owner": "PortGame.source_build_payload_destroyed_state",
+      "runtime_proof": "/root/Main.source_build_payload_destroyed_state",
+      "source_slice": "N1383",
+      "tests": [
+        "test_emit_bridges_build_payload_destroyed_to_source_state",
+        "test_port_game_exposes_source_build_payload_destroyed_state",
+        "test_port_game_exposes_generated_build_payload_destroyed_bridge_state",
+        "test_build_payload_destroyed_matches_upstream_source",
+        "test_generated_build_payload_destroyed_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_destroyed_result.on_destroyed_called",
+      "java_expr": "build.onDestroyed();",
+      "rule": "BuildPayload.destroyed delegates build.onDestroyed after dead assignment.",
+      "status": "source-backed"
     }
   },
   "version": 1

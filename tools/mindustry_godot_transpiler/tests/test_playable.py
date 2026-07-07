@@ -18617,6 +18617,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildPayload.java_method_update_5"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_build_payload_destroyed_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_build_payload_destroyed_state() -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_destroyed_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source)
+        self.assertIn('"field_expr": "public Building build;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public void destroyed(){"', source)
+        self.assertIn('"dead_assign_expr": "build.dead = true;"', source)
+        self.assertIn('"on_destroyed_expr": "build.onDestroyed();"', source)
+        self.assertIn("var dead_after: bool = true", source)
+        self.assertIn("var on_destroyed_called: bool = true", source)
+
+    def test_port_game_exposes_generated_build_payload_destroyed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_build_payload_destroyed_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_destroyed_6([])", source)
+        self.assertIn("var canonical = source_build_payload_destroyed_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_destroyed_state"', source)
+        self.assertIn('"generated_owner": "BuildPayload.java_method_destroyed_6"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_equals_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1681,6 +1681,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
+        and method.get("name") == "destroyed"
+    ):
+        return [
+            "\tvar dead_after: bool = true",
+            "\tvar on_destroyed_called: bool = true",
+            '\treturn {"source_owner": "PortGame.source_build_payload_destroyed_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void destroyed(){", "dead_assign_expr": "build.dead = true;", "on_destroyed_expr": "build.onDestroyed();", "dead_after": dead_after, "on_destroyed_called": on_destroyed_called}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "content"
     ):
         return [

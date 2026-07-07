@@ -19947,6 +19947,35 @@ func generated_build_payload_update_bridge_state(unit_holder_present: bool, buil
 		"matches": result == canonical,
 	}
 
+func source_build_payload_destroyed_state() -> Dictionary:
+	var dead_after: bool = true
+	var on_destroyed_called: bool = true
+	return {
+		"source_owner": "PortGame.source_build_payload_destroyed_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"override_expr": "@Override",
+		"method": "public void destroyed(){",
+		"dead_assign_expr": "build.dead = true;",
+		"on_destroyed_expr": "build.onDestroyed();",
+		"dead_after": dead_after,
+		"on_destroyed_called": on_destroyed_called,
+	}
+
+func generated_build_payload_destroyed_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_destroyed_6([])
+	var canonical = source_build_payload_destroyed_state()
+	return {
+		"source_owner": "PortGame.source_build_payload_destroyed_state",
+		"generated_owner": "BuildPayload.java_method_destroyed_6",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_content_equals_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
 	var content_equals: bool = other_is_build_payload and other_block == build_block
 	return {

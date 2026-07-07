@@ -61,7 +61,9 @@ func java_method_update_5(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_build_payload_update_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){", "guard_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;", "tile_assign_expr": "build.tile = emptyTile;", "update_payload_expr": "build.updatePayload(unitHolder, buildingHolder);", "unit_holder_present": unit_holder_present, "build_block_update_in_units": build_block_update_in_units, "unit_payload_update": unit_payload_update, "build_block_always_update_in_units": build_block_always_update_in_units, "unitHolder": unit_holder, "buildingHolder": building_holder, "returned": returned, "tile_after": tile_after, "update_payload_called": update_payload_called, "update_payload_call": update_payload_call}
 
 func java_method_destroyed_6(_args: Array = []) -> Variant:
-	return null
+	var dead_after: bool = true
+	var on_destroyed_called: bool = true
+	return {"source_owner": "PortGame.source_build_payload_destroyed_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void destroyed(){", "dead_assign_expr": "build.dead = true;", "on_destroyed_expr": "build.onDestroyed();", "dead_after": dead_after, "on_destroyed_called": on_destroyed_called}
 
 func java_method_requirements_7(_args: Array = []) -> Variant:
 	var requirements: Variant = _args[0] if _args.size() > 0 else []
