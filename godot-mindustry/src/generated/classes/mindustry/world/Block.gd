@@ -768,6 +768,16 @@ func java_method_init_123(_args: Array = []) -> Variant:
 				update_consumers.append(consumer)
 		var has_consumers: bool = consumers.size() > 0
 		return {"source_owner": "PortGame.source_block_init_consumer_arrays_state", "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void init(){", "super_init_expr": "super.init();", "consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);", "optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);", "non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);", "update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);", "has_consumers_expr": "hasConsumers = consumers.length > 0;", "consume_optional_field_expr": "public boolean optional;", "consume_update_field_expr": "public boolean update = true;", "consume_ignore_method_expr": "public boolean ignore(){", "consume_builder": consumer_builder_entries, "consumers": consumers, "optional_consumers": optional_consumers, "non_optional_consumers": non_optional_consumers, "update_consumers": update_consumers, "has_consumers": has_consumers}
+	if init_bridge_mode == "item_liquid_filters":
+		var content_items_size: int = int(_args[0] if _args.size() > 0 else 0)
+		var content_liquids_size: int = int(_args[1] if _args.size() > 1 else 0)
+		var item_filter: Array = []
+		for _i in range(max(content_items_size, 0)):
+			item_filter.append(false)
+		var liquid_filter: Array = []
+		for _i in range(max(content_liquids_size, 0)):
+			liquid_filter.append(false)
+		return {"source_owner": "PortGame.source_block_init_item_liquid_filters_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "item_filter_expr": "itemFilter = new boolean[content.items().size];", "liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];", "content_items_size": content_items_size, "content_liquids_size": content_liquids_size, "item_filter": item_filter, "liquid_filter": liquid_filter, "item_filter_size": item_filter.size(), "liquid_filter_size": liquid_filter.size()}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

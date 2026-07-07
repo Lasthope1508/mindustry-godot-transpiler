@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 816)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 811)
+        self.assertEqual(audit["totalSourceFunctions"], 817)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 812)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 816)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 817)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46390,6 +46390,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["non_optional_consumers"]["java_expr"], "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);")
         self.assertEqual(result_schema["keys"]["update_consumers"]["java_expr"], "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);")
         self.assertEqual(result_schema["keys"]["has_consumers"]["java_expr"], "hasConsumers = consumers.length > 0;")
+
+    def test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_item_liquid_filters.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_item_liquid_filters_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_item_liquid_filters_state")
+
+        item_filter_expr = source_symbols.source_symbol(registry, "block_init_item_liquid_filters.item_filter_expr")
+        self.assertEqual(item_filter_expr["java_expr"], "itemFilter = new boolean[content.items().size];")
+        self.assertEqual(item_filter_expr["godot_symbol"], "source_block_init_item_liquid_filters_result.item_filter")
+
+        liquid_filter_expr = source_symbols.source_symbol(registry, "block_init_item_liquid_filters.liquid_filter_expr")
+        self.assertEqual(liquid_filter_expr["java_expr"], "liquidFilter = new boolean[content.liquids().size];")
+        self.assertEqual(liquid_filter_expr["godot_symbol"], "source_block_init_item_liquid_filters_result.liquid_filter")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1343")
+        self.assertEqual(setup_slice["title"], "Generated Block init item liquid filters bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_item_liquid_filters_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_item_liquid_filters_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "itemFilter = new boolean[content.items().size];",
+            "liquidFilter = new boolean[content.liquids().size];",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_item_liquid_filters_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["content_items_size", "content_liquids_size"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "item_filter_expr", "liquid_filter_expr", "content_items_size", "content_liquids_size", "item_filter", "liquid_filter", "item_filter_size", "liquid_filter_size"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_item_liquid_filters_input")
+        self.assertEqual(input_schema["keys"]["content_items_size"]["java_expr"], "content.items().size")
+        self.assertEqual(input_schema["keys"]["content_liquids_size"]["java_expr"], "content.liquids().size")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_item_liquid_filters_result")
+        self.assertEqual(result_schema["keys"]["item_filter"]["java_expr"], "itemFilter = new boolean[content.items().size];")
+        self.assertEqual(result_schema["keys"]["liquid_filter"]["java_expr"], "liquidFilter = new boolean[content.liquids().size];")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

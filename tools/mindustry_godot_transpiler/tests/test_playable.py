@@ -17720,5 +17720,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_item_liquid_filters_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"item_filter_expr": "itemFilter = new boolean[content.items().size];"', source)
+        self.assertIn('"liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];"', source)
+        self.assertIn('"content_items_size": content_items_size', source)
+        self.assertIn('"content_liquids_size": content_liquids_size', source)
+        self.assertIn('"item_filter": item_filter', source)
+        self.assertIn('"liquid_filter": liquid_filter', source)
+        self.assertIn('"item_filter_size": item_filter.size()', source)
+        self.assertIn('"liquid_filter_size": liquid_filter.size()', source)
+
+    def test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_item_liquid_filters_bridge_state(content_items_size: int, content_liquids_size: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "item_liquid_filters")', source)
+        self.assertIn("var result = instance.java_method_init_123([content_items_size, content_liquids_size])", source)
+        self.assertIn("var canonical = source_block_init_item_liquid_filters_state(content_items_size, content_liquids_size)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_item_liquid_filters_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

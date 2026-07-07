@@ -34219,6 +34219,49 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "PortGame.source_block_init_item_liquid_filters_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1343",
+      "params": [
+        {
+          "name": "content_items_size",
+          "type": "int",
+          "java_expr": "content.items().size",
+          "schema": "source_block_init_item_liquid_filters_input.content_items_size"
+        },
+        {
+          "name": "content_liquids_size",
+          "type": "int",
+          "java_expr": "content.liquids().size",
+          "schema": "source_block_init_item_liquid_filters_input.content_liquids_size"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "item_filter_expr",
+        "liquid_filter_expr",
+        "content_items_size",
+        "content_liquids_size",
+        "item_filter",
+        "liquid_filter",
+        "item_filter_size",
+        "liquid_filter_size"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_init_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state",
+        "test_block_init_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() item and liquid filter allocation."
     }
   },
   "policy": {

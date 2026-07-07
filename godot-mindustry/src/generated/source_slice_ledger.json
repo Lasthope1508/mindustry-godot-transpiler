@@ -31788,6 +31788,38 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.init() consumer array setup to source-backed canonical state."
+    },
+    "N1343": {
+      "title": "Generated Block init item liquid filters bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_item_liquid_filters_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_item_liquid_filters_bridge_state",
+      "source_symbols": [
+        "block_init_item_liquid_filters.method",
+        "block_init_item_liquid_filters.super_init_expr",
+        "block_init_item_liquid_filters.item_filter_expr",
+        "block_init_item_liquid_filters.liquid_filter_expr",
+        "block_init_item_liquid_filters.content_items_size",
+        "block_init_item_liquid_filters.content_liquids_size"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "itemFilter = new boolean[content.items().size];",
+        "liquidFilter = new boolean[content.liquids().size];"
+      ],
+      "tests": [
+        "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_init_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state",
+        "test_block_init_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.init() item and liquid filter allocation to source-backed canonical state."
     }
   },
   "version": 1

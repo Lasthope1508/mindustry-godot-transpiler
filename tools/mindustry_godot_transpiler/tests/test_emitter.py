@@ -10223,6 +10223,51 @@ public class Block{
             self.assertIn('"update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);"', source_text)
             self.assertIn('"has_consumers_expr": "hasConsumers = consumers.length > 0;"', source_text)
 
+    def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        itemFilter = new boolean[content.items().size];
+        liquidFilter = new boolean[content.liquids().size];
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "item_liquid_filters":', source_text)
+            self.assertIn("\t\tvar content_items_size: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("\t\tvar content_liquids_size: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("\t\tvar item_filter: Array = []", source_text)
+            self.assertIn("\t\tfor _i in range(max(content_items_size, 0)):", source_text)
+            self.assertIn("\t\t\titem_filter.append(false)", source_text)
+            self.assertIn("\t\tvar liquid_filter: Array = []", source_text)
+            self.assertIn("\t\tfor _i in range(max(content_liquids_size, 0)):", source_text)
+            self.assertIn("\t\t\tliquid_filter.append(false)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_item_liquid_filters_state"', source_text)
+            self.assertIn('"item_filter_expr": "itemFilter = new boolean[content.items().size];"', source_text)
+            self.assertIn('"liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];"', source_text)
+            self.assertIn('"item_filter": item_filter', source_text)
+            self.assertIn('"liquid_filter": liquid_filter', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

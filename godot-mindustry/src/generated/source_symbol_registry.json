@@ -101564,6 +101564,114 @@
         "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_item_liquid_filters.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_item_liquid_filters_state",
+      "status": "source-backed",
+      "source_slice": "N1343",
+      "runtime_proof": "/root/Main.source_block_init_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_init_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state",
+        "test_block_init_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() item and liquid filter allocation.",
+      "java_expr": "public void init(){",
+      "godot_symbol": "source_block_init_item_liquid_filters_result.method"
+    },
+    "block_init_item_liquid_filters.super_init_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_item_liquid_filters_state",
+      "status": "source-backed",
+      "source_slice": "N1343",
+      "runtime_proof": "/root/Main.source_block_init_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_init_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state",
+        "test_block_init_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() item and liquid filter allocation.",
+      "java_expr": "super.init();",
+      "godot_symbol": "source_block_init_item_liquid_filters_result.super_init_expr"
+    },
+    "block_init_item_liquid_filters.item_filter_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_item_liquid_filters_state",
+      "status": "source-backed",
+      "source_slice": "N1343",
+      "runtime_proof": "/root/Main.source_block_init_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_init_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state",
+        "test_block_init_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() item and liquid filter allocation.",
+      "java_expr": "itemFilter = new boolean[content.items().size];",
+      "godot_symbol": "source_block_init_item_liquid_filters_result.item_filter"
+    },
+    "block_init_item_liquid_filters.liquid_filter_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_item_liquid_filters_state",
+      "status": "source-backed",
+      "source_slice": "N1343",
+      "runtime_proof": "/root/Main.source_block_init_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_init_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state",
+        "test_block_init_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() item and liquid filter allocation.",
+      "java_expr": "liquidFilter = new boolean[content.liquids().size];",
+      "godot_symbol": "source_block_init_item_liquid_filters_result.liquid_filter"
+    },
+    "block_init_item_liquid_filters.content_items_size": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_item_liquid_filters_state",
+      "status": "explicit-input",
+      "source_slice": "N1343",
+      "runtime_proof": "/root/Main.source_block_init_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_init_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state",
+        "test_block_init_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() item and liquid filter allocation.",
+      "java_expr": "content.items().size",
+      "godot_symbol": "source_block_init_item_liquid_filters_input.content_items_size"
+    },
+    "block_init_item_liquid_filters.content_liquids_size": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_item_liquid_filters_state",
+      "status": "explicit-input",
+      "source_slice": "N1343",
+      "runtime_proof": "/root/Main.source_block_init_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_init_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_init_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_init_item_liquid_filters_bridge_state",
+        "test_block_init_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() item and liquid filter allocation.",
+      "java_expr": "content.liquids().size",
+      "godot_symbol": "source_block_init_item_liquid_filters_input.content_liquids_size"
     }
   },
   "version": 1
