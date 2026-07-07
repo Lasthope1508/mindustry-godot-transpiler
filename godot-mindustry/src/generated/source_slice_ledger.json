@@ -33236,6 +33236,55 @@
         "test_build_payload_place_matches_upstream_source",
         "test_generated_build_payload_place_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1382": {
+      "title": "Generated BuildPayload update bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "generated_owner": "BuildPayload.java_method_update_5",
+      "runtime_proof": "/root/Main.generated_build_payload_update_bridge_state",
+      "rule": "Generated BuildPayload.update bridge preserves the source unit-payload early return guard, emptyTile assignment, and updatePayload delegate with explicit inputs.",
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "import static mindustry.Vars.*;",
+        "@Override",
+        "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){",
+        "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;",
+        "build.tile = emptyTile;",
+        "build.updatePayload(unitHolder, buildingHolder);"
+      ],
+      "deferred_exprs": [
+        "Concrete Unit and Building object internals are represented by explicit unit_holder and building_holder inputs",
+        "Vars.state.rules lookup internals are represented by explicit unit_payload_update input",
+        "Building.updatePayload(unitHolder, buildingHolder) internals are deferred beyond this delegate-call slice"
+      ],
+      "source_symbols": [
+        "build_payload_update.class_expr",
+        "build_payload_update.field_expr",
+        "build_payload_update.import_expr",
+        "build_payload_update.override_expr",
+        "build_payload_update.method",
+        "build_payload_update.unit_holder_present",
+        "build_payload_update.build_block_update_in_units",
+        "build_payload_update.unit_payload_update",
+        "build_payload_update.build_block_always_update_in_units",
+        "build_payload_update.unitHolder",
+        "build_payload_update.buildingHolder",
+        "build_payload_update.guard_expr",
+        "build_payload_update.tile_assign_expr",
+        "build_payload_update.update_payload_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

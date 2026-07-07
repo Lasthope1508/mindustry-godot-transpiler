@@ -19902,6 +19902,51 @@ func generated_build_payload_place_bridge_state(tile: Variant, build_block: Vari
 		"matches": result == canonical,
 	}
 
+func source_build_payload_update_state(unit_holder_present: bool, build_block_update_in_units: bool, unit_payload_update: bool, build_block_always_update_in_units: bool, unit_holder: Variant, building_holder: Variant) -> Dictionary:
+	var returned: bool = unit_holder_present and ((not build_block_update_in_units) or ((not unit_payload_update) and (not build_block_always_update_in_units)))
+	var tile_after: Variant = null
+	var update_payload_called: bool = false
+	var update_payload_call: Variant = null
+	if not returned:
+		tile_after = "emptyTile"
+		update_payload_called = true
+		update_payload_call = {"call": "build.updatePayload(unitHolder, buildingHolder);", "unitHolder": unit_holder, "buildingHolder": building_holder}
+	return {
+		"source_owner": "PortGame.source_build_payload_update_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"import_expr": "import static mindustry.Vars.*;",
+		"override_expr": "@Override",
+		"method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){",
+		"guard_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;",
+		"tile_assign_expr": "build.tile = emptyTile;",
+		"update_payload_expr": "build.updatePayload(unitHolder, buildingHolder);",
+		"unit_holder_present": unit_holder_present,
+		"build_block_update_in_units": build_block_update_in_units,
+		"unit_payload_update": unit_payload_update,
+		"build_block_always_update_in_units": build_block_always_update_in_units,
+		"unitHolder": unit_holder,
+		"buildingHolder": building_holder,
+		"returned": returned,
+		"tile_after": tile_after,
+		"update_payload_called": update_payload_called,
+		"update_payload_call": update_payload_call,
+	}
+
+func generated_build_payload_update_bridge_state(unit_holder_present: bool, build_block_update_in_units: bool, unit_payload_update: bool, build_block_always_update_in_units: bool, unit_holder: Variant, building_holder: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_5([unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder])
+	var canonical = source_build_payload_update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)
+	return {
+		"source_owner": "PortGame.source_build_payload_update_state",
+		"generated_owner": "BuildPayload.java_method_update_5",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_content_equals_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
 	var content_equals: bool = other_is_build_payload and other_block == build_block
 	return {

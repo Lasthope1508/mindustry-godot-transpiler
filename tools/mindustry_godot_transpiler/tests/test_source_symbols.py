@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 855)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 850)
+        self.assertEqual(audit["totalSourceFunctions"], 856)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 851)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 855)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 856)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20377,6 +20377,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_build_payload_place_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_place_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_build_payload_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_add_stats_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_ability_stat_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_copy_state", audit["registeredSourceOwners"])
@@ -48016,6 +48017,64 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_build_payload_place_result")
         self.assertEqual(result_schema["keys"]["set_block_call"]["java_expr"], "tile.setBlock(build.block, build.team, rotation, () -> build);")
         self.assertEqual(result_schema["keys"]["dropped_called"]["java_expr"], "build.dropped();")
+
+    def test_generated_build_payload_update_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "build_payload_update.method")
+        self.assertEqual(method["java_expr"], "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(method["java_method"], "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_build_payload_update_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_build_payload_update_state")
+        guard = source_symbols.source_symbol(registry, "build_payload_update.guard_expr")
+        self.assertEqual(guard["java_expr"], "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;")
+        self.assertEqual(guard["godot_symbol"], "source_build_payload_update_result.returned")
+        tile_assign = source_symbols.source_symbol(registry, "build_payload_update.tile_assign_expr")
+        self.assertEqual(tile_assign["java_expr"], "build.tile = emptyTile;")
+        self.assertEqual(tile_assign["godot_symbol"], "source_build_payload_update_result.tile_after")
+        update_payload = source_symbols.source_symbol(registry, "build_payload_update.update_payload_expr")
+        self.assertEqual(update_payload["java_expr"], "build.updatePayload(unitHolder, buildingHolder);")
+        self.assertEqual(update_payload["godot_symbol"], "source_build_payload_update_result.update_payload_called")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1382")
+        self.assertEqual(payload_slice["title"], "Generated BuildPayload update bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(payload_slice["java_method"], "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_build_payload_update_state")
+        self.assertEqual(payload_slice["generated_owner"], "BuildPayload.java_method_update_5")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_build_payload_update_bridge_state")
+        for expr in [
+            "public class BuildPayload implements Payload{",
+            "public Building build;",
+            "import static mindustry.Vars.*;",
+            "@Override",
+            "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){",
+            "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;",
+            "build.tile = emptyTile;",
+            "build.updatePayload(unitHolder, buildingHolder);",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("build_payload_update.guard_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_build_payload_update_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["unit_holder_present", "build_block_update_in_units", "unit_payload_update", "build_block_always_update_in_units", "unit_holder", "building_holder"])
+        for key in ["returned", "tile_after", "update_payload_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_build_payload_update_input")
+        self.assertEqual(input_schema["keys"]["unit_holder_present"]["java_expr"], "unitHolder != null")
+        self.assertEqual(input_schema["keys"]["build_block_update_in_units"]["java_expr"], "build.block.updateInUnits")
+        self.assertEqual(input_schema["keys"]["unit_payload_update"]["java_expr"], "state.rules.unitPayloadUpdate")
+        result_schema = source_symbols.state_schema(schema, "source_build_payload_update_result")
+        self.assertEqual(result_schema["keys"]["returned"]["java_expr"], "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;")
+        self.assertEqual(result_schema["keys"]["tile_after"]["java_expr"], "build.tile = emptyTile;")
+        self.assertEqual(result_schema["keys"]["update_payload_called"]["java_expr"], "build.updatePayload(unitHolder, buildingHolder);")
 
     def test_generated_drill_get_drill_time_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

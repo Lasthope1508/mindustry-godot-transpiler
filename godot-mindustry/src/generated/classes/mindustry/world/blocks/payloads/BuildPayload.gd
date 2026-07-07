@@ -44,7 +44,21 @@ func java_method_content_4(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_build_payload_content_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public UnlockableContent content(){", "return_expr": "return build.block;", "content": build_block}
 
 func java_method_update_5(_args: Array = []) -> Variant:
-	return null
+	var unit_holder_present: bool = bool(_args[0] if _args.size() > 0 else false)
+	var build_block_update_in_units: bool = bool(_args[1] if _args.size() > 1 else false)
+	var unit_payload_update: bool = bool(_args[2] if _args.size() > 2 else false)
+	var build_block_always_update_in_units: bool = bool(_args[3] if _args.size() > 3 else false)
+	var unit_holder: Variant = _args[4] if _args.size() > 4 else null
+	var building_holder: Variant = _args[5] if _args.size() > 5 else null
+	var returned: bool = unit_holder_present and ((not build_block_update_in_units) or ((not unit_payload_update) and (not build_block_always_update_in_units)))
+	var tile_after: Variant = null
+	var update_payload_called: bool = false
+	var update_payload_call: Variant = null
+	if not returned:
+		tile_after = "emptyTile"
+		update_payload_called = true
+		update_payload_call = {"call": "build.updatePayload(unitHolder, buildingHolder);", "unitHolder": unit_holder, "buildingHolder": building_holder}
+	return {"source_owner": "PortGame.source_build_payload_update_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){", "guard_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;", "tile_assign_expr": "build.tile = emptyTile;", "update_payload_expr": "build.updatePayload(unitHolder, buildingHolder);", "unit_holder_present": unit_holder_present, "build_block_update_in_units": build_block_update_in_units, "unit_payload_update": unit_payload_update, "build_block_always_update_in_units": build_block_always_update_in_units, "unitHolder": unit_holder, "buildingHolder": building_holder, "returned": returned, "tile_after": tile_after, "update_payload_called": update_payload_called, "update_payload_call": update_payload_call}
 
 func java_method_destroyed_6(_args: Array = []) -> Variant:
 	return null

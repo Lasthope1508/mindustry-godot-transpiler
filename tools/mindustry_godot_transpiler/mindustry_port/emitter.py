@@ -1659,6 +1659,28 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar unit_holder_present: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar build_block_update_in_units: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar unit_payload_update: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar build_block_always_update_in_units: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar unit_holder: Variant = _args[4] if _args.size() > 4 else null",
+            "\tvar building_holder: Variant = _args[5] if _args.size() > 5 else null",
+            "\tvar returned: bool = unit_holder_present and ((not build_block_update_in_units) or ((not unit_payload_update) and (not build_block_always_update_in_units)))",
+            "\tvar tile_after: Variant = null",
+            "\tvar update_payload_called: bool = false",
+            "\tvar update_payload_call: Variant = null",
+            "\tif not returned:",
+            '\t\ttile_after = "emptyTile"',
+            "\t\tupdate_payload_called = true",
+            '\t\tupdate_payload_call = {"call": "build.updatePayload(unitHolder, buildingHolder);", "unitHolder": unit_holder, "buildingHolder": building_holder}',
+            '\treturn {"source_owner": "PortGame.source_build_payload_update_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){", "guard_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;", "tile_assign_expr": "build.tile = emptyTile;", "update_payload_expr": "build.updatePayload(unitHolder, buildingHolder);", "unit_holder_present": unit_holder_present, "build_block_update_in_units": build_block_update_in_units, "unit_payload_update": unit_payload_update, "build_block_always_update_in_units": build_block_always_update_in_units, "unitHolder": unit_holder, "buildingHolder": building_holder, "returned": returned, "tile_after": tile_after, "update_payload_called": update_payload_called, "update_payload_call": update_payload_call}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "content"
     ):
         return [

@@ -107360,6 +107360,258 @@
       "java_expr": "build.dropped();",
       "rule": "BuildPayload.place(Tile,int) calls build.dropped() after setting block.",
       "status": "source-backed"
+    },
+    "build_payload_update.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "Pin BuildPayload class boundary for update bridge.",
+      "status": "source-backed"
+    },
+    "build_payload_update.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_result.field_expr",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload build field supplies block flags and updatePayload delegate.",
+      "status": "source-backed"
+    },
+    "build_payload_update.import_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_result.import_expr",
+      "java_expr": "import static mindustry.Vars.*;",
+      "rule": "BuildPayload.update uses emptyTile and state through Vars static import.",
+      "status": "source-backed"
+    },
+    "build_payload_update.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "BuildPayload.update overrides Payload.update.",
+      "status": "source-backed"
+    },
+    "build_payload_update.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_result.method",
+      "java_expr": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){",
+      "rule": "Pin BuildPayload.update method boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_update.unit_holder_present": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_input.unit_holder_present",
+      "java_expr": "unitHolder != null",
+      "rule": "Explicit runtime fact for nullable unitHolder guard.",
+      "status": "explicit-input"
+    },
+    "build_payload_update.build_block_update_in_units": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_input.build_block_update_in_units",
+      "java_expr": "build.block.updateInUnits",
+      "rule": "Explicit runtime block updateInUnits flag for guard.",
+      "status": "explicit-input"
+    },
+    "build_payload_update.unit_payload_update": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_input.unit_payload_update",
+      "java_expr": "state.rules.unitPayloadUpdate",
+      "rule": "Explicit runtime rules unitPayloadUpdate flag for guard.",
+      "status": "explicit-input"
+    },
+    "build_payload_update.build_block_always_update_in_units": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_input.build_block_always_update_in_units",
+      "java_expr": "build.block.alwaysUpdateInUnits",
+      "rule": "Explicit runtime block alwaysUpdateInUnits flag for guard.",
+      "status": "explicit-input"
+    },
+    "build_payload_update.unitHolder": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_input.unitHolder",
+      "java_expr": "unitHolder",
+      "rule": "Explicit runtime Unit holder passed into updatePayload.",
+      "status": "explicit-input"
+    },
+    "build_payload_update.buildingHolder": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_input.buildingHolder",
+      "java_expr": "buildingHolder",
+      "rule": "Explicit runtime Building holder passed into updatePayload.",
+      "status": "explicit-input"
+    },
+    "build_payload_update.guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_result.returned",
+      "java_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;",
+      "rule": "BuildPayload.update returns early when source unit payload guard blocks update.",
+      "status": "source-backed"
+    },
+    "build_payload_update.tile_assign_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_result.tile_after",
+      "java_expr": "build.tile = emptyTile;",
+      "rule": "BuildPayload.update assigns build.tile to emptyTile when guard does not return.",
+      "status": "source-backed"
+    },
+    "build_payload_update.update_payload_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_build_payload_update_state",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_slice": "N1382",
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_update_result.update_payload_called",
+      "java_expr": "build.updatePayload(unitHolder, buildingHolder);",
+      "rule": "BuildPayload.update delegates updatePayload when guard does not return.",
+      "status": "source-backed"
     }
   },
   "version": 1

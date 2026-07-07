@@ -18588,6 +18588,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildPayload.java_method_place_2"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_build_payload_update_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_build_payload_update_state(unit_holder_present: bool, build_block_update_in_units: bool, unit_payload_update: bool, build_block_always_update_in_units: bool, unit_holder: Variant, building_holder: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_update_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source)
+        self.assertIn('"field_expr": "public Building build;"', source)
+        self.assertIn('"import_expr": "import static mindustry.Vars.*;"', source)
+        self.assertIn('"method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){"', source)
+        self.assertIn('"guard_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;"', source)
+        self.assertIn('"tile_assign_expr": "build.tile = emptyTile;"', source)
+        self.assertIn('"update_payload_expr": "build.updatePayload(unitHolder, buildingHolder);"', source)
+        self.assertIn("var returned: bool = unit_holder_present and ((not build_block_update_in_units) or ((not unit_payload_update) and (not build_block_always_update_in_units)))", source)
+        self.assertIn('"tile_after": tile_after', source)
+        self.assertIn('"update_payload_called": update_payload_called', source)
+
+    def test_port_game_exposes_generated_build_payload_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_build_payload_update_bridge_state(unit_holder_present: bool, build_block_update_in_units: bool, unit_payload_update: bool, build_block_always_update_in_units: bool, unit_holder: Variant, building_holder: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_update_5([unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder])", source)
+        self.assertIn("var canonical = source_build_payload_update_state(unit_holder_present, build_block_update_in_units, unit_payload_update, build_block_always_update_in_units, unit_holder, building_holder)", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_update_state"', source)
+        self.assertIn('"generated_owner": "BuildPayload.java_method_update_5"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_equals_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

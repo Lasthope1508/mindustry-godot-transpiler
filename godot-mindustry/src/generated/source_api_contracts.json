@@ -36048,6 +36048,87 @@
         "test_build_payload_place_matches_upstream_source",
         "test_generated_build_payload_place_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_build_payload_update_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "source_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "source_slice": "N1382",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "rule": "PortGame.source_build_payload_update_state pins BuildPayload.update guard and delegate contract.",
+      "params": [
+        {
+          "name": "unit_holder_present",
+          "type": "bool",
+          "java_expr": "unitHolder != null",
+          "schema": "source_build_payload_update_input.unit_holder_present",
+          "source_symbol": "build_payload_update.unit_holder_present"
+        },
+        {
+          "name": "build_block_update_in_units",
+          "type": "bool",
+          "java_expr": "build.block.updateInUnits",
+          "schema": "source_build_payload_update_input.build_block_update_in_units",
+          "source_symbol": "build_payload_update.build_block_update_in_units"
+        },
+        {
+          "name": "unit_payload_update",
+          "type": "bool",
+          "java_expr": "state.rules.unitPayloadUpdate",
+          "schema": "source_build_payload_update_input.unit_payload_update",
+          "source_symbol": "build_payload_update.unit_payload_update"
+        },
+        {
+          "name": "build_block_always_update_in_units",
+          "type": "bool",
+          "java_expr": "build.block.alwaysUpdateInUnits",
+          "schema": "source_build_payload_update_input.build_block_always_update_in_units",
+          "source_symbol": "build_payload_update.build_block_always_update_in_units"
+        },
+        {
+          "name": "unit_holder",
+          "type": "Variant",
+          "java_expr": "unitHolder",
+          "schema": "source_build_payload_update_input.unitHolder",
+          "source_symbol": "build_payload_update.unitHolder"
+        },
+        {
+          "name": "building_holder",
+          "type": "Variant",
+          "java_expr": "buildingHolder",
+          "schema": "source_build_payload_update_input.buildingHolder",
+          "source_symbol": "build_payload_update.buildingHolder"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "import_expr",
+        "override_expr",
+        "method",
+        "guard_expr",
+        "tile_assign_expr",
+        "update_payload_expr",
+        "unit_holder_present",
+        "build_block_update_in_units",
+        "unit_payload_update",
+        "build_block_always_update_in_units",
+        "unitHolder",
+        "buildingHolder",
+        "returned",
+        "tile_after",
+        "update_payload_called",
+        "update_payload_call"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_update_to_source_state",
+        "test_port_game_exposes_source_build_payload_update_state",
+        "test_port_game_exposes_generated_build_payload_update_bridge_state",
+        "test_build_payload_update_matches_upstream_source",
+        "test_generated_build_payload_update_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

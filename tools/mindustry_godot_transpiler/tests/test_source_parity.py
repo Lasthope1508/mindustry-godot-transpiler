@@ -11543,6 +11543,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_build_payload_update_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_build_payload_update_source"))
+        report = source_parity.verify_build_payload_update_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class BuildPayload implements Payload{",
+            "field_expr": "public Building build;",
+            "import_expr": "import static mindustry.Vars.*;",
+            "override_expr": "@Override",
+            "method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){",
+            "guard_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;",
+            "tile_assign_expr": "build.tile = emptyTile;",
+            "update_payload_expr": "build.updatePayload(unitHolder, buildingHolder);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_build_payload_content_equals_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_build_payload_content_equals_source"))
         report = source_parity.verify_build_payload_content_equals_source(ROOT / "mindustry-upstream")

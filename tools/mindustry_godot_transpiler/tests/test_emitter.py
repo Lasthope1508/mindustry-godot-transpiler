@@ -18081,6 +18081,57 @@ public class BuildPayload implements Payload{
             self.assertIn('"dropped_expr": "build.dropped();"', source_text)
             self.assertIn('"dropped_called": true', source_text)
 
+    def test_emit_bridges_build_payload_update_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+import static mindustry.Vars.*;
+
+public class BuildPayload implements Payload{
+    public Building build;
+
+    @Override
+    public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){
+        if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;
+
+        build.tile = emptyTile;
+        build.updatePayload(unitHolder, buildingHolder);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit_holder_present: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var build_block_update_in_units: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var unit_payload_update: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var build_block_always_update_in_units: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("var unit_holder: Variant = _args[4] if _args.size() > 4 else null", source_text)
+            self.assertIn("var building_holder: Variant = _args[5] if _args.size() > 5 else null", source_text)
+            self.assertIn("var returned: bool = unit_holder_present and ((not build_block_update_in_units) or ((not unit_payload_update) and (not build_block_always_update_in_units)))", source_text)
+            self.assertIn("var tile_after: Variant = null", source_text)
+            self.assertIn("var update_payload_called: bool = false", source_text)
+            self.assertIn("if not returned:", source_text)
+            self.assertIn('tile_after = "emptyTile"', source_text)
+            self.assertIn("update_payload_called = true", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_build_payload_update_state"', source_text)
+            self.assertIn('"method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){"', source_text)
+            self.assertIn('"guard_expr": "if(unitHolder != null && (!build.block.updateInUnits || (!state.rules.unitPayloadUpdate && !build.block.alwaysUpdateInUnits))) return;"', source_text)
+            self.assertIn('"tile_assign_expr": "build.tile = emptyTile;"', source_text)
+            self.assertIn('"update_payload_expr": "build.updatePayload(unitHolder, buildingHolder);"', source_text)
+
     def test_emit_bridges_build_payload_content_equals_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
