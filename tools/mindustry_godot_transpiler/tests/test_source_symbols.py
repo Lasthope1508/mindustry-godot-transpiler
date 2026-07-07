@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 815)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 810)
+        self.assertEqual(audit["totalSourceFunctions"], 816)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 811)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 815)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 816)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46328,6 +46328,68 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["build_cost_multiplier"]["java_expr"], "buildCostMultiplier")
         result_schema = source_symbols.state_schema(schema, "source_block_init_build_time_multiplier_result")
         self.assertEqual(result_schema["keys"]["build_time_after"]["java_expr"], "buildTime *= buildCostMultiplier;")
+
+    def test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_consumer_arrays.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_consumer_arrays_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_consumer_arrays_state")
+
+        optional_expr = source_symbols.source_symbol(registry, "block_init_consumer_arrays.optional_consumers_expr")
+        self.assertEqual(optional_expr["java_expr"], "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);")
+        self.assertEqual(optional_expr["godot_symbol"], "source_block_init_consumer_arrays_result.optional_consumers")
+
+        non_optional_expr = source_symbols.source_symbol(registry, "block_init_consumer_arrays.non_optional_consumers_expr")
+        self.assertEqual(non_optional_expr["java_expr"], "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);")
+        self.assertEqual(non_optional_expr["godot_symbol"], "source_block_init_consumer_arrays_result.non_optional_consumers")
+
+        update_expr = source_symbols.source_symbol(registry, "block_init_consumer_arrays.update_consumers_expr")
+        self.assertEqual(update_expr["java_expr"], "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);")
+        self.assertEqual(update_expr["godot_symbol"], "source_block_init_consumer_arrays_result.update_consumers")
+
+        has_consumers_expr = source_symbols.source_symbol(registry, "block_init_consumer_arrays.has_consumers_expr")
+        self.assertEqual(has_consumers_expr["java_expr"], "hasConsumers = consumers.length > 0;")
+        self.assertEqual(has_consumers_expr["godot_symbol"], "source_block_init_consumer_arrays_result.has_consumers")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1342")
+        self.assertEqual(setup_slice["title"], "Generated Block init consumer arrays bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_consumer_arrays_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_consumer_arrays_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "consumers = consumeBuilder.toArray(Consume.class);",
+            "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+            "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+            "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+            "hasConsumers = consumers.length > 0;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_consumer_arrays_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["consume_builder"])
+        for key in ["source_owner", "source", "consume_source", "method", "super_init_expr", "consumers_expr", "optional_consumers_expr", "non_optional_consumers_expr", "update_consumers_expr", "has_consumers_expr", "consume_builder", "consumers", "optional_consumers", "non_optional_consumers", "update_consumers", "has_consumers"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_consumer_arrays_input")
+        self.assertEqual(input_schema["keys"]["consume_builder"]["java_expr"], "consumeBuilder")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_consumer_arrays_result")
+        self.assertEqual(result_schema["keys"]["optional_consumers"]["java_expr"], "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);")
+        self.assertEqual(result_schema["keys"]["non_optional_consumers"]["java_expr"], "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);")
+        self.assertEqual(result_schema["keys"]["update_consumers"]["java_expr"], "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);")
+        self.assertEqual(result_schema["keys"]["has_consumers"]["java_expr"], "hasConsumers = consumers.length > 0;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

@@ -5825,6 +5825,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_consumer_arrays_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_consumer_arrays_source"))
+        report = source_parity.verify_block_init_consumer_arrays_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["consume_source"], "core/src/mindustry/world/consumers/Consume.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+            "optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+            "non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+            "update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+            "has_consumers_expr": "hasConsumers = consumers.length > 0;",
+            "consume_optional_field_expr": "public boolean optional;",
+            "consume_update_field_expr": "public boolean update = true;",
+            "consume_ignore_method_expr": "public boolean ignore(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

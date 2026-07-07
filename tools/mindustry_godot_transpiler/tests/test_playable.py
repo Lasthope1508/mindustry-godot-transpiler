@@ -17689,5 +17689,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_consumer_arrays_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_consumer_arrays_state(consume_builder: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_consumer_arrays_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"consume_source": "core/src/mindustry/world/consumers/Consume.java"', source)
+        self.assertIn('"consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);"', source)
+        self.assertIn('"optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);"', source)
+        self.assertIn('"non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);"', source)
+        self.assertIn('"update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);"', source)
+        self.assertIn('"has_consumers_expr": "hasConsumers = consumers.length > 0;"', source)
+        self.assertIn('"optional_consumers": optional_consumers', source)
+        self.assertIn('"non_optional_consumers": non_optional_consumers', source)
+        self.assertIn('"update_consumers": update_consumers', source)
+        self.assertIn('"has_consumers": has_consumers', source)
+
+    def test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_consumer_arrays_bridge_state(consume_builder: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "consumer_arrays")', source)
+        self.assertIn("var result = instance.java_method_init_123([consume_builder])", source)
+        self.assertIn("var canonical = source_block_init_consumer_arrays_state(consume_builder)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_consumer_arrays_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

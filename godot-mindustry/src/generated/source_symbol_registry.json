@@ -101366,6 +101366,204 @@
       "godot_symbol": "source_block_init_build_time_multiplier_input.build_time_before",
       "status": "explicit-input",
       "rule": "Pin source-backed Block.init() buildTime multiplier input."
+    },
+    "block_init_consumer_arrays.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "public void init(){",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_result.method",
+      "status": "source-backed",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_consumer_arrays.super_init_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "super.init();",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_result.super_init_expr",
+      "status": "source-backed",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_consumer_arrays.consumers_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_result.consumers",
+      "status": "source-backed",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_consumer_arrays.optional_consumers_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_result.optional_consumers",
+      "status": "source-backed",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_consumer_arrays.non_optional_consumers_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_result.non_optional_consumers",
+      "status": "source-backed",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_consumer_arrays.update_consumers_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_result.update_consumers",
+      "status": "source-backed",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_consumer_arrays.has_consumers_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "hasConsumers = consumers.length > 0;",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_result.has_consumers",
+      "status": "source-backed",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_consumer_arrays.consume_optional_field_expr": {
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume",
+      "java_expr": "public boolean optional;",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_input.consume_builder.optional",
+      "status": "explicit-input",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_consumer_arrays.consume_update_field_expr": {
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume",
+      "java_expr": "public boolean update = true;",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_input.consume_builder.update",
+      "status": "explicit-input",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_consumer_arrays.consume_ignore_method_expr": {
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "java_method": "Consume",
+      "java_expr": "public boolean ignore(){",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_input.consume_builder.ignored",
+      "status": "explicit-input",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
+    },
+    "block_init_consumer_arrays.consume_builder": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "consumeBuilder",
+      "godot_owner": "PortGame.source_block_init_consumer_arrays_state",
+      "godot_symbol": "source_block_init_consumer_arrays_input.consume_builder",
+      "status": "explicit-input",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() consumer array setup."
     }
   },
   "version": 1

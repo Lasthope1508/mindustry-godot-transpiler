@@ -19110,6 +19110,58 @@ func generated_block_init_build_time_multiplier_bridge_state(build_time_before: 
 		"matches": result == canonical,
 	}
 
+func source_block_init_consumer_arrays_state(consume_builder: Array) -> Dictionary:
+	var consumers: Array = consume_builder.duplicate()
+	var optional_consumers: Array = []
+	var non_optional_consumers: Array = []
+	var update_consumers: Array = []
+	for consumer in consume_builder:
+		if not consumer is Dictionary:
+			continue
+		var ignored: bool = bool(consumer.get("ignored", false))
+		if bool(consumer.get("optional", false)) and not ignored:
+			optional_consumers.append(consumer)
+		if not bool(consumer.get("optional", false)) and not ignored:
+			non_optional_consumers.append(consumer)
+		if bool(consumer.get("update", true)) and not ignored:
+			update_consumers.append(consumer)
+	var has_consumers: bool = consumers.size() > 0
+	return {
+		"source_owner": "PortGame.source_block_init_consumer_arrays_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"consume_source": "core/src/mindustry/world/consumers/Consume.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+		"optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+		"non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+		"update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+		"has_consumers_expr": "hasConsumers = consumers.length > 0;",
+		"consume_optional_field_expr": "public boolean optional;",
+		"consume_update_field_expr": "public boolean update = true;",
+		"consume_ignore_method_expr": "public boolean ignore(){",
+		"consume_builder": consume_builder,
+		"consumers": consumers,
+		"optional_consumers": optional_consumers,
+		"non_optional_consumers": non_optional_consumers,
+		"update_consumers": update_consumers,
+		"has_consumers": has_consumers,
+	}
+
+func generated_block_init_consumer_arrays_bridge_state(consume_builder: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "consumer_arrays")
+	var result = instance.java_method_init_123([consume_builder])
+	var canonical = source_block_init_consumer_arrays_state(consume_builder)
+	return {
+		"source_owner": "PortGame.source_block_init_consumer_arrays_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

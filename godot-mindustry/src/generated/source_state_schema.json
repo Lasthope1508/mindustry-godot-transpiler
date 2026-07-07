@@ -125299,6 +125299,298 @@
           ]
         }
       }
+    },
+    "source_block_init_consumer_arrays_input": {
+      "owner": "PortGame.source_block_init_consumer_arrays_state",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_init_consumer_arrays_state.",
+      "keys": {
+        "consume_builder": {
+          "godot_symbol": "source_block_init_consumer_arrays_input.consume_builder",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "consumeBuilder",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.consume_builder"
+          ]
+        }
+      }
+    },
+    "source_block_init_consumer_arrays_result": {
+      "owner": "PortGame.source_block_init_consumer_arrays_state",
+      "source_slice": "N1342",
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_init_consumer_arrays_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "PortGame.source_block_init_consumer_arrays_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": []
+        },
+        "consume_source": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.consume_source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "core/src/mindustry/world/consumers/Consume.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": []
+        },
+        "method": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "public void init(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.method"
+          ]
+        },
+        "super_init_expr": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.super_init_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "super.init();",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.super_init_expr"
+          ]
+        },
+        "consumers_expr": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.consumers_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.consumers_expr"
+          ]
+        },
+        "optional_consumers_expr": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.optional_consumers_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.optional_consumers_expr"
+          ]
+        },
+        "non_optional_consumers_expr": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.non_optional_consumers_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.non_optional_consumers_expr"
+          ]
+        },
+        "update_consumers_expr": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.update_consumers_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.update_consumers_expr"
+          ]
+        },
+        "has_consumers_expr": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.has_consumers_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "hasConsumers = consumers.length > 0;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.has_consumers_expr"
+          ]
+        },
+        "consume_optional_field_expr": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.consume_optional_field_expr",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_method": "Consume",
+          "java_expr": "public boolean optional;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.consume_optional_field_expr"
+          ]
+        },
+        "consume_update_field_expr": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.consume_update_field_expr",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_method": "Consume",
+          "java_expr": "public boolean update = true;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.consume_update_field_expr"
+          ]
+        },
+        "consume_ignore_method_expr": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.consume_ignore_method_expr",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_method": "Consume",
+          "java_expr": "public boolean ignore(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.consume_ignore_method_expr"
+          ]
+        },
+        "consume_builder": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.consume_builder",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "consumeBuilder",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.consume_builder"
+          ]
+        },
+        "consumers": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.consumers",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "consumers = consumeBuilder.toArray(Consume.class);",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.consumers_expr"
+          ]
+        },
+        "optional_consumers": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.optional_consumers",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.optional_consumers_expr"
+          ]
+        },
+        "non_optional_consumers": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.non_optional_consumers",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.non_optional_consumers_expr"
+          ]
+        },
+        "update_consumers": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.update_consumers",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.update_consumers_expr"
+          ]
+        },
+        "has_consumers": {
+          "godot_symbol": "source_block_init_consumer_arrays_result.has_consumers",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "hasConsumers = consumers.length > 0;",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_consumer_arrays_state"
+          ],
+          "source_symbols": [
+            "block_init_consumer_arrays.has_consumers_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

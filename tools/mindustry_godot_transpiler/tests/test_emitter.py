@@ -10172,6 +10172,57 @@ public class Block{
             self.assertIn('"build_time_multiplier_expr": "buildTime *= buildCostMultiplier;"', source_text)
             self.assertIn('"build_time_after": build_time_after', source_text)
 
+    def test_emit_bridges_block_init_consumer_arrays_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        consumers = consumeBuilder.toArray(Consume.class);
+        optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);
+        nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);
+        updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);
+        hasConsumers = consumers.length > 0;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "consumer_arrays":', source_text)
+            self.assertIn("\t\tvar consumer_builder_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("\t\tvar consumers: Array = consumer_builder_entries.duplicate()", source_text)
+            self.assertIn("\t\tvar optional_consumers: Array = []", source_text)
+            self.assertIn("\t\tvar non_optional_consumers: Array = []", source_text)
+            self.assertIn("\t\tvar update_consumers: Array = []", source_text)
+            self.assertIn('\t\t\tvar ignored: bool = bool(consumer.get("ignored", false))', source_text)
+            self.assertIn('\t\t\tif bool(consumer.get("optional", false)) and not ignored:', source_text)
+            self.assertIn('\t\t\tif not bool(consumer.get("optional", false)) and not ignored:', source_text)
+            self.assertIn('\t\t\tif bool(consumer.get("update", true)) and not ignored:', source_text)
+            self.assertIn("\t\tvar has_consumers: bool = consumers.size() > 0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_consumer_arrays_state"', source_text)
+            self.assertIn('"consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);"', source_text)
+            self.assertIn('"optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);"', source_text)
+            self.assertIn('"non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);"', source_text)
+            self.assertIn('"update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);"', source_text)
+            self.assertIn('"has_consumers_expr": "hasConsumers = consumers.length > 0;"', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

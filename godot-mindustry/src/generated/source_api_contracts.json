@@ -34175,6 +34175,50 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.init() buildTime multiplier branch."
+    },
+    "PortGame.source_block_init_consumer_arrays_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1342",
+      "params": [
+        {
+          "name": "consume_builder",
+          "type": "Array",
+          "java_expr": "consumeBuilder",
+          "schema": "source_block_init_consumer_arrays_input.consume_builder"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "consume_source",
+        "method",
+        "super_init_expr",
+        "consumers_expr",
+        "optional_consumers_expr",
+        "non_optional_consumers_expr",
+        "update_consumers_expr",
+        "has_consumers_expr",
+        "consume_optional_field_expr",
+        "consume_update_field_expr",
+        "consume_ignore_method_expr",
+        "consume_builder",
+        "consumers",
+        "optional_consumers",
+        "non_optional_consumers",
+        "update_consumers",
+        "has_consumers"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_consumer_arrays_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_arrays_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_arrays_state",
+        "test_port_game_exposes_generated_block_init_consumer_arrays_bridge_state",
+        "test_block_init_consumer_arrays_matches_upstream_source",
+        "test_generated_block_init_consumer_arrays_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() consumer array setup."
     }
   },
   "policy": {
