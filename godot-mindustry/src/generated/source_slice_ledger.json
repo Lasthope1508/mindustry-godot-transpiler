@@ -11977,6 +11977,38 @@
       ],
       "title": "Generated Block senseObject LAccess bridge state"
     },
+    "N1366": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "public Block block(){",
+        "return build.block;"
+      ],
+      "generated_owner": "BuildPayload.java_method_block_0",
+      "godot_owner": "PortGame.source_build_payload_block_state",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.block()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Generated BuildPayload.block() bridge returns exact source build.block value.",
+      "runtime_proof": "/root/Main.generated_build_payload_block_bridge_state",
+      "source_symbols": [
+        "build_payload_block.class_expr",
+        "build_payload_block.field_expr",
+        "build_payload_block.method",
+        "build_payload_block.return_expr",
+        "build_payload_block.build_block"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_build_payload_block_to_source_state",
+        "test_port_game_exposes_source_build_payload_block_state",
+        "test_port_game_exposes_generated_build_payload_block_bridge_state",
+        "test_build_payload_block_matches_upstream_source",
+        "test_generated_build_payload_block_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated BuildPayload block bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

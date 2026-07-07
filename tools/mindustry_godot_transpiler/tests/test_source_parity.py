@@ -11331,5 +11331,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_build_payload_block_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_build_payload_block_source"))
+        report = source_parity.verify_build_payload_block_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class BuildPayload implements Payload{",
+            "field_expr": "public Building build;",
+            "method": "public Block block(){",
+            "return_expr": "return build.block;",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()

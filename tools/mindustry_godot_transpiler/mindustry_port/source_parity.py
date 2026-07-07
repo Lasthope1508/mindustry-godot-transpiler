@@ -11202,6 +11202,23 @@ def verify_block_sense_object_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_build_payload_block_source(upstream_root: Path) -> dict[str, Any]:
+    build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
+    payload_path = Path(upstream_root) / build_payload_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class BuildPayload implements Payload{",
+        "field_expr": "public Building build;",
+        "method": "public Block block(){",
+        "return_expr": "return build.block;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": build_payload_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

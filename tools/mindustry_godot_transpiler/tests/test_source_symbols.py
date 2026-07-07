@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 839)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 834)
+        self.assertEqual(audit["totalSourceFunctions"], 840)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 835)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 839)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 840)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -47194,6 +47194,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["no_sensed"]["java_expr"], "noSensed")
         result_schema = source_symbols.state_schema(schema, "source_block_sense_object_result")
         self.assertEqual(result_schema["keys"]["sense_object_value"]["java_expr"], "name / noSensed")
+
+    def test_generated_build_payload_block_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "build_payload_block.method")
+        self.assertEqual(method["java_expr"], "public Block block(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(method["java_method"], "BuildPayload.block()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_build_payload_block_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_build_payload_block_state")
+
+        field_expr = source_symbols.source_symbol(registry, "build_payload_block.field_expr")
+        self.assertEqual(field_expr["java_expr"], "public Building build;")
+        self.assertEqual(field_expr["godot_symbol"], "source_build_payload_block_input.build_block")
+
+        return_expr = source_symbols.source_symbol(registry, "build_payload_block.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return build.block;")
+        self.assertEqual(return_expr["godot_symbol"], "source_build_payload_block_result.build_block")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1366")
+        self.assertEqual(payload_slice["title"], "Generated BuildPayload block bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(payload_slice["java_method"], "BuildPayload.block()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_build_payload_block_state")
+        self.assertEqual(payload_slice["generated_owner"], "BuildPayload.java_method_block_0")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_build_payload_block_bridge_state")
+        for expr in [
+            "public class BuildPayload implements Payload{",
+            "public Building build;",
+            "public Block block(){",
+            "return build.block;",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_build_payload_block_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["build_block"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "method", "return_expr", "build_block"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_build_payload_block_input")
+        self.assertEqual(input_schema["keys"]["build_block"]["java_expr"], "build.block")
+        result_schema = source_symbols.state_schema(schema, "source_build_payload_block_result")
+        self.assertEqual(result_schema["keys"]["build_block"]["java_expr"], "return build.block;")
 
     def test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

@@ -17107,6 +17107,96 @@
         "test_generated_block_unit_comp_update_slice_is_registered_with_source_backing"
       ]
     },
+    "build_payload_block.build_block": {
+      "godot_owner": "PortGame.source_build_payload_block_state",
+      "godot_symbol": "source_build_payload_block_input.build_block",
+      "java_expr": "build.block",
+      "java_method": "BuildPayload.block()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Explicit runtime value for build.block returned by BuildPayload.block().",
+      "runtime_proof": "/root/Main.source_build_payload_block_state",
+      "source_slice": "N1366",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_build_payload_block_to_source_state",
+        "test_port_game_exposes_source_build_payload_block_state",
+        "test_port_game_exposes_generated_build_payload_block_bridge_state",
+        "test_build_payload_block_matches_upstream_source",
+        "test_generated_build_payload_block_slice_is_registered_with_source_backing"
+      ]
+    },
+    "build_payload_block.class_expr": {
+      "godot_owner": "PortGame.source_build_payload_block_state",
+      "godot_symbol": "source_build_payload_block_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "java_method": "BuildPayload.block()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Pin BuildPayload class boundary for block payload bridge.",
+      "runtime_proof": "/root/Main.source_build_payload_block_state",
+      "source_slice": "N1366",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_block_to_source_state",
+        "test_port_game_exposes_source_build_payload_block_state",
+        "test_port_game_exposes_generated_build_payload_block_bridge_state",
+        "test_build_payload_block_matches_upstream_source",
+        "test_generated_build_payload_block_slice_is_registered_with_source_backing"
+      ]
+    },
+    "build_payload_block.field_expr": {
+      "godot_owner": "PortGame.source_build_payload_block_state",
+      "godot_symbol": "source_build_payload_block_input.build_block",
+      "java_expr": "public Building build;",
+      "java_method": "BuildPayload.block()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "BuildPayload build field provides build.block source value.",
+      "runtime_proof": "/root/Main.source_build_payload_block_state",
+      "source_slice": "N1366",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_block_to_source_state",
+        "test_port_game_exposes_source_build_payload_block_state",
+        "test_port_game_exposes_generated_build_payload_block_bridge_state",
+        "test_build_payload_block_matches_upstream_source",
+        "test_generated_build_payload_block_slice_is_registered_with_source_backing"
+      ]
+    },
+    "build_payload_block.method": {
+      "godot_owner": "PortGame.source_build_payload_block_state",
+      "godot_symbol": "source_build_payload_block_result.method",
+      "java_expr": "public Block block(){",
+      "java_method": "BuildPayload.block()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Pin BuildPayload.block() method boundary.",
+      "runtime_proof": "/root/Main.source_build_payload_block_state",
+      "source_slice": "N1366",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_block_to_source_state",
+        "test_port_game_exposes_source_build_payload_block_state",
+        "test_port_game_exposes_generated_build_payload_block_bridge_state",
+        "test_build_payload_block_matches_upstream_source",
+        "test_generated_build_payload_block_slice_is_registered_with_source_backing"
+      ]
+    },
+    "build_payload_block.return_expr": {
+      "godot_owner": "PortGame.source_build_payload_block_state",
+      "godot_symbol": "source_build_payload_block_result.build_block",
+      "java_expr": "return build.block;",
+      "java_method": "BuildPayload.block()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "BuildPayload.block() returns the contained building block.",
+      "runtime_proof": "/root/Main.source_build_payload_block_state",
+      "source_slice": "N1366",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_block_to_source_state",
+        "test_port_game_exposes_source_build_payload_block_state",
+        "test_port_game_exposes_generated_build_payload_block_bridge_state",
+        "test_build_payload_block_matches_upstream_source",
+        "test_generated_build_payload_block_slice_is_registered_with_source_backing"
+      ]
+    },
     "builder_actively_building.actively_building": {
       "godot_owner": "PortGame.source_builder_actively_building_state",
       "godot_symbol": "source_builder_actively_building_result.actively_building",

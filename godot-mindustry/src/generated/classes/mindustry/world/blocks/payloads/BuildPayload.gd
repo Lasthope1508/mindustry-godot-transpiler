@@ -14,7 +14,8 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "block", "parameters": 
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_block_0(_args: Array = []) -> Variant:
-	return null
+	var build_block: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_build_payload_block_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public Block block(){", "return_expr": "return build.block;", "build_block": build_block}
 
 func java_method_place_1(_args: Array = []) -> Variant:
 	return null
