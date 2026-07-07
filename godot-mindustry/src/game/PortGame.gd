@@ -18782,6 +18782,39 @@ func generated_block_init_health_requirements_scaling_bridge_state(health_before
 		"matches": result == canonical,
 	}
 
+func source_block_init_clip_size_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:
+	var size_tilesize: float = float(size_value) * source_tilesize
+	var clip_size_after: float = max(clip_size_before, size_tilesize)
+	return {
+		"source_owner": "PortGame.source_block_init_clip_size_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"vars_source": "core/src/mindustry/Vars.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);",
+		"tilesize_comment": "/** size of tiles in units */",
+		"tilesize_field_expr": "public static final int tilesize = 8;",
+		"clip_size_before": clip_size_before,
+		"size": size_value,
+		"source_tilesize": source_tilesize,
+		"size_tilesize": size_tilesize,
+		"clip_size_after": clip_size_after,
+	}
+
+func generated_block_init_clip_size_bridge_state(clip_size_before: float, size_value: int, source_tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "clip_size")
+	var result = instance.java_method_init_123([clip_size_before, size_value, source_tilesize])
+	var canonical = source_block_init_clip_size_state(clip_size_before, size_value, source_tilesize)
+	return {
+		"source_owner": "PortGame.source_block_init_clip_size_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

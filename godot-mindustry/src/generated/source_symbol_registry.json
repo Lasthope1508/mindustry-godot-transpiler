@@ -99908,6 +99908,168 @@
       "godot_symbol": "source_block_init_health_requirements_scaling_input.requirement_health_scalings",
       "java_expr": "requirements",
       "rule": "requirements are explicit input as item healthScaling values."
+    },
+    "block_init_clip_size.method": {
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_clip_size_state",
+      "source_slice": "N1332",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_clip_size_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for clipSize clamp."
+    },
+    "block_init_clip_size.super_init_expr": {
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_clip_size_state",
+      "source_slice": "N1332",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_clip_size_result.super_init_expr",
+      "java_expr": "super.init();",
+      "rule": "Block.init() runs after super.init()."
+    },
+    "block_init_clip_size.clip_size_expr": {
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_clip_size_state",
+      "source_slice": "N1332",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_clip_size_result.clip_size_after",
+      "java_expr": "clipSize = Math.max(clipSize, size * tilesize);",
+      "rule": "clipSize is clamped to at least size * tilesize."
+    },
+    "block_init_clip_size.tilesize_comment": {
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/Vars.java",
+      "runtime_proof": "/root/Main.source_block_init_clip_size_state",
+      "source_slice": "N1332",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_clip_size_result.tilesize_comment",
+      "java_expr": "/** size of tiles in units */",
+      "rule": "Vars documents tilesize units."
+    },
+    "block_init_clip_size.tilesize_field_expr": {
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/Vars.java",
+      "runtime_proof": "/root/Main.source_block_init_clip_size_state",
+      "source_slice": "N1332",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_clip_size_result.tilesize_field_expr",
+      "java_expr": "public static final int tilesize = 8;",
+      "rule": "Vars.tilesize canonical value is 8."
+    },
+    "block_init_clip_size.clip_size": {
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_clip_size_state",
+      "source_slice": "N1332",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_clip_size_input.clip_size_before",
+      "java_expr": "clipSize",
+      "rule": "clipSize before clamp is an explicit input."
+    },
+    "block_init_clip_size.size": {
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_clip_size_state",
+      "source_slice": "N1332",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_clip_size_input.size_value",
+      "java_expr": "size",
+      "rule": "Block size is an explicit input for clipSize clamp."
+    },
+    "block_init_clip_size.tilesize": {
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_clip_size_state",
+      "source_slice": "N1332",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_clip_size_input.source_tilesize",
+      "java_expr": "tilesize",
+      "rule": "tilesize is supplied as an explicit input backed by Vars.tilesize."
+    },
+    "block_init_clip_size.size_tilesize": {
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_clip_size_state",
+      "source_slice": "N1332",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_clip_size_result.size_tilesize",
+      "java_expr": "size * tilesize",
+      "rule": "Minimum clipSize threshold is size * tilesize."
     }
   },
   "version": 1

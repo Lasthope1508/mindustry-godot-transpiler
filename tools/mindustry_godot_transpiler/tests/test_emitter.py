@@ -9731,6 +9731,51 @@ public class Block{
             self.assertIn('"scaled_health_after": scaled_health_after', source_text)
             self.assertIn('"round": health_assigned', source_text)
 
+    def test_emit_bridges_block_init_clip_size_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        clipSize = Math.max(clipSize, size * tilesize);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "clip_size":', source_text)
+            self.assertIn("\t\tvar clip_size_before: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("\t\tvar clip_size_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
+            self.assertIn("\t\tvar source_tilesize: float = float(_args[2] if _args.size() > 2 else 8.0)", source_text)
+            self.assertIn("\t\tvar size_tilesize: float = float(clip_size_size_value) * source_tilesize", source_text)
+            self.assertIn("\t\tvar clip_size_after: float = max(clip_size_before, size_tilesize)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_clip_size_state"', source_text)
+            self.assertIn('"clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);"', source_text)
+            self.assertIn('"tilesize_comment": "/** size of tiles in units */"', source_text)
+            self.assertIn('"tilesize_field_expr": "public static final int tilesize = 8;"', source_text)
+            self.assertIn('"clip_size_before": clip_size_before', source_text)
+            self.assertIn('"size": clip_size_size_value', source_text)
+            self.assertIn('"source_tilesize": source_tilesize', source_text)
+            self.assertIn('"size_tilesize": size_tilesize', source_text)
+            self.assertIn('"clip_size_after": clip_size_after', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

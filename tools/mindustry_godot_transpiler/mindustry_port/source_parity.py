@@ -10662,6 +10662,30 @@ def verify_block_init_health_requirements_scaling_source(upstream_root: Path, ar
         "missing": missing,
     }
 
+def verify_block_init_clip_size_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    vars_source = "core/src/mindustry/Vars.java"
+    vars_path = Path(upstream_root) / vars_source
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    vars_text = vars_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "clip_size_expr": "clipSize = Math.max(clipSize, size * tilesize);",
+        "tilesize_comment": "/** size of tiles in units */",
+        "tilesize_field_expr": "public static final int tilesize = 8;",
+    }
+    missing = [snippet for snippet in [checked["method"], checked["super_init_expr"], checked["clip_size_expr"]] if snippet not in source]
+    for key in ["tilesize_comment", "tilesize_field_expr"]:
+        if checked[key] not in vars_text:
+            missing.append(checked[key])
+    return {
+        "source": BLOCK_SOURCE,
+        "vars_source": vars_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

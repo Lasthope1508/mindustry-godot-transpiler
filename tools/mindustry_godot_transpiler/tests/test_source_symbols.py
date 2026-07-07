@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 805)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 800)
+        self.assertEqual(audit["totalSourceFunctions"], 806)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 801)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 805)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 806)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45808,6 +45808,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["scaling"]["java_expr"], "scaling += stack.item.healthScaling;")
         self.assertEqual(result_schema["keys"]["scaled_health_after"]["java_expr"], "scaledHealth *= scaling;")
         self.assertEqual(result_schema["keys"]["health_after"]["java_expr"], "Mathf.round(size * size * scaledHealth, 5)")
+
+    def test_generated_block_init_clip_size_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_clip_size.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_clip_size_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_clip_size_state")
+
+        clip_size = source_symbols.source_symbol(registry, "block_init_clip_size.clip_size_expr")
+        self.assertEqual(clip_size["java_expr"], "clipSize = Math.max(clipSize, size * tilesize);")
+        self.assertEqual(clip_size["godot_symbol"], "source_block_init_clip_size_result.clip_size_after")
+
+        tilesize = source_symbols.source_symbol(registry, "block_init_clip_size.tilesize_field_expr")
+        self.assertEqual(tilesize["java_expr"], "public static final int tilesize = 8;")
+        self.assertEqual(tilesize["java_source"], "core/src/mindustry/Vars.java")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1332")
+        self.assertEqual(setup_slice["title"], "Generated Block init clip size bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_clip_size_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_clip_size_bridge_state")
+        for expr in [
+            "clipSize = Math.max(clipSize, size * tilesize);",
+            "/** size of tiles in units */",
+            "public static final int tilesize = 8;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_clip_size_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["clip_size_before", "size_value", "source_tilesize"])
+        for key in ["source_owner", "source", "vars_source", "method", "super_init_expr", "clip_size_expr", "tilesize_comment", "tilesize_field_expr", "clip_size_before", "size", "source_tilesize", "size_tilesize", "clip_size_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_clip_size_input")
+        self.assertEqual(input_schema["keys"]["clip_size_before"]["java_expr"], "clipSize")
+        self.assertEqual(input_schema["keys"]["size_value"]["java_expr"], "size")
+        self.assertEqual(input_schema["keys"]["source_tilesize"]["java_expr"], "tilesize")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_clip_size_result")
+        self.assertEqual(result_schema["keys"]["size_tilesize"]["java_expr"], "size * tilesize")
+        self.assertEqual(result_schema["keys"]["clip_size_after"]["java_expr"], "clipSize = Math.max(clipSize, size * tilesize);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

@@ -31393,6 +31393,42 @@
         "test_block_init_health_requirements_scaling_matches_upstream_source",
         "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1332": {
+      "title": "Generated Block init clip size bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_clip_size_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_clip_size_bridge_state",
+      "source_symbols": [
+        "block_init_clip_size.method",
+        "block_init_clip_size.super_init_expr",
+        "block_init_clip_size.clip_size_expr",
+        "block_init_clip_size.tilesize_comment",
+        "block_init_clip_size.tilesize_field_expr",
+        "block_init_clip_size.clip_size",
+        "block_init_clip_size.size",
+        "block_init_clip_size.tilesize",
+        "block_init_clip_size.size_tilesize"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "clipSize = Math.max(clipSize, size * tilesize);",
+        "/** size of tiles in units */",
+        "public static final int tilesize = 8;"
+      ],
+      "rule": "Bridge generated Block.init() clipSize minimum clamp to source-backed canonical state using Vars.tilesize.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_clip_size_to_source_state",
+        "test_port_game_exposes_source_block_init_clip_size_state",
+        "test_port_game_exposes_generated_block_init_clip_size_bridge_state",
+        "test_block_init_clip_size_matches_upstream_source",
+        "test_generated_block_init_clip_size_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
