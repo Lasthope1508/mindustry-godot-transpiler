@@ -19258,6 +19258,33 @@ func generated_block_init_set_bars_call_bridge_state() -> Dictionary:
 		"matches": result == canonical,
 	}
 
+func source_block_init_stats_categories_state(stats_use_categories_before: bool) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_block_init_stats_categories_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"stats_source": "core/src/mindustry/world/meta/Stats.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"stats_use_categories_expr": "stats.useCategories = true;",
+		"stats_use_categories_field_expr": "public boolean useCategories = false;",
+		"stats_use_categories_before": stats_use_categories_before,
+		"stats_use_categories_after": true,
+	}
+
+func generated_block_init_stats_categories_bridge_state(stats_use_categories_before: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "stats_categories")
+	var result = instance.java_method_init_123([stats_use_categories_before])
+	var canonical = source_block_init_stats_categories_state(stats_use_categories_before)
+	return {
+		"source_owner": "PortGame.source_block_init_stats_categories_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

@@ -34325,6 +34325,40 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.init() setBars() call plan."
+    },
+    "PortGame.source_block_init_stats_categories_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1346",
+      "params": [
+        {
+          "name": "stats_use_categories_before",
+          "type": "bool",
+          "java_expr": "stats.useCategories",
+          "schema": "source_block_init_stats_categories_input.stats_use_categories_before"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "stats_source",
+        "method",
+        "super_init_expr",
+        "stats_use_categories_expr",
+        "stats_use_categories_field_expr",
+        "stats_use_categories_before",
+        "stats_use_categories_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_stats_categories_state",
+      "tests": [
+        "test_emit_bridges_block_init_stats_categories_to_source_state",
+        "test_port_game_exposes_source_block_init_stats_categories_state",
+        "test_port_game_exposes_generated_block_init_stats_categories_bridge_state",
+        "test_block_init_stats_categories_matches_upstream_source",
+        "test_generated_block_init_stats_categories_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() stats.useCategories assignment."
     }
   },
   "policy": {

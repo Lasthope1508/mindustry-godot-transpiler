@@ -126112,6 +126112,158 @@
           ]
         }
       }
+    },
+    "source_block_init_stats_categories_input": {
+      "owner": "PortGame.source_block_init_stats_categories_state",
+      "source_slice": "N1346",
+      "runtime_proof": "/root/Main.source_block_init_stats_categories_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_init_stats_categories_state.",
+      "keys": {
+        "stats_use_categories_before": {
+          "godot_symbol": "source_block_init_stats_categories_input.stats_use_categories_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "stats.useCategories",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_stats_categories_state"
+          ],
+          "source_symbols": [
+            "block_init_stats_categories.stats_use_categories_before"
+          ]
+        }
+      }
+    },
+    "source_block_init_stats_categories_result": {
+      "owner": "PortGame.source_block_init_stats_categories_state",
+      "source_slice": "N1346",
+      "runtime_proof": "/root/Main.source_block_init_stats_categories_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_init_stats_categories_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_init_stats_categories_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "PortGame.source_block_init_stats_categories_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_stats_categories_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "godot_symbol": "source_block_init_stats_categories_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_stats_categories_state"
+          ],
+          "source_symbols": []
+        },
+        "stats_source": {
+          "godot_symbol": "source_block_init_stats_categories_result.stats_source",
+          "java_source": "core/src/mindustry/world/meta/Stats.java",
+          "java_method": "Stats",
+          "java_expr": "core/src/mindustry/world/meta/Stats.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_stats_categories_state"
+          ],
+          "source_symbols": []
+        },
+        "method": {
+          "godot_symbol": "source_block_init_stats_categories_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "public void init(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_stats_categories_state"
+          ],
+          "source_symbols": [
+            "block_init_stats_categories.method"
+          ]
+        },
+        "super_init_expr": {
+          "godot_symbol": "source_block_init_stats_categories_result.super_init_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "super.init();",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_stats_categories_state"
+          ],
+          "source_symbols": [
+            "block_init_stats_categories.super_init_expr"
+          ]
+        },
+        "stats_use_categories_expr": {
+          "godot_symbol": "source_block_init_stats_categories_result.stats_use_categories_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "stats.useCategories = true;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_stats_categories_state"
+          ],
+          "source_symbols": [
+            "block_init_stats_categories.stats_use_categories_expr"
+          ]
+        },
+        "stats_use_categories_field_expr": {
+          "godot_symbol": "source_block_init_stats_categories_result.stats_use_categories_field_expr",
+          "java_source": "core/src/mindustry/world/meta/Stats.java",
+          "java_method": "Stats",
+          "java_expr": "public boolean useCategories = false;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_stats_categories_state"
+          ],
+          "source_symbols": [
+            "block_init_stats_categories.stats_use_categories_field_expr"
+          ]
+        },
+        "stats_use_categories_before": {
+          "godot_symbol": "source_block_init_stats_categories_result.stats_use_categories_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "stats.useCategories",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_stats_categories_state"
+          ],
+          "source_symbols": [
+            "block_init_stats_categories.stats_use_categories_before"
+          ]
+        },
+        "stats_use_categories_after": {
+          "godot_symbol": "source_block_init_stats_categories_result.stats_use_categories_after",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "stats.useCategories = true;",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_stats_categories_state"
+          ],
+          "source_symbols": [
+            "block_init_stats_categories.stats_use_categories_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

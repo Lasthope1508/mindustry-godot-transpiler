@@ -10965,6 +10965,32 @@ def verify_block_init_set_bars_call_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_block_init_stats_categories_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    stats_path = Path(upstream_root) / "core/src/mindustry/world/meta/Stats.java"
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    stats_source = stats_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "stats_use_categories_expr": "stats.useCategories = true;",
+        "stats_use_categories_field_expr": "public boolean useCategories = false;",
+    }
+    source_by_key = {
+        "stats_use_categories_field_expr": stats_source,
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, source)
+    ]
+    return {
+        "source": BLOCK_SOURCE,
+        "stats_source": "core/src/mindustry/world/meta/Stats.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

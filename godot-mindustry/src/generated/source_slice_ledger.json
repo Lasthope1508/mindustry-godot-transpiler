@@ -31891,6 +31891,37 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.init() setBars() dispatch to source-backed call-plan state."
+    },
+    "N1346": {
+      "title": "Generated Block init stats categories bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_stats_categories_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_stats_categories_bridge_state",
+      "source_symbols": [
+        "block_init_stats_categories.method",
+        "block_init_stats_categories.super_init_expr",
+        "block_init_stats_categories.stats_use_categories_expr",
+        "block_init_stats_categories.stats_use_categories_field_expr",
+        "block_init_stats_categories.stats_use_categories_before"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "stats.useCategories = true;",
+        "public boolean useCategories = false;"
+      ],
+      "tests": [
+        "test_emit_bridges_block_init_stats_categories_to_source_state",
+        "test_port_game_exposes_source_block_init_stats_categories_state",
+        "test_port_game_exposes_generated_block_init_stats_categories_bridge_state",
+        "test_block_init_stats_categories_matches_upstream_source",
+        "test_generated_block_init_stats_categories_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.init() stats.useCategories assignment to source-backed state."
     }
   },
   "version": 1
