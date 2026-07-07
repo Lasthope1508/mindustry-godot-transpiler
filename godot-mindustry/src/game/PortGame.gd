@@ -18440,6 +18440,45 @@ func generated_block_post_init_shown_planets_bridge_state(requirements: Array, s
 		"matches": result == canonical,
 	}
 
+func source_block_init_destroy_sound_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:
+	var destroy_sound_after: Variant = destroy_sound_before
+	var destroy_sound_assigned: bool = destroy_sound_before == "Sounds.unset"
+	if destroy_sound_assigned:
+		if size_value >= 3:
+			destroy_sound_after = "Sounds.blockExplode3"
+		elif size_value >= 2:
+			destroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode2", "Sounds.blockExplode2Alt"]}
+		else:
+			destroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode1", "Sounds.blockExplode1Alt"]}
+	return {
+		"source_owner": "PortGame.source_block_init_destroy_sound_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"destroy_sound_guard_expr": "if(destroySound == Sounds.unset){",
+		"destroy_sound_assign_expr": "destroySound =",
+		"destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :",
+		"destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :",
+		"destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);",
+		"destroy_sound_before": destroy_sound_before,
+		"size": size_value,
+		"destroy_sound_after": destroy_sound_after,
+		"destroy_sound_assigned": destroy_sound_assigned,
+	}
+
+func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_init_123([destroy_sound_before, size_value])
+	var canonical = source_block_init_destroy_sound_state(destroy_sound_before, size_value)
+	return {
+		"source_owner": "PortGame.source_block_init_destroy_sound_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

@@ -624,7 +624,18 @@ func java_method_postInit_122(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_post_init_database_tag_state", "source": "core/src/mindustry/world/Block.java", "method": "public void postInit(){", "database_tag_guard_expr": "if(databaseTag == null || databaseTag.isEmpty()){", "database_tag_assign_expr": "databaseTag = category.name();", "super_post_init_expr": "super.postInit();", "database_tag_before": database_tag_before, "category_name": category_name, "database_tag_after": database_tag_after, "database_tag_assigned": database_tag_assigned}
 
 func java_method_init_123(_args: Array = []) -> Variant:
-	return null
+	var destroy_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
+	var size_value: int = int(_args[1] if _args.size() > 1 else 1)
+	var destroy_sound_after: Variant = destroy_sound_before
+	var destroy_sound_assigned: bool = destroy_sound_before == "Sounds.unset"
+	if destroy_sound_assigned:
+		if size_value >= 3:
+			destroy_sound_after = "Sounds.blockExplode3"
+		elif size_value >= 2:
+			destroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode2", "Sounds.blockExplode2Alt"]}
+		else:
+			destroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode1", "Sounds.blockExplode1Alt"]}
+	return {"source_owner": "PortGame.source_block_init_destroy_sound_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "destroy_sound_guard_expr": "if(destroySound == Sounds.unset){", "destroy_sound_assign_expr": "destroySound =", "destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :", "destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :", "destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);", "destroy_sound_before": destroy_sound_before, "size": size_value, "destroy_sound_after": destroy_sound_after, "destroy_sound_assigned": destroy_sound_assigned}
 
 func java_method_reinitializeConsumers_124(_args: Array = []) -> Variant:
 	return null

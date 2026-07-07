@@ -5531,6 +5531,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_destroy_sound_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_destroy_sound_source"))
+        report = source_parity.verify_block_init_destroy_sound_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "destroy_sound_guard_expr": "if(destroySound == Sounds.unset){",
+            "destroy_sound_assign_expr": "destroySound =",
+            "destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :",
+            "destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :",
+            "destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

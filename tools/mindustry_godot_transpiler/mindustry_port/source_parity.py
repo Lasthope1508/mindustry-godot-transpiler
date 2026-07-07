@@ -10476,6 +10476,25 @@ def verify_block_post_init_shown_planets_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_block_init_destroy_sound_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "destroy_sound_guard_expr": "if(destroySound == Sounds.unset){",
+        "destroy_sound_assign_expr": "destroySound =",
+        "destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :",
+        "destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :",
+        "destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

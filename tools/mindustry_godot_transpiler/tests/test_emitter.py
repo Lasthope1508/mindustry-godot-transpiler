@@ -9230,6 +9230,62 @@ public class Block{
             self.assertIn('"added_planets": added_planets', source_text)
             self.assertIn('"blocked_planets": blocked_planets', source_text)
 
+    def test_emit_bridges_block_init_destroy_sound_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        if(destroySound == Sounds.unset){
+            destroySound =
+                size >= 3 ? Sounds.blockExplode3 :
+                size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :
+                new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tvar destroy_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"', source_text)
+            self.assertIn("\tvar size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
+            self.assertIn("\tvar destroy_sound_after: Variant = destroy_sound_before", source_text)
+            self.assertIn('\tvar destroy_sound_assigned: bool = destroy_sound_before == "Sounds.unset"', source_text)
+            self.assertIn("\tif destroy_sound_assigned:", source_text)
+            self.assertIn("\t\tif size_value >= 3:", source_text)
+            self.assertIn('\t\t\tdestroy_sound_after = "Sounds.blockExplode3"', source_text)
+            self.assertIn("\t\telif size_value >= 2:", source_text)
+            self.assertIn('\t\t\tdestroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode2", "Sounds.blockExplode2Alt"]}', source_text)
+            self.assertIn('\t\t\tdestroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode1", "Sounds.blockExplode1Alt"]}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_destroy_sound_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"super_init_expr": "super.init();"', source_text)
+            self.assertIn('"destroy_sound_guard_expr": "if(destroySound == Sounds.unset){"', source_text)
+            self.assertIn('"destroy_sound_assign_expr": "destroySound ="', source_text)
+            self.assertIn('"destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :"', source_text)
+            self.assertIn('"destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :"', source_text)
+            self.assertIn('"destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);"', source_text)
+            self.assertIn('"destroy_sound_before": destroy_sound_before', source_text)
+            self.assertIn('"destroy_sound_after": destroy_sound_after', source_text)
+            self.assertIn('"destroy_sound_assigned": destroy_sound_assigned', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

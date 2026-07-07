@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 796)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 791)
+        self.assertEqual(audit["totalSourceFunctions"], 797)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 792)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 796)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 797)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45221,6 +45221,71 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["auto_assign_guard_passed"]["java_expr"], "if(requirements.length > 0 && shownPlanets.isEmpty()){")
         self.assertEqual(result_schema["keys"]["shown_planets_after"]["java_expr"], "shownPlanets.add(planet);")
         self.assertEqual(result_schema["keys"]["blocked_planets"]["java_expr"], "Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))")
+
+    def test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_destroy_sound.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_destroy_sound_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_destroy_sound_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_destroy_sound.destroy_sound_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(destroySound == Sounds.unset){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_destroy_sound_result.destroy_sound_assigned")
+
+        size_3 = source_symbols.source_symbol(registry, "block_init_destroy_sound.destroy_sound_size_3_expr")
+        self.assertEqual(size_3["java_expr"], "size >= 3 ? Sounds.blockExplode3 :")
+        self.assertEqual(size_3["godot_symbol"], "source_block_init_destroy_sound_result.destroy_sound_after")
+
+        size_2 = source_symbols.source_symbol(registry, "block_init_destroy_sound.destroy_sound_size_2_expr")
+        self.assertEqual(size_2["java_expr"], "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :")
+        self.assertEqual(size_2["godot_symbol"], "source_block_init_destroy_sound_result.destroy_sound_after")
+
+        destroy_sound = source_symbols.source_symbol(registry, "block_init_destroy_sound.destroy_sound")
+        self.assertEqual(destroy_sound["java_expr"], "destroySound")
+        self.assertEqual(destroy_sound["godot_symbol"], "source_block_init_destroy_sound_input.destroy_sound_before")
+
+        size_value = source_symbols.source_symbol(registry, "block_init_destroy_sound.size")
+        self.assertEqual(size_value["java_expr"], "size")
+        self.assertEqual(size_value["godot_symbol"], "source_block_init_destroy_sound_input.size_value")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1323")
+        self.assertEqual(setup_slice["title"], "Generated Block init destroySound bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_destroy_sound_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_destroy_sound_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "if(destroySound == Sounds.unset){",
+            "destroySound =",
+            "size >= 3 ? Sounds.blockExplode3 :",
+            "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :",
+            "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_destroy_sound_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["destroy_sound_before", "size_value"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "destroy_sound_guard_expr", "destroy_sound_assign_expr", "destroy_sound_size_3_expr", "destroy_sound_size_2_expr", "destroy_sound_size_1_expr", "destroy_sound_before", "size", "destroy_sound_after", "destroy_sound_assigned"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_destroy_sound_input")
+        self.assertEqual(input_schema["keys"]["destroy_sound_before"]["java_expr"], "destroySound")
+        self.assertEqual(input_schema["keys"]["size_value"]["java_expr"], "size")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_destroy_sound_result")
+        self.assertEqual(result_schema["keys"]["destroy_sound_assigned"]["java_expr"], "if(destroySound == Sounds.unset){")
+        self.assertEqual(result_schema["keys"]["destroy_sound_after"]["java_expr"], "destroySound =")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

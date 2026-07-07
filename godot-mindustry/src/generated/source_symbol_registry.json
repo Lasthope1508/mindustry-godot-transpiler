@@ -98576,6 +98576,132 @@
         "test_block_post_init_shown_planets_matches_upstream_source",
         "test_generated_block_post_init_shown_planets_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_init_destroy_sound.method": {
+      "godot_owner": "PortGame.source_block_init_destroy_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_destroy_sound_state",
+      "source_slice": "N1323",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_destroy_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_destroy_sound_state",
+        "test_port_game_exposes_generated_block_init_destroy_sound_bridge_state",
+        "test_block_init_destroy_sound_matches_upstream_source",
+        "test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_destroy_sound_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for destroySound default assignment."
+    },
+    "block_init_destroy_sound.destroy_sound_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_destroy_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_destroy_sound_state",
+      "source_slice": "N1323",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_destroy_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_destroy_sound_state",
+        "test_port_game_exposes_generated_block_init_destroy_sound_bridge_state",
+        "test_block_init_destroy_sound_matches_upstream_source",
+        "test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_destroy_sound_result.destroy_sound_assigned",
+      "java_expr": "if(destroySound == Sounds.unset){",
+      "rule": "Destroy sound defaults are assigned only when destroySound is Sounds.unset."
+    },
+    "block_init_destroy_sound.destroy_sound_size_3_expr": {
+      "godot_owner": "PortGame.source_block_init_destroy_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_destroy_sound_state",
+      "source_slice": "N1323",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_destroy_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_destroy_sound_state",
+        "test_port_game_exposes_generated_block_init_destroy_sound_bridge_state",
+        "test_block_init_destroy_sound_matches_upstream_source",
+        "test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_destroy_sound_result.destroy_sound_after",
+      "java_expr": "size >= 3 ? Sounds.blockExplode3 :",
+      "rule": "Blocks with size >= 3 use Sounds.blockExplode3 as destroySound default."
+    },
+    "block_init_destroy_sound.destroy_sound_size_2_expr": {
+      "godot_owner": "PortGame.source_block_init_destroy_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_destroy_sound_state",
+      "source_slice": "N1323",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_destroy_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_destroy_sound_state",
+        "test_port_game_exposes_generated_block_init_destroy_sound_bridge_state",
+        "test_block_init_destroy_sound_matches_upstream_source",
+        "test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_destroy_sound_result.destroy_sound_after",
+      "java_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :",
+      "rule": "Blocks with size >= 2 use RandomSound of blockExplode2 and blockExplode2Alt."
+    },
+    "block_init_destroy_sound.destroy_sound_size_1_expr": {
+      "godot_owner": "PortGame.source_block_init_destroy_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_destroy_sound_state",
+      "source_slice": "N1323",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_destroy_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_destroy_sound_state",
+        "test_port_game_exposes_generated_block_init_destroy_sound_bridge_state",
+        "test_block_init_destroy_sound_matches_upstream_source",
+        "test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_destroy_sound_result.destroy_sound_after",
+      "java_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);",
+      "rule": "Smaller blocks use RandomSound of blockExplode1 and blockExplode1Alt."
+    },
+    "block_init_destroy_sound.destroy_sound": {
+      "godot_owner": "PortGame.source_block_init_destroy_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_destroy_sound_state",
+      "source_slice": "N1323",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_destroy_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_destroy_sound_state",
+        "test_port_game_exposes_generated_block_init_destroy_sound_bridge_state",
+        "test_block_init_destroy_sound_matches_upstream_source",
+        "test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_destroy_sound_input.destroy_sound_before",
+      "java_expr": "destroySound",
+      "rule": "Runtime destroy_sound_before supplies source destroySound before Block.init() defaulting."
+    },
+    "block_init_destroy_sound.size": {
+      "godot_owner": "PortGame.source_block_init_destroy_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_destroy_sound_state",
+      "source_slice": "N1323",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_destroy_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_destroy_sound_state",
+        "test_port_game_exposes_generated_block_init_destroy_sound_bridge_state",
+        "test_block_init_destroy_sound_matches_upstream_source",
+        "test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_destroy_sound_input.size_value",
+      "java_expr": "size",
+      "rule": "Runtime size_value supplies source Block.size for destroySound default branch."
     }
   },
   "version": 1

@@ -17148,5 +17148,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_postInit_122"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_destroy_sound_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_destroy_sound_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_destroy_sound_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"super_init_expr": "super.init();"', source)
+        self.assertIn('"destroy_sound_guard_expr": "if(destroySound == Sounds.unset){"', source)
+        self.assertIn('"destroy_sound_assign_expr": "destroySound ="', source)
+        self.assertIn('"destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :"', source)
+        self.assertIn('"destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :"', source)
+        self.assertIn('"destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);"', source)
+        self.assertIn('"destroy_sound_after": destroy_sound_after', source)
+        self.assertIn('"destroy_sound_assigned": destroy_sound_assigned', source)
+
+    def test_port_game_exposes_generated_block_init_destroy_sound_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Variant, size_value: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_init_123([destroy_sound_before, size_value])", source)
+        self.assertIn("var canonical = source_block_init_destroy_sound_state(destroy_sound_before, size_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_destroy_sound_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

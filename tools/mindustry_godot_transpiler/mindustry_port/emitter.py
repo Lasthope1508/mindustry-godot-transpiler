@@ -1948,6 +1948,26 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "init"
+        and len(method.get("parameters", [])) == 0
+    ):
+        return [
+            '\tvar destroy_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"',
+            "\tvar size_value: int = int(_args[1] if _args.size() > 1 else 1)",
+            "\tvar destroy_sound_after: Variant = destroy_sound_before",
+            '\tvar destroy_sound_assigned: bool = destroy_sound_before == "Sounds.unset"',
+            "\tif destroy_sound_assigned:",
+            "\t\tif size_value >= 3:",
+            '\t\t\tdestroy_sound_after = "Sounds.blockExplode3"',
+            "\t\telif size_value >= 2:",
+            '\t\t\tdestroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode2", "Sounds.blockExplode2Alt"]}',
+            "\t\telse:",
+            '\t\t\tdestroy_sound_after = {"type": "RandomSound", "sounds": ["Sounds.blockExplode1", "Sounds.blockExplode1Alt"]}',
+            '\treturn {"source_owner": "PortGame.source_block_init_destroy_sound_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "destroy_sound_guard_expr": "if(destroySound == Sounds.unset){", "destroy_sound_assign_expr": "destroySound =", "destroy_sound_size_3_expr": "size >= 3 ? Sounds.blockExplode3 :", "destroy_sound_size_2_expr": "size >= 2 ? new RandomSound(Sounds.blockExplode2, Sounds.blockExplode2Alt) :", "destroy_sound_size_1_expr": "new RandomSound(Sounds.blockExplode1, Sounds.blockExplode1Alt);", "destroy_sound_before": destroy_sound_before, "size": size_value, "destroy_sound_after": destroy_sound_after, "destroy_sound_assigned": destroy_sound_assigned}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):
