@@ -985,7 +985,19 @@ func java_method_flipRotation_130(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_flip_rotation_state", "source": "core/src/mindustry/world/Block.java", "method": "public void flipRotation(BuildPlan req, boolean x){", "guard_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){", "assignment_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));", "rotation_before": rotation_before, "x": x_value, "invertFlip": invert_flip, "rotate": rotate_value, "lockRotation": lock_rotation, "rotation_even": rotation_even, "flip_guard": flip_guard, "mod_input": rotation_before + 2, "mod_value": mod_value, "plan_rotation_state": plan_rotation_state, "rotation_after": rotation_after}
 
 func java_method_getPlanConfigs_131(_args: Array = []) -> Variant:
-	return null
+	var options_before: Array = _args[0] if _args.size() > 0 else []
+	var item_configured: bool = bool(_args[1] if _args.size() > 1 else false)
+	var liquid_configured: bool = bool(_args[2] if _args.size() > 2 else false)
+	var content_items: Array = _args[3] if _args.size() > 3 else []
+	var content_liquids: Array = _args[4] if _args.size() > 4 else []
+	var options_after: Array = options_before.duplicate()
+	if item_configured:
+		options_after.append_array(content_items)
+	if liquid_configured:
+		options_after.append_array(content_liquids)
+	var item_options_added: int = content_items.size() if item_configured else 0
+	var liquid_options_added: int = content_liquids.size() if liquid_configured else 0
+	return {"source_owner": "PortGame.source_block_get_plan_configs_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Fills the specified array with the list of configuration options this block has. Only used for plans. */", "method": "public void getPlanConfigs(Seq<UnlockableContent> options){", "item_guard_expr": "if(configurations.containsKey(Item.class)){", "item_add_expr": "options.add(content.items());", "liquid_guard_expr": "if(configurations.containsKey(Liquid.class)){", "liquid_add_expr": "options.add(content.liquids());", "options_before": options_before, "item_configured": item_configured, "liquid_configured": liquid_configured, "content_items": content_items, "content_liquids": content_liquids, "item_options_added": item_options_added, "liquid_options_added": liquid_options_added, "options_after": options_after}
 
 func java_method_sense_132(_args: Array = []) -> Variant:
 	return null

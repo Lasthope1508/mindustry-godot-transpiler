@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 1227 |
-| Done | 1224 |
+| Total tracked work items | 1228 |
+| Done | 1225 |
 | Not done | 3 |
 | Blocked | 0 |
 
@@ -1174,6 +1174,7 @@
 - [x] N1359: Generated Block isHidden bridge state.
 - [x] N1360: Generated Block planRotation bridge state.
 - [x] N1361: Generated Block flipRotation bridge state.
+- [x] N1362: Generated Block getPlanConfigs bridge state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode

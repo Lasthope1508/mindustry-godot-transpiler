@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 835)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 830)
+        self.assertEqual(audit["totalSourceFunctions"], 836)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 831)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 835)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 836)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46980,6 +46980,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_flip_rotation_result")
         self.assertEqual(result_schema["keys"]["flip_guard"]["java_expr"], "if((x == (req.rotation % 2 == 0)) != invertFlip){")
         self.assertEqual(result_schema["keys"]["rotation_after"]["java_expr"], "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));")
+
+    def test_generated_block_get_plan_configs_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_get_plan_configs.method")
+        self.assertEqual(method["java_expr"], "public void getPlanConfigs(Seq<UnlockableContent> options){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.getPlanConfigs(Seq<UnlockableContent> options)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_get_plan_configs_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_get_plan_configs_state")
+
+        item_add_expr = source_symbols.source_symbol(registry, "block_get_plan_configs.item_add_expr")
+        self.assertEqual(item_add_expr["java_expr"], "options.add(content.items());")
+        self.assertEqual(item_add_expr["godot_symbol"], "source_block_get_plan_configs_result.options_after")
+
+        liquid_add_expr = source_symbols.source_symbol(registry, "block_get_plan_configs.liquid_add_expr")
+        self.assertEqual(liquid_add_expr["java_expr"], "options.add(content.liquids());")
+        self.assertEqual(liquid_add_expr["godot_symbol"], "source_block_get_plan_configs_result.options_after")
+
+        get_plan_configs_slice = source_symbols.source_slice(ledger, "N1362")
+        self.assertEqual(get_plan_configs_slice["title"], "Generated Block getPlanConfigs bridge state")
+        self.assertEqual(get_plan_configs_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(get_plan_configs_slice["java_method"], "Block.getPlanConfigs(Seq<UnlockableContent> options)")
+        self.assertEqual(get_plan_configs_slice["godot_owner"], "PortGame.source_block_get_plan_configs_state")
+        self.assertEqual(get_plan_configs_slice["generated_owner"], "Block.java_method_getPlanConfigs_131")
+        self.assertEqual(get_plan_configs_slice["runtime_proof"], "/root/Main.generated_block_get_plan_configs_bridge_state")
+        for expr in [
+            "public void getPlanConfigs(Seq<UnlockableContent> options){",
+            "if(configurations.containsKey(Item.class)){",
+            "options.add(content.items());",
+            "if(configurations.containsKey(Liquid.class)){",
+            "options.add(content.liquids());",
+        ]:
+            self.assertIn(expr, get_plan_configs_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_get_plan_configs_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["options_before", "item_configured", "liquid_configured", "content_items", "content_liquids"])
+        for key in ["source_owner", "source", "comment", "method", "item_guard_expr", "item_add_expr", "liquid_guard_expr", "liquid_add_expr", "options_before", "item_configured", "liquid_configured", "content_items", "content_liquids", "item_options_added", "liquid_options_added", "options_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_get_plan_configs_input")
+        self.assertEqual(input_schema["keys"]["options_before"]["java_expr"], "Seq<UnlockableContent> options")
+        self.assertEqual(input_schema["keys"]["item_configured"]["java_expr"], "configurations.containsKey(Item.class)")
+        self.assertEqual(input_schema["keys"]["liquid_configured"]["java_expr"], "configurations.containsKey(Liquid.class)")
+        result_schema = source_symbols.state_schema(schema, "source_block_get_plan_configs_result")
+        self.assertEqual(result_schema["keys"]["item_options_added"]["java_expr"], "options.add(content.items());")
+        self.assertEqual(result_schema["keys"]["liquid_options_added"]["java_expr"], "options.add(content.liquids());")
 
     def test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

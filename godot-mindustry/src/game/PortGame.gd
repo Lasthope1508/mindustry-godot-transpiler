@@ -19587,6 +19587,46 @@ func generated_block_flip_rotation_bridge_state(rotation_before: int, x_value: b
 		"matches": result == canonical,
 	}
 
+func source_block_get_plan_configs_state(options_before: Array, item_configured: bool, liquid_configured: bool, content_items: Array, content_liquids: Array) -> Dictionary:
+	var options_after: Array = options_before.duplicate()
+	if item_configured:
+		options_after.append_array(content_items)
+	if liquid_configured:
+		options_after.append_array(content_liquids)
+	var item_options_added: int = content_items.size() if item_configured else 0
+	var liquid_options_added: int = content_liquids.size() if liquid_configured else 0
+	return {
+		"source_owner": "PortGame.source_block_get_plan_configs_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"comment": "/** Fills the specified array with the list of configuration options this block has. Only used for plans. */",
+		"method": "public void getPlanConfigs(Seq<UnlockableContent> options){",
+		"item_guard_expr": "if(configurations.containsKey(Item.class)){",
+		"item_add_expr": "options.add(content.items());",
+		"liquid_guard_expr": "if(configurations.containsKey(Liquid.class)){",
+		"liquid_add_expr": "options.add(content.liquids());",
+		"options_before": options_before,
+		"item_configured": item_configured,
+		"liquid_configured": liquid_configured,
+		"content_items": content_items,
+		"content_liquids": content_liquids,
+		"item_options_added": item_options_added,
+		"liquid_options_added": liquid_options_added,
+		"options_after": options_after,
+	}
+
+func generated_block_get_plan_configs_bridge_state(options_before: Array, item_configured: bool, liquid_configured: bool, content_items: Array, content_liquids: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_getPlanConfigs_131([options_before, item_configured, liquid_configured, content_items, content_liquids])
+	var canonical = source_block_get_plan_configs_state(options_before, item_configured, liquid_configured, content_items, content_liquids)
+	return {
+		"source_owner": "PortGame.source_block_get_plan_configs_state",
+		"generated_owner": "Block.java_method_getPlanConfigs_131",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

@@ -32439,6 +32439,45 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.flipRotation(BuildPlan req, boolean x) guard and rotation mutation to source-backed canonical state."
+    },
+    "N1362": {
+      "title": "Generated Block getPlanConfigs bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "generated_owner": "Block.java_method_getPlanConfigs_131",
+      "runtime_proof": "/root/Main.generated_block_get_plan_configs_bridge_state",
+      "source_symbols": [
+        "block_get_plan_configs.comment",
+        "block_get_plan_configs.method",
+        "block_get_plan_configs.item_guard_expr",
+        "block_get_plan_configs.item_add_expr",
+        "block_get_plan_configs.liquid_guard_expr",
+        "block_get_plan_configs.liquid_add_expr",
+        "block_get_plan_configs.options_before",
+        "block_get_plan_configs.item_configured",
+        "block_get_plan_configs.liquid_configured",
+        "block_get_plan_configs.content_items",
+        "block_get_plan_configs.content_liquids"
+      ],
+      "exact_exprs": [
+        "/** Fills the specified array with the list of configuration options this block has. Only used for plans. */",
+        "public void getPlanConfigs(Seq<UnlockableContent> options){",
+        "if(configurations.containsKey(Item.class)){",
+        "options.add(content.items());",
+        "if(configurations.containsKey(Liquid.class)){",
+        "options.add(content.liquids());"
+      ],
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.getPlanConfigs option appends to source-backed canonical state."
     }
   },
   "version": 1

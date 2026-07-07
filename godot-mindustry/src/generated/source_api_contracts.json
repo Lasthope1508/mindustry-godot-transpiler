@@ -35052,6 +35052,71 @@
       ],
       "status": "active",
       "rule": "Public runtime contract for Block.flipRotation(BuildPlan req, boolean x) generated bridge state."
+    },
+    "PortGame.source_block_get_plan_configs_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "source_slice": "N1362",
+      "params": [
+        {
+          "name": "options_before",
+          "type": "Array",
+          "java_expr": "Seq<UnlockableContent> options",
+          "schema": "source_block_get_plan_configs_input.options_before"
+        },
+        {
+          "name": "item_configured",
+          "type": "bool",
+          "java_expr": "configurations.containsKey(Item.class)",
+          "schema": "source_block_get_plan_configs_input.item_configured"
+        },
+        {
+          "name": "liquid_configured",
+          "type": "bool",
+          "java_expr": "configurations.containsKey(Liquid.class)",
+          "schema": "source_block_get_plan_configs_input.liquid_configured"
+        },
+        {
+          "name": "content_items",
+          "type": "Array",
+          "java_expr": "content.items()",
+          "schema": "source_block_get_plan_configs_input.content_items"
+        },
+        {
+          "name": "content_liquids",
+          "type": "Array",
+          "java_expr": "content.liquids()",
+          "schema": "source_block_get_plan_configs_input.content_liquids"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "comment",
+        "method",
+        "item_guard_expr",
+        "item_add_expr",
+        "liquid_guard_expr",
+        "liquid_add_expr",
+        "options_before",
+        "item_configured",
+        "liquid_configured",
+        "content_items",
+        "content_liquids",
+        "item_options_added",
+        "liquid_options_added",
+        "options_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for Block.getPlanConfigs generated bridge state."
     }
   },
   "policy": {

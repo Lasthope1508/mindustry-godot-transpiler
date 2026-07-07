@@ -6007,6 +6007,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_get_plan_configs_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_get_plan_configs_source"))
+        report = source_parity.verify_block_get_plan_configs_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "comment": "/** Fills the specified array with the list of configuration options this block has. Only used for plans. */",
+            "method": "public void getPlanConfigs(Seq<UnlockableContent> options){",
+            "item_guard_expr": "if(configurations.containsKey(Item.class)){",
+            "item_add_expr": "options.add(content.items());",
+            "liquid_guard_expr": "if(configurations.containsKey(Liquid.class)){",
+            "liquid_add_expr": "options.add(content.liquids());",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_block_init_item_liquid_filters_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_block_init_item_liquid_filters_source"))
         report = source_parity.verify_block_init_item_liquid_filters_source(ROOT / "mindustry-upstream")

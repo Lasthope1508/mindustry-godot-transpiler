@@ -129633,6 +129633,319 @@
           ]
         }
       }
+    },
+    "source_block_get_plan_configs_input": {
+      "owner": "PortGame.source_block_get_plan_configs_state",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_get_plan_configs_state.",
+      "keys": {
+        "options_before": {
+          "godot_symbol": "source_block_get_plan_configs_input.options_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "Seq<UnlockableContent> options",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.options_before"
+          ]
+        },
+        "item_configured": {
+          "godot_symbol": "source_block_get_plan_configs_input.item_configured",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "configurations.containsKey(Item.class)",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.item_configured"
+          ]
+        },
+        "liquid_configured": {
+          "godot_symbol": "source_block_get_plan_configs_input.liquid_configured",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "configurations.containsKey(Liquid.class)",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.liquid_configured"
+          ]
+        },
+        "content_items": {
+          "godot_symbol": "source_block_get_plan_configs_input.content_items",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "content.items()",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.content_items"
+          ]
+        },
+        "content_liquids": {
+          "godot_symbol": "source_block_get_plan_configs_input.content_liquids",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "content.liquids()",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.content_liquids"
+          ]
+        }
+      }
+    },
+    "source_block_get_plan_configs_result": {
+      "owner": "PortGame.source_block_get_plan_configs_state",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_get_plan_configs_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_get_plan_configs_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "PortGame.source_block_get_plan_configs_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.method"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_block_get_plan_configs_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.method"
+          ]
+        },
+        "comment": {
+          "godot_symbol": "source_block_get_plan_configs_result.comment",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "/** Fills the specified array with the list of configuration options this block has. Only used for plans. */",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.comment"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_block_get_plan_configs_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "public void getPlanConfigs(Seq<UnlockableContent> options){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.method"
+          ]
+        },
+        "item_guard_expr": {
+          "godot_symbol": "source_block_get_plan_configs_result.item_guard_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "if(configurations.containsKey(Item.class)){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.item_guard_expr"
+          ]
+        },
+        "item_add_expr": {
+          "godot_symbol": "source_block_get_plan_configs_result.item_add_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "options.add(content.items());",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.item_add_expr"
+          ]
+        },
+        "liquid_guard_expr": {
+          "godot_symbol": "source_block_get_plan_configs_result.liquid_guard_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "if(configurations.containsKey(Liquid.class)){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.liquid_guard_expr"
+          ]
+        },
+        "liquid_add_expr": {
+          "godot_symbol": "source_block_get_plan_configs_result.liquid_add_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "options.add(content.liquids());",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.liquid_add_expr"
+          ]
+        },
+        "options_before": {
+          "godot_symbol": "source_block_get_plan_configs_result.options_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "Seq<UnlockableContent> options",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.options_before"
+          ]
+        },
+        "item_configured": {
+          "godot_symbol": "source_block_get_plan_configs_result.item_configured",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "configurations.containsKey(Item.class)",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.item_configured"
+          ]
+        },
+        "liquid_configured": {
+          "godot_symbol": "source_block_get_plan_configs_result.liquid_configured",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "configurations.containsKey(Liquid.class)",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.liquid_configured"
+          ]
+        },
+        "content_items": {
+          "godot_symbol": "source_block_get_plan_configs_result.content_items",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "content.items()",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.content_items"
+          ]
+        },
+        "content_liquids": {
+          "godot_symbol": "source_block_get_plan_configs_result.content_liquids",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "content.liquids()",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.content_liquids"
+          ]
+        },
+        "item_options_added": {
+          "godot_symbol": "source_block_get_plan_configs_result.item_options_added",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "options.add(content.items());",
+          "type": "int",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.item_add_expr"
+          ]
+        },
+        "liquid_options_added": {
+          "godot_symbol": "source_block_get_plan_configs_result.liquid_options_added",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "options.add(content.liquids());",
+          "type": "int",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.liquid_add_expr"
+          ]
+        },
+        "options_after": {
+          "godot_symbol": "source_block_get_plan_configs_result.options_after",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+          "java_expr": "Seq.add(Seq<? extends T> array)",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_get_plan_configs_state"
+          ],
+          "source_symbols": [
+            "block_get_plan_configs.item_add_expr",
+            "block_get_plan_configs.liquid_add_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

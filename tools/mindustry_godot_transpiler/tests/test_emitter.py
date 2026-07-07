@@ -10696,6 +10696,53 @@ public class Block{
             self.assertIn('"assignment_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));"', source_text)
             self.assertIn('"rotation_after": rotation_after', source_text)
 
+    def test_emit_bridges_block_get_plan_configs_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    /** Fills the specified array with the list of configuration options this block has. Only used for plans. */
+    public void getPlanConfigs(Seq<UnlockableContent> options){
+        if(configurations.containsKey(Item.class)){
+            options.add(content.items());
+        }
+        if(configurations.containsKey(Liquid.class)){
+            options.add(content.liquids());
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_getPlanConfigs_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar options_before: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn("\tvar item_configured: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\tvar liquid_configured: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("\tvar content_items: Array = _args[3] if _args.size() > 3 else []", source_text)
+            self.assertIn("\tvar content_liquids: Array = _args[4] if _args.size() > 4 else []", source_text)
+            self.assertIn("\tvar options_after: Array = options_before.duplicate()", source_text)
+            self.assertIn("\tif item_configured:", source_text)
+            self.assertIn("\t\toptions_after.append_array(content_items)", source_text)
+            self.assertIn("\tif liquid_configured:", source_text)
+            self.assertIn("\t\toptions_after.append_array(content_liquids)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_get_plan_configs_state"', source_text)
+            self.assertIn('"method": "public void getPlanConfigs(Seq<UnlockableContent> options){"', source_text)
+            self.assertIn('"item_add_expr": "options.add(content.items());"', source_text)
+            self.assertIn('"liquid_add_expr": "options.add(content.liquids());"', source_text)
+            self.assertIn('"options_after": options_after', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

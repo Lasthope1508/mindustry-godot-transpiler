@@ -18052,6 +18052,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_flipRotation_130"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_get_plan_configs_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_get_plan_configs_state(options_before: Array, item_configured: bool, liquid_configured: bool, content_items: Array, content_liquids: Array) -> Dictionary:", source)
+        self.assertIn("var options_after: Array = options_before.duplicate()", source)
+        self.assertIn("options_after.append_array(content_items)", source)
+        self.assertIn("options_after.append_array(content_liquids)", source)
+        self.assertIn("var item_options_added: int = content_items.size() if item_configured else 0", source)
+        self.assertIn("var liquid_options_added: int = content_liquids.size() if liquid_configured else 0", source)
+        self.assertIn('"source_owner": "PortGame.source_block_get_plan_configs_state"', source)
+        self.assertIn('"method": "public void getPlanConfigs(Seq<UnlockableContent> options){"', source)
+        self.assertIn('"item_add_expr": "options.add(content.items());"', source)
+        self.assertIn('"liquid_add_expr": "options.add(content.liquids());"', source)
+        self.assertIn('"options_after": options_after', source)
+
+    def test_port_game_exposes_generated_block_get_plan_configs_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_get_plan_configs_bridge_state(options_before: Array, item_configured: bool, liquid_configured: bool, content_items: Array, content_liquids: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_getPlanConfigs_131([options_before, item_configured, liquid_configured, content_items, content_liquids])", source)
+        self.assertIn("var canonical = source_block_get_plan_configs_state(options_before, item_configured, liquid_configured, content_items, content_liquids)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_get_plan_configs_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_getPlanConfigs_131"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

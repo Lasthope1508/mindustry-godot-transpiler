@@ -103994,6 +103994,204 @@
         "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed nested planRotation call in flipRotation assignment."
+    },
+    "block_get_plan_configs.comment": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "/** Fills the specified array with the list of configuration options this block has. Only used for plans. */",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_result.comment",
+      "status": "source-backed",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin Block.getPlanConfigs plan-options comment."
+    },
+    "block_get_plan_configs.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "public void getPlanConfigs(Seq<UnlockableContent> options){",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_result.method",
+      "status": "source-backed",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin Block.getPlanConfigs method boundary."
+    },
+    "block_get_plan_configs.item_guard_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "if(configurations.containsKey(Item.class)){",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_result.item_configured",
+      "status": "source-backed",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin item configuration guard for plan configs."
+    },
+    "block_get_plan_configs.item_add_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "options.add(content.items());",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_result.options_after",
+      "status": "source-backed",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin item content append for plan configs."
+    },
+    "block_get_plan_configs.liquid_guard_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "if(configurations.containsKey(Liquid.class)){",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_result.liquid_configured",
+      "status": "source-backed",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin liquid configuration guard for plan configs."
+    },
+    "block_get_plan_configs.liquid_add_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "options.add(content.liquids());",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_result.options_after",
+      "status": "source-backed",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin liquid content append for plan configs."
+    },
+    "block_get_plan_configs.options_before": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "Seq<UnlockableContent> options",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_input.options_before",
+      "status": "explicit-input",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for existing options before mutation."
+    },
+    "block_get_plan_configs.item_configured": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "configurations.containsKey(Item.class)",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_input.item_configured",
+      "status": "explicit-input",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for item configuration presence."
+    },
+    "block_get_plan_configs.liquid_configured": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "configurations.containsKey(Liquid.class)",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_input.liquid_configured",
+      "status": "explicit-input",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for liquid configuration presence."
+    },
+    "block_get_plan_configs.content_items": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "content.items()",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_input.content_items",
+      "status": "explicit-input",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for content.items() sequence."
+    },
+    "block_get_plan_configs.content_liquids": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.getPlanConfigs(Seq<UnlockableContent> options)",
+      "java_expr": "content.liquids()",
+      "godot_owner": "PortGame.source_block_get_plan_configs_state",
+      "godot_symbol": "source_block_get_plan_configs_input.content_liquids",
+      "status": "explicit-input",
+      "source_slice": "N1362",
+      "runtime_proof": "/root/Main.source_block_get_plan_configs_state",
+      "tests": [
+        "test_emit_bridges_block_get_plan_configs_to_source_state",
+        "test_port_game_exposes_source_block_get_plan_configs_state",
+        "test_port_game_exposes_generated_block_get_plan_configs_bridge_state",
+        "test_block_get_plan_configs_matches_upstream_source",
+        "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for content.liquids() sequence."
     }
   },
   "version": 1
