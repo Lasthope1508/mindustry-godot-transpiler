@@ -18187,6 +18187,34 @@ func generated_block_research_requirements_output_fill_bridge_state(research_cos
 		"matches": result == canonical,
 	}
 
+func source_block_get_dependencies_requirements_state(requirements: Array) -> Dictionary:
+	var dependency_items: Array = []
+	for requirement in requirements:
+		dependency_items.append(requirement.get("item"))
+	return {
+		"source_owner": "PortGame.source_block_get_dependencies_requirements_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void getDependencies(Cons<UnlockableContent> cons){",
+		"requirements_comment": "//just requires items",
+		"requirements_loop_expr": "for(ItemStack stack : requirements){",
+		"cons_get_item_expr": "cons.get(stack.item);",
+		"requirements": requirements,
+		"dependency_items": dependency_items,
+	}
+
+func generated_block_get_dependencies_requirements_bridge_state(requirements: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_getDependencies_119([requirements])
+	var canonical = source_block_get_dependencies_requirements_state(requirements)
+	return {
+		"source_owner": "PortGame.source_block_get_dependencies_requirements_state",
+		"generated_owner": "Block.java_method_getDependencies_119",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

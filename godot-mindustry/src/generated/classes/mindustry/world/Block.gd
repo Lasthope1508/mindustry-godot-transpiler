@@ -542,7 +542,11 @@ func java_method_researchRequirements_118(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_research_requirements_output_fill_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "itemstack_fill_expr": "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));", "return_out_expr": "return out;", "quantity_values": quantity_values, "rounded_amount_values": rounded_amount_values, "output_requirements": output_requirements, "returned_requirements": output_requirements}
 
 func java_method_getDependencies_119(_args: Array = []) -> Variant:
-	return null
+	var requirements: Array = _args[0] if _args.size() > 0 else []
+	var dependency_items: Array = []
+	for requirement in requirements:
+		dependency_items.append(requirement.get("item"))
+	return {"source_owner": "PortGame.source_block_get_dependencies_requirements_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "requirements_comment": "//just requires items", "requirements_loop_expr": "for(ItemStack stack : requirements){", "cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items}
 
 func java_method_getContentType_120(_args: Array = []) -> Variant:
 	return null

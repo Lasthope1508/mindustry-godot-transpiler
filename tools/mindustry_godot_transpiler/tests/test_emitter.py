@@ -8915,6 +8915,46 @@ public class Block{
             self.assertIn('"output_requirements": output_requirements', source_text)
             self.assertIn('"returned_requirements": output_requirements', source_text)
 
+    def test_emit_bridges_block_get_dependencies_requirements_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public void getDependencies(Cons<UnlockableContent> cons){
+        //just requires items
+        for(ItemStack stack : requirements){
+            cons.get(stack.item);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_getDependencies_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar requirements: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn("\tvar dependency_items: Array = []", source_text)
+            self.assertIn("\tfor requirement in requirements:", source_text)
+            self.assertIn('\t\tdependency_items.append(requirement.get("item"))', source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_get_dependencies_requirements_state"', source_text)
+            self.assertIn('"method": "public void getDependencies(Cons<UnlockableContent> cons){"', source_text)
+            self.assertIn('"requirements_comment": "//just requires items"', source_text)
+            self.assertIn('"requirements_loop_expr": "for(ItemStack stack : requirements){"', source_text)
+            self.assertIn('"cons_get_item_expr": "cons.get(stack.item);"', source_text)
+            self.assertIn('"dependency_items": dependency_items', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

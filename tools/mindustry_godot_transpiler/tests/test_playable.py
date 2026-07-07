@@ -16967,5 +16967,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_researchRequirements_118"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_get_dependencies_requirements_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_get_dependencies_requirements_state(requirements: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_get_dependencies_requirements_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void getDependencies(Cons<UnlockableContent> cons){"', source)
+        self.assertIn('"requirements_comment": "//just requires items"', source)
+        self.assertIn('"requirements_loop_expr": "for(ItemStack stack : requirements){"', source)
+        self.assertIn('"cons_get_item_expr": "cons.get(stack.item);"', source)
+        self.assertIn('"dependency_items": dependency_items', source)
+
+    def test_port_game_exposes_generated_block_get_dependencies_requirements_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_get_dependencies_requirements_bridge_state(requirements: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_getDependencies_119([requirements])", source)
+        self.assertIn("var canonical = source_block_get_dependencies_requirements_state(requirements)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_get_dependencies_requirements_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_getDependencies_119"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

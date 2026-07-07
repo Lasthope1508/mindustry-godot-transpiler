@@ -119795,6 +119795,142 @@
       "runtime_proof": "/root/Main.source_block_research_requirements_output_fill_state",
       "source_slice": "N1315",
       "status": "active"
+    },
+    "source_block_get_dependencies_requirements_input": {
+      "keys": {
+        "requirements": {
+          "godot_symbol": "source_block_get_dependencies_requirements_input.requirements",
+          "java_expr": "requirements",
+          "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_dependencies_requirements_state"
+          ],
+          "source_symbols": [],
+          "status": "explicit-input",
+          "type": "Array"
+        }
+      },
+      "owner": "PortGame.source_block_get_dependencies_requirements_state",
+      "rule": "Inputs for PortGame.source_block_get_dependencies_requirements_state.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_requirements_state",
+      "source_slice": "N1316",
+      "status": "active"
+    },
+    "source_block_get_dependencies_requirements_result": {
+      "keys": {
+        "cons_get_item_expr": {
+          "godot_symbol": "source_block_get_dependencies_requirements_result.cons_get_item_expr",
+          "java_expr": "cons.get(stack.item);",
+          "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_dependencies_requirements_state"
+          ],
+          "source_symbols": [
+            "block_get_dependencies_requirements.cons_get_item_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "dependency_items": {
+          "godot_symbol": "source_block_get_dependencies_requirements_result.dependency_items",
+          "java_expr": "cons.get(stack.item);",
+          "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_dependencies_requirements_state"
+          ],
+          "source_symbols": [
+            "block_get_dependencies_requirements.cons_get_item_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "method": {
+          "godot_symbol": "source_block_get_dependencies_requirements_result.method",
+          "java_expr": "public void getDependencies(Cons<UnlockableContent> cons){",
+          "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_dependencies_requirements_state"
+          ],
+          "source_symbols": [
+            "block_get_dependencies_requirements.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "requirements": {
+          "godot_symbol": "source_block_get_dependencies_requirements_result.requirements",
+          "java_expr": "requirements",
+          "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_dependencies_requirements_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "requirements_comment": {
+          "godot_symbol": "source_block_get_dependencies_requirements_result.requirements_comment",
+          "java_expr": "//just requires items",
+          "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_dependencies_requirements_state"
+          ],
+          "source_symbols": [
+            "block_get_dependencies_requirements.requirements_comment"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "requirements_loop_expr": {
+          "godot_symbol": "source_block_get_dependencies_requirements_result.requirements_loop_expr",
+          "java_expr": "for(ItemStack stack : requirements){",
+          "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_dependencies_requirements_state"
+          ],
+          "source_symbols": [
+            "block_get_dependencies_requirements.requirements_loop_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_get_dependencies_requirements_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_dependencies_requirements_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_get_dependencies_requirements_result.source_owner",
+          "java_expr": "PortGame.source_block_get_dependencies_requirements_state",
+          "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_get_dependencies_requirements_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_get_dependencies_requirements_state",
+      "rule": "Dictionary returned by PortGame.source_block_get_dependencies_requirements_state.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_requirements_state",
+      "source_slice": "N1316",
+      "status": "active"
     }
   },
   "version": 1

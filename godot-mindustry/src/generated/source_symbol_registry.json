@@ -98072,6 +98072,78 @@
         "test_block_research_requirements_output_fill_matches_upstream_source",
         "test_generated_block_research_requirements_output_fill_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_get_dependencies_requirements.method": {
+      "godot_owner": "PortGame.source_block_get_dependencies_requirements_state",
+      "godot_symbol": "source_block_get_dependencies_requirements_result.method",
+      "java_expr": "public void getDependencies(Cons<UnlockableContent> cons){",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.getDependencies method boundary.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_requirements_state",
+      "source_slice": "N1316",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_requirements_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_requirements_state",
+        "test_port_game_exposes_generated_block_get_dependencies_requirements_bridge_state",
+        "test_block_get_dependencies_requirements_matches_upstream_source",
+        "test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_get_dependencies_requirements.requirements_comment": {
+      "godot_owner": "PortGame.source_block_get_dependencies_requirements_state",
+      "godot_symbol": "source_block_get_dependencies_requirements_result.requirements_comment",
+      "java_expr": "//just requires items",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve first dependency loop comment.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_requirements_state",
+      "source_slice": "N1316",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_requirements_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_requirements_state",
+        "test_port_game_exposes_generated_block_get_dependencies_requirements_bridge_state",
+        "test_block_get_dependencies_requirements_matches_upstream_source",
+        "test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_get_dependencies_requirements.requirements_loop_expr": {
+      "godot_owner": "PortGame.source_block_get_dependencies_requirements_state",
+      "godot_symbol": "source_block_get_dependencies_requirements_result.requirements_loop_expr",
+      "java_expr": "for(ItemStack stack : requirements){",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve requirement ItemStack iteration.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_requirements_state",
+      "source_slice": "N1316",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_requirements_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_requirements_state",
+        "test_port_game_exposes_generated_block_get_dependencies_requirements_bridge_state",
+        "test_block_get_dependencies_requirements_matches_upstream_source",
+        "test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_get_dependencies_requirements.cons_get_item_expr": {
+      "godot_owner": "PortGame.source_block_get_dependencies_requirements_state",
+      "godot_symbol": "source_block_get_dependencies_requirements_result.dependency_items",
+      "java_expr": "cons.get(stack.item);",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve dependency dispatch for each requirement item.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_requirements_state",
+      "source_slice": "N1316",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_requirements_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_requirements_state",
+        "test_port_game_exposes_generated_block_get_dependencies_requirements_bridge_state",
+        "test_block_get_dependencies_requirements_matches_upstream_source",
+        "test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

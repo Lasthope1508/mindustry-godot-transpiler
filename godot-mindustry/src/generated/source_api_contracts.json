@@ -33025,6 +33025,39 @@
         "test_block_research_requirements_output_fill_matches_upstream_source",
         "test_generated_block_research_requirements_output_fill_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_get_dependencies_requirements_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_get_dependencies_requirements_input.requirements",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "requirements_comment",
+        "requirements_loop_expr",
+        "cons_get_item_expr",
+        "requirements",
+        "dependency_items"
+      ],
+      "rule": "Pin source-backed Block.getDependencies() requirement item dependency loop before consumeBuilder branch.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_requirements_state",
+      "source_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "source_slice": "N1316",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_requirements_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_requirements_state",
+        "test_port_game_exposes_generated_block_get_dependencies_requirements_bridge_state",
+        "test_block_get_dependencies_requirements_matches_upstream_source",
+        "test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

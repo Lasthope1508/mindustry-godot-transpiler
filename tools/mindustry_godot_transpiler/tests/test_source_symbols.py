@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 789)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 784)
+        self.assertEqual(audit["totalSourceFunctions"], 790)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 785)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 789)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 790)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44884,6 +44884,48 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_research_requirements_output_fill_result")
         self.assertEqual(result_schema["keys"]["output_requirements"]["java_expr"], "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));")
         self.assertEqual(result_schema["keys"]["returned_requirements"]["java_expr"], "return out;")
+
+    def test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        cons_get = source_symbols.source_symbol(registry, "block_get_dependencies_requirements.cons_get_item_expr")
+        self.assertEqual(cons_get["java_expr"], "cons.get(stack.item);")
+        self.assertEqual(cons_get["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(cons_get["java_method"], "Block.getDependencies(Cons<UnlockableContent> cons)")
+        self.assertEqual(cons_get["godot_owner"], "PortGame.source_block_get_dependencies_requirements_state")
+        self.assertEqual(cons_get["godot_symbol"], "source_block_get_dependencies_requirements_result.dependency_items")
+        self.assertEqual(cons_get["runtime_proof"], "/root/Main.source_block_get_dependencies_requirements_state")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1316")
+        self.assertEqual(setup_slice["title"], "Generated Block getDependencies requirements bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.getDependencies(Cons<UnlockableContent> cons)")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_get_dependencies_requirements_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_getDependencies_119")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_get_dependencies_requirements_bridge_state")
+        for expr in [
+            "public void getDependencies(Cons<UnlockableContent> cons){",
+            "//just requires items",
+            "for(ItemStack stack : requirements){",
+            "cons.get(stack.item);",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_get_dependencies_requirements_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["requirements"])
+        for key in ["source_owner", "source", "method", "requirements_comment", "requirements_loop_expr", "cons_get_item_expr", "requirements", "dependency_items"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_get_dependencies_requirements_input")
+        self.assertEqual(input_schema["keys"]["requirements"]["java_expr"], "requirements")
+        result_schema = source_symbols.state_schema(schema, "source_block_get_dependencies_requirements_result")
+        self.assertEqual(result_schema["keys"]["dependency_items"]["java_expr"], "cons.get(stack.item);")
+        self.assertEqual(result_schema["keys"]["requirements_loop_expr"]["java_expr"], "for(ItemStack stack : requirements){")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

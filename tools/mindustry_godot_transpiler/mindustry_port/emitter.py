@@ -1842,6 +1842,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "getDependencies"
+        and len(method.get("parameters", [])) == 1
+    ):
+        return [
+            "\tvar requirements: Array = _args[0] if _args.size() > 0 else []",
+            "\tvar dependency_items: Array = []",
+            "\tfor requirement in requirements:",
+            '\t\tdependency_items.append(requirement.get("item"))',
+            '\treturn {"source_owner": "PortGame.source_block_get_dependencies_requirements_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "requirements_comment": "//just requires items", "requirements_loop_expr": "for(ItemStack stack : requirements){", "cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):
