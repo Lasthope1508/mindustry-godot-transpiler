@@ -19053,6 +19053,35 @@ func generated_block_init_build_time_requirements_bridge_state(build_time_before
 		"matches": result == canonical,
 	}
 
+func source_block_init_build_time_default_state(build_time_before: float) -> Dictionary:
+	var build_time_assigned: bool = build_time_before < 0.0
+	var build_time_after: float = 20.0 if build_time_assigned else build_time_before
+	return {
+		"source_owner": "PortGame.source_block_init_build_time_default_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"build_time_guard_expr": "if(buildTime < 0){",
+		"build_time_default_expr": "buildTime = 20f;",
+		"build_time_before": build_time_before,
+		"build_time_assigned": build_time_assigned,
+		"build_time_after": build_time_after,
+	}
+
+func generated_block_init_build_time_default_bridge_state(build_time_before: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "build_time_default")
+	var result = instance.java_method_init_123([build_time_before])
+	var canonical = source_block_init_build_time_default_state(build_time_before)
+	return {
+		"source_owner": "PortGame.source_block_init_build_time_default_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

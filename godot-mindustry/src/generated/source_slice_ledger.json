@@ -31683,6 +31683,37 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.init() requirements buildTime summation to source-backed canonical state using ItemStack.amount and Item.cost."
+    },
+    "N1340": {
+      "title": "Generated Block init build time default bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_build_time_default_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_build_time_default_bridge_state",
+      "source_symbols": [
+        "block_init_build_time_default.method",
+        "block_init_build_time_default.super_init_expr",
+        "block_init_build_time_default.build_time_guard_expr",
+        "block_init_build_time_default.build_time_default_expr",
+        "block_init_build_time_default.build_time"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(buildTime < 0){",
+        "buildTime = 20f;"
+      ],
+      "tests": [
+        "test_emit_bridges_block_init_build_time_default_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_default_state",
+        "test_port_game_exposes_generated_block_init_build_time_default_bridge_state",
+        "test_block_init_build_time_default_matches_upstream_source",
+        "test_generated_block_init_build_time_default_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.init() default buildTime assignment to source-backed canonical state."
     }
   },
   "version": 1

@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 813)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 808)
+        self.assertEqual(audit["totalSourceFunctions"], 814)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 809)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 813)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 814)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46230,6 +46230,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_build_time_requirements_result")
         self.assertEqual(result_schema["keys"]["build_time_assigned"]["java_expr"], "requirements.length > 0 && buildTime < 0")
         self.assertEqual(result_schema["keys"]["build_time_after"]["java_expr"], "buildTime += stack.amount * stack.item.cost;")
+
+    def test_generated_block_init_build_time_default_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_build_time_default.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_build_time_default_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_build_time_default_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_build_time_default.build_time_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(buildTime < 0){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_build_time_default_result.build_time_assigned")
+
+        default_expr = source_symbols.source_symbol(registry, "block_init_build_time_default.build_time_default_expr")
+        self.assertEqual(default_expr["java_expr"], "buildTime = 20f;")
+        self.assertEqual(default_expr["godot_symbol"], "source_block_init_build_time_default_result.build_time_after")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1340")
+        self.assertEqual(setup_slice["title"], "Generated Block init build time default bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_build_time_default_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_build_time_default_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "if(buildTime < 0){",
+            "buildTime = 20f;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_build_time_default_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["build_time_before"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "build_time_guard_expr", "build_time_default_expr", "build_time_before", "build_time_assigned", "build_time_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_build_time_default_input")
+        self.assertEqual(input_schema["keys"]["build_time_before"]["java_expr"], "buildTime")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_build_time_default_result")
+        self.assertEqual(result_schema["keys"]["build_time_assigned"]["java_expr"], "buildTime < 0")
+        self.assertEqual(result_schema["keys"]["build_time_after"]["java_expr"], "buildTime = 20f;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

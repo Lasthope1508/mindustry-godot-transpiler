@@ -740,6 +740,11 @@ func java_method_init_123(_args: Array = []) -> Variant:
 				if stack is Dictionary:
 					build_time_after += float(stack.get("amount", 0)) * float(stack.get("cost", 1.0))
 		return {"source_owner": "PortGame.source_block_init_build_time_requirements_state", "source": "core/src/mindustry/world/Block.java", "item_source": "core/src/mindustry/type/Item.java", "item_stack_source": "core/src/mindustry/type/ItemStack.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_time_guard_expr": "if(requirements.length > 0 && buildTime < 0){", "build_time_zero_expr": "buildTime = 0f;", "requirements_loop_expr": "for(ItemStack stack : requirements){", "build_time_add_expr": "buildTime += stack.amount * stack.item.cost;", "item_cost_field_expr": "public float cost = 1f;", "itemstack_amount_field_expr": "public int amount = 0;", "build_time_before": build_time_before, "requirement_stacks": requirement_stacks, "requirements_length": requirements_length, "build_time_assigned": build_time_assigned, "build_time_after": build_time_after}
+	if init_bridge_mode == "build_time_default":
+		var default_build_time_before: float = float(_args[0] if _args.size() > 0 else -1.0)
+		var build_time_assigned: bool = default_build_time_before < 0.0
+		var build_time_after: float = 20.0 if build_time_assigned else default_build_time_before
+		return {"source_owner": "PortGame.source_block_init_build_time_default_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_time_guard_expr": "if(buildTime < 0){", "build_time_default_expr": "buildTime = 20f;", "build_time_before": default_build_time_before, "build_time_assigned": build_time_assigned, "build_time_after": build_time_after}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

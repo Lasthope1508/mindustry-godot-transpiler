@@ -10839,6 +10839,22 @@ def verify_block_init_build_time_requirements_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_block_init_build_time_default_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "build_time_guard_expr": "if(buildTime < 0){",
+        "build_time_default_expr": "buildTime = 20f;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

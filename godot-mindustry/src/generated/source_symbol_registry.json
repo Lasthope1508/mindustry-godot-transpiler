@@ -101186,6 +101186,96 @@
         "test_generated_block_init_build_time_requirements_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed Block.init() requirements buildTime expression."
+    },
+    "block_init_build_time_default.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "public void init(){",
+      "godot_owner": "PortGame.source_block_init_build_time_default_state",
+      "godot_symbol": "source_block_init_build_time_default_result.method",
+      "status": "source-backed",
+      "source_slice": "N1340",
+      "runtime_proof": "/root/Main.source_block_init_build_time_default_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_default_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_default_state",
+        "test_port_game_exposes_generated_block_init_build_time_default_bridge_state",
+        "test_block_init_build_time_default_matches_upstream_source",
+        "test_generated_block_init_build_time_default_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Block.init() source method for default buildTime branch."
+    },
+    "block_init_build_time_default.super_init_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "super.init();",
+      "godot_owner": "PortGame.source_block_init_build_time_default_state",
+      "godot_symbol": "source_block_init_build_time_default_result.super_init_expr",
+      "status": "source-backed",
+      "source_slice": "N1340",
+      "runtime_proof": "/root/Main.source_block_init_build_time_default_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_default_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_default_state",
+        "test_port_game_exposes_generated_block_init_build_time_default_bridge_state",
+        "test_block_init_build_time_default_matches_upstream_source",
+        "test_generated_block_init_build_time_default_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() default buildTime expression."
+    },
+    "block_init_build_time_default.build_time_guard_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "if(buildTime < 0){",
+      "godot_owner": "PortGame.source_block_init_build_time_default_state",
+      "godot_symbol": "source_block_init_build_time_default_result.build_time_assigned",
+      "status": "source-backed",
+      "source_slice": "N1340",
+      "runtime_proof": "/root/Main.source_block_init_build_time_default_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_default_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_default_state",
+        "test_port_game_exposes_generated_block_init_build_time_default_bridge_state",
+        "test_block_init_build_time_default_matches_upstream_source",
+        "test_generated_block_init_build_time_default_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() default buildTime expression."
+    },
+    "block_init_build_time_default.build_time_default_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "buildTime = 20f;",
+      "godot_owner": "PortGame.source_block_init_build_time_default_state",
+      "godot_symbol": "source_block_init_build_time_default_result.build_time_after",
+      "status": "source-backed",
+      "source_slice": "N1340",
+      "runtime_proof": "/root/Main.source_block_init_build_time_default_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_default_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_default_state",
+        "test_port_game_exposes_generated_block_init_build_time_default_bridge_state",
+        "test_block_init_build_time_default_matches_upstream_source",
+        "test_generated_block_init_build_time_default_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() default buildTime expression."
+    },
+    "block_init_build_time_default.build_time": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "java_expr": "buildTime",
+      "godot_owner": "PortGame.source_block_init_build_time_default_state",
+      "godot_symbol": "source_block_init_build_time_default_input.build_time_before",
+      "status": "explicit-input",
+      "source_slice": "N1340",
+      "runtime_proof": "/root/Main.source_block_init_build_time_default_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_default_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_default_state",
+        "test_port_game_exposes_generated_block_init_build_time_default_bridge_state",
+        "test_block_init_build_time_default_matches_upstream_source",
+        "test_generated_block_init_build_time_default_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.init() default buildTime expression."
     }
   },
   "version": 1
