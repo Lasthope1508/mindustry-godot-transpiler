@@ -16992,5 +16992,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_getDependencies_119"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_get_dependencies_consume_builder_optional_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_get_dependencies_consume_builder_optional_state(requirements: Array, consume_builder: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"inputs_comment": "//also requires inputs"', source)
+        self.assertIn('"consume_builder_loop_expr": "for(var c : consumeBuilder){"', source)
+        self.assertIn('"optional_guard_expr": "if(c.optional) continue;"', source)
+        self.assertIn('"consume_loop_indices": consume_loop_indices', source)
+        self.assertIn('"skipped_optional_indices": skipped_optional_indices', source)
+        self.assertIn('"non_optional_indices": non_optional_indices', source)
+
+    def test_port_game_exposes_generated_block_get_dependencies_consume_builder_optional_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_get_dependencies_consume_builder_optional_bridge_state(requirements: Array, consume_builder: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_getDependencies_119([requirements, consume_builder])", source)
+        self.assertIn("var canonical = source_block_get_dependencies_consume_builder_optional_state(requirements, consume_builder)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_getDependencies_119"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

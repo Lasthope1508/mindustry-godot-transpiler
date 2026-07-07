@@ -1850,7 +1850,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\tvar dependency_items: Array = []",
             "\tfor requirement in requirements:",
             '\t\tdependency_items.append(requirement.get("item"))',
-            '\treturn {"source_owner": "PortGame.source_block_get_dependencies_requirements_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "requirements_comment": "//just requires items", "requirements_loop_expr": "for(ItemStack stack : requirements){", "cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items}',
+            "\tif _args.size() <= 1:",
+            '\t\treturn {"source_owner": "PortGame.source_block_get_dependencies_requirements_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "requirements_comment": "//just requires items", "requirements_loop_expr": "for(ItemStack stack : requirements){", "cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items}',
+            "\tvar consume_builder: Array = _args[1] if _args.size() > 1 else []",
+            "\tvar consume_loop_indices: Array = []",
+            "\tvar skipped_optional_indices: Array = []",
+            "\tvar non_optional_indices: Array = []",
+            "\tfor i in range(consume_builder.size()):",
+            "\t\tconsume_loop_indices.append(i)",
+            "\t\tvar consume: Dictionary = consume_builder[i]",
+            '\t\tif bool(consume.get("optional", false)):',
+            "\t\t\tskipped_optional_indices.append(i)",
+            "\t\t\tcontinue",
+            "\t\tnon_optional_indices.append(i)",
+            '\treturn {"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "inputs_comment": "//also requires inputs", "consume_builder_loop_expr": "for(var c : consumeBuilder){", "optional_guard_expr": "if(c.optional) continue;", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices}',
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"

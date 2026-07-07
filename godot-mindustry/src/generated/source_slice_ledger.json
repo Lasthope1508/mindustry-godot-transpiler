@@ -30887,6 +30887,35 @@
         "test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block getDependencies requirements bridge state"
+    },
+    "N1317": {
+      "exact_exprs": [
+        "public void getDependencies(Cons<UnlockableContent> cons){",
+        "//also requires inputs",
+        "for(var c : consumeBuilder){",
+        "if(c.optional) continue;"
+      ],
+      "generated_owner": "Block.java_method_getDependencies_119",
+      "godot_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state",
+      "java_class": "Block",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_get_dependencies_consume_builder_optional_bridge_state",
+      "source_symbols": [
+        "block_get_dependencies_consume_builder_optional.method",
+        "block_get_dependencies_consume_builder_optional.inputs_comment",
+        "block_get_dependencies_consume_builder_optional.consume_builder_loop_expr",
+        "block_get_dependencies_consume_builder_optional.optional_guard_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_builder_optional_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_builder_optional_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_builder_optional_bridge_state",
+        "test_block_get_dependencies_consume_builder_optional_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_builder_optional_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block getDependencies consumeBuilder optional bridge state"
     }
   },
   "version": 1

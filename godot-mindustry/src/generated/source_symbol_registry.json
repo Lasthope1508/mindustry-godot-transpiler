@@ -98144,6 +98144,78 @@
         "test_block_get_dependencies_requirements_matches_upstream_source",
         "test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_get_dependencies_consume_builder_optional.method": {
+      "godot_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state",
+      "godot_symbol": "source_block_get_dependencies_consume_builder_optional_result.method",
+      "java_expr": "public void getDependencies(Cons<UnlockableContent> cons){",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.getDependencies method boundary.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_builder_optional_state",
+      "source_slice": "N1317",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_builder_optional_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_builder_optional_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_builder_optional_bridge_state",
+        "test_block_get_dependencies_consume_builder_optional_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_builder_optional_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_get_dependencies_consume_builder_optional.inputs_comment": {
+      "godot_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state",
+      "godot_symbol": "source_block_get_dependencies_consume_builder_optional_result.inputs_comment",
+      "java_expr": "//also requires inputs",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumeBuilder dependency comment.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_builder_optional_state",
+      "source_slice": "N1317",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_builder_optional_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_builder_optional_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_builder_optional_bridge_state",
+        "test_block_get_dependencies_consume_builder_optional_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_builder_optional_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_get_dependencies_consume_builder_optional.consume_builder_loop_expr": {
+      "godot_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state",
+      "godot_symbol": "source_block_get_dependencies_consume_builder_optional_result.consume_loop_indices",
+      "java_expr": "for(var c : consumeBuilder){",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve consumeBuilder iteration shape.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_builder_optional_state",
+      "source_slice": "N1317",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_builder_optional_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_builder_optional_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_builder_optional_bridge_state",
+        "test_block_get_dependencies_consume_builder_optional_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_builder_optional_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_get_dependencies_consume_builder_optional.optional_guard_expr": {
+      "godot_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state",
+      "godot_symbol": "source_block_get_dependencies_consume_builder_optional_result.skipped_optional_indices",
+      "java_expr": "if(c.optional) continue;",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve optional consume skip guard.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_builder_optional_state",
+      "source_slice": "N1317",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_builder_optional_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_builder_optional_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_builder_optional_bridge_state",
+        "test_block_get_dependencies_consume_builder_optional_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_builder_optional_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

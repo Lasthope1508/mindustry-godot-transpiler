@@ -33058,6 +33058,49 @@
         "test_block_get_dependencies_requirements_matches_upstream_source",
         "test_generated_block_get_dependencies_requirements_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_get_dependencies_consume_builder_optional_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_get_dependencies_consume_builder_optional_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "consumeBuilder",
+          "name": "consume_builder",
+          "schema": "source_block_get_dependencies_consume_builder_optional_input.consume_builder",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "inputs_comment",
+        "consume_builder_loop_expr",
+        "optional_guard_expr",
+        "requirements",
+        "dependency_items",
+        "consume_builder",
+        "consume_loop_indices",
+        "skipped_optional_indices",
+        "non_optional_indices"
+      ],
+      "rule": "Pin source-backed Block.getDependencies() consumeBuilder loop and optional skip guard before ConsumeItems branch.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_builder_optional_state",
+      "source_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "source_slice": "N1317",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_builder_optional_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_builder_optional_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_builder_optional_bridge_state",
+        "test_block_get_dependencies_consume_builder_optional_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_builder_optional_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

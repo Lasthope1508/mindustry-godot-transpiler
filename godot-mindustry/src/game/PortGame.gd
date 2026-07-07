@@ -18215,6 +18215,47 @@ func generated_block_get_dependencies_requirements_bridge_state(requirements: Ar
 		"matches": result == canonical,
 	}
 
+func source_block_get_dependencies_consume_builder_optional_state(requirements: Array, consume_builder: Array) -> Dictionary:
+	var requirements_state := source_block_get_dependencies_requirements_state(requirements)
+	var dependency_items: Array = requirements_state.get("dependency_items", [])
+	var consume_loop_indices: Array = []
+	var skipped_optional_indices: Array = []
+	var non_optional_indices: Array = []
+	for i in range(consume_builder.size()):
+		consume_loop_indices.append(i)
+		var consume: Dictionary = consume_builder[i]
+		if bool(consume.get("optional", false)):
+			skipped_optional_indices.append(i)
+			continue
+		non_optional_indices.append(i)
+	return {
+		"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void getDependencies(Cons<UnlockableContent> cons){",
+		"inputs_comment": "//also requires inputs",
+		"consume_builder_loop_expr": "for(var c : consumeBuilder){",
+		"optional_guard_expr": "if(c.optional) continue;",
+		"requirements": requirements,
+		"dependency_items": dependency_items,
+		"consume_builder": consume_builder,
+		"consume_loop_indices": consume_loop_indices,
+		"skipped_optional_indices": skipped_optional_indices,
+		"non_optional_indices": non_optional_indices,
+	}
+
+func generated_block_get_dependencies_consume_builder_optional_bridge_state(requirements: Array, consume_builder: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_getDependencies_119([requirements, consume_builder])
+	var canonical = source_block_get_dependencies_consume_builder_optional_state(requirements, consume_builder)
+	return {
+		"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state",
+		"generated_owner": "Block.java_method_getDependencies_119",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

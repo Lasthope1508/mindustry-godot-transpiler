@@ -8955,6 +8955,58 @@ public class Block{
             self.assertIn('"cons_get_item_expr": "cons.get(stack.item);"', source_text)
             self.assertIn('"dependency_items": dependency_items', source_text)
 
+    def test_emit_bridges_block_get_dependencies_consume_builder_optional_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public void getDependencies(Cons<UnlockableContent> cons){
+        //just requires items
+        for(ItemStack stack : requirements){
+            cons.get(stack.item);
+        }
+
+        //also requires inputs
+        for(var c : consumeBuilder){
+            if(c.optional) continue;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_getDependencies_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tif _args.size() <= 1:", source_text)
+            self.assertIn('\t\treturn {"source_owner": "PortGame.source_block_get_dependencies_requirements_state"', source_text)
+            self.assertIn("\tvar consume_builder: Array = _args[1] if _args.size() > 1 else []", source_text)
+            self.assertIn("\tvar consume_loop_indices: Array = []", source_text)
+            self.assertIn("\tvar skipped_optional_indices: Array = []", source_text)
+            self.assertIn("\tvar non_optional_indices: Array = []", source_text)
+            self.assertIn("\tfor i in range(consume_builder.size()):", source_text)
+            self.assertIn("\t\tvar consume: Dictionary = consume_builder[i]", source_text)
+            self.assertIn('\t\tif bool(consume.get("optional", false)):', source_text)
+            self.assertIn("\t\t\tskipped_optional_indices.append(i)", source_text)
+            self.assertIn("\t\t\tcontinue", source_text)
+            self.assertIn("\t\tnon_optional_indices.append(i)", source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state"', source_text)
+            self.assertIn('"inputs_comment": "//also requires inputs"', source_text)
+            self.assertIn('"consume_builder_loop_expr": "for(var c : consumeBuilder){"', source_text)
+            self.assertIn('"optional_guard_expr": "if(c.optional) continue;"', source_text)
+            self.assertIn('"consume_loop_indices": consume_loop_indices', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

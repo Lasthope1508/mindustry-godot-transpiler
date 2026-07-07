@@ -546,7 +546,20 @@ func java_method_getDependencies_119(_args: Array = []) -> Variant:
 	var dependency_items: Array = []
 	for requirement in requirements:
 		dependency_items.append(requirement.get("item"))
-	return {"source_owner": "PortGame.source_block_get_dependencies_requirements_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "requirements_comment": "//just requires items", "requirements_loop_expr": "for(ItemStack stack : requirements){", "cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items}
+	if _args.size() <= 1:
+		return {"source_owner": "PortGame.source_block_get_dependencies_requirements_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "requirements_comment": "//just requires items", "requirements_loop_expr": "for(ItemStack stack : requirements){", "cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items}
+	var consume_builder: Array = _args[1] if _args.size() > 1 else []
+	var consume_loop_indices: Array = []
+	var skipped_optional_indices: Array = []
+	var non_optional_indices: Array = []
+	for i in range(consume_builder.size()):
+		consume_loop_indices.append(i)
+		var consume: Dictionary = consume_builder[i]
+		if bool(consume.get("optional", false)):
+			skipped_optional_indices.append(i)
+			continue
+		non_optional_indices.append(i)
+	return {"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "inputs_comment": "//also requires inputs", "consume_builder_loop_expr": "for(var c : consumeBuilder){", "optional_guard_expr": "if(c.optional) continue;", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices}
 
 func java_method_getContentType_120(_args: Array = []) -> Variant:
 	return null
