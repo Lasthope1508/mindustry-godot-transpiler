@@ -18246,6 +18246,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildPayload.java_method_content_4"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_build_payload_build_time_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_build_payload_build_time_state(build_time: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_build_time_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source)
+        self.assertIn('"field_expr": "public Building build;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public float buildTime(){"', source)
+        self.assertIn('"return_expr": "return build.block.buildTime;"', source)
+        self.assertIn('"buildTime": build_time', source)
+
+    def test_port_game_exposes_generated_build_payload_build_time_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_build_payload_build_time_bridge_state(build_time: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_buildTime_8([build_time])", source)
+        self.assertIn("var canonical = source_build_payload_build_time_state(build_time)", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_build_time_state"', source)
+        self.assertIn('"generated_owner": "BuildPayload.java_method_buildTime_8"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

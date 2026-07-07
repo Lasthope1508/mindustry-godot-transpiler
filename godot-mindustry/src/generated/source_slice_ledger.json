@@ -12081,6 +12081,40 @@
       ],
       "title": "Generated BuildPayload content bridge state"
     },
+    "N1369": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "@Override",
+        "public float buildTime(){",
+        "return build.block.buildTime;"
+      ],
+      "generated_owner": "BuildPayload.java_method_buildTime_8",
+      "godot_owner": "PortGame.source_build_payload_build_time_state",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.buildTime()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Generated BuildPayload.buildTime() bridge returns the contained building block buildTime.",
+      "runtime_proof": "/root/Main.generated_build_payload_build_time_bridge_state",
+      "source_symbols": [
+        "build_payload_build_time.method",
+        "build_payload_build_time.return_expr",
+        "build_payload_build_time.class_expr",
+        "build_payload_build_time.field_expr",
+        "build_payload_build_time.override_expr",
+        "build_payload_build_time.build_time"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_build_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_build_payload_build_time_state",
+        "test_port_game_exposes_generated_build_payload_build_time_bridge_state",
+        "test_build_payload_build_time_matches_upstream_source",
+        "test_generated_build_payload_build_time_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated BuildPayload buildTime bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

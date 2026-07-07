@@ -6497,6 +6497,39 @@
         "test_generated_build_payload_content_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_build_payload_build_time_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [
+        {
+          "java_expr": "build.block.buildTime",
+          "name": "build_time",
+          "schema": "source_build_payload_build_time_input.build_time",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "buildTime"
+      ],
+      "rule": "PortGame.source_build_payload_build_time_state pins BuildPayload.buildTime() return contract.",
+      "runtime_proof": "/root/Main.source_build_payload_build_time_state",
+      "source_method": "BuildPayload.buildTime()",
+      "source_slice": "N1369",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_build_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_build_payload_build_time_state",
+        "test_port_game_exposes_generated_build_payload_build_time_bridge_state",
+        "test_build_payload_build_time_matches_upstream_source",
+        "test_generated_build_payload_build_time_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_builder_actively_building_state": {
       "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
       "params": [

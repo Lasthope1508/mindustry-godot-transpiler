@@ -40,7 +40,8 @@ func java_method_requirements_7(_args: Array = []) -> Variant:
 	return null
 
 func java_method_buildTime_8(_args: Array = []) -> Variant:
-	return null
+	var build_time: float = float(_args[0] if _args.size() > 0 else 0.0)
+	return {"source_owner": "PortGame.source_build_payload_build_time_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public float buildTime(){", "return_expr": "return build.block.buildTime;", "buildTime": build_time}
 
 func java_method_x_9(_args: Array = []) -> Variant:
 	return null

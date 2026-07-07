@@ -1627,6 +1627,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_build_payload_content_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public UnlockableContent content(){", "return_expr": "return build.block;", "content": build_block}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
+        and method.get("name") == "buildTime"
+    ):
+        return [
+            "\tvar build_time: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\treturn {"source_owner": "PortGame.source_build_payload_build_time_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public float buildTime(){", "return_expr": "return build.block.buildTime;", "buildTime": build_time}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/production/Drill.java"
         and type_entry.get("name") == "Drill"
         and method.get("name") == "getDrillTime"
