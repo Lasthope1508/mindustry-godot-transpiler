@@ -34942,6 +34942,51 @@
       ],
       "status": "active",
       "rule": "Public runtime contract for Block.isHidden() generated bridge state."
+    },
+    "PortGame.source_block_plan_rotation_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.planRotation(int rot)",
+      "source_slice": "N1360",
+      "params": [
+        {
+          "name": "rotate_value",
+          "type": "bool",
+          "java_expr": "rotate",
+          "schema": "source_block_plan_rotation_input.rotate"
+        },
+        {
+          "name": "lock_rotation",
+          "type": "bool",
+          "java_expr": "lockRotation",
+          "schema": "source_block_plan_rotation_input.lockRotation"
+        },
+        {
+          "name": "rot",
+          "type": "int",
+          "java_expr": "int rot",
+          "schema": "source_block_plan_rotation_input.rot"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "return_expr",
+        "rotate",
+        "lockRotation",
+        "rot",
+        "plan_rotation"
+      ],
+      "runtime_proof": "/root/Main.source_block_plan_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_plan_rotation_to_source_state",
+        "test_port_game_exposes_source_block_plan_rotation_state",
+        "test_port_game_exposes_generated_block_plan_rotation_bridge_state",
+        "test_block_plan_rotation_matches_upstream_source",
+        "test_generated_block_plan_rotation_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for Block.planRotation(int rot) generated bridge state."
     }
   },
   "policy": {

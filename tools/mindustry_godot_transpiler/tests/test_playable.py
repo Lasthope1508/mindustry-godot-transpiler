@@ -17997,6 +17997,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_isHidden_127"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_plan_rotation_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_plan_rotation_state(rotate_value: bool, lock_rotation: bool, rot: int) -> Dictionary:", source)
+        self.assertIn("var plan_rotation_value: int = 0 if ((not rotate_value) and lock_rotation) else rot", source)
+        self.assertIn('"source_owner": "PortGame.source_block_plan_rotation_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public int planRotation(int rot){"', source)
+        self.assertIn('"return_expr": "return !rotate && lockRotation ? 0 : rot;"', source)
+        self.assertIn('"rotate": rotate_value', source)
+        self.assertIn('"lockRotation": lock_rotation', source)
+        self.assertIn('"rot": rot', source)
+        self.assertIn('"plan_rotation": plan_rotation_value', source)
+
+    def test_port_game_exposes_generated_block_plan_rotation_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_plan_rotation_bridge_state(rotate_value: bool, lock_rotation: bool, rot: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_planRotation_129([rotate_value, lock_rotation, rot])", source)
+        self.assertIn("var canonical = source_block_plan_rotation_state(rotate_value, lock_rotation, rot)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_plan_rotation_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_planRotation_129"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

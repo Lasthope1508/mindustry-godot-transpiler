@@ -32375,6 +32375,35 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.isHidden() visibility and revealedBlocks rule to source-backed canonical state."
+    },
+    "N1360": {
+      "title": "Generated Block planRotation bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.planRotation(int rot)",
+      "godot_owner": "PortGame.source_block_plan_rotation_state",
+      "generated_owner": "Block.java_method_planRotation_129",
+      "runtime_proof": "/root/Main.generated_block_plan_rotation_bridge_state",
+      "source_symbols": [
+        "block_plan_rotation.method",
+        "block_plan_rotation.return_expr",
+        "block_plan_rotation.rotate",
+        "block_plan_rotation.lock_rotation",
+        "block_plan_rotation.rot"
+      ],
+      "exact_exprs": [
+        "public int planRotation(int rot){",
+        "return !rotate && lockRotation ? 0 : rot;"
+      ],
+      "tests": [
+        "test_emit_bridges_block_plan_rotation_to_source_state",
+        "test_port_game_exposes_source_block_plan_rotation_state",
+        "test_port_game_exposes_generated_block_plan_rotation_bridge_state",
+        "test_block_plan_rotation_matches_upstream_source",
+        "test_generated_block_plan_rotation_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.planRotation(int rot) rotate and lockRotation rule to source-backed canonical state."
     }
   },
   "version": 1

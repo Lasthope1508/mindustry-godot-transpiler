@@ -129149,6 +129149,178 @@
           ]
         }
       }
+    },
+    "source_block_plan_rotation_input": {
+      "owner": "PortGame.source_block_plan_rotation_state",
+      "source_slice": "N1360",
+      "runtime_proof": "/root/Main.source_block_plan_rotation_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_plan_rotation_state.",
+      "keys": {
+        "rotate": {
+          "godot_symbol": "source_block_plan_rotation_input.rotate",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "rotate",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.rotate"
+          ]
+        },
+        "lockRotation": {
+          "godot_symbol": "source_block_plan_rotation_input.lockRotation",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "lockRotation",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.lock_rotation"
+          ]
+        },
+        "rot": {
+          "godot_symbol": "source_block_plan_rotation_input.rot",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "int rot",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.rot"
+          ]
+        }
+      }
+    },
+    "source_block_plan_rotation_result": {
+      "owner": "PortGame.source_block_plan_rotation_state",
+      "source_slice": "N1360",
+      "runtime_proof": "/root/Main.source_block_plan_rotation_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_plan_rotation_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_plan_rotation_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "PortGame.source_block_plan_rotation_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.method"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_block_plan_rotation_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.method"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_block_plan_rotation_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "public int planRotation(int rot){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.method"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_plan_rotation_result.return_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "return !rotate && lockRotation ? 0 : rot;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.return_expr"
+          ]
+        },
+        "rotate": {
+          "godot_symbol": "source_block_plan_rotation_result.rotate",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "rotate",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.rotate"
+          ]
+        },
+        "lockRotation": {
+          "godot_symbol": "source_block_plan_rotation_result.lockRotation",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "lockRotation",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.lock_rotation"
+          ]
+        },
+        "rot": {
+          "godot_symbol": "source_block_plan_rotation_result.rot",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "int rot",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.rot"
+          ]
+        },
+        "plan_rotation": {
+          "godot_symbol": "source_block_plan_rotation_result.plan_rotation",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.planRotation(int rot)",
+          "java_expr": "return !rotate && lockRotation ? 0 : rot;",
+          "type": "int",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_plan_rotation_state"
+          ],
+          "source_symbols": [
+            "block_plan_rotation.return_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

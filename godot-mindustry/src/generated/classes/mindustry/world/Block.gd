@@ -965,7 +965,11 @@ func java_method_createIcons_128(_args: Array = []) -> Variant:
 	return null
 
 func java_method_planRotation_129(_args: Array = []) -> Variant:
-	return null
+	var rotate_value: bool = bool(_args[0] if _args.size() > 0 else false)
+	var lock_rotation: bool = bool(_args[1] if _args.size() > 1 else false)
+	var rot: int = int(_args[2] if _args.size() > 2 else 0)
+	var plan_rotation_value: int = 0 if ((not rotate_value) and lock_rotation) else rot
+	return {"source_owner": "PortGame.source_block_plan_rotation_state", "source": "core/src/mindustry/world/Block.java", "method": "public int planRotation(int rot){", "return_expr": "return !rotate && lockRotation ? 0 : rot;", "rotate": rotate_value, "lockRotation": lock_rotation, "rot": rot, "plan_rotation": plan_rotation_value}
 
 func java_method_flipRotation_130(_args: Array = []) -> Variant:
 	return null

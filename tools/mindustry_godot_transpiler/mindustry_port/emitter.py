@@ -1464,6 +1464,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "planRotation"
+    ):
+        return [
+            "\tvar rotate_value: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar lock_rotation: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar rot: int = int(_args[2] if _args.size() > 2 else 0)",
+            "\tvar plan_rotation_value: int = 0 if ((not rotate_value) and lock_rotation) else rot",
+            '\treturn {"source_owner": "PortGame.source_block_plan_rotation_state", "source": "core/src/mindustry/world/Block.java", "method": "public int planRotation(int rot){", "return_expr": "return !rotate && lockRotation ? 0 : rot;", "rotate": rotate_value, "lockRotation": lock_rotation, "rot": rot, "plan_rotation": plan_rotation_value}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumesItem"
     ):
         return [

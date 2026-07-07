@@ -19523,6 +19523,32 @@ func generated_block_is_hidden_bridge_state(build_visibility_visible: bool, reve
 		"matches": result == canonical,
 	}
 
+func source_block_plan_rotation_state(rotate_value: bool, lock_rotation: bool, rot: int) -> Dictionary:
+	var plan_rotation_value: int = 0 if ((not rotate_value) and lock_rotation) else rot
+	return {
+		"source_owner": "PortGame.source_block_plan_rotation_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public int planRotation(int rot){",
+		"return_expr": "return !rotate && lockRotation ? 0 : rot;",
+		"rotate": rotate_value,
+		"lockRotation": lock_rotation,
+		"rot": rot,
+		"plan_rotation": plan_rotation_value,
+	}
+
+func generated_block_plan_rotation_bridge_state(rotate_value: bool, lock_rotation: bool, rot: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_planRotation_129([rotate_value, lock_rotation, rot])
+	var canonical = source_block_plan_rotation_state(rotate_value, lock_rotation, rot)
+	return {
+		"source_owner": "PortGame.source_block_plan_rotation_state",
+		"generated_owner": "Block.java_method_planRotation_129",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

@@ -103724,6 +103724,96 @@
         "test_generated_block_is_hidden_slice_is_registered_with_source_backing"
       ],
       "rule": "Explicit input for rules.revealedBlocks.contains(this) used by Block.isHidden()."
+    },
+    "block_plan_rotation.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.planRotation(int rot)",
+      "java_expr": "public int planRotation(int rot){",
+      "godot_owner": "PortGame.source_block_plan_rotation_state",
+      "godot_symbol": "source_block_plan_rotation_result.method",
+      "status": "source-backed",
+      "source_slice": "N1360",
+      "runtime_proof": "/root/Main.source_block_plan_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_plan_rotation_to_source_state",
+        "test_port_game_exposes_source_block_plan_rotation_state",
+        "test_port_game_exposes_generated_block_plan_rotation_bridge_state",
+        "test_block_plan_rotation_matches_upstream_source",
+        "test_generated_block_plan_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.planRotation(int rot) method boundary."
+    },
+    "block_plan_rotation.return_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.planRotation(int rot)",
+      "java_expr": "return !rotate && lockRotation ? 0 : rot;",
+      "godot_owner": "PortGame.source_block_plan_rotation_state",
+      "godot_symbol": "source_block_plan_rotation_result.plan_rotation",
+      "status": "source-backed",
+      "source_slice": "N1360",
+      "runtime_proof": "/root/Main.source_block_plan_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_plan_rotation_to_source_state",
+        "test_port_game_exposes_source_block_plan_rotation_state",
+        "test_port_game_exposes_generated_block_plan_rotation_bridge_state",
+        "test_block_plan_rotation_matches_upstream_source",
+        "test_generated_block_plan_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.planRotation(int rot) return expression."
+    },
+    "block_plan_rotation.rotate": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.planRotation(int rot)",
+      "java_expr": "rotate",
+      "godot_owner": "PortGame.source_block_plan_rotation_state",
+      "godot_symbol": "source_block_plan_rotation_input.rotate",
+      "status": "explicit-input",
+      "source_slice": "N1360",
+      "runtime_proof": "/root/Main.source_block_plan_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_plan_rotation_to_source_state",
+        "test_port_game_exposes_source_block_plan_rotation_state",
+        "test_port_game_exposes_generated_block_plan_rotation_bridge_state",
+        "test_block_plan_rotation_matches_upstream_source",
+        "test_generated_block_plan_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.rotate used by planRotation."
+    },
+    "block_plan_rotation.lock_rotation": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.planRotation(int rot)",
+      "java_expr": "lockRotation",
+      "godot_owner": "PortGame.source_block_plan_rotation_state",
+      "godot_symbol": "source_block_plan_rotation_input.lockRotation",
+      "status": "explicit-input",
+      "source_slice": "N1360",
+      "runtime_proof": "/root/Main.source_block_plan_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_plan_rotation_to_source_state",
+        "test_port_game_exposes_source_block_plan_rotation_state",
+        "test_port_game_exposes_generated_block_plan_rotation_bridge_state",
+        "test_block_plan_rotation_matches_upstream_source",
+        "test_generated_block_plan_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.lockRotation used by planRotation."
+    },
+    "block_plan_rotation.rot": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.planRotation(int rot)",
+      "java_expr": "int rot",
+      "godot_owner": "PortGame.source_block_plan_rotation_state",
+      "godot_symbol": "source_block_plan_rotation_input.rot",
+      "status": "explicit-input",
+      "source_slice": "N1360",
+      "runtime_proof": "/root/Main.source_block_plan_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_plan_rotation_to_source_state",
+        "test_port_game_exposes_source_block_plan_rotation_state",
+        "test_port_game_exposes_generated_block_plan_rotation_bridge_state",
+        "test_block_plan_rotation_matches_upstream_source",
+        "test_generated_block_plan_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for planRotation rot parameter."
     }
   },
   "version": 1
