@@ -9500,6 +9500,55 @@ public class Block{
             self.assertIn('"priority_after": priority_after', source_text)
             self.assertIn('"priority_assigned": priority_assigned', source_text)
 
+    def test_emit_bridges_block_init_fog_radius_flag_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        if(fogRadius > 0){
+            flags = flags.with(BlockFlag.hasFogRadius);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "fog_radius_flag":', source_text)
+            self.assertIn("\t\tvar fog_radius: int = int(_args[0] if _args.size() > 0 else -1)", source_text)
+            self.assertIn("\t\tvar flags_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("\t\tvar flags_after: Array = flags_before.duplicate()", source_text)
+            self.assertIn("\t\tvar has_fog_radius_flag_added: bool = fog_radius > 0", source_text)
+            self.assertIn("\t\tif has_fog_radius_flag_added and not flags_after.has(\"BlockFlag.hasFogRadius\"):", source_text)
+            self.assertIn('\t\t\tflags_after.append("BlockFlag.hasFogRadius")', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_fog_radius_flag_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"super_init_expr": "super.init();"', source_text)
+            self.assertIn('"fog_radius_guard_expr": "if(fogRadius > 0){"', source_text)
+            self.assertIn('"flags_assign_expr": "flags = flags.with(BlockFlag.hasFogRadius);"', source_text)
+            self.assertIn('"block_flag_has_fog_radius_expr": "BlockFlag.hasFogRadius"', source_text)
+            self.assertIn('"fog_radius": fog_radius', source_text)
+            self.assertIn('"flags_before": flags_before', source_text)
+            self.assertIn('"flags_after": flags_after', source_text)
+            self.assertIn('"has_fog_radius_flag_added": has_fog_radius_flag_added', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

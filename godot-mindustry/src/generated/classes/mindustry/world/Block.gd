@@ -641,6 +641,14 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		if priority_assigned:
 			priority_after = "TargetPriority.under"
 		return {"source_owner": "PortGame.source_block_init_under_bullets_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "under_bullets_guard_expr": "if(underBullets){", "priority_assign_expr": "priority = TargetPriority.under;", "target_priority_under_expr": "TargetPriority.under", "under_bullets": under_bullets, "priority_before": priority_before, "priority_after": priority_after, "priority_assigned": priority_assigned}
+	if init_bridge_mode == "fog_radius_flag":
+		var fog_radius: int = int(_args[0] if _args.size() > 0 else -1)
+		var flags_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+		var flags_after: Array = flags_before.duplicate()
+		var has_fog_radius_flag_added: bool = fog_radius > 0
+		if has_fog_radius_flag_added and not flags_after.has("BlockFlag.hasFogRadius"):
+			flags_after.append("BlockFlag.hasFogRadius")
+		return {"source_owner": "PortGame.source_block_init_fog_radius_flag_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "fog_radius_guard_expr": "if(fogRadius > 0){", "flags_assign_expr": "flags = flags.with(BlockFlag.hasFogRadius);", "block_flag_has_fog_radius_expr": "BlockFlag.hasFogRadius", "fog_radius": fog_radius, "flags_before": flags_before, "flags_after": flags_after, "has_fog_radius_flag_added": has_fog_radius_flag_added}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

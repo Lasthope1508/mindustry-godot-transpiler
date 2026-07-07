@@ -10567,6 +10567,23 @@ def verify_block_init_under_bullets_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_block_init_fog_radius_flag_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "fog_radius_guard_expr": "if(fogRadius > 0){",
+        "flags_assign_expr": "flags = flags.with(BlockFlag.hasFogRadius);",
+        "block_flag_has_fog_radius_expr": "BlockFlag.hasFogRadius",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

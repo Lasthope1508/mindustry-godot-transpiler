@@ -18625,6 +18625,39 @@ func generated_block_init_under_bullets_bridge_state(under_bullets: bool, priori
 		"matches": result == canonical,
 	}
 
+func source_block_init_fog_radius_flag_state(fog_radius: int, flags_before: Array) -> Dictionary:
+	var flags_after: Array = flags_before.duplicate()
+	var has_fog_radius_flag_added: bool = fog_radius > 0
+	if has_fog_radius_flag_added and not flags_after.has("BlockFlag.hasFogRadius"):
+		flags_after.append("BlockFlag.hasFogRadius")
+	return {
+		"source_owner": "PortGame.source_block_init_fog_radius_flag_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"fog_radius_guard_expr": "if(fogRadius > 0){",
+		"flags_assign_expr": "flags = flags.with(BlockFlag.hasFogRadius);",
+		"block_flag_has_fog_radius_expr": "BlockFlag.hasFogRadius",
+		"fog_radius": fog_radius,
+		"flags_before": flags_before,
+		"flags_after": flags_after,
+		"has_fog_radius_flag_added": has_fog_radius_flag_added,
+	}
+
+func generated_block_init_fog_radius_flag_bridge_state(fog_radius: int, flags_before: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "fog_radius_flag")
+	var result = instance.java_method_init_123([fog_radius, flags_before])
+	var canonical = source_block_init_fog_radius_flag_state(fog_radius, flags_before)
+	return {
+		"source_owner": "PortGame.source_block_init_fog_radius_flag_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

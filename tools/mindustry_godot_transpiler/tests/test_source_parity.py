@@ -5607,6 +5607,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_fog_radius_flag_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_fog_radius_flag_source"))
+        report = source_parity.verify_block_init_fog_radius_flag_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "fog_radius_guard_expr": "if(fogRadius > 0){",
+            "flags_assign_expr": "flags = flags.with(BlockFlag.hasFogRadius);",
+            "block_flag_has_fog_radius_expr": "BlockFlag.hasFogRadius",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

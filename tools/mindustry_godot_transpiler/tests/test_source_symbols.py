@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 801)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 796)
+        self.assertEqual(audit["totalSourceFunctions"], 802)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 797)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 801)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 802)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45542,6 +45542,69 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_under_bullets_result")
         self.assertEqual(result_schema["keys"]["priority_assigned"]["java_expr"], "if(underBullets){")
         self.assertEqual(result_schema["keys"]["priority_after"]["java_expr"], "priority = TargetPriority.under;")
+
+    def test_generated_block_init_fog_radius_flag_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_fog_radius_flag.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_fog_radius_flag_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_fog_radius_flag_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_fog_radius_flag.fog_radius_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(fogRadius > 0){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_fog_radius_flag_result.has_fog_radius_flag_added")
+
+        assign = source_symbols.source_symbol(registry, "block_init_fog_radius_flag.flags_assign_expr")
+        self.assertEqual(assign["java_expr"], "flags = flags.with(BlockFlag.hasFogRadius);")
+        self.assertEqual(assign["godot_symbol"], "source_block_init_fog_radius_flag_result.flags_after")
+
+        flag = source_symbols.source_symbol(registry, "block_init_fog_radius_flag.block_flag_has_fog_radius_expr")
+        self.assertEqual(flag["java_expr"], "BlockFlag.hasFogRadius")
+        self.assertEqual(flag["godot_symbol"], "source_block_init_fog_radius_flag_result.flags_after")
+
+        fog_radius = source_symbols.source_symbol(registry, "block_init_fog_radius_flag.fog_radius")
+        self.assertEqual(fog_radius["java_expr"], "fogRadius")
+        self.assertEqual(fog_radius["godot_symbol"], "source_block_init_fog_radius_flag_input.fog_radius")
+
+        flags = source_symbols.source_symbol(registry, "block_init_fog_radius_flag.flags")
+        self.assertEqual(flags["java_expr"], "flags")
+        self.assertEqual(flags["godot_symbol"], "source_block_init_fog_radius_flag_input.flags_before")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1328")
+        self.assertEqual(setup_slice["title"], "Generated Block init fogRadius flag bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_fog_radius_flag_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_fog_radius_flag_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "if(fogRadius > 0){",
+            "flags = flags.with(BlockFlag.hasFogRadius);",
+            "BlockFlag.hasFogRadius",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_fog_radius_flag_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["fog_radius", "flags_before"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "fog_radius_guard_expr", "flags_assign_expr", "block_flag_has_fog_radius_expr", "fog_radius", "flags_before", "flags_after", "has_fog_radius_flag_added"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_fog_radius_flag_input")
+        self.assertEqual(input_schema["keys"]["fog_radius"]["java_expr"], "fogRadius")
+        self.assertEqual(input_schema["keys"]["flags_before"]["java_expr"], "flags")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_fog_radius_flag_result")
+        self.assertEqual(result_schema["keys"]["has_fog_radius_flag_added"]["java_expr"], "if(fogRadius > 0){")
+        self.assertEqual(result_schema["keys"]["flags_after"]["java_expr"], "flags = flags.with(BlockFlag.hasFogRadius);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
