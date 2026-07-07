@@ -99602,6 +99602,312 @@
       "godot_symbol": "source_block_init_health_scaled_input.scaled_health",
       "java_expr": "scaledHealth",
       "rule": "scaledHealth is an explicit input for the non-negative health formula."
+    },
+    "block_init_health_requirements_scaling.method": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for requirements health scaling branch."
+    },
+    "block_init_health_requirements_scaling.health_comment": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.health_comment",
+      "java_expr": "//initialize default health based on size",
+      "rule": "Block.init() documents default health initialization based on size."
+    },
+    "block_init_health_requirements_scaling.health_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.health_assigned",
+      "java_expr": "if(health == -1){",
+      "rule": "Default health branch only runs when health is unset."
+    },
+    "block_init_health_requirements_scaling.scaled_health_negative_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.health_assigned",
+      "java_expr": "if(scaledHealth < 0){",
+      "rule": "Requirements scaling branch only runs when scaledHealth is unset."
+    },
+    "block_init_health_requirements_scaling.scaled_health_default_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.scaled_health_after",
+      "java_expr": "scaledHealth = 40;",
+      "rule": "Unset scaledHealth starts from source default 40."
+    },
+    "block_init_health_requirements_scaling.scaling_init_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.scaling",
+      "java_expr": "float scaling = 1f;",
+      "rule": "Requirements health scaling starts from 1f."
+    },
+    "block_init_health_requirements_scaling.requirements_loop_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.requirement_health_scalings",
+      "java_expr": "for(var stack : requirements){",
+      "rule": "Block.init() loops over requirements for health scaling."
+    },
+    "block_init_health_requirements_scaling.health_scaling_add_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.scaling",
+      "java_expr": "scaling += stack.item.healthScaling;",
+      "rule": "Each requirement item healthScaling contributes to scaling."
+    },
+    "block_init_health_requirements_scaling.item_health_scaling_field_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "field declaration",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.scaling",
+      "java_expr": "public float healthScaling = 0f;",
+      "rule": "Item.healthScaling field supplies health scaling."
+    },
+    "block_init_health_requirements_scaling.scaled_health_multiply_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.scaled_health_after",
+      "java_expr": "scaledHealth *= scaling;",
+      "rule": "Scaled health is multiplied by summed requirement scaling."
+    },
+    "block_init_health_requirements_scaling.round_true_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.round",
+      "java_expr": "round = true;",
+      "rule": "Requirements scaling path rounds health by Mathf.round step."
+    },
+    "block_init_health_requirements_scaling.mathf_round_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.health_after",
+      "java_expr": "Mathf.round(size * size * scaledHealth, 5)",
+      "rule": "Round path uses Mathf.round with step 5."
+    },
+    "block_init_health_requirements_scaling.mathf_round_step_expr": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Mathf.round(float value, int step)",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_result.health_after",
+      "java_expr": "return (int)(value / step) * step;",
+      "rule": "Arc Mathf.round(float, int) truncates to step multiple."
+    },
+    "block_init_health_requirements_scaling.health": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_input.health_before",
+      "java_expr": "health",
+      "rule": "health is an explicit input preserving prior value."
+    },
+    "block_init_health_requirements_scaling.size": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_input.size_value",
+      "java_expr": "size",
+      "rule": "size is an explicit input for size squared health formula."
+    },
+    "block_init_health_requirements_scaling.scaled_health": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_input.scaled_health_before",
+      "java_expr": "scaledHealth",
+      "rule": "scaledHealth is an explicit input before requirements scaling."
+    },
+    "block_init_health_requirements_scaling.requirements": {
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_slice": "N1331",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_health_requirements_scaling_input.requirement_health_scalings",
+      "java_expr": "requirements",
+      "rule": "requirements are explicit input as item healthScaling values."
     }
   },
   "version": 1

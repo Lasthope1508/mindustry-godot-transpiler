@@ -33649,6 +33649,76 @@
         "test_block_init_health_scaled_matches_upstream_source",
         "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_health_requirements_scaling_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "health",
+          "name": "health_before",
+          "schema": "source_block_init_health_requirements_scaling_input.health_before",
+          "type": "int"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_health_requirements_scaling_input.size_value",
+          "type": "int"
+        },
+        {
+          "java_expr": "scaledHealth",
+          "name": "scaled_health_before",
+          "schema": "source_block_init_health_requirements_scaling_input.scaled_health_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "requirements",
+          "name": "requirement_health_scalings",
+          "schema": "source_block_init_health_requirements_scaling_input.requirement_health_scalings",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "item_source",
+        "arc_mathf_source",
+        "method",
+        "super_init_expr",
+        "health_comment",
+        "health_guard_expr",
+        "scaled_health_negative_guard_expr",
+        "scaled_health_default_expr",
+        "scaling_init_expr",
+        "requirements_loop_expr",
+        "health_scaling_add_expr",
+        "item_health_scaling_field_expr",
+        "scaled_health_multiply_expr",
+        "round_true_expr",
+        "mathf_round_expr",
+        "mathf_round_step_expr",
+        "health_before",
+        "size",
+        "scaled_health_before",
+        "requirement_health_scalings",
+        "scaling",
+        "scaled_health_after",
+        "round",
+        "health_after",
+        "health_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() negative scaledHealth requirements scaling branch.",
+      "runtime_proof": "/root/Main.source_block_init_health_requirements_scaling_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1331",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

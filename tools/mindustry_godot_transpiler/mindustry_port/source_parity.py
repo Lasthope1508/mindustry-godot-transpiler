@@ -10621,6 +10621,47 @@ def verify_block_init_health_scaled_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_block_init_health_requirements_scaling_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    item_source = "core/src/mindustry/type/Item.java"
+    item_path = Path(upstream_root) / item_source
+    arc_mathf_source = "arc-core/src/arc/math/Mathf.java"
+    mathf_path = Path(arc_root) / arc_mathf_source
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    item = item_path.read_text(encoding="utf-8", errors="replace")
+    mathf = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "health_comment": "//initialize default health based on size",
+        "health_guard_expr": "if(health == -1){",
+        "scaled_health_negative_guard_expr": "if(scaledHealth < 0){",
+        "scaled_health_default_expr": "scaledHealth = 40;",
+        "scaling_init_expr": "float scaling = 1f;",
+        "requirements_loop_expr": "for(var stack : requirements){",
+        "health_scaling_add_expr": "scaling += stack.item.healthScaling;",
+        "item_health_scaling_field_expr": "public float healthScaling = 0f;",
+        "scaled_health_multiply_expr": "scaledHealth *= scaling;",
+        "round_true_expr": "round = true;",
+        "health_assign_expr": "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+        "mathf_round_signature": "public static int round(float value, int step){",
+        "mathf_round_step_expr": "return (int)(value / step) * step;",
+    }
+    source_checks = {key: value for key, value in checked.items() if key not in {"item_health_scaling_field_expr", "mathf_round_signature", "mathf_round_step_expr"}}
+    missing = [snippet for snippet in source_checks.values() if snippet not in source]
+    if checked["item_health_scaling_field_expr"] not in item:
+        missing.append(checked["item_health_scaling_field_expr"])
+    for key in ["mathf_round_signature", "mathf_round_step_expr"]:
+        if checked[key] not in mathf:
+            missing.append(checked[key])
+    return {
+        "source": BLOCK_SOURCE,
+        "item_source": item_source,
+        "arc_mathf_source": arc_mathf_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

@@ -5652,6 +5652,32 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_health_requirements_scaling_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_health_requirements_scaling_source"))
+        report = source_parity.verify_block_init_health_requirements_scaling_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["item_source"], "core/src/mindustry/type/Item.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "health_comment": "//initialize default health based on size",
+            "health_guard_expr": "if(health == -1){",
+            "scaled_health_negative_guard_expr": "if(scaledHealth < 0){",
+            "scaled_health_default_expr": "scaledHealth = 40;",
+            "scaling_init_expr": "float scaling = 1f;",
+            "requirements_loop_expr": "for(var stack : requirements){",
+            "health_scaling_add_expr": "scaling += stack.item.healthScaling;",
+            "item_health_scaling_field_expr": "public float healthScaling = 0f;",
+            "scaled_health_multiply_expr": "scaledHealth *= scaling;",
+            "round_true_expr": "round = true;",
+            "health_assign_expr": "health = round ?\n                Mathf.round(size * size * scaledHealth, 5) :\n                (int)(size * size * scaledHealth);",
+            "mathf_round_signature": "public static int round(float value, int step){",
+            "mathf_round_step_expr": "return (int)(value / step) * step;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

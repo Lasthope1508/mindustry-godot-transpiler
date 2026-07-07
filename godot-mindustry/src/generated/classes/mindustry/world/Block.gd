@@ -666,6 +666,20 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		if health_assigned:
 			health_after = int(health_size_value * health_size_value * scaled_health)
 		return {"source_owner": "PortGame.source_block_init_health_scaled_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "health_comment": "//initialize default health based on size", "health_guard_expr": "if(health == -1){", "round_init_expr": "boolean round = false;", "scaled_health_negative_guard_expr": "if(scaledHealth < 0){", "health_assign_expr": "health = round ? Mathf.round(size * size * scaledHealth, 5) : (int)(size * size * scaledHealth);", "int_cast_expr": "(int)(size * size * scaledHealth)", "health_before": health_before, "size": health_size_value, "scaled_health": scaled_health, "round": false, "health_after": health_after, "health_assigned": health_assigned}
+	if init_bridge_mode == "health_requirements_scaling":
+		var health_before: int = int(_args[0] if _args.size() > 0 else -1)
+		var requirements_health_size_value: int = int(_args[1] if _args.size() > 1 else 1)
+		var scaled_health_before: float = float(_args[2] if _args.size() > 2 else -1.0)
+		var requirement_health_scalings: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []
+		var health_assigned: bool = health_before == -1 and scaled_health_before < 0.0
+		var scaling: float = 1.0
+		for health_scaling in requirement_health_scalings:
+			scaling += float(health_scaling)
+		var scaled_health_after: float = 40.0 * scaling if health_assigned else scaled_health_before
+		var health_after: int = health_before
+		if health_assigned:
+			health_after = int(float(requirements_health_size_value * requirements_health_size_value) * scaled_health_after / 5.0) * 5
+		return {"source_owner": "PortGame.source_block_init_health_requirements_scaling_state", "source": "core/src/mindustry/world/Block.java", "item_source": "core/src/mindustry/type/Item.java", "arc_mathf_source": "arc-core/src/arc/math/Mathf.java", "method": "public void init(){", "super_init_expr": "super.init();", "health_comment": "//initialize default health based on size", "health_guard_expr": "if(health == -1){", "scaled_health_negative_guard_expr": "if(scaledHealth < 0){", "scaled_health_default_expr": "scaledHealth = 40;", "scaling_init_expr": "float scaling = 1f;", "requirements_loop_expr": "for(var stack : requirements){", "health_scaling_add_expr": "scaling += stack.item.healthScaling;", "item_health_scaling_field_expr": "public float healthScaling = 0f;", "scaled_health_multiply_expr": "scaledHealth *= scaling;", "round_true_expr": "round = true;", "mathf_round_expr": "Mathf.round(size * size * scaledHealth, 5)", "mathf_round_step_expr": "return (int)(value / step) * step;", "health_before": health_before, "size": requirements_health_size_value, "scaled_health_before": scaled_health_before, "requirement_health_scalings": requirement_health_scalings, "scaling": scaling, "scaled_health_after": scaled_health_after, "round": health_assigned, "health_after": health_after, "health_assigned": health_assigned}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

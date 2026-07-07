@@ -18729,6 +18729,59 @@ func generated_block_init_health_scaled_bridge_state(health_before: int, size_va
 		"matches": result == canonical,
 	}
 
+func source_block_init_health_requirements_scaling_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:
+	var health_assigned: bool = health_before == -1 and scaled_health_before < 0.0
+	var scaling: float = 1.0
+	for health_scaling in requirement_health_scalings:
+		scaling += float(health_scaling)
+	var scaled_health_after: float = 40.0 * scaling if health_assigned else scaled_health_before
+	var health_after: int = health_before
+	if health_assigned:
+		health_after = int(float(size_value * size_value) * scaled_health_after / 5.0) * 5
+	return {
+		"source_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"item_source": "core/src/mindustry/type/Item.java",
+		"arc_mathf_source": "arc-core/src/arc/math/Mathf.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"health_comment": "//initialize default health based on size",
+		"health_guard_expr": "if(health == -1){",
+		"scaled_health_negative_guard_expr": "if(scaledHealth < 0){",
+		"scaled_health_default_expr": "scaledHealth = 40;",
+		"scaling_init_expr": "float scaling = 1f;",
+		"requirements_loop_expr": "for(var stack : requirements){",
+		"health_scaling_add_expr": "scaling += stack.item.healthScaling;",
+		"item_health_scaling_field_expr": "public float healthScaling = 0f;",
+		"scaled_health_multiply_expr": "scaledHealth *= scaling;",
+		"round_true_expr": "round = true;",
+		"mathf_round_expr": "Mathf.round(size * size * scaledHealth, 5)",
+		"mathf_round_step_expr": "return (int)(value / step) * step;",
+		"health_before": health_before,
+		"size": size_value,
+		"scaled_health_before": scaled_health_before,
+		"requirement_health_scalings": requirement_health_scalings,
+		"scaling": scaling,
+		"scaled_health_after": scaled_health_after,
+		"round": health_assigned,
+		"health_after": health_after,
+		"health_assigned": health_assigned,
+	}
+
+func generated_block_init_health_requirements_scaling_bridge_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "health_requirements_scaling")
+	var result = instance.java_method_init_123([health_before, size_value, scaled_health_before, requirement_health_scalings])
+	var canonical = source_block_init_health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)
+	return {
+		"source_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

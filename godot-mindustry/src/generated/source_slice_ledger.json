@@ -31340,6 +31340,59 @@
         "test_block_init_health_scaled_matches_upstream_source",
         "test_generated_block_init_health_scaled_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1331": {
+      "title": "Generated Block init health requirements scaling bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_health_requirements_scaling_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_health_requirements_scaling_bridge_state",
+      "source_symbols": [
+        "block_init_health_requirements_scaling.method",
+        "block_init_health_requirements_scaling.health_comment",
+        "block_init_health_requirements_scaling.health_guard_expr",
+        "block_init_health_requirements_scaling.scaled_health_negative_guard_expr",
+        "block_init_health_requirements_scaling.scaled_health_default_expr",
+        "block_init_health_requirements_scaling.scaling_init_expr",
+        "block_init_health_requirements_scaling.requirements_loop_expr",
+        "block_init_health_requirements_scaling.health_scaling_add_expr",
+        "block_init_health_requirements_scaling.item_health_scaling_field_expr",
+        "block_init_health_requirements_scaling.scaled_health_multiply_expr",
+        "block_init_health_requirements_scaling.round_true_expr",
+        "block_init_health_requirements_scaling.mathf_round_expr",
+        "block_init_health_requirements_scaling.mathf_round_step_expr",
+        "block_init_health_requirements_scaling.health",
+        "block_init_health_requirements_scaling.size",
+        "block_init_health_requirements_scaling.scaled_health",
+        "block_init_health_requirements_scaling.requirements"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "//initialize default health based on size",
+        "if(health == -1){",
+        "if(scaledHealth < 0){",
+        "scaledHealth = 40;",
+        "float scaling = 1f;",
+        "for(var stack : requirements){",
+        "scaling += stack.item.healthScaling;",
+        "public float healthScaling = 0f;",
+        "scaledHealth *= scaling;",
+        "round = true;",
+        "Mathf.round(size * size * scaledHealth, 5)",
+        "return (int)(value / step) * step;"
+      ],
+      "rule": "Bridge generated Block.init() negative scaledHealth requirements scaling to source-backed canonical state using Item.healthScaling and Arc Mathf.round step semantics.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_health_requirements_scaling_to_source_state",
+        "test_port_game_exposes_source_block_init_health_requirements_scaling_state",
+        "test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state",
+        "test_block_init_health_requirements_scaling_matches_upstream_source",
+        "test_generated_block_init_health_requirements_scaling_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

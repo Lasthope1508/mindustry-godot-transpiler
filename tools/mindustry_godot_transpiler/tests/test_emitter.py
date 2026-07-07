@@ -9640,7 +9640,7 @@ public class Block{
             self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
             self.assertIn('\tif init_bridge_mode == "health_scaled":', source_text)
             self.assertIn("\t\tvar health_before: int = int(_args[0] if _args.size() > 0 else -1)", source_text)
-            self.assertIn("\t\tvar health_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
+            self.assertIn("\t\tvar requirements_health_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
             self.assertIn("\t\tvar scaled_health: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
             self.assertIn("\t\tvar health_after: int = health_before", source_text)
             self.assertIn("\t\tvar health_assigned: bool = health_before == -1 and scaled_health >= 0.0", source_text)
@@ -9658,6 +9658,78 @@ public class Block{
             self.assertIn('"round": false', source_text)
             self.assertIn('"health_after": health_after', source_text)
             self.assertIn('"health_assigned": health_assigned', source_text)
+
+    def test_emit_bridges_block_init_health_requirements_scaling_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        //initialize default health based on size
+        if(health == -1){
+            boolean round = false;
+            if(scaledHealth < 0){
+                scaledHealth = 40;
+
+                float scaling = 1f;
+                for(var stack : requirements){
+                    scaling += stack.item.healthScaling;
+                }
+
+                scaledHealth *= scaling;
+                round = true;
+            }
+
+            health = round ?
+                Mathf.round(size * size * scaledHealth, 5) :
+                (int)(size * size * scaledHealth);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "health_requirements_scaling":', source_text)
+            self.assertIn("\t\tvar health_before: int = int(_args[0] if _args.size() > 0 else -1)", source_text)
+            self.assertIn("\t\tvar health_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
+            self.assertIn("\t\tvar scaled_health_before: float = float(_args[2] if _args.size() > 2 else -1.0)", source_text)
+            self.assertIn("\t\tvar requirement_health_scalings: Array = (_args[3] as Array).duplicate() if _args.size() > 3 and _args[3] is Array else []", source_text)
+            self.assertIn("\t\tvar scaling: float = 1.0", source_text)
+            self.assertIn("\t\tfor health_scaling in requirement_health_scalings:", source_text)
+            self.assertIn("\t\t\tscaling += float(health_scaling)", source_text)
+            self.assertIn("\t\tvar scaled_health_after: float = 40.0 * scaling if health_assigned else scaled_health_before", source_text)
+            self.assertIn("\t\t\thealth_after = int(float(requirements_health_size_value * requirements_health_size_value) * scaled_health_after / 5.0) * 5", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_health_requirements_scaling_state"', source_text)
+            self.assertIn('"scaled_health_default_expr": "scaledHealth = 40;"', source_text)
+            self.assertIn('"scaling_init_expr": "float scaling = 1f;"', source_text)
+            self.assertIn('"requirements_loop_expr": "for(var stack : requirements){"', source_text)
+            self.assertIn('"health_scaling_add_expr": "scaling += stack.item.healthScaling;"', source_text)
+            self.assertIn('"item_health_scaling_field_expr": "public float healthScaling = 0f;"', source_text)
+            self.assertIn('"scaled_health_multiply_expr": "scaledHealth *= scaling;"', source_text)
+            self.assertIn('"round_true_expr": "round = true;"', source_text)
+            self.assertIn('"mathf_round_expr": "Mathf.round(size * size * scaledHealth, 5)"', source_text)
+            self.assertIn('"mathf_round_step_expr": "return (int)(value / step) * step;"', source_text)
+            self.assertIn('"requirement_health_scalings": requirement_health_scalings', source_text)
+            self.assertIn('"scaling": scaling', source_text)
+            self.assertIn('"scaled_health_after": scaled_health_after', source_text)
+            self.assertIn('"round": health_assigned', source_text)
 
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

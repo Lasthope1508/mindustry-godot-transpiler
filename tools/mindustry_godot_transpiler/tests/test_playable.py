@@ -17392,5 +17392,41 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_health_requirements_scaling_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_health_requirements_scaling_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_health_requirements_scaling_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"item_source": "core/src/mindustry/type/Item.java"', source)
+        self.assertIn('"arc_mathf_source": "arc-core/src/arc/math/Mathf.java"', source)
+        self.assertIn('"scaled_health_default_expr": "scaledHealth = 40;"', source)
+        self.assertIn('"scaling_init_expr": "float scaling = 1f;"', source)
+        self.assertIn('"requirements_loop_expr": "for(var stack : requirements){"', source)
+        self.assertIn('"health_scaling_add_expr": "scaling += stack.item.healthScaling;"', source)
+        self.assertIn('"item_health_scaling_field_expr": "public float healthScaling = 0f;"', source)
+        self.assertIn('"scaled_health_multiply_expr": "scaledHealth *= scaling;"', source)
+        self.assertIn('"round_true_expr": "round = true;"', source)
+        self.assertIn('"mathf_round_expr": "Mathf.round(size * size * scaledHealth, 5)"', source)
+        self.assertIn('"mathf_round_step_expr": "return (int)(value / step) * step;"', source)
+        self.assertIn('"requirement_health_scalings": requirement_health_scalings', source)
+        self.assertIn('"scaling": scaling', source)
+        self.assertIn('"scaled_health_after": scaled_health_after', source)
+        self.assertIn('"round": health_assigned', source)
+
+    def test_port_game_exposes_generated_block_init_health_requirements_scaling_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_health_requirements_scaling_bridge_state(health_before: int, size_value: int, scaled_health_before: float, requirement_health_scalings: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "health_requirements_scaling")', source)
+        self.assertIn("var result = instance.java_method_init_123([health_before, size_value, scaled_health_before, requirement_health_scalings])", source)
+        self.assertIn("var canonical = source_block_init_health_requirements_scaling_state(health_before, size_value, scaled_health_before, requirement_health_scalings)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_health_requirements_scaling_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()
