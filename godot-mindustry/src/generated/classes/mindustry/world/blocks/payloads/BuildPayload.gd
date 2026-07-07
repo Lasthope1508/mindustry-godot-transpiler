@@ -27,7 +27,8 @@ func java_method_contentEquals_3(_args: Array = []) -> Variant:
 	return null
 
 func java_method_content_4(_args: Array = []) -> Variant:
-	return null
+	var build_block: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_build_payload_content_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public UnlockableContent content(){", "return_expr": "return build.block;", "content": build_block}
 
 func java_method_update_5(_args: Array = []) -> Variant:
 	return null
