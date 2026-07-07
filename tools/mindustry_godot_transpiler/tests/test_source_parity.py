@@ -11527,6 +11527,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_build_payload_content_equals_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_build_payload_content_equals_source"))
+        report = source_parity.verify_build_payload_content_equals_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class BuildPayload implements Payload{",
+            "field_expr": "public Building build;",
+            "override_expr": "@Override",
+            "method": "public boolean contentEquals(Payload other){",
+            "return_expr": "return other instanceof BuildPayload bp && bp.block() == build.block;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_get_drill_time_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_get_drill_time_source"))
         report = source_parity.verify_drill_get_drill_time_source(ROOT / "mindustry-upstream")

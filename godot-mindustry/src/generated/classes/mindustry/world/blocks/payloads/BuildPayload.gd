@@ -24,7 +24,11 @@ func java_method_place_2(_args: Array = []) -> Variant:
 	return null
 
 func java_method_contentEquals_3(_args: Array = []) -> Variant:
-	return null
+	var other_is_build_payload: bool = bool(_args[0] if _args.size() > 0 else false)
+	var other_block: Variant = _args[1] if _args.size() > 1 else null
+	var build_block: Variant = _args[2] if _args.size() > 2 else null
+	var content_equals: bool = other_is_build_payload and other_block == build_block
+	return {"source_owner": "PortGame.source_build_payload_content_equals_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public boolean contentEquals(Payload other){", "return_expr": "return other instanceof BuildPayload bp && bp.block() == build.block;", "other_is_build_payload": other_is_build_payload, "other_block": other_block, "build_block": build_block, "content_equals": content_equals}
 
 func java_method_content_4(_args: Array = []) -> Variant:
 	var build_block: Variant = _args[0] if _args.size() > 0 else null

@@ -11450,6 +11450,24 @@ def verify_build_payload_icon_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_build_payload_content_equals_source(upstream_root: Path) -> dict[str, Any]:
+    build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
+    payload_path = Path(upstream_root) / build_payload_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class BuildPayload implements Payload{",
+        "field_expr": "public Building build;",
+        "override_expr": "@Override",
+        "method": "public boolean contentEquals(Payload other){",
+        "return_expr": "return other instanceof BuildPayload bp && bp.block() == build.block;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": build_payload_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_drill_get_drill_time_source(upstream_root: Path) -> dict[str, Any]:
     drill_path = Path(upstream_root) / DRILL_SOURCE
     source = drill_path.read_text(encoding="utf-8", errors="replace")

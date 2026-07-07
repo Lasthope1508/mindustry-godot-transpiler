@@ -35887,6 +35887,57 @@
         "test_build_payload_icon_matches_upstream_source",
         "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_build_payload_content_equals_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [
+        {
+          "name": "other_is_build_payload",
+          "type": "bool",
+          "java_expr": "other instanceof BuildPayload bp",
+          "schema": "source_build_payload_content_equals_input.other_is_build_payload",
+          "source_symbol": "build_payload_content_equals.other_is_build_payload"
+        },
+        {
+          "name": "other_block",
+          "type": "Variant",
+          "java_expr": "bp.block()",
+          "schema": "source_build_payload_content_equals_input.other_block",
+          "source_symbol": "build_payload_content_equals.other_block"
+        },
+        {
+          "name": "build_block",
+          "type": "Variant",
+          "java_expr": "build.block",
+          "schema": "source_build_payload_content_equals_input.build_block",
+          "source_symbol": "build_payload_content_equals.build_block"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "other_is_build_payload",
+        "other_block",
+        "build_block",
+        "content_equals"
+      ],
+      "rule": "PortGame.source_build_payload_content_equals_state pins BuildPayload.contentEquals(Payload other) return contract.",
+      "runtime_proof": "/root/Main.source_build_payload_content_equals_state",
+      "source_method": "BuildPayload.contentEquals(Payload other)",
+      "source_slice": "N1380",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_build_payload_content_equals_state",
+        "test_port_game_exposes_generated_build_payload_content_equals_bridge_state",
+        "test_build_payload_content_equals_matches_upstream_source",
+        "test_generated_build_payload_content_equals_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

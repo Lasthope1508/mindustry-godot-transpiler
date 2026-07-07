@@ -33147,6 +33147,45 @@
         "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
       ],
       "title": "Generated BuildPayload icon bridge state"
+    },
+    "N1380": {
+      "deferred_exprs": [
+        "Runtime Java instanceof mechanics are represented by explicit other_is_build_payload input",
+        "Reference identity of Block objects is represented by equality of explicit other_block and build_block values"
+      ],
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "@Override",
+        "public boolean contentEquals(Payload other){",
+        "return other instanceof BuildPayload bp && bp.block() == build.block;"
+      ],
+      "generated_owner": "BuildPayload.java_method_contentEquals_3",
+      "godot_owner": "PortGame.source_build_payload_content_equals_state",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.contentEquals(Payload other)",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Generated BuildPayload.contentEquals(Payload other) bridge preserves BuildPayload type gate and block identity comparison with explicit inputs.",
+      "runtime_proof": "/root/Main.generated_build_payload_content_equals_bridge_state",
+      "source_symbols": [
+        "build_payload_content_equals.class_expr",
+        "build_payload_content_equals.field_expr",
+        "build_payload_content_equals.override_expr",
+        "build_payload_content_equals.method",
+        "build_payload_content_equals.other_is_build_payload",
+        "build_payload_content_equals.other_block",
+        "build_payload_content_equals.build_block",
+        "build_payload_content_equals.return_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_build_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_build_payload_content_equals_state",
+        "test_port_game_exposes_generated_build_payload_content_equals_bridge_state",
+        "test_build_payload_content_equals_matches_upstream_source",
+        "test_generated_build_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated BuildPayload contentEquals bridge state"
     }
   },
   "version": 1

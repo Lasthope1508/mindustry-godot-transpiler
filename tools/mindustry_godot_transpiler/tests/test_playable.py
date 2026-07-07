@@ -18552,6 +18552,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildPayload.java_method_icon_17"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_build_payload_content_equals_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_build_payload_content_equals_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_content_equals_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source)
+        self.assertIn('"field_expr": "public Building build;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public boolean contentEquals(Payload other){"', source)
+        self.assertIn('"return_expr": "return other instanceof BuildPayload bp && bp.block() == build.block;"', source)
+        self.assertIn("var content_equals: bool = other_is_build_payload and other_block == build_block", source)
+        self.assertIn('"content_equals": content_equals', source)
+
+    def test_port_game_exposes_generated_build_payload_content_equals_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_build_payload_content_equals_bridge_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_contentEquals_3([other_is_build_payload, other_block, build_block])", source)
+        self.assertIn("var canonical = source_build_payload_content_equals_state(other_is_build_payload, other_block, build_block)", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_content_equals_state"', source)
+        self.assertIn('"generated_owner": "BuildPayload.java_method_contentEquals_3"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -19843,6 +19843,35 @@ func generated_build_payload_block_bridge_state(build_block: Variant) -> Diction
 		"matches": result == canonical,
 	}
 
+func source_build_payload_content_equals_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
+	var content_equals: bool = other_is_build_payload and other_block == build_block
+	return {
+		"source_owner": "PortGame.source_build_payload_content_equals_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"override_expr": "@Override",
+		"method": "public boolean contentEquals(Payload other){",
+		"return_expr": "return other instanceof BuildPayload bp && bp.block() == build.block;",
+		"other_is_build_payload": other_is_build_payload,
+		"other_block": other_block,
+		"build_block": build_block,
+		"content_equals": content_equals,
+	}
+
+func generated_build_payload_content_equals_bridge_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_contentEquals_3([other_is_build_payload, other_block, build_block])
+	var canonical = source_build_payload_content_equals_state(other_is_build_payload, other_block, build_block)
+	return {
+		"source_owner": "PortGame.source_build_payload_content_equals_state",
+		"generated_owner": "BuildPayload.java_method_contentEquals_3",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_content_state(build_block: Variant) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_build_payload_content_state",

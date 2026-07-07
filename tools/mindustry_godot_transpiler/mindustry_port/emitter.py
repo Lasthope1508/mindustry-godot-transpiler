@@ -1620,6 +1620,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
+        and method.get("name") == "contentEquals"
+    ):
+        return [
+            "\tvar other_is_build_payload: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar other_block: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar build_block: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar content_equals: bool = other_is_build_payload and other_block == build_block",
+            '\treturn {"source_owner": "PortGame.source_build_payload_content_equals_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public boolean contentEquals(Payload other){", "return_expr": "return other instanceof BuildPayload bp && bp.block() == build.block;", "other_is_build_payload": other_is_build_payload, "other_block": other_block, "build_block": build_block, "content_equals": content_equals}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "content"
     ):
         return [
