@@ -17413,6 +17413,114 @@
         "test_generated_build_payload_build_time_slice_is_registered_with_source_backing"
       ]
     },
+    "build_payload_requirements.requirements": {
+      "godot_owner": "PortGame.source_build_payload_requirements_state",
+      "godot_symbol": "source_build_payload_requirements_input.requirements",
+      "java_expr": "build.block.requirements",
+      "java_method": "BuildPayload.requirements()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Explicit runtime value for build.block.requirements returned by BuildPayload.requirements().",
+      "runtime_proof": "/root/Main.source_build_payload_requirements_state",
+      "source_slice": "N1370",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_build_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_build_payload_requirements_state",
+        "test_port_game_exposes_generated_build_payload_requirements_bridge_state",
+        "test_build_payload_requirements_matches_upstream_source",
+        "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
+    "build_payload_requirements.class_expr": {
+      "godot_owner": "PortGame.source_build_payload_requirements_state",
+      "godot_symbol": "source_build_payload_requirements_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "java_method": "BuildPayload.requirements()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Pin BuildPayload class boundary for requirements payload bridge.",
+      "runtime_proof": "/root/Main.source_build_payload_requirements_state",
+      "source_slice": "N1370",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_build_payload_requirements_state",
+        "test_port_game_exposes_generated_build_payload_requirements_bridge_state",
+        "test_build_payload_requirements_matches_upstream_source",
+        "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
+    "build_payload_requirements.field_expr": {
+      "godot_owner": "PortGame.source_build_payload_requirements_state",
+      "godot_symbol": "source_build_payload_requirements_input.requirements",
+      "java_expr": "public Building build;",
+      "java_method": "BuildPayload.requirements()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "BuildPayload build field provides build.block.requirements source value.",
+      "runtime_proof": "/root/Main.source_build_payload_requirements_state",
+      "source_slice": "N1370",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_build_payload_requirements_state",
+        "test_port_game_exposes_generated_build_payload_requirements_bridge_state",
+        "test_build_payload_requirements_matches_upstream_source",
+        "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
+    "build_payload_requirements.method": {
+      "godot_owner": "PortGame.source_build_payload_requirements_state",
+      "godot_symbol": "source_build_payload_requirements_result.method",
+      "java_expr": "public ItemStack[] requirements(){",
+      "java_method": "BuildPayload.requirements()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Pin BuildPayload.requirements() method boundary.",
+      "runtime_proof": "/root/Main.source_build_payload_requirements_state",
+      "source_slice": "N1370",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_build_payload_requirements_state",
+        "test_port_game_exposes_generated_build_payload_requirements_bridge_state",
+        "test_build_payload_requirements_matches_upstream_source",
+        "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
+    "build_payload_requirements.override_expr": {
+      "godot_owner": "PortGame.source_build_payload_requirements_state",
+      "godot_symbol": "source_build_payload_requirements_result.override_expr",
+      "java_expr": "@Override",
+      "java_method": "BuildPayload.requirements()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "BuildPayload.requirements() implements Payload.requirements().",
+      "runtime_proof": "/root/Main.source_build_payload_requirements_state",
+      "source_slice": "N1370",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_build_payload_requirements_state",
+        "test_port_game_exposes_generated_build_payload_requirements_bridge_state",
+        "test_build_payload_requirements_matches_upstream_source",
+        "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
+    "build_payload_requirements.return_expr": {
+      "godot_owner": "PortGame.source_build_payload_requirements_state",
+      "godot_symbol": "source_build_payload_requirements_result.requirements",
+      "java_expr": "return build.block.requirements;",
+      "java_method": "BuildPayload.requirements()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "BuildPayload.requirements() returns the contained building block requirements.",
+      "runtime_proof": "/root/Main.source_build_payload_requirements_state",
+      "source_slice": "N1370",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_build_payload_requirements_state",
+        "test_port_game_exposes_generated_build_payload_requirements_bridge_state",
+        "test_build_payload_requirements_matches_upstream_source",
+        "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
     "builder_actively_building.actively_building": {
       "godot_owner": "PortGame.source_builder_actively_building_state",
       "godot_symbol": "source_builder_actively_building_result.actively_building",

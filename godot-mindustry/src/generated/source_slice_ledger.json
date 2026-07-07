@@ -12115,6 +12115,40 @@
       ],
       "title": "Generated BuildPayload buildTime bridge state"
     },
+    "N1370": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "@Override",
+        "public ItemStack[] requirements(){",
+        "return build.block.requirements;"
+      ],
+      "generated_owner": "BuildPayload.java_method_requirements_7",
+      "godot_owner": "PortGame.source_build_payload_requirements_state",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.requirements()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Generated BuildPayload.requirements() bridge returns the contained building block requirements.",
+      "runtime_proof": "/root/Main.generated_build_payload_requirements_bridge_state",
+      "source_symbols": [
+        "build_payload_requirements.requirements",
+        "build_payload_requirements.class_expr",
+        "build_payload_requirements.field_expr",
+        "build_payload_requirements.method",
+        "build_payload_requirements.override_expr",
+        "build_payload_requirements.return_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_build_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_build_payload_requirements_state",
+        "test_port_game_exposes_generated_build_payload_requirements_bridge_state",
+        "test_build_payload_requirements_matches_upstream_source",
+        "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated BuildPayload requirements bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

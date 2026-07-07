@@ -6530,6 +6530,39 @@
         "test_generated_build_payload_build_time_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_build_payload_requirements_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [
+        {
+          "java_expr": "build.block.requirements",
+          "name": "requirements",
+          "schema": "source_build_payload_requirements_input.requirements",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "requirements"
+      ],
+      "rule": "PortGame.source_build_payload_requirements_state pins BuildPayload.requirements() return contract.",
+      "runtime_proof": "/root/Main.source_build_payload_requirements_state",
+      "source_method": "BuildPayload.requirements()",
+      "source_slice": "N1370",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_build_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_build_payload_requirements_state",
+        "test_port_game_exposes_generated_build_payload_requirements_bridge_state",
+        "test_build_payload_requirements_matches_upstream_source",
+        "test_generated_build_payload_requirements_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_builder_actively_building_state": {
       "java_source": "core/src/mindustry/entities/comp/BuilderComp.java",
       "params": [

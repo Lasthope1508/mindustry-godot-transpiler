@@ -37,7 +37,8 @@ func java_method_destroyed_6(_args: Array = []) -> Variant:
 	return null
 
 func java_method_requirements_7(_args: Array = []) -> Variant:
-	return null
+	var requirements: Variant = _args[0] if _args.size() > 0 else []
+	return {"source_owner": "PortGame.source_build_payload_requirements_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public ItemStack[] requirements(){", "return_expr": "return build.block.requirements;", "requirements": requirements}
 
 func java_method_buildTime_8(_args: Array = []) -> Variant:
 	var build_time: float = float(_args[0] if _args.size() > 0 else 0.0)
