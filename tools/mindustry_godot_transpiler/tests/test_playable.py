@@ -17857,6 +17857,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_checkContentArrayCapacity_125"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_load_base_regions_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_load_base_regions_state(name_value: String) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_load_base_regions_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void load(){"', source)
+        self.assertIn('"super_load_expr": "super.load();"', source)
+        self.assertIn('"region_expr": "region = Core.atlas.find(name);"', source)
+        self.assertIn('"content_regions_expr": "ContentRegions.loadRegions(this);"', source)
+        self.assertIn('"name": name_value', source)
+        self.assertIn('"region": region_value', source)
+        self.assertIn('"content_regions_loaded": true', source)
+
+    def test_port_game_exposes_generated_block_load_base_regions_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_load_base_regions_bridge_state(name_value: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_load_126([name_value])", source)
+        self.assertIn("var canonical = source_block_load_base_regions_state(name_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_load_base_regions_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_load_126"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

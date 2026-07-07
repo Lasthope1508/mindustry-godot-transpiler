@@ -10408,6 +10408,45 @@ public class Block{
             self.assertIn('"item_filter_after": item_filter_after', source_text)
             self.assertIn('"liquid_filter_after": liquid_filter_after', source_text)
 
+    def test_emit_bridges_block_load_base_regions_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public void load(){
+        super.load();
+
+        region = Core.atlas.find(name);
+
+        ContentRegions.loadRegions(this);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_load_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar name_value: String = str(_args[0] if _args.size() > 0 else \"\")", source_text)
+            self.assertIn('\tvar region_value: String = "Core.atlas.find(%s)" % name_value', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_load_base_regions_state"', source_text)
+            self.assertIn('"method": "public void load(){"', source_text)
+            self.assertIn('"super_load_expr": "super.load();"', source_text)
+            self.assertIn('"region_expr": "region = Core.atlas.find(name);"', source_text)
+            self.assertIn('"content_regions_expr": "ContentRegions.loadRegions(this);"', source_text)
+            self.assertIn('"region": region_value', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

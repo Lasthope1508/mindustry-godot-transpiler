@@ -34716,6 +34716,41 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize."
+    },
+    "PortGame.source_block_load_base_regions_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.load()",
+      "source_slice": "N1355",
+      "params": [
+        {
+          "name": "name_value",
+          "type": "String",
+          "java_expr": "name",
+          "schema": "source_block_load_base_regions_input.name_value"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_load_expr",
+        "region_expr",
+        "content_regions_expr",
+        "name",
+        "region",
+        "super_load_called",
+        "content_regions_loaded"
+      ],
+      "runtime_proof": "/root/Main.source_block_load_base_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_base_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_base_regions_state",
+        "test_port_game_exposes_generated_block_load_base_regions_bridge_state",
+        "test_block_load_base_regions_matches_upstream_source",
+        "test_generated_block_load_base_regions_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.load() base region and ContentRegions load calls."
     }
   },
   "policy": {

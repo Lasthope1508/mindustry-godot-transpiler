@@ -19344,6 +19344,34 @@ func generated_block_check_content_array_capacity_bridge_state(item_filter: Arra
 		"matches": result == canonical,
 	}
 
+func source_block_load_base_regions_state(name_value: String) -> Dictionary:
+	var region_value: String = "Core.atlas.find(%s)" % name_value
+	return {
+		"source_owner": "PortGame.source_block_load_base_regions_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void load(){",
+		"super_load_expr": "super.load();",
+		"region_expr": "region = Core.atlas.find(name);",
+		"content_regions_expr": "ContentRegions.loadRegions(this);",
+		"name": name_value,
+		"region": region_value,
+		"super_load_called": true,
+		"content_regions_loaded": true,
+	}
+
+func generated_block_load_base_regions_bridge_state(name_value: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_load_126([name_value])
+	var canonical = source_block_load_base_regions_state(name_value)
+	return {
+		"source_owner": "PortGame.source_block_load_base_regions_state",
+		"generated_owner": "Block.java_method_load_126",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

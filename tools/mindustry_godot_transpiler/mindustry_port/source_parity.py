@@ -11009,6 +11009,23 @@ def verify_block_check_content_array_capacity_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_block_load_base_regions_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override_expr": "@Override",
+        "method": "public void load(){",
+        "super_load_expr": "super.load();",
+        "region_expr": "region = Core.atlas.find(name);",
+        "content_regions_expr": "ContentRegions.loadRegions(this);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

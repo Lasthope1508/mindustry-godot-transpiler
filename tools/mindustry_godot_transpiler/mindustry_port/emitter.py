@@ -1628,6 +1628,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "load"
+    ):
+        return [
+            '\tvar name_value: String = str(_args[0] if _args.size() > 0 else "")',
+            '\tvar region_value: String = "Core.atlas.find(%s)" % name_value',
+            '\treturn {"source_owner": "PortGame.source_block_load_base_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "super_load_expr": "super.load();", "region_expr": "region = Core.atlas.find(name);", "content_regions_expr": "ContentRegions.loadRegions(this);", "name": name_value, "region": region_value, "super_load_called": true, "content_regions_loaded": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumeLiquid"
         and len(method.get("parameters", [])) == 2
     ):

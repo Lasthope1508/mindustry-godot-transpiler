@@ -128062,6 +128062,178 @@
           ]
         }
       }
+    },
+    "source_block_load_base_regions_input": {
+      "owner": "PortGame.source_block_load_base_regions_state",
+      "source_slice": "N1355",
+      "runtime_proof": "/root/Main.source_block_load_base_regions_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_load_base_regions_state.",
+      "keys": {
+        "name_value": {
+          "godot_symbol": "source_block_load_base_regions_input.name_value",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "name",
+          "type": "String",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.name"
+          ]
+        }
+      }
+    },
+    "source_block_load_base_regions_result": {
+      "owner": "PortGame.source_block_load_base_regions_state",
+      "source_slice": "N1355",
+      "runtime_proof": "/root/Main.source_block_load_base_regions_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_load_base_regions_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_load_base_regions_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "PortGame.source_block_load_base_regions_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.method"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_block_load_base_regions_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.method"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_block_load_base_regions_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "public void load(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.method"
+          ]
+        },
+        "super_load_expr": {
+          "godot_symbol": "source_block_load_base_regions_result.super_load_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "super.load();",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.super_load_expr"
+          ]
+        },
+        "region_expr": {
+          "godot_symbol": "source_block_load_base_regions_result.region_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "region = Core.atlas.find(name);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.region_expr"
+          ]
+        },
+        "content_regions_expr": {
+          "godot_symbol": "source_block_load_base_regions_result.content_regions_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "ContentRegions.loadRegions(this);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.content_regions_expr"
+          ]
+        },
+        "name": {
+          "godot_symbol": "source_block_load_base_regions_result.name",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "name",
+          "type": "String",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.name"
+          ]
+        },
+        "region": {
+          "godot_symbol": "source_block_load_base_regions_result.region",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "region = Core.atlas.find(name);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.region_expr"
+          ]
+        },
+        "super_load_called": {
+          "godot_symbol": "source_block_load_base_regions_result.super_load_called",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "super.load();",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.super_load_expr"
+          ]
+        },
+        "content_regions_loaded": {
+          "godot_symbol": "source_block_load_base_regions_result.content_regions_loaded",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "ContentRegions.loadRegions(this);",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_base_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_base_regions.content_regions_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

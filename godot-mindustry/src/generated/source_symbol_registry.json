@@ -103076,6 +103076,96 @@
         "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize."
+    },
+    "block_load_base_regions.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "public void load(){",
+      "godot_owner": "PortGame.source_block_load_base_regions_state",
+      "godot_symbol": "source_block_load_base_regions_result.method",
+      "status": "source-backed",
+      "source_slice": "N1355",
+      "runtime_proof": "/root/Main.source_block_load_base_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_base_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_base_regions_state",
+        "test_port_game_exposes_generated_block_load_base_regions_bridge_state",
+        "test_block_load_base_regions_matches_upstream_source",
+        "test_generated_block_load_base_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() base region and ContentRegions load calls."
+    },
+    "block_load_base_regions.super_load_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "super.load();",
+      "godot_owner": "PortGame.source_block_load_base_regions_state",
+      "godot_symbol": "source_block_load_base_regions_result.super_load_called",
+      "status": "source-backed",
+      "source_slice": "N1355",
+      "runtime_proof": "/root/Main.source_block_load_base_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_base_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_base_regions_state",
+        "test_port_game_exposes_generated_block_load_base_regions_bridge_state",
+        "test_block_load_base_regions_matches_upstream_source",
+        "test_generated_block_load_base_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() base region and ContentRegions load calls."
+    },
+    "block_load_base_regions.region_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "region = Core.atlas.find(name);",
+      "godot_owner": "PortGame.source_block_load_base_regions_state",
+      "godot_symbol": "source_block_load_base_regions_result.region",
+      "status": "source-backed",
+      "source_slice": "N1355",
+      "runtime_proof": "/root/Main.source_block_load_base_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_base_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_base_regions_state",
+        "test_port_game_exposes_generated_block_load_base_regions_bridge_state",
+        "test_block_load_base_regions_matches_upstream_source",
+        "test_generated_block_load_base_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() base region and ContentRegions load calls."
+    },
+    "block_load_base_regions.content_regions_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "ContentRegions.loadRegions(this);",
+      "godot_owner": "PortGame.source_block_load_base_regions_state",
+      "godot_symbol": "source_block_load_base_regions_result.content_regions_loaded",
+      "status": "source-backed",
+      "source_slice": "N1355",
+      "runtime_proof": "/root/Main.source_block_load_base_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_base_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_base_regions_state",
+        "test_port_game_exposes_generated_block_load_base_regions_bridge_state",
+        "test_block_load_base_regions_matches_upstream_source",
+        "test_generated_block_load_base_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() base region and ContentRegions load calls."
+    },
+    "block_load_base_regions.name": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "name",
+      "godot_owner": "PortGame.source_block_load_base_regions_state",
+      "godot_symbol": "source_block_load_base_regions_input.name_value",
+      "status": "explicit-input",
+      "source_slice": "N1355",
+      "runtime_proof": "/root/Main.source_block_load_base_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_base_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_base_regions_state",
+        "test_port_game_exposes_generated_block_load_base_regions_bridge_state",
+        "test_block_load_base_regions_matches_upstream_source",
+        "test_generated_block_load_base_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() base region and ContentRegions load calls."
     }
   },
   "version": 1

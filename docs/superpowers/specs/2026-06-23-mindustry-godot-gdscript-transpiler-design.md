@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 1220 |
-| Done | 1217 |
+| Total tracked work items | 1221 |
+| Done | 1218 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -1167,6 +1167,7 @@
 - [x] N1352: Generated Block reinitializeConsumers outputs power bridge state.
 - [x] N1353: Generated Block reinitializeConsumers consumer apply loop bridge state.
 - [x] N1354: Generated Block checkContentArrayCapacity filter resize bridge state.
+- [x] N1355: Generated Block load base regions bridge state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode

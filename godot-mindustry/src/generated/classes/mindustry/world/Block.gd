@@ -906,7 +906,9 @@ func java_method_checkContentArrayCapacity_125(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_check_content_array_capacity_state", "source": "core/src/mindustry/world/Block.java", "method": "public void checkContentArrayCapacity(int items, int liquids){", "liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);", "item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);", "item_filter_before": item_filter, "liquid_filter_before": liquid_filter, "items": items, "liquids": liquids, "item_filter_after": item_filter_after, "liquid_filter_after": liquid_filter_after}
 
 func java_method_load_126(_args: Array = []) -> Variant:
-	return null
+	var name_value: String = str(_args[0] if _args.size() > 0 else "")
+	var region_value: String = "Core.atlas.find(%s)" % name_value
+	return {"source_owner": "PortGame.source_block_load_base_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "super_load_expr": "super.load();", "region_expr": "region = Core.atlas.find(name);", "content_regions_expr": "ContentRegions.loadRegions(this);", "name": name_value, "region": region_value, "super_load_called": true, "content_regions_loaded": true}
 
 func java_method_isHidden_127(_args: Array = []) -> Variant:
 	return null
