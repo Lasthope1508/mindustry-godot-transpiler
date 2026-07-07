@@ -17119,5 +17119,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_postInit_122"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_post_init_shown_planets_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_post_init_shown_planets_state(requirements: Array, shown_planets_before: Array, content_planets: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_post_init_shown_planets_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void postInit(){"', source)
+        self.assertIn('"auto_assign_guard_expr": "if(requirements.length > 0 && shownPlanets.isEmpty()){"', source)
+        self.assertIn('"content_planets_loop_expr": "for(Planet planet : content.planets()){"', source)
+        self.assertIn('"planet_landable_guard_expr": "if(planet.isLandable()){"', source)
+        self.assertIn('"structs_contains_guard_expr": "if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){"', source)
+        self.assertIn('"shown_planets_add_expr": "shownPlanets.add(planet);"', source)
+        self.assertIn('"shown_planets_after": shown_planets_after', source)
+        self.assertIn('"added_planets": added_planets', source)
+        self.assertIn('"blocked_planets": blocked_planets', source)
+
+    def test_port_game_exposes_generated_block_post_init_shown_planets_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_post_init_shown_planets_bridge_state(requirements: Array, shown_planets_before: Array, content_planets: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_postInit_122([requirements, shown_planets_before, content_planets])", source)
+        self.assertIn("var canonical = source_block_post_init_shown_planets_state(requirements, shown_planets_before, content_planets)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_post_init_shown_planets_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_postInit_122"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

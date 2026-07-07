@@ -120726,6 +120726,224 @@
       "runtime_proof": "/root/Main.source_block_post_init_database_tag_state",
       "source_slice": "N1321",
       "status": "active"
+    },
+    "source_block_post_init_shown_planets_input": {
+      "keys": {
+        "content_planets": {
+          "godot_symbol": "source_block_post_init_shown_planets_input.content_planets",
+          "java_expr": "content.planets()",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [
+            "block_post_init_shown_planets.content_planets"
+          ],
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "requirements": {
+          "godot_symbol": "source_block_post_init_shown_planets_input.requirements",
+          "java_expr": "requirements",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [
+            "block_post_init_shown_planets.requirements"
+          ],
+          "status": "explicit-input",
+          "type": "Array"
+        },
+        "shown_planets_before": {
+          "godot_symbol": "source_block_post_init_shown_planets_input.shown_planets_before",
+          "java_expr": "shownPlanets",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [],
+          "status": "explicit-input",
+          "type": "Array"
+        }
+      },
+      "owner": "PortGame.source_block_post_init_shown_planets_state",
+      "rule": "Inputs for PortGame.source_block_post_init_shown_planets_state.",
+      "runtime_proof": "/root/Main.source_block_post_init_shown_planets_state",
+      "source_slice": "N1322",
+      "status": "active"
+    },
+    "source_block_post_init_shown_planets_result": {
+      "keys": {
+        "added_planets": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.added_planets",
+          "java_expr": "shownPlanets.add(planet);",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [
+            "block_post_init_shown_planets.shown_planets_add_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "auto_assign_guard_passed": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.auto_assign_guard_passed",
+          "java_expr": "if(requirements.length > 0 && shownPlanets.isEmpty()){",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [
+            "block_post_init_shown_planets.auto_assign_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "blocked_planets": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.blocked_planets",
+          "java_expr": "Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [
+            "block_post_init_shown_planets.structs_contains_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "content_planets": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.content_planets",
+          "java_expr": "content.planets()",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [
+            "block_post_init_shown_planets.content_planets"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "evaluated_planets": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.evaluated_planets",
+          "java_expr": "for(Planet planet : content.planets()){",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "landable_planets": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.landable_planets",
+          "java_expr": "if(planet.isLandable()){",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [
+            "block_post_init_shown_planets.planet_landable_guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "method": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.method",
+          "java_expr": "public void postInit(){",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [
+            "block_post_init_shown_planets.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "requirements": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.requirements",
+          "java_expr": "requirements",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [
+            "block_post_init_shown_planets.requirements"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "shown_planets_after": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.shown_planets_after",
+          "java_expr": "shownPlanets.add(planet);",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [
+            "block_post_init_shown_planets.shown_planets_add_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "shown_planets_before": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.shown_planets_before",
+          "java_expr": "shownPlanets",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "source": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.source",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_block_post_init_shown_planets_result.source_owner",
+          "java_expr": "PortGame.source_block_post_init_shown_planets_state",
+          "java_method": "Block.postInit()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "owners": [
+            "PortGame.source_block_post_init_shown_planets_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_block_post_init_shown_planets_state",
+      "rule": "Dictionary returned by PortGame.source_block_post_init_shown_planets_state.",
+      "runtime_proof": "/root/Main.source_block_post_init_shown_planets_state",
+      "source_slice": "N1322",
+      "status": "active"
     }
   },
   "version": 1

@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 795)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 790)
+        self.assertEqual(audit["totalSourceFunctions"], 796)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 791)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 795)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 796)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45151,6 +45151,76 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_post_init_database_tag_result")
         self.assertEqual(result_schema["keys"]["database_tag_assigned"]["java_expr"], "if(databaseTag == null || databaseTag.isEmpty()){")
         self.assertEqual(result_schema["keys"]["database_tag_after"]["java_expr"], "databaseTag = category.name();")
+
+    def test_generated_block_post_init_shown_planets_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_post_init_shown_planets.method")
+        self.assertEqual(method["java_expr"], "public void postInit(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.postInit()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_post_init_shown_planets_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_post_init_shown_planets_state")
+
+        auto_guard = source_symbols.source_symbol(registry, "block_post_init_shown_planets.auto_assign_guard_expr")
+        self.assertEqual(auto_guard["java_expr"], "if(requirements.length > 0 && shownPlanets.isEmpty()){")
+        self.assertEqual(auto_guard["godot_symbol"], "source_block_post_init_shown_planets_result.auto_assign_guard_passed")
+
+        landable_guard = source_symbols.source_symbol(registry, "block_post_init_shown_planets.planet_landable_guard_expr")
+        self.assertEqual(landable_guard["java_expr"], "if(planet.isLandable()){")
+        self.assertEqual(landable_guard["godot_symbol"], "source_block_post_init_shown_planets_result.landable_planets")
+
+        contains_guard = source_symbols.source_symbol(registry, "block_post_init_shown_planets.structs_contains_guard_expr")
+        self.assertEqual(contains_guard["java_expr"], "if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){")
+        self.assertEqual(contains_guard["godot_symbol"], "source_block_post_init_shown_planets_result.blocked_planets")
+
+        add_expr = source_symbols.source_symbol(registry, "block_post_init_shown_planets.shown_planets_add_expr")
+        self.assertEqual(add_expr["java_expr"], "shownPlanets.add(planet);")
+        self.assertEqual(add_expr["godot_symbol"], "source_block_post_init_shown_planets_result.added_planets")
+
+        requirements = source_symbols.source_symbol(registry, "block_post_init_shown_planets.requirements")
+        self.assertEqual(requirements["java_expr"], "requirements")
+        self.assertEqual(requirements["godot_symbol"], "source_block_post_init_shown_planets_input.requirements")
+
+        content_planets = source_symbols.source_symbol(registry, "block_post_init_shown_planets.content_planets")
+        self.assertEqual(content_planets["java_expr"], "content.planets()")
+        self.assertEqual(content_planets["godot_symbol"], "source_block_post_init_shown_planets_input.content_planets")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1322")
+        self.assertEqual(setup_slice["title"], "Generated Block postInit shownPlanets bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.postInit()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_post_init_shown_planets_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_postInit_122")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_post_init_shown_planets_bridge_state")
+        for expr in [
+            "public void postInit(){",
+            "if(requirements.length > 0 && shownPlanets.isEmpty()){",
+            "for(Planet planet : content.planets()){",
+            "if(planet.isLandable()){",
+            "if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){",
+            "shownPlanets.add(planet);",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_post_init_shown_planets_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["requirements", "shown_planets_before", "content_planets"])
+        for key in ["source_owner", "source", "method", "auto_assign_guard_expr", "content_planets_loop_expr", "planet_landable_guard_expr", "structs_contains_guard_expr", "shown_planets_add_expr", "requirements", "shown_planets_before", "content_planets", "shown_planets_after", "auto_assign_guard_passed", "evaluated_planets", "landable_planets", "added_planets", "blocked_planets"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_post_init_shown_planets_input")
+        self.assertEqual(input_schema["keys"]["requirements"]["java_expr"], "requirements")
+        self.assertEqual(input_schema["keys"]["shown_planets_before"]["java_expr"], "shownPlanets")
+        self.assertEqual(input_schema["keys"]["content_planets"]["java_expr"], "content.planets()")
+        result_schema = source_symbols.state_schema(schema, "source_block_post_init_shown_planets_result")
+        self.assertEqual(result_schema["keys"]["auto_assign_guard_passed"]["java_expr"], "if(requirements.length > 0 && shownPlanets.isEmpty()){")
+        self.assertEqual(result_schema["keys"]["shown_planets_after"]["java_expr"], "shownPlanets.add(planet);")
+        self.assertEqual(result_schema["keys"]["blocked_planets"]["java_expr"], "Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

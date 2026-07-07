@@ -33241,6 +33241,61 @@
         "test_block_post_init_database_tag_matches_upstream_source",
         "test_generated_block_post_init_database_tag_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_post_init_shown_planets_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_post_init_shown_planets_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "shownPlanets",
+          "name": "shown_planets_before",
+          "schema": "source_block_post_init_shown_planets_input.shown_planets_before",
+          "type": "Array"
+        },
+        {
+          "java_expr": "content.planets()",
+          "name": "content_planets",
+          "schema": "source_block_post_init_shown_planets_input.content_planets",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "shown_planets_comment",
+        "auto_assign_guard_expr",
+        "content_planets_loop_expr",
+        "planet_landable_guard_expr",
+        "structs_contains_guard_expr",
+        "shown_planets_add_expr",
+        "requirements",
+        "shown_planets_before",
+        "content_planets",
+        "shown_planets_after",
+        "auto_assign_guard_passed",
+        "evaluated_planets",
+        "landable_planets",
+        "added_planets",
+        "blocked_planets"
+      ],
+      "rule": "Pin source-backed Block.postInit() shownPlanets auto-assignment branch.",
+      "runtime_proof": "/root/Main.source_block_post_init_shown_planets_state",
+      "source_method": "Block.postInit()",
+      "source_slice": "N1322",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_post_init_shown_planets_to_source_state",
+        "test_port_game_exposes_source_block_post_init_shown_planets_state",
+        "test_port_game_exposes_generated_block_post_init_shown_planets_bridge_state",
+        "test_block_post_init_shown_planets_matches_upstream_source",
+        "test_generated_block_post_init_shown_planets_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

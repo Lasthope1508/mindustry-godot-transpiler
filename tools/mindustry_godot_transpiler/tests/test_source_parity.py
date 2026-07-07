@@ -5515,6 +5515,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_post_init_shown_planets_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_post_init_shown_planets_source"))
+        report = source_parity.verify_block_post_init_shown_planets_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void postInit(){",
+            "shown_planets_comment": "//usually, an empty set of planets is a configuration error. auto-assign based on requirements",
+            "auto_assign_guard_expr": "if(requirements.length > 0 && shownPlanets.isEmpty()){",
+            "content_planets_loop_expr": "for(Planet planet : content.planets()){",
+            "planet_landable_guard_expr": "if(planet.isLandable()){",
+            "structs_contains_guard_expr": "if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){",
+            "shown_planets_add_expr": "shownPlanets.add(planet);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

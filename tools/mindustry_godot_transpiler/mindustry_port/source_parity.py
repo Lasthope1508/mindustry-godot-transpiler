@@ -10457,6 +10457,25 @@ def verify_block_post_init_database_tag_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_block_post_init_shown_planets_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void postInit(){",
+        "shown_planets_comment": "//usually, an empty set of planets is a configuration error. auto-assign based on requirements",
+        "auto_assign_guard_expr": "if(requirements.length > 0 && shownPlanets.isEmpty()){",
+        "content_planets_loop_expr": "for(Planet planet : content.planets()){",
+        "planet_landable_guard_expr": "if(planet.isLandable()){",
+        "structs_contains_guard_expr": "if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){",
+        "shown_planets_add_expr": "shownPlanets.add(planet);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

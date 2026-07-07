@@ -9168,6 +9168,68 @@ public class Block{
             self.assertIn('"database_tag_after": database_tag_after', source_text)
             self.assertIn('"database_tag_assigned": database_tag_assigned', source_text)
 
+    def test_emit_bridges_block_post_init_shown_planets_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public void postInit(){
+        //usually, an empty set of planets is a configuration error. auto-assign based on requirements
+        if(requirements.length > 0 && shownPlanets.isEmpty()){
+            for(Planet planet : content.planets()){
+                if(planet.isLandable()){
+                    if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){
+                        shownPlanets.add(planet);
+                    }
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_postInit_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tif _args.size() <= 2:", source_text)
+            self.assertIn("\t\tvar requirements: Array = _args[0] if _args.size() > 0 else []", source_text)
+            self.assertIn("\t\tvar shown_planets_before: Array = _args[1] if _args.size() > 1 else []", source_text)
+            self.assertIn("\t\tvar content_planets: Array = _args[2] if _args.size() > 2 else []", source_text)
+            self.assertIn("\t\tvar shown_planets_after: Array = shown_planets_before.duplicate()", source_text)
+            self.assertIn("\t\tvar auto_assign_guard_passed: bool = requirements.size() > 0 and shown_planets_before.is_empty()", source_text)
+            self.assertIn("\t\tvar evaluated_planets: Array = []", source_text)
+            self.assertIn("\t\tvar landable_planets: Array = []", source_text)
+            self.assertIn("\t\tvar added_planets: Array = []", source_text)
+            self.assertIn("\t\tvar blocked_planets: Array = []", source_text)
+            self.assertIn("\t\tif auto_assign_guard_passed:", source_text)
+            self.assertIn("\t\t\tfor planet in content_planets:", source_text)
+            self.assertIn('\t\t\t\tvar planet_name: String = str(planet.get("name", ""))', source_text)
+            self.assertIn('\t\t\t\tif not bool(planet.get("is_landable", false)):', source_text)
+            self.assertIn('\t\t\t\t\tvar is_on_planets: Array = stack.get("is_on_planets", [])', source_text)
+            self.assertIn("\t\t\t\tif blocking_requirement_indices.is_empty():", source_text)
+            self.assertIn("\t\t\t\t\tshown_planets_after.append(planet_name)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_post_init_shown_planets_state"', source_text)
+            self.assertIn('"auto_assign_guard_expr": "if(requirements.length > 0 && shownPlanets.isEmpty()){"', source_text)
+            self.assertIn('"content_planets_loop_expr": "for(Planet planet : content.planets()){"', source_text)
+            self.assertIn('"planet_landable_guard_expr": "if(planet.isLandable()){"', source_text)
+            self.assertIn('"structs_contains_guard_expr": "if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){"', source_text)
+            self.assertIn('"shown_planets_add_expr": "shownPlanets.add(planet);"', source_text)
+            self.assertIn('"shown_planets_after": shown_planets_after', source_text)
+            self.assertIn('"added_planets": added_planets', source_text)
+            self.assertIn('"blocked_planets": blocked_planets', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

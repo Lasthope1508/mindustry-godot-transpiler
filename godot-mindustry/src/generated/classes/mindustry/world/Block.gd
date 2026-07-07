@@ -584,6 +584,37 @@ func java_method_logicVisible_121(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_logic_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean logicVisible(){", "logic_visible_return_expr": "return buildVisibility != BuildVisibility.hidden;", "build_visibility": build_visibility_value, "logic_visible": logic_visible}
 
 func java_method_postInit_122(_args: Array = []) -> Variant:
+	if _args.size() <= 2:
+		pass
+	else:
+		var requirements: Array = _args[0] if _args.size() > 0 else []
+		var shown_planets_before: Array = _args[1] if _args.size() > 1 else []
+		var content_planets: Array = _args[2] if _args.size() > 2 else []
+		var shown_planets_after: Array = shown_planets_before.duplicate()
+		var auto_assign_guard_passed: bool = requirements.size() > 0 and shown_planets_before.is_empty()
+		var evaluated_planets: Array = []
+		var landable_planets: Array = []
+		var added_planets: Array = []
+		var blocked_planets: Array = []
+		if auto_assign_guard_passed:
+			for planet in content_planets:
+				var planet_name: String = str(planet.get("name", ""))
+				evaluated_planets.append(planet_name)
+				if not bool(planet.get("is_landable", false)):
+					continue
+				landable_planets.append(planet_name)
+				var blocking_requirement_indices: Array = []
+				for i in range(requirements.size()):
+					var stack: Dictionary = requirements[i]
+					var is_on_planets: Array = stack.get("is_on_planets", [])
+					if not is_on_planets.has(planet_name):
+						blocking_requirement_indices.append(i)
+				if blocking_requirement_indices.is_empty():
+					shown_planets_after.append(planet_name)
+					added_planets.append(planet_name)
+				else:
+					blocked_planets.append({"planet": planet_name, "blocking_requirement_indices": blocking_requirement_indices})
+		return {"source_owner": "PortGame.source_block_post_init_shown_planets_state", "source": "core/src/mindustry/world/Block.java", "method": "public void postInit(){", "shown_planets_comment": "//usually, an empty set of planets is a configuration error. auto-assign based on requirements", "auto_assign_guard_expr": "if(requirements.length > 0 && shownPlanets.isEmpty()){", "content_planets_loop_expr": "for(Planet planet : content.planets()){", "planet_landable_guard_expr": "if(planet.isLandable()){", "structs_contains_guard_expr": "if(!Structs.contains(requirements, s -> !s.item.isOnPlanet(planet))){", "shown_planets_add_expr": "shownPlanets.add(planet);", "requirements": requirements, "shown_planets_before": shown_planets_before, "content_planets": content_planets, "shown_planets_after": shown_planets_after, "auto_assign_guard_passed": auto_assign_guard_passed, "evaluated_planets": evaluated_planets, "landable_planets": landable_planets, "added_planets": added_planets, "blocked_planets": blocked_planets}
 	var database_tag_before: Variant = _args[0] if _args.size() > 0 else null
 	var category_name: String = str(_args[1] if _args.size() > 1 else "")
 	var database_tag_after: Variant = database_tag_before
