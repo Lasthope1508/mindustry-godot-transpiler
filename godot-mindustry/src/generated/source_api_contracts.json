@@ -36157,6 +36157,85 @@
         "test_build_payload_destroyed_matches_upstream_source",
         "test_generated_build_payload_destroyed_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_build_payload_constructor_block_team_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "source_method": "BuildPayload(Block block, Team team)",
+      "source_slice": "N1384",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_build_payload_constructor_block_team_state",
+      "rule": "PortGame.source_build_payload_constructor_block_team_state pins BuildPayload(Block, Team) build creation and emptyTile assignment contract.",
+      "params": [
+        {
+          "name": "block",
+          "type": "Variant",
+          "java_expr": "block",
+          "schema": "source_build_payload_constructor_block_team_input.block",
+          "source_symbol": "build_payload_constructor_block_team.block"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "java_expr": "team",
+          "schema": "source_build_payload_constructor_block_team_input.team",
+          "source_symbol": "build_payload_constructor_block_team.team"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "import_expr",
+        "constructor",
+        "build_assign_expr",
+        "tile_assign_expr",
+        "block",
+        "team",
+        "create_call",
+        "tile_after"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_constructors_to_source_state",
+        "test_port_game_exposes_source_build_payload_constructor_state",
+        "test_port_game_exposes_generated_build_payload_constructor_bridge_state",
+        "test_build_payload_constructors_match_upstream_source",
+        "test_generated_build_payload_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_build_payload_constructor_build_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "source_method": "BuildPayload(Building build)",
+      "source_slice": "N1384",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_build_payload_constructor_build_state",
+      "rule": "PortGame.source_build_payload_constructor_build_state pins BuildPayload(Building) direct build assignment contract.",
+      "params": [
+        {
+          "name": "build",
+          "type": "Variant",
+          "java_expr": "build",
+          "schema": "source_build_payload_constructor_build_input.build",
+          "source_symbol": "build_payload_constructor_build.build"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "constructor",
+        "build_assign_expr",
+        "build",
+        "build_after"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_constructors_to_source_state",
+        "test_port_game_exposes_source_build_payload_constructor_state",
+        "test_port_game_exposes_generated_build_payload_constructor_bridge_state",
+        "test_build_payload_constructors_match_upstream_source",
+        "test_generated_build_payload_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

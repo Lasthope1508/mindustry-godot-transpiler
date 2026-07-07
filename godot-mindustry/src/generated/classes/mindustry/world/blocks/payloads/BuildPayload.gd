@@ -131,3 +131,13 @@ func java_method_draw_16(_args: Array = []) -> Variant:
 func java_method_icon_17(_args: Array = []) -> Variant:
 	var full_icon: Variant = _args[0] if _args.size() > 0 else null
 	return {"source_owner": "PortGame.source_build_payload_icon_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public TextureRegion icon(){", "return_expr": "return block().fullIcon;", "full_icon": full_icon, "icon": full_icon}
+
+func java_constructor_BuildPayload_0(_args: Array = []) -> Variant:
+	var block: Variant = _args[0] if _args.size() > 0 else null
+	var team: Variant = _args[1] if _args.size() > 1 else null
+	var create_call: Dictionary = {"call": "block.newBuilding().create(block, team)", "block": block, "team": team}
+	return {"source_owner": "PortGame.source_build_payload_constructor_block_team_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "constructor": "public BuildPayload(Block block, Team team){", "build_assign_expr": "this.build = block.newBuilding().create(block, team);", "tile_assign_expr": "this.build.tile = emptyTile;", "block": block, "team": team, "create_call": create_call, "tile_after": "emptyTile"}
+
+func java_constructor_BuildPayload_1(_args: Array = []) -> Variant:
+	var build: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_build_payload_constructor_build_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "constructor": "public BuildPayload(Building build){", "build_assign_expr": "this.build = build;", "build": build, "build_after": build}

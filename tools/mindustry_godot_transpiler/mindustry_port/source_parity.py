@@ -11219,6 +11219,27 @@ def verify_build_payload_block_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_build_payload_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
+    payload_path = Path(upstream_root) / build_payload_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class BuildPayload implements Payload{",
+        "field_expr": "public Building build;",
+        "import_expr": "import static mindustry.Vars.*;",
+        "constructor_block_team": "public BuildPayload(Block block, Team team){",
+        "new_building_expr": "this.build = block.newBuilding().create(block, team);",
+        "tile_assign_expr": "this.build.tile = emptyTile;",
+        "constructor_build": "public BuildPayload(Building build){",
+        "build_assign_expr": "this.build = build;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": build_payload_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_content_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

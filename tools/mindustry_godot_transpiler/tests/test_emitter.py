@@ -17012,6 +17012,55 @@ public class BuildPayload implements Payload{
             self.assertIn('"return_expr": "return build.block;"', source_text)
             self.assertIn('"build_block": build_block', source_text)
 
+    def test_emit_bridges_build_payload_constructors_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+import static mindustry.Vars.*;
+
+public class BuildPayload implements Payload{
+    public Building build;
+
+    public BuildPayload(Block block, Team team){
+        this.build = block.newBuilding().create(block, team);
+        this.build.tile = emptyTile;
+    }
+
+    public BuildPayload(Building build){
+        this.build = build;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_BuildPayload_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var team: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn('var create_call: Dictionary = {"call": "block.newBuilding().create(block, team)", "block": block, "team": team}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_build_payload_constructor_block_team_state"', source_text)
+            self.assertIn('"constructor": "public BuildPayload(Block block, Team team){"', source_text)
+            self.assertIn('"build_assign_expr": "this.build = block.newBuilding().create(block, team);"', source_text)
+            self.assertIn('"tile_assign_expr": "this.build.tile = emptyTile;"', source_text)
+            self.assertIn('"tile_after": "emptyTile"', source_text)
+            self.assertIn("func java_constructor_BuildPayload_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var build: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_build_payload_constructor_build_state"', source_text)
+            self.assertIn('"constructor": "public BuildPayload(Building build){"', source_text)
+            self.assertIn('"build_assign_expr": "this.build = build;"', source_text)
+            self.assertIn('"build_after": build', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

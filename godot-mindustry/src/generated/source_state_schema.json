@@ -134781,6 +134781,360 @@
           "type": "bool"
         }
       }
+    },
+    "source_build_payload_constructor_block_team_input": {
+      "owner": "PortGame.source_build_payload_constructor_block_team_state",
+      "source_slice": "N1384",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_build_payload_constructor_block_team_state.",
+      "keys": {
+        "block": {
+          "godot_symbol": "source_build_payload_constructor_block_team_input.block",
+          "java_expr": "block",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.block"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "team": {
+          "godot_symbol": "source_build_payload_constructor_block_team_input.team",
+          "java_expr": "team",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.team"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      }
+    },
+    "source_build_payload_constructor_block_team_result": {
+      "owner": "PortGame.source_build_payload_constructor_block_team_state",
+      "source_slice": "N1384",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_build_payload_constructor_block_team_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.source_owner",
+          "java_expr": "PortGame.source_build_payload_constructor_block_team_state",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.constructor"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.constructor"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.class_expr",
+          "java_expr": "public class BuildPayload implements Payload{",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.field_expr",
+          "java_expr": "public Building build;",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "import_expr": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.import_expr",
+          "java_expr": "import static mindustry.Vars.*;",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.import_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "constructor": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.constructor",
+          "java_expr": "public BuildPayload(Block block, Team team){",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.constructor"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "build_assign_expr": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.build_assign_expr",
+          "java_expr": "this.build = block.newBuilding().create(block, team);",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.new_building_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "tile_assign_expr": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.tile_assign_expr",
+          "java_expr": "this.build.tile = emptyTile;",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.tile_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "block": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.block",
+          "java_expr": "block",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.block"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "team": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.team",
+          "java_expr": "team",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.team"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "create_call": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.create_call",
+          "java_expr": "this.build = block.newBuilding().create(block, team);",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.new_building_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "tile_after": {
+          "godot_symbol": "source_build_payload_constructor_block_team_result.tile_after",
+          "java_expr": "this.build.tile = emptyTile;",
+          "java_method": "BuildPayload(Block block, Team team)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_block_team_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_block_team.tile_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        }
+      }
+    },
+    "source_build_payload_constructor_build_input": {
+      "owner": "PortGame.source_build_payload_constructor_build_state",
+      "source_slice": "N1384",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_build_payload_constructor_build_state.",
+      "keys": {
+        "build": {
+          "godot_symbol": "source_build_payload_constructor_build_input.build",
+          "java_expr": "build",
+          "java_method": "BuildPayload(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_build_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_build.build"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      }
+    },
+    "source_build_payload_constructor_build_result": {
+      "owner": "PortGame.source_build_payload_constructor_build_state",
+      "source_slice": "N1384",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_build_payload_constructor_build_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_build_payload_constructor_build_result.source_owner",
+          "java_expr": "PortGame.source_build_payload_constructor_build_state",
+          "java_method": "BuildPayload(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_build_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_build.constructor"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_build_payload_constructor_build_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "java_method": "BuildPayload(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_build_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_build.constructor"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_build_payload_constructor_build_result.class_expr",
+          "java_expr": "public class BuildPayload implements Payload{",
+          "java_method": "BuildPayload(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_build_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_build.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_build_payload_constructor_build_result.field_expr",
+          "java_expr": "public Building build;",
+          "java_method": "BuildPayload(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_build_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_build.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "constructor": {
+          "godot_symbol": "source_build_payload_constructor_build_result.constructor",
+          "java_expr": "public BuildPayload(Building build){",
+          "java_method": "BuildPayload(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_build_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_build.constructor"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "build_assign_expr": {
+          "godot_symbol": "source_build_payload_constructor_build_result.build_assign_expr",
+          "java_expr": "this.build = build;",
+          "java_method": "BuildPayload(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_build_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_build.build_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "build": {
+          "godot_symbol": "source_build_payload_constructor_build_result.build",
+          "java_expr": "build",
+          "java_method": "BuildPayload(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_build_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_build.build"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "build_after": {
+          "godot_symbol": "source_build_payload_constructor_build_result.build_after",
+          "java_expr": "this.build = build;",
+          "java_method": "BuildPayload(Building build)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_constructor_build_state"
+          ],
+          "source_symbols": [
+            "build_payload_constructor_build.build_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      }
     }
   },
   "version": 1

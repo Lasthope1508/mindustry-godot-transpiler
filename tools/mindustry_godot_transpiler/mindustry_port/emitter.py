@@ -4663,6 +4663,28 @@ def _method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
 def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
     lines: list[str] = []
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 2:
+                lines.extend([
+                    "",
+                    f"func java_constructor_BuildPayload_{index}(_args: Array = []) -> Variant:",
+                    "\tvar block: Variant = _args[0] if _args.size() > 0 else null",
+                    "\tvar team: Variant = _args[1] if _args.size() > 1 else null",
+                    '\tvar create_call: Dictionary = {"call": "block.newBuilding().create(block, team)", "block": block, "team": team}',
+                    '\treturn {"source_owner": "PortGame.source_build_payload_constructor_block_team_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "constructor": "public BuildPayload(Block block, Team team){", "build_assign_expr": "this.build = block.newBuilding().create(block, team);", "tile_assign_expr": "this.build.tile = emptyTile;", "block": block, "team": team, "create_call": create_call, "tile_after": "emptyTile"}',
+                ])
+            elif len(params) == 1:
+                lines.extend([
+                    "",
+                    f"func java_constructor_BuildPayload_{index}(_args: Array = []) -> Variant:",
+                    "\tvar build: Variant = _args[0] if _args.size() > 0 else null",
+                    '\treturn {"source_owner": "PortGame.source_build_payload_constructor_build_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "constructor": "public BuildPayload(Building build){", "build_assign_expr": "this.build = build;", "build": build, "build_after": build}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
         and type_entry.get("name") == "LiquidTurret"
     ):

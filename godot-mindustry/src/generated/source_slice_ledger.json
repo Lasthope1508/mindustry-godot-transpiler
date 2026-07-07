@@ -33323,6 +33323,54 @@
         "test_build_payload_destroyed_matches_upstream_source",
         "test_generated_build_payload_destroyed_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1384": {
+      "title": "Generated BuildPayload constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload(Block block, Team team) and BuildPayload(Building build)",
+      "godot_owner": "PortGame.source_build_payload_constructor_block_team_state",
+      "generated_owner": "BuildPayload.java_constructor_BuildPayload_0/1",
+      "runtime_proof": "/root/Main.generated_build_payload_constructor_block_team_bridge_state",
+      "rule": "Generated BuildPayload constructors bridge new-building creation/tile assignment and existing-build assignment with explicit inputs, without inferring Block.newBuilding or Building internals.",
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "import static mindustry.Vars.*;",
+        "public BuildPayload(Block block, Team team){",
+        "this.build = block.newBuilding().create(block, team);",
+        "this.build.tile = emptyTile;",
+        "public BuildPayload(Building build){",
+        "this.build = build;"
+      ],
+      "deferred_exprs": [
+        "Block.newBuilding() and Building.create(block, team) internals are represented by explicit create_call marker",
+        "Concrete Building object state beyond tile assignment is deferred to Building creation slices",
+        "emptyTile object internals are deferred to Vars/world integration"
+      ],
+      "source_symbols": [
+        "build_payload_constructor_block_team.class_expr",
+        "build_payload_constructor_block_team.field_expr",
+        "build_payload_constructor_block_team.import_expr",
+        "build_payload_constructor_block_team.constructor",
+        "build_payload_constructor_block_team.block",
+        "build_payload_constructor_block_team.team",
+        "build_payload_constructor_block_team.new_building_expr",
+        "build_payload_constructor_block_team.tile_assign_expr",
+        "build_payload_constructor_build.class_expr",
+        "build_payload_constructor_build.field_expr",
+        "build_payload_constructor_build.constructor",
+        "build_payload_constructor_build.build",
+        "build_payload_constructor_build.build_assign_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_constructors_to_source_state",
+        "test_port_game_exposes_source_build_payload_constructor_state",
+        "test_port_game_exposes_generated_build_payload_constructor_bridge_state",
+        "test_build_payload_constructors_match_upstream_source",
+        "test_generated_build_payload_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

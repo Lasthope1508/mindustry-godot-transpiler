@@ -19843,6 +19843,61 @@ func generated_build_payload_block_bridge_state(build_block: Variant) -> Diction
 		"matches": result == canonical,
 	}
 
+func source_build_payload_constructor_block_team_state(block: Variant, team: Variant) -> Dictionary:
+	var create_call: Dictionary = {"call": "block.newBuilding().create(block, team)", "block": block, "team": team}
+	return {
+		"source_owner": "PortGame.source_build_payload_constructor_block_team_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"import_expr": "import static mindustry.Vars.*;",
+		"constructor": "public BuildPayload(Block block, Team team){",
+		"build_assign_expr": "this.build = block.newBuilding().create(block, team);",
+		"tile_assign_expr": "this.build.tile = emptyTile;",
+		"block": block,
+		"team": team,
+		"create_call": create_call,
+		"tile_after": "emptyTile",
+	}
+
+func generated_build_payload_constructor_block_team_bridge_state(block: Variant, team: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_BuildPayload_0([block, team])
+	var canonical = source_build_payload_constructor_block_team_state(block, team)
+	return {
+		"source_owner": "PortGame.source_build_payload_constructor_block_team_state",
+		"generated_owner": "BuildPayload.java_constructor_BuildPayload_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
+func source_build_payload_constructor_build_state(build: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_build_payload_constructor_build_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"constructor": "public BuildPayload(Building build){",
+		"build_assign_expr": "this.build = build;",
+		"build": build,
+		"build_after": build,
+	}
+
+func generated_build_payload_constructor_build_bridge_state(build: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_BuildPayload_1([build])
+	var canonical = source_build_payload_constructor_build_state(build)
+	return {
+		"source_owner": "PortGame.source_build_payload_constructor_build_state",
+		"generated_owner": "BuildPayload.java_constructor_BuildPayload_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

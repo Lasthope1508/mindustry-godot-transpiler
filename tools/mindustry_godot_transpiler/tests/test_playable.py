@@ -18221,6 +18221,43 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildPayload.java_method_block_0"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_build_payload_constructor_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_build_payload_constructor_block_team_state(block: Variant, team: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_constructor_block_team_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source)
+        self.assertIn('"field_expr": "public Building build;"', source)
+        self.assertIn('"import_expr": "import static mindustry.Vars.*;"', source)
+        self.assertIn('"constructor": "public BuildPayload(Block block, Team team){"', source)
+        self.assertIn('"build_assign_expr": "this.build = block.newBuilding().create(block, team);"', source)
+        self.assertIn('"tile_assign_expr": "this.build.tile = emptyTile;"', source)
+        self.assertIn("var create_call: Dictionary =", source)
+        self.assertIn('"tile_after": "emptyTile"', source)
+        self.assertIn("func source_build_payload_constructor_build_state(build: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_constructor_build_state"', source)
+        self.assertIn('"constructor": "public BuildPayload(Building build){"', source)
+        self.assertIn('"build_assign_expr": "this.build = build;"', source)
+        self.assertIn('"build_after": build', source)
+
+    def test_port_game_exposes_generated_build_payload_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_build_payload_constructor_block_team_bridge_state(block: Variant, team: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', source)
+        self.assertIn("var result = instance.java_constructor_BuildPayload_0([block, team])", source)
+        self.assertIn("var canonical = source_build_payload_constructor_block_team_state(block, team)", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_constructor_block_team_state"', source)
+        self.assertIn('"generated_owner": "BuildPayload.java_constructor_BuildPayload_0"', source)
+        self.assertIn('"matches": result == canonical', source)
+        self.assertIn("func generated_build_payload_constructor_build_bridge_state(build: Variant) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_constructor_BuildPayload_1([build])", source)
+        self.assertIn("var canonical = source_build_payload_constructor_build_state(build)", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_constructor_build_state"', source)
+        self.assertIn('"generated_owner": "BuildPayload.java_constructor_BuildPayload_1"', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

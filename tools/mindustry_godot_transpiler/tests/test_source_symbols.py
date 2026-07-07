@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 857)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 852)
+        self.assertEqual(audit["totalSourceFunctions"], 859)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 854)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 857)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 859)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20379,6 +20379,8 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_build_payload_place_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_destroyed_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_build_payload_constructor_block_team_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_build_payload_constructor_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_add_stats_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_ability_stat_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_copy_state", audit["registeredSourceOwners"])
@@ -47251,6 +47253,75 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["build_block"]["java_expr"], "build.block")
         result_schema = source_symbols.state_schema(schema, "source_build_payload_block_result")
         self.assertEqual(result_schema["keys"]["build_block"]["java_expr"], "return build.block;")
+
+    def test_generated_build_payload_constructor_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method_block_team = source_symbols.source_symbol(registry, "build_payload_constructor_block_team.constructor")
+        self.assertEqual(method_block_team["java_expr"], "public BuildPayload(Block block, Team team){")
+        self.assertEqual(method_block_team["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(method_block_team["java_method"], "BuildPayload(Block block, Team team)")
+        self.assertEqual(method_block_team["godot_owner"], "PortGame.source_build_payload_constructor_block_team_state")
+        self.assertEqual(method_block_team["runtime_proof"], "/root/Main.source_build_payload_constructor_block_team_state")
+        new_building = source_symbols.source_symbol(registry, "build_payload_constructor_block_team.new_building_expr")
+        self.assertEqual(new_building["java_expr"], "this.build = block.newBuilding().create(block, team);")
+        self.assertEqual(new_building["godot_symbol"], "source_build_payload_constructor_block_team_result.create_call")
+        tile_assign = source_symbols.source_symbol(registry, "build_payload_constructor_block_team.tile_assign_expr")
+        self.assertEqual(tile_assign["java_expr"], "this.build.tile = emptyTile;")
+        self.assertEqual(tile_assign["godot_symbol"], "source_build_payload_constructor_block_team_result.tile_after")
+        method_build = source_symbols.source_symbol(registry, "build_payload_constructor_build.constructor")
+        self.assertEqual(method_build["java_expr"], "public BuildPayload(Building build){")
+        self.assertEqual(method_build["java_method"], "BuildPayload(Building build)")
+        self.assertEqual(method_build["godot_owner"], "PortGame.source_build_payload_constructor_build_state")
+        build_assign = source_symbols.source_symbol(registry, "build_payload_constructor_build.build_assign_expr")
+        self.assertEqual(build_assign["java_expr"], "this.build = build;")
+        self.assertEqual(build_assign["godot_symbol"], "source_build_payload_constructor_build_result.build_after")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1384")
+        self.assertEqual(payload_slice["title"], "Generated BuildPayload constructor bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(payload_slice["java_method"], "BuildPayload(Block block, Team team) and BuildPayload(Building build)")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_build_payload_constructor_block_team_state")
+        self.assertEqual(payload_slice["generated_owner"], "BuildPayload.java_constructor_BuildPayload_0/1")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_build_payload_constructor_block_team_bridge_state")
+        for expr in [
+            "public class BuildPayload implements Payload{",
+            "public Building build;",
+            "import static mindustry.Vars.*;",
+            "public BuildPayload(Block block, Team team){",
+            "this.build = block.newBuilding().create(block, team);",
+            "this.build.tile = emptyTile;",
+            "public BuildPayload(Building build){",
+            "this.build = build;",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("build_payload_constructor_block_team.new_building_expr", payload_slice["source_symbols"])
+        self.assertIn("build_payload_constructor_build.build_assign_expr", payload_slice["source_symbols"])
+
+        contract_block_team = source_symbols.api_contract(contracts, "PortGame.source_build_payload_constructor_block_team_state")
+        self.assertEqual([param["name"] for param in contract_block_team["params"]], ["block", "team"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "import_expr", "constructor", "build_assign_expr", "tile_assign_expr", "block", "team", "create_call", "tile_after"]:
+            self.assertIn(key, contract_block_team["return_keys"])
+        contract_build = source_symbols.api_contract(contracts, "PortGame.source_build_payload_constructor_build_state")
+        self.assertEqual([param["name"] for param in contract_build["params"]], ["build"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "constructor", "build_assign_expr", "build", "build_after"]:
+            self.assertIn(key, contract_build["return_keys"])
+
+        input_block_team = source_symbols.state_schema(schema, "source_build_payload_constructor_block_team_input")
+        self.assertEqual(input_block_team["keys"]["block"]["java_expr"], "block")
+        self.assertEqual(input_block_team["keys"]["team"]["java_expr"], "team")
+        result_block_team = source_symbols.state_schema(schema, "source_build_payload_constructor_block_team_result")
+        self.assertEqual(result_block_team["keys"]["create_call"]["java_expr"], "this.build = block.newBuilding().create(block, team);")
+        self.assertEqual(result_block_team["keys"]["tile_after"]["java_expr"], "this.build.tile = emptyTile;")
+        input_build = source_symbols.state_schema(schema, "source_build_payload_constructor_build_input")
+        self.assertEqual(input_build["keys"]["build"]["java_expr"], "build")
+        result_build = source_symbols.state_schema(schema, "source_build_payload_constructor_build_result")
+        self.assertEqual(result_build["keys"]["build_after"]["java_expr"], "this.build = build;")
 
     def test_generated_build_payload_content_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
