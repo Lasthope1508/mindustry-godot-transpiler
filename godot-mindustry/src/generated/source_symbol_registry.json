@@ -98306,6 +98306,60 @@
         "test_block_get_content_type_matches_upstream_source",
         "test_generated_block_get_content_type_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_logic_visible.method": {
+      "godot_owner": "PortGame.source_block_logic_visible_state",
+      "godot_symbol": "source_block_logic_visible_result.method",
+      "java_expr": "public boolean logicVisible(){",
+      "java_method": "Block.logicVisible()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.logicVisible method boundary.",
+      "runtime_proof": "/root/Main.source_block_logic_visible_state",
+      "source_slice": "N1320",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_logic_visible_to_source_state",
+        "test_port_game_exposes_source_block_logic_visible_state",
+        "test_port_game_exposes_generated_block_logic_visible_bridge_state",
+        "test_block_logic_visible_matches_upstream_source",
+        "test_generated_block_logic_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_logic_visible.logic_visible_return_expr": {
+      "godot_owner": "PortGame.source_block_logic_visible_state",
+      "godot_symbol": "source_block_logic_visible_result.logic_visible",
+      "java_expr": "return buildVisibility != BuildVisibility.hidden;",
+      "java_method": "Block.logicVisible()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve logic visibility buildVisibility hidden check.",
+      "runtime_proof": "/root/Main.source_block_logic_visible_state",
+      "source_slice": "N1320",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_logic_visible_to_source_state",
+        "test_port_game_exposes_source_block_logic_visible_state",
+        "test_port_game_exposes_generated_block_logic_visible_bridge_state",
+        "test_block_logic_visible_matches_upstream_source",
+        "test_generated_block_logic_visible_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_logic_visible.build_visibility": {
+      "godot_owner": "PortGame.source_block_logic_visible_state",
+      "godot_symbol": "source_block_logic_visible_input.build_visibility",
+      "java_expr": "buildVisibility",
+      "java_method": "Block.logicVisible()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Explicit input for Block.buildVisibility used by logicVisible.",
+      "runtime_proof": "/root/Main.source_block_logic_visible_state",
+      "source_slice": "N1320",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_logic_visible_to_source_state",
+        "test_port_game_exposes_source_block_logic_visible_state",
+        "test_port_game_exposes_generated_block_logic_visible_bridge_state",
+        "test_block_logic_visible_matches_upstream_source",
+        "test_generated_block_logic_visible_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

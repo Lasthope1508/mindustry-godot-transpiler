@@ -33169,6 +33169,37 @@
         "test_block_get_content_type_matches_upstream_source",
         "test_generated_block_get_content_type_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_logic_visible_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "buildVisibility",
+          "name": "build_visibility_value",
+          "schema": "source_block_logic_visible_input.build_visibility",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "logic_visible_return_expr",
+        "build_visibility",
+        "logic_visible"
+      ],
+      "rule": "Pin source-backed Block.logicVisible() buildVisibility hidden check.",
+      "runtime_proof": "/root/Main.source_block_logic_visible_state",
+      "source_method": "Block.logicVisible()",
+      "source_slice": "N1320",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_logic_visible_to_source_state",
+        "test_port_game_exposes_source_block_logic_visible_state",
+        "test_port_game_exposes_generated_block_logic_visible_bridge_state",
+        "test_block_logic_visible_matches_upstream_source",
+        "test_generated_block_logic_visible_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

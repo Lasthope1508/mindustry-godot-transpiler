@@ -17067,5 +17067,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_getContentType_120"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_logic_visible_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_logic_visible_state(build_visibility_value: String) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_logic_visible_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public boolean logicVisible(){"', source)
+        self.assertIn('"logic_visible_return_expr": "return buildVisibility != BuildVisibility.hidden;"', source)
+        self.assertIn('"build_visibility": build_visibility_value', source)
+        self.assertIn('"logic_visible": logic_visible', source)
+
+    def test_port_game_exposes_generated_block_logic_visible_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_logic_visible_bridge_state(build_visibility_value: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_logicVisible_121([build_visibility_value])", source)
+        self.assertIn("var canonical = source_block_logic_visible_state(build_visibility_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_logic_visible_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_logicVisible_121"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

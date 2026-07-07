@@ -18326,6 +18326,30 @@ func generated_block_get_content_type_bridge_state() -> Dictionary:
 		"matches": result == canonical,
 	}
 
+func source_block_logic_visible_state(build_visibility_value: String) -> Dictionary:
+	var logic_visible: bool = build_visibility_value != "BuildVisibility.hidden"
+	return {
+		"source_owner": "PortGame.source_block_logic_visible_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public boolean logicVisible(){",
+		"logic_visible_return_expr": "return buildVisibility != BuildVisibility.hidden;",
+		"build_visibility": build_visibility_value,
+		"logic_visible": logic_visible,
+	}
+
+func generated_block_logic_visible_bridge_state(build_visibility_value: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_logicVisible_121([build_visibility_value])
+	var canonical = source_block_logic_visible_state(build_visibility_value)
+	return {
+		"source_owner": "PortGame.source_block_logic_visible_state",
+		"generated_owner": "Block.java_method_logicVisible_121",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

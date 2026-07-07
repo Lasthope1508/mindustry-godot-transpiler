@@ -1891,6 +1891,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "logicVisible"
+        and len(method.get("parameters", [])) == 0
+    ):
+        return [
+            '\tvar build_visibility_value: String = str(_args[0] if _args.size() > 0 else "")',
+            '\tvar logic_visible: bool = build_visibility_value != "BuildVisibility.hidden"',
+            '\treturn {"source_owner": "PortGame.source_block_logic_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean logicVisible(){", "logic_visible_return_expr": "return buildVisibility != BuildVisibility.hidden;", "build_visibility": build_visibility_value, "logic_visible": logic_visible}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):

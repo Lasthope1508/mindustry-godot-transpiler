@@ -579,7 +579,9 @@ func java_method_getContentType_120(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_get_content_type_state", "source": "core/src/mindustry/world/Block.java", "method": "public ContentType getContentType(){", "content_type_return_expr": "return ContentType.block;", "content_type": "ContentType.block"}
 
 func java_method_logicVisible_121(_args: Array = []) -> Variant:
-	return null
+	var build_visibility_value: String = str(_args[0] if _args.size() > 0 else "")
+	var logic_visible: bool = build_visibility_value != "BuildVisibility.hidden"
+	return {"source_owner": "PortGame.source_block_logic_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean logicVisible(){", "logic_visible_return_expr": "return buildVisibility != BuildVisibility.hidden;", "build_visibility": build_visibility_value, "logic_visible": logic_visible}
 
 func java_method_postInit_122(_args: Array = []) -> Variant:
 	return null
