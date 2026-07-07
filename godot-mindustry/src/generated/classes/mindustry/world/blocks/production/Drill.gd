@@ -32,7 +32,12 @@ func java_method_drawPlace_5(_args: Array = []) -> Variant:
 	return null
 
 func java_method_getDrillTime_6(_args: Array = []) -> Variant:
-	return null
+	var drill_time: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var hardness_drill_multiplier: float = float(_args[1] if _args.size() > 1 else 50.0)
+	var item_hardness: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var drill_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)
+	var drill_time_result: float = (drill_time + hardness_drill_multiplier * item_hardness) / drill_multiplier
+	return {"source_owner": "PortGame.source_drill_delay", "source": "core/src/mindustry/world/blocks/production/Drill.java", "method": "public float getDrillTime(Item item){", "result_expr": "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);", "drillTime": drill_time_result, "hardnessDrillMultiplier": hardness_drill_multiplier, "itemHardness": item_hardness, "drillMultiplier": drill_multiplier}
 
 func java_method_setStats_7(_args: Array = []) -> Variant:
 	return null

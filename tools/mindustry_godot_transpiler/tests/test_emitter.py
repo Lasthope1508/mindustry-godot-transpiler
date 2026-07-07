@@ -17012,5 +17012,47 @@ public class BuildPayload implements Payload{
             self.assertIn('"return_expr": "return build.block;"', source_text)
             self.assertIn('"build_block": build_block', source_text)
 
+    def test_emit_bridges_drill_get_drill_time_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            drill_path = source_root / "mindustry" / "world" / "blocks" / "production" / "Drill.java"
+            drill_path.parent.mkdir(parents=True, exist_ok=True)
+            drill_path.write_text(
+                """
+package mindustry.world.blocks.production;
+
+public class Drill extends Block{
+    public float hardnessDrillMultiplier = 50f;
+    /** Base time to drill one ore, in frames. */
+    public float drillTime = 300;
+    /** Multipliers of drill speed for each item. Defaults to 1. */
+    public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();
+
+    public float getDrillTime(Item item){
+        return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "production" / "Drill.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getDrillTime_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var drill_time: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var hardness_drill_multiplier: float = float(_args[1] if _args.size() > 1 else 50.0)", source_text)
+            self.assertIn("var item_hardness: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var drill_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)", source_text)
+            self.assertIn("var drill_time_result: float = (drill_time + hardness_drill_multiplier * item_hardness) / drill_multiplier", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_drill_delay"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/production/Drill.java"', source_text)
+            self.assertIn('"method": "public float getDrillTime(Item item){"', source_text)
+            self.assertIn('"result_expr": "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);"', source_text)
+            self.assertIn('"drillTime": drill_time_result', source_text)
+
 if __name__ == "__main__":
     unittest.main()

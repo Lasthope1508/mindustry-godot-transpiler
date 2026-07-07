@@ -1618,6 +1618,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_build_payload_block_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public Block block(){", "return_expr": "return build.block;", "build_block": build_block}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/production/Drill.java"
+        and type_entry.get("name") == "Drill"
+        and method.get("name") == "getDrillTime"
+    ):
+        return [
+            "\tvar drill_time: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar hardness_drill_multiplier: float = float(_args[1] if _args.size() > 1 else 50.0)",
+            "\tvar item_hardness: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar drill_multiplier: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar drill_time_result: float = (drill_time + hardness_drill_multiplier * item_hardness) / drill_multiplier",
+            '\treturn {"source_owner": "PortGame.source_drill_delay", "source": "core/src/mindustry/world/blocks/production/Drill.java", "method": "public float getDrillTime(Item item){", "result_expr": "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);", "drillTime": drill_time_result, "hardnessDrillMultiplier": hardness_drill_multiplier, "itemHardness": item_hardness, "drillMultiplier": drill_multiplier}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
         and method.get("name") == "consumesItem"

@@ -12009,6 +12009,44 @@
       ],
       "title": "Generated BuildPayload block bridge state"
     },
+    "N1367": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public float getDrillTime(Item item){",
+        "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);",
+        "public float hardnessDrillMultiplier = 50f;",
+        "public float drillTime = 300;",
+        "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+        "item.hardness",
+        "drillMultipliers.get(item, 1f)"
+      ],
+      "generated_owner": "Drill.java_method_getDrillTime_6",
+      "godot_owner": "PortGame.source_drill_delay",
+      "java_class": "Drill",
+      "java_method": "getDrillTime(Item item)",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "rule": "Generated Drill.getDrillTime(Item item) bridge matches source_drill_delay formula and exact upstream Drill source.",
+      "runtime_proof": "/root/Main.generated_drill_get_drill_time_bridge_state",
+      "source_symbols": [
+        "drill_delay.method",
+        "drill_delay.result",
+        "drill_delay.hardness_multiplier_field",
+        "drill_delay.drill_time_field",
+        "drill_delay.drill_multipliers_field",
+        "drill_delay.item_hardness",
+        "drill_delay.drill_multiplier",
+        "drill_delay.block_id",
+        "drill_delay.item_id"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_drill_get_drill_time_to_source_state",
+        "test_port_game_exposes_generated_drill_get_drill_time_bridge_state",
+        "test_drill_get_drill_time_matches_upstream_source",
+        "test_generated_drill_get_drill_time_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Drill getDrillTime bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

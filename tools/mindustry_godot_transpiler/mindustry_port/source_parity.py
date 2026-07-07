@@ -11219,6 +11219,23 @@ def verify_build_payload_block_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_drill_get_drill_time_source(upstream_root: Path) -> dict[str, Any]:
+    drill_path = Path(upstream_root) / DRILL_SOURCE
+    source = drill_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float getDrillTime(Item item){",
+        "return_expr": "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);",
+        "hardness_multiplier_field": "public float hardnessDrillMultiplier = 50f;",
+        "drill_time_field": "public float drillTime = 300;",
+        "drill_multipliers_field": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": DRILL_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

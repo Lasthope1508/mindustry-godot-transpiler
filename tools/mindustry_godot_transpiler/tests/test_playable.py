@@ -1788,6 +1788,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))', source)
         self.assertIn("/ drill_multiplier", source)
 
+    def test_port_game_exposes_generated_drill_get_drill_time_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_drill_get_drill_time_bridge_state(block_id: String, item_id: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/production/Drill.gd")', source)
+        self.assertIn('var drill_time := float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT))', source)
+        self.assertIn('var item_hardness := float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))', source)
+        self.assertIn('var drill_multipliers = block.properties.get("drillMultipliers", {})', source)
+        self.assertIn("drill_multiplier = float(drill_multipliers.get(item_id, 1.0))", source)
+        self.assertIn("var result = instance.java_method_getDrillTime_6([drill_time, SOURCE_DRILL_HARDNESS_MULTIPLIER, item_hardness, drill_multiplier])", source)
+        self.assertIn("var canonical := source_drill_delay(block_id, item_id)", source)
+        self.assertIn('"source_owner": "PortGame.source_drill_delay"', source)
+        self.assertIn('"generated_owner": "Drill.java_method_getDrillTime_6"', source)
+        self.assertIn('"matches": is_equal_approx(float(result.get("drillTime", 0.0)), canonical)', source)
+
     def test_port_game_applies_source_drill_warmup_to_output_delta(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

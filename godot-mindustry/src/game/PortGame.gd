@@ -3101,6 +3101,35 @@ func source_drill_delay(block_id: String, item_id: String) -> float:
 		drill_multiplier = float(drill_multipliers.get(item_id, 1.0))
 	return (float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT)) + SOURCE_DRILL_HARDNESS_MULTIPLIER * float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))) / drill_multiplier
 
+func generated_drill_get_drill_time_bridge_state(block_id: String, item_id: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/production/Drill.gd")
+	var instance = script.new()
+	var block = content_catalog.get_by_id(block_id) if content_catalog != null else null
+	var item = content_catalog.get_by_id(item_id) if content_catalog != null else null
+	if block == null or item == null:
+		return {
+			"source_owner": "PortGame.source_drill_delay",
+			"generated_owner": "Drill.java_method_getDrillTime_6",
+			"result": {},
+			"canonical": source_drill_delay(block_id, item_id),
+			"matches": false,
+		}
+	var drill_time := float(block.properties.get("drillTime", SOURCE_DRILL_DELAY_DRILL_TIME_DEFAULT))
+	var item_hardness := float(item.properties.get("hardness", SOURCE_DRILL_DELAY_ITEM_HARDNESS_DEFAULT))
+	var drill_multipliers = block.properties.get("drillMultipliers", {})
+	var drill_multiplier := 1.0
+	if typeof(drill_multipliers) == TYPE_DICTIONARY:
+		drill_multiplier = float(drill_multipliers.get(item_id, 1.0))
+	var result = instance.java_method_getDrillTime_6([drill_time, SOURCE_DRILL_HARDNESS_MULTIPLIER, item_hardness, drill_multiplier])
+	var canonical := source_drill_delay(block_id, item_id)
+	return {
+		"source_owner": "PortGame.source_drill_delay",
+		"generated_owner": "Drill.java_method_getDrillTime_6",
+		"result": result,
+		"canonical": canonical,
+		"matches": is_equal_approx(float(result.get("drillTime", 0.0)), canonical),
+	}
+
 const SOURCE_DRILL_OUTPUT_RATE_DRAW_PLACE := "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);"
 const SOURCE_DRILL_OUTPUT_RATE_RATE_EXPR := "60f / getDrillTime(returnItem) * returnCount"
 const SOURCE_DRILL_OUTPUT_RATE_RETURN_ITEM := "returnItem"

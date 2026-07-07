@@ -11344,5 +11344,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_drill_get_drill_time_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_drill_get_drill_time_source"))
+        report = source_parity.verify_drill_get_drill_time_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/production/Drill.java")
+        self.assertEqual(report["checked"], {
+            "method": "public float getDrillTime(Item item){",
+            "return_expr": "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);",
+            "hardness_multiplier_field": "public float hardnessDrillMultiplier = 50f;",
+            "drill_time_field": "public float drillTime = 300;",
+            "drill_multipliers_field": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+        })
+        self.assertEqual(report["missing"], [])
+
 if __name__ == "__main__":
     unittest.main()
