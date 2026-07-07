@@ -6043,6 +6043,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_sense_content_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_sense_content_source"))
+        report = source_parity.verify_block_sense_content_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "override_expr": "@Override",
+            "method": "public double sense(Content content){",
+            "item_instanceof_expr": "if(content instanceof Item item){",
+            "infinite_resources_return_expr": "if(state.rules.infiniteResources) return 0;",
+            "requirements_loop_expr": "for(ItemStack r : requirements){",
+            "item_match_guard_expr": "if(r.item == item){",
+            "amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);",
+            "missing_item_return_expr": "return 0f;",
+            "invalid_return_expr": "return Double.NaN;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_block_init_item_liquid_filters_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_block_init_item_liquid_filters_source"))
         report = source_parity.verify_block_init_item_liquid_filters_source(ROOT / "mindustry-upstream")

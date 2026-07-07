@@ -1558,6 +1558,43 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "sense"
+        and method.get("parameters")
+        and method["parameters"][0].get("type") == "Content"
+    ):
+        return [
+            '\tvar content_type: String = str(_args[0] if _args.size() > 0 else "")',
+            "\tvar content_item: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar state_rules_infinite_resources: bool = bool(_args[2] if _args.size() > 2 else false)",
+            "\tvar requirements: Array = _args[3] if _args.size() > 3 else []",
+            "\tvar build_cost_multiplier: float = float(_args[4] if _args.size() > 4 else 1.0)",
+            "\tvar sense_value: float = NAN",
+            "\tvar matched_requirement_index: int = -1",
+            "\tvar matched_requirement: Variant = null",
+            "\tvar matched_amount: int = 0",
+            '\tif content_type == "Item":',
+            "\t\tsense_value = 0.0",
+            "\t\tif state_rules_infinite_resources:",
+            "\t\t\tsense_value = 0.0",
+            "\t\telse:",
+            "\t\t\tfor index in range(requirements.size()):",
+            "\t\t\t\tvar requirement: Dictionary = {}",
+            "\t\t\t\tif requirements[index] is Dictionary:",
+            "\t\t\t\t\trequirement = requirements[index]",
+            '\t\t\t\tif requirement.get("item") == content_item:',
+            "\t\t\t\t\tmatched_requirement_index = index",
+            "\t\t\t\t\tmatched_requirement = requirement",
+            '\t\t\t\t\tmatched_amount = int(floor(float(requirement.get("amount", 0.0)) * build_cost_multiplier + 0.5))',
+            "\t\t\t\t\tsense_value = float(matched_amount)",
+            "\t\t\t\t\tbreak",
+            "\tvar sense_value_wire: Variant = sense_value",
+            "\tif is_nan(sense_value):",
+            "\t\tsense_value_wire = null",
+            '\treturn {"source_owner": "PortGame.source_block_sense_content_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public double sense(Content content){", "item_instanceof_expr": "if(content instanceof Item item){", "infinite_resources_return_expr": "if(state.rules.infiniteResources) return 0;", "requirements_loop_expr": "for(ItemStack r : requirements){", "item_match_guard_expr": "if(r.item == item){", "amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);", "missing_item_return_expr": "return 0f;", "invalid_return_expr": "return Double.NaN;", "content_type": content_type, "content_item": content_item, "state_rules_infinite_resources": state_rules_infinite_resources, "requirements": requirements, "build_cost_multiplier": build_cost_multiplier, "matched_requirement_index": matched_requirement_index, "matched_requirement": matched_requirement, "matched_amount": matched_amount, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumesItem"
     ):
         return [

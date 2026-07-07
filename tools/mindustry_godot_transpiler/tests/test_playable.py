@@ -18118,6 +18118,43 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_sense_132"', source)
         self.assertIn('"matches": matches', source)
 
+    def test_port_game_exposes_source_block_sense_content_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_sense_content_state(content_type: String, content_item: Variant, state_rules_infinite_resources: bool, requirements: Array, build_cost_multiplier: float) -> Dictionary:", source)
+        self.assertIn("var sense_value: float = NAN", source)
+        self.assertIn('if content_type == "Item":', source)
+        self.assertIn("if state_rules_infinite_resources:", source)
+        self.assertIn("for index in range(requirements.size()):", source)
+        self.assertIn('if requirement.get("item") == content_item:', source)
+        self.assertIn('matched_amount = int(floor(float(requirement.get("amount", 0.0)) * build_cost_multiplier + 0.5))', source)
+        self.assertIn("var sense_value_wire: Variant = sense_value", source)
+        self.assertIn("if is_nan(sense_value):", source)
+        self.assertIn("sense_value_wire = null", source)
+        self.assertIn('"source_owner": "PortGame.source_block_sense_content_state"', source)
+        self.assertIn('"method": "public double sense(Content content){"', source)
+        self.assertIn('"item_instanceof_expr": "if(content instanceof Item item){"', source)
+        self.assertIn('"amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);"', source)
+        self.assertIn('"invalid_return_expr": "return Double.NaN;"', source)
+        self.assertIn('"sense_value": sense_value_wire', source)
+        self.assertIn('"sense_value_is_nan": is_nan(sense_value)', source)
+
+    def test_port_game_exposes_generated_block_sense_content_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_sense_content_bridge_state(content_type: String, content_item: Variant, state_rules_infinite_resources: bool, requirements: Array, build_cost_multiplier: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_sense_133([content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier])", source)
+        self.assertIn("var canonical = source_block_sense_content_state(content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier)", source)
+        self.assertIn("var result_nan: bool = bool(result.get(\"sense_value_is_nan\", false))", source)
+        self.assertIn("var canonical_nan: bool = bool(canonical.get(\"sense_value_is_nan\", false))", source)
+        self.assertIn("var matches: bool = result == canonical or (result_nan and canonical_nan and result.get(\"content_type\", \"\") == canonical.get(\"content_type\", \"\"))", source)
+        self.assertIn('"source_owner": "PortGame.source_block_sense_content_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_sense_133"', source)
+        self.assertIn('"matches": matches', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

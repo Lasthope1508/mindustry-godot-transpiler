@@ -1037,7 +1037,34 @@ func java_method_sense_132(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_sense_laccess_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public double sense(LAccess sensor){", "switch_expr": "return switch(sensor){", "color_case": "case color -> mapColor.toDoubleBits();", "health_case": "case health, maxHealth -> health;", "solid_case": "case solid -> solid ? 1 : 0;", "size_case": "case size -> size;", "item_capacity_case": "case itemCapacity -> itemCapacity;", "liquid_capacity_case": "case liquidCapacity -> liquidCapacity;", "power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;", "id_case": "case id -> getLogicId();", "default_expr": "default -> Double.NaN;", "sensor": sensor, "map_color_double_bits": map_color_double_bits, "health": health_value, "solid": solid_value, "size": size_value, "itemCapacity": item_capacity, "liquidCapacity": liquid_capacity, "has_cons_power": has_cons_power, "cons_power_buffered": cons_power_buffered, "cons_power_capacity": cons_power_capacity, "logic_id": logic_id, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}
 
 func java_method_sense_133(_args: Array = []) -> Variant:
-	return null
+	var content_type: String = str(_args[0] if _args.size() > 0 else "")
+	var content_item: Variant = _args[1] if _args.size() > 1 else null
+	var state_rules_infinite_resources: bool = bool(_args[2] if _args.size() > 2 else false)
+	var requirements: Array = _args[3] if _args.size() > 3 else []
+	var build_cost_multiplier: float = float(_args[4] if _args.size() > 4 else 1.0)
+	var sense_value: float = NAN
+	var matched_requirement_index: int = -1
+	var matched_requirement: Variant = null
+	var matched_amount: int = 0
+	if content_type == "Item":
+		sense_value = 0.0
+		if state_rules_infinite_resources:
+			sense_value = 0.0
+		else:
+			for index in range(requirements.size()):
+				var requirement: Dictionary = {}
+				if requirements[index] is Dictionary:
+					requirement = requirements[index]
+				if requirement.get("item") == content_item:
+					matched_requirement_index = index
+					matched_requirement = requirement
+					matched_amount = int(floor(float(requirement.get("amount", 0.0)) * build_cost_multiplier + 0.5))
+					sense_value = float(matched_amount)
+					break
+	var sense_value_wire: Variant = sense_value
+	if is_nan(sense_value):
+		sense_value_wire = null
+	return {"source_owner": "PortGame.source_block_sense_content_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public double sense(Content content){", "item_instanceof_expr": "if(content instanceof Item item){", "infinite_resources_return_expr": "if(state.rules.infiniteResources) return 0;", "requirements_loop_expr": "for(ItemStack r : requirements){", "item_match_guard_expr": "if(r.item == item){", "amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);", "missing_item_return_expr": "return 0f;", "invalid_return_expr": "return Double.NaN;", "content_type": content_type, "content_item": content_item, "state_rules_infinite_resources": state_rules_infinite_resources, "requirements": requirements, "build_cost_multiplier": build_cost_multiplier, "matched_requirement_index": matched_requirement_index, "matched_requirement": matched_requirement, "matched_amount": matched_amount, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}
 
 func java_method_senseObject_134(_args: Array = []) -> Variant:
 	return null

@@ -19697,6 +19697,69 @@ func generated_block_sense_laccess_bridge_state(sensor: String, map_color_double
 		"matches": matches,
 	}
 
+func source_block_sense_content_state(content_type: String, content_item: Variant, state_rules_infinite_resources: bool, requirements: Array, build_cost_multiplier: float) -> Dictionary:
+	var sense_value: float = NAN
+	var matched_requirement_index: int = -1
+	var matched_requirement: Variant = null
+	var matched_amount: int = 0
+	if content_type == "Item":
+		sense_value = 0.0
+		if state_rules_infinite_resources:
+			sense_value = 0.0
+		else:
+			for index in range(requirements.size()):
+				var requirement: Dictionary = {}
+				if requirements[index] is Dictionary:
+					requirement = requirements[index]
+				if requirement.get("item") == content_item:
+					matched_requirement_index = index
+					matched_requirement = requirement
+					matched_amount = int(floor(float(requirement.get("amount", 0.0)) * build_cost_multiplier + 0.5))
+					sense_value = float(matched_amount)
+					break
+	var sense_value_wire: Variant = sense_value
+	if is_nan(sense_value):
+		sense_value_wire = null
+	return {
+		"source_owner": "PortGame.source_block_sense_content_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"override_expr": "@Override",
+		"method": "public double sense(Content content){",
+		"item_instanceof_expr": "if(content instanceof Item item){",
+		"infinite_resources_return_expr": "if(state.rules.infiniteResources) return 0;",
+		"requirements_loop_expr": "for(ItemStack r : requirements){",
+		"item_match_guard_expr": "if(r.item == item){",
+		"amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);",
+		"missing_item_return_expr": "return 0f;",
+		"invalid_return_expr": "return Double.NaN;",
+		"content_type": content_type,
+		"content_item": content_item,
+		"state_rules_infinite_resources": state_rules_infinite_resources,
+		"requirements": requirements,
+		"build_cost_multiplier": build_cost_multiplier,
+		"matched_requirement_index": matched_requirement_index,
+		"matched_requirement": matched_requirement,
+		"matched_amount": matched_amount,
+		"sense_value": sense_value_wire,
+		"sense_value_is_nan": is_nan(sense_value),
+	}
+
+func generated_block_sense_content_bridge_state(content_type: String, content_item: Variant, state_rules_infinite_resources: bool, requirements: Array, build_cost_multiplier: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_sense_133([content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier])
+	var canonical = source_block_sense_content_state(content_type, content_item, state_rules_infinite_resources, requirements, build_cost_multiplier)
+	var result_nan: bool = bool(result.get("sense_value_is_nan", false))
+	var canonical_nan: bool = bool(canonical.get("sense_value_is_nan", false))
+	var matches: bool = result == canonical or (result_nan and canonical_nan and result.get("content_type", "") == canonical.get("content_type", ""))
+	return {
+		"source_owner": "PortGame.source_block_sense_content_state",
+		"generated_owner": "Block.java_method_sense_133",
+		"result": result,
+		"canonical": canonical,
+		"matches": matches,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

@@ -10805,6 +10805,64 @@ public class Block{
             self.assertIn('"sense_value": sense_value_wire', source_text)
             self.assertIn('"sense_value_is_nan": is_nan(sense_value)', source_text)
 
+    def test_emit_bridges_block_sense_content_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public double sense(Content content){
+        if(content instanceof Item item){
+            if(state.rules.infiniteResources) return 0;
+
+            for(ItemStack r : requirements){
+                if(r.item == item){
+                    return Math.round(r.amount * state.rules.buildCostMultiplier);
+                }
+            }
+            return 0f;
+        }
+        return Double.NaN;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar content_type: String = str(_args[0] if _args.size() > 0 else \"\")", source_text)
+            self.assertIn("\tvar content_item: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("\tvar state_rules_infinite_resources: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("\tvar requirements: Array = _args[3] if _args.size() > 3 else []", source_text)
+            self.assertIn("\tvar build_cost_multiplier: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
+            self.assertIn("\tvar sense_value: float = NAN", source_text)
+            self.assertIn('\tif content_type == "Item":', source_text)
+            self.assertIn("\t\tif state_rules_infinite_resources:", source_text)
+            self.assertIn("\t\t\tfor index in range(requirements.size()):", source_text)
+            self.assertIn('\t\t\t\tif requirement.get("item") == content_item:', source_text)
+            self.assertIn("\t\t\t\t\tmatched_amount = int(floor(float(requirement.get(\"amount\", 0.0)) * build_cost_multiplier + 0.5))", source_text)
+            self.assertIn("\tvar sense_value_wire: Variant = sense_value", source_text)
+            self.assertIn("\tif is_nan(sense_value):", source_text)
+            self.assertIn("\t\tsense_value_wire = null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_sense_content_state"', source_text)
+            self.assertIn('"method": "public double sense(Content content){"', source_text)
+            self.assertIn('"item_instanceof_expr": "if(content instanceof Item item){"', source_text)
+            self.assertIn('"amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);"', source_text)
+            self.assertIn('"invalid_return_expr": "return Double.NaN;"', source_text)
+            self.assertIn('"sense_value": sense_value_wire', source_text)
+            self.assertIn('"sense_value_is_nan": is_nan(sense_value)', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

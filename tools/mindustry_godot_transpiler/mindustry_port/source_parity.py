@@ -11165,6 +11165,27 @@ def verify_block_sense_laccess_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_block_sense_content_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override_expr": "@Override",
+        "method": "public double sense(Content content){",
+        "item_instanceof_expr": "if(content instanceof Item item){",
+        "infinite_resources_return_expr": "if(state.rules.infiniteResources) return 0;",
+        "requirements_loop_expr": "for(ItemStack r : requirements){",
+        "item_match_guard_expr": "if(r.item == item){",
+        "amount_return_expr": "return Math.round(r.amount * state.rules.buildCostMultiplier);",
+        "missing_item_return_expr": "return 0f;",
+        "invalid_return_expr": "return Double.NaN;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

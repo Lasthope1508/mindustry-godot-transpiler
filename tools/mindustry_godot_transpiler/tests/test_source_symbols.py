@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 837)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 832)
+        self.assertEqual(audit["totalSourceFunctions"], 838)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 833)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 837)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 838)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20383,6 +20383,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_outputs_items_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_can_place_on_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_can_break_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_sense_content_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_load_base_regions_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_load_team_regions_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_load_variant_regions_state", audit["registeredSourceOwners"])
@@ -47086,6 +47087,63 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_sense_laccess_result")
         self.assertEqual(result_schema["keys"]["sense_value"]["java_expr"], "return switch(sensor){")
         self.assertEqual(result_schema["keys"]["sense_value_is_nan"]["java_expr"], "default -> Double.NaN;")
+
+    def test_generated_block_sense_content_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_sense_content.method")
+        self.assertEqual(method["java_expr"], "public double sense(Content content){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.sense(Content content)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_sense_content_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_sense_content_state")
+
+        amount_return_expr = source_symbols.source_symbol(registry, "block_sense_content.amount_return_expr")
+        self.assertEqual(amount_return_expr["java_expr"], "return Math.round(r.amount * state.rules.buildCostMultiplier);")
+        self.assertEqual(amount_return_expr["godot_symbol"], "source_block_sense_content_result.sense_value")
+
+        invalid_return_expr = source_symbols.source_symbol(registry, "block_sense_content.invalid_return_expr")
+        self.assertEqual(invalid_return_expr["java_expr"], "return Double.NaN;")
+        self.assertEqual(invalid_return_expr["godot_symbol"], "source_block_sense_content_result.sense_value_is_nan")
+
+        sense_slice = source_symbols.source_slice(ledger, "N1364")
+        self.assertEqual(sense_slice["title"], "Generated Block sense Content bridge state")
+        self.assertEqual(sense_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(sense_slice["java_method"], "Block.sense(Content content)")
+        self.assertEqual(sense_slice["godot_owner"], "PortGame.source_block_sense_content_state")
+        self.assertEqual(sense_slice["generated_owner"], "Block.java_method_sense_133")
+        self.assertEqual(sense_slice["runtime_proof"], "/root/Main.generated_block_sense_content_bridge_state")
+        for expr in [
+            "public double sense(Content content){",
+            "if(content instanceof Item item){",
+            "if(state.rules.infiniteResources) return 0;",
+            "for(ItemStack r : requirements){",
+            "if(r.item == item){",
+            "return Math.round(r.amount * state.rules.buildCostMultiplier);",
+            "return 0f;",
+            "return Double.NaN;",
+        ]:
+            self.assertIn(expr, sense_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_sense_content_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["content_type", "content_item", "state_rules_infinite_resources", "requirements", "build_cost_multiplier"])
+        for key in ["source_owner", "source", "override_expr", "method", "item_instanceof_expr", "infinite_resources_return_expr", "requirements_loop_expr", "item_match_guard_expr", "amount_return_expr", "missing_item_return_expr", "invalid_return_expr", "content_type", "content_item", "state_rules_infinite_resources", "requirements", "build_cost_multiplier", "matched_requirement_index", "matched_requirement", "matched_amount", "sense_value", "sense_value_is_nan"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_sense_content_input")
+        self.assertEqual(input_schema["keys"]["content_type"]["java_expr"], "content instanceof Item item")
+        self.assertEqual(input_schema["keys"]["content_item"]["java_expr"], "Item item")
+        self.assertEqual(input_schema["keys"]["state_rules_infinite_resources"]["java_expr"], "state.rules.infiniteResources")
+        self.assertEqual(input_schema["keys"]["requirements"]["java_expr"], "requirements")
+        self.assertEqual(input_schema["keys"]["build_cost_multiplier"]["java_expr"], "state.rules.buildCostMultiplier")
+        result_schema = source_symbols.state_schema(schema, "source_block_sense_content_result")
+        self.assertEqual(result_schema["keys"]["sense_value"]["java_expr"], "return Math.round(r.amount * state.rules.buildCostMultiplier); / return 0f;")
+        self.assertEqual(result_schema["keys"]["sense_value_is_nan"]["java_expr"], "return Double.NaN;")
 
     def test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
