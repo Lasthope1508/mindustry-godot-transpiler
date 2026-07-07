@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 836)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 831)
+        self.assertEqual(audit["totalSourceFunctions"], 837)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 832)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 836)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 837)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -47032,6 +47032,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_get_plan_configs_result")
         self.assertEqual(result_schema["keys"]["item_options_added"]["java_expr"], "options.add(content.items());")
         self.assertEqual(result_schema["keys"]["liquid_options_added"]["java_expr"], "options.add(content.liquids());")
+
+    def test_generated_block_sense_laccess_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_sense_laccess.method")
+        self.assertEqual(method["java_expr"], "public double sense(LAccess sensor){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.sense(LAccess sensor)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_sense_laccess_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_sense_laccess_state")
+
+        power_capacity_case = source_symbols.source_symbol(registry, "block_sense_laccess.power_capacity_case")
+        self.assertEqual(power_capacity_case["java_expr"], "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;")
+        self.assertEqual(power_capacity_case["godot_symbol"], "source_block_sense_laccess_result.sense_value")
+
+        default_expr = source_symbols.source_symbol(registry, "block_sense_laccess.default_expr")
+        self.assertEqual(default_expr["java_expr"], "default -> Double.NaN;")
+        self.assertEqual(default_expr["godot_symbol"], "source_block_sense_laccess_result.sense_value_is_nan")
+
+        sense_slice = source_symbols.source_slice(ledger, "N1363")
+        self.assertEqual(sense_slice["title"], "Generated Block sense LAccess bridge state")
+        self.assertEqual(sense_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(sense_slice["java_method"], "Block.sense(LAccess sensor)")
+        self.assertEqual(sense_slice["godot_owner"], "PortGame.source_block_sense_laccess_state")
+        self.assertEqual(sense_slice["generated_owner"], "Block.java_method_sense_132")
+        self.assertEqual(sense_slice["runtime_proof"], "/root/Main.generated_block_sense_laccess_bridge_state")
+        for expr in [
+            "public double sense(LAccess sensor){",
+            "return switch(sensor){",
+            "case color -> mapColor.toDoubleBits();",
+            "case health, maxHealth -> health;",
+            "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;",
+            "case id -> getLogicId();",
+            "default -> Double.NaN;",
+        ]:
+            self.assertIn(expr, sense_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_sense_laccess_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["sensor", "map_color_double_bits", "health_value", "solid_value", "size_value", "item_capacity", "liquid_capacity", "has_cons_power", "cons_power_buffered", "cons_power_capacity", "logic_id"])
+        for key in ["source_owner", "source", "override_expr", "method", "switch_expr", "color_case", "health_case", "solid_case", "size_case", "item_capacity_case", "liquid_capacity_case", "power_capacity_case", "id_case", "default_expr", "sensor", "map_color_double_bits", "health", "solid", "size", "itemCapacity", "liquidCapacity", "has_cons_power", "cons_power_buffered", "cons_power_capacity", "logic_id", "sense_value", "sense_value_is_nan"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_sense_laccess_input")
+        self.assertEqual(input_schema["keys"]["sensor"]["java_expr"], "LAccess sensor")
+        self.assertEqual(input_schema["keys"]["map_color_double_bits"]["java_expr"], "mapColor.toDoubleBits()")
+        self.assertEqual(input_schema["keys"]["logic_id"]["java_expr"], "getLogicId()")
+        result_schema = source_symbols.state_schema(schema, "source_block_sense_laccess_result")
+        self.assertEqual(result_schema["keys"]["sense_value"]["java_expr"], "return switch(sensor){")
+        self.assertEqual(result_schema["keys"]["sense_value_is_nan"]["java_expr"], "default -> Double.NaN;")
 
     def test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

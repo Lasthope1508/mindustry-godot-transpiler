@@ -10743,6 +10743,68 @@ public class Block{
             self.assertIn('"liquid_add_expr": "options.add(content.liquids());"', source_text)
             self.assertIn('"options_after": options_after', source_text)
 
+    def test_emit_bridges_block_sense_laccess_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public double sense(LAccess sensor){
+        return switch(sensor){
+            case color -> mapColor.toDoubleBits();
+            case health, maxHealth -> health;
+            case solid -> solid ? 1 : 0;
+            case size -> size;
+            case itemCapacity -> itemCapacity;
+            case liquidCapacity -> liquidCapacity;
+            case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;
+            case id -> getLogicId();
+            default -> Double.NaN;
+        };
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_sense_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar sensor: String = str(_args[0] if _args.size() > 0 else \"\")", source_text)
+            self.assertIn("\tvar map_color_double_bits: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("\tvar health_value: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("\tvar solid_value: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("\tvar size_value: int = int(_args[4] if _args.size() > 4 else 0)", source_text)
+            self.assertIn("\tvar item_capacity: int = int(_args[5] if _args.size() > 5 else 0)", source_text)
+            self.assertIn("\tvar liquid_capacity: float = float(_args[6] if _args.size() > 6 else 0.0)", source_text)
+            self.assertIn("\tvar has_cons_power: bool = bool(_args[7] if _args.size() > 7 else false)", source_text)
+            self.assertIn("\tvar cons_power_buffered: bool = bool(_args[8] if _args.size() > 8 else false)", source_text)
+            self.assertIn("\tvar cons_power_capacity: float = float(_args[9] if _args.size() > 9 else 0.0)", source_text)
+            self.assertIn("\tvar logic_id: int = int(_args[10] if _args.size() > 10 else 0)", source_text)
+            self.assertIn("\tvar sense_value: float = NAN", source_text)
+            self.assertIn("\tmatch sensor:", source_text)
+            self.assertIn("\t\t\"color\":", source_text)
+            self.assertIn("\t\t\"powerCapacity\":", source_text)
+            self.assertIn("\t\t\tsense_value = cons_power_capacity if has_cons_power and cons_power_buffered else 0.0", source_text)
+            self.assertIn("\tvar sense_value_wire: Variant = sense_value", source_text)
+            self.assertIn("\tif is_nan(sense_value):", source_text)
+            self.assertIn("\t\tsense_value_wire = null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_sense_laccess_state"', source_text)
+            self.assertIn('"method": "public double sense(LAccess sensor){"', source_text)
+            self.assertIn('"power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;"', source_text)
+            self.assertIn('"default_expr": "default -> Double.NaN;"', source_text)
+            self.assertIn('"sense_value": sense_value_wire', source_text)
+            self.assertIn('"sense_value_is_nan": is_nan(sense_value)', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

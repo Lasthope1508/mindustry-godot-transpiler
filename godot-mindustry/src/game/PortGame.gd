@@ -19627,6 +19627,76 @@ func generated_block_get_plan_configs_bridge_state(options_before: Array, item_c
 		"matches": result == canonical,
 	}
 
+func source_block_sense_laccess_state(sensor: String, map_color_double_bits: float, health_value: float, solid_value: bool, size_value: int, item_capacity: int, liquid_capacity: float, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, logic_id: int) -> Dictionary:
+	var sense_value: float = NAN
+	match sensor:
+		"color":
+			sense_value = map_color_double_bits
+		"health", "maxHealth":
+			sense_value = health_value
+		"solid":
+			sense_value = 1.0 if solid_value else 0.0
+		"size":
+			sense_value = float(size_value)
+		"itemCapacity":
+			sense_value = float(item_capacity)
+		"liquidCapacity":
+			sense_value = liquid_capacity
+		"powerCapacity":
+			sense_value = cons_power_capacity if has_cons_power and cons_power_buffered else 0.0
+		"id":
+			sense_value = float(logic_id)
+		_:
+			sense_value = NAN
+	var sense_value_wire: Variant = sense_value
+	if is_nan(sense_value):
+		sense_value_wire = null
+	return {
+		"source_owner": "PortGame.source_block_sense_laccess_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"override_expr": "@Override",
+		"method": "public double sense(LAccess sensor){",
+		"switch_expr": "return switch(sensor){",
+		"color_case": "case color -> mapColor.toDoubleBits();",
+		"health_case": "case health, maxHealth -> health;",
+		"solid_case": "case solid -> solid ? 1 : 0;",
+		"size_case": "case size -> size;",
+		"item_capacity_case": "case itemCapacity -> itemCapacity;",
+		"liquid_capacity_case": "case liquidCapacity -> liquidCapacity;",
+		"power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;",
+		"id_case": "case id -> getLogicId();",
+		"default_expr": "default -> Double.NaN;",
+		"sensor": sensor,
+		"map_color_double_bits": map_color_double_bits,
+		"health": health_value,
+		"solid": solid_value,
+		"size": size_value,
+		"itemCapacity": item_capacity,
+		"liquidCapacity": liquid_capacity,
+		"has_cons_power": has_cons_power,
+		"cons_power_buffered": cons_power_buffered,
+		"cons_power_capacity": cons_power_capacity,
+		"logic_id": logic_id,
+		"sense_value": sense_value_wire,
+		"sense_value_is_nan": is_nan(sense_value),
+	}
+
+func generated_block_sense_laccess_bridge_state(sensor: String, map_color_double_bits: float, health_value: float, solid_value: bool, size_value: int, item_capacity: int, liquid_capacity: float, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, logic_id: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_sense_132([sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id])
+	var canonical = source_block_sense_laccess_state(sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id)
+	var result_nan: bool = bool(result.get("sense_value_is_nan", false))
+	var canonical_nan: bool = bool(canonical.get("sense_value_is_nan", false))
+	var matches: bool = result == canonical or (result_nan and canonical_nan and result.get("sensor", "") == canonical.get("sensor", ""))
+	return {
+		"source_owner": "PortGame.source_block_sense_laccess_state",
+		"generated_owner": "Block.java_method_sense_132",
+		"result": result,
+		"canonical": canonical,
+		"matches": matches,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

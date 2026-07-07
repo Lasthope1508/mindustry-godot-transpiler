@@ -35117,6 +35117,118 @@
       ],
       "status": "active",
       "rule": "Public runtime contract for Block.getPlanConfigs generated bridge state."
+    },
+    "PortGame.source_block_sense_laccess_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.sense(LAccess sensor)",
+      "source_slice": "N1363",
+      "params": [
+        {
+          "name": "sensor",
+          "type": "String",
+          "java_expr": "LAccess sensor",
+          "schema": "source_block_sense_laccess_input.sensor"
+        },
+        {
+          "name": "map_color_double_bits",
+          "type": "float",
+          "java_expr": "mapColor.toDoubleBits()",
+          "schema": "source_block_sense_laccess_input.map_color_double_bits"
+        },
+        {
+          "name": "health_value",
+          "type": "float",
+          "java_expr": "health",
+          "schema": "source_block_sense_laccess_input.health"
+        },
+        {
+          "name": "solid_value",
+          "type": "bool",
+          "java_expr": "solid",
+          "schema": "source_block_sense_laccess_input.solid"
+        },
+        {
+          "name": "size_value",
+          "type": "int",
+          "java_expr": "size",
+          "schema": "source_block_sense_laccess_input.size"
+        },
+        {
+          "name": "item_capacity",
+          "type": "int",
+          "java_expr": "itemCapacity",
+          "schema": "source_block_sense_laccess_input.itemCapacity"
+        },
+        {
+          "name": "liquid_capacity",
+          "type": "float",
+          "java_expr": "liquidCapacity",
+          "schema": "source_block_sense_laccess_input.liquidCapacity"
+        },
+        {
+          "name": "has_cons_power",
+          "type": "bool",
+          "java_expr": "consPower != null",
+          "schema": "source_block_sense_laccess_input.has_cons_power"
+        },
+        {
+          "name": "cons_power_buffered",
+          "type": "bool",
+          "java_expr": "consPower.buffered",
+          "schema": "source_block_sense_laccess_input.cons_power_buffered"
+        },
+        {
+          "name": "cons_power_capacity",
+          "type": "float",
+          "java_expr": "consPower.capacity",
+          "schema": "source_block_sense_laccess_input.cons_power_capacity"
+        },
+        {
+          "name": "logic_id",
+          "type": "int",
+          "java_expr": "getLogicId()",
+          "schema": "source_block_sense_laccess_input.logic_id"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "override_expr",
+        "method",
+        "switch_expr",
+        "color_case",
+        "health_case",
+        "solid_case",
+        "size_case",
+        "item_capacity_case",
+        "liquid_capacity_case",
+        "power_capacity_case",
+        "id_case",
+        "default_expr",
+        "sensor",
+        "map_color_double_bits",
+        "health",
+        "solid",
+        "size",
+        "itemCapacity",
+        "liquidCapacity",
+        "has_cons_power",
+        "cons_power_buffered",
+        "cons_power_capacity",
+        "logic_id",
+        "sense_value",
+        "sense_value_is_nan"
+      ],
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for Block.sense(LAccess sensor) generated bridge state."
     }
   },
   "policy": {

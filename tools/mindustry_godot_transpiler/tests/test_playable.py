@@ -18080,6 +18080,44 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_getPlanConfigs_131"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_sense_laccess_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_sense_laccess_state(sensor: String, map_color_double_bits: float, health_value: float, solid_value: bool, size_value: int, item_capacity: int, liquid_capacity: float, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, logic_id: int) -> Dictionary:", source)
+        self.assertIn("var sense_value: float = NAN", source)
+        self.assertIn("match sensor:", source)
+        self.assertIn('"color":', source)
+        self.assertIn("sense_value = map_color_double_bits", source)
+        self.assertIn('"health", "maxHealth":', source)
+        self.assertIn("sense_value = health_value", source)
+        self.assertIn('"powerCapacity":', source)
+        self.assertIn("sense_value = cons_power_capacity if has_cons_power and cons_power_buffered else 0.0", source)
+        self.assertIn("var sense_value_wire: Variant = sense_value", source)
+        self.assertIn("if is_nan(sense_value):", source)
+        self.assertIn("sense_value_wire = null", source)
+        self.assertIn('"source_owner": "PortGame.source_block_sense_laccess_state"', source)
+        self.assertIn('"method": "public double sense(LAccess sensor){"', source)
+        self.assertIn('"power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;"', source)
+        self.assertIn('"default_expr": "default -> Double.NaN;"', source)
+        self.assertIn('"sense_value": sense_value_wire', source)
+        self.assertIn('"sense_value_is_nan": is_nan(sense_value)', source)
+
+    def test_port_game_exposes_generated_block_sense_laccess_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_sense_laccess_bridge_state(sensor: String, map_color_double_bits: float, health_value: float, solid_value: bool, size_value: int, item_capacity: int, liquid_capacity: float, has_cons_power: bool, cons_power_buffered: bool, cons_power_capacity: float, logic_id: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_sense_132([sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id])", source)
+        self.assertIn("var canonical = source_block_sense_laccess_state(sensor, map_color_double_bits, health_value, solid_value, size_value, item_capacity, liquid_capacity, has_cons_power, cons_power_buffered, cons_power_capacity, logic_id)", source)
+        self.assertIn("var result_nan: bool = bool(result.get(\"sense_value_is_nan\", false))", source)
+        self.assertIn("var canonical_nan: bool = bool(canonical.get(\"sense_value_is_nan\", false))", source)
+        self.assertIn("var matches: bool = result == canonical or (result_nan and canonical_nan and result.get(\"sensor\", \"\") == canonical.get(\"sensor\", \"\"))", source)
+        self.assertIn('"source_owner": "PortGame.source_block_sense_laccess_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_sense_132"', source)
+        self.assertIn('"matches": matches', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

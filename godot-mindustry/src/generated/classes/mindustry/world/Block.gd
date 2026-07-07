@@ -1000,7 +1000,41 @@ func java_method_getPlanConfigs_131(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_get_plan_configs_state", "source": "core/src/mindustry/world/Block.java", "comment": "/** Fills the specified array with the list of configuration options this block has. Only used for plans. */", "method": "public void getPlanConfigs(Seq<UnlockableContent> options){", "item_guard_expr": "if(configurations.containsKey(Item.class)){", "item_add_expr": "options.add(content.items());", "liquid_guard_expr": "if(configurations.containsKey(Liquid.class)){", "liquid_add_expr": "options.add(content.liquids());", "options_before": options_before, "item_configured": item_configured, "liquid_configured": liquid_configured, "content_items": content_items, "content_liquids": content_liquids, "item_options_added": item_options_added, "liquid_options_added": liquid_options_added, "options_after": options_after}
 
 func java_method_sense_132(_args: Array = []) -> Variant:
-	return null
+	var sensor: String = str(_args[0] if _args.size() > 0 else "")
+	var map_color_double_bits: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var health_value: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var solid_value: bool = bool(_args[3] if _args.size() > 3 else false)
+	var size_value: int = int(_args[4] if _args.size() > 4 else 0)
+	var item_capacity: int = int(_args[5] if _args.size() > 5 else 0)
+	var liquid_capacity: float = float(_args[6] if _args.size() > 6 else 0.0)
+	var has_cons_power: bool = bool(_args[7] if _args.size() > 7 else false)
+	var cons_power_buffered: bool = bool(_args[8] if _args.size() > 8 else false)
+	var cons_power_capacity: float = float(_args[9] if _args.size() > 9 else 0.0)
+	var logic_id: int = int(_args[10] if _args.size() > 10 else 0)
+	var sense_value: float = NAN
+	match sensor:
+		"color":
+			sense_value = map_color_double_bits
+		"health", "maxHealth":
+			sense_value = health_value
+		"solid":
+			sense_value = 1.0 if solid_value else 0.0
+		"size":
+			sense_value = float(size_value)
+		"itemCapacity":
+			sense_value = float(item_capacity)
+		"liquidCapacity":
+			sense_value = liquid_capacity
+		"powerCapacity":
+			sense_value = cons_power_capacity if has_cons_power and cons_power_buffered else 0.0
+		"id":
+			sense_value = float(logic_id)
+		_:
+			sense_value = NAN
+	var sense_value_wire: Variant = sense_value
+	if is_nan(sense_value):
+		sense_value_wire = null
+	return {"source_owner": "PortGame.source_block_sense_laccess_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public double sense(LAccess sensor){", "switch_expr": "return switch(sensor){", "color_case": "case color -> mapColor.toDoubleBits();", "health_case": "case health, maxHealth -> health;", "solid_case": "case solid -> solid ? 1 : 0;", "size_case": "case size -> size;", "item_capacity_case": "case itemCapacity -> itemCapacity;", "liquid_capacity_case": "case liquidCapacity -> liquidCapacity;", "power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;", "id_case": "case id -> getLogicId();", "default_expr": "default -> Double.NaN;", "sensor": sensor, "map_color_double_bits": map_color_double_bits, "health": health_value, "solid": solid_value, "size": size_value, "itemCapacity": item_capacity, "liquidCapacity": liquid_capacity, "has_cons_power": has_cons_power, "cons_power_buffered": cons_power_buffered, "cons_power_capacity": cons_power_capacity, "logic_id": logic_id, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}
 
 func java_method_sense_133(_args: Array = []) -> Variant:
 	return null

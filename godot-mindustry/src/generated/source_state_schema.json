@@ -129946,6 +129946,556 @@
           ]
         }
       }
+    },
+    "source_block_sense_laccess_input": {
+      "owner": "PortGame.source_block_sense_laccess_state",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_sense_laccess_state.",
+      "keys": {
+        "sensor": {
+          "godot_symbol": "source_block_sense_laccess_input.sensor",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "LAccess sensor",
+          "type": "String",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.sensor"
+          ]
+        },
+        "map_color_double_bits": {
+          "godot_symbol": "source_block_sense_laccess_input.map_color_double_bits",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "mapColor.toDoubleBits()",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.map_color_double_bits"
+          ]
+        },
+        "health": {
+          "godot_symbol": "source_block_sense_laccess_input.health",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "health",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.health"
+          ]
+        },
+        "solid": {
+          "godot_symbol": "source_block_sense_laccess_input.solid",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "solid",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.solid"
+          ]
+        },
+        "size": {
+          "godot_symbol": "source_block_sense_laccess_input.size",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "size",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.size"
+          ]
+        },
+        "itemCapacity": {
+          "godot_symbol": "source_block_sense_laccess_input.itemCapacity",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "itemCapacity",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.item_capacity"
+          ]
+        },
+        "liquidCapacity": {
+          "godot_symbol": "source_block_sense_laccess_input.liquidCapacity",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "liquidCapacity",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.liquid_capacity"
+          ]
+        },
+        "has_cons_power": {
+          "godot_symbol": "source_block_sense_laccess_input.has_cons_power",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "consPower != null",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.has_cons_power"
+          ]
+        },
+        "cons_power_buffered": {
+          "godot_symbol": "source_block_sense_laccess_input.cons_power_buffered",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "consPower.buffered",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.cons_power_buffered"
+          ]
+        },
+        "cons_power_capacity": {
+          "godot_symbol": "source_block_sense_laccess_input.cons_power_capacity",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "consPower.capacity",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.cons_power_capacity"
+          ]
+        },
+        "logic_id": {
+          "godot_symbol": "source_block_sense_laccess_input.logic_id",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "getLogicId()",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.logic_id"
+          ]
+        }
+      }
+    },
+    "source_block_sense_laccess_result": {
+      "owner": "PortGame.source_block_sense_laccess_state",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_sense_laccess_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_sense_laccess_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "PortGame.source_block_sense_laccess_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.method"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_block_sense_laccess_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.method"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_block_sense_laccess_result.override_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "@Override",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.override_expr"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_block_sense_laccess_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "public double sense(LAccess sensor){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.method"
+          ]
+        },
+        "switch_expr": {
+          "godot_symbol": "source_block_sense_laccess_result.switch_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "return switch(sensor){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.switch_expr"
+          ]
+        },
+        "color_case": {
+          "godot_symbol": "source_block_sense_laccess_result.color_case",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "case color -> mapColor.toDoubleBits();",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.color_case"
+          ]
+        },
+        "health_case": {
+          "godot_symbol": "source_block_sense_laccess_result.health_case",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "case health, maxHealth -> health;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.health_case"
+          ]
+        },
+        "solid_case": {
+          "godot_symbol": "source_block_sense_laccess_result.solid_case",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "case solid -> solid ? 1 : 0;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.solid_case"
+          ]
+        },
+        "size_case": {
+          "godot_symbol": "source_block_sense_laccess_result.size_case",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "case size -> size;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.size_case"
+          ]
+        },
+        "item_capacity_case": {
+          "godot_symbol": "source_block_sense_laccess_result.item_capacity_case",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "case itemCapacity -> itemCapacity;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.item_capacity_case"
+          ]
+        },
+        "liquid_capacity_case": {
+          "godot_symbol": "source_block_sense_laccess_result.liquid_capacity_case",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "case liquidCapacity -> liquidCapacity;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.liquid_capacity_case"
+          ]
+        },
+        "power_capacity_case": {
+          "godot_symbol": "source_block_sense_laccess_result.power_capacity_case",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.power_capacity_case"
+          ]
+        },
+        "id_case": {
+          "godot_symbol": "source_block_sense_laccess_result.id_case",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "case id -> getLogicId();",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.id_case"
+          ]
+        },
+        "default_expr": {
+          "godot_symbol": "source_block_sense_laccess_result.default_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "default -> Double.NaN;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.default_expr"
+          ]
+        },
+        "sensor": {
+          "godot_symbol": "source_block_sense_laccess_result.sensor",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "LAccess sensor",
+          "type": "String",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.sensor"
+          ]
+        },
+        "map_color_double_bits": {
+          "godot_symbol": "source_block_sense_laccess_result.map_color_double_bits",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "mapColor.toDoubleBits()",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.map_color_double_bits"
+          ]
+        },
+        "health": {
+          "godot_symbol": "source_block_sense_laccess_result.health",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "health",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.health"
+          ]
+        },
+        "solid": {
+          "godot_symbol": "source_block_sense_laccess_result.solid",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "solid",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.solid"
+          ]
+        },
+        "size": {
+          "godot_symbol": "source_block_sense_laccess_result.size",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "size",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.size"
+          ]
+        },
+        "itemCapacity": {
+          "godot_symbol": "source_block_sense_laccess_result.itemCapacity",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "itemCapacity",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.item_capacity"
+          ]
+        },
+        "liquidCapacity": {
+          "godot_symbol": "source_block_sense_laccess_result.liquidCapacity",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "liquidCapacity",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.liquid_capacity"
+          ]
+        },
+        "has_cons_power": {
+          "godot_symbol": "source_block_sense_laccess_result.has_cons_power",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "consPower != null",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.has_cons_power"
+          ]
+        },
+        "cons_power_buffered": {
+          "godot_symbol": "source_block_sense_laccess_result.cons_power_buffered",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "consPower.buffered",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.cons_power_buffered"
+          ]
+        },
+        "cons_power_capacity": {
+          "godot_symbol": "source_block_sense_laccess_result.cons_power_capacity",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "consPower.capacity",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.cons_power_capacity"
+          ]
+        },
+        "logic_id": {
+          "godot_symbol": "source_block_sense_laccess_result.logic_id",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "getLogicId()",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.logic_id"
+          ]
+        },
+        "sense_value": {
+          "godot_symbol": "source_block_sense_laccess_result.sense_value",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "return switch(sensor){",
+          "type": "float",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.switch_expr"
+          ]
+        },
+        "sense_value_is_nan": {
+          "godot_symbol": "source_block_sense_laccess_result.sense_value_is_nan",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.sense(LAccess sensor)",
+          "java_expr": "default -> Double.NaN;",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_sense_laccess_state"
+          ],
+          "source_symbols": [
+            "block_sense_laccess.default_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

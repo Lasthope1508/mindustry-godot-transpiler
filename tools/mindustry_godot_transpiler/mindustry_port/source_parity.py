@@ -11141,6 +11141,30 @@ def verify_block_get_plan_configs_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_block_sense_laccess_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override_expr": "@Override",
+        "method": "public double sense(LAccess sensor){",
+        "switch_expr": "return switch(sensor){",
+        "color_case": "case color -> mapColor.toDoubleBits();",
+        "health_case": "case health, maxHealth -> health;",
+        "solid_case": "case solid -> solid ? 1 : 0;",
+        "size_case": "case size -> size;",
+        "item_capacity_case": "case itemCapacity -> itemCapacity;",
+        "liquid_capacity_case": "case liquidCapacity -> liquidCapacity;",
+        "power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;",
+        "id_case": "case id -> getLogicId();",
+        "default_expr": "default -> Double.NaN;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

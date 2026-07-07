@@ -1514,6 +1514,50 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "sense"
+        and method.get("parameters")
+        and method["parameters"][0].get("type") == "LAccess"
+    ):
+        return [
+            '\tvar sensor: String = str(_args[0] if _args.size() > 0 else "")',
+            "\tvar map_color_double_bits: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar health_value: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar solid_value: bool = bool(_args[3] if _args.size() > 3 else false)",
+            "\tvar size_value: int = int(_args[4] if _args.size() > 4 else 0)",
+            "\tvar item_capacity: int = int(_args[5] if _args.size() > 5 else 0)",
+            "\tvar liquid_capacity: float = float(_args[6] if _args.size() > 6 else 0.0)",
+            "\tvar has_cons_power: bool = bool(_args[7] if _args.size() > 7 else false)",
+            "\tvar cons_power_buffered: bool = bool(_args[8] if _args.size() > 8 else false)",
+            "\tvar cons_power_capacity: float = float(_args[9] if _args.size() > 9 else 0.0)",
+            "\tvar logic_id: int = int(_args[10] if _args.size() > 10 else 0)",
+            "\tvar sense_value: float = NAN",
+            "\tmatch sensor:",
+            '\t\t"color":',
+            "\t\t\tsense_value = map_color_double_bits",
+            '\t\t"health", "maxHealth":',
+            "\t\t\tsense_value = health_value",
+            '\t\t"solid":',
+            "\t\t\tsense_value = 1.0 if solid_value else 0.0",
+            '\t\t"size":',
+            "\t\t\tsense_value = float(size_value)",
+            '\t\t"itemCapacity":',
+            "\t\t\tsense_value = float(item_capacity)",
+            '\t\t"liquidCapacity":',
+            "\t\t\tsense_value = liquid_capacity",
+            '\t\t"powerCapacity":',
+            "\t\t\tsense_value = cons_power_capacity if has_cons_power and cons_power_buffered else 0.0",
+            '\t\t"id":',
+            "\t\t\tsense_value = float(logic_id)",
+            '\t\t_:',
+            "\t\t\tsense_value = NAN",
+            "\tvar sense_value_wire: Variant = sense_value",
+            "\tif is_nan(sense_value):",
+            "\t\tsense_value_wire = null",
+            '\treturn {"source_owner": "PortGame.source_block_sense_laccess_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public double sense(LAccess sensor){", "switch_expr": "return switch(sensor){", "color_case": "case color -> mapColor.toDoubleBits();", "health_case": "case health, maxHealth -> health;", "solid_case": "case solid -> solid ? 1 : 0;", "size_case": "case size -> size;", "item_capacity_case": "case itemCapacity -> itemCapacity;", "liquid_capacity_case": "case liquidCapacity -> liquidCapacity;", "power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;", "id_case": "case id -> getLogicId();", "default_expr": "default -> Double.NaN;", "sensor": sensor, "map_color_double_bits": map_color_double_bits, "health": health_value, "solid": solid_value, "size": size_value, "itemCapacity": item_capacity, "liquidCapacity": liquid_capacity, "has_cons_power": has_cons_power, "cons_power_buffered": cons_power_buffered, "cons_power_capacity": cons_power_capacity, "logic_id": logic_id, "sense_value": sense_value_wire, "sense_value_is_nan": is_nan(sense_value)}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumesItem"
     ):
         return [

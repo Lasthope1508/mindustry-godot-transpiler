@@ -104192,6 +104192,420 @@
         "test_generated_block_get_plan_configs_slice_is_registered_with_source_backing"
       ],
       "rule": "Explicit input for content.liquids() sequence."
+    },
+    "block_sense_laccess.override_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "@Override",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.override_expr",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin Block.sense(LAccess sensor) override marker."
+    },
+    "block_sense_laccess.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "public double sense(LAccess sensor){",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.method",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin Block.sense(LAccess sensor) method boundary."
+    },
+    "block_sense_laccess.switch_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "return switch(sensor){",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.sense_value",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin Block.sense LAccess switch expression."
+    },
+    "block_sense_laccess.color_case": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "case color -> mapColor.toDoubleBits();",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.sense_value",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin color sensor case."
+    },
+    "block_sense_laccess.health_case": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "case health, maxHealth -> health;",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.sense_value",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin health/maxHealth sensor case."
+    },
+    "block_sense_laccess.solid_case": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "case solid -> solid ? 1 : 0;",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.sense_value",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin solid sensor case."
+    },
+    "block_sense_laccess.size_case": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "case size -> size;",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.sense_value",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin size sensor case."
+    },
+    "block_sense_laccess.item_capacity_case": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "case itemCapacity -> itemCapacity;",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.sense_value",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin itemCapacity sensor case."
+    },
+    "block_sense_laccess.liquid_capacity_case": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "case liquidCapacity -> liquidCapacity;",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.sense_value",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin liquidCapacity sensor case."
+    },
+    "block_sense_laccess.power_capacity_case": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.sense_value",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin powerCapacity sensor case."
+    },
+    "block_sense_laccess.id_case": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "case id -> getLogicId();",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.sense_value",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin id sensor case."
+    },
+    "block_sense_laccess.default_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "default -> Double.NaN;",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_result.sense_value_is_nan",
+      "status": "source-backed",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin default NaN sensor case."
+    },
+    "block_sense_laccess.sensor": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "LAccess sensor",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.sensor",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for LAccess sensor selector."
+    },
+    "block_sense_laccess.map_color_double_bits": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "mapColor.toDoubleBits()",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.map_color_double_bits",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for mapColor.toDoubleBits() result; color packing is owned elsewhere."
+    },
+    "block_sense_laccess.health": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "health",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.health",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.health."
+    },
+    "block_sense_laccess.solid": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "solid",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.solid",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.solid."
+    },
+    "block_sense_laccess.size": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "size",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.size",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.size."
+    },
+    "block_sense_laccess.item_capacity": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "itemCapacity",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.itemCapacity",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.itemCapacity."
+    },
+    "block_sense_laccess.liquid_capacity": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "liquidCapacity",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.liquidCapacity",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.liquidCapacity."
+    },
+    "block_sense_laccess.has_cons_power": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "consPower != null",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.has_cons_power",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for consPower null guard."
+    },
+    "block_sense_laccess.cons_power_buffered": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "consPower.buffered",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.cons_power_buffered",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for consPower.buffered."
+    },
+    "block_sense_laccess.cons_power_capacity": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "consPower.capacity",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.cons_power_capacity",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for consPower.capacity."
+    },
+    "block_sense_laccess.logic_id": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.sense(LAccess sensor)",
+      "java_expr": "getLogicId()",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "godot_symbol": "source_block_sense_laccess_input.logic_id",
+      "status": "explicit-input",
+      "source_slice": "N1363",
+      "runtime_proof": "/root/Main.source_block_sense_laccess_state",
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for getLogicId() result; method body is owned elsewhere."
     }
   },
   "version": 1

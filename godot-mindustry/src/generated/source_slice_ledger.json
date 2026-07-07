@@ -32478,6 +32478,63 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.getPlanConfigs option appends to source-backed canonical state."
+    },
+    "N1363": {
+      "title": "Generated Block sense LAccess bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.sense(LAccess sensor)",
+      "godot_owner": "PortGame.source_block_sense_laccess_state",
+      "generated_owner": "Block.java_method_sense_132",
+      "runtime_proof": "/root/Main.generated_block_sense_laccess_bridge_state",
+      "source_symbols": [
+        "block_sense_laccess.override_expr",
+        "block_sense_laccess.method",
+        "block_sense_laccess.switch_expr",
+        "block_sense_laccess.color_case",
+        "block_sense_laccess.health_case",
+        "block_sense_laccess.solid_case",
+        "block_sense_laccess.size_case",
+        "block_sense_laccess.item_capacity_case",
+        "block_sense_laccess.liquid_capacity_case",
+        "block_sense_laccess.power_capacity_case",
+        "block_sense_laccess.id_case",
+        "block_sense_laccess.default_expr",
+        "block_sense_laccess.sensor",
+        "block_sense_laccess.map_color_double_bits",
+        "block_sense_laccess.health",
+        "block_sense_laccess.solid",
+        "block_sense_laccess.size",
+        "block_sense_laccess.item_capacity",
+        "block_sense_laccess.liquid_capacity",
+        "block_sense_laccess.has_cons_power",
+        "block_sense_laccess.cons_power_buffered",
+        "block_sense_laccess.cons_power_capacity",
+        "block_sense_laccess.logic_id"
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public double sense(LAccess sensor){",
+        "return switch(sensor){",
+        "case color -> mapColor.toDoubleBits();",
+        "case health, maxHealth -> health;",
+        "case solid -> solid ? 1 : 0;",
+        "case size -> size;",
+        "case itemCapacity -> itemCapacity;",
+        "case liquidCapacity -> liquidCapacity;",
+        "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;",
+        "case id -> getLogicId();",
+        "default -> Double.NaN;"
+      ],
+      "tests": [
+        "test_emit_bridges_block_sense_laccess_to_source_state",
+        "test_port_game_exposes_source_block_sense_laccess_state",
+        "test_port_game_exposes_generated_block_sense_laccess_bridge_state",
+        "test_block_sense_laccess_matches_upstream_source",
+        "test_generated_block_sense_laccess_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.sense(LAccess sensor) switch cases to source-backed canonical state; helper return values are explicit inputs."
     }
   },
   "version": 1

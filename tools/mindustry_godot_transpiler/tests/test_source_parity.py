@@ -6022,6 +6022,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_sense_laccess_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_sense_laccess_source"))
+        report = source_parity.verify_block_sense_laccess_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "override_expr": "@Override",
+            "method": "public double sense(LAccess sensor){",
+            "switch_expr": "return switch(sensor){",
+            "color_case": "case color -> mapColor.toDoubleBits();",
+            "health_case": "case health, maxHealth -> health;",
+            "solid_case": "case solid -> solid ? 1 : 0;",
+            "size_case": "case size -> size;",
+            "item_capacity_case": "case itemCapacity -> itemCapacity;",
+            "liquid_capacity_case": "case liquidCapacity -> liquidCapacity;",
+            "power_capacity_case": "case powerCapacity -> consPower != null && consPower.buffered ? consPower.capacity : 0f;",
+            "id_case": "case id -> getLogicId();",
+            "default_expr": "default -> Double.NaN;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_block_init_item_liquid_filters_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_block_init_item_liquid_filters_source"))
         report = source_parity.verify_block_init_item_liquid_filters_source(ROOT / "mindustry-upstream")
