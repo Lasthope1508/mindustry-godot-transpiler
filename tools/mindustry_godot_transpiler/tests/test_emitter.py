@@ -18028,6 +18028,59 @@ public class BuildPayload implements Payload{
             self.assertIn('"full_icon": full_icon', source_text)
             self.assertIn('"icon": full_icon', source_text)
 
+    def test_emit_bridges_build_payload_place_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class BuildPayload implements Payload{
+    public Building build;
+
+    public Block block(){
+        return build.block;
+    }
+
+    public void place(Tile tile){
+        place(tile, 0);
+    }
+
+    public void place(Tile tile, int rotation){
+        tile.setBlock(build.block, build.team, rotation, () -> build);
+        build.dropped();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_place_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var tile: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var build_block: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var build_team: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var rotation_value: int = 0", source_text)
+            self.assertIn('"source_owner": "PortGame.source_build_payload_place_default_state"', source_text)
+            self.assertIn('"method": "public void place(Tile tile){"', source_text)
+            self.assertIn('"delegate_expr": "place(tile, 0);"', source_text)
+            self.assertIn('"delegated_rotation": rotation_value', source_text)
+            self.assertIn("func java_method_place_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var rotation_value: int = int(_args[3] if _args.size() > 3 else 0)", source_text)
+            self.assertIn("var set_block_call: Dictionary = {\"call\": \"tile.setBlock(build.block, build.team, rotation, () -> build);\", \"tile\": tile, \"block\": build_block, \"team\": build_team, \"rotation\": rotation_value, \"build_supplier\": \"() -> build\"}", source_text)
+            self.assertIn('"source_owner": "PortGame.source_build_payload_place_state"', source_text)
+            self.assertIn('"method": "public void place(Tile tile, int rotation){"', source_text)
+            self.assertIn('"set_block_expr": "tile.setBlock(build.block, build.team, rotation, () -> build);"', source_text)
+            self.assertIn('"dropped_expr": "build.dropped();"', source_text)
+            self.assertIn('"dropped_called": true', source_text)
+
     def test_emit_bridges_build_payload_content_equals_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -18552,6 +18552,42 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildPayload.java_method_icon_17"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_build_payload_place_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_place_default_state"', source)
+        self.assertIn('"method": "public void place(Tile tile){"', source)
+        self.assertIn('"delegate_expr": "place(tile, 0);"', source)
+        self.assertIn("var rotation_value: int = 0", source)
+        self.assertIn('"delegated_rotation": rotation_value', source)
+        self.assertIn("func source_build_payload_place_state(tile: Variant, build_block: Variant, build_team: Variant, rotation_value: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_place_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source)
+        self.assertIn('"field_expr": "public Building build;"', source)
+        self.assertIn('"method": "public void place(Tile tile, int rotation){"', source)
+        self.assertIn('"set_block_expr": "tile.setBlock(build.block, build.team, rotation, () -> build);"', source)
+        self.assertIn('"dropped_expr": "build.dropped();"', source)
+        self.assertIn("var set_block_call: Dictionary =", source)
+        self.assertIn('"dropped_called": true', source)
+
+    def test_port_game_exposes_generated_build_payload_place_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_build_payload_place_default_bridge_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_place_1([tile, build_block, build_team])", source)
+        self.assertIn("var canonical = source_build_payload_place_default_state(tile, build_block, build_team)", source)
+        self.assertIn('"generated_owner": "BuildPayload.java_method_place_1"', source)
+        self.assertIn("func generated_build_payload_place_bridge_state(tile: Variant, build_block: Variant, build_team: Variant, rotation_value: int) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_place_2([tile, build_block, build_team, rotation_value])", source)
+        self.assertIn("var canonical = source_build_payload_place_state(tile, build_block, build_team, rotation_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_place_state"', source)
+        self.assertIn('"generated_owner": "BuildPayload.java_method_place_2"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_equals_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

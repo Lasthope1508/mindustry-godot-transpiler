@@ -20366,15 +20366,17 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 853)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 848)
+        self.assertEqual(audit["totalSourceFunctions"], 855)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 850)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 853)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 855)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
+        self.assertIn("PortGame.source_build_payload_place_default_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_build_payload_place_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_add_stats_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_ability_stat_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_copy_state", audit["registeredSourceOwners"])
@@ -47948,6 +47950,72 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["build_block"]["java_expr"], "build.block")
         result_schema = source_symbols.state_schema(schema, "source_build_payload_content_equals_result")
         self.assertEqual(result_schema["keys"]["content_equals"]["java_expr"], "return other instanceof BuildPayload bp && bp.block() == build.block;")
+
+    def test_generated_build_payload_place_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method_default = source_symbols.source_symbol(registry, "build_payload_place_default.method")
+        self.assertEqual(method_default["java_expr"], "public void place(Tile tile){")
+        self.assertEqual(method_default["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(method_default["java_method"], "BuildPayload.place(Tile tile)")
+        self.assertEqual(method_default["godot_owner"], "PortGame.source_build_payload_place_default_state")
+        delegate_expr = source_symbols.source_symbol(registry, "build_payload_place_default.delegate_expr")
+        self.assertEqual(delegate_expr["java_expr"], "place(tile, 0);")
+        self.assertEqual(delegate_expr["godot_symbol"], "source_build_payload_place_default_result.delegated_rotation")
+
+        method = source_symbols.source_symbol(registry, "build_payload_place.method")
+        self.assertEqual(method["java_expr"], "public void place(Tile tile, int rotation){")
+        self.assertEqual(method["java_method"], "BuildPayload.place(Tile tile, int rotation)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_build_payload_place_state")
+        set_block = source_symbols.source_symbol(registry, "build_payload_place.set_block_expr")
+        self.assertEqual(set_block["java_expr"], "tile.setBlock(build.block, build.team, rotation, () -> build);")
+        self.assertEqual(set_block["godot_symbol"], "source_build_payload_place_result.set_block_call")
+        dropped = source_symbols.source_symbol(registry, "build_payload_place.dropped_expr")
+        self.assertEqual(dropped["java_expr"], "build.dropped();")
+        self.assertEqual(dropped["godot_symbol"], "source_build_payload_place_result.dropped_called")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1381")
+        self.assertEqual(payload_slice["title"], "Generated BuildPayload place bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(payload_slice["java_method"], "BuildPayload.place(Tile tile) and BuildPayload.place(Tile tile, int rotation)")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_build_payload_place_state")
+        self.assertEqual(payload_slice["generated_owner"], "BuildPayload.java_method_place_1/2")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_build_payload_place_bridge_state")
+        for expr in [
+            "public class BuildPayload implements Payload{",
+            "public Building build;",
+            "public void place(Tile tile){",
+            "place(tile, 0);",
+            "public void place(Tile tile, int rotation){",
+            "tile.setBlock(build.block, build.team, rotation, () -> build);",
+            "build.dropped();",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("build_payload_place.set_block_expr", payload_slice["source_symbols"])
+        self.assertIn("build_payload_place.dropped_expr", payload_slice["source_symbols"])
+
+        default_contract = source_symbols.api_contract(contracts, "PortGame.source_build_payload_place_default_state")
+        self.assertEqual([param["name"] for param in default_contract["params"]], ["tile", "build_block", "build_team"])
+        self.assertIn("delegated_rotation", default_contract["return_keys"])
+        contract = source_symbols.api_contract(contracts, "PortGame.source_build_payload_place_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["tile", "build_block", "build_team", "rotation_value"])
+        self.assertIn("set_block_call", contract["return_keys"])
+        self.assertIn("dropped_called", contract["return_keys"])
+
+        default_input_schema = source_symbols.state_schema(schema, "source_build_payload_place_default_input")
+        self.assertEqual(default_input_schema["keys"]["tile"]["java_expr"], "tile")
+        default_result_schema = source_symbols.state_schema(schema, "source_build_payload_place_default_result")
+        self.assertEqual(default_result_schema["keys"]["delegated_rotation"]["java_expr"], "place(tile, 0);")
+        input_schema = source_symbols.state_schema(schema, "source_build_payload_place_input")
+        self.assertEqual(input_schema["keys"]["rotation_value"]["java_expr"], "rotation")
+        result_schema = source_symbols.state_schema(schema, "source_build_payload_place_result")
+        self.assertEqual(result_schema["keys"]["set_block_call"]["java_expr"], "tile.setBlock(build.block, build.team, rotation, () -> build);")
+        self.assertEqual(result_schema["keys"]["dropped_called"]["java_expr"], "build.dropped();")
 
     def test_generated_drill_get_drill_time_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

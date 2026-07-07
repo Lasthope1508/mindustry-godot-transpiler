@@ -35938,6 +35938,116 @@
         "test_build_payload_content_equals_matches_upstream_source",
         "test_generated_build_payload_content_equals_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_build_payload_place_default_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "source_method": "BuildPayload.place(Tile tile)",
+      "source_slice": "N1381",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
+      "rule": "PortGame.source_build_payload_place_default_state pins BuildPayload.place(Tile) delegate contract.",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Variant",
+          "java_expr": "tile",
+          "schema": "source_build_payload_place_default_input.tile",
+          "source_symbol": "build_payload_place_default.tile"
+        },
+        {
+          "name": "build_block",
+          "type": "Variant",
+          "java_expr": "build.block",
+          "schema": "source_build_payload_place_default_input.build_block",
+          "source_symbol": "build_payload_place_default.build_block"
+        },
+        {
+          "name": "build_team",
+          "type": "Variant",
+          "java_expr": "build.team",
+          "schema": "source_build_payload_place_default_input.build_team",
+          "source_symbol": "build_payload_place_default.build_team"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "method",
+        "delegate_expr",
+        "tile",
+        "build_block",
+        "build_team",
+        "delegated_rotation"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_build_payload_place_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "source_method": "BuildPayload.place(Tile tile, int rotation)",
+      "source_slice": "N1381",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "rule": "PortGame.source_build_payload_place_state pins BuildPayload.place(Tile,int) setBlock and dropped side-effect contract.",
+      "params": [
+        {
+          "name": "tile",
+          "type": "Variant",
+          "java_expr": "tile",
+          "schema": "source_build_payload_place_input.tile",
+          "source_symbol": "build_payload_place.tile"
+        },
+        {
+          "name": "build_block",
+          "type": "Variant",
+          "java_expr": "build.block",
+          "schema": "source_build_payload_place_input.build_block",
+          "source_symbol": "build_payload_place.build_block"
+        },
+        {
+          "name": "build_team",
+          "type": "Variant",
+          "java_expr": "build.team",
+          "schema": "source_build_payload_place_input.build_team",
+          "source_symbol": "build_payload_place.build_team"
+        },
+        {
+          "name": "rotation_value",
+          "type": "int",
+          "java_expr": "rotation",
+          "schema": "source_build_payload_place_input.rotation_value",
+          "source_symbol": "build_payload_place.rotation"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "method",
+        "set_block_expr",
+        "dropped_expr",
+        "tile",
+        "build_block",
+        "build_team",
+        "rotation",
+        "set_block_call",
+        "dropped_called"
+      ],
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

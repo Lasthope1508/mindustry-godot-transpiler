@@ -18,10 +18,19 @@ func java_method_block_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_build_payload_block_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public Block block(){", "return_expr": "return build.block;", "build_block": build_block}
 
 func java_method_place_1(_args: Array = []) -> Variant:
-	return null
+	var tile: Variant = _args[0] if _args.size() > 0 else null
+	var build_block: Variant = _args[1] if _args.size() > 1 else null
+	var build_team: Variant = _args[2] if _args.size() > 2 else null
+	var rotation_value: int = 0
+	return {"source_owner": "PortGame.source_build_payload_place_default_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public void place(Tile tile){", "delegate_expr": "place(tile, 0);", "tile": tile, "build_block": build_block, "build_team": build_team, "delegated_rotation": rotation_value}
 
 func java_method_place_2(_args: Array = []) -> Variant:
-	return null
+	var tile: Variant = _args[0] if _args.size() > 0 else null
+	var build_block: Variant = _args[1] if _args.size() > 1 else null
+	var build_team: Variant = _args[2] if _args.size() > 2 else null
+	var rotation_value: int = int(_args[3] if _args.size() > 3 else 0)
+	var set_block_call: Dictionary = {"call": "tile.setBlock(build.block, build.team, rotation, () -> build);", "tile": tile, "block": build_block, "team": build_team, "rotation": rotation_value, "build_supplier": "() -> build"}
+	return {"source_owner": "PortGame.source_build_payload_place_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public void place(Tile tile, int rotation){", "set_block_expr": "tile.setBlock(build.block, build.team, rotation, () -> build);", "dropped_expr": "build.dropped();", "tile": tile, "build_block": build_block, "build_team": build_team, "rotation": rotation_value, "set_block_call": set_block_call, "dropped_called": true}
 
 func java_method_contentEquals_3(_args: Array = []) -> Variant:
 	var other_is_build_payload: bool = bool(_args[0] if _args.size() > 0 else false)

@@ -1620,6 +1620,33 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
+        and method.get("name") == "place"
+        and len(method.get("parameters", [])) == 1
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar build_block: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar build_team: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar rotation_value: int = 0",
+            '\treturn {"source_owner": "PortGame.source_build_payload_place_default_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public void place(Tile tile){", "delegate_expr": "place(tile, 0);", "tile": tile, "build_block": build_block, "build_team": build_team, "delegated_rotation": rotation_value}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
+        and method.get("name") == "place"
+        and len(method.get("parameters", [])) == 2
+    ):
+        return [
+            "\tvar tile: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar build_block: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar build_team: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar rotation_value: int = int(_args[3] if _args.size() > 3 else 0)",
+            '\tvar set_block_call: Dictionary = {"call": "tile.setBlock(build.block, build.team, rotation, () -> build);", "tile": tile, "block": build_block, "team": build_team, "rotation": rotation_value, "build_supplier": "() -> build"}',
+            '\treturn {"source_owner": "PortGame.source_build_payload_place_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public void place(Tile tile, int rotation){", "set_block_expr": "tile.setBlock(build.block, build.team, rotation, () -> build);", "dropped_expr": "build.dropped();", "tile": tile, "build_block": build_block, "build_team": build_team, "rotation": rotation_value, "set_block_call": set_block_call, "dropped_called": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "contentEquals"
     ):
         return [

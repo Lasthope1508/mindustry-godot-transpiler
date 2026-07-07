@@ -19843,6 +19843,65 @@ func generated_build_payload_block_bridge_state(build_block: Variant) -> Diction
 		"matches": result == canonical,
 	}
 
+func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
+	var rotation_value: int = 0
+	return {
+		"source_owner": "PortGame.source_build_payload_place_default_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"method": "public void place(Tile tile){",
+		"delegate_expr": "place(tile, 0);",
+		"tile": tile,
+		"build_block": build_block,
+		"build_team": build_team,
+		"delegated_rotation": rotation_value,
+	}
+
+func generated_build_payload_place_default_bridge_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_place_1([tile, build_block, build_team])
+	var canonical = source_build_payload_place_default_state(tile, build_block, build_team)
+	return {
+		"source_owner": "PortGame.source_build_payload_place_default_state",
+		"generated_owner": "BuildPayload.java_method_place_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
+func source_build_payload_place_state(tile: Variant, build_block: Variant, build_team: Variant, rotation_value: int) -> Dictionary:
+	var set_block_call: Dictionary = {"call": "tile.setBlock(build.block, build.team, rotation, () -> build);", "tile": tile, "block": build_block, "team": build_team, "rotation": rotation_value, "build_supplier": "() -> build"}
+	return {
+		"source_owner": "PortGame.source_build_payload_place_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"method": "public void place(Tile tile, int rotation){",
+		"set_block_expr": "tile.setBlock(build.block, build.team, rotation, () -> build);",
+		"dropped_expr": "build.dropped();",
+		"tile": tile,
+		"build_block": build_block,
+		"build_team": build_team,
+		"rotation": rotation_value,
+		"set_block_call": set_block_call,
+		"dropped_called": true,
+	}
+
+func generated_build_payload_place_bridge_state(tile: Variant, build_block: Variant, build_team: Variant, rotation_value: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_place_2([tile, build_block, build_team, rotation_value])
+	var canonical = source_build_payload_place_state(tile, build_block, build_team, rotation_value)
+	return {
+		"source_owner": "PortGame.source_build_payload_place_state",
+		"generated_owner": "BuildPayload.java_method_place_2",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_content_equals_state(other_is_build_payload: bool, other_block: Variant, build_block: Variant) -> Dictionary:
 	var content_equals: bool = other_is_build_payload and other_block == build_block
 	return {

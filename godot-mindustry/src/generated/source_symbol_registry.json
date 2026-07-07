@@ -107072,6 +107072,294 @@
       "java_expr": "return other instanceof BuildPayload bp && bp.block() == build.block;",
       "rule": "BuildPayload.contentEquals returns true only for BuildPayload with identical block reference.",
       "status": "source-backed"
+    },
+    "build_payload_place_default.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile)",
+      "godot_owner": "PortGame.source_build_payload_place_default_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_default_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "Pin BuildPayload class boundary for place(Tile) delegate bridge.",
+      "status": "source-backed"
+    },
+    "build_payload_place_default.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile)",
+      "godot_owner": "PortGame.source_build_payload_place_default_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_default_result.field_expr",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload build field provides block/team explicit place inputs.",
+      "status": "source-backed"
+    },
+    "build_payload_place_default.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile)",
+      "godot_owner": "PortGame.source_build_payload_place_default_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_default_result.method",
+      "java_expr": "public void place(Tile tile){",
+      "rule": "Pin BuildPayload.place(Tile tile) overload boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_place_default.tile": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile)",
+      "godot_owner": "PortGame.source_build_payload_place_default_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_default_input.tile",
+      "java_expr": "tile",
+      "rule": "Explicit runtime Tile value for place(Tile).",
+      "status": "explicit-input"
+    },
+    "build_payload_place_default.build_block": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile)",
+      "godot_owner": "PortGame.source_build_payload_place_default_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_default_input.build_block",
+      "java_expr": "build.block",
+      "rule": "Explicit runtime build.block used by delegated place(Tile,int).",
+      "status": "explicit-input"
+    },
+    "build_payload_place_default.build_team": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile)",
+      "godot_owner": "PortGame.source_build_payload_place_default_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_default_input.build_team",
+      "java_expr": "build.team",
+      "rule": "Explicit runtime build.team used by delegated place(Tile,int).",
+      "status": "explicit-input"
+    },
+    "build_payload_place_default.delegate_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile)",
+      "godot_owner": "PortGame.source_build_payload_place_default_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_default_result.delegated_rotation",
+      "java_expr": "place(tile, 0);",
+      "rule": "BuildPayload.place(Tile) delegates to place(Tile,int) with rotation 0.",
+      "status": "source-backed"
+    },
+    "build_payload_place.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile, int rotation)",
+      "godot_owner": "PortGame.source_build_payload_place_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "Pin BuildPayload class boundary for place(Tile,int) bridge.",
+      "status": "source-backed"
+    },
+    "build_payload_place.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile, int rotation)",
+      "godot_owner": "PortGame.source_build_payload_place_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_result.field_expr",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload build field supplies block/team and dropped side effect.",
+      "status": "source-backed"
+    },
+    "build_payload_place.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile, int rotation)",
+      "godot_owner": "PortGame.source_build_payload_place_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_result.method",
+      "java_expr": "public void place(Tile tile, int rotation){",
+      "rule": "Pin BuildPayload.place(Tile tile, int rotation) overload boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_place.tile": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile, int rotation)",
+      "godot_owner": "PortGame.source_build_payload_place_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_input.tile",
+      "java_expr": "tile",
+      "rule": "Explicit runtime Tile value for tile.setBlock call.",
+      "status": "explicit-input"
+    },
+    "build_payload_place.build_block": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile, int rotation)",
+      "godot_owner": "PortGame.source_build_payload_place_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_input.build_block",
+      "java_expr": "build.block",
+      "rule": "Explicit runtime build.block value for tile.setBlock call.",
+      "status": "explicit-input"
+    },
+    "build_payload_place.build_team": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile, int rotation)",
+      "godot_owner": "PortGame.source_build_payload_place_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_input.build_team",
+      "java_expr": "build.team",
+      "rule": "Explicit runtime build.team value for tile.setBlock call.",
+      "status": "explicit-input"
+    },
+    "build_payload_place.rotation": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile, int rotation)",
+      "godot_owner": "PortGame.source_build_payload_place_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_input.rotation_value",
+      "java_expr": "rotation",
+      "rule": "Explicit runtime rotation value for tile.setBlock call.",
+      "status": "explicit-input"
+    },
+    "build_payload_place.set_block_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile, int rotation)",
+      "godot_owner": "PortGame.source_build_payload_place_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_result.set_block_call",
+      "java_expr": "tile.setBlock(build.block, build.team, rotation, () -> build);",
+      "rule": "BuildPayload.place(Tile,int) calls Tile.setBlock with build supplier.",
+      "status": "source-backed"
+    },
+    "build_payload_place.dropped_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.place(Tile tile, int rotation)",
+      "godot_owner": "PortGame.source_build_payload_place_state",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "source_slice": "N1381",
+      "tests": [
+        "test_emit_bridges_build_payload_place_to_source_state",
+        "test_port_game_exposes_source_build_payload_place_state",
+        "test_port_game_exposes_generated_build_payload_place_bridge_state",
+        "test_build_payload_place_matches_upstream_source",
+        "test_generated_build_payload_place_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_place_result.dropped_called",
+      "java_expr": "build.dropped();",
+      "rule": "BuildPayload.place(Tile,int) calls build.dropped() after setting block.",
+      "status": "source-backed"
     }
   },
   "version": 1
