@@ -10443,6 +10443,56 @@ public class Block{
             self.assertIn('"config_key_assignable_to_unlockable_content": config_key_assignable_to_unlockable_content', source_text)
             self.assertIn('"logic_configurable_after": logic_configurable_after', source_text)
 
+    def test_emit_bridges_block_init_buffered_power_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public boolean outputsPower = false;
+    public @Nullable ConsumePower consPower;
+
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        if(!outputsPower && consPower != null && consPower.buffered){
+            Log.warn("Consumer using buffered power: @. Disabling buffered power.", name);
+            consPower.buffered = false;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "buffered_power":', source_text)
+            self.assertIn("\t\tvar outputs_power: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\t\tvar has_cons_power: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\t\tvar cons_power_buffered_before: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("\t\tvar buffered_power_disabled: bool = (not outputs_power) and has_cons_power and cons_power_buffered_before", source_text)
+            self.assertIn("\t\tvar cons_power_buffered_after: bool = false if buffered_power_disabled else cons_power_buffered_before", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_buffered_power_state"', source_text)
+            self.assertIn('"outputs_power_field_expr": "public boolean outputsPower = false;"', source_text)
+            self.assertIn('"cons_power_field_expr": "public @Nullable ConsumePower consPower;"', source_text)
+            self.assertIn('"consume_power_buffered_field_expr": "public boolean buffered;"', source_text)
+            self.assertIn('"buffered_power_guard_expr": "if(!outputsPower && consPower != null && consPower.buffered){"', source_text)
+            self.assertIn('"buffered_power_warn_expr": "Log.warn(\\"Consumer using buffered power: @. Disabling buffered power.\\", name);"', source_text)
+            self.assertIn('"buffered_power_disable_expr": "consPower.buffered = false;"', source_text)
+            self.assertIn('"cons_power_buffered_after": cons_power_buffered_after', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

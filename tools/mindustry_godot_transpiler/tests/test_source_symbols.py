@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 821)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 816)
+        self.assertEqual(audit["totalSourceFunctions"], 822)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 817)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 821)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 822)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46639,6 +46639,62 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["config_key_assignable_to_unlockable_content"]["java_expr"], "UnlockableContent.class.isAssignableFrom(key)")
         result_schema = source_symbols.state_schema(schema, "source_block_init_logic_configurable_result")
         self.assertEqual(result_schema["keys"]["logic_configurable_after"]["java_expr"], "logicConfigurable = true;")
+
+    def test_generated_block_init_buffered_power_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_buffered_power.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_buffered_power_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_buffered_power_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_buffered_power.buffered_power_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(!outputsPower && consPower != null && consPower.buffered){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_buffered_power_result.buffered_power_disabled")
+        disable = source_symbols.source_symbol(registry, "block_init_buffered_power.buffered_power_disable_expr")
+        self.assertEqual(disable["java_expr"], "consPower.buffered = false;")
+        field = source_symbols.source_symbol(registry, "block_init_buffered_power.consume_power_buffered_field_expr")
+        self.assertEqual(field["java_source"], "core/src/mindustry/world/consumers/ConsumePower.java")
+        self.assertEqual(field["java_expr"], "public boolean buffered;")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1348")
+        self.assertEqual(setup_slice["title"], "Generated Block init buffered power guard bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_buffered_power_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_buffered_power_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "public boolean outputsPower = false;",
+            "public @Nullable ConsumePower consPower;",
+            "public boolean buffered;",
+            "if(!outputsPower && consPower != null && consPower.buffered){",
+            "Log.warn(\"Consumer using buffered power: @. Disabling buffered power.\", name);",
+            "consPower.buffered = false;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_buffered_power_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["outputs_power", "has_cons_power", "cons_power_buffered_before"])
+        for key in ["source_owner", "source", "consume_power_source", "method", "super_init_expr", "outputs_power_field_expr", "cons_power_field_expr", "consume_power_buffered_field_expr", "buffered_power_guard_expr", "buffered_power_warn_expr", "buffered_power_disable_expr", "outputs_power", "has_cons_power", "cons_power_buffered_before", "buffered_power_disabled", "cons_power_buffered_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_buffered_power_input")
+        self.assertEqual(input_schema["keys"]["outputs_power"]["java_expr"], "outputsPower")
+        self.assertEqual(input_schema["keys"]["has_cons_power"]["java_expr"], "consPower != null")
+        self.assertEqual(input_schema["keys"]["cons_power_buffered_before"]["java_expr"], "consPower.buffered")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_buffered_power_result")
+        self.assertEqual(result_schema["keys"]["buffered_power_disabled"]["java_expr"], "if(!outputsPower && consPower != null && consPower.buffered){")
+        self.assertEqual(result_schema["keys"]["cons_power_buffered_after"]["java_expr"], "consPower.buffered = false;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

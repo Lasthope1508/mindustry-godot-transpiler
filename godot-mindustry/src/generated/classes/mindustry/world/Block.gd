@@ -796,6 +796,13 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		var config_key_assignable_to_unlockable_content: bool = bool(_args[1] if _args.size() > 1 else false)
 		var logic_configurable_after: bool = logic_configurable_before or config_key_assignable_to_unlockable_content
 		return {"source_owner": "PortGame.source_block_init_logic_configurable_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "logic_configurable_field_expr": "public boolean logicConfigurable = false;", "logic_configurable_guard_expr": "if(!logicConfigurable){", "configurations_each_expr": "configurations.each((key, val) -> {", "unlockable_assignable_expr": "if(UnlockableContent.class.isAssignableFrom(key)){", "logic_configurable_assignment_expr": "logicConfigurable = true;", "logic_configurable_before": logic_configurable_before, "config_key_assignable_to_unlockable_content": config_key_assignable_to_unlockable_content, "logic_configurable_after": logic_configurable_after}
+	if init_bridge_mode == "buffered_power":
+		var outputs_power: bool = bool(_args[0] if _args.size() > 0 else false)
+		var has_cons_power: bool = bool(_args[1] if _args.size() > 1 else false)
+		var cons_power_buffered_before: bool = bool(_args[2] if _args.size() > 2 else false)
+		var buffered_power_disabled: bool = (not outputs_power) and has_cons_power and cons_power_buffered_before
+		var cons_power_buffered_after: bool = false if buffered_power_disabled else cons_power_buffered_before
+		return {"source_owner": "PortGame.source_block_init_buffered_power_state", "source": "core/src/mindustry/world/Block.java", "consume_power_source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public void init(){", "super_init_expr": "super.init();", "outputs_power_field_expr": "public boolean outputsPower = false;", "cons_power_field_expr": "public @Nullable ConsumePower consPower;", "consume_power_buffered_field_expr": "public boolean buffered;", "buffered_power_guard_expr": "if(!outputsPower && consPower != null && consPower.buffered){", "buffered_power_warn_expr": "Log.warn(\"Consumer using buffered power: @. Disabling buffered power.\", name);", "buffered_power_disable_expr": "consPower.buffered = false;", "outputs_power": outputs_power, "has_cons_power": has_cons_power, "cons_power_buffered_before": cons_power_buffered_before, "buffered_power_disabled": buffered_power_disabled, "cons_power_buffered_after": cons_power_buffered_after}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

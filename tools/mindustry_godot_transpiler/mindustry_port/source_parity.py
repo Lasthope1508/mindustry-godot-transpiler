@@ -11010,6 +11010,36 @@ def verify_block_init_logic_configurable_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_block_init_buffered_power_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    consume_power_source_path = Path(upstream_root) / "core/src/mindustry/world/consumers/ConsumePower.java"
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    consume_power_source = consume_power_source_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "outputs_power_field_expr": "public boolean outputsPower = false;",
+        "cons_power_field_expr": "public @Nullable ConsumePower consPower;",
+        "consume_power_buffered_field_expr": "public boolean buffered;",
+        "buffered_power_guard_expr": "if(!outputsPower && consPower != null && consPower.buffered){",
+        "buffered_power_warn_expr": "Log.warn(\"Consumer using buffered power: @. Disabling buffered power.\", name);",
+        "buffered_power_disable_expr": "consPower.buffered = false;",
+    }
+    source_by_key = {
+        "consume_power_buffered_field_expr": consume_power_source,
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, source)
+    ]
+    return {
+        "source": BLOCK_SOURCE,
+        "consume_power_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

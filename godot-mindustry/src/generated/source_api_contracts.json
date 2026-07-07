@@ -34402,6 +34402,59 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.init() logicConfigurable unlockable configuration detection."
+    },
+    "PortGame.source_block_init_buffered_power_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1348",
+      "params": [
+        {
+          "name": "outputs_power",
+          "type": "bool",
+          "java_expr": "outputsPower",
+          "schema": "source_block_init_buffered_power_input.outputs_power"
+        },
+        {
+          "name": "has_cons_power",
+          "type": "bool",
+          "java_expr": "consPower != null",
+          "schema": "source_block_init_buffered_power_input.has_cons_power"
+        },
+        {
+          "name": "cons_power_buffered_before",
+          "type": "bool",
+          "java_expr": "consPower.buffered",
+          "schema": "source_block_init_buffered_power_input.cons_power_buffered_before"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "consume_power_source",
+        "method",
+        "super_init_expr",
+        "outputs_power_field_expr",
+        "cons_power_field_expr",
+        "consume_power_buffered_field_expr",
+        "buffered_power_guard_expr",
+        "buffered_power_warn_expr",
+        "buffered_power_disable_expr",
+        "outputs_power",
+        "has_cons_power",
+        "cons_power_buffered_before",
+        "buffered_power_disabled",
+        "cons_power_buffered_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_buffered_power_state",
+      "tests": [
+        "test_emit_bridges_block_init_buffered_power_to_source_state",
+        "test_port_game_exposes_source_block_init_buffered_power_state",
+        "test_port_game_exposes_generated_block_init_buffered_power_bridge_state",
+        "test_block_init_buffered_power_matches_upstream_source",
+        "test_generated_block_init_buffered_power_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() buffered power guard and consPower.buffered disable assignment."
     }
   },
   "policy": {

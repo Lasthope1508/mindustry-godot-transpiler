@@ -17859,5 +17859,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_buffered_power_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_buffered_power_state(outputs_power: bool, has_cons_power: bool, cons_power_buffered_before: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_buffered_power_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"consume_power_source": "core/src/mindustry/world/consumers/ConsumePower.java"', source)
+        self.assertIn('"outputs_power_field_expr": "public boolean outputsPower = false;"', source)
+        self.assertIn('"cons_power_field_expr": "public @Nullable ConsumePower consPower;"', source)
+        self.assertIn('"consume_power_buffered_field_expr": "public boolean buffered;"', source)
+        self.assertIn('"buffered_power_guard_expr": "if(!outputsPower && consPower != null && consPower.buffered){"', source)
+        self.assertIn('"buffered_power_warn_expr": "Log.warn(\\"Consumer using buffered power: @. Disabling buffered power.\\", name);"', source)
+        self.assertIn('"buffered_power_disable_expr": "consPower.buffered = false;"', source)
+        self.assertIn('"buffered_power_disabled": buffered_power_disabled', source)
+        self.assertIn('"cons_power_buffered_after": cons_power_buffered_after', source)
+
+    def test_port_game_exposes_generated_block_init_buffered_power_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_buffered_power_bridge_state(outputs_power: bool, has_cons_power: bool, cons_power_buffered_before: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "buffered_power")', source)
+        self.assertIn("var result = instance.java_method_init_123([outputs_power, has_cons_power, cons_power_buffered_before])", source)
+        self.assertIn("var canonical = source_block_init_buffered_power_state(outputs_power, has_cons_power, cons_power_buffered_before)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_buffered_power_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

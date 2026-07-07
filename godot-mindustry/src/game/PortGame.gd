@@ -19315,6 +19315,42 @@ func generated_block_init_logic_configurable_bridge_state(logic_configurable_bef
 		"matches": result == canonical,
 	}
 
+func source_block_init_buffered_power_state(outputs_power: bool, has_cons_power: bool, cons_power_buffered_before: bool) -> Dictionary:
+	var buffered_power_disabled: bool = (not outputs_power) and has_cons_power and cons_power_buffered_before
+	var cons_power_buffered_after: bool = false if buffered_power_disabled else cons_power_buffered_before
+	return {
+		"source_owner": "PortGame.source_block_init_buffered_power_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"consume_power_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"outputs_power_field_expr": "public boolean outputsPower = false;",
+		"cons_power_field_expr": "public @Nullable ConsumePower consPower;",
+		"consume_power_buffered_field_expr": "public boolean buffered;",
+		"buffered_power_guard_expr": "if(!outputsPower && consPower != null && consPower.buffered){",
+		"buffered_power_warn_expr": "Log.warn(\"Consumer using buffered power: @. Disabling buffered power.\", name);",
+		"buffered_power_disable_expr": "consPower.buffered = false;",
+		"outputs_power": outputs_power,
+		"has_cons_power": has_cons_power,
+		"cons_power_buffered_before": cons_power_buffered_before,
+		"buffered_power_disabled": buffered_power_disabled,
+		"cons_power_buffered_after": cons_power_buffered_after,
+	}
+
+func generated_block_init_buffered_power_bridge_state(outputs_power: bool, has_cons_power: bool, cons_power_buffered_before: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "buffered_power")
+	var result = instance.java_method_init_123([outputs_power, has_cons_power, cons_power_buffered_before])
+	var canonical = source_block_init_buffered_power_state(outputs_power, has_cons_power, cons_power_buffered_before)
+	return {
+		"source_owner": "PortGame.source_block_init_buffered_power_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation
