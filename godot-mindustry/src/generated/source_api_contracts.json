@@ -34298,6 +34298,33 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.init() consumer apply loop call plan."
+    },
+    "PortGame.source_block_init_set_bars_call_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1345",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "set_bars_expr",
+        "set_bars_method_expr",
+        "health_bar_expr",
+        "set_bars_call",
+        "set_bars_called"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_set_bars_call_state",
+      "tests": [
+        "test_emit_bridges_block_init_set_bars_call_to_source_state",
+        "test_port_game_exposes_source_block_init_set_bars_call_state",
+        "test_port_game_exposes_generated_block_init_set_bars_call_bridge_state",
+        "test_block_init_set_bars_call_matches_upstream_source",
+        "test_generated_block_init_set_bars_call_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() setBars() call plan."
     }
   },
   "policy": {

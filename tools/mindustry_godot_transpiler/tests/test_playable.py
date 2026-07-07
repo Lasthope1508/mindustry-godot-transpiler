@@ -17777,5 +17777,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_set_bars_call_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_set_bars_call_state() -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_set_bars_call_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"set_bars_expr": "setBars();"', source)
+        self.assertIn('"set_bars_method_expr": "public void setBars(){"', source)
+        self.assertIn('"health_bar_expr": "addBar(\\"health\\", entity -> new Bar(\\"stat.health\\", Pal.health, entity::healthf).blink(Color.white));"', source)
+        self.assertIn('"set_bars_call": set_bars_call', source)
+        self.assertIn('"set_bars_called": true', source)
+
+    def test_port_game_exposes_generated_block_init_set_bars_call_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_set_bars_call_bridge_state() -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "set_bars_call")', source)
+        self.assertIn("var result = instance.java_method_init_123([])", source)
+        self.assertIn("var canonical = source_block_init_set_bars_call_state()", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_set_bars_call_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

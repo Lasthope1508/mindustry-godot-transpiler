@@ -19230,6 +19230,34 @@ func generated_block_init_consumer_apply_loop_bridge_state(consumers: Array) -> 
 		"matches": result == canonical,
 	}
 
+func source_block_init_set_bars_call_state() -> Dictionary:
+	var set_bars_call: Dictionary = {"call": "setBars();", "method": "public void setBars(){"}
+	return {
+		"source_owner": "PortGame.source_block_init_set_bars_call_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"set_bars_expr": "setBars();",
+		"set_bars_method_expr": "public void setBars(){",
+		"health_bar_expr": "addBar(\"health\", entity -> new Bar(\"stat.health\", Pal.health, entity::healthf).blink(Color.white));",
+		"set_bars_call": set_bars_call,
+		"set_bars_called": true,
+	}
+
+func generated_block_init_set_bars_call_bridge_state() -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "set_bars_call")
+	var result = instance.java_method_init_123([])
+	var canonical = source_block_init_set_bars_call_state()
+	return {
+		"source_owner": "PortGame.source_block_init_set_bars_call_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

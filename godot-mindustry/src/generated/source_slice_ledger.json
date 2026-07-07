@@ -31856,6 +31856,41 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.init() consumer apply loop to source-backed call-plan state."
+    },
+    "N1345": {
+      "title": "Generated Block init setBars call bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_set_bars_call_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_set_bars_call_bridge_state",
+      "source_symbols": [
+        "block_init_set_bars_call.method",
+        "block_init_set_bars_call.super_init_expr",
+        "block_init_set_bars_call.set_bars_expr",
+        "block_init_set_bars_call.set_bars_method_expr",
+        "block_init_set_bars_call.health_bar_expr"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "setBars();",
+        "public void setBars(){",
+        "addBar(\"health\", entity -> new Bar(\"stat.health\", Pal.health, entity::healthf).blink(Color.white));"
+      ],
+      "deferred_exprs": [
+        "Concrete Block.setBars() bar construction remains later slices; this slice preserves the Block.init() setBars() dispatch."
+      ],
+      "tests": [
+        "test_emit_bridges_block_init_set_bars_call_to_source_state",
+        "test_port_game_exposes_source_block_init_set_bars_call_state",
+        "test_port_game_exposes_generated_block_init_set_bars_call_bridge_state",
+        "test_block_init_set_bars_call_matches_upstream_source",
+        "test_generated_block_init_set_bars_call_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.init() setBars() dispatch to source-backed call-plan state."
     }
   },
   "version": 1
