@@ -35852,6 +35852,41 @@
         "test_build_payload_draw_matches_upstream_source",
         "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_build_payload_icon_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [
+        {
+          "name": "full_icon",
+          "type": "Variant",
+          "java_expr": "block().fullIcon",
+          "schema": "source_build_payload_icon_input.full_icon",
+          "source_symbol": "build_payload_icon.full_icon"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "full_icon",
+        "icon"
+      ],
+      "rule": "PortGame.source_build_payload_icon_state pins BuildPayload.icon() return contract.",
+      "runtime_proof": "/root/Main.source_build_payload_icon_state",
+      "source_method": "BuildPayload.icon()",
+      "source_slice": "N1379",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_icon_to_source_state",
+        "test_port_game_exposes_source_build_payload_icon_state",
+        "test_port_game_exposes_generated_build_payload_icon_bridge_state",
+        "test_build_payload_icon_matches_upstream_source",
+        "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

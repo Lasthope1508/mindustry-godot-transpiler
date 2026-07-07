@@ -33110,6 +33110,43 @@
         "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
       ],
       "title": "Generated BuildPayload draw bridge state"
+    },
+    "N1379": {
+      "deferred_exprs": [
+        "TextureRegion internals and actual texture resource loading",
+        "BuildPayload.block() bridge internals are represented by explicit full_icon input"
+      ],
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "@Override",
+        "public TextureRegion icon(){",
+        "return block().fullIcon;"
+      ],
+      "generated_owner": "BuildPayload.java_method_icon_17",
+      "godot_owner": "PortGame.source_build_payload_icon_state",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.icon()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Generated BuildPayload.icon() bridge returns explicit block().fullIcon value without texture internals.",
+      "runtime_proof": "/root/Main.generated_build_payload_icon_bridge_state",
+      "source_symbols": [
+        "build_payload_icon.class_expr",
+        "build_payload_icon.field_expr",
+        "build_payload_icon.override_expr",
+        "build_payload_icon.method",
+        "build_payload_icon.full_icon",
+        "build_payload_icon.return_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_build_payload_icon_to_source_state",
+        "test_port_game_exposes_source_build_payload_icon_state",
+        "test_port_game_exposes_generated_build_payload_icon_bridge_state",
+        "test_build_payload_icon_matches_upstream_source",
+        "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated BuildPayload icon bridge state"
     }
   },
   "version": 1

@@ -20190,6 +20190,32 @@ func generated_build_payload_draw_bridge_state(prev_z: float, layer_flying_unit_
 		"matches": result == canonical,
 	}
 
+func source_build_payload_icon_state(full_icon: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_build_payload_icon_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"override_expr": "@Override",
+		"method": "public TextureRegion icon(){",
+		"return_expr": "return block().fullIcon;",
+		"full_icon": full_icon,
+		"icon": full_icon,
+	}
+
+func generated_build_payload_icon_bridge_state(full_icon: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_icon_17([full_icon])
+	var canonical = source_build_payload_icon_state(full_icon)
+	return {
+		"source_owner": "PortGame.source_build_payload_icon_state",
+		"generated_owner": "BuildPayload.java_method_icon_17",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

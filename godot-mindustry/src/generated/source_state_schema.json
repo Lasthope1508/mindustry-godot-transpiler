@@ -133433,6 +133433,162 @@
       "rule": "Dictionary returned by PortGame.source_build_payload_draw_state.",
       "source_slice": "N1378",
       "status": "active"
+    },
+    "source_build_payload_icon_input": {
+      "keys": {
+        "full_icon": {
+          "godot_symbol": "source_build_payload_icon_input.full_icon",
+          "java_expr": "block().fullIcon",
+          "java_method": "BuildPayload.icon()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_icon_state"
+          ],
+          "source_symbols": [
+            "build_payload_icon.full_icon"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_build_payload_icon_state",
+      "rule": "Inputs supplied to PortGame.source_build_payload_icon_state.",
+      "source_slice": "N1379",
+      "status": "active"
+    },
+    "source_build_payload_icon_result": {
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_build_payload_icon_result.source_owner",
+          "java_expr": "PortGame.source_build_payload_icon_state",
+          "java_method": "BuildPayload.icon()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_icon_state"
+          ],
+          "source_symbols": [
+            "build_payload_icon.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_build_payload_icon_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "java_method": "BuildPayload.icon()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_icon_state"
+          ],
+          "source_symbols": [
+            "build_payload_icon.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_build_payload_icon_result.class_expr",
+          "java_expr": "public class BuildPayload implements Payload{",
+          "java_method": "BuildPayload.icon()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_icon_state"
+          ],
+          "source_symbols": [
+            "build_payload_icon.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_build_payload_icon_result.field_expr",
+          "java_expr": "public Building build;",
+          "java_method": "BuildPayload.icon()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_icon_state"
+          ],
+          "source_symbols": [
+            "build_payload_icon.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_build_payload_icon_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "BuildPayload.icon()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_icon_state"
+          ],
+          "source_symbols": [
+            "build_payload_icon.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_build_payload_icon_result.method",
+          "java_expr": "public TextureRegion icon(){",
+          "java_method": "BuildPayload.icon()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_icon_state"
+          ],
+          "source_symbols": [
+            "build_payload_icon.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_build_payload_icon_result.return_expr",
+          "java_expr": "return block().fullIcon;",
+          "java_method": "BuildPayload.icon()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_icon_state"
+          ],
+          "source_symbols": [
+            "build_payload_icon.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "full_icon": {
+          "godot_symbol": "source_build_payload_icon_result.full_icon",
+          "java_expr": "block().fullIcon",
+          "java_method": "BuildPayload.icon()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_icon_state"
+          ],
+          "source_symbols": [
+            "build_payload_icon.full_icon"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "icon": {
+          "godot_symbol": "source_build_payload_icon_result.icon",
+          "java_expr": "return block().fullIcon;",
+          "java_method": "BuildPayload.icon()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_icon_state"
+          ],
+          "source_symbols": [
+            "build_payload_icon.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      },
+      "owner": "PortGame.source_build_payload_icon_state",
+      "rule": "Dictionary returned by PortGame.source_build_payload_icon_state.",
+      "source_slice": "N1379",
+      "status": "active"
     }
   },
   "version": 1

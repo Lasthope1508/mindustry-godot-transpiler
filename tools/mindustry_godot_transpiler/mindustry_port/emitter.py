@@ -1740,6 +1740,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_build_payload_draw_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public void draw(){", "prev_z_expr": "float prevZ = Draw.z();", "shadow_z_expr": "Draw.z(prevZ - 0.001f);", "draw_shadow_expr": "drawShadow(1f);", "z_restore_expr": "Draw.z(prevZ);", "z_transform_expr": "Draw.zTransform(z ->", "z_transform_return_expr": "z >= Layer.flyingUnitLow + 1f ? z : 0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)", "tile_assign_expr": "build.tile = emptyTile;", "payload_draw_expr": "build.payloadDraw();", "z_transform_reset_expr": "Draw.zTransform();", "final_z_restore_expr": "Draw.z(prevZ);", "prev_z": prev_z, "layer_flying_unit_low": layer_flying_unit_low, "transform_z": transform_z, "shadow_z": shadow_z, "transformed_z": transformed_z, "tile_after": "emptyTile", "payload_draw_called": true, "draw_calls": draw_calls}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
+        and method.get("name") == "icon"
+    ):
+        return [
+            "\tvar full_icon: Variant = _args[0] if _args.size() > 0 else null",
+            '\treturn {"source_owner": "PortGame.source_build_payload_icon_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public TextureRegion icon(){", "return_expr": "return block().fullIcon;", "full_icon": full_icon, "icon": full_icon}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/production/Drill.java"
         and type_entry.get("name") == "Drill"
         and method.get("name") == "getDrillTime"

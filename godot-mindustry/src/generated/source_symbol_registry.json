@@ -106820,6 +106820,114 @@
       "java_expr": "Draw.z(prevZ);",
       "rule": "BuildPayload.draw() restores Draw.z(prevZ) at method end.",
       "status": "source-backed"
+    },
+    "build_payload_icon.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.icon()",
+      "godot_owner": "PortGame.source_build_payload_icon_state",
+      "runtime_proof": "/root/Main.source_build_payload_icon_state",
+      "source_slice": "N1379",
+      "tests": [
+        "test_emit_bridges_build_payload_icon_to_source_state",
+        "test_port_game_exposes_source_build_payload_icon_state",
+        "test_port_game_exposes_generated_build_payload_icon_bridge_state",
+        "test_build_payload_icon_matches_upstream_source",
+        "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_icon_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "Pin BuildPayload class boundary for icon payload bridge.",
+      "status": "source-backed"
+    },
+    "build_payload_icon.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.icon()",
+      "godot_owner": "PortGame.source_build_payload_icon_state",
+      "runtime_proof": "/root/Main.source_build_payload_icon_state",
+      "source_slice": "N1379",
+      "tests": [
+        "test_emit_bridges_build_payload_icon_to_source_state",
+        "test_port_game_exposes_source_build_payload_icon_state",
+        "test_port_game_exposes_generated_build_payload_icon_bridge_state",
+        "test_build_payload_icon_matches_upstream_source",
+        "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_icon_result.field_expr",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload build field provides block() indirection for icon().",
+      "status": "source-backed"
+    },
+    "build_payload_icon.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.icon()",
+      "godot_owner": "PortGame.source_build_payload_icon_state",
+      "runtime_proof": "/root/Main.source_build_payload_icon_state",
+      "source_slice": "N1379",
+      "tests": [
+        "test_emit_bridges_build_payload_icon_to_source_state",
+        "test_port_game_exposes_source_build_payload_icon_state",
+        "test_port_game_exposes_generated_build_payload_icon_bridge_state",
+        "test_build_payload_icon_matches_upstream_source",
+        "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_icon_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "BuildPayload.icon() implements Payload.icon().",
+      "status": "source-backed"
+    },
+    "build_payload_icon.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.icon()",
+      "godot_owner": "PortGame.source_build_payload_icon_state",
+      "runtime_proof": "/root/Main.source_build_payload_icon_state",
+      "source_slice": "N1379",
+      "tests": [
+        "test_emit_bridges_build_payload_icon_to_source_state",
+        "test_port_game_exposes_source_build_payload_icon_state",
+        "test_port_game_exposes_generated_build_payload_icon_bridge_state",
+        "test_build_payload_icon_matches_upstream_source",
+        "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_icon_result.method",
+      "java_expr": "public TextureRegion icon(){",
+      "rule": "Pin BuildPayload.icon() method boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_icon.full_icon": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.icon()",
+      "godot_owner": "PortGame.source_build_payload_icon_state",
+      "runtime_proof": "/root/Main.source_build_payload_icon_state",
+      "source_slice": "N1379",
+      "tests": [
+        "test_emit_bridges_build_payload_icon_to_source_state",
+        "test_port_game_exposes_source_build_payload_icon_state",
+        "test_port_game_exposes_generated_build_payload_icon_bridge_state",
+        "test_build_payload_icon_matches_upstream_source",
+        "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_icon_input.full_icon",
+      "java_expr": "block().fullIcon",
+      "rule": "Explicit runtime value for block().fullIcon returned by icon().",
+      "status": "explicit-input"
+    },
+    "build_payload_icon.return_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.icon()",
+      "godot_owner": "PortGame.source_build_payload_icon_state",
+      "runtime_proof": "/root/Main.source_build_payload_icon_state",
+      "source_slice": "N1379",
+      "tests": [
+        "test_emit_bridges_build_payload_icon_to_source_state",
+        "test_port_game_exposes_source_build_payload_icon_state",
+        "test_port_game_exposes_generated_build_payload_icon_bridge_state",
+        "test_build_payload_icon_matches_upstream_source",
+        "test_generated_build_payload_icon_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_icon_result.icon",
+      "java_expr": "return block().fullIcon;",
+      "rule": "BuildPayload.icon() returns block().fullIcon without extra transformation.",
+      "status": "source-backed"
     }
   },
   "version": 1
