@@ -129321,6 +129321,318 @@
           ]
         }
       }
+    },
+    "source_block_flip_rotation_input": {
+      "owner": "PortGame.source_block_flip_rotation_state",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_flip_rotation_state.",
+      "keys": {
+        "rotation_before": {
+          "godot_symbol": "source_block_flip_rotation_input.rotation_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "req.rotation",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.rotation_before"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_block_flip_rotation_input.x",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "boolean x",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.x"
+          ]
+        },
+        "invertFlip": {
+          "godot_symbol": "source_block_flip_rotation_input.invertFlip",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "invertFlip",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.invert_flip"
+          ]
+        },
+        "rotate": {
+          "godot_symbol": "source_block_flip_rotation_input.rotate",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "rotate",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.rotate"
+          ]
+        },
+        "lockRotation": {
+          "godot_symbol": "source_block_flip_rotation_input.lockRotation",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "lockRotation",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.lock_rotation"
+          ]
+        }
+      }
+    },
+    "source_block_flip_rotation_result": {
+      "owner": "PortGame.source_block_flip_rotation_state",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_flip_rotation_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_flip_rotation_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "PortGame.source_block_flip_rotation_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.method"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_block_flip_rotation_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.method"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_block_flip_rotation_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "public void flipRotation(BuildPlan req, boolean x){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.method"
+          ]
+        },
+        "guard_expr": {
+          "godot_symbol": "source_block_flip_rotation_result.guard_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.guard_expr"
+          ]
+        },
+        "assignment_expr": {
+          "godot_symbol": "source_block_flip_rotation_result.assignment_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.assignment_expr"
+          ]
+        },
+        "rotation_before": {
+          "godot_symbol": "source_block_flip_rotation_result.rotation_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "req.rotation",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.rotation_before"
+          ]
+        },
+        "x": {
+          "godot_symbol": "source_block_flip_rotation_result.x",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "boolean x",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.x"
+          ]
+        },
+        "invertFlip": {
+          "godot_symbol": "source_block_flip_rotation_result.invertFlip",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "invertFlip",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.invert_flip"
+          ]
+        },
+        "rotate": {
+          "godot_symbol": "source_block_flip_rotation_result.rotate",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "rotate",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.rotate"
+          ]
+        },
+        "lockRotation": {
+          "godot_symbol": "source_block_flip_rotation_result.lockRotation",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "lockRotation",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.lock_rotation"
+          ]
+        },
+        "rotation_even": {
+          "godot_symbol": "source_block_flip_rotation_result.rotation_even",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "req.rotation % 2 == 0",
+          "type": "bool",
+          "status": "derived",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.guard_expr"
+          ]
+        },
+        "flip_guard": {
+          "godot_symbol": "source_block_flip_rotation_result.flip_guard",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.guard_expr"
+          ]
+        },
+        "mod_input": {
+          "godot_symbol": "source_block_flip_rotation_result.mod_input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "req.rotation + 2",
+          "type": "int",
+          "status": "derived",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.mathf_mod_call"
+          ]
+        },
+        "mod_value": {
+          "godot_symbol": "source_block_flip_rotation_result.mod_value",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "Mathf.mod(req.rotation + 2, 4)",
+          "type": "int",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.mathf_mod_call"
+          ]
+        },
+        "plan_rotation_state": {
+          "godot_symbol": "source_block_flip_rotation_result.plan_rotation_state",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "planRotation(Mathf.mod(req.rotation + 2, 4))",
+          "type": "Dictionary",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.plan_rotation_call"
+          ]
+        },
+        "rotation_after": {
+          "godot_symbol": "source_block_flip_rotation_result.rotation_after",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+          "java_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));",
+          "type": "int",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_flip_rotation_state"
+          ],
+          "source_symbols": [
+            "block_flip_rotation.assignment_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

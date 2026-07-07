@@ -11108,6 +11108,21 @@ def verify_block_plan_rotation_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_block_flip_rotation_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void flipRotation(BuildPlan req, boolean x){",
+        "guard_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){",
+        "assignment_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

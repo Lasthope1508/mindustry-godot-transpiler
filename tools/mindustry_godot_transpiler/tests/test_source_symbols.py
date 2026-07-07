@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 834)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 829)
+        self.assertEqual(audit["totalSourceFunctions"], 835)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 830)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 834)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 835)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46930,6 +46930,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["rot"]["java_expr"], "int rot")
         result_schema = source_symbols.state_schema(schema, "source_block_plan_rotation_result")
         self.assertEqual(result_schema["keys"]["plan_rotation"]["java_expr"], "return !rotate && lockRotation ? 0 : rot;")
+
+    def test_generated_block_flip_rotation_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_flip_rotation.method")
+        self.assertEqual(method["java_expr"], "public void flipRotation(BuildPlan req, boolean x){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.flipRotation(BuildPlan req, boolean x)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_flip_rotation_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_flip_rotation_state")
+
+        guard_expr = source_symbols.source_symbol(registry, "block_flip_rotation.guard_expr")
+        self.assertEqual(guard_expr["java_expr"], "if((x == (req.rotation % 2 == 0)) != invertFlip){")
+        self.assertEqual(guard_expr["godot_symbol"], "source_block_flip_rotation_result.flip_guard")
+
+        assignment_expr = source_symbols.source_symbol(registry, "block_flip_rotation.assignment_expr")
+        self.assertEqual(assignment_expr["java_expr"], "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));")
+        self.assertEqual(assignment_expr["godot_symbol"], "source_block_flip_rotation_result.rotation_after")
+
+        flip_rotation_slice = source_symbols.source_slice(ledger, "N1361")
+        self.assertEqual(flip_rotation_slice["title"], "Generated Block flipRotation bridge state")
+        self.assertEqual(flip_rotation_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(flip_rotation_slice["java_method"], "Block.flipRotation(BuildPlan req, boolean x)")
+        self.assertEqual(flip_rotation_slice["godot_owner"], "PortGame.source_block_flip_rotation_state")
+        self.assertEqual(flip_rotation_slice["generated_owner"], "Block.java_method_flipRotation_130")
+        self.assertEqual(flip_rotation_slice["runtime_proof"], "/root/Main.generated_block_flip_rotation_bridge_state")
+        for expr in [
+            "public void flipRotation(BuildPlan req, boolean x){",
+            "if((x == (req.rotation % 2 == 0)) != invertFlip){",
+            "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));",
+        ]:
+            self.assertIn(expr, flip_rotation_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_flip_rotation_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["rotation_before", "x_value", "invert_flip", "rotate_value", "lock_rotation"])
+        for key in ["source_owner", "source", "method", "guard_expr", "assignment_expr", "rotation_before", "x", "invertFlip", "rotate", "lockRotation", "rotation_even", "flip_guard", "mod_input", "mod_value", "plan_rotation_state", "rotation_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_flip_rotation_input")
+        self.assertEqual(input_schema["keys"]["rotation_before"]["java_expr"], "req.rotation")
+        self.assertEqual(input_schema["keys"]["x"]["java_expr"], "boolean x")
+        self.assertEqual(input_schema["keys"]["invertFlip"]["java_expr"], "invertFlip")
+        result_schema = source_symbols.state_schema(schema, "source_block_flip_rotation_result")
+        self.assertEqual(result_schema["keys"]["flip_guard"]["java_expr"], "if((x == (req.rotation % 2 == 0)) != invertFlip){")
+        self.assertEqual(result_schema["keys"]["rotation_after"]["java_expr"], "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));")
 
     def test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

@@ -32404,6 +32404,41 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.planRotation(int rot) rotate and lockRotation rule to source-backed canonical state."
+    },
+    "N1361": {
+      "title": "Generated Block flipRotation bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "generated_owner": "Block.java_method_flipRotation_130",
+      "runtime_proof": "/root/Main.generated_block_flip_rotation_bridge_state",
+      "source_symbols": [
+        "block_flip_rotation.method",
+        "block_flip_rotation.guard_expr",
+        "block_flip_rotation.assignment_expr",
+        "block_flip_rotation.rotation_before",
+        "block_flip_rotation.x",
+        "block_flip_rotation.invert_flip",
+        "block_flip_rotation.rotate",
+        "block_flip_rotation.lock_rotation",
+        "block_flip_rotation.mathf_mod_call",
+        "block_flip_rotation.plan_rotation_call"
+      ],
+      "exact_exprs": [
+        "public void flipRotation(BuildPlan req, boolean x){",
+        "if((x == (req.rotation % 2 == 0)) != invertFlip){",
+        "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));"
+      ],
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.flipRotation(BuildPlan req, boolean x) guard and rotation mutation to source-backed canonical state."
     }
   },
   "version": 1

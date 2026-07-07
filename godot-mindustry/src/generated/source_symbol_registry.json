@@ -103814,6 +103814,186 @@
         "test_generated_block_plan_rotation_slice_is_registered_with_source_backing"
       ],
       "rule": "Explicit input for planRotation rot parameter."
+    },
+    "block_flip_rotation.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_expr": "public void flipRotation(BuildPlan req, boolean x){",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "godot_symbol": "source_block_flip_rotation_result.method",
+      "status": "source-backed",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.flipRotation(BuildPlan req, boolean x) method boundary."
+    },
+    "block_flip_rotation.guard_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "godot_symbol": "source_block_flip_rotation_result.flip_guard",
+      "status": "source-backed",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.flipRotation guard expression."
+    },
+    "block_flip_rotation.assignment_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "godot_symbol": "source_block_flip_rotation_result.rotation_after",
+      "status": "source-backed",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.flipRotation rotation assignment."
+    },
+    "block_flip_rotation.rotation_before": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_expr": "req.rotation",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "godot_symbol": "source_block_flip_rotation_input.rotation_before",
+      "status": "explicit-input",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for BuildPlan.req.rotation before flipRotation mutation."
+    },
+    "block_flip_rotation.x": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_expr": "boolean x",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "godot_symbol": "source_block_flip_rotation_input.x",
+      "status": "explicit-input",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.flipRotation boolean x parameter."
+    },
+    "block_flip_rotation.invert_flip": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_expr": "invertFlip",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "godot_symbol": "source_block_flip_rotation_input.invertFlip",
+      "status": "explicit-input",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.invertFlip used by flipRotation."
+    },
+    "block_flip_rotation.rotate": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_expr": "rotate",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "godot_symbol": "source_block_flip_rotation_input.rotate",
+      "status": "explicit-input",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.rotate passed to planRotation."
+    },
+    "block_flip_rotation.lock_rotation": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_expr": "lockRotation",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "godot_symbol": "source_block_flip_rotation_input.lockRotation",
+      "status": "explicit-input",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.lockRotation passed to planRotation."
+    },
+    "block_flip_rotation.mathf_mod_call": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_expr": "Mathf.mod(req.rotation + 2, 4)",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "godot_symbol": "source_block_flip_rotation_result.mod_value",
+      "status": "source-backed",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Mathf.mod call used before planRotation."
+    },
+    "block_flip_rotation.plan_rotation_call": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "java_expr": "planRotation(Mathf.mod(req.rotation + 2, 4))",
+      "godot_owner": "PortGame.source_block_flip_rotation_state",
+      "godot_symbol": "source_block_flip_rotation_result.plan_rotation_state",
+      "status": "source-backed",
+      "source_slice": "N1361",
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed nested planRotation call in flipRotation assignment."
     }
   },
   "version": 1

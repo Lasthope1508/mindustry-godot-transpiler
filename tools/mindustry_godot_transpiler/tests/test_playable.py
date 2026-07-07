@@ -18024,6 +18024,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_planRotation_129"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_flip_rotation_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_flip_rotation_state(rotation_before: int, x_value: bool, invert_flip: bool, rotate_value: bool, lock_rotation: bool) -> Dictionary:", source)
+        self.assertIn("var rotation_even: bool = rotation_before % 2 == 0", source)
+        self.assertIn("var flip_guard: bool = (x_value == rotation_even) != invert_flip", source)
+        self.assertIn("var mod_value: int = int(source_arc_mathf_mod_float(float(rotation_before + 2), 4.0))", source)
+        self.assertIn("var plan_rotation_state := source_block_plan_rotation_state(rotate_value, lock_rotation, mod_value)", source)
+        self.assertIn("var rotation_after: int = int(plan_rotation_state[\"plan_rotation\"]) if flip_guard else rotation_before", source)
+        self.assertIn('"source_owner": "PortGame.source_block_flip_rotation_state"', source)
+        self.assertIn('"method": "public void flipRotation(BuildPlan req, boolean x){"', source)
+        self.assertIn('"guard_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){"', source)
+        self.assertIn('"assignment_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));"', source)
+        self.assertIn('"rotation_after": rotation_after', source)
+
+    def test_port_game_exposes_generated_block_flip_rotation_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_flip_rotation_bridge_state(rotation_before: int, x_value: bool, invert_flip: bool, rotate_value: bool, lock_rotation: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_flipRotation_130([rotation_before, x_value, invert_flip, rotate_value, lock_rotation])", source)
+        self.assertIn("var canonical = source_block_flip_rotation_state(rotation_before, x_value, invert_flip, rotate_value, lock_rotation)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_flip_rotation_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_flipRotation_130"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

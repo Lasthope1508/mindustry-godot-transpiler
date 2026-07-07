@@ -19549,6 +19549,44 @@ func generated_block_plan_rotation_bridge_state(rotate_value: bool, lock_rotatio
 		"matches": result == canonical,
 	}
 
+func source_block_flip_rotation_state(rotation_before: int, x_value: bool, invert_flip: bool, rotate_value: bool, lock_rotation: bool) -> Dictionary:
+	var rotation_even: bool = rotation_before % 2 == 0
+	var flip_guard: bool = (x_value == rotation_even) != invert_flip
+	var mod_value: int = int(source_arc_mathf_mod_float(float(rotation_before + 2), 4.0))
+	var plan_rotation_state := source_block_plan_rotation_state(rotate_value, lock_rotation, mod_value)
+	var rotation_after: int = int(plan_rotation_state["plan_rotation"]) if flip_guard else rotation_before
+	return {
+		"source_owner": "PortGame.source_block_flip_rotation_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void flipRotation(BuildPlan req, boolean x){",
+		"guard_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){",
+		"assignment_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));",
+		"rotation_before": rotation_before,
+		"x": x_value,
+		"invertFlip": invert_flip,
+		"rotate": rotate_value,
+		"lockRotation": lock_rotation,
+		"rotation_even": rotation_even,
+		"flip_guard": flip_guard,
+		"mod_input": rotation_before + 2,
+		"mod_value": mod_value,
+		"plan_rotation_state": plan_rotation_state,
+		"rotation_after": rotation_after,
+	}
+
+func generated_block_flip_rotation_bridge_state(rotation_before: int, x_value: bool, invert_flip: bool, rotate_value: bool, lock_rotation: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_flipRotation_130([rotation_before, x_value, invert_flip, rotate_value, lock_rotation])
+	var canonical = source_block_flip_rotation_state(rotation_before, x_value, invert_flip, rotate_value, lock_rotation)
+	return {
+		"source_owner": "PortGame.source_block_flip_rotation_state",
+		"generated_owner": "Block.java_method_flipRotation_130",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

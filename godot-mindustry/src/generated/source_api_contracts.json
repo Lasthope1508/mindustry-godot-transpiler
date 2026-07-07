@@ -34987,6 +34987,71 @@
       ],
       "status": "active",
       "rule": "Public runtime contract for Block.planRotation(int rot) generated bridge state."
+    },
+    "PortGame.source_block_flip_rotation_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.flipRotation(BuildPlan req, boolean x)",
+      "source_slice": "N1361",
+      "params": [
+        {
+          "name": "rotation_before",
+          "type": "int",
+          "java_expr": "req.rotation",
+          "schema": "source_block_flip_rotation_input.rotation_before"
+        },
+        {
+          "name": "x_value",
+          "type": "bool",
+          "java_expr": "boolean x",
+          "schema": "source_block_flip_rotation_input.x"
+        },
+        {
+          "name": "invert_flip",
+          "type": "bool",
+          "java_expr": "invertFlip",
+          "schema": "source_block_flip_rotation_input.invertFlip"
+        },
+        {
+          "name": "rotate_value",
+          "type": "bool",
+          "java_expr": "rotate",
+          "schema": "source_block_flip_rotation_input.rotate"
+        },
+        {
+          "name": "lock_rotation",
+          "type": "bool",
+          "java_expr": "lockRotation",
+          "schema": "source_block_flip_rotation_input.lockRotation"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "guard_expr",
+        "assignment_expr",
+        "rotation_before",
+        "x",
+        "invertFlip",
+        "rotate",
+        "lockRotation",
+        "rotation_even",
+        "flip_guard",
+        "mod_input",
+        "mod_value",
+        "plan_rotation_state",
+        "rotation_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_flip_rotation_state",
+      "tests": [
+        "test_emit_bridges_block_flip_rotation_to_source_state",
+        "test_port_game_exposes_source_block_flip_rotation_state",
+        "test_port_game_exposes_generated_block_flip_rotation_bridge_state",
+        "test_block_flip_rotation_matches_upstream_source",
+        "test_generated_block_flip_rotation_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for Block.flipRotation(BuildPlan req, boolean x) generated bridge state."
     }
   },
   "policy": {

@@ -10654,6 +10654,48 @@ public class Block{
             self.assertIn('"rot": rot', source_text)
             self.assertIn('"plan_rotation": plan_rotation_value', source_text)
 
+    def test_emit_bridges_block_flip_rotation_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public void flipRotation(BuildPlan req, boolean x){
+        if((x == (req.rotation % 2 == 0)) != invertFlip){
+            req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_flipRotation_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar rotation_before: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("\tvar x_value: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("\tvar invert_flip: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("\tvar rotate_value: bool = bool(_args[3] if _args.size() > 3 else false)", source_text)
+            self.assertIn("\tvar lock_rotation: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("\tvar rotation_even: bool = rotation_before % 2 == 0", source_text)
+            self.assertIn("\tvar flip_guard: bool = (x_value == rotation_even) != invert_flip", source_text)
+            self.assertIn("\tvar mod_value: int = int(fmod(fmod(float(rotation_before + 2), 4.0) + 4.0, 4.0))", source_text)
+            self.assertIn("\tvar plan_rotation_state := {", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_flip_rotation_state"', source_text)
+            self.assertIn('"method": "public void flipRotation(BuildPlan req, boolean x){"', source_text)
+            self.assertIn('"guard_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){"', source_text)
+            self.assertIn('"assignment_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));"', source_text)
+            self.assertIn('"rotation_after": rotation_after', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -972,7 +972,17 @@ func java_method_planRotation_129(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_plan_rotation_state", "source": "core/src/mindustry/world/Block.java", "method": "public int planRotation(int rot){", "return_expr": "return !rotate && lockRotation ? 0 : rot;", "rotate": rotate_value, "lockRotation": lock_rotation, "rot": rot, "plan_rotation": plan_rotation_value}
 
 func java_method_flipRotation_130(_args: Array = []) -> Variant:
-	return null
+	var rotation_before: int = int(_args[0] if _args.size() > 0 else 0)
+	var x_value: bool = bool(_args[1] if _args.size() > 1 else false)
+	var invert_flip: bool = bool(_args[2] if _args.size() > 2 else false)
+	var rotate_value: bool = bool(_args[3] if _args.size() > 3 else false)
+	var lock_rotation: bool = bool(_args[4] if _args.size() > 4 else false)
+	var rotation_even: bool = rotation_before % 2 == 0
+	var flip_guard: bool = (x_value == rotation_even) != invert_flip
+	var mod_value: int = int(fmod(fmod(float(rotation_before + 2), 4.0) + 4.0, 4.0))
+	var plan_rotation_state := {"source_owner": "PortGame.source_block_plan_rotation_state", "source": "core/src/mindustry/world/Block.java", "method": "public int planRotation(int rot){", "return_expr": "return !rotate && lockRotation ? 0 : rot;", "rotate": rotate_value, "lockRotation": lock_rotation, "rot": mod_value, "plan_rotation": 0 if ((not rotate_value) and lock_rotation) else mod_value}
+	var rotation_after: int = int(plan_rotation_state["plan_rotation"]) if flip_guard else rotation_before
+	return {"source_owner": "PortGame.source_block_flip_rotation_state", "source": "core/src/mindustry/world/Block.java", "method": "public void flipRotation(BuildPlan req, boolean x){", "guard_expr": "if((x == (req.rotation % 2 == 0)) != invertFlip){", "assignment_expr": "req.rotation = planRotation(Mathf.mod(req.rotation + 2, 4));", "rotation_before": rotation_before, "x": x_value, "invertFlip": invert_flip, "rotate": rotate_value, "lockRotation": lock_rotation, "rotation_even": rotation_even, "flip_guard": flip_guard, "mod_input": rotation_before + 2, "mod_value": mod_value, "plan_rotation_state": plan_rotation_state, "rotation_after": rotation_after}
 
 func java_method_getPlanConfigs_131(_args: Array = []) -> Variant:
 	return null
