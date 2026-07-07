@@ -33340,6 +33340,50 @@
         "test_block_init_destroy_sound_matches_upstream_source",
         "test_generated_block_init_destroy_sound_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_place_sound_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "placeSound",
+          "name": "place_sound_before",
+          "schema": "source_block_init_place_sound_input.place_sound_before",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_init_place_sound_input.size_value",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "place_sound_guard_expr",
+        "place_sound_assign_expr",
+        "place_sound_size_3_expr",
+        "place_sound_size_2_expr",
+        "place_sound_size_1_expr",
+        "place_sound_before",
+        "size",
+        "place_sound_after",
+        "place_sound_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() placeSound default assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_place_sound_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1324",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

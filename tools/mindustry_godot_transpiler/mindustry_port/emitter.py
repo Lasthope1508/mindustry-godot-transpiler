@@ -1952,6 +1952,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and len(method.get("parameters", [])) == 0
     ):
         return [
+            '\tvar init_bridge_mode: String = str(get_meta("mindustry_init_bridge_mode", "destroy_sound"))',
+            '\tif init_bridge_mode == "place_sound":',
+            '\t\tvar place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"',
+            "\t\tvar place_size_value: int = int(_args[1] if _args.size() > 1 else 1)",
+            "\t\tvar place_sound_after: Variant = place_sound_before",
+            '\t\tvar place_sound_assigned: bool = place_sound_before == "Sounds.unset"',
+            "\t\tif place_sound_assigned:",
+            "\t\t\tif place_size_value >= 3:",
+            '\t\t\t\tplace_sound_after = "Sounds.blockPlace3"',
+            "\t\t\telif place_size_value >= 2:",
+            '\t\t\t\tplace_sound_after = "Sounds.blockPlace2"',
+            "\t\t\telse:",
+            '\t\t\t\tplace_sound_after = "Sounds.blockPlace1"',
+            '\t\treturn {"source_owner": "PortGame.source_block_init_place_sound_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "place_sound_guard_expr": "if(placeSound == Sounds.unset){", "place_sound_assign_expr": "placeSound =", "place_sound_size_3_expr": "size >= 3 ? Sounds.blockPlace3 :", "place_sound_size_2_expr": "size >= 2 ? Sounds.blockPlace2 :", "place_sound_size_1_expr": "Sounds.blockPlace1;", "place_sound_before": place_sound_before, "size": place_size_value, "place_sound_after": place_sound_after, "place_sound_assigned": place_sound_assigned}',
             '\tvar destroy_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"',
             "\tvar size_value: int = int(_args[1] if _args.size() > 1 else 1)",
             "\tvar destroy_sound_after: Variant = destroy_sound_before",

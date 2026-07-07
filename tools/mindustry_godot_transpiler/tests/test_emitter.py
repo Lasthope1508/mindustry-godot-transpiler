@@ -9286,6 +9286,64 @@ public class Block{
             self.assertIn('"destroy_sound_after": destroy_sound_after', source_text)
             self.assertIn('"destroy_sound_assigned": destroy_sound_assigned', source_text)
 
+    def test_emit_bridges_block_init_place_sound_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        if(placeSound == Sounds.unset){
+            placeSound =
+                size >= 3 ? Sounds.blockPlace3 :
+                size >= 2 ? Sounds.blockPlace2 :
+                Sounds.blockPlace1;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tvar init_bridge_mode: String = str(get_meta("mindustry_init_bridge_mode", "destroy_sound"))', source_text)
+            self.assertIn('\tif init_bridge_mode == "place_sound":', source_text)
+            self.assertIn('\t\tvar place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"', source_text)
+            self.assertIn("\t\tvar place_size_value: int = int(_args[1] if _args.size() > 1 else 1)", source_text)
+            self.assertIn("\t\tvar place_sound_after: Variant = place_sound_before", source_text)
+            self.assertIn('\t\tvar place_sound_assigned: bool = place_sound_before == "Sounds.unset"', source_text)
+            self.assertIn("\t\tif place_sound_assigned:", source_text)
+            self.assertIn("\t\t\tif place_size_value >= 3:", source_text)
+            self.assertIn('\t\t\t\tplace_sound_after = "Sounds.blockPlace3"', source_text)
+            self.assertIn("\t\t\telif place_size_value >= 2:", source_text)
+            self.assertIn('\t\t\t\tplace_sound_after = "Sounds.blockPlace2"', source_text)
+            self.assertIn('\t\t\t\tplace_sound_after = "Sounds.blockPlace1"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_place_sound_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"super_init_expr": "super.init();"', source_text)
+            self.assertIn('"place_sound_guard_expr": "if(placeSound == Sounds.unset){"', source_text)
+            self.assertIn('"place_sound_assign_expr": "placeSound ="', source_text)
+            self.assertIn('"place_sound_size_3_expr": "size >= 3 ? Sounds.blockPlace3 :"', source_text)
+            self.assertIn('"place_sound_size_2_expr": "size >= 2 ? Sounds.blockPlace2 :"', source_text)
+            self.assertIn('"place_sound_size_1_expr": "Sounds.blockPlace1;"', source_text)
+            self.assertIn('"place_sound_before": place_sound_before', source_text)
+            self.assertIn('"place_sound_after": place_sound_after', source_text)
+            self.assertIn('"place_sound_assigned": place_sound_assigned', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

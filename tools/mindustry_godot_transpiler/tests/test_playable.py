@@ -17177,5 +17177,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_place_sound_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_place_sound_state(place_sound_before: Variant, size_value: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_place_sound_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"super_init_expr": "super.init();"', source)
+        self.assertIn('"place_sound_guard_expr": "if(placeSound == Sounds.unset){"', source)
+        self.assertIn('"place_sound_assign_expr": "placeSound ="', source)
+        self.assertIn('"place_sound_size_3_expr": "size >= 3 ? Sounds.blockPlace3 :"', source)
+        self.assertIn('"place_sound_size_2_expr": "size >= 2 ? Sounds.blockPlace2 :"', source)
+        self.assertIn('"place_sound_size_1_expr": "Sounds.blockPlace1;"', source)
+        self.assertIn('"place_sound_after": place_sound_after', source)
+        self.assertIn('"place_sound_assigned": place_sound_assigned', source)
+
+    def test_port_game_exposes_generated_block_init_place_sound_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_place_sound_bridge_state(place_sound_before: Variant, size_value: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "place_sound")', source)
+        self.assertIn("var result = instance.java_method_init_123([place_sound_before, size_value])", source)
+        self.assertIn("var canonical = source_block_init_place_sound_state(place_sound_before, size_value)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_place_sound_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

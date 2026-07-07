@@ -18479,6 +18479,46 @@ func generated_block_init_destroy_sound_bridge_state(destroy_sound_before: Varia
 		"matches": result == canonical,
 	}
 
+func source_block_init_place_sound_state(place_sound_before: Variant, size_value: int) -> Dictionary:
+	var place_sound_after: Variant = place_sound_before
+	var place_sound_assigned: bool = place_sound_before == "Sounds.unset"
+	if place_sound_assigned:
+		if size_value >= 3:
+			place_sound_after = "Sounds.blockPlace3"
+		elif size_value >= 2:
+			place_sound_after = "Sounds.blockPlace2"
+		else:
+			place_sound_after = "Sounds.blockPlace1"
+	return {
+		"source_owner": "PortGame.source_block_init_place_sound_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"place_sound_guard_expr": "if(placeSound == Sounds.unset){",
+		"place_sound_assign_expr": "placeSound =",
+		"place_sound_size_3_expr": "size >= 3 ? Sounds.blockPlace3 :",
+		"place_sound_size_2_expr": "size >= 2 ? Sounds.blockPlace2 :",
+		"place_sound_size_1_expr": "Sounds.blockPlace1;",
+		"place_sound_before": place_sound_before,
+		"size": size_value,
+		"place_sound_after": place_sound_after,
+		"place_sound_assigned": place_sound_assigned,
+	}
+
+func generated_block_init_place_sound_bridge_state(place_sound_before: Variant, size_value: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "place_sound")
+	var result = instance.java_method_init_123([place_sound_before, size_value])
+	var canonical = source_block_init_place_sound_state(place_sound_before, size_value)
+	return {
+		"source_owner": "PortGame.source_block_init_place_sound_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

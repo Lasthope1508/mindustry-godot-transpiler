@@ -98702,6 +98702,150 @@
       "godot_symbol": "source_block_init_destroy_sound_input.size_value",
       "java_expr": "size",
       "rule": "Runtime size_value supplies source Block.size for destroySound default branch."
+    },
+    "block_init_place_sound.method": {
+      "godot_owner": "PortGame.source_block_init_place_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_place_sound_state",
+      "source_slice": "N1324",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_place_sound_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for placeSound default assignment."
+    },
+    "block_init_place_sound.place_sound_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_place_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_place_sound_state",
+      "source_slice": "N1324",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_place_sound_result.place_sound_assigned",
+      "java_expr": "if(placeSound == Sounds.unset){",
+      "rule": "Place sound defaults are assigned only when placeSound is Sounds.unset."
+    },
+    "block_init_place_sound.place_sound_assign_expr": {
+      "godot_owner": "PortGame.source_block_init_place_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_place_sound_state",
+      "source_slice": "N1324",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_place_sound_result.place_sound_assign_expr",
+      "java_expr": "placeSound =",
+      "rule": "PlaceSound assignment expression for Block.init() default branch."
+    },
+    "block_init_place_sound.place_sound_size_3_expr": {
+      "godot_owner": "PortGame.source_block_init_place_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_place_sound_state",
+      "source_slice": "N1324",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_place_sound_result.place_sound_after",
+      "java_expr": "size >= 3 ? Sounds.blockPlace3 :",
+      "rule": "Blocks with size >= 3 use Sounds.blockPlace3 as placeSound default."
+    },
+    "block_init_place_sound.place_sound_size_2_expr": {
+      "godot_owner": "PortGame.source_block_init_place_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_place_sound_state",
+      "source_slice": "N1324",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_place_sound_result.place_sound_after",
+      "java_expr": "size >= 2 ? Sounds.blockPlace2 :",
+      "rule": "Blocks with size >= 2 use Sounds.blockPlace2 as placeSound default."
+    },
+    "block_init_place_sound.place_sound_size_1_expr": {
+      "godot_owner": "PortGame.source_block_init_place_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_place_sound_state",
+      "source_slice": "N1324",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_place_sound_result.place_sound_after",
+      "java_expr": "Sounds.blockPlace1;",
+      "rule": "Smaller blocks use Sounds.blockPlace1 as placeSound default."
+    },
+    "block_init_place_sound.place_sound": {
+      "godot_owner": "PortGame.source_block_init_place_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_place_sound_state",
+      "source_slice": "N1324",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_place_sound_input.place_sound_before",
+      "java_expr": "placeSound",
+      "rule": "Runtime place_sound_before supplies source placeSound before Block.init() defaulting."
+    },
+    "block_init_place_sound.size": {
+      "godot_owner": "PortGame.source_block_init_place_sound_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_place_sound_state",
+      "source_slice": "N1324",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_place_sound_to_source_state",
+        "test_port_game_exposes_source_block_init_place_sound_state",
+        "test_port_game_exposes_generated_block_init_place_sound_bridge_state",
+        "test_block_init_place_sound_matches_upstream_source",
+        "test_generated_block_init_place_sound_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_place_sound_input.size_value",
+      "java_expr": "size",
+      "rule": "Runtime size_value supplies source Block.size for placeSound default branch."
     }
   },
   "version": 1
