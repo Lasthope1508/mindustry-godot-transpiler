@@ -17970,6 +17970,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_load_126"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_is_hidden_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_is_hidden_state(build_visibility_visible: bool, revealed_blocks_contains_self: bool) -> Dictionary:", source)
+        self.assertIn("var is_hidden_value: bool = (not build_visibility_visible) and (not revealed_blocks_contains_self)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_is_hidden_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public boolean isHidden(){"', source)
+        self.assertIn('"return_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);"', source)
+        self.assertIn('"build_visibility_visible": build_visibility_visible', source)
+        self.assertIn('"revealed_blocks_contains_self": revealed_blocks_contains_self', source)
+        self.assertIn('"is_hidden": is_hidden_value', source)
+
+    def test_port_game_exposes_generated_block_is_hidden_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_is_hidden_bridge_state(build_visibility_visible: bool, revealed_blocks_contains_self: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_isHidden_127([build_visibility_visible, revealed_blocks_contains_self])", source)
+        self.assertIn("var canonical = source_block_is_hidden_state(build_visibility_visible, revealed_blocks_contains_self)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_is_hidden_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_isHidden_127"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

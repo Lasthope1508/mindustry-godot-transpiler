@@ -128991,6 +128991,164 @@
           ]
         }
       }
+    },
+    "source_block_is_hidden_input": {
+      "owner": "PortGame.source_block_is_hidden_state",
+      "source_slice": "N1359",
+      "runtime_proof": "/root/Main.source_block_is_hidden_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_is_hidden_state.",
+      "keys": {
+        "build_visibility_visible": {
+          "godot_symbol": "source_block_is_hidden_input.build_visibility_visible",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.isHidden()",
+          "java_expr": "buildVisibility.visible()",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_is_hidden_state"
+          ],
+          "source_symbols": [
+            "block_is_hidden.build_visibility_visible"
+          ]
+        },
+        "revealed_blocks_contains_self": {
+          "godot_symbol": "source_block_is_hidden_input.revealed_blocks_contains_self",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.isHidden()",
+          "java_expr": "state.rules.revealedBlocks.contains(this)",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_is_hidden_state"
+          ],
+          "source_symbols": [
+            "block_is_hidden.revealed_blocks_contains_self"
+          ]
+        }
+      }
+    },
+    "source_block_is_hidden_result": {
+      "owner": "PortGame.source_block_is_hidden_state",
+      "source_slice": "N1359",
+      "runtime_proof": "/root/Main.source_block_is_hidden_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_is_hidden_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_is_hidden_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.isHidden()",
+          "java_expr": "PortGame.source_block_is_hidden_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_is_hidden_state"
+          ],
+          "source_symbols": [
+            "block_is_hidden.method"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_block_is_hidden_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.isHidden()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_is_hidden_state"
+          ],
+          "source_symbols": [
+            "block_is_hidden.method"
+          ]
+        },
+        "override_expr": {
+          "godot_symbol": "source_block_is_hidden_result.override_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.isHidden()",
+          "java_expr": "@Override",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_is_hidden_state"
+          ],
+          "source_symbols": [
+            "block_is_hidden.override_expr"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_block_is_hidden_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.isHidden()",
+          "java_expr": "public boolean isHidden(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_is_hidden_state"
+          ],
+          "source_symbols": [
+            "block_is_hidden.method"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_is_hidden_result.return_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.isHidden()",
+          "java_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_is_hidden_state"
+          ],
+          "source_symbols": [
+            "block_is_hidden.return_expr"
+          ]
+        },
+        "build_visibility_visible": {
+          "godot_symbol": "source_block_is_hidden_result.build_visibility_visible",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.isHidden()",
+          "java_expr": "buildVisibility.visible()",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_is_hidden_state"
+          ],
+          "source_symbols": [
+            "block_is_hidden.build_visibility_visible"
+          ]
+        },
+        "revealed_blocks_contains_self": {
+          "godot_symbol": "source_block_is_hidden_result.revealed_blocks_contains_self",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.isHidden()",
+          "java_expr": "state.rules.revealedBlocks.contains(this)",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_is_hidden_state"
+          ],
+          "source_symbols": [
+            "block_is_hidden.revealed_blocks_contains_self"
+          ]
+        },
+        "is_hidden": {
+          "godot_symbol": "source_block_is_hidden_result.is_hidden",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.isHidden()",
+          "java_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_is_hidden_state"
+          ],
+          "source_symbols": [
+            "block_is_hidden.return_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

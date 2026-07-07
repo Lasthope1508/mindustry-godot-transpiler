@@ -12,9 +12,9 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 1224 |
-| Done | 1221 |
-| Not done | 0 |
+| Total tracked work items | 1225 |
+| Done | 1222 |
+| Not done | 3 |
 | Blocked | 0 |
 
 ## Migration Checklist
@@ -1171,6 +1171,7 @@
 - [x] N1356: Generated Block load team regions bridge state.
 - [x] N1357: Generated Block load variant regions bridge state.
 - [x] N1358: Generated Block load variant shadow regions bridge state.
+- [x] N1359: Generated Block isHidden bridge state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode

@@ -32345,6 +32345,36 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.load() customShadow variantShadowRegions allocation and atlas lookup loop to source-backed canonical state."
+    },
+    "N1359": {
+      "title": "Generated Block isHidden bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.isHidden()",
+      "godot_owner": "PortGame.source_block_is_hidden_state",
+      "generated_owner": "Block.java_method_isHidden_127",
+      "runtime_proof": "/root/Main.generated_block_is_hidden_bridge_state",
+      "source_symbols": [
+        "block_is_hidden.override_expr",
+        "block_is_hidden.method",
+        "block_is_hidden.return_expr",
+        "block_is_hidden.build_visibility_visible",
+        "block_is_hidden.revealed_blocks_contains_self"
+      ],
+      "exact_exprs": [
+        "@Override",
+        "public boolean isHidden(){",
+        "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);"
+      ],
+      "tests": [
+        "test_emit_bridges_block_is_hidden_to_source_state",
+        "test_port_game_exposes_source_block_is_hidden_state",
+        "test_port_game_exposes_generated_block_is_hidden_bridge_state",
+        "test_block_is_hidden_matches_upstream_source",
+        "test_generated_block_is_hidden_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.isHidden() visibility and revealedBlocks rule to source-backed canonical state."
     }
   },
   "version": 1

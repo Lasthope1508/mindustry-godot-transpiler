@@ -19497,6 +19497,32 @@ func generated_block_load_variant_shadow_regions_bridge_state(name_value: String
 		"matches": result == canonical,
 	}
 
+func source_block_is_hidden_state(build_visibility_visible: bool, revealed_blocks_contains_self: bool) -> Dictionary:
+	var is_hidden_value: bool = (not build_visibility_visible) and (not revealed_blocks_contains_self)
+	return {
+		"source_owner": "PortGame.source_block_is_hidden_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"override_expr": "@Override",
+		"method": "public boolean isHidden(){",
+		"return_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);",
+		"build_visibility_visible": build_visibility_visible,
+		"revealed_blocks_contains_self": revealed_blocks_contains_self,
+		"is_hidden": is_hidden_value,
+	}
+
+func generated_block_is_hidden_bridge_state(build_visibility_visible: bool, revealed_blocks_contains_self: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_isHidden_127([build_visibility_visible, revealed_blocks_contains_self])
+	var canonical = source_block_is_hidden_state(build_visibility_visible, revealed_blocks_contains_self)
+	return {
+		"source_owner": "PortGame.source_block_is_hidden_state",
+		"generated_owner": "Block.java_method_isHidden_127",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

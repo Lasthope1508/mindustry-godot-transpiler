@@ -34903,6 +34903,45 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.load() variantShadowRegions branch. params are explicit name, variants, and customShadow inputs."
+    },
+    "PortGame.source_block_is_hidden_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.isHidden()",
+      "source_slice": "N1359",
+      "params": [
+        {
+          "name": "build_visibility_visible",
+          "type": "bool",
+          "java_expr": "buildVisibility.visible()",
+          "schema": "source_block_is_hidden_input.build_visibility_visible"
+        },
+        {
+          "name": "revealed_blocks_contains_self",
+          "type": "bool",
+          "java_expr": "state.rules.revealedBlocks.contains(this)",
+          "schema": "source_block_is_hidden_input.revealed_blocks_contains_self"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "override_expr",
+        "method",
+        "return_expr",
+        "build_visibility_visible",
+        "revealed_blocks_contains_self",
+        "is_hidden"
+      ],
+      "runtime_proof": "/root/Main.source_block_is_hidden_state",
+      "tests": [
+        "test_emit_bridges_block_is_hidden_to_source_state",
+        "test_port_game_exposes_source_block_is_hidden_state",
+        "test_port_game_exposes_generated_block_is_hidden_bridge_state",
+        "test_block_is_hidden_matches_upstream_source",
+        "test_generated_block_is_hidden_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Public runtime contract for Block.isHidden() generated bridge state."
     }
   },
   "policy": {

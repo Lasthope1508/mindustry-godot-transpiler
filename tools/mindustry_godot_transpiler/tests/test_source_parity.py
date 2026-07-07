@@ -5972,6 +5972,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_is_hidden_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_is_hidden_source"))
+        report = source_parity.verify_block_is_hidden_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "override_expr": "@Override",
+            "method": "public boolean isHidden(){",
+            "return_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_block_init_item_liquid_filters_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_block_init_item_liquid_filters_source"))
         report = source_parity.verify_block_init_item_liquid_filters_source(ROOT / "mindustry-upstream")

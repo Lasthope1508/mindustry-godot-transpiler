@@ -1453,6 +1453,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "isHidden"
+    ):
+        return [
+            "\tvar build_visibility_visible: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar revealed_blocks_contains_self: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar is_hidden_value: bool = (not build_visibility_visible) and (not revealed_blocks_contains_self)",
+            '\treturn {"source_owner": "PortGame.source_block_is_hidden_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public boolean isHidden(){", "return_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);", "build_visibility_visible": build_visibility_visible, "revealed_blocks_contains_self": revealed_blocks_contains_self, "is_hidden": is_hidden_value}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumesItem"
     ):
         return [

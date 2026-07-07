@@ -11079,6 +11079,21 @@ def verify_block_load_variant_shadow_regions_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_block_is_hidden_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "override_expr": "@Override",
+        "method": "public boolean isHidden(){",
+        "return_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

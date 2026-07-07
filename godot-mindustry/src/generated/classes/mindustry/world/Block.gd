@@ -956,7 +956,10 @@ func java_method_load_126(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_load_base_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "super_load_expr": "super.load();", "region_expr": "region = Core.atlas.find(name);", "content_regions_expr": "ContentRegions.loadRegions(this);", "name": name_value, "region": region_value, "super_load_called": true, "content_regions_loaded": true}
 
 func java_method_isHidden_127(_args: Array = []) -> Variant:
-	return null
+	var build_visibility_visible: bool = bool(_args[0] if _args.size() > 0 else false)
+	var revealed_blocks_contains_self: bool = bool(_args[1] if _args.size() > 1 else false)
+	var is_hidden_value: bool = (not build_visibility_visible) and (not revealed_blocks_contains_self)
+	return {"source_owner": "PortGame.source_block_is_hidden_state", "source": "core/src/mindustry/world/Block.java", "override_expr": "@Override", "method": "public boolean isHidden(){", "return_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);", "build_visibility_visible": build_visibility_visible, "revealed_blocks_contains_self": revealed_blocks_contains_self, "is_hidden": is_hidden_value}
 
 func java_method_createIcons_128(_args: Array = []) -> Variant:
 	return null

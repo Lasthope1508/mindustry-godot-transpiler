@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 832)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 827)
+        self.assertEqual(audit["totalSourceFunctions"], 833)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 828)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 832)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 833)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46842,6 +46842,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_load_variant_shadow_regions_result")
         self.assertEqual(result_schema["keys"]["custom_shadow_guard"]["java_expr"], "variants != 0 && customShadow")
         self.assertEqual(result_schema["keys"]["variant_shadow_regions"]["java_expr"], "variantShadowRegions = new TextureRegion[variants];")
+
+    def test_generated_block_is_hidden_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_is_hidden.method")
+        self.assertEqual(method["java_expr"], "public boolean isHidden(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.isHidden()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_is_hidden_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_is_hidden_state")
+
+        return_expr = source_symbols.source_symbol(registry, "block_is_hidden.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_is_hidden_result.is_hidden")
+
+        is_hidden_slice = source_symbols.source_slice(ledger, "N1359")
+        self.assertEqual(is_hidden_slice["title"], "Generated Block isHidden bridge state")
+        self.assertEqual(is_hidden_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(is_hidden_slice["java_method"], "Block.isHidden()")
+        self.assertEqual(is_hidden_slice["godot_owner"], "PortGame.source_block_is_hidden_state")
+        self.assertEqual(is_hidden_slice["generated_owner"], "Block.java_method_isHidden_127")
+        self.assertEqual(is_hidden_slice["runtime_proof"], "/root/Main.generated_block_is_hidden_bridge_state")
+        for expr in [
+            "@Override",
+            "public boolean isHidden(){",
+            "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);",
+        ]:
+            self.assertIn(expr, is_hidden_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_is_hidden_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["build_visibility_visible", "revealed_blocks_contains_self"])
+        for key in ["source_owner", "source", "override_expr", "method", "return_expr", "build_visibility_visible", "revealed_blocks_contains_self", "is_hidden"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_is_hidden_input")
+        self.assertEqual(input_schema["keys"]["build_visibility_visible"]["java_expr"], "buildVisibility.visible()")
+        self.assertEqual(input_schema["keys"]["revealed_blocks_contains_self"]["java_expr"], "state.rules.revealedBlocks.contains(this)")
+        result_schema = source_symbols.state_schema(schema, "source_block_is_hidden_result")
+        self.assertEqual(result_schema["keys"]["is_hidden"]["java_expr"], "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);")
 
     def test_generated_block_init_item_liquid_filters_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

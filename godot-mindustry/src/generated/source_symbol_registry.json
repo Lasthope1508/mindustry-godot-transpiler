@@ -103634,6 +103634,96 @@
         "test_generated_block_load_variant_shadow_regions_slice_is_registered_with_source_backing"
       ],
       "rule": "Explicit input for Block.load() customShadow guard."
+    },
+    "block_is_hidden.override_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.isHidden()",
+      "java_expr": "@Override",
+      "godot_owner": "PortGame.source_block_is_hidden_state",
+      "godot_symbol": "source_block_is_hidden_result.override_expr",
+      "status": "source-backed",
+      "source_slice": "N1359",
+      "runtime_proof": "/root/Main.source_block_is_hidden_state",
+      "tests": [
+        "test_emit_bridges_block_is_hidden_to_source_state",
+        "test_port_game_exposes_source_block_is_hidden_state",
+        "test_port_game_exposes_generated_block_is_hidden_bridge_state",
+        "test_block_is_hidden_matches_upstream_source",
+        "test_generated_block_is_hidden_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.isHidden() override marker."
+    },
+    "block_is_hidden.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.isHidden()",
+      "java_expr": "public boolean isHidden(){",
+      "godot_owner": "PortGame.source_block_is_hidden_state",
+      "godot_symbol": "source_block_is_hidden_result.method",
+      "status": "source-backed",
+      "source_slice": "N1359",
+      "runtime_proof": "/root/Main.source_block_is_hidden_state",
+      "tests": [
+        "test_emit_bridges_block_is_hidden_to_source_state",
+        "test_port_game_exposes_source_block_is_hidden_state",
+        "test_port_game_exposes_generated_block_is_hidden_bridge_state",
+        "test_block_is_hidden_matches_upstream_source",
+        "test_generated_block_is_hidden_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.isHidden() method boundary."
+    },
+    "block_is_hidden.return_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.isHidden()",
+      "java_expr": "return !buildVisibility.visible() && !state.rules.revealedBlocks.contains(this);",
+      "godot_owner": "PortGame.source_block_is_hidden_state",
+      "godot_symbol": "source_block_is_hidden_result.is_hidden",
+      "status": "source-backed",
+      "source_slice": "N1359",
+      "runtime_proof": "/root/Main.source_block_is_hidden_state",
+      "tests": [
+        "test_emit_bridges_block_is_hidden_to_source_state",
+        "test_port_game_exposes_source_block_is_hidden_state",
+        "test_port_game_exposes_generated_block_is_hidden_bridge_state",
+        "test_block_is_hidden_matches_upstream_source",
+        "test_generated_block_is_hidden_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.isHidden() return expression."
+    },
+    "block_is_hidden.build_visibility_visible": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.isHidden()",
+      "java_expr": "buildVisibility.visible()",
+      "godot_owner": "PortGame.source_block_is_hidden_state",
+      "godot_symbol": "source_block_is_hidden_input.build_visibility_visible",
+      "status": "explicit-input",
+      "source_slice": "N1359",
+      "runtime_proof": "/root/Main.source_block_is_hidden_state",
+      "tests": [
+        "test_emit_bridges_block_is_hidden_to_source_state",
+        "test_port_game_exposes_source_block_is_hidden_state",
+        "test_port_game_exposes_generated_block_is_hidden_bridge_state",
+        "test_block_is_hidden_matches_upstream_source",
+        "test_generated_block_is_hidden_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for BuildVisibility.visible() result used by Block.isHidden()."
+    },
+    "block_is_hidden.revealed_blocks_contains_self": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.isHidden()",
+      "java_expr": "state.rules.revealedBlocks.contains(this)",
+      "godot_owner": "PortGame.source_block_is_hidden_state",
+      "godot_symbol": "source_block_is_hidden_input.revealed_blocks_contains_self",
+      "status": "explicit-input",
+      "source_slice": "N1359",
+      "runtime_proof": "/root/Main.source_block_is_hidden_state",
+      "tests": [
+        "test_emit_bridges_block_is_hidden_to_source_state",
+        "test_port_game_exposes_source_block_is_hidden_state",
+        "test_port_game_exposes_generated_block_is_hidden_bridge_state",
+        "test_block_is_hidden_matches_upstream_source",
+        "test_generated_block_is_hidden_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for rules.revealedBlocks.contains(this) used by Block.isHidden()."
     }
   },
   "version": 1
