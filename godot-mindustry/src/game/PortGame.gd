@@ -20090,6 +20090,46 @@ func generated_build_payload_set_bridge_state(x: float, y: float, rotation_value
 		"matches": result == canonical,
 	}
 
+func source_build_payload_draw_shadow_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:
+	var shadow_size: float = build_block_size * source_tilesize * 1.85
+	var shadow_call: Dictionary = {
+		"call": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);",
+		"x": build_x,
+		"y": build_y,
+		"size": shadow_size,
+		"alpha": alpha,
+	}
+	return {
+		"source_owner": "PortGame.source_build_payload_draw_shadow_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"import_expr": "import static mindustry.Vars.*;",
+		"override_expr": "@Override",
+		"method": "public void drawShadow(float alpha){",
+		"shadow_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);",
+		"build_x": build_x,
+		"build_y": build_y,
+		"build_block_size": build_block_size,
+		"source_tilesize": source_tilesize,
+		"alpha": alpha,
+		"shadow_size": shadow_size,
+		"shadow_call": shadow_call,
+	}
+
+func generated_build_payload_draw_shadow_bridge_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawShadow_15([build_x, build_y, build_block_size, source_tilesize, alpha])
+	var canonical = source_build_payload_draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)
+	return {
+		"source_owner": "PortGame.source_build_payload_draw_shadow_state",
+		"generated_owner": "BuildPayload.java_method_drawShadow_15",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

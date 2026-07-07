@@ -132726,6 +132726,303 @@
       "rule": "Dictionary returned by PortGame.source_build_payload_set_state.",
       "source_slice": "N1376",
       "status": "active"
+    },
+    "source_build_payload_draw_shadow_input": {
+      "keys": {
+        "build_x": {
+          "godot_symbol": "source_build_payload_draw_shadow_input.build_x",
+          "java_expr": "build.x",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.build_x"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "build_y": {
+          "godot_symbol": "source_build_payload_draw_shadow_input.build_y",
+          "java_expr": "build.y",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.build_y"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "build_block_size": {
+          "godot_symbol": "source_build_payload_draw_shadow_input.build_block_size",
+          "java_expr": "build.block.size",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.build_block_size"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "source_tilesize": {
+          "godot_symbol": "source_build_payload_draw_shadow_input.source_tilesize",
+          "java_expr": "tilesize",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.source_tilesize",
+            "build_payload_draw_shadow.import_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "alpha": {
+          "godot_symbol": "source_build_payload_draw_shadow_input.alpha",
+          "java_expr": "alpha",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.alpha"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_build_payload_draw_shadow_state",
+      "rule": "Inputs supplied to PortGame.source_build_payload_draw_shadow_state.",
+      "source_slice": "N1377",
+      "status": "active"
+    },
+    "source_build_payload_draw_shadow_result": {
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.source_owner",
+          "java_expr": "PortGame.source_build_payload_draw_shadow_state",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.class_expr",
+          "java_expr": "public class BuildPayload implements Payload{",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.field_expr",
+          "java_expr": "public Building build;",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "import_expr": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.import_expr",
+          "java_expr": "import static mindustry.Vars.*;",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.import_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.method",
+          "java_expr": "public void drawShadow(float alpha){",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "shadow_expr": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.shadow_expr",
+          "java_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.shadow_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "build_x": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.build_x",
+          "java_expr": "build.x",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.build_x"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "build_y": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.build_y",
+          "java_expr": "build.y",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.build_y"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "build_block_size": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.build_block_size",
+          "java_expr": "build.block.size",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.build_block_size"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "source_tilesize": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.source_tilesize",
+          "java_expr": "tilesize",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.source_tilesize"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "alpha": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.alpha",
+          "java_expr": "alpha",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.alpha"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "shadow_size": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.shadow_size",
+          "java_expr": "build.block.size * tilesize * 1.85f",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.shadow_size"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "shadow_call": {
+          "godot_symbol": "source_build_payload_draw_shadow_result.shadow_call",
+          "java_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);",
+          "java_method": "BuildPayload.drawShadow(float alpha)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_draw_shadow_state"
+          ],
+          "source_symbols": [
+            "build_payload_draw_shadow.shadow_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        }
+      },
+      "owner": "PortGame.source_build_payload_draw_shadow_state",
+      "rule": "Dictionary returned by PortGame.source_build_payload_draw_shadow_state.",
+      "source_slice": "N1377",
+      "status": "active"
     }
   },
   "version": 1

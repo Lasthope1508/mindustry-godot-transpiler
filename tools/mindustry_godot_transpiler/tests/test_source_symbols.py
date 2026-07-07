@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 849)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 844)
+        self.assertEqual(audit["totalSourceFunctions"], 850)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 845)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 849)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 850)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -47724,6 +47724,63 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["rotation_value"]["java_expr"], "rotation")
         result_schema = source_symbols.state_schema(schema, "source_build_payload_set_result")
         self.assertEqual(result_schema["keys"]["set_called"]["java_expr"], "build.set(x, y);")
+
+    def test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "build_payload_draw_shadow.method")
+        self.assertEqual(method["java_expr"], "public void drawShadow(float alpha){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(method["java_method"], "BuildPayload.drawShadow(float alpha)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_build_payload_draw_shadow_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_build_payload_draw_shadow_state")
+
+        build_x = source_symbols.source_symbol(registry, "build_payload_draw_shadow.build_x")
+        self.assertEqual(build_x["java_expr"], "build.x")
+        self.assertEqual(build_x["godot_symbol"], "source_build_payload_draw_shadow_input.build_x")
+        build_y = source_symbols.source_symbol(registry, "build_payload_draw_shadow.build_y")
+        self.assertEqual(build_y["java_expr"], "build.y")
+        self.assertEqual(build_y["godot_symbol"], "source_build_payload_draw_shadow_input.build_y")
+        shadow_expr = source_symbols.source_symbol(registry, "build_payload_draw_shadow.shadow_expr")
+        self.assertEqual(shadow_expr["java_expr"], "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);")
+        self.assertEqual(shadow_expr["godot_symbol"], "source_build_payload_draw_shadow_result.shadow_call")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1377")
+        self.assertEqual(payload_slice["title"], "Generated BuildPayload drawShadow bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(payload_slice["java_method"], "BuildPayload.drawShadow(float alpha)")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_build_payload_draw_shadow_state")
+        self.assertEqual(payload_slice["generated_owner"], "BuildPayload.java_method_drawShadow_15")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_build_payload_draw_shadow_bridge_state")
+        for expr in [
+            "public class BuildPayload implements Payload{",
+            "public Building build;",
+            "import static mindustry.Vars.*;",
+            "@Override",
+            "public void drawShadow(float alpha){",
+            "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("build_payload_draw_shadow.shadow_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_build_payload_draw_shadow_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["build_x", "build_y", "build_block_size", "source_tilesize", "alpha"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "import_expr", "override_expr", "method", "shadow_expr", "build_x", "build_y", "build_block_size", "source_tilesize", "alpha", "shadow_size", "shadow_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_build_payload_draw_shadow_input")
+        self.assertEqual(input_schema["keys"]["build_x"]["java_expr"], "build.x")
+        self.assertEqual(input_schema["keys"]["build_y"]["java_expr"], "build.y")
+        self.assertEqual(input_schema["keys"]["build_block_size"]["java_expr"], "build.block.size")
+        self.assertEqual(input_schema["keys"]["source_tilesize"]["java_expr"], "tilesize")
+        self.assertEqual(input_schema["keys"]["alpha"]["java_expr"], "alpha")
+        result_schema = source_symbols.state_schema(schema, "source_build_payload_draw_shadow_result")
+        self.assertEqual(result_schema["keys"]["shadow_call"]["java_expr"], "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);")
 
     def test_generated_drill_get_drill_time_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

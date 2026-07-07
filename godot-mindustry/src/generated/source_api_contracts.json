@@ -35718,6 +35718,75 @@
         "test_build_payload_set_matches_upstream_source",
         "test_generated_build_payload_set_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_build_payload_draw_shadow_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [
+        {
+          "name": "build_x",
+          "type": "float",
+          "java_expr": "build.x",
+          "schema": "source_build_payload_draw_shadow_input.build_x",
+          "source_symbol": "build_payload_draw_shadow.build_x"
+        },
+        {
+          "name": "build_y",
+          "type": "float",
+          "java_expr": "build.y",
+          "schema": "source_build_payload_draw_shadow_input.build_y",
+          "source_symbol": "build_payload_draw_shadow.build_y"
+        },
+        {
+          "name": "build_block_size",
+          "type": "float",
+          "java_expr": "build.block.size",
+          "schema": "source_build_payload_draw_shadow_input.build_block_size",
+          "source_symbol": "build_payload_draw_shadow.build_block_size"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "java_expr": "tilesize",
+          "schema": "source_build_payload_draw_shadow_input.source_tilesize",
+          "source_symbol": "build_payload_draw_shadow.source_tilesize"
+        },
+        {
+          "name": "alpha",
+          "type": "float",
+          "java_expr": "alpha",
+          "schema": "source_build_payload_draw_shadow_input.alpha",
+          "source_symbol": "build_payload_draw_shadow.alpha"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "import_expr",
+        "override_expr",
+        "method",
+        "shadow_expr",
+        "build_x",
+        "build_y",
+        "build_block_size",
+        "source_tilesize",
+        "alpha",
+        "shadow_size",
+        "shadow_call"
+      ],
+      "rule": "PortGame.source_build_payload_draw_shadow_state pins BuildPayload.drawShadow(float alpha) square-shadow call contract.",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_method": "BuildPayload.drawShadow(float alpha)",
+      "source_slice": "N1377",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

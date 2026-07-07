@@ -17568,6 +17568,11 @@ public class BuildPayload implements Payload{
     public void set(float x, float y, float rotation){
         build.set(x, y);
     }
+
+    @Override
+    public void drawShadow(float alpha){
+        Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);
+    }
 }
 """,
                 encoding="utf-8",
@@ -17693,6 +17698,110 @@ public class BuildPayload implements Payload{
             self.assertIn('"y": y', source_text)
             self.assertIn('"rotation": rotation', source_text)
             self.assertIn('"set_called": true', source_text)
+
+    def test_emit_bridges_build_payload_draw_shadow_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class BuildPayload implements Payload{
+    public Building build;
+
+    public Block block(){
+        return build.block;
+    }
+
+    public void place(Tile tile){
+    }
+
+    public void place(Tile tile, int rotation){
+    }
+
+    public boolean contentEquals(Payload other){
+        return false;
+    }
+
+    public UnlockableContent content(){
+        return build.block;
+    }
+
+    public void update(Unit unitHolder, Building buildingHolder){
+    }
+
+    public void destroyed(){
+    }
+
+    public ItemStack[] requirements(){
+        return build.block.requirements;
+    }
+
+    public float buildTime(){
+        return build.block.buildTime;
+    }
+
+    public float x(){
+        return build.x;
+    }
+
+    public float y(){
+        return build.y;
+    }
+
+    public float size(){
+        return build.block.size * tilesize;
+    }
+
+    public void remove(){
+        build.remove();
+    }
+
+    public void write(Writes write){
+    }
+
+    public void set(float x, float y, float rotation){
+    }
+
+    @Override
+    public void drawShadow(float alpha){
+        Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawShadow_15(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var build_x: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var build_y: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var build_block_size: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var alpha: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var shadow_size: float = build_block_size * source_tilesize * 1.85", source_text)
+            self.assertIn('{"call": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);", "x": build_x, "y": build_y, "size": shadow_size, "alpha": alpha}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_build_payload_draw_shadow_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
+            self.assertIn('"field_expr": "public Building build;"', source_text)
+            self.assertIn('"import_expr": "import static mindustry.Vars.*;"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public void drawShadow(float alpha){"', source_text)
+            self.assertIn('"shadow_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);"', source_text)
+            self.assertIn('"build_x": build_x', source_text)
+            self.assertIn('"build_y": build_y', source_text)
+            self.assertIn('"build_block_size": build_block_size', source_text)
+            self.assertIn('"source_tilesize": source_tilesize', source_text)
+            self.assertIn('"alpha": alpha', source_text)
+            self.assertIn('"shadow_size": shadow_size', source_text)
+            self.assertIn('"shadow_call": shadow_call', source_text)
 
     def test_emit_bridges_drill_get_drill_time_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

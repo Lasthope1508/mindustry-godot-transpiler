@@ -18459,6 +18459,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildPayload.java_method_set_14"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_build_payload_draw_shadow_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_build_payload_draw_shadow_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_draw_shadow_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source)
+        self.assertIn('"field_expr": "public Building build;"', source)
+        self.assertIn('"import_expr": "import static mindustry.Vars.*;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public void drawShadow(float alpha){"', source)
+        self.assertIn('"shadow_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);"', source)
+        self.assertIn('"build_x": build_x', source)
+        self.assertIn('"build_y": build_y', source)
+        self.assertIn('"build_block_size": build_block_size', source)
+        self.assertIn('"source_tilesize": source_tilesize', source)
+        self.assertIn('"alpha": alpha', source)
+        self.assertIn('"shadow_size": shadow_size', source)
+        self.assertIn('"shadow_call": shadow_call', source)
+
+    def test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_build_payload_draw_shadow_bridge_state(build_x: float, build_y: float, build_block_size: float, source_tilesize: float, alpha: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_drawShadow_15([build_x, build_y, build_block_size, source_tilesize, alpha])", source)
+        self.assertIn("var canonical = source_build_payload_draw_shadow_state(build_x, build_y, build_block_size, source_tilesize, alpha)", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_draw_shadow_state"', source)
+        self.assertIn('"generated_owner": "BuildPayload.java_method_drawShadow_15"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

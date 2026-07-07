@@ -1706,6 +1706,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_build_payload_set_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void set(float x, float y, float rotation){", "set_expr": "build.set(x, y);", "x": x, "y": y, "rotation": rotation, "set_called": true, "set_call": set_call}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
+        and method.get("name") == "drawShadow"
+    ):
+        return [
+            "\tvar build_x: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar build_y: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar build_block_size: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar source_tilesize: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar alpha: float = float(_args[4] if _args.size() > 4 else 0.0)",
+            "\tvar shadow_size: float = build_block_size * source_tilesize * 1.85",
+            '\tvar shadow_call: Dictionary = {"call": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);", "x": build_x, "y": build_y, "size": shadow_size, "alpha": alpha}',
+            '\treturn {"source_owner": "PortGame.source_build_payload_draw_shadow_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public void drawShadow(float alpha){", "shadow_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);", "build_x": build_x, "build_y": build_y, "build_block_size": build_block_size, "source_tilesize": source_tilesize, "alpha": alpha, "shadow_size": shadow_size, "shadow_call": shadow_call}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/production/Drill.java"
         and type_entry.get("name") == "Drill"
         and method.get("name") == "getDrillTime"

@@ -106298,6 +106298,222 @@
       "java_expr": "build.set(x, y);",
       "rule": "BuildPayload.set delegates x/y positioning to build.set(x, y).",
       "status": "source-backed"
+    },
+    "build_payload_draw_shadow.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "Pin BuildPayload class boundary for drawShadow payload bridge.",
+      "status": "source-backed"
+    },
+    "build_payload_draw_shadow.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_result.field_expr",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload build field provides drawShadow coordinates and block size.",
+      "status": "source-backed"
+    },
+    "build_payload_draw_shadow.import_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_input.source_tilesize",
+      "java_expr": "import static mindustry.Vars.*;",
+      "rule": "Static Vars import provides tilesize for BuildPayload.drawShadow().",
+      "status": "source-backed"
+    },
+    "build_payload_draw_shadow.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "BuildPayload.drawShadow(float alpha) implements Payload.drawShadow().",
+      "status": "source-backed"
+    },
+    "build_payload_draw_shadow.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_result.method",
+      "java_expr": "public void drawShadow(float alpha){",
+      "rule": "Pin BuildPayload.drawShadow(float alpha) method boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_draw_shadow.build_x": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_input.build_x",
+      "java_expr": "build.x",
+      "rule": "Explicit runtime value for build.x used by Drawf.squareShadow.",
+      "status": "explicit-input"
+    },
+    "build_payload_draw_shadow.build_y": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_input.build_y",
+      "java_expr": "build.y",
+      "rule": "Explicit runtime value for build.y used by Drawf.squareShadow.",
+      "status": "explicit-input"
+    },
+    "build_payload_draw_shadow.build_block_size": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_input.build_block_size",
+      "java_expr": "build.block.size",
+      "rule": "Explicit runtime value for build.block.size used by shadow size formula.",
+      "status": "explicit-input"
+    },
+    "build_payload_draw_shadow.source_tilesize": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_input.source_tilesize",
+      "java_expr": "tilesize",
+      "rule": "Explicit runtime value for Vars.tilesize used by shadow size formula.",
+      "status": "explicit-input"
+    },
+    "build_payload_draw_shadow.alpha": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_input.alpha",
+      "java_expr": "alpha",
+      "rule": "Explicit runtime value for alpha parameter passed to Drawf.squareShadow.",
+      "status": "explicit-input"
+    },
+    "build_payload_draw_shadow.shadow_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_result.shadow_call",
+      "java_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);",
+      "rule": "BuildPayload.drawShadow delegates square shadow draw with source size formula.",
+      "status": "source-backed"
+    },
+    "build_payload_draw_shadow.shadow_size": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_build_payload_draw_shadow_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_shadow_state",
+      "source_slice": "N1377",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_shadow_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_shadow_state",
+        "test_port_game_exposes_generated_build_payload_draw_shadow_bridge_state",
+        "test_build_payload_draw_shadow_matches_upstream_source",
+        "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_shadow_result.shadow_size",
+      "java_expr": "build.block.size * tilesize * 1.85f",
+      "rule": "Source shadow size formula for BuildPayload.drawShadow().",
+      "status": "source-backed"
     }
   },
   "version": 1
