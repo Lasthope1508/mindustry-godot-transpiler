@@ -125131,6 +125131,174 @@
           ]
         }
       }
+    },
+    "source_block_init_build_time_multiplier_input": {
+      "owner": "PortGame.source_block_init_build_time_multiplier_state",
+      "source_slice": "N1341",
+      "runtime_proof": "/root/Main.source_block_init_build_time_multiplier_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_init_build_time_multiplier_state.",
+      "keys": {
+        "build_time_before": {
+          "godot_symbol": "source_block_init_build_time_multiplier_input.build_time_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "buildTime",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": [
+            "block_init_build_time_multiplier.build_time"
+          ]
+        },
+        "build_cost_multiplier": {
+          "godot_symbol": "source_block_init_build_time_multiplier_input.build_cost_multiplier",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "buildCostMultiplier",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": [
+            "block_init_build_time_multiplier.build_cost_multiplier_field_expr"
+          ]
+        }
+      }
+    },
+    "source_block_init_build_time_multiplier_result": {
+      "owner": "PortGame.source_block_init_build_time_multiplier_state",
+      "source_slice": "N1341",
+      "runtime_proof": "/root/Main.source_block_init_build_time_multiplier_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_init_build_time_multiplier_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_init_build_time_multiplier_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "PortGame.source_block_init_build_time_multiplier_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "godot_symbol": "source_block_init_build_time_multiplier_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": []
+        },
+        "method": {
+          "godot_symbol": "source_block_init_build_time_multiplier_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "public void init(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": [
+            "block_init_build_time_multiplier.method"
+          ]
+        },
+        "super_init_expr": {
+          "godot_symbol": "source_block_init_build_time_multiplier_result.super_init_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "super.init();",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": [
+            "block_init_build_time_multiplier.super_init_expr"
+          ]
+        },
+        "build_cost_multiplier_field_expr": {
+          "godot_symbol": "source_block_init_build_time_multiplier_result.build_cost_multiplier_field_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "public float buildCostMultiplier = 1f;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": [
+            "block_init_build_time_multiplier.build_cost_multiplier_field_expr"
+          ]
+        },
+        "build_time_multiplier_expr": {
+          "godot_symbol": "source_block_init_build_time_multiplier_result.build_time_multiplier_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "buildTime *= buildCostMultiplier;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": [
+            "block_init_build_time_multiplier.build_time_multiplier_expr"
+          ]
+        },
+        "build_time_before": {
+          "godot_symbol": "source_block_init_build_time_multiplier_result.build_time_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "buildTime",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": [
+            "block_init_build_time_multiplier.build_time"
+          ]
+        },
+        "build_cost_multiplier": {
+          "godot_symbol": "source_block_init_build_time_multiplier_result.build_cost_multiplier",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "buildCostMultiplier",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": [
+            "block_init_build_time_multiplier.build_cost_multiplier_field_expr"
+          ]
+        },
+        "build_time_after": {
+          "godot_symbol": "source_block_init_build_time_multiplier_result.build_time_after",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "buildTime *= buildCostMultiplier;",
+          "type": "float",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_build_time_multiplier_state"
+          ],
+          "source_symbols": [
+            "block_init_build_time_multiplier.build_time_multiplier_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

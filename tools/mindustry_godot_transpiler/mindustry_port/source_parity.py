@@ -10855,6 +10855,22 @@ def verify_block_init_build_time_default_source(upstream_root: Path) -> dict[str
         "missing": missing,
     }
 
+def verify_block_init_build_time_multiplier_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "build_cost_multiplier_field_expr": "public float buildCostMultiplier = 1f;",
+        "build_time_multiplier_expr": "buildTime *= buildCostMultiplier;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

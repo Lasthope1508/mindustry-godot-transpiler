@@ -19082,6 +19082,34 @@ func generated_block_init_build_time_default_bridge_state(build_time_before: flo
 		"matches": result == canonical,
 	}
 
+func source_block_init_build_time_multiplier_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:
+	var build_time_after: float = build_time_before * build_cost_multiplier
+	return {
+		"source_owner": "PortGame.source_block_init_build_time_multiplier_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"build_cost_multiplier_field_expr": "public float buildCostMultiplier = 1f;",
+		"build_time_multiplier_expr": "buildTime *= buildCostMultiplier;",
+		"build_time_before": build_time_before,
+		"build_cost_multiplier": build_cost_multiplier,
+		"build_time_after": build_time_after,
+	}
+
+func generated_block_init_build_time_multiplier_bridge_state(build_time_before: float, build_cost_multiplier: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "build_time_multiplier")
+	var result = instance.java_method_init_123([build_time_before, build_cost_multiplier])
+	var canonical = source_block_init_build_time_multiplier_state(build_time_before, build_cost_multiplier)
+	return {
+		"source_owner": "PortGame.source_block_init_build_time_multiplier_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

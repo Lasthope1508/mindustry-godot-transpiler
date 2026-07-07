@@ -745,6 +745,11 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		var build_time_assigned: bool = default_build_time_before < 0.0
 		var build_time_after: float = 20.0 if build_time_assigned else default_build_time_before
 		return {"source_owner": "PortGame.source_block_init_build_time_default_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_time_guard_expr": "if(buildTime < 0){", "build_time_default_expr": "buildTime = 20f;", "build_time_before": default_build_time_before, "build_time_assigned": build_time_assigned, "build_time_after": build_time_after}
+	if init_bridge_mode == "build_time_multiplier":
+		var multiplier_build_time_before: float = float(_args[0] if _args.size() > 0 else 20.0)
+		var build_cost_multiplier: float = float(_args[1] if _args.size() > 1 else 1.0)
+		var build_time_after: float = multiplier_build_time_before * build_cost_multiplier
+		return {"source_owner": "PortGame.source_block_init_build_time_multiplier_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_cost_multiplier_field_expr": "public float buildCostMultiplier = 1f;", "build_time_multiplier_expr": "buildTime *= buildCostMultiplier;", "build_time_before": multiplier_build_time_before, "build_cost_multiplier": build_cost_multiplier, "build_time_after": build_time_after}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

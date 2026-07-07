@@ -34135,6 +34135,46 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.init() buildTime default branch."
+    },
+    "PortGame.source_block_init_build_time_multiplier_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1341",
+      "params": [
+        {
+          "name": "build_time_before",
+          "type": "float",
+          "java_expr": "buildTime",
+          "schema": "source_block_init_build_time_multiplier_input.build_time_before"
+        },
+        {
+          "name": "build_cost_multiplier",
+          "type": "float",
+          "java_expr": "buildCostMultiplier",
+          "schema": "source_block_init_build_time_multiplier_input.build_cost_multiplier"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "build_cost_multiplier_field_expr",
+        "build_time_multiplier_expr",
+        "build_time_before",
+        "build_cost_multiplier",
+        "build_time_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_build_time_multiplier_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_multiplier_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_multiplier_state",
+        "test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state",
+        "test_block_init_build_time_multiplier_matches_upstream_source",
+        "test_generated_block_init_build_time_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() buildTime multiplier branch."
     }
   },
   "policy": {

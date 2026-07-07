@@ -5812,6 +5812,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_build_time_multiplier_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_build_time_multiplier_source"))
+        report = source_parity.verify_block_init_build_time_multiplier_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "build_cost_multiplier_field_expr": "public float buildCostMultiplier = 1f;",
+            "build_time_multiplier_expr": "buildTime *= buildCostMultiplier;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

@@ -31714,6 +31714,37 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.init() default buildTime assignment to source-backed canonical state."
+    },
+    "N1341": {
+      "title": "Generated Block init build time multiplier bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_build_time_multiplier_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_build_time_multiplier_bridge_state",
+      "source_symbols": [
+        "block_init_build_time_multiplier.method",
+        "block_init_build_time_multiplier.super_init_expr",
+        "block_init_build_time_multiplier.build_cost_multiplier_field_expr",
+        "block_init_build_time_multiplier.build_time_multiplier_expr",
+        "block_init_build_time_multiplier.build_time"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "public float buildCostMultiplier = 1f;",
+        "buildTime *= buildCostMultiplier;"
+      ],
+      "tests": [
+        "test_emit_bridges_block_init_build_time_multiplier_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_multiplier_state",
+        "test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state",
+        "test_block_init_build_time_multiplier_matches_upstream_source",
+        "test_generated_block_init_build_time_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.init() buildTime multiplier assignment to source-backed canonical state."
     }
   },
   "version": 1

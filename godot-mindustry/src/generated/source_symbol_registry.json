@@ -101276,6 +101276,96 @@
         "test_generated_block_init_build_time_default_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed Block.init() default buildTime expression."
+    },
+    "block_init_build_time_multiplier.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_build_time_multiplier_state",
+      "source_slice": "N1341",
+      "runtime_proof": "/root/Main.source_block_init_build_time_multiplier_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_multiplier_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_multiplier_state",
+        "test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state",
+        "test_block_init_build_time_multiplier_matches_upstream_source",
+        "test_generated_block_init_build_time_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public void init(){",
+      "godot_symbol": "source_block_init_build_time_multiplier_result.method",
+      "status": "source-backed",
+      "rule": "Block.init() source method for buildTime multiplier branch."
+    },
+    "block_init_build_time_multiplier.super_init_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_build_time_multiplier_state",
+      "source_slice": "N1341",
+      "runtime_proof": "/root/Main.source_block_init_build_time_multiplier_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_multiplier_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_multiplier_state",
+        "test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state",
+        "test_block_init_build_time_multiplier_matches_upstream_source",
+        "test_generated_block_init_build_time_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "super.init();",
+      "godot_symbol": "source_block_init_build_time_multiplier_result.super_init_expr",
+      "status": "source-backed",
+      "rule": "Pin source-backed Block.init() buildTime multiplier expression."
+    },
+    "block_init_build_time_multiplier.build_cost_multiplier_field_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_build_time_multiplier_state",
+      "source_slice": "N1341",
+      "runtime_proof": "/root/Main.source_block_init_build_time_multiplier_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_multiplier_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_multiplier_state",
+        "test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state",
+        "test_block_init_build_time_multiplier_matches_upstream_source",
+        "test_generated_block_init_build_time_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public float buildCostMultiplier = 1f;",
+      "godot_symbol": "source_block_init_build_time_multiplier_input.build_cost_multiplier",
+      "status": "explicit-input",
+      "rule": "Pin source-backed Block.buildCostMultiplier field as explicit input."
+    },
+    "block_init_build_time_multiplier.build_time_multiplier_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_build_time_multiplier_state",
+      "source_slice": "N1341",
+      "runtime_proof": "/root/Main.source_block_init_build_time_multiplier_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_multiplier_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_multiplier_state",
+        "test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state",
+        "test_block_init_build_time_multiplier_matches_upstream_source",
+        "test_generated_block_init_build_time_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "buildTime *= buildCostMultiplier;",
+      "godot_symbol": "source_block_init_build_time_multiplier_result.build_time_after",
+      "status": "source-backed",
+      "rule": "Pin source-backed Block.init() buildTime multiplier expression."
+    },
+    "block_init_build_time_multiplier.build_time": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_build_time_multiplier_state",
+      "source_slice": "N1341",
+      "runtime_proof": "/root/Main.source_block_init_build_time_multiplier_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_multiplier_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_multiplier_state",
+        "test_port_game_exposes_generated_block_init_build_time_multiplier_bridge_state",
+        "test_block_init_build_time_multiplier_matches_upstream_source",
+        "test_generated_block_init_build_time_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "buildTime",
+      "godot_symbol": "source_block_init_build_time_multiplier_input.build_time_before",
+      "status": "explicit-input",
+      "rule": "Pin source-backed Block.init() buildTime multiplier input."
     }
   },
   "version": 1
