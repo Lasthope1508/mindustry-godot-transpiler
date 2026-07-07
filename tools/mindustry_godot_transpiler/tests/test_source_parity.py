@@ -5391,6 +5391,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_research_requirements_quantity_formula_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_research_requirements_quantity_formula_source"))
+        report = source_parity.verify_block_research_requirements_quantity_formula_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["arc_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "quantity_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);",
+            "base_term_expr": "60 * researchCostMultiplier",
+            "pow_expr": "Mathf.pow(requirements[i].amount, 1.11f)",
+            "multiplier_get_expr": "researchCostMultipliers.get(requirements[i].item, 1f)",
+            "mathf_round_signature": "public static int round(float value, int step){",
+            "mathf_round_step_expr": "return (int)(value / step) * step;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

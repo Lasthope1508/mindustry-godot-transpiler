@@ -8766,6 +8766,59 @@ public class Block{
             self.assertIn('"allocated_out_length": allocated_out_length', source_text)
             self.assertIn('"loop_indices": loop_indices', source_text)
 
+    def test_emit_bridges_block_research_requirements_quantity_formula_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public ItemStack[] researchRequirements(){
+        if(researchCost != null) return researchCost;
+        if(researchCostMultiplier <= 0f) return ItemStack.empty;
+        ItemStack[] out = new ItemStack[requirements.length];
+        for(int i = 0; i < out.length; i++){
+            int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);
+            return null;
+        }
+        return out;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_researchRequirements_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar research_cost_multipliers: Dictionary = _args[3] if _args.size() > 3 else {}", source_text)
+            self.assertIn("\tif _args.size() <= 3:", source_text)
+            self.assertIn('\t\treturn {"source_owner": "PortGame.source_block_research_requirements_loop_shape_state"', source_text)
+            self.assertIn("\tvar quantity_values: Array = []", source_text)
+            self.assertIn("\tvar multiplier_values: Array = []", source_text)
+            self.assertIn("\tvar amount_power_values: Array = []", source_text)
+            self.assertIn("\tfor requirement in requirements:", source_text)
+            self.assertIn("\t\tvar item_key: String = str(requirement.get(\"item\", \"\"))", source_text)
+            self.assertIn("\t\tvar cost_multiplier: float = float(research_cost_multipliers.get(item_key, 1.0))", source_text)
+            self.assertIn("\t\tvar amount_power: float = pow(float(requirement.get(\"amount\", 0.0)), 1.11)", source_text)
+            self.assertIn("\t\tvar quantity_float: float = 60.0 * research_cost_multiplier + amount_power * 20.0 * research_cost_multiplier * cost_multiplier", source_text)
+            self.assertIn("\t\tvar quantity: int = int(quantity_float / 10.0) * 10", source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_research_requirements_quantity_formula_state"', source_text)
+            self.assertIn('"quantity_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);"', source_text)
+            self.assertIn('"mathf_round_expr": "Mathf.round(value, 10)"', source_text)
+            self.assertIn('"mathf_round_step_expr": "return (int)(value / step) * step;"', source_text)
+            self.assertIn('"quantity_values": quantity_values', source_text)
+            self.assertIn('"multiplier_values": multiplier_values', source_text)
+            self.assertIn('"amount_power_values": amount_power_values', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

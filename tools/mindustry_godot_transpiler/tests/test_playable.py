@@ -16888,5 +16888,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_researchRequirements_118"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_research_requirements_quantity_formula_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_research_requirements_quantity_formula_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_research_requirements_quantity_formula_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public ItemStack[] researchRequirements(){"', source)
+        self.assertIn('"quantity_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);"', source)
+        self.assertIn('"mathf_round_expr": "Mathf.round(value, 10)"', source)
+        self.assertIn('"mathf_round_step_expr": "return (int)(value / step) * step;"', source)
+        self.assertIn('"requirements": requirements', source)
+        self.assertIn('"research_cost_multipliers": research_cost_multipliers', source)
+        self.assertIn('"quantity_values": quantity_values', source)
+        self.assertIn('"multiplier_values": multiplier_values', source)
+        self.assertIn('"amount_power_values": amount_power_values', source)
+
+    def test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_research_requirements_quantity_formula_bridge_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_researchRequirements_118([research_cost, research_cost_multiplier, requirements, research_cost_multipliers])", source)
+        self.assertIn("var canonical = source_block_research_requirements_quantity_formula_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_research_requirements_quantity_formula_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_researchRequirements_118"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

@@ -10110,6 +10110,43 @@
       ],
       "title": "Generated Block researchRequirements loop shape bridge state"
     },
+    "N1313": {
+      "exact_exprs": [
+        "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);",
+        "60 * researchCostMultiplier",
+        "Mathf.pow(requirements[i].amount, 1.11f)",
+        "researchCostMultipliers.get(requirements[i].item, 1f)",
+        "public static int round(float value, int step){",
+        "return (int)(value / step) * step;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_quantity_formula_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_quantity_formula.quantity_expr",
+        "block_research_requirements_quantity_formula.base_term_expr",
+        "block_research_requirements_quantity_formula.pow_expr",
+        "block_research_requirements_quantity_formula.multiplier_get_expr",
+        "block_research_requirements_quantity_formula.mathf_round_signature",
+        "block_research_requirements_quantity_formula.mathf_round_step_expr",
+        "block_research_requirements_quantity_formula.research_cost",
+        "block_research_requirements_quantity_formula.research_cost_multiplier",
+        "block_research_requirements_quantity_formula.requirements",
+        "block_research_requirements_quantity_formula.research_cost_multipliers"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements quantity formula bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

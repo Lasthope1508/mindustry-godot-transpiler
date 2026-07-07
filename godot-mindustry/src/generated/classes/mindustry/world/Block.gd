@@ -498,7 +498,24 @@ func java_method_researchRequirements_118(_args: Array = []) -> Variant:
 	var loop_indices: Array = []
 	for i in range(allocated_out_length):
 		loop_indices.append(i)
-	return {"source_owner": "PortGame.source_block_research_requirements_loop_shape_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "override_expr": "@Override", "research_cost_guard_expr": "if(researchCost != null) return researchCost;", "empty_guard_expr": "if(researchCostMultiplier <= 0f) return ItemStack.empty;", "out_alloc_expr": "ItemStack[] out = new ItemStack[requirements.length];", "loop_expr": "for(int i = 0; i < out.length; i++){", "return_out_expr": "return out;", "research_cost": research_cost, "research_cost_multiplier": research_cost_multiplier, "requirements": requirements, "allocation_reached": allocation_reached, "allocated_out_length": allocated_out_length, "loop_indices": loop_indices}
+	if _args.size() <= 3:
+		return {"source_owner": "PortGame.source_block_research_requirements_loop_shape_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "override_expr": "@Override", "research_cost_guard_expr": "if(researchCost != null) return researchCost;", "empty_guard_expr": "if(researchCostMultiplier <= 0f) return ItemStack.empty;", "out_alloc_expr": "ItemStack[] out = new ItemStack[requirements.length];", "loop_expr": "for(int i = 0; i < out.length; i++){", "return_out_expr": "return out;", "research_cost": research_cost, "research_cost_multiplier": research_cost_multiplier, "requirements": requirements, "allocation_reached": allocation_reached, "allocated_out_length": allocated_out_length, "loop_indices": loop_indices}
+	var research_cost_multipliers: Dictionary = _args[3] if _args.size() > 3 else {}
+	var quantity_values: Array = []
+	var multiplier_values: Array = []
+	var amount_power_values: Array = []
+	for requirement in requirements:
+		if not allocation_reached:
+			continue
+		var item_key: String = str(requirement.get("item", ""))
+		var cost_multiplier: float = float(research_cost_multipliers.get(item_key, 1.0))
+		var amount_power: float = pow(float(requirement.get("amount", 0.0)), 1.11)
+		var quantity_float: float = 60.0 * research_cost_multiplier + amount_power * 20.0 * research_cost_multiplier * cost_multiplier
+		var quantity: int = int(quantity_float / 10.0) * 10
+		multiplier_values.append(cost_multiplier)
+		amount_power_values.append(amount_power)
+		quantity_values.append(quantity)
+	return {"source_owner": "PortGame.source_block_research_requirements_quantity_formula_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "quantity_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);", "mathf_round_expr": "Mathf.round(value, 10)", "mathf_round_step_expr": "return (int)(value / step) * step;", "research_cost": research_cost, "research_cost_multiplier": research_cost_multiplier, "requirements": requirements, "research_cost_multipliers": research_cost_multipliers, "quantity_values": quantity_values, "multiplier_values": multiplier_values, "amount_power_values": amount_power_values}
 
 func java_method_getDependencies_119(_args: Array = []) -> Variant:
 	return null

@@ -10286,6 +10286,31 @@ def verify_block_research_requirements_loop_shape_source(upstream_root: Path) ->
         "missing": missing,
     }
 
+def verify_block_research_requirements_quantity_formula_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "quantity_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);",
+        "base_term_expr": "60 * researchCostMultiplier",
+        "pow_expr": "Mathf.pow(requirements[i].amount, 1.11f)",
+        "multiplier_get_expr": "researchCostMultipliers.get(requirements[i].item, 1f)",
+        "mathf_round_signature": "public static int round(float value, int step){",
+        "mathf_round_step_expr": "return (int)(value / step) * step;",
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in (mathf_source if key.startswith("mathf_round") else source)
+    ]
+    return {
+        "source": BLOCK_SOURCE,
+        "arc_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

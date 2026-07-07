@@ -8089,6 +8089,186 @@
         "test_generated_block_research_requirements_loop_shape_slice_is_registered_with_source_backing"
       ]
     },
+    "block_research_requirements_quantity_formula.base_term_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "godot_symbol": "source_block_research_requirements_quantity_formula_result.quantity_values",
+      "java_expr": "60 * researchCostMultiplier",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve base research cost multiplier term.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_slice": "N1313",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_quantity_formula.mathf_round_signature": {
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "godot_symbol": "source_block_research_requirements_quantity_formula_result.mathf_round_expr",
+      "java_expr": "public static int round(float value, int step){",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Preserve Arc Mathf.round(float,int) overload used by quantity formula.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_slice": "N1313",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_quantity_formula.mathf_round_step_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "godot_symbol": "source_block_research_requirements_quantity_formula_result.mathf_round_step_expr",
+      "java_expr": "return (int)(value / step) * step;",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "rule": "Preserve Arc step-round truncation semantics.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_slice": "N1313",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_quantity_formula.multiplier_get_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "godot_symbol": "source_block_research_requirements_quantity_formula_result.multiplier_values",
+      "java_expr": "researchCostMultipliers.get(requirements[i].item, 1f)",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve per-item research cost multiplier lookup with default one.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_slice": "N1313",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_quantity_formula.pow_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "godot_symbol": "source_block_research_requirements_quantity_formula_result.amount_power_values",
+      "java_expr": "Mathf.pow(requirements[i].amount, 1.11f)",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve requirement amount exponent term.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_slice": "N1313",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_quantity_formula.quantity_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "godot_symbol": "source_block_research_requirements_quantity_formula_result.quantity_values",
+      "java_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.researchRequirements() raw quantity formula before UI.roundAmount.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_slice": "N1313",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_quantity_formula.requirements": {
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "godot_symbol": "source_block_research_requirements_quantity_formula_input.requirements",
+      "java_expr": "requirements",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose requirements array for amount and item inputs.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_slice": "N1313",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_quantity_formula.research_cost": {
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "godot_symbol": "source_block_research_requirements_quantity_formula_input.research_cost",
+      "java_expr": "researchCost",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose researchCost for guard precedence before formula.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_slice": "N1313",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_quantity_formula.research_cost_multiplier": {
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "godot_symbol": "source_block_research_requirements_quantity_formula_input.research_cost_multiplier",
+      "java_expr": "researchCostMultiplier",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose researchCostMultiplier for formula terms.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_slice": "N1313",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_quantity_formula.research_cost_multipliers": {
+      "godot_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+      "godot_symbol": "source_block_research_requirements_quantity_formula_input.research_cost_multipliers",
+      "java_expr": "researchCostMultipliers",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Expose researchCostMultipliers map for per-item formula factor.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_quantity_formula_state",
+      "source_slice": "N1313",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_quantity_formula_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_quantity_formula_state",
+        "test_port_game_exposes_generated_block_research_requirements_quantity_formula_bridge_state",
+        "test_block_research_requirements_quantity_formula_matches_upstream_source",
+        "test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing"
+      ]
+    },
     "block_research_requirements_research_cost.guard_expr": {
       "godot_owner": "PortGame.source_block_research_requirements_research_cost_state",
       "godot_symbol": "source_block_research_requirements_research_cost_result.returned_early",

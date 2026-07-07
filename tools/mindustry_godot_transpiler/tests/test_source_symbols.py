@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 786)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 781)
+        self.assertEqual(audit["totalSourceFunctions"], 787)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 782)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 786)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 787)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44745,6 +44745,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_research_requirements_loop_shape_result")
         self.assertEqual(result_schema["keys"]["allocated_out_length"]["java_expr"], "requirements.length")
         self.assertEqual(result_schema["keys"]["loop_indices"]["java_expr"], "for(int i = 0; i < out.length; i++){")
+
+    def test_generated_block_research_requirements_quantity_formula_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_research_requirements_quantity_formula.quantity_expr")
+        self.assertEqual(method["java_expr"], "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.researchRequirements()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_research_requirements_quantity_formula_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_research_requirements_quantity_formula_state")
+
+        round_step = source_symbols.source_symbol(registry, "block_research_requirements_quantity_formula.mathf_round_step_expr")
+        self.assertEqual(round_step["java_expr"], "return (int)(value / step) * step;")
+        self.assertEqual(round_step["java_source"], "arc-core/src/arc/math/Mathf.java")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1313")
+        self.assertEqual(setup_slice["title"], "Generated Block researchRequirements quantity formula bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.researchRequirements()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_research_requirements_quantity_formula_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_researchRequirements_118")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_research_requirements_quantity_formula_bridge_state")
+        for expr in [
+            "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);",
+            "60 * researchCostMultiplier",
+            "Mathf.pow(requirements[i].amount, 1.11f)",
+            "researchCostMultipliers.get(requirements[i].item, 1f)",
+            "return (int)(value / step) * step;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_research_requirements_quantity_formula_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["research_cost", "research_cost_multiplier", "requirements", "research_cost_multipliers"])
+        for key in ["source_owner", "source", "method", "quantity_expr", "mathf_round_expr", "mathf_round_step_expr", "requirements", "research_cost_multipliers", "quantity_values", "multiplier_values", "amount_power_values"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_research_requirements_quantity_formula_input")
+        self.assertEqual(input_schema["keys"]["research_cost_multipliers"]["java_expr"], "researchCostMultipliers")
+        result_schema = source_symbols.state_schema(schema, "source_block_research_requirements_quantity_formula_result")
+        self.assertEqual(result_schema["keys"]["quantity_values"]["java_expr"], "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);")
+        self.assertEqual(result_schema["keys"]["amount_power_values"]["java_expr"], "Mathf.pow(requirements[i].amount, 1.11f)")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

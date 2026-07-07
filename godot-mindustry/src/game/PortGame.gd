@@ -18067,6 +18067,49 @@ func generated_block_research_requirements_loop_shape_bridge_state(research_cost
 		"matches": result == canonical,
 	}
 
+func source_block_research_requirements_quantity_formula_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
+	var quantity_values: Array = []
+	var multiplier_values: Array = []
+	var amount_power_values: Array = []
+	if research_cost == null and research_cost_multiplier > 0.0:
+		for requirement in requirements:
+			var item_key: String = str(requirement.get("item", ""))
+			var cost_multiplier: float = float(research_cost_multipliers.get(item_key, 1.0))
+			var amount_power: float = pow(float(requirement.get("amount", 0.0)), 1.11)
+			var quantity_float: float = 60.0 * research_cost_multiplier + amount_power * 20.0 * research_cost_multiplier * cost_multiplier
+			var quantity: int = int(quantity_float / 10.0) * 10
+			multiplier_values.append(cost_multiplier)
+			amount_power_values.append(amount_power)
+			quantity_values.append(quantity)
+	return {
+		"source_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public ItemStack[] researchRequirements(){",
+		"quantity_expr": "int quantity = Mathf.round(60 * researchCostMultiplier + Mathf.pow(requirements[i].amount, 1.11f) * 20 * researchCostMultiplier * researchCostMultipliers.get(requirements[i].item, 1f), 10);",
+		"mathf_round_expr": "Mathf.round(value, 10)",
+		"mathf_round_step_expr": "return (int)(value / step) * step;",
+		"research_cost": research_cost,
+		"research_cost_multiplier": research_cost_multiplier,
+		"requirements": requirements,
+		"research_cost_multipliers": research_cost_multipliers,
+		"quantity_values": quantity_values,
+		"multiplier_values": multiplier_values,
+		"amount_power_values": amount_power_values,
+	}
+
+func generated_block_research_requirements_quantity_formula_bridge_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_researchRequirements_118([research_cost, research_cost_multiplier, requirements, research_cost_multipliers])
+	var canonical = source_block_research_requirements_quantity_formula_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)
+	return {
+		"source_owner": "PortGame.source_block_research_requirements_quantity_formula_state",
+		"generated_owner": "Block.java_method_researchRequirements_118",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation
