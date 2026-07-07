@@ -132227,6 +132227,277 @@
       "rule": "Dictionary returned by PortGame.source_build_payload_remove_state.",
       "source_slice": "N1374",
       "status": "active"
+    },
+    "source_build_payload_write_input": {
+      "keys": {
+        "payload_block": {
+          "godot_symbol": "source_build_payload_write_input.payload_block",
+          "java_expr": "payloadBlock",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.payload_block"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "build_block_id": {
+          "godot_symbol": "source_build_payload_write_input.build_block_id",
+          "java_expr": "build.block.id",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.build_block_id"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "build_version": {
+          "godot_symbol": "source_build_payload_write_input.build_version",
+          "java_expr": "build.version()",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.build_version"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        }
+      },
+      "owner": "PortGame.source_build_payload_write_state",
+      "rule": "Inputs supplied to PortGame.source_build_payload_write_state.",
+      "source_slice": "N1375",
+      "status": "active"
+    },
+    "source_build_payload_write_result": {
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_build_payload_write_result.source_owner",
+          "java_expr": "PortGame.source_build_payload_write_state",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_build_payload_write_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_build_payload_write_result.class_expr",
+          "java_expr": "public class BuildPayload implements Payload{",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_build_payload_write_result.field_expr",
+          "java_expr": "public Building build;",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_build_payload_write_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_build_payload_write_result.method",
+          "java_expr": "public void write(Writes write){",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payload_block_write_expr": {
+          "godot_symbol": "source_build_payload_write_result.payload_block_write_expr",
+          "java_expr": "write.b(payloadBlock);",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.payload_block_write_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "block_id_write_expr": {
+          "godot_symbol": "source_build_payload_write_result.block_id_write_expr",
+          "java_expr": "write.s(build.block.id);",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.block_id_write_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "version_write_expr": {
+          "godot_symbol": "source_build_payload_write_result.version_write_expr",
+          "java_expr": "write.b(build.version());",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.version_write_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "write_all_expr": {
+          "godot_symbol": "source_build_payload_write_result.write_all_expr",
+          "java_expr": "build.writeAll(write);",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.write_all_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payload_block": {
+          "godot_symbol": "source_build_payload_write_result.payload_block",
+          "java_expr": "payloadBlock",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.payload_block"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "build_block_id": {
+          "godot_symbol": "source_build_payload_write_result.build_block_id",
+          "java_expr": "build.block.id",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.build_block_id"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "build_version": {
+          "godot_symbol": "source_build_payload_write_result.build_version",
+          "java_expr": "build.version()",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.build_version"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "write_all_called": {
+          "godot_symbol": "source_build_payload_write_result.write_all_called",
+          "java_expr": "build.writeAll(write);",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.write_all_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "write_calls": {
+          "godot_symbol": "source_build_payload_write_result.write_calls",
+          "java_expr": "write.b(payloadBlock); / write.s(build.block.id); / write.b(build.version()); / build.writeAll(write);",
+          "java_method": "BuildPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_write_state"
+          ],
+          "source_symbols": [
+            "build_payload_write.payload_block_write_expr",
+            "build_payload_write.block_id_write_expr",
+            "build_payload_write.version_write_expr",
+            "build_payload_write.write_all_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        }
+      },
+      "owner": "PortGame.source_build_payload_write_state",
+      "rule": "Dictionary returned by PortGame.source_build_payload_write_state.",
+      "source_slice": "N1375",
+      "status": "active"
     }
   },
   "version": 1

@@ -62,7 +62,11 @@ func java_method_remove_12(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_build_payload_remove_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void remove(){", "remove_expr": "build.remove();", "remove_called": true}
 
 func java_method_write_13(_args: Array = []) -> Variant:
-	return null
+	var payload_block: int = int(_args[0] if _args.size() > 0 else 0)
+	var build_block_id: int = int(_args[1] if _args.size() > 1 else 0)
+	var build_version: int = int(_args[2] if _args.size() > 2 else 0)
+	var write_calls: Array = [{"call": "write.b(payloadBlock);", "method": "write.b", "value": payload_block}, {"call": "write.s(build.block.id);", "method": "write.s", "value": build_block_id}, {"call": "write.b(build.version());", "method": "write.b", "value": build_version}, {"call": "build.writeAll(write);", "method": "build.writeAll", "called": true}]
+	return {"source_owner": "PortGame.source_build_payload_write_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public void write(Writes write){", "payload_block_write_expr": "write.b(payloadBlock);", "block_id_write_expr": "write.s(build.block.id);", "version_write_expr": "write.b(build.version());", "write_all_expr": "build.writeAll(write);", "payload_block": payload_block, "build_block_id": build_block_id, "build_version": build_version, "write_all_called": true, "write_calls": write_calls}
 
 func java_method_set_14(_args: Array = []) -> Variant:
 	return null

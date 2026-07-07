@@ -20022,6 +20022,44 @@ func generated_build_payload_remove_bridge_state() -> Dictionary:
 		"matches": result == canonical,
 	}
 
+func source_build_payload_write_state(payload_block: int, build_block_id: int, build_version: int) -> Dictionary:
+	var write_calls: Array = [
+		{"call": "write.b(payloadBlock);", "method": "write.b", "value": payload_block},
+		{"call": "write.s(build.block.id);", "method": "write.s", "value": build_block_id},
+		{"call": "write.b(build.version());", "method": "write.b", "value": build_version},
+		{"call": "build.writeAll(write);", "method": "build.writeAll", "called": true},
+	]
+	return {
+		"source_owner": "PortGame.source_build_payload_write_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"override_expr": "@Override",
+		"method": "public void write(Writes write){",
+		"payload_block_write_expr": "write.b(payloadBlock);",
+		"block_id_write_expr": "write.s(build.block.id);",
+		"version_write_expr": "write.b(build.version());",
+		"write_all_expr": "build.writeAll(write);",
+		"payload_block": payload_block,
+		"build_block_id": build_block_id,
+		"build_version": build_version,
+		"write_all_called": true,
+		"write_calls": write_calls,
+	}
+
+func generated_build_payload_write_bridge_state(payload_block: int, build_block_id: int, build_version: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_write_13([payload_block, build_block_id, build_version])
+	var canonical = source_build_payload_write_state(payload_block, build_block_id, build_version)
+	return {
+		"source_owner": "PortGame.source_build_payload_write_state",
+		"generated_owner": "BuildPayload.java_method_write_13",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

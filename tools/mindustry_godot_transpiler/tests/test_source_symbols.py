@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 847)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 842)
+        self.assertEqual(audit["totalSourceFunctions"], 848)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 843)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 847)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 848)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -47607,6 +47607,66 @@ class SourceSymbolRegistryTests(unittest.TestCase):
 
         result_schema = source_symbols.state_schema(schema, "source_build_payload_remove_result")
         self.assertEqual(result_schema["keys"]["remove_called"]["java_expr"], "build.remove();")
+
+    def test_generated_build_payload_write_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "build_payload_write.method")
+        self.assertEqual(method["java_expr"], "public void write(Writes write){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(method["java_method"], "BuildPayload.write(Writes write)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_build_payload_write_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_build_payload_write_state")
+
+        payload_block = source_symbols.source_symbol(registry, "build_payload_write.payload_block")
+        self.assertEqual(payload_block["java_expr"], "payloadBlock")
+        self.assertEqual(payload_block["godot_symbol"], "source_build_payload_write_input.payload_block")
+        block_id = source_symbols.source_symbol(registry, "build_payload_write.build_block_id")
+        self.assertEqual(block_id["java_expr"], "build.block.id")
+        self.assertEqual(block_id["godot_symbol"], "source_build_payload_write_input.build_block_id")
+        build_version = source_symbols.source_symbol(registry, "build_payload_write.build_version")
+        self.assertEqual(build_version["java_expr"], "build.version()")
+        self.assertEqual(build_version["godot_symbol"], "source_build_payload_write_input.build_version")
+        write_all = source_symbols.source_symbol(registry, "build_payload_write.write_all_expr")
+        self.assertEqual(write_all["java_expr"], "build.writeAll(write);")
+        self.assertEqual(write_all["godot_symbol"], "source_build_payload_write_result.write_all_called")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1375")
+        self.assertEqual(payload_slice["title"], "Generated BuildPayload write bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(payload_slice["java_method"], "BuildPayload.write(Writes write)")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_build_payload_write_state")
+        self.assertEqual(payload_slice["generated_owner"], "BuildPayload.java_method_write_13")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_build_payload_write_bridge_state")
+        for expr in [
+            "public class BuildPayload implements Payload{",
+            "public Building build;",
+            "@Override",
+            "public void write(Writes write){",
+            "write.b(payloadBlock);",
+            "write.s(build.block.id);",
+            "write.b(build.version());",
+            "build.writeAll(write);",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("build_payload_write.write_all_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_build_payload_write_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["payload_block", "build_block_id", "build_version"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "override_expr", "method", "payload_block_write_expr", "block_id_write_expr", "version_write_expr", "write_all_expr", "payload_block", "build_block_id", "build_version", "write_all_called", "write_calls"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_build_payload_write_input")
+        self.assertEqual(input_schema["keys"]["payload_block"]["java_expr"], "payloadBlock")
+        self.assertEqual(input_schema["keys"]["build_block_id"]["java_expr"], "build.block.id")
+        self.assertEqual(input_schema["keys"]["build_version"]["java_expr"], "build.version()")
+        result_schema = source_symbols.state_schema(schema, "source_build_payload_write_result")
+        self.assertEqual(result_schema["keys"]["write_all_called"]["java_expr"], "build.writeAll(write);")
 
     def test_generated_drill_get_drill_time_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

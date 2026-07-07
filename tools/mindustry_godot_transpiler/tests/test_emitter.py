@@ -17495,6 +17495,106 @@ public class BuildPayload implements Payload{
             self.assertIn('"remove_expr": "build.remove();"', source_text)
             self.assertIn('"remove_called": true', source_text)
 
+    def test_emit_bridges_build_payload_write_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class BuildPayload implements Payload{
+    public Building build;
+
+    public Block block(){
+        return build.block;
+    }
+
+    public void place(Tile tile){
+    }
+
+    public void place(Tile tile, int rotation){
+    }
+
+    public boolean contentEquals(Payload other){
+        return false;
+    }
+
+    public UnlockableContent content(){
+        return build.block;
+    }
+
+    public void update(Unit unitHolder, Building buildingHolder){
+    }
+
+    public void destroyed(){
+    }
+
+    public ItemStack[] requirements(){
+        return build.block.requirements;
+    }
+
+    public float buildTime(){
+        return build.block.buildTime;
+    }
+
+    public float x(){
+        return build.x;
+    }
+
+    public float y(){
+        return build.y;
+    }
+
+    public float size(){
+        return build.block.size * tilesize;
+    }
+
+    public void remove(){
+        build.remove();
+    }
+
+    @Override
+    public void write(Writes write){
+        write.b(payloadBlock);
+        write.s(build.block.id);
+        write.b(build.version());
+        build.writeAll(write);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_write_13(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var payload_block: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var build_block_id: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn("var build_version: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn('{"call": "write.b(payloadBlock);", "method": "write.b", "value": payload_block}', source_text)
+            self.assertIn('{"call": "write.s(build.block.id);", "method": "write.s", "value": build_block_id}', source_text)
+            self.assertIn('{"call": "write.b(build.version());", "method": "write.b", "value": build_version}', source_text)
+            self.assertIn('{"call": "build.writeAll(write);", "method": "build.writeAll", "called": true}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_build_payload_write_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
+            self.assertIn('"field_expr": "public Building build;"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public void write(Writes write){"', source_text)
+            self.assertIn('"payload_block_write_expr": "write.b(payloadBlock);"', source_text)
+            self.assertIn('"block_id_write_expr": "write.s(build.block.id);"', source_text)
+            self.assertIn('"version_write_expr": "write.b(build.version());"', source_text)
+            self.assertIn('"write_all_expr": "build.writeAll(write);"', source_text)
+            self.assertIn('"payload_block": payload_block', source_text)
+            self.assertIn('"build_block_id": build_block_id', source_text)
+            self.assertIn('"build_version": build_version', source_text)
+            self.assertIn('"write_all_called": true', source_text)
+
     def test_emit_bridges_drill_get_drill_time_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

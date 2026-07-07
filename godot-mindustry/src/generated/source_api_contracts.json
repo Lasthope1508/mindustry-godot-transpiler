@@ -35611,6 +35611,61 @@
         "test_build_payload_remove_matches_upstream_source",
         "test_generated_build_payload_remove_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_build_payload_write_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [
+        {
+          "name": "payload_block",
+          "type": "int",
+          "source_symbol": "build_payload_write.payload_block",
+          "java_expr": "payloadBlock",
+          "schema": "source_build_payload_write_input.payload_block"
+        },
+        {
+          "name": "build_block_id",
+          "type": "int",
+          "source_symbol": "build_payload_write.build_block_id",
+          "java_expr": "build.block.id",
+          "schema": "source_build_payload_write_input.build_block_id"
+        },
+        {
+          "name": "build_version",
+          "type": "int",
+          "source_symbol": "build_payload_write.build_version",
+          "java_expr": "build.version()",
+          "schema": "source_build_payload_write_input.build_version"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "payload_block_write_expr",
+        "block_id_write_expr",
+        "version_write_expr",
+        "write_all_expr",
+        "payload_block",
+        "build_block_id",
+        "build_version",
+        "write_all_called",
+        "write_calls"
+      ],
+      "rule": "PortGame.source_build_payload_write_state pins BuildPayload.write(Writes write) write-call order contract.",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_method": "BuildPayload.write(Writes write)",
+      "source_slice": "N1375",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

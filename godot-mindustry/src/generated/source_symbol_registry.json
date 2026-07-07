@@ -105956,6 +105956,204 @@
       "java_expr": "build.remove();",
       "rule": "BuildPayload.remove() delegates removal to contained building.",
       "status": "source-backed"
+    },
+    "build_payload_write.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "Pin BuildPayload class boundary for write payload bridge.",
+      "status": "source-backed"
+    },
+    "build_payload_write.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_result.field_expr",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload build field provides build.block.id, build.version(), and build.writeAll(write).",
+      "status": "source-backed"
+    },
+    "build_payload_write.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "BuildPayload.write(Writes write) implements Payload.write().",
+      "status": "source-backed"
+    },
+    "build_payload_write.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_result.method",
+      "java_expr": "public void write(Writes write){",
+      "rule": "Pin BuildPayload.write(Writes write) method boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_write.payload_block": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_input.payload_block",
+      "java_expr": "payloadBlock",
+      "rule": "Explicit runtime value for payloadBlock written by BuildPayload.write().",
+      "status": "explicit-input"
+    },
+    "build_payload_write.build_block_id": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_input.build_block_id",
+      "java_expr": "build.block.id",
+      "rule": "Explicit runtime value for build.block.id written by BuildPayload.write().",
+      "status": "explicit-input"
+    },
+    "build_payload_write.build_version": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_input.build_version",
+      "java_expr": "build.version()",
+      "rule": "Explicit runtime value for build.version() written by BuildPayload.write().",
+      "status": "explicit-input"
+    },
+    "build_payload_write.payload_block_write_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_result.payload_block_write_expr",
+      "java_expr": "write.b(payloadBlock);",
+      "rule": "BuildPayload.write writes payloadBlock as a byte.",
+      "status": "source-backed"
+    },
+    "build_payload_write.block_id_write_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_result.block_id_write_expr",
+      "java_expr": "write.s(build.block.id);",
+      "rule": "BuildPayload.write writes build.block.id as a short.",
+      "status": "source-backed"
+    },
+    "build_payload_write.version_write_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_result.version_write_expr",
+      "java_expr": "write.b(build.version());",
+      "rule": "BuildPayload.write writes build.version() as a byte.",
+      "status": "source-backed"
+    },
+    "build_payload_write.write_all_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_build_payload_write_state",
+      "runtime_proof": "/root/Main.source_build_payload_write_state",
+      "source_slice": "N1375",
+      "tests": [
+        "test_emit_bridges_build_payload_write_to_source_state",
+        "test_port_game_exposes_source_build_payload_write_state",
+        "test_port_game_exposes_generated_build_payload_write_bridge_state",
+        "test_build_payload_write_matches_upstream_source",
+        "test_generated_build_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_write_result.write_all_called",
+      "java_expr": "build.writeAll(write);",
+      "rule": "BuildPayload.write delegates remaining building serialization to build.writeAll(write).",
+      "status": "source-backed"
     }
   },
   "version": 1
