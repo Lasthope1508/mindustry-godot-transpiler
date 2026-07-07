@@ -131933,6 +131933,180 @@
         }
       },
       "status": "active"
+    },
+    "source_build_payload_size_input": {
+      "keys": {
+        "build_block_size": {
+          "godot_symbol": "source_build_payload_size_input.build_block_size",
+          "java_expr": "build.block.size",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.build_block_size",
+            "build_payload_size.field_expr"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "source_tilesize": {
+          "godot_symbol": "source_build_payload_size_input.source_tilesize",
+          "java_expr": "tilesize",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.source_tilesize",
+            "build_payload_size.import_expr"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        }
+      },
+      "owner": "PortGame.source_build_payload_size_state",
+      "rule": "Inputs for PortGame.source_build_payload_size_state.",
+      "source_slice": "N1373",
+      "status": "active"
+    },
+    "source_build_payload_size_result": {
+      "keys": {
+        "size": {
+          "godot_symbol": "source_build_payload_size_result.size",
+          "java_expr": "return build.block.size * tilesize;",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.return_expr",
+            "build_payload_size.build_block_size",
+            "build_payload_size.source_tilesize"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "class_expr": {
+          "godot_symbol": "source_build_payload_size_result.class_expr",
+          "java_expr": "public class BuildPayload implements Payload{",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_build_payload_size_result.field_expr",
+          "java_expr": "public Building build;",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "import_expr": {
+          "godot_symbol": "source_build_payload_size_result.import_expr",
+          "java_expr": "import static mindustry.Vars.*;",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.import_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_build_payload_size_result.method",
+          "java_expr": "public float size(){",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_build_payload_size_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_build_payload_size_result.return_expr",
+          "java_expr": "return build.block.size * tilesize;",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_build_payload_size_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source_owner": {
+          "godot_symbol": "source_build_payload_size_result.source_owner",
+          "java_expr": "PortGame.source_build_payload_size_state",
+          "java_method": "BuildPayload.size()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+          "owners": [
+            "PortGame.source_build_payload_size_state"
+          ],
+          "source_symbols": [
+            "build_payload_size.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        }
+      },
+      "owner": "PortGame.source_build_payload_size_state",
+      "rule": "Dictionary returned by PortGame.source_build_payload_size_state.",
+      "source_slice": "N1373",
+      "status": "active"
     }
   },
   "version": 1

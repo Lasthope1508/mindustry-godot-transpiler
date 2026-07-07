@@ -32857,6 +32857,43 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N1373": {
+      "deferred_exprs": [],
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "import static mindustry.Vars.*;",
+        "@Override",
+        "public float size(){",
+        "return build.block.size * tilesize;"
+      ],
+      "generated_owner": "BuildPayload.java_method_size_11",
+      "godot_owner": "PortGame.source_build_payload_size_state",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.size()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Generated BuildPayload.size() bridge returns build.block.size multiplied by Vars.tilesize.",
+      "runtime_proof": "/root/Main.generated_build_payload_size_bridge_state",
+      "source_symbols": [
+        "build_payload_size.build_block_size",
+        "build_payload_size.source_tilesize",
+        "build_payload_size.class_expr",
+        "build_payload_size.field_expr",
+        "build_payload_size.import_expr",
+        "build_payload_size.method",
+        "build_payload_size.override_expr",
+        "build_payload_size.return_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated BuildPayload size bridge state"
     }
   },
   "version": 1

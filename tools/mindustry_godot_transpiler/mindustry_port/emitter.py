@@ -1663,6 +1663,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_build_payload_y_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "override_expr": "@Override", "method": "public float y(){", "return_expr": "return build.y;", "y": build_y}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
+        and type_entry.get("name") == "BuildPayload"
+        and method.get("name") == "size"
+    ):
+        return [
+            "\tvar build_block_size: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar size: float = build_block_size * source_tilesize",
+            '\treturn {"source_owner": "PortGame.source_build_payload_size_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public float size(){", "return_expr": "return build.block.size * tilesize;", "build_block_size": build_block_size, "source_tilesize": source_tilesize, "size": size}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/production/Drill.java"
         and type_entry.get("name") == "Drill"
         and method.get("name") == "getDrillTime"

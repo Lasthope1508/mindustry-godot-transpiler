@@ -17331,6 +17331,90 @@ public class BuildPayload implements Payload{
             self.assertIn('"return_expr": "return build.y;"', source_text)
             self.assertIn('"y": build_y', source_text)
 
+    def test_emit_bridges_build_payload_size_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+import static mindustry.Vars.*;
+
+public class BuildPayload implements Payload{
+    public Building build;
+
+    public Block block(){
+        return build.block;
+    }
+
+    public void place(Tile tile){
+    }
+
+    public void place(Tile tile, int rotation){
+    }
+
+    public boolean contentEquals(Payload other){
+        return false;
+    }
+
+    public UnlockableContent content(){
+        return build.block;
+    }
+
+    public void update(Unit unitHolder, Building buildingHolder){
+    }
+
+    public void destroyed(){
+    }
+
+    public ItemStack[] requirements(){
+        return build.block.requirements;
+    }
+
+    public float buildTime(){
+        return build.block.buildTime;
+    }
+
+    public float x(){
+        return build.x;
+    }
+
+    public float y(){
+        return build.y;
+    }
+
+    @Override
+    public float size(){
+        return build.block.size * tilesize;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_size_11(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var build_block_size: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var source_tilesize: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var size: float = build_block_size * source_tilesize", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_build_payload_size_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source_text)
+            self.assertIn('"field_expr": "public Building build;"', source_text)
+            self.assertIn('"import_expr": "import static mindustry.Vars.*;"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public float size(){"', source_text)
+            self.assertIn('"return_expr": "return build.block.size * tilesize;"', source_text)
+            self.assertIn('"build_block_size": build_block_size', source_text)
+            self.assertIn('"source_tilesize": source_tilesize', source_text)
+            self.assertIn('"size": size', source_text)
+
     def test_emit_bridges_drill_get_drill_time_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

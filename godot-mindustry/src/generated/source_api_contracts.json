@@ -35543,6 +35543,48 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_build_payload_size_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [
+        {
+          "java_expr": "build.block.size",
+          "name": "build_block_size",
+          "schema": "source_build_payload_size_input.build_block_size",
+          "type": "float"
+        },
+        {
+          "java_expr": "tilesize",
+          "name": "source_tilesize",
+          "schema": "source_build_payload_size_input.source_tilesize",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "import_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "build_block_size",
+        "source_tilesize",
+        "size"
+      ],
+      "rule": "PortGame.source_build_payload_size_state pins BuildPayload.size() return contract.",
+      "runtime_proof": "/root/Main.source_build_payload_size_state",
+      "source_method": "BuildPayload.size()",
+      "source_slice": "N1373",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

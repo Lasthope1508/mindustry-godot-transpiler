@@ -105722,6 +105722,150 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "build_payload_size.build_block_size": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.size()",
+      "godot_owner": "PortGame.source_build_payload_size_state",
+      "runtime_proof": "/root/Main.source_build_payload_size_state",
+      "source_slice": "N1373",
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_size_input.build_block_size",
+      "java_expr": "build.block.size",
+      "rule": "Explicit runtime value for build.block.size used by BuildPayload.size().",
+      "status": "explicit-input"
+    },
+    "build_payload_size.source_tilesize": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.size()",
+      "godot_owner": "PortGame.source_build_payload_size_state",
+      "runtime_proof": "/root/Main.source_build_payload_size_state",
+      "source_slice": "N1373",
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_size_input.source_tilesize",
+      "java_expr": "tilesize",
+      "rule": "Explicit runtime value for Vars.tilesize used by BuildPayload.size().",
+      "status": "explicit-input"
+    },
+    "build_payload_size.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.size()",
+      "godot_owner": "PortGame.source_build_payload_size_state",
+      "runtime_proof": "/root/Main.source_build_payload_size_state",
+      "source_slice": "N1373",
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_size_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "Pin BuildPayload class boundary for size payload bridge.",
+      "status": "source-backed"
+    },
+    "build_payload_size.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.size()",
+      "godot_owner": "PortGame.source_build_payload_size_state",
+      "runtime_proof": "/root/Main.source_build_payload_size_state",
+      "source_slice": "N1373",
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_size_input.build_block_size",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload build field provides build.block.size source value.",
+      "status": "source-backed"
+    },
+    "build_payload_size.import_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.size()",
+      "godot_owner": "PortGame.source_build_payload_size_state",
+      "runtime_proof": "/root/Main.source_build_payload_size_state",
+      "source_slice": "N1373",
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_size_input.source_tilesize",
+      "java_expr": "import static mindustry.Vars.*;",
+      "rule": "Static Vars import provides tilesize for BuildPayload.size().",
+      "status": "source-backed"
+    },
+    "build_payload_size.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.size()",
+      "godot_owner": "PortGame.source_build_payload_size_state",
+      "runtime_proof": "/root/Main.source_build_payload_size_state",
+      "source_slice": "N1373",
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_size_result.method",
+      "java_expr": "public float size(){",
+      "rule": "Pin BuildPayload.size() method boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_size.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.size()",
+      "godot_owner": "PortGame.source_build_payload_size_state",
+      "runtime_proof": "/root/Main.source_build_payload_size_state",
+      "source_slice": "N1373",
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_size_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "BuildPayload.size() implements Payload.size().",
+      "status": "source-backed"
+    },
+    "build_payload_size.return_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.size()",
+      "godot_owner": "PortGame.source_build_payload_size_state",
+      "runtime_proof": "/root/Main.source_build_payload_size_state",
+      "source_slice": "N1373",
+      "tests": [
+        "test_emit_bridges_build_payload_size_to_source_state",
+        "test_port_game_exposes_source_build_payload_size_state",
+        "test_port_game_exposes_generated_build_payload_size_bridge_state",
+        "test_build_payload_size_matches_upstream_source",
+        "test_generated_build_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_size_result.size",
+      "java_expr": "return build.block.size * tilesize;",
+      "rule": "BuildPayload.size() returns block size multiplied by Vars.tilesize.",
+      "status": "source-backed"
     }
   },
   "version": 1

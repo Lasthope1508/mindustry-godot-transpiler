@@ -19968,6 +19968,35 @@ func generated_build_payload_y_bridge_state(build_y: float) -> Dictionary:
 		"matches": result == canonical,
 	}
 
+func source_build_payload_size_state(build_block_size: float, source_tilesize: float) -> Dictionary:
+	var size: float = build_block_size * source_tilesize
+	return {
+		"source_owner": "PortGame.source_build_payload_size_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"import_expr": "import static mindustry.Vars.*;",
+		"override_expr": "@Override",
+		"method": "public float size(){",
+		"return_expr": "return build.block.size * tilesize;",
+		"build_block_size": build_block_size,
+		"source_tilesize": source_tilesize,
+		"size": size,
+	}
+
+func generated_build_payload_size_bridge_state(build_block_size: float, source_tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_size_11([build_block_size, source_tilesize])
+	var canonical = source_build_payload_size_state(build_block_size, source_tilesize)
+	return {
+		"source_owner": "PortGame.source_build_payload_size_state",
+		"generated_owner": "BuildPayload.java_method_size_11",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

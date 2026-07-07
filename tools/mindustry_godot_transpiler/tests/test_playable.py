@@ -18346,6 +18346,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildPayload.java_method_y_10"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_build_payload_size_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_build_payload_size_state(build_block_size: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_size_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source)
+        self.assertIn('"field_expr": "public Building build;"', source)
+        self.assertIn('"import_expr": "import static mindustry.Vars.*;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public float size(){"', source)
+        self.assertIn('"return_expr": "return build.block.size * tilesize;"', source)
+        self.assertIn('"build_block_size": build_block_size', source)
+        self.assertIn('"source_tilesize": source_tilesize', source)
+        self.assertIn('"size": size', source)
+
+    def test_port_game_exposes_generated_build_payload_size_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_build_payload_size_bridge_state(build_block_size: float, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_size_11([build_block_size, source_tilesize])", source)
+        self.assertIn("var canonical = source_build_payload_size_state(build_block_size, source_tilesize)", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_size_state"', source)
+        self.assertIn('"generated_owner": "BuildPayload.java_method_size_11"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

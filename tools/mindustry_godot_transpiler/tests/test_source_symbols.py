@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 845)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 840)
+        self.assertEqual(audit["totalSourceFunctions"], 846)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 841)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 845)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 846)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -47502,6 +47502,62 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["build_y"]["java_expr"], "build.y")
         result_schema = source_symbols.state_schema(schema, "source_build_payload_y_result")
         self.assertEqual(result_schema["keys"]["y"]["java_expr"], "return build.y;")
+
+    def test_generated_build_payload_size_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "build_payload_size.method")
+        self.assertEqual(method["java_expr"], "public float size(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(method["java_method"], "BuildPayload.size()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_build_payload_size_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_build_payload_size_state")
+
+        field_expr = source_symbols.source_symbol(registry, "build_payload_size.field_expr")
+        self.assertEqual(field_expr["java_expr"], "public Building build;")
+        self.assertEqual(field_expr["godot_symbol"], "source_build_payload_size_input.build_block_size")
+        import_expr = source_symbols.source_symbol(registry, "build_payload_size.import_expr")
+        self.assertEqual(import_expr["java_expr"], "import static mindustry.Vars.*;")
+        self.assertEqual(import_expr["godot_symbol"], "source_build_payload_size_input.source_tilesize")
+        override_expr = source_symbols.source_symbol(registry, "build_payload_size.override_expr")
+        self.assertEqual(override_expr["java_expr"], "@Override")
+        return_expr = source_symbols.source_symbol(registry, "build_payload_size.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return build.block.size * tilesize;")
+        self.assertEqual(return_expr["godot_symbol"], "source_build_payload_size_result.size")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1373")
+        self.assertEqual(payload_slice["title"], "Generated BuildPayload size bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(payload_slice["java_method"], "BuildPayload.size()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_build_payload_size_state")
+        self.assertEqual(payload_slice["generated_owner"], "BuildPayload.java_method_size_11")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_build_payload_size_bridge_state")
+        for expr in [
+            "public class BuildPayload implements Payload{",
+            "public Building build;",
+            "import static mindustry.Vars.*;",
+            "@Override",
+            "public float size(){",
+            "return build.block.size * tilesize;",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("build_payload_size.return_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_build_payload_size_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["build_block_size", "source_tilesize"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "import_expr", "override_expr", "method", "return_expr", "build_block_size", "source_tilesize", "size"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_build_payload_size_input")
+        self.assertEqual(input_schema["keys"]["build_block_size"]["java_expr"], "build.block.size")
+        self.assertEqual(input_schema["keys"]["source_tilesize"]["java_expr"], "tilesize")
+        result_schema = source_symbols.state_schema(schema, "source_build_payload_size_result")
+        self.assertEqual(result_schema["keys"]["size"]["java_expr"], "return build.block.size * tilesize;")
 
     def test_generated_drill_get_drill_time_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
