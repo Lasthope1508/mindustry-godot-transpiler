@@ -10921,6 +10921,33 @@ def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_block_init_consumer_apply_loop_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    consume_path = Path(upstream_root) / "core/src/mindustry/world/consumers/Consume.java"
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    consume_source = consume_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "consumers_loop_expr": "for(Consume cons : consumers){",
+        "consume_apply_expr": "cons.apply(this);",
+        "consume_apply_method_expr": "public void apply(Block block){",
+    }
+    source_by_key = {
+        "consume_apply_method_expr": consume_source,
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, source)
+    ]
+    return {
+        "source": BLOCK_SOURCE,
+        "consume_source": "core/src/mindustry/world/consumers/Consume.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

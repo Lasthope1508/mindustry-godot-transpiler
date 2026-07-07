@@ -34262,6 +34262,42 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.init() item and liquid filter allocation."
+    },
+    "PortGame.source_block_init_consumer_apply_loop_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1344",
+      "params": [
+        {
+          "name": "consumers",
+          "type": "Array",
+          "java_expr": "consumers",
+          "schema": "source_block_init_consumer_apply_loop_input.consumers"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "consume_source",
+        "method",
+        "super_init_expr",
+        "consumers_loop_expr",
+        "consume_apply_expr",
+        "consume_apply_method_expr",
+        "consumers",
+        "apply_calls",
+        "apply_call_count"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_consumer_apply_loop_state",
+      "tests": [
+        "test_emit_bridges_block_init_consumer_apply_loop_to_source_state",
+        "test_port_game_exposes_source_block_init_consumer_apply_loop_state",
+        "test_port_game_exposes_generated_block_init_consumer_apply_loop_bridge_state",
+        "test_block_init_consumer_apply_loop_matches_upstream_source",
+        "test_generated_block_init_consumer_apply_loop_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() consumer apply loop call plan."
     }
   },
   "policy": {

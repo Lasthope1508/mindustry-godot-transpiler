@@ -19198,6 +19198,38 @@ func generated_block_init_item_liquid_filters_bridge_state(content_items_size: i
 		"matches": result == canonical,
 	}
 
+func source_block_init_consumer_apply_loop_state(consumers: Array) -> Dictionary:
+	var apply_calls: Array = []
+	for consumer in consumers:
+		apply_calls.append({"call": "cons.apply(this);", "consumer": consumer, "block_arg": "this"})
+	return {
+		"source_owner": "PortGame.source_block_init_consumer_apply_loop_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"consume_source": "core/src/mindustry/world/consumers/Consume.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"consumers_loop_expr": "for(Consume cons : consumers){",
+		"consume_apply_expr": "cons.apply(this);",
+		"consume_apply_method_expr": "public void apply(Block block){",
+		"consumers": consumers,
+		"apply_calls": apply_calls,
+		"apply_call_count": apply_calls.size(),
+	}
+
+func generated_block_init_consumer_apply_loop_bridge_state(consumers: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "consumer_apply_loop")
+	var result = instance.java_method_init_123([consumers])
+	var canonical = source_block_init_consumer_apply_loop_state(consumers)
+	return {
+		"source_owner": "PortGame.source_block_init_consumer_apply_loop_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

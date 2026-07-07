@@ -10268,6 +10268,50 @@ public class Block{
             self.assertIn('"item_filter": item_filter', source_text)
             self.assertIn('"liquid_filter": liquid_filter', source_text)
 
+    def test_emit_bridges_block_init_consumer_apply_loop_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        for(Consume cons : consumers){
+            cons.apply(this);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "consumer_apply_loop":', source_text)
+            self.assertIn("\t\tvar consumer_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("\t\tvar apply_calls: Array = []", source_text)
+            self.assertIn("\t\tfor consumer in consumer_entries:", source_text)
+            self.assertIn('\t\t\tapply_calls.append({"call": "cons.apply(this);", "consumer": consumer, "block_arg": "this"})', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_consumer_apply_loop_state"', source_text)
+            self.assertIn('"consumers_loop_expr": "for(Consume cons : consumers){"', source_text)
+            self.assertIn('"consume_apply_expr": "cons.apply(this);"', source_text)
+            self.assertIn('"consume_apply_method_expr": "public void apply(Block block){"', source_text)
+            self.assertIn('"consumers": consumer_entries', source_text)
+            self.assertIn('"apply_calls": apply_calls', source_text)
+            self.assertIn('"apply_call_count": apply_calls.size()', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
