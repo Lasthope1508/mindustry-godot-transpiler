@@ -18283,6 +18283,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_constructor_UnitPayload_0"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_show_overlay_texture_region_state(icon: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source)
+        self.assertIn('"overlay_time_field_expr": "public float overlayTime = 0f;"', source)
+        self.assertIn('"overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;"', source)
+        self.assertIn('"method": "public void showOverlay(TextureRegion icon){"', source)
+        self.assertIn('"overlay_region_assign_expr": "overlayRegion = icon;"', source)
+        self.assertIn('"overlay_time_assign_expr": "overlayTime = 1f;"', source)
+        self.assertIn('"overlayRegion_after": icon', source)
+        self.assertIn('"overlayTime_after": 1.0', source)
+
+    def test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_showOverlay_0([icon])", source)
+        self.assertIn("var canonical = source_unit_payload_show_overlay_texture_region_state(icon)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_showOverlay_0"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

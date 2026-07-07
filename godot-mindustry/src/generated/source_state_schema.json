@@ -135277,6 +135277,190 @@
           "type": "Variant"
         }
       }
+    },
+    "source_unit_payload_show_overlay_texture_region_input": {
+      "owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+      "source_slice": "N1386",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_unit_payload_show_overlay_texture_region_state.",
+      "keys": {
+        "icon": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_input.icon",
+          "java_expr": "icon",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.icon"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        }
+      }
+    },
+    "source_unit_payload_show_overlay_texture_region_result": {
+      "owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+      "source_slice": "N1386",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_show_overlay_texture_region_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.source_owner",
+          "java_expr": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.class_expr",
+          "java_expr": "public class UnitPayload implements Payload{",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "overlay_time_field_expr": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.overlay_time_field_expr",
+          "java_expr": "public float overlayTime = 0f;",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.overlay_time_field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "overlay_region_field_expr": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.overlay_region_field_expr",
+          "java_expr": "public @Nullable TextureRegion overlayRegion;",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.overlay_region_field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.method",
+          "java_expr": "public void showOverlay(TextureRegion icon){",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "overlay_region_assign_expr": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.overlay_region_assign_expr",
+          "java_expr": "overlayRegion = icon;",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.overlay_region_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "overlay_time_assign_expr": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.overlay_time_assign_expr",
+          "java_expr": "overlayTime = 1f;",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.overlay_time_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "icon": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.icon",
+          "java_expr": "icon",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.icon"
+          ],
+          "status": "explicit-input",
+          "type": "Variant"
+        },
+        "overlayRegion_after": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.overlayRegion_after",
+          "java_expr": "overlayRegion = icon;",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.overlay_region_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "overlayTime_after": {
+          "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.overlayTime_after",
+          "java_expr": "overlayTime = 1f;",
+          "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_show_overlay_texture_region_state"
+          ],
+          "source_symbols": [
+            "unit_payload_show_overlay_texture_region.overlay_time_assign_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        }
+      }
     }
   },
   "version": 1

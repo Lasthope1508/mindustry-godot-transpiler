@@ -108044,6 +108044,132 @@
       "java_expr": "this.unit = unit;",
       "rule": "Constructor assigns this.unit from unit parameter.",
       "status": "source-backed"
+    },
+    "unit_payload_show_overlay_texture_region.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+      "godot_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
+      "source_slice": "N1386",
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state",
+        "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.class_expr",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "rule": "UnitPayload class boundary for TextureRegion showOverlay bridge.",
+      "status": "source-backed"
+    },
+    "unit_payload_show_overlay_texture_region.overlay_time_field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+      "godot_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
+      "source_slice": "N1386",
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state",
+        "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.overlay_time_field_expr",
+      "java_expr": "public float overlayTime = 0f;",
+      "rule": "overlayTime field is assigned by TextureRegion showOverlay.",
+      "status": "source-backed"
+    },
+    "unit_payload_show_overlay_texture_region.overlay_region_field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+      "godot_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
+      "source_slice": "N1386",
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state",
+        "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.overlay_region_field_expr",
+      "java_expr": "public @Nullable TextureRegion overlayRegion;",
+      "rule": "overlayRegion field is assigned by TextureRegion showOverlay.",
+      "status": "source-backed"
+    },
+    "unit_payload_show_overlay_texture_region.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+      "godot_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
+      "source_slice": "N1386",
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state",
+        "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.method",
+      "java_expr": "public void showOverlay(TextureRegion icon){",
+      "rule": "UnitPayload.showOverlay(TextureRegion icon) method boundary.",
+      "status": "source-backed"
+    },
+    "unit_payload_show_overlay_texture_region.icon": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+      "godot_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
+      "source_slice": "N1386",
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state",
+        "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_show_overlay_texture_region_input.icon",
+      "java_expr": "icon",
+      "rule": "Explicit TextureRegion icon parameter.",
+      "status": "explicit-input"
+    },
+    "unit_payload_show_overlay_texture_region.overlay_region_assign_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+      "godot_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
+      "source_slice": "N1386",
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state",
+        "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.overlayRegion_after",
+      "java_expr": "overlayRegion = icon;",
+      "rule": "showOverlay(TextureRegion) assigns overlayRegion from icon.",
+      "status": "source-backed"
+    },
+    "unit_payload_show_overlay_texture_region.overlay_time_assign_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.showOverlay(TextureRegion icon)",
+      "godot_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
+      "source_slice": "N1386",
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state",
+        "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_show_overlay_texture_region_result.overlayTime_after",
+      "java_expr": "overlayTime = 1f;",
+      "rule": "showOverlay(TextureRegion) sets overlayTime to 1f.",
+      "status": "source-backed"
     }
   },
   "version": 1

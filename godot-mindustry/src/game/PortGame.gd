@@ -19923,6 +19923,34 @@ func generated_unit_payload_constructor_bridge_state(unit: Variant) -> Dictionar
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_show_overlay_texture_region_state(icon: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"overlay_time_field_expr": "public float overlayTime = 0f;",
+		"overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;",
+		"method": "public void showOverlay(TextureRegion icon){",
+		"overlay_region_assign_expr": "overlayRegion = icon;",
+		"overlay_time_assign_expr": "overlayTime = 1f;",
+		"icon": icon,
+		"overlayRegion_after": icon,
+		"overlayTime_after": 1.0,
+	}
+
+func generated_unit_payload_show_overlay_texture_region_bridge_state(icon: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_showOverlay_0([icon])
+	var canonical = source_unit_payload_show_overlay_texture_region_state(icon)
+	return {
+		"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state",
+		"generated_owner": "UnitPayload.java_method_showOverlay_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

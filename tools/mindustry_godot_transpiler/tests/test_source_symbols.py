@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 860)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 855)
+        self.assertEqual(audit["totalSourceFunctions"], 861)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 856)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 860)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 861)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20382,6 +20382,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_build_payload_constructor_block_team_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_constructor_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_constructor_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_payload_show_overlay_texture_region_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_add_stats_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_ability_stat_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_ability_copy_state", audit["registeredSourceOwners"])
@@ -47370,6 +47371,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["unit"]["java_expr"], "unit")
         result_schema = source_symbols.state_schema(schema, "source_unit_payload_constructor_result")
         self.assertEqual(result_schema["keys"]["unit_after"]["java_expr"], "this.unit = unit;")
+
+    def test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_payload_show_overlay_texture_region.method")
+        self.assertEqual(method["java_expr"], "public void showOverlay(TextureRegion icon){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(method["java_method"], "UnitPayload.showOverlay(TextureRegion icon)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_payload_show_overlay_texture_region_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_payload_show_overlay_texture_region_state")
+        icon_arg = source_symbols.source_symbol(registry, "unit_payload_show_overlay_texture_region.icon")
+        self.assertEqual(icon_arg["java_expr"], "icon")
+        self.assertEqual(icon_arg["godot_symbol"], "source_unit_payload_show_overlay_texture_region_input.icon")
+        region_assign = source_symbols.source_symbol(registry, "unit_payload_show_overlay_texture_region.overlay_region_assign_expr")
+        self.assertEqual(region_assign["java_expr"], "overlayRegion = icon;")
+        self.assertEqual(region_assign["godot_symbol"], "source_unit_payload_show_overlay_texture_region_result.overlayRegion_after")
+        time_assign = source_symbols.source_symbol(registry, "unit_payload_show_overlay_texture_region.overlay_time_assign_expr")
+        self.assertEqual(time_assign["java_expr"], "overlayTime = 1f;")
+        self.assertEqual(time_assign["godot_symbol"], "source_unit_payload_show_overlay_texture_region_result.overlayTime_after")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1386")
+        self.assertEqual(payload_slice["title"], "Generated UnitPayload showOverlay TextureRegion bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(payload_slice["java_method"], "UnitPayload.showOverlay(TextureRegion icon)")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_unit_payload_show_overlay_texture_region_state")
+        self.assertEqual(payload_slice["generated_owner"], "UnitPayload.java_method_showOverlay_0")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_unit_payload_show_overlay_texture_region_bridge_state")
+        for expr in [
+            "public class UnitPayload implements Payload{",
+            "public float overlayTime = 0f;",
+            "public @Nullable TextureRegion overlayRegion;",
+            "public void showOverlay(TextureRegion icon){",
+            "overlayRegion = icon;",
+            "overlayTime = 1f;",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("unit_payload_show_overlay_texture_region.overlay_region_assign_expr", payload_slice["source_symbols"])
+        self.assertIn("unit_payload_show_overlay_texture_region.overlay_time_assign_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_unit_payload_show_overlay_texture_region_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["icon"])
+        for key in ["source_owner", "source", "class_expr", "overlay_time_field_expr", "overlay_region_field_expr", "method", "overlay_region_assign_expr", "overlay_time_assign_expr", "icon", "overlayRegion_after", "overlayTime_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_unit_payload_show_overlay_texture_region_input")
+        self.assertEqual(input_schema["keys"]["icon"]["java_expr"], "icon")
+        result_schema = source_symbols.state_schema(schema, "source_unit_payload_show_overlay_texture_region_result")
+        self.assertEqual(result_schema["keys"]["overlayRegion_after"]["java_expr"], "overlayRegion = icon;")
+        self.assertEqual(result_schema["keys"]["overlayTime_after"]["java_expr"], "overlayTime = 1f;")
 
     def test_generated_build_payload_content_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

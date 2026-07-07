@@ -11257,6 +11257,25 @@ def verify_unit_payload_constructor_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_unit_payload_show_overlay_texture_region_source(upstream_root: Path) -> dict[str, Any]:
+    unit_payload_source = "core/src/mindustry/world/blocks/payloads/UnitPayload.java"
+    payload_path = Path(upstream_root) / unit_payload_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class UnitPayload implements Payload{",
+        "overlay_time_field_expr": "public float overlayTime = 0f;",
+        "overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;",
+        "method": "public void showOverlay(TextureRegion icon){",
+        "overlay_region_assign_expr": "overlayRegion = icon;",
+        "overlay_time_assign_expr": "overlayTime = 1f;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": unit_payload_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_content_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

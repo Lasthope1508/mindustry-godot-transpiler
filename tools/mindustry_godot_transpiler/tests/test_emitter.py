@@ -17098,6 +17098,47 @@ public class UnitPayload implements Payload{
             self.assertIn('"unit": unit', source_text)
             self.assertIn('"unit_after": unit', source_text)
 
+    def test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public float overlayTime = 0f;
+    public @Nullable TextureRegion overlayRegion;
+
+    public void showOverlay(TextureRegion icon){
+        overlayRegion = icon;
+        overlayTime = 1f;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_showOverlay_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var icon: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
+            self.assertIn('"overlay_time_field_expr": "public float overlayTime = 0f;"', source_text)
+            self.assertIn('"overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;"', source_text)
+            self.assertIn('"method": "public void showOverlay(TextureRegion icon){"', source_text)
+            self.assertIn('"overlay_region_assign_expr": "overlayRegion = icon;"', source_text)
+            self.assertIn('"overlay_time_assign_expr": "overlayTime = 1f;"', source_text)
+            self.assertIn('"overlayRegion_after": icon', source_text)
+            self.assertIn('"overlayTime_after": 1.0', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -1618,6 +1618,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_build_payload_block_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "method": "public Block block(){", "return_expr": "return build.block;", "build_block": build_block}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
+        and type_entry.get("name") == "UnitPayload"
+        and method.get("name") == "showOverlay"
+        and len(method.get("parameters", [])) == 1
+        and method["parameters"][0].get("type") == "TextureRegion"
+    ):
+        return [
+            "\tvar icon: Variant = _args[0] if _args.size() > 0 else null",
+            '\treturn {"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "overlay_time_field_expr": "public float overlayTime = 0f;", "overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;", "method": "public void showOverlay(TextureRegion icon){", "overlay_region_assign_expr": "overlayRegion = icon;", "overlay_time_assign_expr": "overlayTime = 1f;", "icon": icon, "overlayRegion_after": icon, "overlayTime_after": 1.0}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "place"

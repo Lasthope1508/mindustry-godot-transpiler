@@ -36270,6 +36270,43 @@
         "test_unit_payload_constructor_matches_upstream_source",
         "test_generated_unit_payload_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_show_overlay_texture_region_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.showOverlay(TextureRegion icon)",
+      "source_slice": "N1386",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
+      "rule": "PortGame.source_unit_payload_show_overlay_texture_region_state pins UnitPayload.showOverlay(TextureRegion) overlay assignment contract.",
+      "params": [
+        {
+          "name": "icon",
+          "type": "Variant",
+          "java_expr": "icon",
+          "schema": "source_unit_payload_show_overlay_texture_region_input.icon",
+          "source_symbol": "unit_payload_show_overlay_texture_region.icon"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "overlay_time_field_expr",
+        "overlay_region_field_expr",
+        "method",
+        "overlay_region_assign_expr",
+        "overlay_time_assign_expr",
+        "icon",
+        "overlayRegion_after",
+        "overlayTime_after"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_texture_region_bridge_state",
+        "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
