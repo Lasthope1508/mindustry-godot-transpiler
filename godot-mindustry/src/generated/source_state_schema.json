@@ -128504,6 +128504,235 @@
           ]
         }
       }
+    },
+    "source_block_load_variant_regions_input": {
+      "owner": "PortGame.source_block_load_variant_regions_state",
+      "source_slice": "N1357",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_load_variant_regions_state.",
+      "keys": {
+        "name_value": {
+          "godot_symbol": "source_block_load_variant_regions_input.name_value",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "name",
+          "type": "String",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.name"
+          ]
+        },
+        "variants": {
+          "godot_symbol": "source_block_load_variant_regions_input.variants",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "variants",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.variants"
+          ]
+        }
+      }
+    },
+    "source_block_load_variant_regions_result": {
+      "owner": "PortGame.source_block_load_variant_regions_state",
+      "source_slice": "N1357",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_load_variant_regions_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_load_variant_regions_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "PortGame.source_block_load_variant_regions_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.method"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_block_load_variant_regions_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.method"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_block_load_variant_regions_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "public void load(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.method"
+          ]
+        },
+        "variants_guard_expr": {
+          "godot_symbol": "source_block_load_variant_regions_result.variants_guard_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "if(variants != 0){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.variants_guard_expr"
+          ]
+        },
+        "variant_regions_expr": {
+          "godot_symbol": "source_block_load_variant_regions_result.variant_regions_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "variantRegions = new TextureRegion[variants];",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.variant_regions_expr"
+          ]
+        },
+        "variant_loop_expr": {
+          "godot_symbol": "source_block_load_variant_regions_result.variant_loop_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "for(int i = 0; i < variants; i++){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.variant_loop_expr"
+          ]
+        },
+        "variant_assignment_expr": {
+          "godot_symbol": "source_block_load_variant_regions_result.variant_assignment_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.variant_assignment_expr"
+          ]
+        },
+        "region_assignment_expr": {
+          "godot_symbol": "source_block_load_variant_regions_result.region_assignment_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "region = variantRegions[0];",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.region_assignment_expr"
+          ]
+        },
+        "name": {
+          "godot_symbol": "source_block_load_variant_regions_result.name",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "name",
+          "type": "String",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.name"
+          ]
+        },
+        "variants": {
+          "godot_symbol": "source_block_load_variant_regions_result.variants",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "variants",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.variants"
+          ]
+        },
+        "variants_guard": {
+          "godot_symbol": "source_block_load_variant_regions_result.variants_guard",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "variants != 0",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.variants_guard_expr"
+          ]
+        },
+        "variant_regions": {
+          "godot_symbol": "source_block_load_variant_regions_result.variant_regions",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "variantRegions = new TextureRegion[variants];",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.variant_regions_expr",
+            "block_load_variant_regions.variant_assignment_expr"
+          ]
+        },
+        "region": {
+          "godot_symbol": "source_block_load_variant_regions_result.region",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.load()",
+          "java_expr": "region = variantRegions[0];",
+          "type": "Variant",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_load_variant_regions_state"
+          ],
+          "source_symbols": [
+            "block_load_variant_regions.region_assignment_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

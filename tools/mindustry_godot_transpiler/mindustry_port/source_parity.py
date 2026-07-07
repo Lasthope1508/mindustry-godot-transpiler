@@ -11043,6 +11043,24 @@ def verify_block_load_team_regions_source(upstream_root: Path) -> dict[str, Any]
         "missing": missing,
     }
 
+def verify_block_load_variant_regions_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void load(){",
+        "variants_guard_expr": "if(variants != 0){",
+        "variant_regions_expr": "variantRegions = new TextureRegion[variants];",
+        "variant_loop_expr": "for(int i = 0; i < variants; i++){",
+        "variant_assignment_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));",
+        "region_assignment_expr": "region = variantRegions[0];",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

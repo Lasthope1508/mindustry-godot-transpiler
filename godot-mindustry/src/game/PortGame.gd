@@ -19420,6 +19420,45 @@ func generated_block_load_team_regions_bridge_state(name_value: String, team_reg
 		"matches": result == canonical,
 	}
 
+func source_block_load_variant_regions_state(name_value: String, variants: int) -> Dictionary:
+	var variants_guard := variants != 0
+	var variant_regions: Array = []
+	var region_value: Variant = null
+	if variants_guard:
+		for i in range(variants):
+			variant_regions.append("Core.atlas.find(%s%d)" % [name_value, i + 1])
+		if variant_regions.size() > 0:
+			region_value = variant_regions[0]
+	return {
+		"source_owner": "PortGame.source_block_load_variant_regions_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void load(){",
+		"variants_guard_expr": "if(variants != 0){",
+		"variant_regions_expr": "variantRegions = new TextureRegion[variants];",
+		"variant_loop_expr": "for(int i = 0; i < variants; i++){",
+		"variant_assignment_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));",
+		"region_assignment_expr": "region = variantRegions[0];",
+		"name": name_value,
+		"variants": variants,
+		"variants_guard": variants_guard,
+		"variant_regions": variant_regions,
+		"region": region_value,
+	}
+
+func generated_block_load_variant_regions_bridge_state(name_value: String, variants: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_load_bridge_mode", "variant_regions")
+	var result = instance.java_method_load_126([name_value, variants])
+	var canonical = source_block_load_variant_regions_state(name_value, variants)
+	return {
+		"source_owner": "PortGame.source_block_load_variant_regions_state",
+		"generated_owner": "Block.java_method_load_126",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

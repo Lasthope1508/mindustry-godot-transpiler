@@ -906,6 +906,18 @@ func java_method_checkContentArrayCapacity_125(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_check_content_array_capacity_state", "source": "core/src/mindustry/world/Block.java", "method": "public void checkContentArrayCapacity(int items, int liquids){", "liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);", "item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);", "item_filter_before": item_filter, "liquid_filter_before": liquid_filter, "items": items, "liquids": liquids, "item_filter_after": item_filter_after, "liquid_filter_after": liquid_filter_after}
 
 func java_method_load_126(_args: Array = []) -> Variant:
+	if str(get_meta("mindustry_load_bridge_mode", "")) == "variant_regions":
+		var variant_load_name_value: String = str(_args[0] if _args.size() > 0 else "")
+		var variants: int = int(_args[1] if _args.size() > 1 else 0)
+		var variants_guard: bool = variants != 0
+		var variant_regions: Array = []
+		var variant_region_value: Variant = null
+		if variants_guard:
+			for i in range(variants):
+				variant_regions.append("Core.atlas.find(%s%d)" % [variant_load_name_value, i + 1])
+			if variant_regions.size() > 0:
+				variant_region_value = variant_regions[0]
+		return {"source_owner": "PortGame.source_block_load_variant_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "variants_guard_expr": "if(variants != 0){", "variant_regions_expr": "variantRegions = new TextureRegion[variants];", "variant_loop_expr": "for(int i = 0; i < variants; i++){", "variant_assignment_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));", "region_assignment_expr": "region = variantRegions[0];", "name": variant_load_name_value, "variants": variants, "variants_guard": variants_guard, "variant_regions": variant_regions, "region": variant_region_value}
 	if str(get_meta("mindustry_load_bridge_mode", "")) == "team_regions":
 		var team_load_name_value: String = str(_args[0] if _args.size() > 0 else "")
 		var team_region_found: bool = bool(_args[1] if _args.size() > 1 else false)

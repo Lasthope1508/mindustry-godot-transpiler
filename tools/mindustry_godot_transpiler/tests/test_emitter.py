@@ -10489,6 +10489,52 @@ public class Block{
             self.assertIn('"team_regions": team_regions', source_text)
             self.assertIn('"assignments": assignments', source_text)
 
+    def test_emit_bridges_block_load_variant_regions_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public void load(){
+        if(variants != 0){
+            variantRegions = new TextureRegion[variants];
+
+            for(int i = 0; i < variants; i++){
+                variantRegions[i] = Core.atlas.find(name + (i + 1));
+            }
+            region = variantRegions[0];
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_load_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('if str(get_meta("mindustry_load_bridge_mode", "")) == "variant_regions":', source_text)
+            self.assertIn("\t\tvar variants: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertNotIn("\t\tvar region_value: Variant = null", source_text)
+            self.assertIn("\t\tvar variant_region_value: Variant = null", source_text)
+            self.assertIn('"source_owner": "PortGame.source_block_load_variant_regions_state"', source_text)
+            self.assertIn('"variants_guard_expr": "if(variants != 0){"', source_text)
+            self.assertIn('"variant_regions_expr": "variantRegions = new TextureRegion[variants];"', source_text)
+            self.assertIn('"variant_loop_expr": "for(int i = 0; i < variants; i++){"', source_text)
+            self.assertIn('"variant_assignment_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));"', source_text)
+            self.assertIn('"region_assignment_expr": "region = variantRegions[0];"', source_text)
+            self.assertIn('"variant_regions": variant_regions', source_text)
+            self.assertIn('"region": variant_region_value', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

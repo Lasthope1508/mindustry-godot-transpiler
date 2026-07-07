@@ -5942,6 +5942,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_load_variant_regions_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_load_variant_regions_source"))
+        report = source_parity.verify_block_load_variant_regions_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void load(){",
+            "variants_guard_expr": "if(variants != 0){",
+            "variant_regions_expr": "variantRegions = new TextureRegion[variants];",
+            "variant_loop_expr": "for(int i = 0; i < variants; i++){",
+            "variant_assignment_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));",
+            "region_assignment_expr": "region = variantRegions[0];",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_block_init_item_liquid_filters_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_block_init_item_liquid_filters_source"))
         report = source_parity.verify_block_init_item_liquid_filters_source(ROOT / "mindustry-upstream")

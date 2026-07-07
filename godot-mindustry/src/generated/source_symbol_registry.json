@@ -103328,6 +103328,150 @@
         "test_generated_block_load_team_regions_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed Block.load() teamRegions allocation and Team.all assignment loop."
+    },
+    "block_load_variant_regions.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "public void load(){",
+      "godot_owner": "PortGame.source_block_load_variant_regions_state",
+      "godot_symbol": "source_block_load_variant_regions_result.method",
+      "status": "source-backed",
+      "source_slice": "N1357",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_regions_bridge_state",
+        "test_block_load_variant_regions_matches_upstream_source",
+        "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() variantRegions branch method boundary."
+    },
+    "block_load_variant_regions.variants_guard_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "if(variants != 0){",
+      "godot_owner": "PortGame.source_block_load_variant_regions_state",
+      "godot_symbol": "source_block_load_variant_regions_result.variants_guard_expr",
+      "status": "source-backed",
+      "source_slice": "N1357",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_regions_bridge_state",
+        "test_block_load_variant_regions_matches_upstream_source",
+        "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() variants guard."
+    },
+    "block_load_variant_regions.variant_regions_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "variantRegions = new TextureRegion[variants];",
+      "godot_owner": "PortGame.source_block_load_variant_regions_state",
+      "godot_symbol": "source_block_load_variant_regions_result.variant_regions",
+      "status": "source-backed",
+      "source_slice": "N1357",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_regions_bridge_state",
+        "test_block_load_variant_regions_matches_upstream_source",
+        "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() variantRegions allocation."
+    },
+    "block_load_variant_regions.variant_loop_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "for(int i = 0; i < variants; i++){",
+      "godot_owner": "PortGame.source_block_load_variant_regions_state",
+      "godot_symbol": "source_block_load_variant_regions_result.variant_regions",
+      "status": "source-backed",
+      "source_slice": "N1357",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_regions_bridge_state",
+        "test_block_load_variant_regions_matches_upstream_source",
+        "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() variant loop."
+    },
+    "block_load_variant_regions.variant_assignment_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));",
+      "godot_owner": "PortGame.source_block_load_variant_regions_state",
+      "godot_symbol": "source_block_load_variant_regions_result.variant_regions",
+      "status": "source-backed",
+      "source_slice": "N1357",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_regions_bridge_state",
+        "test_block_load_variant_regions_matches_upstream_source",
+        "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() variant atlas lookup."
+    },
+    "block_load_variant_regions.region_assignment_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "region = variantRegions[0];",
+      "godot_owner": "PortGame.source_block_load_variant_regions_state",
+      "godot_symbol": "source_block_load_variant_regions_result.region",
+      "status": "source-backed",
+      "source_slice": "N1357",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_regions_bridge_state",
+        "test_block_load_variant_regions_matches_upstream_source",
+        "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.load() region update from first variant."
+    },
+    "block_load_variant_regions.name": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "name",
+      "godot_owner": "PortGame.source_block_load_variant_regions_state",
+      "godot_symbol": "source_block_load_variant_regions_input.name_value",
+      "status": "explicit-input",
+      "source_slice": "N1357",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_regions_bridge_state",
+        "test_block_load_variant_regions_matches_upstream_source",
+        "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.load() name used by variant atlas lookups."
+    },
+    "block_load_variant_regions.variants": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.load()",
+      "java_expr": "variants",
+      "godot_owner": "PortGame.source_block_load_variant_regions_state",
+      "godot_symbol": "source_block_load_variant_regions_input.variants",
+      "status": "explicit-input",
+      "source_slice": "N1357",
+      "runtime_proof": "/root/Main.source_block_load_variant_regions_state",
+      "tests": [
+        "test_emit_bridges_block_load_variant_regions_to_source_state",
+        "test_port_game_exposes_source_block_load_variant_regions_state",
+        "test_port_game_exposes_generated_block_load_variant_regions_bridge_state",
+        "test_block_load_variant_regions_matches_upstream_source",
+        "test_generated_block_load_variant_regions_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Explicit input for Block.load() variants count."
     }
   },
   "version": 1

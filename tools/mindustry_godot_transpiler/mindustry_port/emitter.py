@@ -1631,6 +1631,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "load"
     ):
         return [
+            '\tif str(get_meta("mindustry_load_bridge_mode", "")) == "variant_regions":',
+            '\t\tvar variant_load_name_value: String = str(_args[0] if _args.size() > 0 else "")',
+            "\t\tvar variants: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\t\tvar variants_guard: bool = variants != 0",
+            "\t\tvar variant_regions: Array = []",
+            "\t\tvar variant_region_value: Variant = null",
+            "\t\tif variants_guard:",
+            "\t\t\tfor i in range(variants):",
+            '\t\t\t\tvariant_regions.append("Core.atlas.find(%s%d)" % [variant_load_name_value, i + 1])',
+            "\t\t\tif variant_regions.size() > 0:",
+            "\t\t\t\tvariant_region_value = variant_regions[0]",
+            '\t\treturn {"source_owner": "PortGame.source_block_load_variant_regions_state", "source": "core/src/mindustry/world/Block.java", "method": "public void load(){", "variants_guard_expr": "if(variants != 0){", "variant_regions_expr": "variantRegions = new TextureRegion[variants];", "variant_loop_expr": "for(int i = 0; i < variants; i++){", "variant_assignment_expr": "variantRegions[i] = Core.atlas.find(name + (i + 1));", "region_assignment_expr": "region = variantRegions[0];", "name": variant_load_name_value, "variants": variants, "variants_guard": variants_guard, "variant_regions": variant_regions, "region": variant_region_value}',
             '\tif str(get_meta("mindustry_load_bridge_mode", "")) == "team_regions":',
             '\t\tvar team_load_name_value: String = str(_args[0] if _args.size() > 0 else "")',
             "\t\tvar team_region_found: bool = bool(_args[1] if _args.size() > 1 else false)",

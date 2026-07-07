@@ -12,8 +12,8 @@
 
 | Bucket | Count |
 | --- | ---: |
-| Total tracked work items | 1222 |
-| Done | 1219 |
+| Total tracked work items | 1223 |
+| Done | 1220 |
 | Not done | 0 |
 | Blocked | 0 |
 
@@ -1169,6 +1169,7 @@
 - [x] N1354: Generated Block checkContentArrayCapacity filter resize bridge state.
 - [x] N1355: Generated Block load base regions bridge state.
 - [x] N1356: Generated Block load team regions bridge state.
+- [x] N1357: Generated Block load variant regions bridge state.
 - [ ] Next: Add next source-backed migration item only after reading upstream Java, writing RED tests, proving MCP runtime, and updating this checklist.
 
 ## Dependency Cube Mode
