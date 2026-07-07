@@ -63,3 +63,7 @@ func java_method_draw_15(_args: Array = []) -> Variant:
 
 func java_method_icon_16(_args: Array = []) -> Variant:
 	return null
+
+func java_constructor_UnitPayload_0(_args: Array = []) -> Variant:
+	var unit: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_unit_payload_constructor_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "constructor": "public UnitPayload(Unit unit){", "unit_assign_expr": "this.unit = unit;", "unit": unit, "unit_after": unit}

@@ -17061,6 +17061,43 @@ public class BuildPayload implements Payload{
             self.assertIn('"build_assign_expr": "this.build = build;"', source_text)
             self.assertIn('"build_after": build', source_text)
 
+    def test_emit_bridges_unit_payload_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+
+    public UnitPayload(Unit unit){
+        this.unit = unit;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_UnitPayload_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
+            self.assertIn('"field_expr": "public Unit unit;"', source_text)
+            self.assertIn('"constructor": "public UnitPayload(Unit unit){"', source_text)
+            self.assertIn('"unit_assign_expr": "this.unit = unit;"', source_text)
+            self.assertIn('"unit": unit', source_text)
+            self.assertIn('"unit_after": unit', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

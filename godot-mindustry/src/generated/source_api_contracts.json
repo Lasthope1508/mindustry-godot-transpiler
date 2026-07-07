@@ -36236,6 +36236,40 @@
         "test_build_payload_constructors_match_upstream_source",
         "test_generated_build_payload_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_constructor_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload(Unit unit)",
+      "source_slice": "N1385",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_unit_payload_constructor_state",
+      "rule": "PortGame.source_unit_payload_constructor_state pins UnitPayload(Unit) direct unit assignment contract.",
+      "params": [
+        {
+          "name": "unit",
+          "type": "Variant",
+          "java_expr": "unit",
+          "schema": "source_unit_payload_constructor_input.unit",
+          "source_symbol": "unit_payload_constructor.unit"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "constructor",
+        "unit_assign_expr",
+        "unit",
+        "unit_after"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_constructor_to_source_state",
+        "test_port_game_exposes_source_unit_payload_constructor_state",
+        "test_port_game_exposes_generated_unit_payload_constructor_bridge_state",
+        "test_unit_payload_constructor_matches_upstream_source",
+        "test_generated_unit_payload_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

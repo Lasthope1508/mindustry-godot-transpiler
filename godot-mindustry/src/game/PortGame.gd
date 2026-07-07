@@ -19898,6 +19898,31 @@ func generated_build_payload_constructor_build_bridge_state(build: Variant) -> D
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_constructor_state(unit: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_unit_payload_constructor_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"constructor": "public UnitPayload(Unit unit){",
+		"unit_assign_expr": "this.unit = unit;",
+		"unit": unit,
+		"unit_after": unit,
+	}
+
+func generated_unit_payload_constructor_bridge_state(unit: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_UnitPayload_0([unit])
+	var canonical = source_unit_payload_constructor_state(unit)
+	return {
+		"source_owner": "PortGame.source_unit_payload_constructor_state",
+		"generated_owner": "UnitPayload.java_constructor_UnitPayload_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

@@ -107954,6 +107954,96 @@
       "java_expr": "this.build = build;",
       "rule": "Constructor assigns this.build from build parameter.",
       "status": "source-backed"
+    },
+    "unit_payload_constructor.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload(Unit unit)",
+      "godot_owner": "PortGame.source_unit_payload_constructor_state",
+      "runtime_proof": "/root/Main.source_unit_payload_constructor_state",
+      "source_slice": "N1385",
+      "tests": [
+        "test_emit_bridges_unit_payload_constructor_to_source_state",
+        "test_port_game_exposes_source_unit_payload_constructor_state",
+        "test_port_game_exposes_generated_unit_payload_constructor_bridge_state",
+        "test_unit_payload_constructor_matches_upstream_source",
+        "test_generated_unit_payload_constructor_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_constructor_result.class_expr",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "rule": "UnitPayload class boundary for constructor bridge.",
+      "status": "source-backed"
+    },
+    "unit_payload_constructor.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload(Unit unit)",
+      "godot_owner": "PortGame.source_unit_payload_constructor_state",
+      "runtime_proof": "/root/Main.source_unit_payload_constructor_state",
+      "source_slice": "N1385",
+      "tests": [
+        "test_emit_bridges_unit_payload_constructor_to_source_state",
+        "test_port_game_exposes_source_unit_payload_constructor_state",
+        "test_port_game_exposes_generated_unit_payload_constructor_bridge_state",
+        "test_unit_payload_constructor_matches_upstream_source",
+        "test_generated_unit_payload_constructor_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_constructor_result.field_expr",
+      "java_expr": "public Unit unit;",
+      "rule": "UnitPayload constructor writes unit field.",
+      "status": "source-backed"
+    },
+    "unit_payload_constructor.constructor": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload(Unit unit)",
+      "godot_owner": "PortGame.source_unit_payload_constructor_state",
+      "runtime_proof": "/root/Main.source_unit_payload_constructor_state",
+      "source_slice": "N1385",
+      "tests": [
+        "test_emit_bridges_unit_payload_constructor_to_source_state",
+        "test_port_game_exposes_source_unit_payload_constructor_state",
+        "test_port_game_exposes_generated_unit_payload_constructor_bridge_state",
+        "test_unit_payload_constructor_matches_upstream_source",
+        "test_generated_unit_payload_constructor_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_constructor_result.constructor",
+      "java_expr": "public UnitPayload(Unit unit){",
+      "rule": "UnitPayload(Unit) constructor boundary.",
+      "status": "source-backed"
+    },
+    "unit_payload_constructor.unit": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload(Unit unit)",
+      "godot_owner": "PortGame.source_unit_payload_constructor_state",
+      "runtime_proof": "/root/Main.source_unit_payload_constructor_state",
+      "source_slice": "N1385",
+      "tests": [
+        "test_emit_bridges_unit_payload_constructor_to_source_state",
+        "test_port_game_exposes_source_unit_payload_constructor_state",
+        "test_port_game_exposes_generated_unit_payload_constructor_bridge_state",
+        "test_unit_payload_constructor_matches_upstream_source",
+        "test_generated_unit_payload_constructor_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_constructor_input.unit",
+      "java_expr": "unit",
+      "rule": "Explicit unit constructor parameter.",
+      "status": "explicit-input"
+    },
+    "unit_payload_constructor.unit_assign_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload(Unit unit)",
+      "godot_owner": "PortGame.source_unit_payload_constructor_state",
+      "runtime_proof": "/root/Main.source_unit_payload_constructor_state",
+      "source_slice": "N1385",
+      "tests": [
+        "test_emit_bridges_unit_payload_constructor_to_source_state",
+        "test_port_game_exposes_source_unit_payload_constructor_state",
+        "test_port_game_exposes_generated_unit_payload_constructor_bridge_state",
+        "test_unit_payload_constructor_matches_upstream_source",
+        "test_generated_unit_payload_constructor_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_unit_payload_constructor_result.unit_after",
+      "java_expr": "this.unit = unit;",
+      "rule": "Constructor assigns this.unit from unit parameter.",
+      "status": "source-backed"
     }
   },
   "version": 1

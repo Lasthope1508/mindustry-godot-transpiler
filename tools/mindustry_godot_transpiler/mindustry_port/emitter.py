@@ -4685,6 +4685,19 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_build_payload_constructor_build_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "constructor": "public BuildPayload(Building build){", "build_assign_expr": "this.build = build;", "build": build, "build_after": build}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
+        and type_entry.get("name") == "UnitPayload"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 1:
+                lines.extend([
+                    "",
+                    f"func java_constructor_UnitPayload_{index}(_args: Array = []) -> Variant:",
+                    "\tvar unit: Variant = _args[0] if _args.size() > 0 else null",
+                    '\treturn {"source_owner": "PortGame.source_unit_payload_constructor_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "constructor": "public UnitPayload(Unit unit){", "unit_assign_expr": "this.unit = unit;", "unit": unit, "unit_after": unit}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
         and type_entry.get("name") == "LiquidTurret"
     ):

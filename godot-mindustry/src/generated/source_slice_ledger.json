@@ -33371,6 +33371,42 @@
         "test_build_payload_constructors_match_upstream_source",
         "test_generated_build_payload_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1385": {
+      "title": "Generated UnitPayload constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "UnitPayload",
+      "java_method": "UnitPayload(Unit unit)",
+      "godot_owner": "PortGame.source_unit_payload_constructor_state",
+      "generated_owner": "UnitPayload.java_constructor_UnitPayload_0",
+      "runtime_proof": "/root/Main.generated_unit_payload_constructor_bridge_state",
+      "rule": "Generated UnitPayload constructor bridges direct unit assignment with explicit unit input, without inferring Unit internals.",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "public UnitPayload(Unit unit){",
+        "this.unit = unit;"
+      ],
+      "deferred_exprs": [
+        "Concrete Unit object internals are deferred to Unit slices",
+        "overlayTime default and overlayRegion default are deferred to field/default slices",
+        "UnitPayload behavior beyond constructor assignment is deferred to later UnitPayload method slices"
+      ],
+      "source_symbols": [
+        "unit_payload_constructor.class_expr",
+        "unit_payload_constructor.field_expr",
+        "unit_payload_constructor.constructor",
+        "unit_payload_constructor.unit",
+        "unit_payload_constructor.unit_assign_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_constructor_to_source_state",
+        "test_port_game_exposes_source_unit_payload_constructor_state",
+        "test_port_game_exposes_generated_unit_payload_constructor_bridge_state",
+        "test_unit_payload_constructor_matches_upstream_source",
+        "test_generated_unit_payload_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

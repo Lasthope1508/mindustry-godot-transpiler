@@ -18258,6 +18258,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"source_owner": "PortGame.source_build_payload_constructor_build_state"', source)
         self.assertIn('"generated_owner": "BuildPayload.java_constructor_BuildPayload_1"', source)
 
+    def test_port_game_exposes_source_unit_payload_constructor_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_constructor_state(unit: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_constructor_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source)
+        self.assertIn('"field_expr": "public Unit unit;"', source)
+        self.assertIn('"constructor": "public UnitPayload(Unit unit){"', source)
+        self.assertIn('"unit_assign_expr": "this.unit = unit;"', source)
+        self.assertIn('"unit_after": unit', source)
+
+    def test_port_game_exposes_generated_unit_payload_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_constructor_bridge_state(unit: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_constructor_UnitPayload_0([unit])", source)
+        self.assertIn("var canonical = source_unit_payload_constructor_state(unit)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_constructor_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_constructor_UnitPayload_0"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
