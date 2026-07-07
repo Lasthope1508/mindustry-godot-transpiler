@@ -34589,6 +34589,44 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.reinitializeConsumers() item/liquid filter allocation."
+    },
+    "PortGame.source_block_reinitialize_consumers_outputs_power_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.reinitializeConsumers()",
+      "source_slice": "N1352",
+      "params": [
+        {
+          "name": "outputs_power",
+          "type": "bool",
+          "java_expr": "outputsPower",
+          "schema": "source_block_reinitialize_consumers_outputs_power_input.outputs_power"
+        },
+        {
+          "name": "has_power_before",
+          "type": "bool",
+          "java_expr": "hasPower",
+          "schema": "source_block_reinitialize_consumers_outputs_power_input.has_power_before"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "outputs_power_expr",
+        "outputs_power",
+        "has_power_before",
+        "has_power_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_outputs_power_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_outputs_power_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_outputs_power_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_outputs_power_bridge_state",
+        "test_block_reinitialize_consumers_outputs_power_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_outputs_power_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.reinitializeConsumers() outputsPower hasPower assignment."
     }
   },
   "policy": {

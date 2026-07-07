@@ -19253,6 +19253,32 @@ func generated_block_reinitialize_consumers_item_liquid_filters_bridge_state(con
 		"matches": result == canonical,
 	}
 
+func source_block_reinitialize_consumers_outputs_power_state(outputs_power: bool, has_power_before: bool) -> Dictionary:
+	var has_power_after: bool = true if outputs_power else has_power_before
+	return {
+		"source_owner": "PortGame.source_block_reinitialize_consumers_outputs_power_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void reinitializeConsumers(){",
+		"outputs_power_expr": "if(outputsPower) hasPower = true;",
+		"outputs_power": outputs_power,
+		"has_power_before": has_power_before,
+		"has_power_after": has_power_after,
+	}
+
+func generated_block_reinitialize_consumers_outputs_power_bridge_state(outputs_power: bool, has_power_before: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_reinitialize_consumers_bridge_mode", "outputs_power")
+	var result = instance.java_method_reinitializeConsumers_124([outputs_power, has_power_before])
+	var canonical = source_block_reinitialize_consumers_outputs_power_state(outputs_power, has_power_before)
+	return {
+		"source_owner": "PortGame.source_block_reinitialize_consumers_outputs_power_state",
+		"generated_owner": "Block.java_method_reinitializeConsumers_124",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

@@ -10298,6 +10298,39 @@ public class Block{
             self.assertIn('"item_filter_expr": "itemFilter = new boolean[content.items().size];"', source_text)
             self.assertIn('"liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];"', source_text)
 
+    def test_emit_bridges_block_reinitialize_consumers_outputs_power_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public void reinitializeConsumers(){
+        if(outputsPower) hasPower = true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_reinitializeConsumers_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif reinitialize_bridge_mode == "outputs_power":', source_text)
+            self.assertIn("\t\tvar outputs_power: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\t\tvar has_power_before: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_reinitialize_consumers_outputs_power_state"', source_text)
+            self.assertIn('"method": "public void reinitializeConsumers(){"', source_text)
+            self.assertIn('"outputs_power_expr": "if(outputsPower) hasPower = true;"', source_text)
+            self.assertIn('"has_power_after": has_power_after', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

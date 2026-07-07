@@ -850,6 +850,11 @@ func java_method_init_123(_args: Array = []) -> Variant:
 
 func java_method_reinitializeConsumers_124(_args: Array = []) -> Variant:
 	var reinitialize_bridge_mode: String = str(get_meta("mindustry_reinitialize_consumers_bridge_mode", "consumer_arrays"))
+	if reinitialize_bridge_mode == "outputs_power":
+		var outputs_power: bool = bool(_args[0] if _args.size() > 0 else false)
+		var has_power_before: bool = bool(_args[1] if _args.size() > 1 else false)
+		var has_power_after: bool = true if outputs_power else has_power_before
+		return {"source_owner": "PortGame.source_block_reinitialize_consumers_outputs_power_state", "source": "core/src/mindustry/world/Block.java", "method": "public void reinitializeConsumers(){", "outputs_power_expr": "if(outputsPower) hasPower = true;", "outputs_power": outputs_power, "has_power_before": has_power_before, "has_power_after": has_power_after}
 	if reinitialize_bridge_mode == "item_liquid_filters":
 		var content_items_size: int = int(_args[0] if _args.size() > 0 else 0)
 		var content_liquids_size: int = int(_args[1] if _args.size() > 1 else 0)

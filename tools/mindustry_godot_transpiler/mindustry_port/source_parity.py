@@ -10954,6 +10954,20 @@ def verify_block_reinitialize_consumers_item_liquid_filters_source(upstream_root
         "missing": missing,
     }
 
+def verify_block_reinitialize_consumers_outputs_power_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void reinitializeConsumers(){",
+        "outputs_power_expr": "if(outputsPower) hasPower = true;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

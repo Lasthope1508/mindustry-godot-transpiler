@@ -32114,6 +32114,34 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.reinitializeConsumers() item/liquid filter allocation to source-backed canonical state."
+    },
+    "N1352": {
+      "title": "Generated Block reinitializeConsumers outputs power bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.reinitializeConsumers()",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_outputs_power_state",
+      "generated_owner": "Block.java_method_reinitializeConsumers_124",
+      "runtime_proof": "/root/Main.generated_block_reinitialize_consumers_outputs_power_bridge_state",
+      "source_symbols": [
+        "block_reinitialize_consumers_outputs_power.method",
+        "block_reinitialize_consumers_outputs_power.outputs_power_expr",
+        "block_reinitialize_consumers_outputs_power.outputs_power",
+        "block_reinitialize_consumers_outputs_power.has_power_before"
+      ],
+      "exact_exprs": [
+        "public void reinitializeConsumers(){",
+        "if(outputsPower) hasPower = true;"
+      ],
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_outputs_power_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_outputs_power_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_outputs_power_bridge_state",
+        "test_block_reinitialize_consumers_outputs_power_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_outputs_power_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.reinitializeConsumers() outputsPower hasPower assignment to source-backed canonical state."
     }
   },
   "version": 1

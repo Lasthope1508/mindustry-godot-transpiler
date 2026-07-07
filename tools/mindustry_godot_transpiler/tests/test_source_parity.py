@@ -5877,6 +5877,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_reinitialize_consumers_outputs_power_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_reinitialize_consumers_outputs_power_source"))
+        report = source_parity.verify_block_reinitialize_consumers_outputs_power_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void reinitializeConsumers(){",
+            "outputs_power_expr": "if(outputsPower) hasPower = true;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_block_init_item_liquid_filters_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_block_init_item_liquid_filters_source"))
         report = source_parity.verify_block_init_item_liquid_filters_source(ROOT / "mindustry-upstream")
