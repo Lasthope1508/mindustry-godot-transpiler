@@ -9007,6 +9007,56 @@ public class Block{
             self.assertIn('"optional_guard_expr": "if(c.optional) continue;"', source_text)
             self.assertIn('"consume_loop_indices": consume_loop_indices', source_text)
 
+    def test_emit_bridges_block_get_dependencies_consume_items_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    public void getDependencies(Cons<UnlockableContent> cons){
+        //also requires inputs
+        for(var c : consumeBuilder){
+            if(c.optional) continue;
+
+            if(c instanceof ConsumeItems i){
+                for(ItemStack stack : i.items){
+                    cons.get(stack.item);
+                }
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_getDependencies_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tif _args.size() <= 2:", source_text)
+            self.assertIn('\t\treturn {"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state"', source_text)
+            self.assertIn("\tvar consume_items_indices: Array = []", source_text)
+            self.assertIn("\tvar consume_item_dependency_items: Array = []", source_text)
+            self.assertIn('\t\tif str(consume.get("type", "")) != "ConsumeItems":', source_text)
+            self.assertIn("\t\tconsume_items_indices.append(i)", source_text)
+            self.assertIn('\t\tfor stack in consume.get("items", []):', source_text)
+            self.assertIn('\t\t\tconsume_item_dependency_items.append(stack.get("item"))', source_text)
+            self.assertIn('\t\t\tdependency_items.append(stack.get("item"))', source_text)
+            self.assertIn('\treturn {"source_owner": "PortGame.source_block_get_dependencies_consume_items_state"', source_text)
+            self.assertIn('"consume_items_guard_expr": "if(c instanceof ConsumeItems i){"', source_text)
+            self.assertIn('"consume_items_loop_expr": "for(ItemStack stack : i.items){"', source_text)
+            self.assertIn('"consume_items_cons_get_item_expr": "cons.get(stack.item);"', source_text)
+            self.assertIn('"consume_item_dependency_items": consume_item_dependency_items', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

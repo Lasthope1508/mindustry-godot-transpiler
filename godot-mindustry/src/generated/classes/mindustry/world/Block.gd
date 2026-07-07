@@ -559,7 +559,21 @@ func java_method_getDependencies_119(_args: Array = []) -> Variant:
 			skipped_optional_indices.append(i)
 			continue
 		non_optional_indices.append(i)
-	return {"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "inputs_comment": "//also requires inputs", "consume_builder_loop_expr": "for(var c : consumeBuilder){", "optional_guard_expr": "if(c.optional) continue;", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices}
+	if _args.size() <= 2:
+		return {"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "inputs_comment": "//also requires inputs", "consume_builder_loop_expr": "for(var c : consumeBuilder){", "optional_guard_expr": "if(c.optional) continue;", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices}
+	var consume_items_indices: Array = []
+	var consume_item_dependency_items: Array = []
+	for i in range(consume_builder.size()):
+		var consume: Dictionary = consume_builder[i]
+		if bool(consume.get("optional", false)):
+			continue
+		if str(consume.get("type", "")) != "ConsumeItems":
+			continue
+		consume_items_indices.append(i)
+		for stack in consume.get("items", []):
+			consume_item_dependency_items.append(stack.get("item"))
+			dependency_items.append(stack.get("item"))
+	return {"source_owner": "PortGame.source_block_get_dependencies_consume_items_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "consume_items_guard_expr": "if(c instanceof ConsumeItems i){", "consume_items_loop_expr": "for(ItemStack stack : i.items){", "consume_items_cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices, "consume_items_indices": consume_items_indices, "consume_item_dependency_items": consume_item_dependency_items}
 
 func java_method_getContentType_120(_args: Array = []) -> Variant:
 	return null

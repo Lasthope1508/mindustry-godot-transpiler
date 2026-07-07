@@ -18256,6 +18256,54 @@ func generated_block_get_dependencies_consume_builder_optional_bridge_state(requ
 		"matches": result == canonical,
 	}
 
+func source_block_get_dependencies_consume_items_state(requirements: Array, consume_builder: Array) -> Dictionary:
+	var optional_state := source_block_get_dependencies_consume_builder_optional_state(requirements, consume_builder)
+	var dependency_items: Array = optional_state.get("dependency_items", []).duplicate()
+	var consume_loop_indices: Array = optional_state.get("consume_loop_indices", [])
+	var skipped_optional_indices: Array = optional_state.get("skipped_optional_indices", [])
+	var non_optional_indices: Array = optional_state.get("non_optional_indices", [])
+	var consume_items_indices: Array = []
+	var consume_item_dependency_items: Array = []
+	for i in range(consume_builder.size()):
+		var consume: Dictionary = consume_builder[i]
+		if bool(consume.get("optional", false)):
+			continue
+		if str(consume.get("type", "")) != "ConsumeItems":
+			continue
+		consume_items_indices.append(i)
+		for stack in consume.get("items", []):
+			consume_item_dependency_items.append(stack.get("item"))
+			dependency_items.append(stack.get("item"))
+	return {
+		"source_owner": "PortGame.source_block_get_dependencies_consume_items_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void getDependencies(Cons<UnlockableContent> cons){",
+		"consume_items_guard_expr": "if(c instanceof ConsumeItems i){",
+		"consume_items_loop_expr": "for(ItemStack stack : i.items){",
+		"consume_items_cons_get_item_expr": "cons.get(stack.item);",
+		"requirements": requirements,
+		"dependency_items": dependency_items,
+		"consume_builder": consume_builder,
+		"consume_loop_indices": consume_loop_indices,
+		"skipped_optional_indices": skipped_optional_indices,
+		"non_optional_indices": non_optional_indices,
+		"consume_items_indices": consume_items_indices,
+		"consume_item_dependency_items": consume_item_dependency_items,
+	}
+
+func generated_block_get_dependencies_consume_items_bridge_state(requirements: Array, consume_builder: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_getDependencies_119([requirements, consume_builder, true])
+	var canonical = source_block_get_dependencies_consume_items_state(requirements, consume_builder)
+	return {
+		"source_owner": "PortGame.source_block_get_dependencies_consume_items_state",
+		"generated_owner": "Block.java_method_getDependencies_119",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

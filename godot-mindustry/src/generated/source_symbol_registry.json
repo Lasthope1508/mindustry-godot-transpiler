@@ -98216,6 +98216,60 @@
         "test_block_get_dependencies_consume_builder_optional_matches_upstream_source",
         "test_generated_block_get_dependencies_consume_builder_optional_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_get_dependencies_consume_items.consume_items_guard_expr": {
+      "godot_owner": "PortGame.source_block_get_dependencies_consume_items_state",
+      "godot_symbol": "source_block_get_dependencies_consume_items_result.consume_items_indices",
+      "java_expr": "if(c instanceof ConsumeItems i){",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve ConsumeItems dependency branch guard.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_items_state",
+      "source_slice": "N1318",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_items_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_items_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_items_bridge_state",
+        "test_block_get_dependencies_consume_items_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_items_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_get_dependencies_consume_items.consume_items_loop_expr": {
+      "godot_owner": "PortGame.source_block_get_dependencies_consume_items_state",
+      "godot_symbol": "source_block_get_dependencies_consume_items_result.consume_item_dependency_items",
+      "java_expr": "for(ItemStack stack : i.items){",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve ConsumeItems item stack iteration.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_items_state",
+      "source_slice": "N1318",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_items_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_items_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_items_bridge_state",
+        "test_block_get_dependencies_consume_items_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_items_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_get_dependencies_consume_items.consume_items_cons_get_item_expr": {
+      "godot_owner": "PortGame.source_block_get_dependencies_consume_items_state",
+      "godot_symbol": "source_block_get_dependencies_consume_items_result.consume_item_dependency_items",
+      "java_expr": "cons.get(stack.item);",
+      "java_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve ConsumeItems dependency item emission.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_items_state",
+      "source_slice": "N1318",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_items_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_items_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_items_bridge_state",
+        "test_block_get_dependencies_consume_items_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_items_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

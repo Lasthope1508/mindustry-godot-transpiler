@@ -17018,5 +17018,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_getDependencies_119"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_get_dependencies_consume_items_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_get_dependencies_consume_items_state(requirements: Array, consume_builder: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_get_dependencies_consume_items_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"consume_items_guard_expr": "if(c instanceof ConsumeItems i){"', source)
+        self.assertIn('"consume_items_loop_expr": "for(ItemStack stack : i.items){"', source)
+        self.assertIn('"consume_items_cons_get_item_expr": "cons.get(stack.item);"', source)
+        self.assertIn('"consume_items_indices": consume_items_indices', source)
+        self.assertIn('"consume_item_dependency_items": consume_item_dependency_items', source)
+        self.assertIn('"dependency_items": dependency_items', source)
+
+    def test_port_game_exposes_generated_block_get_dependencies_consume_items_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_get_dependencies_consume_items_bridge_state(requirements: Array, consume_builder: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_getDependencies_119([requirements, consume_builder, true])", source)
+        self.assertIn("var canonical = source_block_get_dependencies_consume_items_state(requirements, consume_builder)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_get_dependencies_consume_items_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_getDependencies_119"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

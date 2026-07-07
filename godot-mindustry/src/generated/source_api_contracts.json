@@ -33101,6 +33101,51 @@
         "test_block_get_dependencies_consume_builder_optional_matches_upstream_source",
         "test_generated_block_get_dependencies_consume_builder_optional_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_get_dependencies_consume_items_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "requirements",
+          "name": "requirements",
+          "schema": "source_block_get_dependencies_consume_items_input.requirements",
+          "type": "Array"
+        },
+        {
+          "java_expr": "consumeBuilder",
+          "name": "consume_builder",
+          "schema": "source_block_get_dependencies_consume_items_input.consume_builder",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "consume_items_guard_expr",
+        "consume_items_loop_expr",
+        "consume_items_cons_get_item_expr",
+        "requirements",
+        "dependency_items",
+        "consume_builder",
+        "consume_loop_indices",
+        "skipped_optional_indices",
+        "non_optional_indices",
+        "consume_items_indices",
+        "consume_item_dependency_items"
+      ],
+      "rule": "Pin source-backed Block.getDependencies() ConsumeItems dependency branch after optional consumes are skipped.",
+      "runtime_proof": "/root/Main.source_block_get_dependencies_consume_items_state",
+      "source_method": "Block.getDependencies(Cons<UnlockableContent> cons)",
+      "source_slice": "N1318",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_get_dependencies_consume_items_to_source_state",
+        "test_port_game_exposes_source_block_get_dependencies_consume_items_state",
+        "test_port_game_exposes_generated_block_get_dependencies_consume_items_bridge_state",
+        "test_block_get_dependencies_consume_items_matches_upstream_source",
+        "test_generated_block_get_dependencies_consume_items_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

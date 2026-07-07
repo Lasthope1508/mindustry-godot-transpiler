@@ -1863,7 +1863,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\t\tskipped_optional_indices.append(i)",
             "\t\t\tcontinue",
             "\t\tnon_optional_indices.append(i)",
-            '\treturn {"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "inputs_comment": "//also requires inputs", "consume_builder_loop_expr": "for(var c : consumeBuilder){", "optional_guard_expr": "if(c.optional) continue;", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices}',
+            "\tif _args.size() <= 2:",
+            '\t\treturn {"source_owner": "PortGame.source_block_get_dependencies_consume_builder_optional_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "inputs_comment": "//also requires inputs", "consume_builder_loop_expr": "for(var c : consumeBuilder){", "optional_guard_expr": "if(c.optional) continue;", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices}',
+            "\tvar consume_items_indices: Array = []",
+            "\tvar consume_item_dependency_items: Array = []",
+            "\tfor i in range(consume_builder.size()):",
+            "\t\tvar consume: Dictionary = consume_builder[i]",
+            '\t\tif bool(consume.get("optional", false)):',
+            "\t\t\tcontinue",
+            '\t\tif str(consume.get("type", "")) != "ConsumeItems":',
+            "\t\t\tcontinue",
+            "\t\tconsume_items_indices.append(i)",
+            '\t\tfor stack in consume.get("items", []):',
+            '\t\t\tconsume_item_dependency_items.append(stack.get("item"))',
+            '\t\t\tdependency_items.append(stack.get("item"))',
+            '\treturn {"source_owner": "PortGame.source_block_get_dependencies_consume_items_state", "source": "core/src/mindustry/world/Block.java", "method": "public void getDependencies(Cons<UnlockableContent> cons){", "consume_items_guard_expr": "if(c instanceof ConsumeItems i){", "consume_items_loop_expr": "for(ItemStack stack : i.items){", "consume_items_cons_get_item_expr": "cons.get(stack.item);", "requirements": requirements, "dependency_items": dependency_items, "consume_builder": consume_builder, "consume_loop_indices": consume_loop_indices, "skipped_optional_indices": skipped_optional_indices, "non_optional_indices": non_optional_indices, "consume_items_indices": consume_items_indices, "consume_item_dependency_items": consume_item_dependency_items}',
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"

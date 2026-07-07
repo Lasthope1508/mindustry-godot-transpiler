@@ -5468,6 +5468,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_get_dependencies_consume_items_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_get_dependencies_consume_items_source"))
+        report = source_parity.verify_block_get_dependencies_consume_items_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["checked"], {
+            "consume_items_guard_expr": "if(c instanceof ConsumeItems i){",
+            "consume_items_loop_expr": "for(ItemStack stack : i.items){",
+            "consume_items_cons_get_item_expr": "cons.get(stack.item);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

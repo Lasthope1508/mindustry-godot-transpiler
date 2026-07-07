@@ -10398,6 +10398,21 @@ def verify_block_get_dependencies_consume_builder_optional_source(upstream_root:
         "missing": missing,
     }
 
+def verify_block_get_dependencies_consume_items_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "consume_items_guard_expr": "if(c instanceof ConsumeItems i){",
+        "consume_items_loop_expr": "for(ItemStack stack : i.items){",
+        "consume_items_cons_get_item_expr": "cons.get(stack.item);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

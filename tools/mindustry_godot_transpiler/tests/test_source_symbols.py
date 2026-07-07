@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 791)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 786)
+        self.assertEqual(audit["totalSourceFunctions"], 792)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 787)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 791)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 792)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -44968,6 +44968,45 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_get_dependencies_consume_builder_optional_result")
         self.assertEqual(result_schema["keys"]["consume_loop_indices"]["java_expr"], "for(var c : consumeBuilder){")
         self.assertEqual(result_schema["keys"]["skipped_optional_indices"]["java_expr"], "if(c.optional) continue;")
+
+    def test_generated_block_get_dependencies_consume_items_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        consume_items = source_symbols.source_symbol(registry, "block_get_dependencies_consume_items.consume_items_guard_expr")
+        self.assertEqual(consume_items["java_expr"], "if(c instanceof ConsumeItems i){")
+        self.assertEqual(consume_items["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(consume_items["java_method"], "Block.getDependencies(Cons<UnlockableContent> cons)")
+        self.assertEqual(consume_items["godot_owner"], "PortGame.source_block_get_dependencies_consume_items_state")
+        self.assertEqual(consume_items["godot_symbol"], "source_block_get_dependencies_consume_items_result.consume_items_indices")
+        self.assertEqual(consume_items["runtime_proof"], "/root/Main.source_block_get_dependencies_consume_items_state")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1318")
+        self.assertEqual(setup_slice["title"], "Generated Block getDependencies ConsumeItems bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.getDependencies(Cons<UnlockableContent> cons)")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_get_dependencies_consume_items_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_getDependencies_119")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_get_dependencies_consume_items_bridge_state")
+        for expr in [
+            "if(c instanceof ConsumeItems i){",
+            "for(ItemStack stack : i.items){",
+            "cons.get(stack.item);",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_get_dependencies_consume_items_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["requirements", "consume_builder"])
+        for key in ["source_owner", "source", "method", "consume_items_guard_expr", "consume_items_loop_expr", "consume_items_cons_get_item_expr", "dependency_items", "consume_items_indices", "consume_item_dependency_items"]:
+            self.assertIn(key, contract["return_keys"])
+
+        result_schema = source_symbols.state_schema(schema, "source_block_get_dependencies_consume_items_result")
+        self.assertEqual(result_schema["keys"]["consume_items_indices"]["java_expr"], "if(c instanceof ConsumeItems i){")
+        self.assertEqual(result_schema["keys"]["consume_item_dependency_items"]["java_expr"], "cons.get(stack.item);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
