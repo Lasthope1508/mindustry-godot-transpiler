@@ -16943,5 +16943,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_researchRequirements_118"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_research_requirements_output_fill_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_research_requirements_output_fill_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_research_requirements_output_fill_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"itemstack_fill_expr": "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));"', source)
+        self.assertIn('"return_out_expr": "return out;"', source)
+        self.assertIn('"output_requirements": output_requirements', source)
+        self.assertIn('"returned_requirements": output_requirements', source)
+
+    def test_port_game_exposes_generated_block_research_requirements_output_fill_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_research_requirements_output_fill_bridge_state(research_cost: Variant, research_cost_multiplier: float, requirements: Array, research_cost_multipliers: Dictionary) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_researchRequirements_118([research_cost, research_cost_multiplier, requirements, research_cost_multipliers, true, true])", source)
+        self.assertIn("var canonical = source_block_research_requirements_output_fill_state(research_cost, research_cost_multiplier, requirements, research_cost_multipliers)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_research_requirements_output_fill_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_researchRequirements_118"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

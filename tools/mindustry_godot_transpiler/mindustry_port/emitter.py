@@ -1831,7 +1831,13 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\t\telif rounded_amount >= 10:",
             "\t\t\trounded_amount = int(float(rounded_amount) / 10.0) * 10",
             "\t\trounded_amount_values.append(rounded_amount)",
-            '\treturn {"source_owner": "PortGame.source_block_research_requirements_round_amount_state", "source": "core/src/mindustry/world/Block.java", "ui_source": "core/src/mindustry/core/UI.java", "method": "public ItemStack[] researchRequirements(){", "round_amount_expr": "UI.roundAmount(quantity)", "ui_round_amount_method": "public static int roundAmount(int number){", "mathf_round_int_step_expr": "return (value / step) * step;", "quantity_values": quantity_values, "rounded_amount_values": rounded_amount_values}',
+            "\tif _args.size() <= 5:",
+            '\t\treturn {"source_owner": "PortGame.source_block_research_requirements_round_amount_state", "source": "core/src/mindustry/world/Block.java", "ui_source": "core/src/mindustry/core/UI.java", "method": "public ItemStack[] researchRequirements(){", "round_amount_expr": "UI.roundAmount(quantity)", "ui_round_amount_method": "public static int roundAmount(int number){", "mathf_round_int_step_expr": "return (value / step) * step;", "quantity_values": quantity_values, "rounded_amount_values": rounded_amount_values}',
+            "\tvar output_requirements: Array = []",
+            "\tfor i in range(rounded_amount_values.size()):",
+            "\t\tvar requirement: Dictionary = requirements[i] if i < requirements.size() else {}",
+            '\t\toutput_requirements.append({"item": requirement.get("item"), "amount": rounded_amount_values[i]})',
+            '\treturn {"source_owner": "PortGame.source_block_research_requirements_output_fill_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "itemstack_fill_expr": "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));", "return_out_expr": "return out;", "quantity_values": quantity_values, "rounded_amount_values": rounded_amount_values, "output_requirements": output_requirements, "returned_requirements": output_requirements}',
         ]
     if (
         java_file.get("path") == "mindustry/world/Block.java"

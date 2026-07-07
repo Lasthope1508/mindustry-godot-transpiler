@@ -30829,6 +30829,35 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N1315": {
+      "exact_exprs": [
+        "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));",
+        "requirements[i].item",
+        "UI.roundAmount(quantity)",
+        "return out;"
+      ],
+      "generated_owner": "Block.java_method_researchRequirements_118",
+      "godot_owner": "PortGame.source_block_research_requirements_output_fill_state",
+      "java_class": "Block",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_research_requirements_output_fill_bridge_state",
+      "source_symbols": [
+        "block_research_requirements_output_fill.itemstack_fill_expr",
+        "block_research_requirements_output_fill.requirement_item_expr",
+        "block_research_requirements_output_fill.round_amount_expr",
+        "block_research_requirements_output_fill.return_out_expr"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_output_fill_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_output_fill_state",
+        "test_port_game_exposes_generated_block_research_requirements_output_fill_bridge_state",
+        "test_block_research_requirements_output_fill_matches_upstream_source",
+        "test_generated_block_research_requirements_output_fill_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block researchRequirements output fill bridge state"
     }
   },
   "version": 1

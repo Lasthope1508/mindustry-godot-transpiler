@@ -98000,6 +98000,78 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "block_research_requirements_output_fill.itemstack_fill_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_output_fill_state",
+      "godot_symbol": "source_block_research_requirements_output_fill_result.output_requirements",
+      "java_expr": "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.researchRequirements() ItemStack output fill from requirement item and rounded amount.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_output_fill_state",
+      "source_slice": "N1315",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_output_fill_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_output_fill_state",
+        "test_port_game_exposes_generated_block_research_requirements_output_fill_bridge_state",
+        "test_block_research_requirements_output_fill_matches_upstream_source",
+        "test_generated_block_research_requirements_output_fill_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_output_fill.requirement_item_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_output_fill_state",
+      "godot_symbol": "source_block_research_requirements_output_fill_result.output_requirements",
+      "java_expr": "requirements[i].item",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve item source used by new ItemStack(requirements[i].item, ...).",
+      "runtime_proof": "/root/Main.source_block_research_requirements_output_fill_state",
+      "source_slice": "N1315",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_output_fill_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_output_fill_state",
+        "test_port_game_exposes_generated_block_research_requirements_output_fill_bridge_state",
+        "test_block_research_requirements_output_fill_matches_upstream_source",
+        "test_generated_block_research_requirements_output_fill_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_output_fill.round_amount_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_output_fill_state",
+      "godot_symbol": "source_block_research_requirements_output_fill_result.rounded_amount_values",
+      "java_expr": "UI.roundAmount(quantity)",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve rounded amount used by new ItemStack(..., UI.roundAmount(quantity)).",
+      "runtime_proof": "/root/Main.source_block_research_requirements_output_fill_state",
+      "source_slice": "N1315",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_output_fill_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_output_fill_state",
+        "test_port_game_exposes_generated_block_research_requirements_output_fill_bridge_state",
+        "test_block_research_requirements_output_fill_matches_upstream_source",
+        "test_generated_block_research_requirements_output_fill_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_research_requirements_output_fill.return_out_expr": {
+      "godot_owner": "PortGame.source_block_research_requirements_output_fill_state",
+      "godot_symbol": "source_block_research_requirements_output_fill_result.returned_requirements",
+      "java_expr": "return out;",
+      "java_method": "Block.researchRequirements()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve final return of filled ItemStack output array.",
+      "runtime_proof": "/root/Main.source_block_research_requirements_output_fill_state",
+      "source_slice": "N1315",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_research_requirements_output_fill_to_source_state",
+        "test_port_game_exposes_source_block_research_requirements_output_fill_state",
+        "test_port_game_exposes_generated_block_research_requirements_output_fill_bridge_state",
+        "test_block_research_requirements_output_fill_matches_upstream_source",
+        "test_generated_block_research_requirements_output_fill_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

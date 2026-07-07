@@ -533,7 +533,13 @@ func java_method_researchRequirements_118(_args: Array = []) -> Variant:
 		elif rounded_amount >= 10:
 			rounded_amount = int(float(rounded_amount) / 10.0) * 10
 		rounded_amount_values.append(rounded_amount)
-	return {"source_owner": "PortGame.source_block_research_requirements_round_amount_state", "source": "core/src/mindustry/world/Block.java", "ui_source": "core/src/mindustry/core/UI.java", "method": "public ItemStack[] researchRequirements(){", "round_amount_expr": "UI.roundAmount(quantity)", "ui_round_amount_method": "public static int roundAmount(int number){", "mathf_round_int_step_expr": "return (value / step) * step;", "quantity_values": quantity_values, "rounded_amount_values": rounded_amount_values}
+	if _args.size() <= 5:
+		return {"source_owner": "PortGame.source_block_research_requirements_round_amount_state", "source": "core/src/mindustry/world/Block.java", "ui_source": "core/src/mindustry/core/UI.java", "method": "public ItemStack[] researchRequirements(){", "round_amount_expr": "UI.roundAmount(quantity)", "ui_round_amount_method": "public static int roundAmount(int number){", "mathf_round_int_step_expr": "return (value / step) * step;", "quantity_values": quantity_values, "rounded_amount_values": rounded_amount_values}
+	var output_requirements: Array = []
+	for i in range(rounded_amount_values.size()):
+		var requirement: Dictionary = requirements[i] if i < requirements.size() else {}
+		output_requirements.append({"item": requirement.get("item"), "amount": rounded_amount_values[i]})
+	return {"source_owner": "PortGame.source_block_research_requirements_output_fill_state", "source": "core/src/mindustry/world/Block.java", "method": "public ItemStack[] researchRequirements(){", "itemstack_fill_expr": "out[i] = new ItemStack(requirements[i].item, UI.roundAmount(quantity));", "return_out_expr": "return out;", "quantity_values": quantity_values, "rounded_amount_values": rounded_amount_values, "output_requirements": output_requirements, "returned_requirements": output_requirements}
 
 func java_method_getDependencies_119(_args: Array = []) -> Variant:
 	return null
