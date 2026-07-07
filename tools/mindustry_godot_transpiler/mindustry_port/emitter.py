@@ -1564,6 +1564,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
         and method.get("name") == "reinitializeConsumers"
     ):
         return [
+            '\tvar reinitialize_bridge_mode: String = str(get_meta("mindustry_reinitialize_consumers_bridge_mode", "consumer_arrays"))',
+            '\tif reinitialize_bridge_mode == "item_liquid_filters":',
+            "\t\tvar content_items_size: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\t\tvar content_liquids_size: int = int(_args[1] if _args.size() > 1 else 0)",
+            "\t\tvar item_filter: Array = []",
+            "\t\tfor _i in range(max(content_items_size, 0)):",
+            "\t\t\titem_filter.append(false)",
+            "\t\tvar liquid_filter: Array = []",
+            "\t\tfor _i in range(max(content_liquids_size, 0)):",
+            "\t\t\tliquid_filter.append(false)",
+            '\t\treturn {"source_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state", "source": "core/src/mindustry/world/Block.java", "method": "public void reinitializeConsumers(){", "item_filter_expr": "itemFilter = new boolean[content.items().size];", "liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];", "content_items_size": content_items_size, "content_liquids_size": content_liquids_size, "item_filter": item_filter, "liquid_filter": liquid_filter, "item_filter_size": item_filter.size(), "liquid_filter_size": liquid_filter.size()}',
             "\tvar consumer_builder_entries: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
             "\tvar consumers: Array = consumer_builder_entries.duplicate()",
             "\tvar cons_power: Variant = null",

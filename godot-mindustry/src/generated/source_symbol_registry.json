@@ -102698,6 +102698,96 @@
         "test_generated_block_reinitialize_consumers_arrays_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed Block.reinitializeConsumers() consumer array rebuild and consPower discovery."
+    },
+    "block_reinitialize_consumers_item_liquid_filters.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "public void reinitializeConsumers(){",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.method",
+      "status": "source-backed",
+      "source_slice": "N1351",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_item_liquid_filters_bridge_state",
+        "test_block_reinitialize_consumers_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() item/liquid filter allocation."
+    },
+    "block_reinitialize_consumers_item_liquid_filters.item_filter_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "itemFilter = new boolean[content.items().size];",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.item_filter",
+      "status": "source-backed",
+      "source_slice": "N1351",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_item_liquid_filters_bridge_state",
+        "test_block_reinitialize_consumers_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() item/liquid filter allocation."
+    },
+    "block_reinitialize_consumers_item_liquid_filters.liquid_filter_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "liquidFilter = new boolean[content.liquids().size];",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.liquid_filter",
+      "status": "source-backed",
+      "source_slice": "N1351",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_item_liquid_filters_bridge_state",
+        "test_block_reinitialize_consumers_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() item/liquid filter allocation."
+    },
+    "block_reinitialize_consumers_item_liquid_filters.content_items_size": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "content.items().size",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_input.content_items_size",
+      "status": "explicit-input",
+      "source_slice": "N1351",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_item_liquid_filters_bridge_state",
+        "test_block_reinitialize_consumers_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() item/liquid filter allocation."
+    },
+    "block_reinitialize_consumers_item_liquid_filters.content_liquids_size": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.reinitializeConsumers()",
+      "java_expr": "content.liquids().size",
+      "godot_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_input.content_liquids_size",
+      "status": "explicit-input",
+      "source_slice": "N1351",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "tests": [
+        "test_emit_bridges_block_reinitialize_consumers_item_liquid_filters_to_source_state",
+        "test_port_game_exposes_source_block_reinitialize_consumers_item_liquid_filters_state",
+        "test_port_game_exposes_generated_block_reinitialize_consumers_item_liquid_filters_bridge_state",
+        "test_block_reinitialize_consumers_item_liquid_filters_matches_upstream_source",
+        "test_generated_block_reinitialize_consumers_item_liquid_filters_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.reinitializeConsumers() item/liquid filter allocation."
     }
   },
   "version": 1

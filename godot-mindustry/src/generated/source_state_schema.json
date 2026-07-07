@@ -127335,6 +127335,202 @@
           ]
         }
       }
+    },
+    "source_block_reinitialize_consumers_item_liquid_filters_input": {
+      "owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "source_slice": "N1351",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_reinitialize_consumers_item_liquid_filters_state.",
+      "keys": {
+        "content_items_size": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_input.content_items_size",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "content.items().size",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.content_items_size"
+          ]
+        },
+        "content_liquids_size": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_input.content_liquids_size",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "content.liquids().size",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.content_liquids_size"
+          ]
+        }
+      }
+    },
+    "source_block_reinitialize_consumers_item_liquid_filters_result": {
+      "owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "source_slice": "N1351",
+      "runtime_proof": "/root/Main.source_block_reinitialize_consumers_item_liquid_filters_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_reinitialize_consumers_item_liquid_filters_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": []
+        },
+        "method": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "public void reinitializeConsumers(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.method"
+          ]
+        },
+        "item_filter_expr": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.item_filter_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "itemFilter = new boolean[content.items().size];",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.item_filter_expr"
+          ]
+        },
+        "liquid_filter_expr": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.liquid_filter_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "liquidFilter = new boolean[content.liquids().size];",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.liquid_filter_expr"
+          ]
+        },
+        "content_items_size": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.content_items_size",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "content.items().size",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.content_items_size"
+          ]
+        },
+        "content_liquids_size": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.content_liquids_size",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "content.liquids().size",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.content_liquids_size"
+          ]
+        },
+        "item_filter": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.item_filter",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "itemFilter = new boolean[content.items().size];",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.item_filter_expr"
+          ]
+        },
+        "liquid_filter": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.liquid_filter",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "liquidFilter = new boolean[content.liquids().size];",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.liquid_filter_expr"
+          ]
+        },
+        "item_filter_size": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.item_filter_size",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "content.items().size",
+          "type": "int",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.content_items_size"
+          ]
+        },
+        "liquid_filter_size": {
+          "godot_symbol": "source_block_reinitialize_consumers_item_liquid_filters_result.liquid_filter_size",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.reinitializeConsumers()",
+          "java_expr": "content.liquids().size",
+          "type": "int",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"
+          ],
+          "source_symbols": [
+            "block_reinitialize_consumers_item_liquid_filters.content_liquids_size"
+          ]
+        }
+      }
     }
   },
   "version": 1

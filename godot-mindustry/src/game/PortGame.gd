@@ -19218,6 +19218,41 @@ func generated_block_reinitialize_consumers_arrays_bridge_state(consume_builder:
 		"matches": result == canonical,
 	}
 
+func source_block_reinitialize_consumers_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
+	var item_filter: Array = []
+	for _i in range(max(content_items_size, 0)):
+		item_filter.append(false)
+	var liquid_filter: Array = []
+	for _i in range(max(content_liquids_size, 0)):
+		liquid_filter.append(false)
+	return {
+		"source_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void reinitializeConsumers(){",
+		"item_filter_expr": "itemFilter = new boolean[content.items().size];",
+		"liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];",
+		"content_items_size": content_items_size,
+		"content_liquids_size": content_liquids_size,
+		"item_filter": item_filter,
+		"liquid_filter": liquid_filter,
+		"item_filter_size": item_filter.size(),
+		"liquid_filter_size": liquid_filter.size(),
+	}
+
+func generated_block_reinitialize_consumers_item_liquid_filters_bridge_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_reinitialize_consumers_bridge_mode", "item_liquid_filters")
+	var result = instance.java_method_reinitializeConsumers_124([content_items_size, content_liquids_size])
+	var canonical = source_block_reinitialize_consumers_item_liquid_filters_state(content_items_size, content_liquids_size)
+	return {
+		"source_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state",
+		"generated_owner": "Block.java_method_reinitializeConsumers_124",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

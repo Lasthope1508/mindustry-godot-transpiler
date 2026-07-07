@@ -10263,6 +10263,41 @@ public class Block{
             self.assertIn('"has_consumers_expr": "hasConsumers = consumers.length > 0;"', source_text)
             self.assertIn('"cons_power": cons_power', source_text)
 
+    def test_emit_bridges_block_reinitialize_consumers_item_liquid_filters_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public void reinitializeConsumers(){
+        itemFilter = new boolean[content.items().size];
+        liquidFilter = new boolean[content.liquids().size];
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_reinitializeConsumers_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tvar reinitialize_bridge_mode: String = str(get_meta("mindustry_reinitialize_consumers_bridge_mode", "consumer_arrays"))', source_text)
+            self.assertIn('\tif reinitialize_bridge_mode == "item_liquid_filters":', source_text)
+            self.assertIn("\t\tvar content_items_size: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("\t\tvar content_liquids_size: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_reinitialize_consumers_item_liquid_filters_state"', source_text)
+            self.assertIn('"method": "public void reinitializeConsumers(){"', source_text)
+            self.assertIn('"item_filter_expr": "itemFilter = new boolean[content.items().size];"', source_text)
+            self.assertIn('"liquid_filter_expr": "liquidFilter = new boolean[content.liquids().size];"', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
