@@ -34053,6 +34053,54 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.init() offset and sizeOffset assignments."
+    },
+    "PortGame.source_block_init_build_time_requirements_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1339",
+      "params": [
+        {
+          "name": "build_time_before",
+          "type": "float",
+          "java_expr": "buildTime",
+          "schema": "source_block_init_build_time_requirements_input.build_time_before"
+        },
+        {
+          "name": "requirement_stacks",
+          "type": "Array",
+          "java_expr": "requirements",
+          "schema": "source_block_init_build_time_requirements_input.requirement_stacks"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "item_source",
+        "item_stack_source",
+        "method",
+        "super_init_expr",
+        "build_time_guard_expr",
+        "build_time_zero_expr",
+        "requirements_loop_expr",
+        "build_time_add_expr",
+        "item_cost_field_expr",
+        "itemstack_amount_field_expr",
+        "build_time_before",
+        "requirement_stacks",
+        "requirements_length",
+        "build_time_assigned",
+        "build_time_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_build_time_requirements_state",
+      "tests": [
+        "test_emit_bridges_block_init_build_time_requirements_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_requirements_state",
+        "test_port_game_exposes_generated_block_init_build_time_requirements_bridge_state",
+        "test_block_init_build_time_requirements_matches_upstream_source",
+        "test_generated_block_init_build_time_requirements_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() buildTime requirements summation branch."
     }
   },
   "policy": {

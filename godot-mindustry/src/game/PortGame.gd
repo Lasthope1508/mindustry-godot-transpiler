@@ -19011,6 +19011,48 @@ func generated_block_init_offset_bridge_state(size_value: int, source_tilesize: 
 		"matches": result == canonical,
 	}
 
+func source_block_init_build_time_requirements_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:
+	var requirements_length: int = requirement_stacks.size()
+	var build_time_assigned: bool = requirements_length > 0 and build_time_before < 0.0
+	var build_time_after: float = 0.0 if build_time_assigned else build_time_before
+	if build_time_assigned:
+		for stack in requirement_stacks:
+			if stack is Dictionary:
+				build_time_after += float(stack.get("amount", 0)) * float(stack.get("cost", 1.0))
+	return {
+		"source_owner": "PortGame.source_block_init_build_time_requirements_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"item_source": "core/src/mindustry/type/Item.java",
+		"item_stack_source": "core/src/mindustry/type/ItemStack.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"build_time_guard_expr": "if(requirements.length > 0 && buildTime < 0){",
+		"build_time_zero_expr": "buildTime = 0f;",
+		"requirements_loop_expr": "for(ItemStack stack : requirements){",
+		"build_time_add_expr": "buildTime += stack.amount * stack.item.cost;",
+		"item_cost_field_expr": "public float cost = 1f;",
+		"itemstack_amount_field_expr": "public int amount = 0;",
+		"build_time_before": build_time_before,
+		"requirement_stacks": requirement_stacks,
+		"requirements_length": requirements_length,
+		"build_time_assigned": build_time_assigned,
+		"build_time_after": build_time_after,
+	}
+
+func generated_block_init_build_time_requirements_bridge_state(build_time_before: float, requirement_stacks: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "build_time_requirements")
+	var result = instance.java_method_init_123([build_time_before, requirement_stacks])
+	var canonical = source_block_init_build_time_requirements_state(build_time_before, requirement_stacks)
+	return {
+		"source_owner": "PortGame.source_block_init_build_time_requirements_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

@@ -5780,6 +5780,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_build_time_requirements_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_build_time_requirements_source"))
+        report = source_parity.verify_block_init_build_time_requirements_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["item_source"], "core/src/mindustry/type/Item.java")
+        self.assertEqual(report["item_stack_source"], "core/src/mindustry/type/ItemStack.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "build_time_guard_expr": "if(requirements.length > 0 && buildTime < 0){",
+            "build_time_zero_expr": "buildTime = 0f;",
+            "requirements_loop_expr": "for(ItemStack stack : requirements){",
+            "build_time_add_expr": "buildTime += stack.amount * stack.item.cost;",
+            "item_cost_field_expr": "public float cost = 1f;",
+            "itemstack_amount_field_expr": "public int amount = 0;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

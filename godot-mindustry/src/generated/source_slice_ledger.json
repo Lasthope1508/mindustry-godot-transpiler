@@ -31643,6 +31643,46 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.init() offset and sizeOffset assignments to source-backed canonical state using Vars.tilesize."
+    },
+    "N1339": {
+      "title": "Generated Block init build time requirements bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_build_time_requirements_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_build_time_requirements_bridge_state",
+      "source_symbols": [
+        "block_init_build_time_requirements.method",
+        "block_init_build_time_requirements.super_init_expr",
+        "block_init_build_time_requirements.build_time_guard_expr",
+        "block_init_build_time_requirements.build_time_zero_expr",
+        "block_init_build_time_requirements.requirements_loop_expr",
+        "block_init_build_time_requirements.build_time_add_expr",
+        "block_init_build_time_requirements.item_cost_field_expr",
+        "block_init_build_time_requirements.itemstack_amount_field_expr",
+        "block_init_build_time_requirements.build_time",
+        "block_init_build_time_requirements.requirements"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(requirements.length > 0 && buildTime < 0){",
+        "buildTime = 0f;",
+        "for(ItemStack stack : requirements){",
+        "buildTime += stack.amount * stack.item.cost;",
+        "public float cost = 1f;",
+        "public int amount = 0;"
+      ],
+      "tests": [
+        "test_emit_bridges_block_init_build_time_requirements_to_source_state",
+        "test_port_game_exposes_source_block_init_build_time_requirements_state",
+        "test_port_game_exposes_generated_block_init_build_time_requirements_bridge_state",
+        "test_block_init_build_time_requirements_matches_upstream_source",
+        "test_generated_block_init_build_time_requirements_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.init() requirements buildTime summation to source-backed canonical state using ItemStack.amount and Item.cost."
     }
   },
   "version": 1

@@ -10042,6 +10042,55 @@ public class Block{
             self.assertIn('"offset_after": offset_after', source_text)
             self.assertIn('"size_offset_after": size_offset_after', source_text)
 
+    def test_emit_bridges_block_init_build_time_requirements_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        if(requirements.length > 0 && buildTime < 0){
+            buildTime = 0f;
+            for(ItemStack stack : requirements){
+                buildTime += stack.amount * stack.item.cost;
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "build_time_requirements":', source_text)
+            self.assertIn("\t\tvar build_time_before: float = float(_args[0] if _args.size() > 0 else -1.0)", source_text)
+            self.assertIn("\t\tvar requirement_stacks: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("\t\tvar build_time_assigned: bool = requirement_stacks.size() > 0 and build_time_before < 0.0", source_text)
+            self.assertIn("\t\tvar build_time_after: float = 0.0 if build_time_assigned else build_time_before", source_text)
+            self.assertIn("\t\t\tbuild_time_after += float(stack.get(\"amount\", 0)) * float(stack.get(\"cost\", 1.0))", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_build_time_requirements_state"', source_text)
+            self.assertIn('"build_time_guard_expr": "if(requirements.length > 0 && buildTime < 0){"', source_text)
+            self.assertIn('"build_time_zero_expr": "buildTime = 0f;"', source_text)
+            self.assertIn('"requirements_loop_expr": "for(ItemStack stack : requirements){"', source_text)
+            self.assertIn('"build_time_add_expr": "buildTime += stack.amount * stack.item.cost;"', source_text)
+            self.assertIn('"item_cost_field_expr": "public float cost = 1f;"', source_text)
+            self.assertIn('"itemstack_amount_field_expr": "public int amount = 0;"', source_text)
+            self.assertIn('"build_time_after": build_time_after', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

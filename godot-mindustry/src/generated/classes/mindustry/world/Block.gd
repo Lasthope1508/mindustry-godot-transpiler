@@ -729,6 +729,17 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		var offset_after: float = float((offset_size_value + 1) % 2) * source_tilesize / 2.0
 		var size_offset_after: int = -int(float(offset_size_value - 1) / 2.0)
 		return {"source_owner": "PortGame.source_block_init_offset_state", "source": "core/src/mindustry/world/Block.java", "vars_source": "core/src/mindustry/Vars.java", "method": "public void init(){", "super_init_expr": "super.init();", "offset_expr": "offset = ((size + 1) % 2) * tilesize / 2f;", "size_offset_expr": "sizeOffset = -((size - 1) / 2);", "tilesize_field_expr": "public static final int tilesize = 8;", "size": offset_size_value, "source_tilesize": source_tilesize, "offset_after": offset_after, "size_offset_after": size_offset_after}
+	if init_bridge_mode == "build_time_requirements":
+		var build_time_before: float = float(_args[0] if _args.size() > 0 else -1.0)
+		var requirement_stacks: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+		var requirements_length: int = requirement_stacks.size()
+		var build_time_assigned: bool = requirement_stacks.size() > 0 and build_time_before < 0.0
+		var build_time_after: float = 0.0 if build_time_assigned else build_time_before
+		if build_time_assigned:
+			for stack in requirement_stacks:
+				if stack is Dictionary:
+					build_time_after += float(stack.get("amount", 0)) * float(stack.get("cost", 1.0))
+		return {"source_owner": "PortGame.source_block_init_build_time_requirements_state", "source": "core/src/mindustry/world/Block.java", "item_source": "core/src/mindustry/type/Item.java", "item_stack_source": "core/src/mindustry/type/ItemStack.java", "method": "public void init(){", "super_init_expr": "super.init();", "build_time_guard_expr": "if(requirements.length > 0 && buildTime < 0){", "build_time_zero_expr": "buildTime = 0f;", "requirements_loop_expr": "for(ItemStack stack : requirements){", "build_time_add_expr": "buildTime += stack.amount * stack.item.cost;", "item_cost_field_expr": "public float cost = 1f;", "itemstack_amount_field_expr": "public int amount = 0;", "build_time_before": build_time_before, "requirement_stacks": requirement_stacks, "requirements_length": requirements_length, "build_time_assigned": build_time_assigned, "build_time_after": build_time_after}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

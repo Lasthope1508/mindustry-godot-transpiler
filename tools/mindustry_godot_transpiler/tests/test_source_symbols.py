@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 812)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 807)
+        self.assertEqual(audit["totalSourceFunctions"], 813)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 808)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 812)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 813)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46172,6 +46172,64 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_offset_result")
         self.assertEqual(result_schema["keys"]["offset_after"]["java_expr"], "offset = ((size + 1) % 2) * tilesize / 2f;")
         self.assertEqual(result_schema["keys"]["size_offset_after"]["java_expr"], "sizeOffset = -((size - 1) / 2);")
+
+    def test_generated_block_init_build_time_requirements_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_build_time_requirements.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_build_time_requirements_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_build_time_requirements_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_build_time_requirements.build_time_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(requirements.length > 0 && buildTime < 0){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_build_time_requirements_result.build_time_assigned")
+
+        add_expr = source_symbols.source_symbol(registry, "block_init_build_time_requirements.build_time_add_expr")
+        self.assertEqual(add_expr["java_expr"], "buildTime += stack.amount * stack.item.cost;")
+        self.assertEqual(add_expr["godot_symbol"], "source_block_init_build_time_requirements_result.build_time_after")
+
+        item_cost = source_symbols.source_symbol(registry, "block_init_build_time_requirements.item_cost_field_expr")
+        self.assertEqual(item_cost["java_expr"], "public float cost = 1f;")
+        self.assertEqual(item_cost["java_source"], "core/src/mindustry/type/Item.java")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1339")
+        self.assertEqual(setup_slice["title"], "Generated Block init build time requirements bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_build_time_requirements_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_build_time_requirements_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "if(requirements.length > 0 && buildTime < 0){",
+            "buildTime = 0f;",
+            "for(ItemStack stack : requirements){",
+            "buildTime += stack.amount * stack.item.cost;",
+            "public float cost = 1f;",
+            "public int amount = 0;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_build_time_requirements_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["build_time_before", "requirement_stacks"])
+        for key in ["source_owner", "source", "item_source", "item_stack_source", "method", "super_init_expr", "build_time_guard_expr", "build_time_zero_expr", "requirements_loop_expr", "build_time_add_expr", "item_cost_field_expr", "itemstack_amount_field_expr", "build_time_before", "requirement_stacks", "requirements_length", "build_time_assigned", "build_time_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_build_time_requirements_input")
+        self.assertEqual(input_schema["keys"]["build_time_before"]["java_expr"], "buildTime")
+        self.assertEqual(input_schema["keys"]["requirement_stacks"]["java_expr"], "requirements")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_build_time_requirements_result")
+        self.assertEqual(result_schema["keys"]["build_time_assigned"]["java_expr"], "requirements.length > 0 && buildTime < 0")
+        self.assertEqual(result_schema["keys"]["build_time_after"]["java_expr"], "buildTime += stack.amount * stack.item.cost;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

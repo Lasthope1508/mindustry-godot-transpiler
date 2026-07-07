@@ -10805,6 +10805,40 @@ def verify_block_init_offset_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_block_init_build_time_requirements_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    item_path = Path(upstream_root) / "core/src/mindustry/type/Item.java"
+    item_stack_path = Path(upstream_root) / "core/src/mindustry/type/ItemStack.java"
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    item_source = item_path.read_text(encoding="utf-8", errors="replace")
+    item_stack_source = item_stack_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "build_time_guard_expr": "if(requirements.length > 0 && buildTime < 0){",
+        "build_time_zero_expr": "buildTime = 0f;",
+        "requirements_loop_expr": "for(ItemStack stack : requirements){",
+        "build_time_add_expr": "buildTime += stack.amount * stack.item.cost;",
+        "item_cost_field_expr": "public float cost = 1f;",
+        "itemstack_amount_field_expr": "public int amount = 0;",
+    }
+    source_by_key = {
+        "item_cost_field_expr": item_source,
+        "itemstack_amount_field_expr": item_stack_source,
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, source)
+    ]
+    return {
+        "source": BLOCK_SOURCE,
+        "item_source": "core/src/mindustry/type/Item.java",
+        "item_stack_source": "core/src/mindustry/type/ItemStack.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
