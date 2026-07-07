@@ -1610,6 +1610,24 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "checkContentArrayCapacity"
+    ):
+        return [
+            "\tvar item_filter: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar liquid_filter: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar items: int = int(_args[2] if _args.size() > 2 else item_filter.size())",
+            "\tvar liquids: int = int(_args[3] if _args.size() > 3 else liquid_filter.size())",
+            "\tvar item_filter_after: Array = []",
+            "\tfor i in range(max(items, 0)):",
+            "\t\titem_filter_after.append(bool(item_filter[i]) if i < item_filter.size() else false)",
+            "\tvar liquid_filter_after: Array = []",
+            "\tfor i in range(max(liquids, 0)):",
+            "\t\tliquid_filter_after.append(bool(liquid_filter[i]) if i < liquid_filter.size() else false)",
+            '\treturn {"source_owner": "PortGame.source_block_check_content_array_capacity_state", "source": "core/src/mindustry/world/Block.java", "method": "public void checkContentArrayCapacity(int items, int liquids){", "liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);", "item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);", "item_filter_before": item_filter, "liquid_filter_before": liquid_filter, "items": items, "liquids": liquids, "item_filter_after": item_filter_after, "liquid_filter_after": liquid_filter_after}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumeLiquid"
         and len(method.get("parameters", [])) == 2
     ):

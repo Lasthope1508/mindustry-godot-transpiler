@@ -32173,6 +32173,38 @@
       ],
       "status": "active",
       "rule": "Bridge generated Block.reinitializeConsumers() consumer apply loop to source-backed canonical state."
+    },
+    "N1354": {
+      "title": "Generated Block checkContentArrayCapacity filter resize bridge state",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_class": "Block",
+      "java_method": "Block.checkContentArrayCapacity(int,int)",
+      "godot_owner": "PortGame.source_block_check_content_array_capacity_state",
+      "generated_owner": "Block.java_method_checkContentArrayCapacity_125",
+      "runtime_proof": "/root/Main.generated_block_check_content_array_capacity_bridge_state",
+      "source_symbols": [
+        "block_check_content_array_capacity.method",
+        "block_check_content_array_capacity.liquid_resize_expr",
+        "block_check_content_array_capacity.item_resize_expr",
+        "block_check_content_array_capacity.items",
+        "block_check_content_array_capacity.liquids",
+        "block_check_content_array_capacity.item_filter_before",
+        "block_check_content_array_capacity.liquid_filter_before"
+      ],
+      "exact_exprs": [
+        "public void checkContentArrayCapacity(int items, int liquids){",
+        "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);",
+        "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);"
+      ],
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Bridge generated Block.checkContentArrayCapacity() filter resizing to source-backed canonical state."
     }
   },
   "version": 1

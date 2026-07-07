@@ -893,7 +893,17 @@ func java_method_reinitializeConsumers_124(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_reinitialize_consumers_arrays_state", "source": "core/src/mindustry/world/Block.java", "consume_source": "core/src/mindustry/world/consumers/Consume.java", "method": "public void reinitializeConsumers(){", "consumers_expr": "consumers = consumeBuilder.toArray(Consume.class);", "cons_power_expr": "consPower = (ConsumePower)Structs.find(consumers, c -> c instanceof ConsumePower);", "optional_consumers_expr": "optionalConsumers = consumeBuilder.select(consume -> consume.optional && !consume.ignore()).toArray(Consume.class);", "non_optional_consumers_expr": "nonOptionalConsumers = consumeBuilder.select(consume -> !consume.optional && !consume.ignore()).toArray(Consume.class);", "update_consumers_expr": "updateConsumers = consumeBuilder.select(consume -> consume.update && !consume.ignore()).toArray(Consume.class);", "has_consumers_expr": "hasConsumers = consumers.length > 0;", "consume_optional_field_expr": "public boolean optional;", "consume_update_field_expr": "public boolean update = true;", "consume_ignore_method_expr": "public boolean ignore(){", "consume_is_power_expr": "c instanceof ConsumePower", "consume_builder": consumer_builder_entries, "consumers": consumers, "cons_power": cons_power, "optional_consumers": optional_consumers, "non_optional_consumers": non_optional_consumers, "update_consumers": update_consumers, "has_consumers": has_consumers}
 
 func java_method_checkContentArrayCapacity_125(_args: Array = []) -> Variant:
-	return null
+	var item_filter: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []
+	var liquid_filter: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+	var items: int = int(_args[2] if _args.size() > 2 else item_filter.size())
+	var liquids: int = int(_args[3] if _args.size() > 3 else liquid_filter.size())
+	var item_filter_after: Array = []
+	for i in range(max(items, 0)):
+		item_filter_after.append(bool(item_filter[i]) if i < item_filter.size() else false)
+	var liquid_filter_after: Array = []
+	for i in range(max(liquids, 0)):
+		liquid_filter_after.append(bool(liquid_filter[i]) if i < liquid_filter.size() else false)
+	return {"source_owner": "PortGame.source_block_check_content_array_capacity_state", "source": "core/src/mindustry/world/Block.java", "method": "public void checkContentArrayCapacity(int items, int liquids){", "liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);", "item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);", "item_filter_before": item_filter, "liquid_filter_before": liquid_filter, "items": items, "liquids": liquids, "item_filter_after": item_filter_after, "liquid_filter_after": liquid_filter_after}
 
 func java_method_load_126(_args: Array = []) -> Variant:
 	return null

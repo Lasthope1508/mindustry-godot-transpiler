@@ -19310,6 +19310,40 @@ func generated_block_reinitialize_consumers_apply_loop_bridge_state(consumers: A
 		"matches": result == canonical,
 	}
 
+func source_block_check_content_array_capacity_state(item_filter: Array, liquid_filter: Array, items: int, liquids: int) -> Dictionary:
+	var item_filter_after: Array = []
+	for i in range(max(items, 0)):
+		item_filter_after.append(bool(item_filter[i]) if i < item_filter.size() else false)
+	var liquid_filter_after: Array = []
+	for i in range(max(liquids, 0)):
+		liquid_filter_after.append(bool(liquid_filter[i]) if i < liquid_filter.size() else false)
+	return {
+		"source_owner": "PortGame.source_block_check_content_array_capacity_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void checkContentArrayCapacity(int items, int liquids){",
+		"liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);",
+		"item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);",
+		"item_filter_before": item_filter,
+		"liquid_filter_before": liquid_filter,
+		"items": items,
+		"liquids": liquids,
+		"item_filter_after": item_filter_after,
+		"liquid_filter_after": liquid_filter_after,
+	}
+
+func generated_block_check_content_array_capacity_bridge_state(item_filter: Array, liquid_filter: Array, items: int, liquids: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_checkContentArrayCapacity_125([item_filter, liquid_filter, items, liquids])
+	var canonical = source_block_check_content_array_capacity_state(item_filter, liquid_filter, items, liquids)
+	return {
+		"source_owner": "PortGame.source_block_check_content_array_capacity_state",
+		"generated_owner": "Block.java_method_checkContentArrayCapacity_125",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

@@ -34662,6 +34662,60 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.reinitializeConsumers() consumer apply loop."
+    },
+    "PortGame.source_block_check_content_array_capacity_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.checkContentArrayCapacity(int,int)",
+      "source_slice": "N1354",
+      "params": [
+        {
+          "name": "item_filter",
+          "type": "Array",
+          "java_expr": "itemFilter",
+          "schema": "source_block_check_content_array_capacity_input.item_filter"
+        },
+        {
+          "name": "liquid_filter",
+          "type": "Array",
+          "java_expr": "liquidFilter",
+          "schema": "source_block_check_content_array_capacity_input.liquid_filter"
+        },
+        {
+          "name": "items",
+          "type": "int",
+          "java_expr": "items",
+          "schema": "source_block_check_content_array_capacity_input.items"
+        },
+        {
+          "name": "liquids",
+          "type": "int",
+          "java_expr": "liquids",
+          "schema": "source_block_check_content_array_capacity_input.liquids"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "liquid_resize_expr",
+        "item_resize_expr",
+        "item_filter_before",
+        "liquid_filter_before",
+        "items",
+        "liquids",
+        "item_filter_after",
+        "liquid_filter_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize."
     }
   },
   "policy": {

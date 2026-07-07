@@ -10994,6 +10994,21 @@ def verify_block_reinitialize_consumers_apply_loop_source(upstream_root: Path) -
         "missing": missing,
     }
 
+def verify_block_check_content_array_capacity_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void checkContentArrayCapacity(int items, int liquids){",
+        "liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);",
+        "item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": BLOCK_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_block_init_item_liquid_filters_source(upstream_root: Path) -> dict[str, Any]:
     block_path = Path(upstream_root) / BLOCK_SOURCE
     source = block_path.read_text(encoding="utf-8", errors="replace")

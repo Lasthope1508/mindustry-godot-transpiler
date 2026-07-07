@@ -102950,6 +102950,132 @@
         "test_generated_block_reinitialize_consumers_apply_loop_slice_is_registered_with_source_backing"
       ],
       "rule": "Pin source-backed Block.reinitializeConsumers() consumer apply loop."
+    },
+    "block_check_content_array_capacity.method": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.checkContentArrayCapacity(int,int)",
+      "java_expr": "public void checkContentArrayCapacity(int items, int liquids){",
+      "godot_owner": "PortGame.source_block_check_content_array_capacity_state",
+      "godot_symbol": "source_block_check_content_array_capacity_result.method",
+      "status": "source-backed",
+      "source_slice": "N1354",
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize."
+    },
+    "block_check_content_array_capacity.liquid_resize_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.checkContentArrayCapacity(int,int)",
+      "java_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);",
+      "godot_owner": "PortGame.source_block_check_content_array_capacity_state",
+      "godot_symbol": "source_block_check_content_array_capacity_result.liquid_filter_after",
+      "status": "source-backed",
+      "source_slice": "N1354",
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize."
+    },
+    "block_check_content_array_capacity.item_resize_expr": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.checkContentArrayCapacity(int,int)",
+      "java_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);",
+      "godot_owner": "PortGame.source_block_check_content_array_capacity_state",
+      "godot_symbol": "source_block_check_content_array_capacity_result.item_filter_after",
+      "status": "source-backed",
+      "source_slice": "N1354",
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize."
+    },
+    "block_check_content_array_capacity.items": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.checkContentArrayCapacity(int,int)",
+      "java_expr": "items",
+      "godot_owner": "PortGame.source_block_check_content_array_capacity_state",
+      "godot_symbol": "source_block_check_content_array_capacity_input.items",
+      "status": "explicit-input",
+      "source_slice": "N1354",
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize."
+    },
+    "block_check_content_array_capacity.liquids": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.checkContentArrayCapacity(int,int)",
+      "java_expr": "liquids",
+      "godot_owner": "PortGame.source_block_check_content_array_capacity_state",
+      "godot_symbol": "source_block_check_content_array_capacity_input.liquids",
+      "status": "explicit-input",
+      "source_slice": "N1354",
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize."
+    },
+    "block_check_content_array_capacity.item_filter_before": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.checkContentArrayCapacity(int,int)",
+      "java_expr": "itemFilter",
+      "godot_owner": "PortGame.source_block_check_content_array_capacity_state",
+      "godot_symbol": "source_block_check_content_array_capacity_input.item_filter",
+      "status": "explicit-input",
+      "source_slice": "N1354",
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize."
+    },
+    "block_check_content_array_capacity.liquid_filter_before": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.checkContentArrayCapacity(int,int)",
+      "java_expr": "liquidFilter",
+      "godot_owner": "PortGame.source_block_check_content_array_capacity_state",
+      "godot_symbol": "source_block_check_content_array_capacity_input.liquid_filter",
+      "status": "explicit-input",
+      "source_slice": "N1354",
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "tests": [
+        "test_emit_bridges_block_check_content_array_capacity_to_source_state",
+        "test_port_game_exposes_source_block_check_content_array_capacity_state",
+        "test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state",
+        "test_block_check_content_array_capacity_matches_upstream_source",
+        "test_generated_block_check_content_array_capacity_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Pin source-backed Block.checkContentArrayCapacity() item/liquid filter resize."
     }
   },
   "version": 1

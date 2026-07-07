@@ -127838,6 +127838,230 @@
           ]
         }
       }
+    },
+    "source_block_check_content_array_capacity_input": {
+      "owner": "PortGame.source_block_check_content_array_capacity_state",
+      "source_slice": "N1354",
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_check_content_array_capacity_state.",
+      "keys": {
+        "item_filter": {
+          "godot_symbol": "source_block_check_content_array_capacity_input.item_filter",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "itemFilter",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.item_filter_before"
+          ]
+        },
+        "liquid_filter": {
+          "godot_symbol": "source_block_check_content_array_capacity_input.liquid_filter",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "liquidFilter",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.liquid_filter_before"
+          ]
+        },
+        "items": {
+          "godot_symbol": "source_block_check_content_array_capacity_input.items",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "items",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.items"
+          ]
+        },
+        "liquids": {
+          "godot_symbol": "source_block_check_content_array_capacity_input.liquids",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "liquids",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.liquids"
+          ]
+        }
+      }
+    },
+    "source_block_check_content_array_capacity_result": {
+      "owner": "PortGame.source_block_check_content_array_capacity_state",
+      "source_slice": "N1354",
+      "runtime_proof": "/root/Main.source_block_check_content_array_capacity_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_check_content_array_capacity_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "PortGame.source_block_check_content_array_capacity_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": []
+        },
+        "method": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "public void checkContentArrayCapacity(int items, int liquids){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.method"
+          ]
+        },
+        "liquid_resize_expr": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.liquid_resize_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.liquid_resize_expr"
+          ]
+        },
+        "item_resize_expr": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.item_resize_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.item_resize_expr"
+          ]
+        },
+        "item_filter_before": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.item_filter_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "itemFilter",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.item_filter_before"
+          ]
+        },
+        "liquid_filter_before": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.liquid_filter_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "liquidFilter",
+          "type": "Array",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.liquid_filter_before"
+          ]
+        },
+        "items": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.items",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "items",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.items"
+          ]
+        },
+        "liquids": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.liquids",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "liquids",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.liquids"
+          ]
+        },
+        "item_filter_after": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.item_filter_after",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.item_resize_expr"
+          ]
+        },
+        "liquid_filter_after": {
+          "godot_symbol": "source_block_check_content_array_capacity_result.liquid_filter_after",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.checkContentArrayCapacity(int,int)",
+          "java_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);",
+          "type": "Array",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_check_content_array_capacity_state"
+          ],
+          "source_symbols": [
+            "block_check_content_array_capacity.liquid_resize_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

@@ -17832,6 +17832,31 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_reinitializeConsumers_124"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_check_content_array_capacity_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_check_content_array_capacity_state(item_filter: Array, liquid_filter: Array, items: int, liquids: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_check_content_array_capacity_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void checkContentArrayCapacity(int items, int liquids){"', source)
+        self.assertIn('"liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);"', source)
+        self.assertIn('"item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);"', source)
+        self.assertIn('"item_filter_after": item_filter_after', source)
+        self.assertIn('"liquid_filter_after": liquid_filter_after', source)
+
+    def test_port_game_exposes_generated_block_check_content_array_capacity_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_check_content_array_capacity_bridge_state(item_filter: Array, liquid_filter: Array, items: int, liquids: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_checkContentArrayCapacity_125([item_filter, liquid_filter, items, liquids])", source)
+        self.assertIn("var canonical = source_block_check_content_array_capacity_state(item_filter, liquid_filter, items, liquids)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_check_content_array_capacity_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_checkContentArrayCapacity_125"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -10371,6 +10371,43 @@ public class Block{
             self.assertIn('"apply_calls": apply_calls', source_text)
             self.assertIn('"apply_call_count": apply_calls.size()', source_text)
 
+    def test_emit_bridges_block_check_content_array_capacity_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public void checkContentArrayCapacity(int items, int liquids){
+        if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);
+        if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_checkContentArrayCapacity_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("\tvar item_filter: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("\tvar liquid_filter: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("\tvar items: int = int(_args[2] if _args.size() > 2 else item_filter.size())", source_text)
+            self.assertIn("\tvar liquids: int = int(_args[3] if _args.size() > 3 else liquid_filter.size())", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_check_content_array_capacity_state"', source_text)
+            self.assertIn('"method": "public void checkContentArrayCapacity(int items, int liquids){"', source_text)
+            self.assertIn('"liquid_resize_expr": "if(liquidFilter.length != liquids) liquidFilter = Arrays.copyOf(liquidFilter, liquids);"', source_text)
+            self.assertIn('"item_resize_expr": "if(itemFilter.length != items) itemFilter = Arrays.copyOf(itemFilter, items);"', source_text)
+            self.assertIn('"item_filter_after": item_filter_after', source_text)
+            self.assertIn('"liquid_filter_after": liquid_filter_after', source_text)
+
     def test_emit_bridges_block_init_item_liquid_filters_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
