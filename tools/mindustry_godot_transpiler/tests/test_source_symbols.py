@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 800)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 795)
+        self.assertEqual(audit["totalSourceFunctions"], 801)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 796)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 800)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 801)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45479,6 +45479,69 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_custom_shadow_result")
         self.assertEqual(result_schema["keys"]["has_shadow_assigned"]["java_expr"], "if(customShadow){")
         self.assertEqual(result_schema["keys"]["has_shadow_after"]["java_expr"], "hasShadow = false;")
+
+    def test_generated_block_init_under_bullets_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_under_bullets.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_under_bullets_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_under_bullets_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_under_bullets.under_bullets_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(underBullets){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_under_bullets_result.priority_assigned")
+
+        assign = source_symbols.source_symbol(registry, "block_init_under_bullets.priority_assign_expr")
+        self.assertEqual(assign["java_expr"], "priority = TargetPriority.under;")
+        self.assertEqual(assign["godot_symbol"], "source_block_init_under_bullets_result.priority_after")
+
+        target_priority = source_symbols.source_symbol(registry, "block_init_under_bullets.target_priority_under_expr")
+        self.assertEqual(target_priority["java_expr"], "TargetPriority.under")
+        self.assertEqual(target_priority["godot_symbol"], "source_block_init_under_bullets_result.priority_after")
+
+        under_bullets = source_symbols.source_symbol(registry, "block_init_under_bullets.under_bullets")
+        self.assertEqual(under_bullets["java_expr"], "underBullets")
+        self.assertEqual(under_bullets["godot_symbol"], "source_block_init_under_bullets_input.under_bullets")
+
+        priority = source_symbols.source_symbol(registry, "block_init_under_bullets.priority")
+        self.assertEqual(priority["java_expr"], "priority")
+        self.assertEqual(priority["godot_symbol"], "source_block_init_under_bullets_input.priority_before")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1327")
+        self.assertEqual(setup_slice["title"], "Generated Block init underBullets bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_under_bullets_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_under_bullets_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "if(underBullets){",
+            "priority = TargetPriority.under;",
+            "TargetPriority.under",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_under_bullets_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["under_bullets", "priority_before"])
+        for key in ["source_owner", "source", "method", "super_init_expr", "under_bullets_guard_expr", "priority_assign_expr", "target_priority_under_expr", "under_bullets", "priority_before", "priority_after", "priority_assigned"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_under_bullets_input")
+        self.assertEqual(input_schema["keys"]["under_bullets"]["java_expr"], "underBullets")
+        self.assertEqual(input_schema["keys"]["priority_before"]["java_expr"], "priority")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_under_bullets_result")
+        self.assertEqual(result_schema["keys"]["priority_assigned"]["java_expr"], "if(underBullets){")
+        self.assertEqual(result_schema["keys"]["priority_after"]["java_expr"], "priority = TargetPriority.under;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

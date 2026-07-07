@@ -9451,6 +9451,55 @@ public class Block{
             self.assertIn('"has_shadow_after": has_shadow_after', source_text)
             self.assertIn('"has_shadow_assigned": has_shadow_assigned', source_text)
 
+    def test_emit_bridges_block_init_under_bullets_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        if(underBullets){
+            priority = TargetPriority.under;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "under_bullets":', source_text)
+            self.assertIn("\t\tvar under_bullets: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\t\tvar priority_before: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("\t\tvar priority_after: Variant = priority_before", source_text)
+            self.assertIn("\t\tvar priority_assigned: bool = under_bullets", source_text)
+            self.assertIn("\t\tif priority_assigned:", source_text)
+            self.assertIn('\t\t\tpriority_after = "TargetPriority.under"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_under_bullets_state"', source_text)
+            self.assertIn('"method": "public void init(){"', source_text)
+            self.assertIn('"super_init_expr": "super.init();"', source_text)
+            self.assertIn('"under_bullets_guard_expr": "if(underBullets){"', source_text)
+            self.assertIn('"priority_assign_expr": "priority = TargetPriority.under;"', source_text)
+            self.assertIn('"target_priority_under_expr": "TargetPriority.under"', source_text)
+            self.assertIn('"under_bullets": under_bullets', source_text)
+            self.assertIn('"priority_before": priority_before', source_text)
+            self.assertIn('"priority_after": priority_after', source_text)
+            self.assertIn('"priority_assigned": priority_assigned', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

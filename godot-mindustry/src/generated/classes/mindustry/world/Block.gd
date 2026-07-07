@@ -633,6 +633,14 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		if has_shadow_assigned:
 			has_shadow_after = false
 		return {"source_owner": "PortGame.source_block_init_custom_shadow_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "custom_shadow_comment": "//disable standard shadow", "custom_shadow_guard_expr": "if(customShadow){", "has_shadow_assign_expr": "hasShadow = false;", "custom_shadow": custom_shadow, "has_shadow_before": has_shadow_before, "has_shadow_after": has_shadow_after, "has_shadow_assigned": has_shadow_assigned}
+	if init_bridge_mode == "under_bullets":
+		var under_bullets: bool = bool(_args[0] if _args.size() > 0 else false)
+		var priority_before: Variant = _args[1] if _args.size() > 1 else null
+		var priority_after: Variant = priority_before
+		var priority_assigned: bool = under_bullets
+		if priority_assigned:
+			priority_after = "TargetPriority.under"
+		return {"source_owner": "PortGame.source_block_init_under_bullets_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "under_bullets_guard_expr": "if(underBullets){", "priority_assign_expr": "priority = TargetPriority.under;", "target_priority_under_expr": "TargetPriority.under", "under_bullets": under_bullets, "priority_before": priority_before, "priority_after": priority_after, "priority_assigned": priority_assigned}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

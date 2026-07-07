@@ -31201,6 +31201,39 @@
         "test_block_init_custom_shadow_matches_upstream_source",
         "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1327": {
+      "title": "Generated Block init underBullets bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_under_bullets_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_under_bullets_bridge_state",
+      "source_symbols": [
+        "block_init_under_bullets.method",
+        "block_init_under_bullets.under_bullets_guard_expr",
+        "block_init_under_bullets.priority_assign_expr",
+        "block_init_under_bullets.target_priority_under_expr",
+        "block_init_under_bullets.under_bullets",
+        "block_init_under_bullets.priority"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(underBullets){",
+        "priority = TargetPriority.under;",
+        "TargetPriority.under"
+      ],
+      "rule": "Bridge generated Block.init() underBullets priority assignment to source-backed canonical state without claiming fogRadius, sync, health, liquid, or other init branches.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_under_bullets_to_source_state",
+        "test_port_game_exposes_source_block_init_under_bullets_state",
+        "test_port_game_exposes_generated_block_init_under_bullets_bridge_state",
+        "test_block_init_under_bullets_matches_upstream_source",
+        "test_generated_block_init_under_bullets_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

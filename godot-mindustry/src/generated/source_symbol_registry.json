@@ -99098,6 +99098,114 @@
       "godot_symbol": "source_block_init_custom_shadow_input.has_shadow_before",
       "java_expr": "hasShadow",
       "rule": "Runtime has_shadow_before supplies source hasShadow before Block.init() shadow suppression."
+    },
+    "block_init_under_bullets.method": {
+      "godot_owner": "PortGame.source_block_init_under_bullets_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_under_bullets_state",
+      "source_slice": "N1327",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_under_bullets_to_source_state",
+        "test_port_game_exposes_source_block_init_under_bullets_state",
+        "test_port_game_exposes_generated_block_init_under_bullets_bridge_state",
+        "test_block_init_under_bullets_matches_upstream_source",
+        "test_generated_block_init_under_bullets_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_under_bullets_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for underBullets priority assignment."
+    },
+    "block_init_under_bullets.under_bullets_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_under_bullets_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_under_bullets_state",
+      "source_slice": "N1327",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_under_bullets_to_source_state",
+        "test_port_game_exposes_source_block_init_under_bullets_state",
+        "test_port_game_exposes_generated_block_init_under_bullets_bridge_state",
+        "test_block_init_under_bullets_matches_upstream_source",
+        "test_generated_block_init_under_bullets_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_under_bullets_result.priority_assigned",
+      "java_expr": "if(underBullets){",
+      "rule": "Target priority is set to under only when underBullets is true."
+    },
+    "block_init_under_bullets.priority_assign_expr": {
+      "godot_owner": "PortGame.source_block_init_under_bullets_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_under_bullets_state",
+      "source_slice": "N1327",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_under_bullets_to_source_state",
+        "test_port_game_exposes_source_block_init_under_bullets_state",
+        "test_port_game_exposes_generated_block_init_under_bullets_bridge_state",
+        "test_block_init_under_bullets_matches_upstream_source",
+        "test_generated_block_init_under_bullets_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_under_bullets_result.priority_after",
+      "java_expr": "priority = TargetPriority.under;",
+      "rule": "underBullets branch assigns Block.priority to TargetPriority.under."
+    },
+    "block_init_under_bullets.target_priority_under_expr": {
+      "godot_owner": "PortGame.source_block_init_under_bullets_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_under_bullets_state",
+      "source_slice": "N1327",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_under_bullets_to_source_state",
+        "test_port_game_exposes_source_block_init_under_bullets_state",
+        "test_port_game_exposes_generated_block_init_under_bullets_bridge_state",
+        "test_block_init_under_bullets_matches_upstream_source",
+        "test_generated_block_init_under_bullets_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_under_bullets_result.priority_after",
+      "java_expr": "TargetPriority.under",
+      "rule": "TargetPriority.under is the exact priority enum value assigned by Block.init()."
+    },
+    "block_init_under_bullets.under_bullets": {
+      "godot_owner": "PortGame.source_block_init_under_bullets_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_under_bullets_state",
+      "source_slice": "N1327",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_under_bullets_to_source_state",
+        "test_port_game_exposes_source_block_init_under_bullets_state",
+        "test_port_game_exposes_generated_block_init_under_bullets_bridge_state",
+        "test_block_init_under_bullets_matches_upstream_source",
+        "test_generated_block_init_under_bullets_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_under_bullets_input.under_bullets",
+      "java_expr": "underBullets",
+      "rule": "Runtime under_bullets supplies source underBullets before Block.init() priority assignment."
+    },
+    "block_init_under_bullets.priority": {
+      "godot_owner": "PortGame.source_block_init_under_bullets_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_under_bullets_state",
+      "source_slice": "N1327",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_under_bullets_to_source_state",
+        "test_port_game_exposes_source_block_init_under_bullets_state",
+        "test_port_game_exposes_generated_block_init_under_bullets_bridge_state",
+        "test_block_init_under_bullets_matches_upstream_source",
+        "test_generated_block_init_under_bullets_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_under_bullets_input.priority_before",
+      "java_expr": "priority",
+      "rule": "Runtime priority_before supplies source priority before Block.init() underBullets branch."
     }
   },
   "version": 1

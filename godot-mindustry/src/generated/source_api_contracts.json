@@ -33470,6 +33470,48 @@
         "test_block_init_custom_shadow_matches_upstream_source",
         "test_generated_block_init_custom_shadow_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_under_bullets_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "underBullets",
+          "name": "under_bullets",
+          "schema": "source_block_init_under_bullets_input.under_bullets",
+          "type": "bool"
+        },
+        {
+          "java_expr": "priority",
+          "name": "priority_before",
+          "schema": "source_block_init_under_bullets_input.priority_before",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "under_bullets_guard_expr",
+        "priority_assign_expr",
+        "target_priority_under_expr",
+        "under_bullets",
+        "priority_before",
+        "priority_after",
+        "priority_assigned"
+      ],
+      "rule": "Pin source-backed Block.init() underBullets priority assignment branch.",
+      "runtime_proof": "/root/Main.source_block_init_under_bullets_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1327",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_under_bullets_to_source_state",
+        "test_port_game_exposes_source_block_init_under_bullets_state",
+        "test_port_game_exposes_generated_block_init_under_bullets_bridge_state",
+        "test_block_init_under_bullets_matches_upstream_source",
+        "test_generated_block_init_under_bullets_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

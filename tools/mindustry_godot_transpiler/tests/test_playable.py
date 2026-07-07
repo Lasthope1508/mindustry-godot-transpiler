@@ -17267,5 +17267,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_under_bullets_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_under_bullets_state(under_bullets: bool, priority_before: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_under_bullets_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void init(){"', source)
+        self.assertIn('"super_init_expr": "super.init();"', source)
+        self.assertIn('"under_bullets_guard_expr": "if(underBullets){"', source)
+        self.assertIn('"priority_assign_expr": "priority = TargetPriority.under;"', source)
+        self.assertIn('"target_priority_under_expr": "TargetPriority.under"', source)
+        self.assertIn('"under_bullets": under_bullets', source)
+        self.assertIn('"priority_before": priority_before', source)
+        self.assertIn('"priority_after": priority_after', source)
+        self.assertIn('"priority_assigned": priority_assigned', source)
+
+    def test_port_game_exposes_generated_block_init_under_bullets_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_under_bullets_bridge_state(under_bullets: bool, priority_before: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "under_bullets")', source)
+        self.assertIn("var result = instance.java_method_init_123([under_bullets, priority_before])", source)
+        self.assertIn("var canonical = source_block_init_under_bullets_state(under_bullets, priority_before)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_under_bullets_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()
