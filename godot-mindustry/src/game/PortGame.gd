@@ -18917,6 +18917,37 @@ func generated_block_init_liquid_capacity_default_bridge_state(liquid_capacity_b
 		"matches": result == canonical,
 	}
 
+func source_block_init_emit_light_radius_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:
+	var light_radius_clip_size: float = light_radius * 2.0
+	var light_clip_size_after: float = max(light_clip_size_before, light_radius_clip_size) if emit_light else light_clip_size_before
+	return {
+		"source_owner": "PortGame.source_block_init_emit_light_radius_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"emit_light_guard_expr": "if(emitLight){",
+		"light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);",
+		"emit_light": emit_light,
+		"light_clip_size_before": light_clip_size_before,
+		"light_radius": light_radius,
+		"light_radius_clip_size": light_radius_clip_size,
+		"light_clip_size_after": light_clip_size_after,
+	}
+
+func generated_block_init_emit_light_radius_bridge_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "emit_light_radius")
+	var result = instance.java_method_init_123([emit_light, light_clip_size_before, light_radius])
+	var canonical = source_block_init_emit_light_radius_state(emit_light, light_clip_size_before, light_radius)
+	return {
+		"source_owner": "PortGame.source_block_init_emit_light_radius_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

@@ -31541,6 +31541,40 @@
         "test_block_init_liquid_capacity_default_matches_upstream_source",
         "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1336": {
+      "title": "Generated Block init emit light radius bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_emit_light_radius_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_emit_light_radius_bridge_state",
+      "source_symbols": [
+        "block_init_emit_light_radius.method",
+        "block_init_emit_light_radius.super_init_expr",
+        "block_init_emit_light_radius.emit_light_guard_expr",
+        "block_init_emit_light_radius.light_clip_size_expr",
+        "block_init_emit_light_radius.emit_light",
+        "block_init_emit_light_radius.light_clip_size",
+        "block_init_emit_light_radius.light_radius",
+        "block_init_emit_light_radius.light_radius_clip_size"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "if(emitLight){",
+        "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);"
+      ],
+      "rule": "Bridge generated Block.init() emitLight lightRadius clamp to source-backed canonical state, preserving lightClipSize when emitLight is false and clamping against lightRadius * 2f only when the guard passes.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

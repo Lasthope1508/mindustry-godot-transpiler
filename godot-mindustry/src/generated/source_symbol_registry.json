@@ -100592,6 +100592,150 @@
       "godot_symbol": "source_block_init_liquid_capacity_default_result.liquid_capacity_assigned",
       "java_expr": "liquidCapacity < 0",
       "rule": "Runtime guard result mirrors source liquidCapacity negative check."
+    },
+    "block_init_emit_light_radius.method": {
+      "godot_owner": "PortGame.source_block_init_emit_light_radius_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_emit_light_radius_state",
+      "source_slice": "N1336",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_emit_light_radius_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for emitLight lightRadius clamp."
+    },
+    "block_init_emit_light_radius.super_init_expr": {
+      "godot_owner": "PortGame.source_block_init_emit_light_radius_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_emit_light_radius_state",
+      "source_slice": "N1336",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_emit_light_radius_result.super_init_expr",
+      "java_expr": "super.init();",
+      "rule": "Block.init() runs after super.init()."
+    },
+    "block_init_emit_light_radius.emit_light_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_emit_light_radius_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_emit_light_radius_state",
+      "source_slice": "N1336",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_emit_light_radius_result.emit_light",
+      "java_expr": "if(emitLight){",
+      "rule": "Light radius clamp runs only when emitLight is true."
+    },
+    "block_init_emit_light_radius.light_clip_size_expr": {
+      "godot_owner": "PortGame.source_block_init_emit_light_radius_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_emit_light_radius_state",
+      "source_slice": "N1336",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_emit_light_radius_result.light_clip_size_after",
+      "java_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);",
+      "rule": "When emitLight is true, source clamps lightClipSize against lightRadius * 2f."
+    },
+    "block_init_emit_light_radius.emit_light": {
+      "godot_owner": "PortGame.source_block_init_emit_light_radius_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_emit_light_radius_state",
+      "source_slice": "N1336",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_emit_light_radius_input.emit_light",
+      "java_expr": "emitLight",
+      "rule": "emitLight is an explicit input for the source guard."
+    },
+    "block_init_emit_light_radius.light_clip_size": {
+      "godot_owner": "PortGame.source_block_init_emit_light_radius_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_emit_light_radius_state",
+      "source_slice": "N1336",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_emit_light_radius_input.light_clip_size_before",
+      "java_expr": "lightClipSize",
+      "rule": "lightClipSize before the guard is an explicit input."
+    },
+    "block_init_emit_light_radius.light_radius": {
+      "godot_owner": "PortGame.source_block_init_emit_light_radius_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_emit_light_radius_state",
+      "source_slice": "N1336",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_emit_light_radius_input.light_radius",
+      "java_expr": "lightRadius",
+      "rule": "lightRadius is an explicit input for the source clamp expression."
+    },
+    "block_init_emit_light_radius.light_radius_clip_size": {
+      "godot_owner": "PortGame.source_block_init_emit_light_radius_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_emit_light_radius_state",
+      "source_slice": "N1336",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_emit_light_radius_result.light_radius_clip_size",
+      "java_expr": "lightRadius * 2f",
+      "rule": "Runtime computed clamp candidate mirrors source lightRadius * 2f."
     }
   },
   "version": 1

@@ -9914,6 +9914,49 @@ public class Block{
             self.assertIn('"mathf_round_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;"', source_text)
             self.assertIn('"liquid_capacity_after": liquid_capacity_after', source_text)
 
+    def test_emit_bridges_block_init_emit_light_radius_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        if(emitLight){
+            lightClipSize = Math.max(lightClipSize, lightRadius * 2f);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "emit_light_radius":', source_text)
+            self.assertIn("\t\tvar emit_light: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("\t\tvar light_clip_size_before: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("\t\tvar light_radius: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("\t\tvar light_radius_clip_size: float = light_radius * 2.0", source_text)
+            self.assertIn("\t\tvar light_clip_size_after: float = max(light_clip_size_before, light_radius_clip_size) if emit_light else light_clip_size_before", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_emit_light_radius_state"', source_text)
+            self.assertIn('"emit_light_guard_expr": "if(emitLight){"', source_text)
+            self.assertIn('"light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);"', source_text)
+            self.assertIn('"light_radius_clip_size": light_radius_clip_size', source_text)
+            self.assertIn('"light_clip_size_after": light_clip_size_after', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

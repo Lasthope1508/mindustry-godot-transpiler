@@ -17537,5 +17537,30 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_emit_light_radius_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_emit_light_radius_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_emit_light_radius_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"emit_light_guard_expr": "if(emitLight){"', source)
+        self.assertIn('"light_clip_size_expr": "lightClipSize = Math.max(lightClipSize, lightRadius * 2f);"', source)
+        self.assertIn('"light_radius_clip_size": light_radius_clip_size', source)
+        self.assertIn('"light_clip_size_after": light_clip_size_after', source)
+
+    def test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_emit_light_radius_bridge_state(emit_light: bool, light_clip_size_before: float, light_radius: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "emit_light_radius")', source)
+        self.assertIn("var result = instance.java_method_init_123([emit_light, light_clip_size_before, light_radius])", source)
+        self.assertIn("var canonical = source_block_init_emit_light_radius_state(emit_light, light_clip_size_before, light_radius)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_emit_light_radius_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

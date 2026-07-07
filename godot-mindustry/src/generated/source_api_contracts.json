@@ -33914,6 +33914,54 @@
         "test_block_init_liquid_capacity_default_matches_upstream_source",
         "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_emit_light_radius_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "emitLight",
+          "name": "emit_light",
+          "schema": "source_block_init_emit_light_radius_input.emit_light",
+          "type": "bool"
+        },
+        {
+          "java_expr": "lightClipSize",
+          "name": "light_clip_size_before",
+          "schema": "source_block_init_emit_light_radius_input.light_clip_size_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "lightRadius",
+          "name": "light_radius",
+          "schema": "source_block_init_emit_light_radius_input.light_radius",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "super_init_expr",
+        "emit_light_guard_expr",
+        "light_clip_size_expr",
+        "emit_light",
+        "light_clip_size_before",
+        "light_radius",
+        "light_radius_clip_size",
+        "light_clip_size_after"
+      ],
+      "rule": "Pin source-backed Block.init() emitLight lightRadius clamp.",
+      "runtime_proof": "/root/Main.source_block_init_emit_light_radius_state",
+      "source_method": "Block.init()",
+      "source_slice": "N1336",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_emit_light_radius_to_source_state",
+        "test_port_game_exposes_source_block_init_emit_light_radius_state",
+        "test_port_game_exposes_generated_block_init_emit_light_radius_bridge_state",
+        "test_block_init_emit_light_radius_matches_upstream_source",
+        "test_generated_block_init_emit_light_radius_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
