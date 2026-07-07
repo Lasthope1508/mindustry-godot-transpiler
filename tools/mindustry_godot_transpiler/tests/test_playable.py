@@ -17510,5 +17510,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_liquid_capacity_default_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_liquid_capacity_default_state(liquid_capacity_before: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_liquid_capacity_default_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"arc_mathf_source": "arc-core/src/arc/math/Mathf.java"', source)
+        self.assertIn('"liquid_capacity_guard_expr": "if(liquidCapacity < 0){"', source)
+        self.assertIn('"consume_amount_default_expr": "float consumeAmount = 1f;"', source)
+        self.assertIn('"liquid_capacity_assign_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);"', source)
+        self.assertIn('"mathf_round_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;"', source)
+        self.assertIn('"liquid_capacity_after": liquid_capacity_after', source)
+
+    def test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_liquid_capacity_default_bridge_state(liquid_capacity_before: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "liquid_capacity_default")', source)
+        self.assertIn("var result = instance.java_method_init_123([liquid_capacity_before])", source)
+        self.assertIn("var canonical = source_block_init_liquid_capacity_default_state(liquid_capacity_before)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_liquid_capacity_default_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

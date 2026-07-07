@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 808)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 803)
+        self.assertEqual(audit["totalSourceFunctions"], 809)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 804)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 808)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 809)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -45964,6 +45964,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["liquid_light_clip_size"]["java_expr"], "size * 30f * 2f")
         self.assertEqual(result_schema["keys"]["emit_light_after"]["java_expr"], "emitLight = true;")
         self.assertEqual(result_schema["keys"]["light_clip_size_after"]["java_expr"], "lightClipSize = Math.max(lightClipSize, size * 30f * 2f);")
+
+    def test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_liquid_capacity_default.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_liquid_capacity_default_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_liquid_capacity_default_state")
+
+        assign = source_symbols.source_symbol(registry, "block_init_liquid_capacity_default.liquid_capacity_assign_expr")
+        self.assertEqual(assign["java_expr"], "liquidCapacity = Mathf.round(10f * consumeAmount);")
+        self.assertEqual(assign["godot_symbol"], "source_block_init_liquid_capacity_default_result.liquid_capacity_after")
+
+        round_expr = source_symbols.source_symbol(registry, "block_init_liquid_capacity_default.mathf_round_expr")
+        self.assertEqual(round_expr["java_expr"], "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;")
+        self.assertEqual(round_expr["java_source"], "arc-core/src/arc/math/Mathf.java")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1335")
+        self.assertEqual(setup_slice["title"], "Generated Block init liquid capacity default bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_liquid_capacity_default_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_liquid_capacity_default_bridge_state")
+        for expr in [
+            "//some blocks don't have hasLiquids, but have liquid consumers/liquid capacity",
+            "if(liquidCapacity < 0){",
+            "float consumeAmount = 1f;",
+            "for(var cons : consumeBuilder){",
+            "liquidCapacity = Mathf.round(10f * consumeAmount);",
+            "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_liquid_capacity_default_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["liquid_capacity_before"])
+        for key in ["source_owner", "source", "arc_mathf_source", "method", "super_init_expr", "liquid_capacity_comment", "liquid_capacity_guard_expr", "consume_amount_default_expr", "consume_builder_loop_expr", "liquid_capacity_assign_expr", "mathf_round_expr", "liquid_capacity_before", "consume_amount", "liquid_capacity_assigned", "liquid_capacity_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_liquid_capacity_default_input")
+        self.assertEqual(input_schema["keys"]["liquid_capacity_before"]["java_expr"], "liquidCapacity")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_liquid_capacity_default_result")
+        self.assertEqual(result_schema["keys"]["consume_amount"]["java_expr"], "float consumeAmount = 1f;")
+        self.assertEqual(result_schema["keys"]["liquid_capacity_after"]["java_expr"], "liquidCapacity = Mathf.round(10f * consumeAmount);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

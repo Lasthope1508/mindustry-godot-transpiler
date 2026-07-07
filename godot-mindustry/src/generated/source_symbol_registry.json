@@ -100394,6 +100394,204 @@
       "godot_symbol": "source_block_init_liquid_light_result.liquid_light_clip_size",
       "java_expr": "size * 30f * 2f",
       "rule": "Canonical computed minimum from source expression size * 30f * 2f."
+    },
+    "block_init_liquid_capacity_default.method": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_result.method",
+      "java_expr": "public void init(){",
+      "rule": "Block.init() source method for liquidCapacity default branch."
+    },
+    "block_init_liquid_capacity_default.super_init_expr": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_result.super_init_expr",
+      "java_expr": "super.init();",
+      "rule": "Block.init() runs after super.init()."
+    },
+    "block_init_liquid_capacity_default.liquid_capacity_comment": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_result.liquid_capacity_comment",
+      "java_expr": "//some blocks don't have hasLiquids, but have liquid consumers/liquid capacity",
+      "rule": "Source comment explaining liquid capacity setup for blocks without hasLiquids."
+    },
+    "block_init_liquid_capacity_default.liquid_capacity_guard_expr": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_result.liquid_capacity_assigned",
+      "java_expr": "if(liquidCapacity < 0){",
+      "rule": "Default liquidCapacity setup runs only for negative liquidCapacity."
+    },
+    "block_init_liquid_capacity_default.consume_amount_default_expr": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_result.consume_amount",
+      "java_expr": "float consumeAmount = 1f;",
+      "rule": "Initial consumeAmount default before consumer-specific later branches."
+    },
+    "block_init_liquid_capacity_default.consume_builder_loop_expr": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_result.consume_builder_loop_expr",
+      "java_expr": "for(var cons : consumeBuilder){",
+      "rule": "Loop marker for later consumer-specific liquid amount branches."
+    },
+    "block_init_liquid_capacity_default.liquid_capacity_assign_expr": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_result.liquid_capacity_after",
+      "java_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);",
+      "rule": "Default liquidCapacity assignment uses Mathf.round over 10f * consumeAmount."
+    },
+    "block_init_liquid_capacity_default.mathf_round_expr": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_result.liquid_capacity_after",
+      "java_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;",
+      "rule": "Arc Mathf.round(float) implementation used by liquidCapacity assignment."
+    },
+    "block_init_liquid_capacity_default.liquid_capacity_before": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_input.liquid_capacity_before",
+      "java_expr": "liquidCapacity",
+      "rule": "liquidCapacity before the default branch is an explicit input."
+    },
+    "block_init_liquid_capacity_default.consume_amount": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_result.consume_amount",
+      "java_expr": "float consumeAmount = 1f;",
+      "rule": "Runtime consume_amount mirrors default source initializer for this slice."
+    },
+    "block_init_liquid_capacity_default.liquid_capacity_assigned": {
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "java_method": "Block.init()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_block_init_liquid_capacity_default_state",
+      "source_slice": "N1335",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_init_liquid_capacity_default_result.liquid_capacity_assigned",
+      "java_expr": "liquidCapacity < 0",
+      "rule": "Runtime guard result mirrors source liquidCapacity negative check."
     }
   },
   "version": 1

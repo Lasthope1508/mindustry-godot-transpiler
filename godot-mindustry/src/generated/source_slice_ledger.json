@@ -31500,6 +31500,47 @@
         "test_block_init_liquid_light_matches_upstream_source",
         "test_generated_block_init_liquid_light_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1335": {
+      "title": "Generated Block init liquid capacity default bridge state",
+      "java_class": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "java_method": "Block.init()",
+      "godot_owner": "PortGame.source_block_init_liquid_capacity_default_state",
+      "generated_owner": "Block.java_method_init_123",
+      "runtime_proof": "/root/Main.generated_block_init_liquid_capacity_default_bridge_state",
+      "source_symbols": [
+        "block_init_liquid_capacity_default.method",
+        "block_init_liquid_capacity_default.super_init_expr",
+        "block_init_liquid_capacity_default.liquid_capacity_comment",
+        "block_init_liquid_capacity_default.liquid_capacity_guard_expr",
+        "block_init_liquid_capacity_default.consume_amount_default_expr",
+        "block_init_liquid_capacity_default.consume_builder_loop_expr",
+        "block_init_liquid_capacity_default.liquid_capacity_assign_expr",
+        "block_init_liquid_capacity_default.mathf_round_expr",
+        "block_init_liquid_capacity_default.liquid_capacity_before",
+        "block_init_liquid_capacity_default.consume_amount",
+        "block_init_liquid_capacity_default.liquid_capacity_assigned"
+      ],
+      "exact_exprs": [
+        "public void init(){",
+        "super.init();",
+        "//some blocks don't have hasLiquids, but have liquid consumers/liquid capacity",
+        "if(liquidCapacity < 0){",
+        "float consumeAmount = 1f;",
+        "for(var cons : consumeBuilder){",
+        "liquidCapacity = Mathf.round(10f * consumeAmount);",
+        "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;"
+      ],
+      "rule": "Bridge generated Block.init() liquidCapacity default branch to source-backed canonical state, preserving non-negative liquidCapacity and applying Arc Mathf.round to the default consumeAmount only; consumer-specific liquid amounts remain deferred to later slices.",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_init_liquid_capacity_default_to_source_state",
+        "test_port_game_exposes_source_block_init_liquid_capacity_default_state",
+        "test_port_game_exposes_generated_block_init_liquid_capacity_default_bridge_state",
+        "test_block_init_liquid_capacity_default_matches_upstream_source",
+        "test_generated_block_init_liquid_capacity_default_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

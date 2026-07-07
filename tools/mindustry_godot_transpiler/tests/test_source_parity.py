@@ -5720,6 +5720,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_liquid_capacity_default_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_liquid_capacity_default_source"))
+        report = source_parity.verify_block_init_liquid_capacity_default_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["arc_mathf_source"], "arc-core/src/arc/math/Mathf.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "liquid_capacity_comment": "//some blocks don't have hasLiquids, but have liquid consumers/liquid capacity",
+            "liquid_capacity_guard_expr": "if(liquidCapacity < 0){",
+            "consume_amount_default_expr": "float consumeAmount = 1f;",
+            "consume_builder_loop_expr": "for(var cons : consumeBuilder){",
+            "liquid_capacity_assign_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);",
+            "mathf_round_signature": "public static int round(float value){",
+            "mathf_round_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

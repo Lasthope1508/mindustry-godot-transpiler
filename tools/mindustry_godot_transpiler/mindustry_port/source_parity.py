@@ -10719,6 +10719,35 @@ def verify_block_init_liquid_light_source(upstream_root: Path) -> dict[str, Any]
         "missing": missing,
     }
 
+def verify_block_init_liquid_capacity_default_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "liquid_capacity_comment": "//some blocks don't have hasLiquids, but have liquid consumers/liquid capacity",
+        "liquid_capacity_guard_expr": "if(liquidCapacity < 0){",
+        "consume_amount_default_expr": "float consumeAmount = 1f;",
+        "consume_builder_loop_expr": "for(var cons : consumeBuilder){",
+        "liquid_capacity_assign_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);",
+        "mathf_round_signature": "public static int round(float value){",
+        "mathf_round_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;",
+    }
+    source_by_key = {"mathf_round_signature": mathf_source, "mathf_round_expr": mathf_source}
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, source)
+    ]
+    return {
+        "source": BLOCK_SOURCE,
+        "arc_mathf_source": ARC_MATHF_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

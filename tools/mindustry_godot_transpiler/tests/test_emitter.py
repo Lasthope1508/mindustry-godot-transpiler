@@ -9865,6 +9865,55 @@ public class Block{
             self.assertIn('"emit_light_after": emit_light_after', source_text)
             self.assertIn('"light_clip_size_after": light_clip_size_after', source_text)
 
+    def test_emit_bridges_block_init_liquid_capacity_default_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        //some blocks don't have hasLiquids, but have liquid consumers/liquid capacity
+        if(liquidCapacity < 0){
+            float consumeAmount = 1f;
+            for(var cons : consumeBuilder){
+            }
+            liquidCapacity = Mathf.round(10f * consumeAmount);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "liquid_capacity_default":', source_text)
+            self.assertIn("\t\tvar liquid_capacity_before: float = float(_args[0] if _args.size() > 0 else -1.0)", source_text)
+            self.assertIn("\t\tvar liquid_capacity_assigned: bool = liquid_capacity_before < 0.0", source_text)
+            self.assertIn("\t\tvar consume_amount: float = 1.0", source_text)
+            self.assertIn("\t\tvar liquid_capacity_after: int = int(10.0 * consume_amount + 16384.5) - 16384 if liquid_capacity_assigned else int(liquid_capacity_before)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_liquid_capacity_default_state"', source_text)
+            self.assertIn('"liquid_capacity_comment": "//some blocks don\'t have hasLiquids, but have liquid consumers/liquid capacity"', source_text)
+            self.assertIn('"liquid_capacity_guard_expr": "if(liquidCapacity < 0){"', source_text)
+            self.assertIn('"consume_amount_default_expr": "float consumeAmount = 1f;"', source_text)
+            self.assertIn('"consume_builder_loop_expr": "for(var cons : consumeBuilder){"', source_text)
+            self.assertIn('"liquid_capacity_assign_expr": "liquidCapacity = Mathf.round(10f * consumeAmount);"', source_text)
+            self.assertIn('"mathf_round_expr": "return (int)(value + BIG_ENOUGH_ROUND) - BIG_ENOUGH_INT;"', source_text)
+            self.assertIn('"liquid_capacity_after": liquid_capacity_after', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
