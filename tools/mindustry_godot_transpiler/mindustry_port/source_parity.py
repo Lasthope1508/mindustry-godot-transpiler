@@ -11404,6 +11404,34 @@ def verify_build_payload_draw_shadow_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_build_payload_draw_source(upstream_root: Path) -> dict[str, Any]:
+    build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
+    payload_path = Path(upstream_root) / build_payload_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class BuildPayload implements Payload{",
+        "field_expr": "public Building build;",
+        "override_expr": "@Override",
+        "method": "public void draw(){",
+        "prev_z_expr": "float prevZ = Draw.z();",
+        "shadow_z_expr": "Draw.z(prevZ - 0.001f);",
+        "draw_shadow_expr": "drawShadow(1f);",
+        "z_restore_expr": "Draw.z(prevZ);",
+        "z_transform_expr": "Draw.zTransform(z ->",
+        "z_transform_guard_expr": "z >= Layer.flyingUnitLow + 1f ? z :",
+        "z_transform_return_expr": "0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)",
+        "tile_assign_expr": "build.tile = emptyTile;",
+        "payload_draw_expr": "build.payloadDraw();",
+        "z_transform_reset_expr": "Draw.zTransform();",
+        "final_z_restore_expr": "Draw.z(prevZ);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": build_payload_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_drill_get_drill_time_source(upstream_root: Path) -> dict[str, Any]:
     drill_path = Path(upstream_root) / DRILL_SOURCE
     source = drill_path.read_text(encoding="utf-8", errors="replace")

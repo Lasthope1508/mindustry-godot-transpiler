@@ -86,7 +86,18 @@ func java_method_drawShadow_15(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_build_payload_draw_shadow_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public void drawShadow(float alpha){", "shadow_expr": "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);", "build_x": build_x, "build_y": build_y, "build_block_size": build_block_size, "source_tilesize": source_tilesize, "alpha": alpha, "shadow_size": shadow_size, "shadow_call": shadow_call}
 
 func java_method_draw_16(_args: Array = []) -> Variant:
-	return null
+	var prev_z: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var layer_flying_unit_low: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var transform_z: float = float(_args[2] if _args.size() > 2 else prev_z)
+	var shadow_z: float = prev_z - 0.001
+	var transform_threshold: float = layer_flying_unit_low + 1.0
+	var transform_min_limit: float = layer_flying_unit_low - 1.0
+	var transformed_z: float = transform_z
+	if transform_z < transform_threshold:
+		var transform_clamped: float = clampf((transform_z - prev_z) / 100.0, -0.0009, 0.9)
+		transformed_z = 0.0011 + min(transform_clamped + prev_z, transform_min_limit)
+	var draw_calls: Array = [{"call": "float prevZ = Draw.z();", "value": prev_z}, {"call": "Draw.z(prevZ - 0.001f);", "z": shadow_z}, {"call": "drawShadow(1f);", "alpha": 1.0}, {"call": "Draw.z(prevZ);", "z": prev_z}, {"call": "Draw.zTransform(z ->", "input_z": transform_z, "result": transformed_z}, {"call": "build.tile = emptyTile;", "tile": "emptyTile"}, {"call": "build.payloadDraw();", "called": true}, {"call": "Draw.zTransform();", "called": true}, {"call": "Draw.z(prevZ);", "z": prev_z}]
+	return {"source_owner": "PortGame.source_build_payload_draw_state", "source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java", "class_expr": "public class BuildPayload implements Payload{", "field_expr": "public Building build;", "import_expr": "import static mindustry.Vars.*;", "override_expr": "@Override", "method": "public void draw(){", "prev_z_expr": "float prevZ = Draw.z();", "shadow_z_expr": "Draw.z(prevZ - 0.001f);", "draw_shadow_expr": "drawShadow(1f);", "z_restore_expr": "Draw.z(prevZ);", "z_transform_expr": "Draw.zTransform(z ->", "z_transform_return_expr": "z >= Layer.flyingUnitLow + 1f ? z : 0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)", "tile_assign_expr": "build.tile = emptyTile;", "payload_draw_expr": "build.payloadDraw();", "z_transform_reset_expr": "Draw.zTransform();", "final_z_restore_expr": "Draw.z(prevZ);", "prev_z": prev_z, "layer_flying_unit_low": layer_flying_unit_low, "transform_z": transform_z, "shadow_z": shadow_z, "transformed_z": transformed_z, "tile_after": "emptyTile", "payload_draw_called": true, "draw_calls": draw_calls}
 
 func java_method_icon_17(_args: Array = []) -> Variant:
 	return null

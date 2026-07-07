@@ -35787,6 +35787,71 @@
         "test_build_payload_draw_shadow_matches_upstream_source",
         "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_build_payload_draw_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "params": [
+        {
+          "name": "prev_z",
+          "type": "float",
+          "java_expr": "Draw.z()",
+          "schema": "source_build_payload_draw_input.prev_z",
+          "source_symbol": "build_payload_draw.prev_z"
+        },
+        {
+          "name": "layer_flying_unit_low",
+          "type": "float",
+          "java_expr": "Layer.flyingUnitLow",
+          "schema": "source_build_payload_draw_input.layer_flying_unit_low",
+          "source_symbol": "build_payload_draw.layer_flying_unit_low"
+        },
+        {
+          "name": "transform_z",
+          "type": "float",
+          "java_expr": "z",
+          "schema": "source_build_payload_draw_input.transform_z",
+          "source_symbol": "build_payload_draw.transform_z"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "import_expr",
+        "override_expr",
+        "method",
+        "prev_z_expr",
+        "shadow_z_expr",
+        "draw_shadow_expr",
+        "z_restore_expr",
+        "z_transform_expr",
+        "z_transform_return_expr",
+        "tile_assign_expr",
+        "payload_draw_expr",
+        "z_transform_reset_expr",
+        "final_z_restore_expr",
+        "prev_z",
+        "layer_flying_unit_low",
+        "transform_z",
+        "shadow_z",
+        "transformed_z",
+        "tile_after",
+        "payload_draw_called",
+        "draw_calls"
+      ],
+      "rule": "PortGame.source_build_payload_draw_state pins BuildPayload.draw() ordered draw operation contract.",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_method": "BuildPayload.draw()",
+      "source_slice": "N1378",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

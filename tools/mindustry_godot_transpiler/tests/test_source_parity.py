@@ -11489,6 +11489,30 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_build_payload_draw_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_build_payload_draw_source"))
+        report = source_parity.verify_build_payload_draw_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class BuildPayload implements Payload{",
+            "field_expr": "public Building build;",
+            "override_expr": "@Override",
+            "method": "public void draw(){",
+            "prev_z_expr": "float prevZ = Draw.z();",
+            "shadow_z_expr": "Draw.z(prevZ - 0.001f);",
+            "draw_shadow_expr": "drawShadow(1f);",
+            "z_restore_expr": "Draw.z(prevZ);",
+            "z_transform_expr": "Draw.zTransform(z ->",
+            "z_transform_guard_expr": "z >= Layer.flyingUnitLow + 1f ? z :",
+            "z_transform_return_expr": "0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)",
+            "tile_assign_expr": "build.tile = emptyTile;",
+            "payload_draw_expr": "build.payloadDraw();",
+            "z_transform_reset_expr": "Draw.zTransform();",
+            "final_z_restore_expr": "Draw.z(prevZ);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_get_drill_time_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_get_drill_time_source"))
         report = source_parity.verify_drill_get_drill_time_source(ROOT / "mindustry-upstream")

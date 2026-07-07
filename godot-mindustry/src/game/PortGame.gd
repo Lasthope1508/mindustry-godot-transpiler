@@ -20130,6 +20130,66 @@ func generated_build_payload_draw_shadow_bridge_state(build_x: float, build_y: f
 		"matches": result == canonical,
 	}
 
+func source_build_payload_draw_state(prev_z: float, layer_flying_unit_low: float, transform_z: float) -> Dictionary:
+	var shadow_z: float = prev_z - 0.001
+	var transform_threshold: float = layer_flying_unit_low + 1.0
+	var transform_min_limit: float = layer_flying_unit_low - 1.0
+	var transformed_z: float = transform_z
+	if transform_z < transform_threshold:
+		var transform_clamped: float = clampf((transform_z - prev_z) / 100.0, -0.0009, 0.9)
+		transformed_z = 0.0011 + min(transform_clamped + prev_z, transform_min_limit)
+	var draw_calls: Array = [
+		{"call": "float prevZ = Draw.z();", "value": prev_z},
+		{"call": "Draw.z(prevZ - 0.001f);", "z": shadow_z},
+		{"call": "drawShadow(1f);", "alpha": 1.0},
+		{"call": "Draw.z(prevZ);", "z": prev_z},
+		{"call": "Draw.zTransform(z ->", "input_z": transform_z, "result": transformed_z},
+		{"call": "build.tile = emptyTile;", "tile": "emptyTile"},
+		{"call": "build.payloadDraw();", "called": true},
+		{"call": "Draw.zTransform();", "called": true},
+		{"call": "Draw.z(prevZ);", "z": prev_z},
+	]
+	return {
+		"source_owner": "PortGame.source_build_payload_draw_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+		"class_expr": "public class BuildPayload implements Payload{",
+		"field_expr": "public Building build;",
+		"import_expr": "import static mindustry.Vars.*;",
+		"override_expr": "@Override",
+		"method": "public void draw(){",
+		"prev_z_expr": "float prevZ = Draw.z();",
+		"shadow_z_expr": "Draw.z(prevZ - 0.001f);",
+		"draw_shadow_expr": "drawShadow(1f);",
+		"z_restore_expr": "Draw.z(prevZ);",
+		"z_transform_expr": "Draw.zTransform(z ->",
+		"z_transform_return_expr": "z >= Layer.flyingUnitLow + 1f ? z : 0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)",
+		"tile_assign_expr": "build.tile = emptyTile;",
+		"payload_draw_expr": "build.payloadDraw();",
+		"z_transform_reset_expr": "Draw.zTransform();",
+		"final_z_restore_expr": "Draw.z(prevZ);",
+		"prev_z": prev_z,
+		"layer_flying_unit_low": layer_flying_unit_low,
+		"transform_z": transform_z,
+		"shadow_z": shadow_z,
+		"transformed_z": transformed_z,
+		"tile_after": "emptyTile",
+		"payload_draw_called": true,
+		"draw_calls": draw_calls,
+	}
+
+func generated_build_payload_draw_bridge_state(prev_z: float, layer_flying_unit_low: float, transform_z: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_draw_16([prev_z, layer_flying_unit_low, transform_z])
+	var canonical = source_build_payload_draw_state(prev_z, layer_flying_unit_low, transform_z)
+	return {
+		"source_owner": "PortGame.source_build_payload_draw_state",
+		"generated_owner": "BuildPayload.java_method_draw_16",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

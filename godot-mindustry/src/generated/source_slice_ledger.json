@@ -33051,6 +33051,65 @@
         "test_generated_build_payload_draw_shadow_slice_is_registered_with_source_backing"
       ],
       "title": "Generated BuildPayload drawShadow bridge state"
+    },
+    "N1378": {
+      "deferred_exprs": [
+        "Draw.zTransform runtime renderer internals",
+        "Building.payloadDraw() internals",
+        "Draw.z(...) renderer state side effects beyond ordered call recording"
+      ],
+      "exact_exprs": [
+        "public class BuildPayload implements Payload{",
+        "public Building build;",
+        "import static mindustry.Vars.*;",
+        "@Override",
+        "public void draw(){",
+        "float prevZ = Draw.z();",
+        "Draw.z(prevZ - 0.001f);",
+        "drawShadow(1f);",
+        "Draw.z(prevZ);",
+        "Draw.zTransform(z ->",
+        "z >= Layer.flyingUnitLow + 1f ? z :",
+        "0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)",
+        "build.tile = emptyTile;",
+        "build.payloadDraw();",
+        "Draw.zTransform();"
+      ],
+      "generated_owner": "BuildPayload.java_method_draw_16",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "java_class": "BuildPayload",
+      "java_method": "BuildPayload.draw()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "rule": "Generated BuildPayload.draw() bridge records ordered draw/z-transform/tile/payloadDraw calls without renderer internals.",
+      "runtime_proof": "/root/Main.generated_build_payload_draw_bridge_state",
+      "source_symbols": [
+        "build_payload_draw.class_expr",
+        "build_payload_draw.field_expr",
+        "build_payload_draw.import_expr",
+        "build_payload_draw.override_expr",
+        "build_payload_draw.method",
+        "build_payload_draw.prev_z",
+        "build_payload_draw.layer_flying_unit_low",
+        "build_payload_draw.transform_z",
+        "build_payload_draw.shadow_z_expr",
+        "build_payload_draw.draw_shadow_expr",
+        "build_payload_draw.z_restore_expr",
+        "build_payload_draw.z_transform_expr",
+        "build_payload_draw.z_transform_return_expr",
+        "build_payload_draw.tile_assign_expr",
+        "build_payload_draw.payload_draw_expr",
+        "build_payload_draw.z_transform_reset_expr",
+        "build_payload_draw.final_z_restore_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated BuildPayload draw bridge state"
     }
   },
   "version": 1

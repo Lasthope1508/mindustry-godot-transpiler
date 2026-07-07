@@ -18491,6 +18491,41 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildPayload.java_method_drawShadow_15"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_build_payload_draw_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_build_payload_draw_state(prev_z: float, layer_flying_unit_low: float, transform_z: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_draw_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java"', source)
+        self.assertIn('"field_expr": "public Building build;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public void draw(){"', source)
+        self.assertIn('"prev_z_expr": "float prevZ = Draw.z();"', source)
+        self.assertIn('"shadow_z_expr": "Draw.z(prevZ - 0.001f);"', source)
+        self.assertIn('"draw_shadow_expr": "drawShadow(1f);"', source)
+        self.assertIn('"z_restore_expr": "Draw.z(prevZ);"', source)
+        self.assertIn('"z_transform_expr": "Draw.zTransform(z ->"', source)
+        self.assertIn('"tile_assign_expr": "build.tile = emptyTile;"', source)
+        self.assertIn('"payload_draw_expr": "build.payloadDraw();"', source)
+        self.assertIn('"z_transform_reset_expr": "Draw.zTransform();"', source)
+        self.assertIn('"final_z_restore_expr": "Draw.z(prevZ);"', source)
+        self.assertIn('"payload_draw_called": true', source)
+        self.assertIn('"tile_after": "emptyTile"', source)
+        self.assertIn('"draw_calls": draw_calls', source)
+
+    def test_port_game_exposes_generated_build_payload_draw_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_build_payload_draw_bridge_state(prev_z: float, layer_flying_unit_low: float, transform_z: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BuildPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_draw_16([prev_z, layer_flying_unit_low, transform_z])", source)
+        self.assertIn("var canonical = source_build_payload_draw_state(prev_z, layer_flying_unit_low, transform_z)", source)
+        self.assertIn('"source_owner": "PortGame.source_build_payload_draw_state"', source)
+        self.assertIn('"generated_owner": "BuildPayload.java_method_draw_16"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_block_init_item_liquid_filters_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

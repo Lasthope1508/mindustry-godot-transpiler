@@ -106514,6 +106514,312 @@
       "java_expr": "build.block.size * tilesize * 1.85f",
       "rule": "Source shadow size formula for BuildPayload.drawShadow().",
       "status": "source-backed"
+    },
+    "build_payload_draw.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.class_expr",
+      "java_expr": "public class BuildPayload implements Payload{",
+      "rule": "Pin BuildPayload class boundary for draw payload bridge.",
+      "status": "source-backed"
+    },
+    "build_payload_draw.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.field_expr",
+      "java_expr": "public Building build;",
+      "rule": "BuildPayload build field receives tile assignment and payload draw call.",
+      "status": "source-backed"
+    },
+    "build_payload_draw.import_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.import_expr",
+      "java_expr": "import static mindustry.Vars.*;",
+      "rule": "Static Vars import provides emptyTile for BuildPayload.draw().",
+      "status": "source-backed"
+    },
+    "build_payload_draw.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "BuildPayload.draw() implements Payload.draw().",
+      "status": "source-backed"
+    },
+    "build_payload_draw.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.method",
+      "java_expr": "public void draw(){",
+      "rule": "Pin BuildPayload.draw() method boundary.",
+      "status": "source-backed"
+    },
+    "build_payload_draw.prev_z": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_input.prev_z",
+      "java_expr": "float prevZ = Draw.z();",
+      "rule": "Explicit runtime value for Draw.z() captured as prevZ.",
+      "status": "explicit-input"
+    },
+    "build_payload_draw.layer_flying_unit_low": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_input.layer_flying_unit_low",
+      "java_expr": "Layer.flyingUnitLow",
+      "rule": "Explicit runtime value for Layer.flyingUnitLow used by z transform.",
+      "status": "explicit-input"
+    },
+    "build_payload_draw.transform_z": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_input.transform_z",
+      "java_expr": "z",
+      "rule": "Explicit z sample passed through Draw.zTransform lambda.",
+      "status": "explicit-input"
+    },
+    "build_payload_draw.shadow_z_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.shadow_z",
+      "java_expr": "Draw.z(prevZ - 0.001f);",
+      "rule": "Shadow draw z is prevZ minus 0.001 before drawShadow(1f).",
+      "status": "source-backed"
+    },
+    "build_payload_draw.draw_shadow_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.draw_calls",
+      "java_expr": "drawShadow(1f);",
+      "rule": "BuildPayload.draw() calls drawShadow with alpha 1f.",
+      "status": "source-backed"
+    },
+    "build_payload_draw.z_restore_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.draw_calls",
+      "java_expr": "Draw.z(prevZ);",
+      "rule": "BuildPayload.draw() restores Draw.z(prevZ) after drawShadow and at method end.",
+      "status": "source-backed"
+    },
+    "build_payload_draw.z_transform_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.draw_calls",
+      "java_expr": "Draw.zTransform(z ->",
+      "rule": "BuildPayload.draw() installs z transform lambda before payloadDraw().",
+      "status": "source-backed"
+    },
+    "build_payload_draw.z_transform_return_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.transformed_z",
+      "java_expr": "z >= Layer.flyingUnitLow + 1f ? z : 0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)",
+      "rule": "Source z transform return expression for sample transform_z.",
+      "status": "source-backed"
+    },
+    "build_payload_draw.tile_assign_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.tile_after",
+      "java_expr": "build.tile = emptyTile;",
+      "rule": "BuildPayload.draw() assigns build.tile to emptyTile before payloadDraw().",
+      "status": "source-backed"
+    },
+    "build_payload_draw.payload_draw_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.payload_draw_called",
+      "java_expr": "build.payloadDraw();",
+      "rule": "BuildPayload.draw() delegates payload drawing to build.payloadDraw().",
+      "status": "source-backed"
+    },
+    "build_payload_draw.z_transform_reset_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.draw_calls",
+      "java_expr": "Draw.zTransform();",
+      "rule": "BuildPayload.draw() clears Draw.zTransform after payloadDraw().",
+      "status": "source-backed"
+    },
+    "build_payload_draw.final_z_restore_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
+      "java_method": "BuildPayload.draw()",
+      "godot_owner": "PortGame.source_build_payload_draw_state",
+      "runtime_proof": "/root/Main.source_build_payload_draw_state",
+      "source_slice": "N1378",
+      "tests": [
+        "test_emit_bridges_build_payload_draw_to_source_state",
+        "test_port_game_exposes_source_build_payload_draw_state",
+        "test_port_game_exposes_generated_build_payload_draw_bridge_state",
+        "test_build_payload_draw_matches_upstream_source",
+        "test_generated_build_payload_draw_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_build_payload_draw_result.draw_calls",
+      "java_expr": "Draw.z(prevZ);",
+      "rule": "BuildPayload.draw() restores Draw.z(prevZ) at method end.",
+      "status": "source-backed"
     }
   },
   "version": 1

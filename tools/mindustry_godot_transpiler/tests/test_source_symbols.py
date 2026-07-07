@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 850)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 845)
+        self.assertEqual(audit["totalSourceFunctions"], 851)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 846)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 850)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 851)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -47781,6 +47781,70 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["alpha"]["java_expr"], "alpha")
         result_schema = source_symbols.state_schema(schema, "source_build_payload_draw_shadow_result")
         self.assertEqual(result_schema["keys"]["shadow_call"]["java_expr"], "Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);")
+
+    def test_generated_build_payload_draw_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "build_payload_draw.method")
+        self.assertEqual(method["java_expr"], "public void draw(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(method["java_method"], "BuildPayload.draw()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_build_payload_draw_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_build_payload_draw_state")
+
+        prev_z = source_symbols.source_symbol(registry, "build_payload_draw.prev_z")
+        self.assertEqual(prev_z["java_expr"], "float prevZ = Draw.z();")
+        self.assertEqual(prev_z["godot_symbol"], "source_build_payload_draw_input.prev_z")
+        transform_return = source_symbols.source_symbol(registry, "build_payload_draw.z_transform_return_expr")
+        self.assertEqual(transform_return["java_expr"], "z >= Layer.flyingUnitLow + 1f ? z : 0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)")
+        self.assertEqual(transform_return["godot_symbol"], "source_build_payload_draw_result.transformed_z")
+        payload_draw = source_symbols.source_symbol(registry, "build_payload_draw.payload_draw_expr")
+        self.assertEqual(payload_draw["java_expr"], "build.payloadDraw();")
+        self.assertEqual(payload_draw["godot_symbol"], "source_build_payload_draw_result.payload_draw_called")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1378")
+        self.assertEqual(payload_slice["title"], "Generated BuildPayload draw bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BuildPayload.java")
+        self.assertEqual(payload_slice["java_method"], "BuildPayload.draw()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_build_payload_draw_state")
+        self.assertEqual(payload_slice["generated_owner"], "BuildPayload.java_method_draw_16")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_build_payload_draw_bridge_state")
+        for expr in [
+            "public class BuildPayload implements Payload{",
+            "public Building build;",
+            "import static mindustry.Vars.*;",
+            "@Override",
+            "public void draw(){",
+            "float prevZ = Draw.z();",
+            "Draw.z(prevZ - 0.001f);",
+            "drawShadow(1f);",
+            "Draw.z(prevZ);",
+            "Draw.zTransform(z ->",
+            "z >= Layer.flyingUnitLow + 1f ? z :",
+            "0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)",
+            "build.tile = emptyTile;",
+            "build.payloadDraw();",
+            "Draw.zTransform();",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("build_payload_draw.payload_draw_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_build_payload_draw_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["prev_z", "layer_flying_unit_low", "transform_z"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "import_expr", "override_expr", "method", "prev_z_expr", "shadow_z_expr", "draw_shadow_expr", "z_restore_expr", "z_transform_expr", "z_transform_return_expr", "tile_assign_expr", "payload_draw_expr", "z_transform_reset_expr", "final_z_restore_expr", "prev_z", "layer_flying_unit_low", "transform_z", "shadow_z", "transformed_z", "tile_after", "payload_draw_called", "draw_calls"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_build_payload_draw_input")
+        self.assertEqual(input_schema["keys"]["prev_z"]["java_expr"], "Draw.z()")
+        self.assertEqual(input_schema["keys"]["layer_flying_unit_low"]["java_expr"], "Layer.flyingUnitLow")
+        self.assertEqual(input_schema["keys"]["transform_z"]["java_expr"], "z")
+        result_schema = source_symbols.state_schema(schema, "source_build_payload_draw_result")
+        self.assertEqual(result_schema["keys"]["payload_draw_called"]["java_expr"], "build.payloadDraw();")
 
     def test_generated_drill_get_drill_time_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

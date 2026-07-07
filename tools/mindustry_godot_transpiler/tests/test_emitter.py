@@ -17573,6 +17573,22 @@ public class BuildPayload implements Payload{
     public void drawShadow(float alpha){
         Drawf.squareShadow(build.x, build.y, build.block.size * tilesize * 1.85f, alpha);
     }
+
+    @Override
+    public void draw(){
+        float prevZ = Draw.z();
+        Draw.z(prevZ - 0.001f);
+        drawShadow(1f);
+        Draw.z(prevZ);
+        Draw.zTransform(z ->
+            z >= Layer.flyingUnitLow + 1f ? z :
+            0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)
+        );
+        build.tile = emptyTile;
+        build.payloadDraw();
+        Draw.zTransform();
+        Draw.z(prevZ);
+    }
 }
 """,
                 encoding="utf-8",
@@ -17802,6 +17818,120 @@ public class BuildPayload implements Payload{
             self.assertIn('"alpha": alpha', source_text)
             self.assertIn('"shadow_size": shadow_size', source_text)
             self.assertIn('"shadow_call": shadow_call', source_text)
+
+    def test_emit_bridges_build_payload_draw_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class BuildPayload implements Payload{
+    public Building build;
+
+    public Block block(){
+        return build.block;
+    }
+
+    public void place(Tile tile){
+    }
+
+    public void place(Tile tile, int rotation){
+    }
+
+    public boolean contentEquals(Payload other){
+        return false;
+    }
+
+    public UnlockableContent content(){
+        return build.block;
+    }
+
+    public void update(Unit unitHolder, Building buildingHolder){
+    }
+
+    public void destroyed(){
+    }
+
+    public ItemStack[] requirements(){
+        return build.block.requirements;
+    }
+
+    public float buildTime(){
+        return build.block.buildTime;
+    }
+
+    public float x(){
+        return build.x;
+    }
+
+    public float y(){
+        return build.y;
+    }
+
+    public float size(){
+        return build.block.size * tilesize;
+    }
+
+    public void remove(){
+        build.remove();
+    }
+
+    public void write(Writes write){
+    }
+
+    public void set(float x, float y, float rotation){
+    }
+
+    public void drawShadow(float alpha){
+    }
+
+    @Override
+    public void draw(){
+        float prevZ = Draw.z();
+        Draw.z(prevZ - 0.001f);
+        drawShadow(1f);
+        Draw.z(prevZ);
+        Draw.zTransform(z ->
+            z >= Layer.flyingUnitLow + 1f ? z :
+            0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)
+        );
+        build.tile = emptyTile;
+        build.payloadDraw();
+        Draw.zTransform();
+        Draw.z(prevZ);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BuildPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_draw_16(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var prev_z: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var layer_flying_unit_low: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var transform_z: float = float(_args[2] if _args.size() > 2 else prev_z)", source_text)
+            self.assertIn("var shadow_z: float = prev_z - 0.001", source_text)
+            self.assertIn("var transform_threshold: float = layer_flying_unit_low + 1.0", source_text)
+            self.assertIn("var transformed_z: float = transform_z", source_text)
+            self.assertIn("clampf((transform_z - prev_z) / 100.0, -0.0009, 0.9)", source_text)
+            self.assertIn('{"call": "Draw.z(prevZ - 0.001f);", "z": shadow_z}', source_text)
+            self.assertIn('{"call": "drawShadow(1f);", "alpha": 1.0}', source_text)
+            self.assertIn('"z_transform_expr": "Draw.zTransform(z ->"', source_text)
+            self.assertIn('"z_transform_return_expr": "z >= Layer.flyingUnitLow + 1f ? z : 0.0011f + Math.min(Mathf.clamp((z - prevZ)/100f, -0.0009f, 0.9f) + prevZ, Layer.flyingUnitLow - 1f)"', source_text)
+            self.assertIn('"tile_assign_expr": "build.tile = emptyTile;"', source_text)
+            self.assertIn('"payload_draw_expr": "build.payloadDraw();"', source_text)
+            self.assertIn('"z_transform_reset_expr": "Draw.zTransform();"', source_text)
+            self.assertIn('"final_z_restore_expr": "Draw.z(prevZ);"', source_text)
+            self.assertIn('"payload_draw_called": true', source_text)
+            self.assertIn('"tile_after": "emptyTile"', source_text)
 
     def test_emit_bridges_drill_get_drill_time_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
