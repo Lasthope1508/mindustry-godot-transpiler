@@ -34455,6 +34455,52 @@
       ],
       "status": "active",
       "rule": "Pin source-backed Block.init() buffered power guard and consPower.buffered disable assignment."
+    },
+    "PortGame.source_block_init_sandbox_visibility_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1349",
+      "params": [
+        {
+          "name": "build_visibility",
+          "type": "String",
+          "java_expr": "buildVisibility",
+          "schema": "source_block_init_sandbox_visibility_input.build_visibility"
+        },
+        {
+          "name": "hide_details_before",
+          "type": "bool",
+          "java_expr": "hideDetails",
+          "schema": "source_block_init_sandbox_visibility_input.hide_details_before"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "build_visibility_source",
+        "unlockable_content_source",
+        "method",
+        "super_init_expr",
+        "build_visibility_field_expr",
+        "hide_details_field_expr",
+        "sandbox_visibility_guard_expr",
+        "sandbox_only_expr",
+        "hide_details_assign_expr",
+        "build_visibility",
+        "hide_details_before",
+        "sandbox_visibility_applied",
+        "hide_details_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_sandbox_visibility_state",
+      "tests": [
+        "test_emit_bridges_block_init_sandbox_visibility_to_source_state",
+        "test_port_game_exposes_source_block_init_sandbox_visibility_state",
+        "test_port_game_exposes_generated_block_init_sandbox_visibility_bridge_state",
+        "test_block_init_sandbox_visibility_matches_upstream_source",
+        "test_generated_block_init_sandbox_visibility_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() sandboxOnly buildVisibility hideDetails reveal branch."
     }
   },
   "policy": {

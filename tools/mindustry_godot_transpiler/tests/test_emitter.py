@@ -10493,6 +10493,53 @@ public class Block{
             self.assertIn('"buffered_power_disable_expr": "consPower.buffered = false;"', source_text)
             self.assertIn('"cons_power_buffered_after": cons_power_buffered_after', source_text)
 
+    def test_emit_bridges_block_init_sandbox_visibility_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    public BuildVisibility buildVisibility = BuildVisibility.hidden;
+
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        if(buildVisibility == BuildVisibility.sandboxOnly){
+            hideDetails = false;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "sandbox_visibility":', source_text)
+            self.assertIn('\t\tvar build_visibility: String = str(_args[0] if _args.size() > 0 else "BuildVisibility.hidden")', source_text)
+            self.assertIn("\t\tvar hide_details_before: bool = bool(_args[1] if _args.size() > 1 else true)", source_text)
+            self.assertIn('\t\tvar sandbox_visibility_applied: bool = build_visibility == "BuildVisibility.sandboxOnly"', source_text)
+            self.assertIn("\t\tvar hide_details_after: bool = false if sandbox_visibility_applied else hide_details_before", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_sandbox_visibility_state"', source_text)
+            self.assertIn('"build_visibility_field_expr": "public BuildVisibility buildVisibility = BuildVisibility.hidden;"', source_text)
+            self.assertIn('"hide_details_field_expr": "public boolean hideDetails = true;"', source_text)
+            self.assertIn('"sandbox_visibility_guard_expr": "if(buildVisibility == BuildVisibility.sandboxOnly){"', source_text)
+            self.assertIn('"sandbox_only_expr": "sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),"', source_text)
+            self.assertIn('"hide_details_assign_expr": "hideDetails = false;"', source_text)
+            self.assertIn('"sandbox_visibility_applied": sandbox_visibility_applied', source_text)
+            self.assertIn('"hide_details_after": hide_details_after', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

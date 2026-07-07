@@ -126753,6 +126753,254 @@
           ]
         }
       }
+    },
+    "source_block_init_sandbox_visibility_input": {
+      "owner": "PortGame.source_block_init_sandbox_visibility_state",
+      "source_slice": "N1349",
+      "runtime_proof": "/root/Main.source_block_init_sandbox_visibility_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_init_sandbox_visibility_state.",
+      "keys": {
+        "build_visibility": {
+          "godot_symbol": "source_block_init_sandbox_visibility_input.build_visibility",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "buildVisibility",
+          "type": "String",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.build_visibility"
+          ]
+        },
+        "hide_details_before": {
+          "godot_symbol": "source_block_init_sandbox_visibility_input.hide_details_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "hideDetails",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.hide_details_before"
+          ]
+        }
+      }
+    },
+    "source_block_init_sandbox_visibility_result": {
+      "owner": "PortGame.source_block_init_sandbox_visibility_state",
+      "source_slice": "N1349",
+      "runtime_proof": "/root/Main.source_block_init_sandbox_visibility_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_init_sandbox_visibility_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "PortGame.source_block_init_sandbox_visibility_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": []
+        },
+        "build_visibility_source": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.build_visibility_source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "core/src/mindustry/world/meta/BuildVisibility.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": []
+        },
+        "unlockable_content_source": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.unlockable_content_source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "core/src/mindustry/ctype/UnlockableContent.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": []
+        },
+        "method": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "public void init(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.method"
+          ]
+        },
+        "super_init_expr": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.super_init_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "super.init();",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.super_init_expr"
+          ]
+        },
+        "build_visibility_field_expr": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.build_visibility_field_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "public BuildVisibility buildVisibility = BuildVisibility.hidden;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.build_visibility_field_expr"
+          ]
+        },
+        "hide_details_field_expr": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.hide_details_field_expr",
+          "java_source": "core/src/mindustry/ctype/UnlockableContent.java",
+          "java_method": "UnlockableContent",
+          "java_expr": "public boolean hideDetails = true;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.hide_details_field_expr"
+          ]
+        },
+        "sandbox_visibility_guard_expr": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.sandbox_visibility_guard_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "if(buildVisibility == BuildVisibility.sandboxOnly){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.sandbox_visibility_guard_expr"
+          ]
+        },
+        "sandbox_only_expr": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.sandbox_only_expr",
+          "java_source": "core/src/mindustry/world/meta/BuildVisibility.java",
+          "java_method": "BuildVisibility",
+          "java_expr": "sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.sandbox_only_expr"
+          ]
+        },
+        "hide_details_assign_expr": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.hide_details_assign_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "hideDetails = false;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.hide_details_assign_expr"
+          ]
+        },
+        "build_visibility": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.build_visibility",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "buildVisibility",
+          "type": "String",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.build_visibility"
+          ]
+        },
+        "hide_details_before": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.hide_details_before",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "hideDetails",
+          "type": "bool",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.hide_details_before"
+          ]
+        },
+        "sandbox_visibility_applied": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.sandbox_visibility_applied",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "if(buildVisibility == BuildVisibility.sandboxOnly){",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.sandbox_visibility_guard_expr"
+          ]
+        },
+        "hide_details_after": {
+          "godot_symbol": "source_block_init_sandbox_visibility_result.hide_details_after",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "hideDetails = false;",
+          "type": "bool",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_sandbox_visibility_state"
+          ],
+          "source_symbols": [
+            "block_init_sandbox_visibility.hide_details_assign_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

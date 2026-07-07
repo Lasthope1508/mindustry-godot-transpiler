@@ -5935,6 +5935,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_sandbox_visibility_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_sandbox_visibility_source"))
+        report = source_parity.verify_block_init_sandbox_visibility_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["build_visibility_source"], "core/src/mindustry/world/meta/BuildVisibility.java")
+        self.assertEqual(report["unlockable_content_source"], "core/src/mindustry/ctype/UnlockableContent.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "build_visibility_field_expr": "public BuildVisibility buildVisibility = BuildVisibility.hidden;",
+            "hide_details_field_expr": "public boolean hideDetails = true;",
+            "sandbox_visibility_guard_expr": "if(buildVisibility == BuildVisibility.sandboxOnly){",
+            "sandbox_only_expr": "sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),",
+            "hide_details_assign_expr": "hideDetails = false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

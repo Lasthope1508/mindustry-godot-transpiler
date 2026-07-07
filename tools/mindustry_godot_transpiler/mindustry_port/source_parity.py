@@ -11040,6 +11040,39 @@ def verify_block_init_buffered_power_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_block_init_sandbox_visibility_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    build_visibility_path = Path(upstream_root) / "core/src/mindustry/world/meta/BuildVisibility.java"
+    unlockable_content_path = Path(upstream_root) / "core/src/mindustry/ctype/UnlockableContent.java"
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    build_visibility_source = build_visibility_path.read_text(encoding="utf-8", errors="replace")
+    unlockable_content_source = unlockable_content_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "build_visibility_field_expr": "public BuildVisibility buildVisibility = BuildVisibility.hidden;",
+        "hide_details_field_expr": "public boolean hideDetails = true;",
+        "sandbox_visibility_guard_expr": "if(buildVisibility == BuildVisibility.sandboxOnly){",
+        "sandbox_only_expr": "sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),",
+        "hide_details_assign_expr": "hideDetails = false;",
+    }
+    source_by_key = {
+        "sandbox_only_expr": build_visibility_source,
+        "hide_details_field_expr": unlockable_content_source,
+    }
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, source)
+    ]
+    return {
+        "source": BLOCK_SOURCE,
+        "build_visibility_source": "core/src/mindustry/world/meta/BuildVisibility.java",
+        "unlockable_content_source": "core/src/mindustry/ctype/UnlockableContent.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE

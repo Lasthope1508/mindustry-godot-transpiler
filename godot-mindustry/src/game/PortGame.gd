@@ -19351,6 +19351,41 @@ func generated_block_init_buffered_power_bridge_state(outputs_power: bool, has_c
 		"matches": result == canonical,
 	}
 
+func source_block_init_sandbox_visibility_state(build_visibility: String, hide_details_before: bool) -> Dictionary:
+	var sandbox_visibility_applied: bool = build_visibility == "BuildVisibility.sandboxOnly"
+	var hide_details_after: bool = false if sandbox_visibility_applied else hide_details_before
+	return {
+		"source_owner": "PortGame.source_block_init_sandbox_visibility_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"build_visibility_source": "core/src/mindustry/world/meta/BuildVisibility.java",
+		"unlockable_content_source": "core/src/mindustry/ctype/UnlockableContent.java",
+		"method": "public void init(){",
+		"super_init_expr": "super.init();",
+		"build_visibility_field_expr": "public BuildVisibility buildVisibility = BuildVisibility.hidden;",
+		"hide_details_field_expr": "public boolean hideDetails = true;",
+		"sandbox_visibility_guard_expr": "if(buildVisibility == BuildVisibility.sandboxOnly){",
+		"sandbox_only_expr": "sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),",
+		"hide_details_assign_expr": "hideDetails = false;",
+		"build_visibility": build_visibility,
+		"hide_details_before": hide_details_before,
+		"sandbox_visibility_applied": sandbox_visibility_applied,
+		"hide_details_after": hide_details_after,
+	}
+
+func generated_block_init_sandbox_visibility_bridge_state(build_visibility: String, hide_details_before: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	instance.set_meta("mindustry_init_bridge_mode", "sandbox_visibility")
+	var result = instance.java_method_init_123([build_visibility, hide_details_before])
+	var canonical = source_block_init_sandbox_visibility_state(build_visibility, hide_details_before)
+	return {
+		"source_owner": "PortGame.source_block_init_sandbox_visibility_state",
+		"generated_owner": "Block.java_method_init_123",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

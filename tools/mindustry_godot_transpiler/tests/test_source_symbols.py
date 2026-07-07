@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 822)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 817)
+        self.assertEqual(audit["totalSourceFunctions"], 823)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 818)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 822)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 823)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46695,6 +46695,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_buffered_power_result")
         self.assertEqual(result_schema["keys"]["buffered_power_disabled"]["java_expr"], "if(!outputsPower && consPower != null && consPower.buffered){")
         self.assertEqual(result_schema["keys"]["cons_power_buffered_after"]["java_expr"], "consPower.buffered = false;")
+
+    def test_generated_block_init_sandbox_visibility_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_sandbox_visibility.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_sandbox_visibility_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_sandbox_visibility_state")
+
+        guard = source_symbols.source_symbol(registry, "block_init_sandbox_visibility.sandbox_visibility_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(buildVisibility == BuildVisibility.sandboxOnly){")
+        self.assertEqual(guard["godot_symbol"], "source_block_init_sandbox_visibility_result.sandbox_visibility_applied")
+        hide_assign = source_symbols.source_symbol(registry, "block_init_sandbox_visibility.hide_details_assign_expr")
+        self.assertEqual(hide_assign["java_expr"], "hideDetails = false;")
+        sandbox_only = source_symbols.source_symbol(registry, "block_init_sandbox_visibility.sandbox_only_expr")
+        self.assertEqual(sandbox_only["java_source"], "core/src/mindustry/world/meta/BuildVisibility.java")
+        self.assertEqual(sandbox_only["java_expr"], "sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1349")
+        self.assertEqual(setup_slice["title"], "Generated Block init sandbox visibility bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_sandbox_visibility_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_sandbox_visibility_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "public BuildVisibility buildVisibility = BuildVisibility.hidden;",
+            "public boolean hideDetails = true;",
+            "if(buildVisibility == BuildVisibility.sandboxOnly){",
+            "sandboxOnly = new BuildVisibility(() -> Vars.state == null || Vars.state.rules.infiniteResources),",
+            "hideDetails = false;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_sandbox_visibility_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["build_visibility", "hide_details_before"])
+        for key in ["source_owner", "source", "build_visibility_source", "unlockable_content_source", "method", "super_init_expr", "build_visibility_field_expr", "hide_details_field_expr", "sandbox_visibility_guard_expr", "sandbox_only_expr", "hide_details_assign_expr", "build_visibility", "hide_details_before", "sandbox_visibility_applied", "hide_details_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_sandbox_visibility_input")
+        self.assertEqual(input_schema["keys"]["build_visibility"]["java_expr"], "buildVisibility")
+        self.assertEqual(input_schema["keys"]["hide_details_before"]["java_expr"], "hideDetails")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_sandbox_visibility_result")
+        self.assertEqual(result_schema["keys"]["sandbox_visibility_applied"]["java_expr"], "if(buildVisibility == BuildVisibility.sandboxOnly){")
+        self.assertEqual(result_schema["keys"]["hide_details_after"]["java_expr"], "hideDetails = false;")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
