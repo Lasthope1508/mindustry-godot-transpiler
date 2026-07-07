@@ -34010,6 +34010,49 @@
         "test_block_init_accepts_items_matches_upstream_source",
         "test_generated_block_init_accepts_items_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_init_offset_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "source_method": "Block.init()",
+      "source_slice": "N1338",
+      "params": [
+        {
+          "name": "size_value",
+          "type": "int",
+          "java_expr": "size",
+          "schema": "source_block_init_offset_input.size_value"
+        },
+        {
+          "name": "source_tilesize",
+          "type": "float",
+          "java_expr": "tilesize",
+          "schema": "source_block_init_offset_input.source_tilesize"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "vars_source",
+        "method",
+        "super_init_expr",
+        "offset_expr",
+        "size_offset_expr",
+        "tilesize_field_expr",
+        "size",
+        "source_tilesize",
+        "offset_after",
+        "size_offset_after"
+      ],
+      "runtime_proof": "/root/Main.source_block_init_offset_state",
+      "tests": [
+        "test_emit_bridges_block_init_offset_to_source_state",
+        "test_port_game_exposes_source_block_init_offset_state",
+        "test_port_game_exposes_generated_block_init_offset_bridge_state",
+        "test_block_init_offset_matches_upstream_source",
+        "test_generated_block_init_offset_slice_is_registered_with_source_backing"
+      ],
+      "status": "active",
+      "rule": "Pin source-backed Block.init() offset and sizeOffset assignments."
     }
   },
   "policy": {

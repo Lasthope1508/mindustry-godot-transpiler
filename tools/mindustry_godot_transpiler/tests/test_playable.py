@@ -17587,5 +17587,32 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_init_offset_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_init_offset_state(size_value: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_offset_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"vars_source": "core/src/mindustry/Vars.java"', source)
+        self.assertIn('"offset_expr": "offset = ((size + 1) % 2) * tilesize / 2f;"', source)
+        self.assertIn('"size_offset_expr": "sizeOffset = -((size - 1) / 2);"', source)
+        self.assertIn('"tilesize_field_expr": "public static final int tilesize = 8;"', source)
+        self.assertIn('"offset_after": offset_after', source)
+        self.assertIn('"size_offset_after": size_offset_after', source)
+
+    def test_port_game_exposes_generated_block_init_offset_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_init_offset_bridge_state(size_value: int, source_tilesize: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn('instance.set_meta("mindustry_init_bridge_mode", "offset")', source)
+        self.assertIn("var result = instance.java_method_init_123([size_value, source_tilesize])", source)
+        self.assertIn("var canonical = source_block_init_offset_state(size_value, source_tilesize)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_init_offset_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_init_123"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

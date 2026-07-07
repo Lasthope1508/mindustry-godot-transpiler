@@ -13,7 +13,7 @@
     "legacyBackfillStatus": "tracked",
     "newSourceOwnerRequiresRegistry": true
   },
-  "registeredSourceOwnerCount": 806,
+  "registeredSourceOwnerCount": 807,
   "registeredSourceOwners": [
     "PortGame.source_ability_ability_stat_state",
     "PortGame.source_ability_add_stats_state",
@@ -101,6 +101,7 @@
     "PortGame.source_block_init_light_clip_size_state",
     "PortGame.source_block_init_liquid_capacity_default_state",
     "PortGame.source_block_init_liquid_light_state",
+    "PortGame.source_block_init_offset_state",
     "PortGame.source_block_init_place_sound_state",
     "PortGame.source_block_init_sync_flag_state",
     "PortGame.source_block_init_under_bullets_state",
@@ -4209,6 +4210,11 @@
       "owner": "PortGame.source_block_init_accepts_items_state"
     },
     {
+      "function": "source_block_init_offset_state",
+      "gdscript_path": "src/game/PortGame.gd",
+      "owner": "PortGame.source_block_init_offset_state"
+    },
+    {
       "function": "source_turret_init_state",
       "gdscript_path": "src/game/PortGame.gd",
       "owner": "PortGame.source_turret_init_state"
@@ -4879,6 +4885,6 @@
       "owner": "PortGame.source_bullet_scale"
     }
   ],
-  "totalSourceFunctions": 811,
+  "totalSourceFunctions": 812,
   "version": 1
 }

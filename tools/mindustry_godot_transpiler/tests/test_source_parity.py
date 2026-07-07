@@ -5765,6 +5765,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_init_offset_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_init_offset_source"))
+        report = source_parity.verify_block_init_offset_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(report["vars_source"], "core/src/mindustry/Vars.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void init(){",
+            "super_init_expr": "super.init();",
+            "offset_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+            "size_offset_expr": "sizeOffset = -((size - 1) / 2);",
+            "tilesize_field_expr": "public static final int tilesize = 8;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_unit_update_trail_position_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_unit_update_trail_position_source"))
         report = source_parity.verify_unit_update_trail_position_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")

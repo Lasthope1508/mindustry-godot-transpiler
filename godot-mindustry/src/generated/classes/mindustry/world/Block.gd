@@ -723,6 +723,12 @@ func java_method_init_123(_args: Array = []) -> Variant:
 		var accepts_items_gate: bool = block_group == "BlockGroup.transportation" or category_value == "Category.distribution"
 		var accepts_items_after: bool = true if accepts_items_gate else accepts_items_before
 		return {"source_owner": "PortGame.source_block_init_accepts_items_state", "source": "core/src/mindustry/world/Block.java", "method": "public void init(){", "super_init_expr": "super.init();", "accepts_items_guard_expr": "if(group == BlockGroup.transportation || category == Category.distribution){", "accepts_items_assign_expr": "acceptsItems = true;", "block_group": block_group, "category": category_value, "accepts_items_before": accepts_items_before, "accepts_items_gate": accepts_items_gate, "accepts_items_after": accepts_items_after}
+	if init_bridge_mode == "offset":
+		var offset_size_value: int = int(_args[0] if _args.size() > 0 else 1)
+		var source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)
+		var offset_after: float = float((offset_size_value + 1) % 2) * source_tilesize / 2.0
+		var size_offset_after: int = -int(float(offset_size_value - 1) / 2.0)
+		return {"source_owner": "PortGame.source_block_init_offset_state", "source": "core/src/mindustry/world/Block.java", "vars_source": "core/src/mindustry/Vars.java", "method": "public void init(){", "super_init_expr": "super.init();", "offset_expr": "offset = ((size + 1) % 2) * tilesize / 2f;", "size_offset_expr": "sizeOffset = -((size - 1) / 2);", "tilesize_field_expr": "public static final int tilesize = 8;", "size": offset_size_value, "source_tilesize": source_tilesize, "offset_after": offset_after, "size_offset_after": size_offset_after}
 	if init_bridge_mode == "place_sound":
 		var place_sound_before: Variant = _args[0] if _args.size() > 0 else "Sounds.unset"
 		var place_size_value: int = int(_args[1] if _args.size() > 1 else 1)

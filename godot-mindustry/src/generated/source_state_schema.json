@@ -124493,6 +124493,214 @@
       "runtime_proof": "/root/Main.source_block_init_accepts_items_state",
       "source_slice": "N1337",
       "status": "active"
+    },
+    "source_block_init_offset_input": {
+      "owner": "PortGame.source_block_init_offset_state",
+      "source_slice": "N1338",
+      "runtime_proof": "/root/Main.source_block_init_offset_state",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_block_init_offset_state.",
+      "keys": {
+        "size_value": {
+          "godot_symbol": "source_block_init_offset_input.size_value",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "size",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.size"
+          ]
+        },
+        "source_tilesize": {
+          "godot_symbol": "source_block_init_offset_input.source_tilesize",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_method": "Block.init()",
+          "java_expr": "tilesize",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.tilesize"
+          ]
+        }
+      }
+    },
+    "source_block_init_offset_result": {
+      "owner": "PortGame.source_block_init_offset_state",
+      "source_slice": "N1338",
+      "runtime_proof": "/root/Main.source_block_init_offset_state",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_block_init_offset_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_init_offset_result.source_owner",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "PortGame.source_block_init_offset_state",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "godot_symbol": "source_block_init_offset_result.source",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "core/src/mindustry/world/Block.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": []
+        },
+        "vars_source": {
+          "godot_symbol": "source_block_init_offset_result.vars_source",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_method": "Block.init()",
+          "java_expr": "core/src/mindustry/Vars.java",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": []
+        },
+        "method": {
+          "godot_symbol": "source_block_init_offset_result.method",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "public void init(){",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.method"
+          ]
+        },
+        "super_init_expr": {
+          "godot_symbol": "source_block_init_offset_result.super_init_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "super.init();",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.super_init_expr"
+          ]
+        },
+        "offset_expr": {
+          "godot_symbol": "source_block_init_offset_result.offset_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.offset_expr"
+          ]
+        },
+        "size_offset_expr": {
+          "godot_symbol": "source_block_init_offset_result.size_offset_expr",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "sizeOffset = -((size - 1) / 2);",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.size_offset_expr"
+          ]
+        },
+        "tilesize_field_expr": {
+          "godot_symbol": "source_block_init_offset_result.tilesize_field_expr",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_method": "Block.init()",
+          "java_expr": "public static final int tilesize = 8;",
+          "type": "String",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.tilesize_field_expr"
+          ]
+        },
+        "size": {
+          "godot_symbol": "source_block_init_offset_result.size",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "size",
+          "type": "int",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.size"
+          ]
+        },
+        "source_tilesize": {
+          "godot_symbol": "source_block_init_offset_result.source_tilesize",
+          "java_source": "core/src/mindustry/Vars.java",
+          "java_method": "Block.init()",
+          "java_expr": "tilesize",
+          "type": "float",
+          "status": "explicit-input",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.tilesize"
+          ]
+        },
+        "offset_after": {
+          "godot_symbol": "source_block_init_offset_result.offset_after",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+          "type": "float",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.offset_expr"
+          ]
+        },
+        "size_offset_after": {
+          "godot_symbol": "source_block_init_offset_result.size_offset_after",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_method": "Block.init()",
+          "java_expr": "sizeOffset = -((size - 1) / 2);",
+          "type": "int",
+          "status": "source-backed",
+          "owners": [
+            "PortGame.source_block_init_offset_state"
+          ],
+          "source_symbols": [
+            "block_init_offset.size_offset_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

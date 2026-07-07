@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 811)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 806)
+        self.assertEqual(audit["totalSourceFunctions"], 812)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 807)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 811)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 812)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -46117,6 +46117,61 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_init_accepts_items_result")
         self.assertEqual(result_schema["keys"]["accepts_items_gate"]["java_expr"], "group == BlockGroup.transportation || category == Category.distribution")
         self.assertEqual(result_schema["keys"]["accepts_items_after"]["java_expr"], "acceptsItems = true;")
+
+    def test_generated_block_init_offset_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_init_offset.method")
+        self.assertEqual(method["java_expr"], "public void init(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(method["java_method"], "Block.init()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_init_offset_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_init_offset_state")
+
+        offset = source_symbols.source_symbol(registry, "block_init_offset.offset_expr")
+        self.assertEqual(offset["java_expr"], "offset = ((size + 1) % 2) * tilesize / 2f;")
+        self.assertEqual(offset["godot_symbol"], "source_block_init_offset_result.offset_after")
+
+        size_offset = source_symbols.source_symbol(registry, "block_init_offset.size_offset_expr")
+        self.assertEqual(size_offset["java_expr"], "sizeOffset = -((size - 1) / 2);")
+        self.assertEqual(size_offset["godot_symbol"], "source_block_init_offset_result.size_offset_after")
+
+        tilesize = source_symbols.source_symbol(registry, "block_init_offset.tilesize_field_expr")
+        self.assertEqual(tilesize["java_expr"], "public static final int tilesize = 8;")
+        self.assertEqual(tilesize["java_source"], "core/src/mindustry/Vars.java")
+
+        setup_slice = source_symbols.source_slice(ledger, "N1338")
+        self.assertEqual(setup_slice["title"], "Generated Block init offset bridge state")
+        self.assertEqual(setup_slice["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(setup_slice["java_method"], "Block.init()")
+        self.assertEqual(setup_slice["godot_owner"], "PortGame.source_block_init_offset_state")
+        self.assertEqual(setup_slice["generated_owner"], "Block.java_method_init_123")
+        self.assertEqual(setup_slice["runtime_proof"], "/root/Main.generated_block_init_offset_bridge_state")
+        for expr in [
+            "public void init(){",
+            "super.init();",
+            "offset = ((size + 1) % 2) * tilesize / 2f;",
+            "sizeOffset = -((size - 1) / 2);",
+            "public static final int tilesize = 8;",
+        ]:
+            self.assertIn(expr, setup_slice["exact_exprs"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_init_offset_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["size_value", "source_tilesize"])
+        for key in ["source_owner", "source", "vars_source", "method", "super_init_expr", "offset_expr", "size_offset_expr", "tilesize_field_expr", "size", "source_tilesize", "offset_after", "size_offset_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_init_offset_input")
+        self.assertEqual(input_schema["keys"]["size_value"]["java_expr"], "size")
+        self.assertEqual(input_schema["keys"]["source_tilesize"]["java_expr"], "tilesize")
+        result_schema = source_symbols.state_schema(schema, "source_block_init_offset_result")
+        self.assertEqual(result_schema["keys"]["offset_after"]["java_expr"], "offset = ((size + 1) % 2) * tilesize / 2f;")
+        self.assertEqual(result_schema["keys"]["size_offset_after"]["java_expr"], "sizeOffset = -((size - 1) / 2);")
 
     def test_generated_turret_init_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

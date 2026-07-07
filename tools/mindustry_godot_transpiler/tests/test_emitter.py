@@ -10000,6 +10000,48 @@ public class Block{
             self.assertIn('"accepts_items_gate": accepts_items_gate', source_text)
             self.assertIn('"accepts_items_after": accepts_items_after', source_text)
 
+    def test_emit_bridges_block_init_offset_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            block_path = source_root / "mindustry" / "world" / "Block.java"
+            block_path.parent.mkdir(parents=True, exist_ok=True)
+            block_path.write_text(
+                """
+package mindustry.world;
+
+public class Block{
+    @Override
+    @CallSuper
+    public void init(){
+        super.init();
+
+        offset = ((size + 1) % 2) * tilesize / 2f;
+        sizeOffset = -((size - 1) / 2);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+
+            output_root = root / "godot" / "src" / "generated" / "classes"
+            emit_gdscript_classes(source_root, output_root)
+            block_script = output_root / "mindustry" / "world" / "Block.gd"
+            source_text = block_script.read_text(encoding="utf-8")
+
+            self.assertIn("func java_method_init_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('\tif init_bridge_mode == "offset":', source_text)
+            self.assertIn("\t\tvar offset_size_value: int = int(_args[0] if _args.size() > 0 else 1)", source_text)
+            self.assertIn("\t\tvar source_tilesize: float = float(_args[1] if _args.size() > 1 else 8.0)", source_text)
+            self.assertIn("\t\tvar offset_after: float = float((offset_size_value + 1) % 2) * source_tilesize / 2.0", source_text)
+            self.assertIn("\t\tvar size_offset_after: int = -int(float(offset_size_value - 1) / 2.0)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_init_offset_state"', source_text)
+            self.assertIn('"offset_expr": "offset = ((size + 1) % 2) * tilesize / 2f;"', source_text)
+            self.assertIn('"size_offset_expr": "sizeOffset = -((size - 1) / 2);"', source_text)
+            self.assertIn('"tilesize_field_expr": "public static final int tilesize = 8;"', source_text)
+            self.assertIn('"offset_after": offset_after', source_text)
+            self.assertIn('"size_offset_after": size_offset_after', source_text)
+
     def test_emit_bridges_turret_init_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

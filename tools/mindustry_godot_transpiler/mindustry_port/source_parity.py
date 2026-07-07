@@ -10780,6 +10780,31 @@ def verify_block_init_accepts_items_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_block_init_offset_source(upstream_root: Path) -> dict[str, Any]:
+    block_path = Path(upstream_root) / BLOCK_SOURCE
+    vars_path = Path(upstream_root) / "core/src/mindustry/Vars.java"
+    source = block_path.read_text(encoding="utf-8", errors="replace")
+    vars_source = vars_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void init(){",
+        "super_init_expr": "super.init();",
+        "offset_expr": "offset = ((size + 1) % 2) * tilesize / 2f;",
+        "size_offset_expr": "sizeOffset = -((size - 1) / 2);",
+        "tilesize_field_expr": "public static final int tilesize = 8;",
+    }
+    source_by_key = {"tilesize_field_expr": vars_source}
+    missing = [
+        snippet
+        for key, snippet in checked.items()
+        if snippet not in source_by_key.get(key, source)
+    ]
+    return {
+        "source": BLOCK_SOURCE,
+        "vars_source": "core/src/mindustry/Vars.java",
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_unit_update_trail_position_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
     source_path = Path(upstream_root) / UNIT_COMP_SOURCE
     unit_type_path = Path(upstream_root) / UNIT_TYPE_SOURCE
