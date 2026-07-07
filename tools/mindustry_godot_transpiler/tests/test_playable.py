@@ -17091,5 +17091,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "Block.java_method_logicVisible_121"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_post_init_database_tag_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_post_init_database_tag_state(database_tag_before: Variant, category_name: String) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_post_init_database_tag_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/Block.java"', source)
+        self.assertIn('"method": "public void postInit(){"', source)
+        self.assertIn('"database_tag_guard_expr": "if(databaseTag == null || databaseTag.isEmpty()){"', source)
+        self.assertIn('"database_tag_assign_expr": "databaseTag = category.name();"', source)
+        self.assertIn('"super_post_init_expr": "super.postInit();"', source)
+        self.assertIn('"database_tag_before": database_tag_before', source)
+        self.assertIn('"category_name": category_name', source)
+        self.assertIn('"database_tag_after": database_tag_after', source)
+        self.assertIn('"database_tag_assigned": database_tag_assigned', source)
+
+    def test_port_game_exposes_generated_block_post_init_database_tag_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_post_init_database_tag_bridge_state(database_tag_before: Variant, category_name: String) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")', source)
+        self.assertIn("var result = instance.java_method_postInit_122([database_tag_before, category_name])", source)
+        self.assertIn("var canonical = source_block_post_init_database_tag_state(database_tag_before, category_name)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_post_init_database_tag_state"', source)
+        self.assertIn('"generated_owner": "Block.java_method_postInit_122"', source)
+        self.assertIn('"matches": result == canonical', source)
+
 if __name__ == "__main__":
     unittest.main()

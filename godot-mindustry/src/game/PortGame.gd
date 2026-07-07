@@ -18350,6 +18350,37 @@ func generated_block_logic_visible_bridge_state(build_visibility_value: String) 
 		"matches": result == canonical,
 	}
 
+func source_block_post_init_database_tag_state(database_tag_before: Variant, category_name: String) -> Dictionary:
+	var database_tag_after: Variant = database_tag_before
+	var database_tag_assigned: bool = database_tag_before == null or str(database_tag_before).is_empty()
+	if database_tag_assigned:
+		database_tag_after = category_name
+	return {
+		"source_owner": "PortGame.source_block_post_init_database_tag_state",
+		"source": "core/src/mindustry/world/Block.java",
+		"method": "public void postInit(){",
+		"database_tag_guard_expr": "if(databaseTag == null || databaseTag.isEmpty()){",
+		"database_tag_assign_expr": "databaseTag = category.name();",
+		"super_post_init_expr": "super.postInit();",
+		"database_tag_before": database_tag_before,
+		"category_name": category_name,
+		"database_tag_after": database_tag_after,
+		"database_tag_assigned": database_tag_assigned,
+	}
+
+func generated_block_post_init_database_tag_bridge_state(database_tag_before: Variant, category_name: String) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/Block.gd")
+	var instance = script.new()
+	var result = instance.java_method_postInit_122([database_tag_before, category_name])
+	var canonical = source_block_post_init_database_tag_state(database_tag_before, category_name)
+	return {
+		"source_owner": "PortGame.source_block_post_init_database_tag_state",
+		"generated_owner": "Block.java_method_postInit_122",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_turret_init_state(shoot_y: float, shoot_y_is_negative_infinity: bool, size: float, source_tilesize: float, elevation: float, recoil_time: float, reload: float, cooldown_time: float, new_target_interval: float, target_interval: float, target_ground: bool, disable_overlap_check: bool, range_value: float, tracking_range: float) -> Dictionary:
 	var shoot_y_after: float = size * source_tilesize / 2.0 if shoot_y_is_negative_infinity else shoot_y
 	var elevation_after: float = size / 2.0 if elevation < 0.0 else elevation

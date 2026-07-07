@@ -30994,6 +30994,36 @@
         "test_generated_block_logic_visible_slice_is_registered_with_source_backing"
       ],
       "title": "Generated Block logicVisible bridge state"
+    },
+    "N1321": {
+      "exact_exprs": [
+        "public void postInit(){",
+        "if(databaseTag == null || databaseTag.isEmpty()){",
+        "databaseTag = category.name();",
+        "super.postInit();"
+      ],
+      "generated_owner": "Block.java_method_postInit_122",
+      "godot_owner": "PortGame.source_block_post_init_database_tag_state",
+      "java_class": "Block",
+      "java_method": "Block.postInit()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.generated_block_post_init_database_tag_bridge_state",
+      "source_symbols": [
+        "block_post_init_database_tag.method",
+        "block_post_init_database_tag.database_tag_guard_expr",
+        "block_post_init_database_tag.database_tag_assign_expr",
+        "block_post_init_database_tag.database_tag",
+        "block_post_init_database_tag.category_name"
+      ],
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_post_init_database_tag_to_source_state",
+        "test_port_game_exposes_source_block_post_init_database_tag_state",
+        "test_port_game_exposes_generated_block_post_init_database_tag_bridge_state",
+        "test_block_post_init_database_tag_matches_upstream_source",
+        "test_generated_block_post_init_database_tag_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated Block postInit databaseTag bridge state"
     }
   },
   "version": 1

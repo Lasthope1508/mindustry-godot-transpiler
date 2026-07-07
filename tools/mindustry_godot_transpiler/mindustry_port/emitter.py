@@ -1902,6 +1902,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/Block.java"
         and type_entry.get("name") == "Block"
+        and method.get("name") == "postInit"
+        and len(method.get("parameters", [])) == 0
+    ):
+        return [
+            "\tvar database_tag_before: Variant = _args[0] if _args.size() > 0 else null",
+            '\tvar category_name: String = str(_args[1] if _args.size() > 1 else "")',
+            "\tvar database_tag_after: Variant = database_tag_before",
+            "\tvar database_tag_assigned: bool = database_tag_before == null or str(database_tag_before).is_empty()",
+            "\tif database_tag_assigned:",
+            "\t\tdatabase_tag_after = category_name",
+            '\treturn {"source_owner": "PortGame.source_block_post_init_database_tag_state", "source": "core/src/mindustry/world/Block.java", "method": "public void postInit(){", "database_tag_guard_expr": "if(databaseTag == null || databaseTag.isEmpty()){", "database_tag_assign_expr": "databaseTag = category.name();", "super_post_init_expr": "super.postInit();", "database_tag_before": database_tag_before, "category_name": category_name, "database_tag_after": database_tag_after, "database_tag_assigned": database_tag_assigned}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/Block.java"
+        and type_entry.get("name") == "Block"
         and method.get("name") == "consumePowerDynamic"
         and len(method.get("parameters", [])) == 1
     ):

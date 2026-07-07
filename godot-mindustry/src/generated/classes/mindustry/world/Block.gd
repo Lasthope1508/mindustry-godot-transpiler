@@ -584,7 +584,13 @@ func java_method_logicVisible_121(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_logic_visible_state", "source": "core/src/mindustry/world/Block.java", "method": "public boolean logicVisible(){", "logic_visible_return_expr": "return buildVisibility != BuildVisibility.hidden;", "build_visibility": build_visibility_value, "logic_visible": logic_visible}
 
 func java_method_postInit_122(_args: Array = []) -> Variant:
-	return null
+	var database_tag_before: Variant = _args[0] if _args.size() > 0 else null
+	var category_name: String = str(_args[1] if _args.size() > 1 else "")
+	var database_tag_after: Variant = database_tag_before
+	var database_tag_assigned: bool = database_tag_before == null or str(database_tag_before).is_empty()
+	if database_tag_assigned:
+		database_tag_after = category_name
+	return {"source_owner": "PortGame.source_block_post_init_database_tag_state", "source": "core/src/mindustry/world/Block.java", "method": "public void postInit(){", "database_tag_guard_expr": "if(databaseTag == null || databaseTag.isEmpty()){", "database_tag_assign_expr": "databaseTag = category.name();", "super_post_init_expr": "super.postInit();", "database_tag_before": database_tag_before, "category_name": category_name, "database_tag_after": database_tag_after, "database_tag_assigned": database_tag_assigned}
 
 func java_method_init_123(_args: Array = []) -> Variant:
 	return null

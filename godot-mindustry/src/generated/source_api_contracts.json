@@ -33200,6 +33200,47 @@
         "test_block_logic_visible_matches_upstream_source",
         "test_generated_block_logic_visible_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_post_init_database_tag_state": {
+      "java_source": "core/src/mindustry/world/Block.java",
+      "params": [
+        {
+          "java_expr": "databaseTag",
+          "name": "database_tag_before",
+          "schema": "source_block_post_init_database_tag_input.database_tag_before",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "category.name()",
+          "name": "category_name",
+          "schema": "source_block_post_init_database_tag_input.category_name",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "database_tag_guard_expr",
+        "database_tag_assign_expr",
+        "super_post_init_expr",
+        "database_tag_before",
+        "category_name",
+        "database_tag_after",
+        "database_tag_assigned"
+      ],
+      "rule": "Pin source-backed Block.postInit() databaseTag default branch.",
+      "runtime_proof": "/root/Main.source_block_post_init_database_tag_state",
+      "source_method": "Block.postInit()",
+      "source_slice": "N1321",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_block_post_init_database_tag_to_source_state",
+        "test_port_game_exposes_source_block_post_init_database_tag_state",
+        "test_port_game_exposes_generated_block_post_init_database_tag_bridge_state",
+        "test_block_post_init_database_tag_matches_upstream_source",
+        "test_generated_block_post_init_database_tag_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

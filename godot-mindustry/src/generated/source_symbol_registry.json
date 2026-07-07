@@ -98360,6 +98360,96 @@
         "test_block_logic_visible_matches_upstream_source",
         "test_generated_block_logic_visible_slice_is_registered_with_source_backing"
       ]
+    },
+    "block_post_init_database_tag.method": {
+      "godot_owner": "PortGame.source_block_post_init_database_tag_state",
+      "godot_symbol": "source_block_post_init_database_tag_result.method",
+      "java_expr": "public void postInit(){",
+      "java_method": "Block.postInit()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve Block.postInit method boundary for databaseTag branch.",
+      "runtime_proof": "/root/Main.source_block_post_init_database_tag_state",
+      "source_slice": "N1321",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_post_init_database_tag_to_source_state",
+        "test_port_game_exposes_source_block_post_init_database_tag_state",
+        "test_port_game_exposes_generated_block_post_init_database_tag_bridge_state",
+        "test_block_post_init_database_tag_matches_upstream_source",
+        "test_generated_block_post_init_database_tag_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_post_init_database_tag.database_tag_guard_expr": {
+      "godot_owner": "PortGame.source_block_post_init_database_tag_state",
+      "godot_symbol": "source_block_post_init_database_tag_result.database_tag_assigned",
+      "java_expr": "if(databaseTag == null || databaseTag.isEmpty()){",
+      "java_method": "Block.postInit()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve databaseTag null-or-empty guard.",
+      "runtime_proof": "/root/Main.source_block_post_init_database_tag_state",
+      "source_slice": "N1321",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_post_init_database_tag_to_source_state",
+        "test_port_game_exposes_source_block_post_init_database_tag_state",
+        "test_port_game_exposes_generated_block_post_init_database_tag_bridge_state",
+        "test_block_post_init_database_tag_matches_upstream_source",
+        "test_generated_block_post_init_database_tag_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_post_init_database_tag.database_tag_assign_expr": {
+      "godot_owner": "PortGame.source_block_post_init_database_tag_state",
+      "godot_symbol": "source_block_post_init_database_tag_result.database_tag_after",
+      "java_expr": "databaseTag = category.name();",
+      "java_method": "Block.postInit()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Preserve databaseTag assignment from category.name().",
+      "runtime_proof": "/root/Main.source_block_post_init_database_tag_state",
+      "source_slice": "N1321",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_post_init_database_tag_to_source_state",
+        "test_port_game_exposes_source_block_post_init_database_tag_state",
+        "test_port_game_exposes_generated_block_post_init_database_tag_bridge_state",
+        "test_block_post_init_database_tag_matches_upstream_source",
+        "test_generated_block_post_init_database_tag_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_post_init_database_tag.database_tag": {
+      "godot_owner": "PortGame.source_block_post_init_database_tag_state",
+      "godot_symbol": "source_block_post_init_database_tag_input.database_tag_before",
+      "java_expr": "databaseTag",
+      "java_method": "Block.postInit()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Explicit input for existing Block.databaseTag.",
+      "runtime_proof": "/root/Main.source_block_post_init_database_tag_state",
+      "source_slice": "N1321",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_post_init_database_tag_to_source_state",
+        "test_port_game_exposes_source_block_post_init_database_tag_state",
+        "test_port_game_exposes_generated_block_post_init_database_tag_bridge_state",
+        "test_block_post_init_database_tag_matches_upstream_source",
+        "test_generated_block_post_init_database_tag_slice_is_registered_with_source_backing"
+      ]
+    },
+    "block_post_init_database_tag.category_name": {
+      "godot_owner": "PortGame.source_block_post_init_database_tag_state",
+      "godot_symbol": "source_block_post_init_database_tag_input.category_name",
+      "java_expr": "category.name()",
+      "java_method": "Block.postInit()",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Explicit input for category.name() used when databaseTag is empty.",
+      "runtime_proof": "/root/Main.source_block_post_init_database_tag_state",
+      "source_slice": "N1321",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_post_init_database_tag_to_source_state",
+        "test_port_game_exposes_source_block_post_init_database_tag_state",
+        "test_port_game_exposes_generated_block_post_init_database_tag_bridge_state",
+        "test_block_post_init_database_tag_matches_upstream_source",
+        "test_generated_block_post_init_database_tag_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
