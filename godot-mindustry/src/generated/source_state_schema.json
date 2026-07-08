@@ -152525,6 +152525,143 @@
           ]
         }
       }
+    },
+    "source_consume_item_dynamic_constructor_input": {
+      "keys": {
+        "items": {
+          "godot_symbol": "source_consume_item_dynamic_constructor_input.items",
+          "java_expr": "Func<T, ItemStack[]> items",
+          "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "rule": "source_consume_item_dynamic_constructor_input.items.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ]
+        }
+      }
+    },
+    "source_consume_item_dynamic_constructor_result": {
+      "keys": {
+        "source_owner": {
+          "rule": "source_consume_item_dynamic_constructor_result.source_owner.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_constructor_result.source_owner",
+          "java_expr": "PortGame.source_consume_item_dynamic_constructor_state",
+          "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "source": {
+          "rule": "source_consume_item_dynamic_constructor_result.source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_constructor_result.source",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "constructor": {
+          "rule": "source_consume_item_dynamic_constructor_result.constructor.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_constructor_result.constructor",
+          "java_expr": "public <T extends Building> ConsumeItemDynamic(Func<T, ItemStack[]> items){",
+          "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "suppress_warnings_expr": {
+          "rule": "source_consume_item_dynamic_constructor_result.suppress_warnings_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_constructor_result.suppress_warnings_expr",
+          "java_expr": "@SuppressWarnings(unchecked)",
+          "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "assignment_expr": {
+          "rule": "source_consume_item_dynamic_constructor_result.assignment_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_constructor_result.assignment_expr",
+          "java_expr": "this.items = (Func<Building, ItemStack[]>)items;",
+          "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "cast_expr": {
+          "rule": "source_consume_item_dynamic_constructor_result.cast_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_constructor_result.cast_expr",
+          "java_expr": "(Func<Building, ItemStack[]>)items",
+          "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "func_interface": {
+          "rule": "source_consume_item_dynamic_constructor_result.func_interface.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_constructor_result.func_interface",
+          "java_expr": "public interface Func<P, R>{",
+          "java_method": "Func.get(P param)",
+          "java_source": "arc-core/src/arc/func/Func.java"
+        },
+        "func_get_expr": {
+          "rule": "source_consume_item_dynamic_constructor_result.func_get_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_constructor_result.func_get_expr",
+          "java_expr": "R get(P param);",
+          "java_method": "Func.get(P param)",
+          "java_source": "arc-core/src/arc/func/Func.java"
+        },
+        "items": {
+          "rule": "source_consume_item_dynamic_constructor_result.items.",
+          "status": "explicit-input",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ],
+          "alias_of": "source_consume_item_dynamic_constructor_input.items"
+        },
+        "items_after": {
+          "rule": "source_consume_item_dynamic_constructor_result.items_after.",
+          "status": "source-backed",
+          "type": "Variant",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_constructor_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_constructor_result.items_after",
+          "java_expr": "this.items = (Func<Building, ItemStack[]>)items;",
+          "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        }
+      }
     }
   },
   "version": 1

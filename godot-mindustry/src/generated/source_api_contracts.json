@@ -39711,6 +39711,40 @@
         "test_consume_liquid_update_matches_upstream_source",
         "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_item_dynamic_constructor_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "params": [
+        {
+          "java_expr": "Func<T, ItemStack[]> items",
+          "name": "items",
+          "schema": "source_consume_item_dynamic_constructor_input.items",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "suppress_warnings_expr",
+        "assignment_expr",
+        "cast_expr",
+        "func_interface",
+        "func_get_expr",
+        "items",
+        "items_after"
+      ],
+      "rule": "Public runtime contract for ConsumeItemDynamic(Func<T, ItemStack[]> items) unchecked Func cast assignment state.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_constructor_state",
+      "source_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+      "source_slice": "N1450",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_constructor_bridge_state",
+        "test_consume_item_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_item_dynamic_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

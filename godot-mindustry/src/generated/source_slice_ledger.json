@@ -36169,6 +36169,40 @@
         "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
       ],
       "title": "Generated ConsumeLiquid update bridge state"
+    },
+    "N1450": {
+      "deferred_exprs": [
+        "Concrete Func<Building, ItemStack[]> invocation remains represented as a Variant provider token until generated functional interface dispatch is wired.",
+        "This slice records constructor assignment state only; dynamic provider use by build, rebuild, trigger, and efficiency remains later slices."
+      ],
+      "exact_exprs": [
+        "public final Func<Building, ItemStack[]> items;",
+        "@SuppressWarnings(\"unchecked\")",
+        "public <T extends Building> ConsumeItemDynamic(Func<T, ItemStack[]> items){",
+        "this.items = (Func<Building, ItemStack[]>)items;",
+        "public interface Func<P, R>{",
+        "R get(P param);"
+      ],
+      "generated_owner": "ConsumeItemDynamic.java_constructor_ConsumeItemDynamic_0",
+      "godot_owner": "PortGame.source_consume_item_dynamic_constructor_state",
+      "java_class": "ConsumeItemDynamic",
+      "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Generated ConsumeItemDynamic constructor bridges unchecked Func cast assignment into source-backed provider state.",
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_constructor_bridge_state",
+      "source_symbols": [
+        "consume_item_dynamic_constructor.assignment",
+        "consume_item_dynamic_constructor.items",
+        "consume_item_dynamic_constructor.func_get"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_constructor_bridge_state",
+        "test_consume_item_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_item_dynamic_constructor_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeItemDynamic constructor bridge state"
     }
   },
   "version": 1

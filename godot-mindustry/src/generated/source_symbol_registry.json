@@ -119457,6 +119457,57 @@
         "test_consume_liquid_update_matches_upstream_source",
         "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
       ]
+    },
+    "consume_item_dynamic_constructor.assignment": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_constructor_state",
+      "godot_symbol": "source_consume_item_dynamic_constructor_result.items_after",
+      "java_expr": "this.items = (Func<Building, ItemStack[]>)items;",
+      "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic constructor stores the dynamic ItemStack provider after unchecked Func cast.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_constructor_state",
+      "source_slice": "N1450",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_constructor_bridge_state",
+        "test_consume_item_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_item_dynamic_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_constructor.items": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_constructor_state",
+      "godot_symbol": "source_consume_item_dynamic_constructor_input.items",
+      "java_expr": "Func<T, ItemStack[]> items",
+      "java_method": "ConsumeItemDynamic(Func<T, ItemStack[]> items)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic constructor receives the dynamic item stack provider as explicit input.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_constructor_state",
+      "source_slice": "N1450",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_constructor_bridge_state",
+        "test_consume_item_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_item_dynamic_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_constructor.func_get": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_constructor_state",
+      "godot_symbol": "source_consume_item_dynamic_constructor_result.func_get_expr",
+      "java_expr": "R get(P param);",
+      "java_method": "Func.get(P param)",
+      "java_source": "arc-core/src/arc/func/Func.java",
+      "rule": "Arc Func provides the provider get(P) contract used by the constructor parameter type.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_constructor_state",
+      "source_slice": "N1450",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_constructor_bridge_state",
+        "test_consume_item_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_item_dynamic_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

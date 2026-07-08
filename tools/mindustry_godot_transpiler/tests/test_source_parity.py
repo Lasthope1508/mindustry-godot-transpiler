@@ -1157,6 +1157,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_dynamic_constructor_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_dynamic_constructor_source"))
+        report = source_parity.verify_consume_item_dynamic_constructor_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertIn("arc-core/src/arc/func/Func.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "items_field": "public final Func<Building, ItemStack[]> items;",
+            "suppress_warnings_expr": "@SuppressWarnings(\"unchecked\")",
+            "constructor": "public <T extends Building> ConsumeItemDynamic(Func<T, ItemStack[]> items){",
+            "assignment_expr": "this.items = (Func<Building, ItemStack[]>)items;",
+            "func_interface": "public interface Func<P, R>{",
+            "func_get": "R get(P param);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_consumes_source"))
         report = source_parity.verify_consume_liquid_consumes_source(ROOT / "mindustry-upstream")

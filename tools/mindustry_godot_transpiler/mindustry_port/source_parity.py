@@ -4421,6 +4421,37 @@ def verify_consume_liquids_dynamic_constructor_source(upstream_root: Path) -> di
         "missing": missing,
     }
 
+def verify_consume_item_dynamic_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_dynamic_source = "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+    func_source = "arc-core/src/arc/func/Func.java"
+    consume_item_dynamic_path = Path(upstream_root) / consume_item_dynamic_source
+    func_path = Path(upstream_root).parent / "arc-upstream" / func_source
+    source = consume_item_dynamic_path.read_text(encoding="utf-8", errors="replace")
+    func_text = func_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "items_field": "public final Func<Building, ItemStack[]> items;",
+        "suppress_warnings_expr": "@SuppressWarnings(\"unchecked\")",
+        "constructor": "public <T extends Building> ConsumeItemDynamic(Func<T, ItemStack[]> items){",
+        "assignment_expr": "this.items = (Func<Building, ItemStack[]>)items;",
+        "func_interface": "public interface Func<P, R>{",
+        "func_get": "R get(P param);",
+    }
+    source_by_key = {
+        "items_field": source,
+        "suppress_warnings_expr": source,
+        "constructor": source,
+        "assignment_expr": source,
+        "func_interface": func_text,
+        "func_get": func_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_dynamic_source,
+        "sources": [func_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquids_dynamic_update_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
     consume_source = "core/src/mindustry/world/consumers/Consume.java"

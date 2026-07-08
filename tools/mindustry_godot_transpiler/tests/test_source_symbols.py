@@ -15114,6 +15114,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_liquids_dynamic_constructor_result")
         self.assertEqual(result_schema["keys"]["liquids_after"]["java_expr"], "this.liquids = (Func<Building, LiquidStack[]>)liquids;")
 
+    def test_generated_consume_item_dynamic_constructor_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        assignment_symbol = source_symbols.source_symbol(registry, "consume_item_dynamic_constructor.assignment")
+        self.assertEqual(assignment_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertEqual(assignment_symbol["java_method"], "ConsumeItemDynamic(Func<T, ItemStack[]> items)")
+        self.assertEqual(assignment_symbol["java_expr"], "this.items = (Func<Building, ItemStack[]>)items;")
+        self.assertEqual(assignment_symbol["godot_owner"], "PortGame.source_consume_item_dynamic_constructor_state")
+        self.assertEqual(assignment_symbol["runtime_proof"], "/root/Main.source_consume_item_dynamic_constructor_state")
+        self.assertEqual(assignment_symbol["godot_symbol"], "source_consume_item_dynamic_constructor_result.items_after")
+
+        items_symbol = source_symbols.source_symbol(registry, "consume_item_dynamic_constructor.items")
+        self.assertEqual(items_symbol["java_expr"], "Func<T, ItemStack[]> items")
+        self.assertEqual(items_symbol["status"], "explicit-input")
+
+        func_get_symbol = source_symbols.source_symbol(registry, "consume_item_dynamic_constructor.func_get")
+        self.assertEqual(func_get_symbol["java_source"], "arc-core/src/arc/func/Func.java")
+        self.assertEqual(func_get_symbol["java_expr"], "R get(P param);")
+
+        dynamic_slice = source_symbols.source_slice(ledger, "N1450")
+        self.assertEqual(dynamic_slice["title"], "Generated ConsumeItemDynamic constructor bridge state")
+        self.assertEqual(dynamic_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertEqual(dynamic_slice["java_method"], "ConsumeItemDynamic(Func<T, ItemStack[]> items)")
+        self.assertEqual(dynamic_slice["godot_owner"], "PortGame.source_consume_item_dynamic_constructor_state")
+        self.assertEqual(dynamic_slice["generated_owner"], "ConsumeItemDynamic.java_constructor_ConsumeItemDynamic_0")
+        self.assertEqual(dynamic_slice["runtime_proof"], "/root/Main.generated_consume_item_dynamic_constructor_bridge_state")
+        for expr in [
+            "public final Func<Building, ItemStack[]> items;",
+            "@SuppressWarnings(\"unchecked\")",
+            "public <T extends Building> ConsumeItemDynamic(Func<T, ItemStack[]> items){",
+            "this.items = (Func<Building, ItemStack[]>)items;",
+            "public interface Func<P, R>{",
+            "R get(P param);",
+        ]:
+            self.assertIn(expr, dynamic_slice["exact_exprs"])
+        self.assertIn("consume_item_dynamic_constructor.assignment", dynamic_slice["source_symbols"])
+        self.assertIn("consume_item_dynamic_constructor.items", dynamic_slice["source_symbols"])
+        self.assertIn("consume_item_dynamic_constructor.func_get", dynamic_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_dynamic_constructor_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["items"])
+        self.assertIn("items_after", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_item_dynamic_constructor_input")
+        self.assertEqual(input_schema["keys"]["items"]["java_expr"], "Func<T, ItemStack[]> items")
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_dynamic_constructor_result")
+        self.assertEqual(result_schema["keys"]["items_after"]["java_expr"], "this.items = (Func<Building, ItemStack[]>)items;")
+
     def test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -21652,10 +21704,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 923)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 918)
+        self.assertEqual(audit["totalSourceFunctions"], 924)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 919)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 923)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 924)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])

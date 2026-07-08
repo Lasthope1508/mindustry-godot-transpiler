@@ -2694,6 +2694,33 @@ func generated_consume_liquids_dynamic_constructor_bridge_state(liquids: Variant
 		"matches": result.get("liquids_after", null) == canonical.get("liquids_after", null),
 	}
 
+func source_consume_item_dynamic_constructor_state(items: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_item_dynamic_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+		"constructor": "public <T extends Building> ConsumeItemDynamic(Func<T, ItemStack[]> items){",
+		"suppress_warnings_expr": "@SuppressWarnings(\"unchecked\")",
+		"assignment_expr": "this.items = (Func<Building, ItemStack[]>)items;",
+		"cast_expr": "(Func<Building, ItemStack[]>)items",
+		"func_interface": "public interface Func<P, R>{",
+		"func_get_expr": "R get(P param);",
+		"items": items,
+		"items_after": items,
+	}
+
+func generated_consume_item_dynamic_constructor_bridge_state(items: Variant) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemDynamic.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeItemDynamic_0([items])
+	var canonical = source_consume_item_dynamic_constructor_state(items)
+	return {
+		"source_owner": "PortGame.source_consume_item_dynamic_constructor_state",
+		"generated_owner": "ConsumeItemDynamic.constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("items_after", null) == canonical.get("items_after", null),
+	}
+
 func source_consume_liquids_dynamic_apply_state(block_has_liquids_before: bool) -> Dictionary:
 	return {
 		"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",

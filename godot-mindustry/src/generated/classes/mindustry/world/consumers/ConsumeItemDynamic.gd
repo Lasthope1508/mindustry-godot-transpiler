@@ -27,3 +27,8 @@ func java_method_trigger_3(_args: Array = []) -> Variant:
 
 func java_method_efficiency_4(_args: Array = []) -> Variant:
 	return null
+
+func java_constructor_ConsumeItemDynamic_0(_args: Array = []) -> Variant:
+	var items: Variant = _args[0] if _args.size() > 0 else null
+	var items_after: Variant = items
+	return {"source_owner": "PortGame.source_consume_item_dynamic_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "constructor": "public <T extends Building> ConsumeItemDynamic(Func<T, ItemStack[]> items){", "suppress_warnings_expr": "@SuppressWarnings(\"unchecked\")", "assignment_expr": "this.items = (Func<Building, ItemStack[]>)items;", "cast_expr": "(Func<Building, ItemStack[]>)items", "items": items, "items_after": items_after}
