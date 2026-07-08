@@ -36307,6 +36307,62 @@
         "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
         "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_show_overlay_drawable_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.showOverlay(TextureRegionDrawable icon)",
+      "source_slice": "N1387",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_drawable_state",
+      "rule": "PortGame.source_unit_payload_show_overlay_drawable_state pins UnitPayload.showOverlay(TextureRegionDrawable) guard and delegate contract.",
+      "params": [
+        {
+          "name": "icon_null",
+          "type": "bool",
+          "java_expr": "icon == null",
+          "schema": "source_unit_payload_show_overlay_drawable_input.icon_null",
+          "source_symbol": "unit_payload_show_overlay_drawable.icon_null"
+        },
+        {
+          "name": "headless",
+          "type": "bool",
+          "java_expr": "headless",
+          "schema": "source_unit_payload_show_overlay_drawable_input.headless",
+          "source_symbol": "unit_payload_show_overlay_drawable.headless"
+        },
+        {
+          "name": "region",
+          "type": "Variant",
+          "java_expr": "icon.getRegion()",
+          "schema": "source_unit_payload_show_overlay_drawable_input.region",
+          "source_symbol": "unit_payload_show_overlay_drawable.region"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "import_expr",
+        "method",
+        "guard_expr",
+        "delegate_expr",
+        "icon_null",
+        "headless",
+        "region",
+        "returned",
+        "get_region_called",
+        "show_overlay_called",
+        "delegate_call",
+        "overlayRegion_after",
+        "overlayTime_after"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_drawable_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_drawable_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_drawable_bridge_state",
+        "test_unit_payload_show_overlay_drawable_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_drawable_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

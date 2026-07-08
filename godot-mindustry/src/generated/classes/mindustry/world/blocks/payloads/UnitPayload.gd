@@ -18,7 +18,18 @@ func java_method_showOverlay_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "overlay_time_field_expr": "public float overlayTime = 0f;", "overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;", "method": "public void showOverlay(TextureRegion icon){", "overlay_region_assign_expr": "overlayRegion = icon;", "overlay_time_assign_expr": "overlayTime = 1f;", "icon": icon, "overlayRegion_after": icon, "overlayTime_after": 1.0}
 
 func java_method_showOverlay_1(_args: Array = []) -> Variant:
-	return null
+	var icon_null: bool = bool(_args[0] if _args.size() > 0 else false)
+	var headless: bool = bool(_args[1] if _args.size() > 1 else false)
+	var region: Variant = _args[2] if _args.size() > 2 else null
+	var returned: bool = icon_null or headless
+	var overlay_region_after: Variant = null
+	var overlay_time_after: Variant = null
+	var delegate_call: Variant = null
+	if not returned:
+		overlay_region_after = region
+		overlay_time_after = 1.0
+		delegate_call = {"call": "showOverlay(icon.getRegion());", "region": region}
+	return {"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "import_expr": "import static mindustry.Vars.*;", "method": "public void showOverlay(TextureRegionDrawable icon){", "guard_expr": "if(icon == null || headless) return;", "delegate_expr": "showOverlay(icon.getRegion());", "icon_null": icon_null, "headless": headless, "region": region, "returned": returned, "get_region_called": not returned, "show_overlay_called": not returned, "delegate_call": delegate_call, "overlayRegion_after": overlay_region_after, "overlayTime_after": overlay_time_after}
 
 func java_method_contentEquals_2(_args: Array = []) -> Variant:
 	return null

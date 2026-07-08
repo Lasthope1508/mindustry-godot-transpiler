@@ -11389,6 +11389,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_payload_show_overlay_drawable_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_payload_show_overlay_drawable_source"))
+        report = source_parity.verify_unit_payload_show_overlay_drawable_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class UnitPayload implements Payload{",
+            "import_expr": "import static mindustry.Vars.*;",
+            "method": "public void showOverlay(TextureRegionDrawable icon){",
+            "guard_expr": "if(icon == null || headless) return;",
+            "delegate_expr": "showOverlay(icon.getRegion());",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_build_payload_content_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_build_payload_content_source"))
         report = source_parity.verify_build_payload_content_source(ROOT / "mindustry-upstream")

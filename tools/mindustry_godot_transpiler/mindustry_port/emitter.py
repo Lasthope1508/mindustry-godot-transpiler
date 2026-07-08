@@ -1629,6 +1629,27 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_unit_payload_show_overlay_texture_region_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "overlay_time_field_expr": "public float overlayTime = 0f;", "overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;", "method": "public void showOverlay(TextureRegion icon){", "overlay_region_assign_expr": "overlayRegion = icon;", "overlay_time_assign_expr": "overlayTime = 1f;", "icon": icon, "overlayRegion_after": icon, "overlayTime_after": 1.0}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
+        and type_entry.get("name") == "UnitPayload"
+        and method.get("name") == "showOverlay"
+        and len(method.get("parameters", [])) == 1
+        and method["parameters"][0].get("type") == "TextureRegionDrawable"
+    ):
+        return [
+            "\tvar icon_null: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar headless: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar region: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar returned: bool = icon_null or headless",
+            "\tvar overlay_region_after: Variant = null",
+            "\tvar overlay_time_after: Variant = null",
+            "\tvar delegate_call: Variant = null",
+            "\tif not returned:",
+            "\t\toverlay_region_after = region",
+            "\t\toverlay_time_after = 1.0",
+            '\t\tdelegate_call = {"call": "showOverlay(icon.getRegion());", "region": region}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "import_expr": "import static mindustry.Vars.*;", "method": "public void showOverlay(TextureRegionDrawable icon){", "guard_expr": "if(icon == null || headless) return;", "delegate_expr": "showOverlay(icon.getRegion());", "icon_null": icon_null, "headless": headless, "region": region, "returned": returned, "get_region_called": not returned, "show_overlay_called": not returned, "delegate_call": delegate_call, "overlayRegion_after": overlay_region_after, "overlayTime_after": overlay_time_after}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "place"

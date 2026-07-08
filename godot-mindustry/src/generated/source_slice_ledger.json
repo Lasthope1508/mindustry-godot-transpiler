@@ -33447,6 +33447,47 @@
         "test_unit_payload_show_overlay_texture_region_matches_upstream_source",
         "test_generated_unit_payload_show_overlay_texture_region_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1387": {
+      "title": "Generated UnitPayload showOverlay TextureRegionDrawable bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "UnitPayload",
+      "java_method": "UnitPayload.showOverlay(TextureRegionDrawable icon)",
+      "godot_owner": "PortGame.source_unit_payload_show_overlay_drawable_state",
+      "generated_owner": "UnitPayload.java_method_showOverlay_1",
+      "runtime_proof": "/root/Main.generated_unit_payload_show_overlay_drawable_bridge_state",
+      "rule": "Generated UnitPayload.showOverlay(TextureRegionDrawable) bridges null/headless guard and TextureRegion overload delegate with explicit icon_null, headless, and region inputs.",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "import static mindustry.Vars.*;",
+        "public void showOverlay(TextureRegionDrawable icon){",
+        "if(icon == null || headless) return;",
+        "showOverlay(icon.getRegion());"
+      ],
+      "deferred_exprs": [
+        "TextureRegionDrawable internals are represented by explicit region input from icon.getRegion()",
+        "TextureRegion overlay assignment is delegated to N1386 TextureRegion overload bridge",
+        "Overlay rendering and overlayTime decay are deferred to draw slice"
+      ],
+      "source_symbols": [
+        "unit_payload_show_overlay_drawable.class_expr",
+        "unit_payload_show_overlay_drawable.import_expr",
+        "unit_payload_show_overlay_drawable.method",
+        "unit_payload_show_overlay_drawable.icon_null",
+        "unit_payload_show_overlay_drawable.headless",
+        "unit_payload_show_overlay_drawable.region",
+        "unit_payload_show_overlay_drawable.guard_expr",
+        "unit_payload_show_overlay_drawable.delegate_expr",
+        "unit_payload_show_overlay_drawable.get_region_call"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_show_overlay_drawable_to_source_state",
+        "test_port_game_exposes_source_unit_payload_show_overlay_drawable_state",
+        "test_port_game_exposes_generated_unit_payload_show_overlay_drawable_bridge_state",
+        "test_unit_payload_show_overlay_drawable_matches_upstream_source",
+        "test_generated_unit_payload_show_overlay_drawable_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

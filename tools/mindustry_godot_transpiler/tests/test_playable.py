@@ -18311,6 +18311,39 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_showOverlay_0"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_show_overlay_drawable_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_show_overlay_drawable_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source)
+        self.assertIn('"import_expr": "import static mindustry.Vars.*;"', source)
+        self.assertIn('"method": "public void showOverlay(TextureRegionDrawable icon){"', source)
+        self.assertIn('"guard_expr": "if(icon == null || headless) return;"', source)
+        self.assertIn('"delegate_expr": "showOverlay(icon.getRegion());"', source)
+        self.assertIn("var returned: bool = icon_null or headless", source)
+        self.assertIn("var overlay_region_after: Variant = null", source)
+        self.assertIn("var overlay_time_after: Variant = null", source)
+        self.assertIn("if not returned:", source)
+        self.assertIn("overlay_region_after = region", source)
+        self.assertIn("overlay_time_after = 1.0", source)
+        self.assertIn('"get_region_called": not returned', source)
+        self.assertIn('"show_overlay_called": not returned', source)
+
+    def test_port_game_exposes_generated_unit_payload_show_overlay_drawable_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_showOverlay_1([icon_null, headless, region])", source)
+        self.assertIn("var canonical = source_unit_payload_show_overlay_drawable_state(icon_null, headless, region)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_showOverlay_1"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

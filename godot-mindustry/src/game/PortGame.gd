@@ -19951,6 +19951,47 @@ func generated_unit_payload_show_overlay_texture_region_bridge_state(icon: Varia
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_show_overlay_drawable_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:
+	var returned: bool = icon_null or headless
+	var overlay_region_after: Variant = null
+	var overlay_time_after: Variant = null
+	var delegate_call: Variant = null
+	if not returned:
+		overlay_region_after = region
+		overlay_time_after = 1.0
+		delegate_call = {"call": "showOverlay(icon.getRegion());", "region": region}
+	return {
+		"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"import_expr": "import static mindustry.Vars.*;",
+		"method": "public void showOverlay(TextureRegionDrawable icon){",
+		"guard_expr": "if(icon == null || headless) return;",
+		"delegate_expr": "showOverlay(icon.getRegion());",
+		"icon_null": icon_null,
+		"headless": headless,
+		"region": region,
+		"returned": returned,
+		"get_region_called": not returned,
+		"show_overlay_called": not returned,
+		"delegate_call": delegate_call,
+		"overlayRegion_after": overlay_region_after,
+		"overlayTime_after": overlay_time_after,
+	}
+
+func generated_unit_payload_show_overlay_drawable_bridge_state(icon_null: bool, headless: bool, region: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_showOverlay_1([icon_null, headless, region])
+	var canonical = source_unit_payload_show_overlay_drawable_state(icon_null, headless, region)
+	return {
+		"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state",
+		"generated_owner": "UnitPayload.java_method_showOverlay_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {
