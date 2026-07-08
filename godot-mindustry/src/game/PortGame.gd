@@ -2509,6 +2509,26 @@ func generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_stat
 		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null),
 	}
 
+func source_consume_liquid_filter_liquid_efficiency_multiplier_state() -> Dictionary:
+	return {
+		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",
+		"efficiency_multiplier": 1.0,
+		"return_expr": "return 1f;",
+	}
+
+func generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state() -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_liquidEfficiencyMultiplier_8([])
+	var canonical = source_consume_liquid_filter_liquid_efficiency_multiplier_state()
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
+		"generated_owner": "ConsumeLiquidFilter.liquidEfficiencyMultiplier",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

@@ -35651,6 +35651,34 @@
         "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
       ],
       "title": "Generated ConsumeLiquidFlammable liquidEfficiencyMultiplier bridge state"
+    },
+    "N1437": {
+      "deferred_exprs": [
+        "Concrete Liquid object binding is not needed for this slice because upstream return ignores the liquid parameter.",
+        "ConsumeLiquidFilter.efficiencyMultiplier(Building), getConsumed(Building), consumes(Liquid), update(Building), and display(Stats) remain separate because they depend on Building liquid storage and filter traversal."
+      ],
+      "exact_exprs": [
+        "public float liquidEfficiencyMultiplier(Liquid liquid){",
+        "return 1f;"
+      ],
+      "generated_owner": "ConsumeLiquidFilter.java_method_liquidEfficiencyMultiplier_8",
+      "godot_owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
+      "java_class": "ConsumeLiquidFilter",
+      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "rule": "Generated ConsumeLiquidFilter.liquidEfficiencyMultiplier bridges the exact constant 1f return.",
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
+      "source_symbols": [
+        "consume_liquid_filter_liquid_efficiency_multiplier.return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquidFilter liquidEfficiencyMultiplier bridge state"
     }
   },
   "version": 1

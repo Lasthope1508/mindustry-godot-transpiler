@@ -39152,6 +39152,26 @@
         "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
         "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "efficiency_multiplier",
+        "return_expr"
+      ],
+      "rule": "Public runtime contract for ConsumeLiquidFilter.liquidEfficiencyMultiplier(Liquid) constant return.",
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
+      "source_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "source_slice": "N1437",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
