@@ -85,7 +85,8 @@ func java_method_y_10(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_payload_y_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float y(){", "return_expr": "return unit.y;", "unit_y": unit_y, "y": unit_y}
 
 func java_method_rotation_11(_args: Array = []) -> Variant:
-	return null
+	var unit_rotation: float = float(_args[0] if _args.size() > 0 else 0.0)
+	return {"source_owner": "PortGame.source_unit_payload_rotation_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float rotation(){", "return_expr": "return unit.rotation;", "unit_rotation": unit_rotation, "rotation": unit_rotation}
 
 func java_method_size_12(_args: Array = []) -> Variant:
 	return null

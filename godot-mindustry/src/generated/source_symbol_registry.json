@@ -109538,6 +109538,114 @@
         "test_unit_payload_y_matches_upstream_source",
         "test_generated_unit_payload_y_slice_is_registered_with_source_backing"
       ]
+    },
+    "unit_payload_rotation.class_expr": {
+      "godot_owner": "PortGame.source_unit_payload_rotation_state",
+      "godot_symbol": "source_unit_payload_rotation_result.class_expr",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "java_method": "UnitPayload.rotation()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Pin UnitPayload class boundary for rotation bridge.",
+      "runtime_proof": "/root/Main.source_unit_payload_rotation_state",
+      "source_slice": "N1397",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_rotation_to_source_state",
+        "test_port_game_exposes_source_unit_payload_rotation_state",
+        "test_port_game_exposes_generated_unit_payload_rotation_bridge_state",
+        "test_unit_payload_rotation_matches_upstream_source",
+        "test_generated_unit_payload_rotation_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_rotation.field_expr": {
+      "godot_owner": "PortGame.source_unit_payload_rotation_state",
+      "godot_symbol": "source_unit_payload_rotation_result.field_expr",
+      "java_expr": "public Unit unit;",
+      "java_method": "UnitPayload.rotation()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "UnitPayload unit field supplies unit.rotation receiver.",
+      "runtime_proof": "/root/Main.source_unit_payload_rotation_state",
+      "source_slice": "N1397",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_rotation_to_source_state",
+        "test_port_game_exposes_source_unit_payload_rotation_state",
+        "test_port_game_exposes_generated_unit_payload_rotation_bridge_state",
+        "test_unit_payload_rotation_matches_upstream_source",
+        "test_generated_unit_payload_rotation_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_rotation.override_expr": {
+      "godot_owner": "PortGame.source_unit_payload_rotation_state",
+      "godot_symbol": "source_unit_payload_rotation_result.override_expr",
+      "java_expr": "@Override",
+      "java_method": "UnitPayload.rotation()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "UnitPayload.rotation overrides Payload.rotation.",
+      "runtime_proof": "/root/Main.source_unit_payload_rotation_state",
+      "source_slice": "N1397",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_rotation_to_source_state",
+        "test_port_game_exposes_source_unit_payload_rotation_state",
+        "test_port_game_exposes_generated_unit_payload_rotation_bridge_state",
+        "test_unit_payload_rotation_matches_upstream_source",
+        "test_generated_unit_payload_rotation_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_rotation.method": {
+      "godot_owner": "PortGame.source_unit_payload_rotation_state",
+      "godot_symbol": "source_unit_payload_rotation_result.method",
+      "java_expr": "public float rotation(){",
+      "java_method": "UnitPayload.rotation()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Pin UnitPayload.rotation method boundary.",
+      "runtime_proof": "/root/Main.source_unit_payload_rotation_state",
+      "source_slice": "N1397",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_rotation_to_source_state",
+        "test_port_game_exposes_source_unit_payload_rotation_state",
+        "test_port_game_exposes_generated_unit_payload_rotation_bridge_state",
+        "test_unit_payload_rotation_matches_upstream_source",
+        "test_generated_unit_payload_rotation_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_rotation.unit_rotation": {
+      "godot_owner": "PortGame.source_unit_payload_rotation_state",
+      "godot_symbol": "source_unit_payload_rotation_input.unit_rotation",
+      "java_expr": "unit.rotation",
+      "java_method": "UnitPayload.rotation()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Explicit runtime value for Unit.rotation field.",
+      "runtime_proof": "/root/Main.source_unit_payload_rotation_state",
+      "source_slice": "N1397",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_unit_payload_rotation_to_source_state",
+        "test_port_game_exposes_source_unit_payload_rotation_state",
+        "test_port_game_exposes_generated_unit_payload_rotation_bridge_state",
+        "test_unit_payload_rotation_matches_upstream_source",
+        "test_generated_unit_payload_rotation_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_rotation.return_expr": {
+      "godot_owner": "PortGame.source_unit_payload_rotation_state",
+      "godot_symbol": "source_unit_payload_rotation_result.rotation",
+      "java_expr": "return unit.rotation;",
+      "java_method": "UnitPayload.rotation()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "UnitPayload.rotation returns unit.rotation directly.",
+      "runtime_proof": "/root/Main.source_unit_payload_rotation_state",
+      "source_slice": "N1397",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_rotation_to_source_state",
+        "test_port_game_exposes_source_unit_payload_rotation_state",
+        "test_port_game_exposes_generated_unit_payload_rotation_bridge_state",
+        "test_unit_payload_rotation_matches_upstream_source",
+        "test_generated_unit_payload_rotation_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

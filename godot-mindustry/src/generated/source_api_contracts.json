@@ -36762,6 +36762,40 @@
         "test_unit_payload_y_matches_upstream_source",
         "test_generated_unit_payload_y_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_rotation_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
+          "java_expr": "unit.rotation",
+          "name": "unit_rotation",
+          "schema": "source_unit_payload_rotation_input.unit_rotation",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "unit_rotation",
+        "rotation"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_rotation_state mirrors UnitPayload.rotation().",
+      "runtime_proof": "/root/Main.source_unit_payload_rotation_state",
+      "source_method": "UnitPayload.rotation()",
+      "source_slice": "N1397",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_unit_payload_rotation_to_source_state",
+        "test_port_game_exposes_source_unit_payload_rotation_state",
+        "test_port_game_exposes_generated_unit_payload_rotation_bridge_state",
+        "test_unit_payload_rotation_matches_upstream_source",
+        "test_generated_unit_payload_rotation_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
