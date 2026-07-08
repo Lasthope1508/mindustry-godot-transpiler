@@ -18024,14 +18024,15 @@ public class UnitPayload implements Payload{
             self.assertIn("var units_can_create: bool = bool(_args[1] if _args.size() > 1 else true)", source_text)
             self.assertIn("var can_create_evaluated: bool = not unit_type_null", source_text)
             self.assertIn("var can_create_guard: bool = can_create_evaluated and not units_can_create", source_text)
-            self.assertIn("var returned: bool = unit_type_null or can_create_guard", source_text)
+            self.assertIn("var before_solid_returned: bool = unit_type_null or can_create_guard", source_text)
+            self.assertIn("var returned: bool = before_solid_returned or solid_guard", source_text)
             self.assertIn("var dump_result: Variant = null", source_text)
             self.assertIn("if unit_type_null:\n\t\tdump_result = true", source_text)
             self.assertIn("elif can_create_guard:\n\t\tdump_result = false", source_text)
             self.assertIn("var overlayTime_after: float = 1.0 if can_create_guard else 0.0", source_text)
             self.assertIn("var overlayRegion_after: Variant = null", source_text)
             self.assertIn("var deferred_remaining_dump: bool = not returned", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state"', source_text)
             self.assertIn('"field_overlay_time_expr": "public float overlayTime = 0f;"', source_text)
             self.assertIn('"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;"', source_text)
             self.assertIn('"type_null_guard_expr": "if(unit.type == null) return true;"', source_text)
@@ -18045,6 +18046,82 @@ public class UnitPayload implements Payload{
             self.assertIn('"can_create_guard": can_create_guard', source_text)
             self.assertIn('"overlayTime_after": overlayTime_after', source_text)
             self.assertIn('"overlayRegion_after": overlayRegion_after', source_text)
+
+    def test_emit_bridges_unit_payload_dump_solidity_guard_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+    public float overlayTime = 0f;
+    public @Nullable TextureRegion overlayRegion;
+
+    public boolean dump(){
+        //TODO should not happen
+        if(unit.type == null) return true;
+
+        if(!Units.canCreate(unit.team, unit.type)){
+            overlayTime = 1f;
+            overlayRegion = null;
+            return false;
+        }
+
+        //check if unit can be dumped here
+        SolidPred solid = unit.solidity();
+        if(solid != null){
+            Tmp.v1.trns(unit.rotation, 1f);
+
+            int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);
+
+            //cannot dump on solid blocks
+            if(solid.solid(tx, ty)) return false;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_dump_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var solid_present: bool = bool(_args[2] if _args.size() > 2 else false)", source_text)
+            self.assertIn("var unit_rotation: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var unit_x: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var unit_y: float = float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("var solid_solid: bool = bool(_args[6] if _args.size() > 6 else false)", source_text)
+            self.assertIn("var before_solid_returned: bool = unit_type_null or can_create_guard", source_text)
+            self.assertIn("var solid_evaluated: bool = not before_solid_returned", source_text)
+            self.assertIn("var solid_present_guard: bool = solid_evaluated and solid_present", source_text)
+            self.assertIn("var _source_arc_angles_trns_vec := func(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:", source_text)
+            self.assertIn('"angle": angle_degrees', source_text)
+            self.assertIn('"source": "rv.set(x, y).rotate(angle)"', source_text)
+            self.assertIn('"vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"', source_text)
+            self.assertIn("var source_tilesize: float = 8.0", source_text)
+            self.assertIn("var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {\"x\": 0.0, \"y\": 0.0}", source_text)
+            self.assertIn("var tx: int = int(round((unit_x + float(trns_vec.get(\"x\", 0.0))) / source_tilesize)) if solid_present_guard else 0", source_text)
+            self.assertIn("var ty: int = int(round((unit_y + float(trns_vec.get(\"y\", 0.0))) / source_tilesize)) if solid_present_guard else 0", source_text)
+            self.assertIn("var solid_solid_evaluated: bool = solid_present_guard", source_text)
+            self.assertIn("var solid_guard: bool = solid_solid_evaluated and solid_solid", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state"', source_text)
+            self.assertIn('"solidity_comment_expr": "//check if unit can be dumped here"', source_text)
+            self.assertIn('"solid_assign_expr": "SolidPred solid = unit.solidity();"', source_text)
+            self.assertIn('"solid_guard_expr": "if(solid != null){"', source_text)
+            self.assertIn('"trns_expr": "Tmp.v1.trns(unit.rotation, 1f);"', source_text)
+            self.assertIn('"tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);"', source_text)
+            self.assertIn('"solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;"', source_text)
+            self.assertIn('"solid_call": solid_call', source_text)
+            self.assertIn('"tx": tx', source_text)
+            self.assertIn('"ty": ty', source_text)
 
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

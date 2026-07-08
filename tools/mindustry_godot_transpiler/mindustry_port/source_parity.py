@@ -11788,6 +11788,58 @@ def verify_unit_payload_dump_can_create_guard_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_unit_payload_dump_solidity_guard_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    unit_payload_source = "core/src/mindustry/world/blocks/payloads/UnitPayload.java"
+    payload_path = Path(upstream_root) / unit_payload_source
+    world_path = Path(upstream_root) / WORLD_SOURCE
+    vars_path = Path(upstream_root) / VARS_SOURCE
+    vec2_path = Path(arc_root) / ARC_VEC2_SOURCE
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    world_source = world_path.read_text(encoding="utf-8", errors="replace")
+    vars_source = vars_path.read_text(encoding="utf-8", errors="replace")
+    vec2_source = vec2_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class UnitPayload implements Payload{",
+        "field_expr": "public Unit unit;",
+        "override_expr": "@Override",
+        "method": "public boolean dump(){",
+        "type_null_guard_expr": "if(unit.type == null) return true;",
+        "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){",
+        "solidity_comment_expr": "//check if unit can be dumped here",
+        "solid_assign_expr": "SolidPred solid = unit.solidity();",
+        "solid_guard_expr": "if(solid != null){",
+        "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);",
+        "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){",
+        "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);",
+        "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);",
+        "world_to_tile_method": "public static int toTile(float coord){",
+        "world_to_tile_return": "return Math.round(coord / tilesize);",
+        "vars_tilesize_field": "public static final int tilesize = 8;",
+        "solid_block_comment_expr": "//cannot dump on solid blocks",
+        "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;",
+    }
+    sources_by_key = {
+        "vec2_trns_amount_expr": vec2_source,
+        "vec2_trns_amount_return_expr": vec2_source,
+        "world_to_tile_method": world_source,
+        "world_to_tile_return": world_source,
+        "vars_tilesize_field": vars_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, source)
+    ]
+    return {
+        "source": unit_payload_source,
+        "sources": [
+            WORLD_SOURCE,
+            VARS_SOURCE,
+            ARC_VEC2_SOURCE,
+        ],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_place_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

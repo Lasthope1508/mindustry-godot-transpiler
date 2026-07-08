@@ -95,18 +95,42 @@ func java_method_size_12(_args: Array = []) -> Variant:
 func java_method_dump_13(_args: Array = []) -> Variant:
 	var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)
 	var units_can_create: bool = bool(_args[1] if _args.size() > 1 else true)
+	var solid_present: bool = bool(_args[2] if _args.size() > 2 else false)
+	var unit_rotation: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var unit_x: float = float(_args[4] if _args.size() > 4 else 0.0)
+	var unit_y: float = float(_args[5] if _args.size() > 5 else 0.0)
+	var solid_solid: bool = bool(_args[6] if _args.size() > 6 else false)
 	var can_create_evaluated: bool = not unit_type_null
 	var can_create_guard: bool = can_create_evaluated and not units_can_create
-	var returned: bool = unit_type_null or can_create_guard
+	var before_solid_returned: bool = unit_type_null or can_create_guard
+	var solid_evaluated: bool = not before_solid_returned
+	var solid_present_guard: bool = solid_evaluated and solid_present
+	var _source_arc_angles_trns_vec := func(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:
+		var radians := deg_to_rad(angle_degrees)
+		var cos_value := cos(radians)
+		var sin_value := sin(radians)
+		return {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}
+	var source_tilesize: float = 8.0
+	var trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
+	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0
+	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0
+	var solid_solid_evaluated: bool = solid_present_guard
+	var solid_guard: bool = solid_solid_evaluated and solid_solid
+	var returned: bool = before_solid_returned or solid_guard
 	var dump_result: Variant = null
 	if unit_type_null:
 		dump_result = true
 	elif can_create_guard:
 		dump_result = false
+	elif solid_guard:
+		dump_result = false
 	var overlayTime_after: float = 1.0 if can_create_guard else 0.0
 	var overlayRegion_after: Variant = null
+	var solid_call: Dictionary = {}
+	if solid_solid_evaluated:
+		solid_call = {"call": "solid.solid(tx, ty)", "tx": tx, "ty": ty, "result": solid_solid}
 	var deferred_remaining_dump: bool = not returned
-	return {"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "return_false_expr": "return false;", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}
+	return {"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java", "world_source": "core/src/mindustry/core/World.java", "vars_source": "core/src/mindustry/Vars.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "solidity_comment_expr": "//check if unit can be dumped here", "solid_assign_expr": "SolidPred solid = unit.solidity();", "solid_guard_expr": "if(solid != null){", "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);", "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){", "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);", "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);", "world_to_tile_method": "public static int toTile(float coord){", "world_to_tile_return": "return Math.round(coord / tilesize);", "vars_tilesize_field": "public static final int tilesize = 8;", "solid_block_comment_expr": "//cannot dump on solid blocks", "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;", "return_false_expr": "return false;", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}
 
 func java_method_drawShadow_14(_args: Array = []) -> Variant:
 	return null

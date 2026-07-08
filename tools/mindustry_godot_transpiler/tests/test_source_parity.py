@@ -11841,6 +11841,38 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_payload_dump_solidity_guard_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_payload_dump_solidity_guard_source"))
+        report = source_parity.verify_unit_payload_dump_solidity_guard_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(report["sources"], [
+            "core/src/mindustry/core/World.java",
+            "core/src/mindustry/Vars.java",
+            "arc-core/src/arc/math/geom/Vec2.java",
+        ])
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class UnitPayload implements Payload{",
+            "field_expr": "public Unit unit;",
+            "override_expr": "@Override",
+            "method": "public boolean dump(){",
+            "type_null_guard_expr": "if(unit.type == null) return true;",
+            "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){",
+            "solidity_comment_expr": "//check if unit can be dumped here",
+            "solid_assign_expr": "SolidPred solid = unit.solidity();",
+            "solid_guard_expr": "if(solid != null){",
+            "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);",
+            "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){",
+            "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);",
+            "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);",
+            "world_to_tile_method": "public static int toTile(float coord){",
+            "world_to_tile_return": "return Math.round(coord / tilesize);",
+            "vars_tilesize_field": "public static final int tilesize = 8;",
+            "solid_block_comment_expr": "//cannot dump on solid blocks",
+            "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_get_drill_time_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_get_drill_time_source"))
         report = source_parity.verify_drill_get_drill_time_source(ROOT / "mindustry-upstream")

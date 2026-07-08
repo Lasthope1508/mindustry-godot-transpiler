@@ -18730,6 +18730,46 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_dump_solidity_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_dump_solidity_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java"', source)
+        self.assertIn('"world_source": "core/src/mindustry/core/World.java"', source)
+        self.assertIn('"vars_source": "core/src/mindustry/Vars.java"', source)
+        self.assertIn('"solidity_comment_expr": "//check if unit can be dumped here"', source)
+        self.assertIn('"solid_assign_expr": "SolidPred solid = unit.solidity();"', source)
+        self.assertIn('"solid_guard_expr": "if(solid != null){"', source)
+        self.assertIn('"trns_expr": "Tmp.v1.trns(unit.rotation, 1f);"', source)
+        self.assertIn('"vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){"', source)
+        self.assertIn('"vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);"', source)
+        self.assertIn('"tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);"', source)
+        self.assertIn('"world_to_tile_method": "public static int toTile(float coord){"', source)
+        self.assertIn('"world_to_tile_return": "return Math.round(coord / tilesize);"', source)
+        self.assertIn('"vars_tilesize_field": "public static final int tilesize = 8;"', source)
+        self.assertIn('"solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;"', source)
+        self.assertIn("var trns_vec: Dictionary = source_arc_angles_trns_vec(unit_rotation, 1.0, 0.0) if solid_present_guard else {\"x\": 0.0, \"y\": 0.0}", source)
+        self.assertIn("var tx: int = int(round((unit_x + float(trns_vec.get(\"x\", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0", source)
+        self.assertIn("var ty: int = int(round((unit_y + float(trns_vec.get(\"y\", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0", source)
+        self.assertIn("var solid_guard: bool = solid_solid_evaluated and solid_solid", source)
+        self.assertIn('"solid_call": solid_call', source)
+        self.assertIn('"deferred_remaining_dump": deferred_remaining_dump', source)
+
+    def test_port_game_exposes_generated_unit_payload_dump_solidity_guard_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_dump_solidity_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid])", source)
+        self.assertIn("var canonical = source_unit_payload_dump_solidity_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

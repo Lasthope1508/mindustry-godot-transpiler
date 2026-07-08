@@ -31914,6 +31914,119 @@
         "test_generated_unit_payload_dump_can_create_guard_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_unit_payload_dump_solidity_guard_state": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.dump()",
+      "source_slice": "N1401",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_solidity_guard_state",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_solidity_guard_state mirrors UnitPayload.dump() solidity guard order and tile probe, deferring remaining dump branches.",
+      "params": [
+        {
+          "name": "unit_type_null",
+          "type": "bool",
+          "java_expr": "unit.type == null",
+          "schema": "source_unit_payload_dump_solidity_guard_input.unit_type_null"
+        },
+        {
+          "name": "units_can_create",
+          "type": "bool",
+          "java_expr": "Units.canCreate(unit.team, unit.type)",
+          "schema": "source_unit_payload_dump_solidity_guard_input.units_can_create"
+        },
+        {
+          "name": "solid_present",
+          "type": "bool",
+          "java_expr": "solid != null",
+          "schema": "source_unit_payload_dump_solidity_guard_input.solid_present"
+        },
+        {
+          "name": "unit_rotation",
+          "type": "float",
+          "java_expr": "unit.rotation",
+          "schema": "source_unit_payload_dump_solidity_guard_input.unit_rotation"
+        },
+        {
+          "name": "unit_x",
+          "type": "float",
+          "java_expr": "unit.x",
+          "schema": "source_unit_payload_dump_solidity_guard_input.unit_x"
+        },
+        {
+          "name": "unit_y",
+          "type": "float",
+          "java_expr": "unit.y",
+          "schema": "source_unit_payload_dump_solidity_guard_input.unit_y"
+        },
+        {
+          "name": "solid_solid",
+          "type": "bool",
+          "java_expr": "solid.solid(tx, ty)",
+          "schema": "source_unit_payload_dump_solidity_guard_input.solid_solid"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "arc_vec2_source",
+        "world_source",
+        "vars_source",
+        "class_expr",
+        "field_expr",
+        "field_overlay_time_expr",
+        "field_overlay_region_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "type_null_guard_expr",
+        "can_create_guard_expr",
+        "overlay_time_assign_expr",
+        "overlay_region_assign_expr",
+        "solidity_comment_expr",
+        "solid_assign_expr",
+        "solid_guard_expr",
+        "trns_expr",
+        "vec2_trns_amount_expr",
+        "vec2_trns_amount_return_expr",
+        "tile_assign_expr",
+        "world_to_tile_method",
+        "world_to_tile_return",
+        "vars_tilesize_field",
+        "solid_block_comment_expr",
+        "solid_solid_guard_expr",
+        "return_false_expr",
+        "unit_type_null",
+        "units_can_create",
+        "solid_present",
+        "unit_rotation",
+        "unit_x",
+        "unit_y",
+        "solid_solid",
+        "can_create_evaluated",
+        "can_create_guard",
+        "before_solid_returned",
+        "solid_evaluated",
+        "solid_present_guard",
+        "trns_vec",
+        "tx",
+        "ty",
+        "solid_solid_evaluated",
+        "solid_call",
+        "solid_guard",
+        "returned",
+        "dump",
+        "overlayTime_after",
+        "overlayRegion_after",
+        "deferred_remaining_dump"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_solidity_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_solidity_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_solidity_guard_bridge_state",
+        "test_unit_payload_dump_solidity_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_solidity_guard_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_unit_payload_dump_type_null_guard_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
       "params": [

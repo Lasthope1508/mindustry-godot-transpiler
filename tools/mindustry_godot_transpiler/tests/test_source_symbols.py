@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 875)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 870)
+        self.assertEqual(audit["totalSourceFunctions"], 876)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 871)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 875)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 876)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20387,6 +20387,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_unit_payload_size_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_type_null_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_can_create_guard_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_payload_dump_solidity_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_constructor_block_team_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_constructor_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_constructor_state", audit["registeredSourceOwners"])
@@ -48874,6 +48875,77 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["dump"]["java_expr"], "return false;")
         self.assertEqual(result_schema["keys"]["overlayTime_after"]["java_expr"], "overlayTime = 1f;")
         self.assertEqual(result_schema["keys"]["overlayRegion_after"]["java_expr"], "overlayRegion = null;")
+
+    def test_generated_unit_payload_dump_solidity_guard_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_payload_dump_solidity_guard.method")
+        self.assertEqual(method["java_expr"], "public boolean dump(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(method["java_method"], "UnitPayload.dump()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_payload_dump_solidity_guard_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_payload_dump_solidity_guard_state")
+        solid_present = source_symbols.source_symbol(registry, "unit_payload_dump_solidity_guard.solid_present")
+        self.assertEqual(solid_present["java_expr"], "solid != null")
+        self.assertEqual(solid_present["godot_symbol"], "source_unit_payload_dump_solidity_guard_input.solid_present")
+        unit_rotation = source_symbols.source_symbol(registry, "unit_payload_dump_solidity_guard.unit_rotation")
+        self.assertEqual(unit_rotation["java_expr"], "unit.rotation")
+        self.assertEqual(unit_rotation["godot_symbol"], "source_unit_payload_dump_solidity_guard_input.unit_rotation")
+        solid_solid = source_symbols.source_symbol(registry, "unit_payload_dump_solidity_guard.solid_solid")
+        self.assertEqual(solid_solid["java_expr"], "solid.solid(tx, ty)")
+        self.assertEqual(solid_solid["godot_symbol"], "source_unit_payload_dump_solidity_guard_input.solid_solid")
+        trns_expr = source_symbols.source_symbol(registry, "unit_payload_dump_solidity_guard.trns_expr")
+        self.assertEqual(trns_expr["java_expr"], "Tmp.v1.trns(unit.rotation, 1f);")
+        tile_assign = source_symbols.source_symbol(registry, "unit_payload_dump_solidity_guard.tile_assign_expr")
+        self.assertEqual(tile_assign["java_expr"], "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);")
+        tx_symbol = source_symbols.source_symbol(registry, "unit_payload_dump_solidity_guard.tx")
+        self.assertEqual(tx_symbol["java_expr"], "World.toTile(unit.x + Tmp.v1.x)")
+        self.assertEqual(tx_symbol["godot_symbol"], "source_unit_payload_dump_solidity_guard_result.tx")
+        return_false = source_symbols.source_symbol(registry, "unit_payload_dump_solidity_guard.return_false_expr")
+        self.assertEqual(return_false["java_expr"], "return false;")
+        self.assertEqual(return_false["godot_symbol"], "source_unit_payload_dump_solidity_guard_result.dump")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1401")
+        self.assertEqual(payload_slice["title"], "Generated UnitPayload dump solidity guard bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(payload_slice["java_method"], "UnitPayload.dump()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_unit_payload_dump_solidity_guard_state")
+        self.assertEqual(payload_slice["generated_owner"], "UnitPayload.java_method_dump_13")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_unit_payload_dump_solidity_guard_bridge_state")
+        for expr in [
+            "//check if unit can be dumped here",
+            "SolidPred solid = unit.solidity();",
+            "if(solid != null){",
+            "Tmp.v1.trns(unit.rotation, 1f);",
+            "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);",
+            "//cannot dump on solid blocks",
+            "if(solid.solid(tx, ty)) return false;",
+            "public static int toTile(float coord){",
+            "return Math.round(coord / tilesize);",
+            "public static final int tilesize = 8;",
+            "public Vec2 trns(float angle, float amount){",
+            "return set(amount, 0).rotate(angle);",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("unit_payload_dump_solidity_guard.return_false_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_unit_payload_dump_solidity_guard_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["unit_type_null", "units_can_create", "solid_present", "unit_rotation", "unit_x", "unit_y", "solid_solid"])
+        for key in ["source_owner", "source", "arc_vec2_source", "world_source", "vars_source", "class_expr", "field_expr", "override_expr", "method", "type_null_guard_expr", "can_create_guard_expr", "solidity_comment_expr", "solid_assign_expr", "solid_guard_expr", "trns_expr", "vec2_trns_amount_expr", "vec2_trns_amount_return_expr", "tile_assign_expr", "world_to_tile_method", "world_to_tile_return", "vars_tilesize_field", "solid_block_comment_expr", "solid_solid_guard_expr", "unit_type_null", "units_can_create", "solid_present", "unit_rotation", "unit_x", "unit_y", "solid_solid", "solid_evaluated", "solid_present_guard", "trns_vec", "tx", "ty", "solid_call", "solid_guard", "returned", "dump", "deferred_remaining_dump"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_unit_payload_dump_solidity_guard_input")
+        self.assertEqual(input_schema["keys"]["solid_present"]["java_expr"], "solid != null")
+        self.assertEqual(input_schema["keys"]["solid_solid"]["java_expr"], "solid.solid(tx, ty)")
+        result_schema = source_symbols.state_schema(schema, "source_unit_payload_dump_solidity_guard_result")
+        self.assertEqual(result_schema["keys"]["tx"]["java_expr"], "World.toTile(unit.x + Tmp.v1.x)")
+        self.assertEqual(result_schema["keys"]["ty"]["java_expr"], "World.toTile(unit.y + Tmp.v1.y)")
+        self.assertEqual(result_schema["keys"]["dump"]["java_expr"], "return false;")
 
     def test_generated_build_payload_place_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
