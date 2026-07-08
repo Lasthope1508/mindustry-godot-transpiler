@@ -104,6 +104,9 @@ func java_method_dump_13(_args: Array = []) -> Variant:
 	var unit_physic_size: float = float(_args[8] if _args.size() > 8 else 0.0)
 	var units_count: int = int(_args[9] if _args.size() > 9 else 0)
 	var net_client: bool = bool(_args[10] if _args.size() > 10 else false)
+	var range_x: float = float(_args[11] if _args.size() > 11 else 0.0)
+	var range_y: float = float(_args[12] if _args.size() > 12 else 0.0)
+	var unit_id: Variant = _args[13] if _args.size() > 13 else null
 	var can_create_evaluated: bool = not unit_type_null
 	var can_create_guard: bool = can_create_evaluated and not units_can_create
 	var before_solid_returned: bool = unit_type_null or can_create_guard
@@ -128,7 +131,9 @@ func java_method_dump_13(_args: Array = []) -> Variant:
 	var before_client_returned: bool = before_overlap_returned or overlap_guard
 	var net_client_evaluated: bool = not before_client_returned
 	var client_guard: bool = net_client_evaluated and net_client
-	var returned: bool = before_client_returned or client_guard
+	var before_spawn_returned: bool = before_client_returned or client_guard
+	var spawn_evaluated: bool = not before_spawn_returned
+	var returned: bool = before_spawn_returned or spawn_evaluated
 	var dump_result: Variant = null
 	if unit_type_null:
 		dump_result = true
@@ -140,6 +145,8 @@ func java_method_dump_13(_args: Array = []) -> Variant:
 		dump_result = false
 	elif client_guard:
 		dump_result = true
+	if spawn_evaluated:
+		dump_result = true
 	var overlayTime_after: float = 1.0 if can_create_guard else 0.0
 	var overlayRegion_after: Variant = null
 	var solid_call: Dictionary = {}
@@ -148,8 +155,33 @@ func java_method_dump_13(_args: Array = []) -> Variant:
 	var units_count_call: Dictionary = {}
 	if units_count_evaluated:
 		units_count_call = {"call": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}
-	var deferred_remaining_dump: bool = not returned
-	return {"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java", "world_source": "core/src/mindustry/core/World.java", "vars_source": "core/src/mindustry/Vars.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "solidity_comment_expr": "//check if unit can be dumped here", "solid_assign_expr": "SolidPred solid = unit.solidity();", "solid_guard_expr": "if(solid != null){", "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);", "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){", "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);", "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);", "world_to_tile_method": "public static int toTile(float coord){", "world_to_tile_return": "return Math.round(coord / tilesize);", "vars_tilesize_field": "public static final int tilesize = 8;", "solid_block_comment_expr": "//cannot dump on solid blocks", "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;", "overlap_comment_expr": "//cannot dump when there's a lot of overlap going on", "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){", "unit_type_flying_expr": "unit.type.flying", "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "physic_size_expr": "unit.physicSize()", "radius_multiplier_expr": "1.05f", "predicate_is_grounded_expr": "o.isGrounded()", "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep", "return_false_expr": "return false;", "client_dumping_comment_expr": "//no client dumping", "net_client_guard_expr": "if(Vars.net.client()) return true;", "vars_net_field": "public static Net net;", "return_true_expr": "return true;", "prevents_stacking_comment_expr": "//prevents stacking", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "net_client": net_client, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "before_client_returned": before_client_returned, "net_client_evaluated": net_client_evaluated, "client_guard": client_guard, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}
+	var velocity_add_call: Dictionary = {}
+	var unit_add_called: bool = false
+	var unit_unloaded_called: bool = false
+	var event_fire_call: Dictionary = {}
+	var notify_unit_spawn_call: Dictionary = {}
+	if spawn_evaluated:
+		velocity_add_call = {"call": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));", "x": range_x, "y": range_y, "unit": unit_id}
+		unit_add_called = true
+		unit_unloaded_called = true
+		event_fire_call = {"call": "Events.fire(new UnitUnloadEvent(unit));", "event": "new UnitUnloadEvent(unit)", "unit": unit_id}
+		notify_unit_spawn_call = {"call": "Units.notifyUnitSpawn(unit);", "unit": unit_id}
+	var deferred_remaining_dump: bool = false
+	var state: Dictionary = {"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java", "arc_mathf_source": "arc-core/src/arc/math/Mathf.java", "world_source": "core/src/mindustry/core/World.java", "vars_source": "core/src/mindustry/Vars.java", "units_source": "core/src/mindustry/entities/Units.java", "event_type_source": "core/src/mindustry/game/EventType.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "solidity_comment_expr": "//check if unit can be dumped here", "solid_assign_expr": "SolidPred solid = unit.solidity();", "solid_guard_expr": "if(solid != null){", "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);", "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){", "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);", "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);", "world_to_tile_method": "public static int toTile(float coord){", "world_to_tile_return": "return Math.round(coord / tilesize);", "vars_tilesize_field": "public static final int tilesize = 8;", "solid_block_comment_expr": "//cannot dump on solid blocks", "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;", "overlap_comment_expr": "//cannot dump when there's a lot of overlap going on", "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){", "unit_type_flying_expr": "unit.type.flying", "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "physic_size_expr": "unit.physicSize()", "radius_multiplier_expr": "1.05f", "predicate_is_grounded_expr": "o.isGrounded()", "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep", "return_false_expr": "return false;", "client_dumping_comment_expr": "//no client dumping", "net_client_guard_expr": "if(Vars.net.client()) return true;", "vars_net_field": "public static Net net;", "return_true_expr": "return true;", "prevents_stacking_comment_expr": "//prevents stacking", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "net_client": net_client, "range_x": range_x, "range_y": range_y, "unit_id": unit_id, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "before_client_returned": before_client_returned, "net_client_evaluated": net_client_evaluated, "client_guard": client_guard, "before_spawn_returned": before_spawn_returned, "spawn_evaluated": spawn_evaluated, "velocity_add_call": velocity_add_call, "unit_add_called": unit_add_called, "unit_unloaded_called": unit_unloaded_called, "event_fire_call": event_fire_call, "notify_unit_spawn_call": notify_unit_spawn_call, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}
+	state["velocity_add_expr"] = "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"
+	state["mathf_range_float_method"] = "public static float range(float range){"
+	state["mathf_range_float_return"] = "return random(-range, range);"
+	state["unit_add_expr"] = "unit.add();"
+	state["unit_unloaded_expr"] = "unit.unloaded();"
+	state["event_fire_expr"] = "Events.fire(new UnitUnloadEvent(unit));"
+	state["unit_unload_event_comment"] = "/** Called when a unit is dumped from any payload block. */"
+	state["unit_unload_event_class"] = "public static class UnitUnloadEvent{"
+	state["unit_unload_event_constructor"] = "public UnitUnloadEvent(Unit unit){"
+	state["notify_unit_spawn_expr"] = "Units.notifyUnitSpawn(unit);"
+	state["notify_unit_spawn_method"] = "public static void notifyUnitSpawn(Unit unit){"
+	state["notify_unit_spawn_guard"] = "if(net.server()){"
+	state["final_return_true_expr"] = "return true;"
+	return state
 
 func java_method_drawShadow_14(_args: Array = []) -> Variant:
 	return null

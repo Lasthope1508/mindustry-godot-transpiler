@@ -11903,6 +11903,60 @@ def verify_unit_payload_dump_no_client_guard_source(upstream_root: Path, vars_ro
         "missing": missing,
     }
 
+def verify_unit_payload_dump_spawn_side_effects_source(upstream_root: Path, arc_root: Path) -> dict[str, Any]:
+    unit_payload_source = "core/src/mindustry/world/blocks/payloads/UnitPayload.java"
+    payload_path = Path(upstream_root) / unit_payload_source
+    mathf_path = Path(arc_root) / ARC_MATHF_SOURCE
+    units_path = Path(upstream_root) / UNITS_SOURCE
+    event_path = Path(upstream_root) / EVENT_TYPE_SOURCE
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    mathf_source = mathf_path.read_text(encoding="utf-8", errors="replace")
+    units_source = units_path.read_text(encoding="utf-8", errors="replace")
+    event_source = event_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class UnitPayload implements Payload{",
+        "field_expr": "public Unit unit;",
+        "override_expr": "@Override",
+        "method": "public boolean dump(){",
+        "prevents_stacking_comment_expr": "//prevents stacking",
+        "velocity_add_expr": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));",
+        "mathf_range_float_method": "public static float range(float range){",
+        "mathf_range_float_return": "return random(-range, range);",
+        "unit_add_expr": "unit.add();",
+        "unit_unloaded_expr": "unit.unloaded();",
+        "event_fire_expr": "Events.fire(new UnitUnloadEvent(unit));",
+        "unit_unload_event_comment": "/** Called when a unit is dumped from any payload block. */",
+        "unit_unload_event_class": "public static class UnitUnloadEvent{",
+        "unit_unload_event_constructor": "public UnitUnloadEvent(Unit unit){",
+        "notify_unit_spawn_expr": "Units.notifyUnitSpawn(unit);",
+        "notify_unit_spawn_method": "public static void notifyUnitSpawn(Unit unit){",
+        "notify_unit_spawn_guard": "if(net.server()){",
+        "final_return_true_expr": "return true;",
+    }
+    sources_by_key = {
+        "mathf_range_float_method": mathf_source,
+        "mathf_range_float_return": mathf_source,
+        "unit_unload_event_comment": event_source,
+        "unit_unload_event_class": event_source,
+        "unit_unload_event_constructor": event_source,
+        "notify_unit_spawn_method": units_source,
+        "notify_unit_spawn_guard": units_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, source)
+    ]
+    return {
+        "source": unit_payload_source,
+        "sources": [
+            ARC_MATHF_SOURCE,
+            UNITS_SOURCE,
+            EVENT_TYPE_SOURCE,
+        ],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_place_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

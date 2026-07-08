@@ -11915,6 +11915,34 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_payload_dump_spawn_side_effects_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_payload_dump_spawn_side_effects_source"))
+        report = source_parity.verify_unit_payload_dump_spawn_side_effects_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(report["sources"], ["arc-core/src/arc/math/Mathf.java", "core/src/mindustry/entities/Units.java", "core/src/mindustry/game/EventType.java"])
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class UnitPayload implements Payload{",
+            "field_expr": "public Unit unit;",
+            "override_expr": "@Override",
+            "method": "public boolean dump(){",
+            "prevents_stacking_comment_expr": "//prevents stacking",
+            "velocity_add_expr": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));",
+            "mathf_range_float_method": "public static float range(float range){",
+            "mathf_range_float_return": "return random(-range, range);",
+            "unit_add_expr": "unit.add();",
+            "unit_unloaded_expr": "unit.unloaded();",
+            "event_fire_expr": "Events.fire(new UnitUnloadEvent(unit));",
+            "unit_unload_event_comment": "/** Called when a unit is dumped from any payload block. */",
+            "unit_unload_event_class": "public static class UnitUnloadEvent{",
+            "unit_unload_event_constructor": "public UnitUnloadEvent(Unit unit){",
+            "notify_unit_spawn_expr": "Units.notifyUnitSpawn(unit);",
+            "notify_unit_spawn_method": "public static void notifyUnitSpawn(Unit unit){",
+            "notify_unit_spawn_guard": "if(net.server()){",
+            "final_return_true_expr": "return true;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_get_drill_time_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_get_drill_time_source"))
         report = source_parity.verify_drill_get_drill_time_source(ROOT / "mindustry-upstream")

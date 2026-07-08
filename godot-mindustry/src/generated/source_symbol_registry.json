@@ -112310,6 +112310,1212 @@
       "godot_symbol": "source_unit_payload_dump_no_client_guard_result.client_guard",
       "status": "source-backed",
       "rule": "Boolean result of no-client dumping guard."
+    },
+    "unit_payload_dump_spawn_side_effects.can_create_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(!Units.canCreate(unit.team, unit.type)){",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.can_create_guard_expr",
+      "status": "source-backed",
+      "rule": "canCreate guard before overlap."
+    },
+    "unit_payload_dump_spawn_side_effects.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public class UnitPayload implements Payload{",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.class_expr",
+      "status": "source-backed",
+      "rule": "UnitPayload class boundary."
+    },
+    "unit_payload_dump_spawn_side_effects.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public Unit unit;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.field_expr",
+      "status": "source-backed",
+      "rule": "UnitPayload unit field used by dump guards."
+    },
+    "unit_payload_dump_spawn_side_effects.field_overlay_region_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public @Nullable TextureRegion overlayRegion;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.field_overlay_region_expr",
+      "status": "source-backed",
+      "rule": "Overlay region field preserved from canCreate branch."
+    },
+    "unit_payload_dump_spawn_side_effects.field_overlay_time_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public float overlayTime = 0f;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.field_overlay_time_expr",
+      "status": "source-backed",
+      "rule": "Overlay time field preserved from canCreate branch."
+    },
+    "unit_payload_dump_spawn_side_effects.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public boolean dump(){",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.method",
+      "status": "source-backed",
+      "rule": "UnitPayload.dump method boundary."
+    },
+    "unit_payload_dump_spawn_side_effects.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "@Override",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.override_expr",
+      "status": "source-backed",
+      "rule": "Override marker for Payload.dump."
+    },
+    "unit_payload_dump_spawn_side_effects.return_false_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "return false;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.dump",
+      "status": "source-backed",
+      "rule": "Solid block guard return value."
+    },
+    "unit_payload_dump_spawn_side_effects.solid_assign_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "SolidPred solid = unit.solidity();",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.solid_assign_expr",
+      "status": "source-backed",
+      "rule": "Unit overlap predicate assignment."
+    },
+    "unit_payload_dump_spawn_side_effects.solid_block_comment_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "//cannot dump on solid blocks",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.solid_block_comment_expr",
+      "status": "source-backed",
+      "rule": "Solid block guard comment."
+    },
+    "unit_payload_dump_spawn_side_effects.solid_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(solid != null){",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.solid_guard_expr",
+      "status": "source-backed",
+      "rule": "SolidPred null guard."
+    },
+    "unit_payload_dump_spawn_side_effects.solid_present": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "solid != null",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.solid_present",
+      "status": "explicit-input",
+      "rule": "Explicit input for null check on SolidPred."
+    },
+    "unit_payload_dump_spawn_side_effects.solid_solid": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "solid.solid(tx, ty)",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.solid_solid",
+      "status": "explicit-input",
+      "rule": "Explicit input for SolidPred.solid result until concrete world predicate runtime is ported."
+    },
+    "unit_payload_dump_spawn_side_effects.solid_solid_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(solid.solid(tx, ty)) return false;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.solid_solid_guard_expr",
+      "status": "source-backed",
+      "rule": "Solid block guard returns false."
+    },
+    "unit_payload_dump_spawn_side_effects.solidity_comment_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "//check if unit can be dumped here",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.solidity_comment_expr",
+      "status": "source-backed",
+      "rule": "Overlap branch comment."
+    },
+    "unit_payload_dump_spawn_side_effects.tile_assign_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.tile_assign_expr",
+      "status": "source-backed",
+      "rule": "Tile coordinate assignment from unit plus Tmp.v1."
+    },
+    "unit_payload_dump_spawn_side_effects.trns_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Tmp.v1.trns(unit.rotation, 1f);",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.trns_vec",
+      "status": "source-backed",
+      "rule": "Tmp.v1.trns call for forward tile probe."
+    },
+    "unit_payload_dump_spawn_side_effects.tx": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "World.toTile(unit.x + Tmp.v1.x)",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.tx",
+      "status": "source-backed",
+      "rule": "Tile X expression."
+    },
+    "unit_payload_dump_spawn_side_effects.ty": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "World.toTile(unit.y + Tmp.v1.y)",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.ty",
+      "status": "source-backed",
+      "rule": "Tile Y expression."
+    },
+    "unit_payload_dump_spawn_side_effects.type_null_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(unit.type == null) return true;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.type_null_guard_expr",
+      "status": "source-backed",
+      "rule": "First dump guard returns true before canCreate and overlap are evaluated."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_rotation": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.rotation",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.unit_rotation",
+      "status": "explicit-input",
+      "rule": "Explicit input for Tmp.v1.trns(unit.rotation, 1f)."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_type_null": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.type == null",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.unit_type_null",
+      "status": "explicit-input",
+      "rule": "Explicit input preserving first guard order."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_x": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.x",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.unit_x",
+      "status": "explicit-input",
+      "rule": "Explicit input for World.toTile(unit.x + Tmp.v1.x)."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_y": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.y",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.unit_y",
+      "status": "explicit-input",
+      "rule": "Explicit input for World.toTile(unit.y + Tmp.v1.y)."
+    },
+    "unit_payload_dump_spawn_side_effects.units_can_create": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Units.canCreate(unit.team, unit.type)",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.units_can_create",
+      "status": "explicit-input",
+      "rule": "Explicit input until Units/team/type runtime is ported."
+    },
+    "unit_payload_dump_spawn_side_effects.vars_tilesize_field": {
+      "java_source": "core/src/mindustry/Vars.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public static final int tilesize = 8;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.vars_tilesize_field",
+      "status": "source-backed",
+      "rule": "Mindustry tile size constant."
+    },
+    "unit_payload_dump_spawn_side_effects.vec2_trns_amount_expr": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public Vec2 trns(float angle, float amount){",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.vec2_trns_amount_expr",
+      "status": "source-backed",
+      "rule": "Arc Vec2.trns angle/amount method boundary."
+    },
+    "unit_payload_dump_spawn_side_effects.vec2_trns_amount_return_expr": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "return set(amount, 0).rotate(angle);",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.vec2_trns_amount_return_expr",
+      "status": "source-backed",
+      "rule": "Arc Vec2.trns amount return expression."
+    },
+    "unit_payload_dump_spawn_side_effects.world_to_tile_method": {
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public static int toTile(float coord){",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.world_to_tile_method",
+      "status": "source-backed",
+      "rule": "World.toTile method boundary."
+    },
+    "unit_payload_dump_spawn_side_effects.world_to_tile_return": {
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "return Math.round(coord / tilesize);",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.world_to_tile_return",
+      "status": "source-backed",
+      "rule": "World.toTile return formula."
+    },
+    "unit_payload_dump_spawn_side_effects.overlap_comment_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "//cannot dump when there's a lot of overlap going on",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.overlap_comment_expr",
+      "status": "source-backed",
+      "rule": "Overlap guard comment."
+    },
+    "unit_payload_dump_spawn_side_effects.overlap_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.overlap_guard_expr",
+      "status": "source-backed",
+      "rule": "Overlap guard branch."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_type_flying": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.type.flying",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.unit_type_flying",
+      "status": "explicit-input",
+      "rule": "Explicit input for Java unit.type.flying short-circuit."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_physic_size": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.physicSize()",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.unit_physic_size",
+      "status": "explicit-input",
+      "rule": "Explicit input for Java unit.physicSize()."
+    },
+    "unit_payload_dump_spawn_side_effects.units_count": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.units_count",
+      "status": "explicit-input",
+      "rule": "Explicit input for Units.count(...) until unit group query is ported."
+    },
+    "unit_payload_dump_spawn_side_effects.overlap_radius": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.physicSize() * 1.05f",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.overlap_radius",
+      "status": "source-backed",
+      "rule": "Overlap Units.count radius formula."
+    },
+    "unit_payload_dump_spawn_side_effects.physic_size_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.physicSize()",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.physic_size_expr",
+      "status": "source-backed",
+      "rule": "Unit physical size method call."
+    },
+    "unit_payload_dump_spawn_side_effects.radius_multiplier_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "1.05f",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.radius_multiplier_expr",
+      "status": "source-backed",
+      "rule": "Overlap radius multiplier literal."
+    },
+    "unit_payload_dump_spawn_side_effects.predicate_is_grounded_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "o.isGrounded()",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.predicate_is_grounded_expr",
+      "status": "source-backed",
+      "rule": "Units.count predicate grounded call."
+    },
+    "unit_payload_dump_spawn_side_effects.predicate_allow_leg_step_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "o.type.allowLegStep == unit.type.allowLegStep",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.predicate_allow_leg_step_expr",
+      "status": "source-backed",
+      "rule": "Units.count predicate allowLegStep comparison."
+    },
+    "unit_payload_dump_spawn_side_effects.client_dumping_comment_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "//no client dumping",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.client_dumping_comment_expr",
+      "status": "deferred",
+      "rule": "Next UnitPayload.dump boundary after overlap guard."
+    },
+    "unit_payload_dump_spawn_side_effects.net_client_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(Vars.net.client()) return true;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.net_client_guard_expr",
+      "status": "source-backed",
+      "rule": "No-client dump guard exact source expression."
+    },
+    "unit_payload_dump_spawn_side_effects.vars_net_field": {
+      "java_source": "core/src/mindustry/Vars.java",
+      "java_method": "Vars.net",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public static Net net;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.vars_net_field",
+      "status": "source-backed",
+      "rule": "Vars.net static field backing Vars.net.client()."
+    },
+    "unit_payload_dump_spawn_side_effects.return_true_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "return true;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.dump",
+      "status": "source-backed",
+      "rule": "Client dump guard returns true exactly."
+    },
+    "unit_payload_dump_spawn_side_effects.prevents_stacking_comment_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "//prevents stacking",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.prevents_stacking_comment_expr",
+      "status": "source-backed",
+      "rule": "Next source boundary after no-client guard."
+    },
+    "unit_payload_dump_spawn_side_effects.net_client": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Vars.net.client()",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.net_client",
+      "status": "source-backed",
+      "rule": "Explicit input for Vars.net.client() until Net runtime port is wired."
+    },
+    "unit_payload_dump_spawn_side_effects.before_client_returned": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "guards before if(Vars.net.client()) return true;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.before_client_returned",
+      "status": "source-backed",
+      "rule": "Prior UnitPayload.dump() guards short-circuit before no-client check."
+    },
+    "unit_payload_dump_spawn_side_effects.net_client_evaluated": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(Vars.net.client()) return true;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.net_client_evaluated",
+      "status": "source-backed",
+      "rule": "Vars.net.client() only evaluated after prior guards."
+    },
+    "unit_payload_dump_spawn_side_effects.client_guard": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(Vars.net.client()) return true;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.client_guard",
+      "status": "source-backed",
+      "rule": "Boolean result of no-client dumping guard."
+    },
+    "unit_payload_dump_spawn_side_effects.velocity_add_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.velocity_add_call",
+      "status": "source-backed",
+      "rule": "Velocity scatter call prevents stacking after dump."
+    },
+    "unit_payload_dump_spawn_side_effects.mathf_range_float_method": {
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "Mathf.range(float)",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public static float range(float range){",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.mathf_range_float_method",
+      "status": "source-backed",
+      "rule": "Arc Mathf.range(float) method boundary."
+    },
+    "unit_payload_dump_spawn_side_effects.mathf_range_float_return": {
+      "java_source": "arc-core/src/arc/math/Mathf.java",
+      "java_method": "Mathf.range(float)",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "return random(-range, range);",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.mathf_range_float_return",
+      "status": "source-backed",
+      "rule": "Arc Mathf.range(float) random range formula."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_add_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.add();",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.unit_add_called",
+      "status": "source-backed",
+      "rule": "Dump side effect adds Unit to world."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_unloaded_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.unloaded();",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.unit_unloaded_called",
+      "status": "source-backed",
+      "rule": "Dump side effect notifies Unit unloaded hook."
+    },
+    "unit_payload_dump_spawn_side_effects.event_fire_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Events.fire(new UnitUnloadEvent(unit));",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.event_fire_call",
+      "status": "source-backed",
+      "rule": "Dump side effect fires UnitUnloadEvent."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_unload_event_comment": {
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "java_method": "EventType.UnitUnloadEvent",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "/** Called when a unit is dumped from any payload block. */",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.unit_unload_event_comment",
+      "status": "source-backed",
+      "rule": "EventType comment for UnitUnloadEvent."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_unload_event_class": {
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "java_method": "EventType.UnitUnloadEvent",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public static class UnitUnloadEvent{",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.unit_unload_event_class",
+      "status": "source-backed",
+      "rule": "EventType UnitUnloadEvent class boundary."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_unload_event_constructor": {
+      "java_source": "core/src/mindustry/game/EventType.java",
+      "java_method": "EventType.UnitUnloadEvent(Unit unit)",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public UnitUnloadEvent(Unit unit){",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.unit_unload_event_constructor",
+      "status": "source-backed",
+      "rule": "UnitUnloadEvent constructor stores dumped Unit."
+    },
+    "unit_payload_dump_spawn_side_effects.notify_unit_spawn_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Units.notifyUnitSpawn(unit);",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.notify_unit_spawn_call",
+      "status": "source-backed",
+      "rule": "Dump side effect notifies unit spawn sync helper."
+    },
+    "unit_payload_dump_spawn_side_effects.notify_unit_spawn_method": {
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.notifyUnitSpawn(Unit unit)",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public static void notifyUnitSpawn(Unit unit){",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.notify_unit_spawn_method",
+      "status": "source-backed",
+      "rule": "Units.notifyUnitSpawn method boundary."
+    },
+    "unit_payload_dump_spawn_side_effects.notify_unit_spawn_guard": {
+      "java_source": "core/src/mindustry/entities/Units.java",
+      "java_method": "Units.notifyUnitSpawn(Unit unit)",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(net.server()){",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.notify_unit_spawn_guard",
+      "status": "source-backed",
+      "rule": "notifyUnitSpawn only sends network call on server."
+    },
+    "unit_payload_dump_spawn_side_effects.final_return_true_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "return true;",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.dump",
+      "status": "source-backed",
+      "rule": "Final UnitPayload.dump() return after spawn side effects."
+    },
+    "unit_payload_dump_spawn_side_effects.range_x": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Mathf.range(0.5f)",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.range_x",
+      "status": "source-backed",
+      "rule": "Explicit first random output from Mathf.range(0.5f)."
+    },
+    "unit_payload_dump_spawn_side_effects.range_y": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Mathf.range(0.5f)",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.range_y",
+      "status": "source-backed",
+      "rule": "Explicit second random output from Mathf.range(0.5f)."
+    },
+    "unit_payload_dump_spawn_side_effects.unit_id": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_input.unit_id",
+      "status": "source-backed",
+      "rule": "Explicit unit identity passed through side-effect records."
+    },
+    "unit_payload_dump_spawn_side_effects.before_spawn_returned": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "guards before //prevents stacking",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.before_spawn_returned",
+      "status": "source-backed",
+      "rule": "Prior UnitPayload.dump() guards short-circuit before spawn side effects."
+    },
+    "unit_payload_dump_spawn_side_effects.spawn_evaluated": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_slice": "N1404",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "//prevents stacking",
+      "godot_symbol": "source_unit_payload_dump_spawn_side_effects_result.spawn_evaluated",
+      "status": "source-backed",
+      "rule": "Spawn side effects evaluate only after all guards pass."
     }
   },
   "version": 1

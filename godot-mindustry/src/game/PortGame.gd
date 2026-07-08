@@ -20739,6 +20739,67 @@ func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bo
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_dump_spawn_side_effects_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:
+	var state := source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
+	var before_spawn_returned: bool = bool(state.get("before_client_returned", false)) or bool(state.get("client_guard", false))
+	var spawn_evaluated: bool = not before_spawn_returned
+	var velocity_add_call: Dictionary = {}
+	var unit_add_called: bool = false
+	var unit_unloaded_called: bool = false
+	var event_fire_call: Dictionary = {}
+	var notify_unit_spawn_call: Dictionary = {}
+	if spawn_evaluated:
+		velocity_add_call = {"call": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));", "x": range_x, "y": range_y, "unit": unit_id}
+		unit_add_called = true
+		unit_unloaded_called = true
+		event_fire_call = {"call": "Events.fire(new UnitUnloadEvent(unit));", "event": "new UnitUnloadEvent(unit)", "unit": unit_id}
+		notify_unit_spawn_call = {"call": "Units.notifyUnitSpawn(unit);", "unit": unit_id}
+		state["dump"] = true
+	state["source_owner"] = "PortGame.source_unit_payload_dump_spawn_side_effects_state"
+	state["arc_mathf_source"] = "arc-core/src/arc/math/Mathf.java"
+	state["units_source"] = "core/src/mindustry/entities/Units.java"
+	state["event_type_source"] = "core/src/mindustry/game/EventType.java"
+	state["prevents_stacking_comment_expr"] = "//prevents stacking"
+	state["velocity_add_expr"] = "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"
+	state["mathf_range_float_method"] = "public static float range(float range){"
+	state["mathf_range_float_return"] = "return random(-range, range);"
+	state["unit_add_expr"] = "unit.add();"
+	state["unit_unloaded_expr"] = "unit.unloaded();"
+	state["event_fire_expr"] = "Events.fire(new UnitUnloadEvent(unit));"
+	state["unit_unload_event_comment"] = "/** Called when a unit is dumped from any payload block. */"
+	state["unit_unload_event_class"] = "public static class UnitUnloadEvent{"
+	state["unit_unload_event_constructor"] = "public UnitUnloadEvent(Unit unit){"
+	state["notify_unit_spawn_expr"] = "Units.notifyUnitSpawn(unit);"
+	state["notify_unit_spawn_method"] = "public static void notifyUnitSpawn(Unit unit){"
+	state["notify_unit_spawn_guard"] = "if(net.server()){"
+	state["final_return_true_expr"] = "return true;"
+	state["range_x"] = range_x
+	state["range_y"] = range_y
+	state["unit_id"] = unit_id
+	state["before_spawn_returned"] = before_spawn_returned
+	state["spawn_evaluated"] = spawn_evaluated
+	state["velocity_add_call"] = velocity_add_call
+	state["unit_add_called"] = unit_add_called
+	state["unit_unloaded_called"] = unit_unloaded_called
+	state["event_fire_call"] = event_fire_call
+	state["notify_unit_spawn_call"] = notify_unit_spawn_call
+	state["returned"] = true
+	state["deferred_remaining_dump"] = false
+	return state
+
+func generated_unit_payload_dump_spawn_side_effects_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool, range_x: float, range_y: float, unit_id: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id])
+	var canonical = source_unit_payload_dump_spawn_side_effects_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client, range_x, range_y, unit_id)
+	return {
+		"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state",
+		"generated_owner": "UnitPayload.java_method_dump_13",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

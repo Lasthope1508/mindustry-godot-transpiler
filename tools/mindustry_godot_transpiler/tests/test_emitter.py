@@ -18262,6 +18262,91 @@ public class UnitPayload implements Payload{
             self.assertIn('"net_client_evaluated": net_client_evaluated', source_text)
             self.assertIn('"client_guard": client_guard', source_text)
 
+    def test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+    public float overlayTime = 0f;
+    public @Nullable TextureRegion overlayRegion;
+
+    public boolean dump(){
+        //TODO should not happen
+        if(unit.type == null) return true;
+
+        if(!Units.canCreate(unit.team, unit.type)){
+            overlayTime = 1f;
+            overlayRegion = null;
+            return false;
+        }
+
+        //check if unit can be dumped here
+        SolidPred solid = unit.solidity();
+        if(solid != null){
+            Tmp.v1.trns(unit.rotation, 1f);
+
+            int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);
+
+            //cannot dump on solid blocks
+            if(solid.solid(tx, ty)) return false;
+        }
+
+        //cannot dump when there's a lot of overlap going on
+        if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){
+            return false;
+        }
+
+        //no client dumping
+        if(Vars.net.client()) return true;
+
+        //prevents stacking
+        unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));
+        unit.add();
+        unit.unloaded();
+        Events.fire(new UnitUnloadEvent(unit));
+        Units.notifyUnitSpawn(unit);
+
+        return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var range_x: float = float(_args[11] if _args.size() > 11 else 0.0)", source_text)
+            self.assertIn("var range_y: float = float(_args[12] if _args.size() > 12 else 0.0)", source_text)
+            self.assertIn("var unit_id: Variant = _args[13] if _args.size() > 13 else null", source_text)
+            self.assertIn("var before_spawn_returned: bool = before_client_returned or client_guard", source_text)
+            self.assertIn("var spawn_evaluated: bool = not before_spawn_returned", source_text)
+            self.assertIn("if spawn_evaluated:", source_text)
+            self.assertIn("var velocity_add_call: Dictionary = {}", source_text)
+            self.assertIn('"call": "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"', source_text)
+            self.assertIn('"unit_add_called": unit_add_called', source_text)
+            self.assertIn('"unit_unloaded_called": unit_unloaded_called', source_text)
+            self.assertIn('"event_fire_call": event_fire_call', source_text)
+            self.assertIn('"notify_unit_spawn_call": notify_unit_spawn_call', source_text)
+            self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_spawn_side_effects_state"', source_text)
+            self.assertIn('state["velocity_add_expr"] = "unit.vel.add(Mathf.range(0.5f), Mathf.range(0.5f));"', source_text)
+            self.assertIn('state["mathf_range_float_method"] = "public static float range(float range){"', source_text)
+            self.assertIn('state["mathf_range_float_return"] = "return random(-range, range);"', source_text)
+            self.assertIn('state["unit_add_expr"] = "unit.add();"', source_text)
+            self.assertIn('state["unit_unloaded_expr"] = "unit.unloaded();"', source_text)
+            self.assertIn('state["event_fire_expr"] = "Events.fire(new UnitUnloadEvent(unit));"', source_text)
+            self.assertIn('state["notify_unit_spawn_expr"] = "Units.notifyUnitSpawn(unit);"', source_text)
+            self.assertIn('state["final_return_true_expr"] = "return true;"', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
