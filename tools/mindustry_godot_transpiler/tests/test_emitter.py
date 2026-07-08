@@ -17888,6 +17888,65 @@ public class ConsumeLiquidsDynamic extends Consume{
             self.assertIn('"add_expr": "table.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);"', source_text)
             self.assertIn('"row_expr": "if(++i % 4 == 0) table.row();"', source_text)
 
+    def test_emit_bridges_consume_liquids_dynamic_build_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidsDynamic.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import arc.scene.ui.layout.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeLiquidsDynamic extends Consume{
+    public final Func<Building, LiquidStack[]> liquids;
+
+    @Override
+    public void build(Building build, Table table){
+        LiquidStack[][] current = {liquids.get(build)};
+
+        table.table(cont -> {
+            table.update(() -> {
+                if(current[0] != liquids.get(build)){
+                    rebuild(build, cont);
+                    current[0] = liquids.get(build);
+                }
+            });
+
+            rebuild(build, cont);
+        });
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidsDynamic.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_build_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var next_liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var liquid_ids_changed: bool = current_liquid_ids != next_liquid_ids", source_text)
+            self.assertIn("var rebuild_calls: Array = []", source_text)
+            self.assertIn('rebuild_calls.append({"call": "rebuild(build, cont);", "phase": "initial", "liquid_ids": current_liquid_ids})', source_text)
+            self.assertIn('rebuild_calls.append({"call": "rebuild(build, cont);", "phase": "update", "liquid_ids": next_liquid_ids})', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_dynamic_build_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"', source_text)
+            self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
+            self.assertIn('"current_expr": "LiquidStack[][] current = {liquids.get(build)};"', source_text)
+            self.assertIn('"table_expr": "table.table(cont -> {"', source_text)
+            self.assertIn('"update_expr": "table.update(() -> {"', source_text)
+            self.assertIn('"changed_expr": "if(current[0] != liquids.get(build)){"', source_text)
+            self.assertIn('"assignment_expr": "current[0] = liquids.get(build);"', source_text)
+
     def test_emit_bridges_consume_liquid_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -39569,6 +39569,58 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_consume_liquids_dynamic_build_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "params": [
+        {
+          "java_expr": "LiquidStack[][] current = {liquids.get(build)};",
+          "name": "current_liquid_ids",
+          "schema": "source_consume_liquids_dynamic_build_input.current_liquid_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "liquids.get(build)",
+          "name": "next_liquid_ids",
+          "schema": "source_consume_liquids_dynamic_build_input.next_liquid_ids",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "current_expr",
+        "table_expr",
+        "update_expr",
+        "changed_expr",
+        "rebuild_expr",
+        "assignment_expr",
+        "liquids_field",
+        "table_cons_method",
+        "table_cons_get",
+        "table_add",
+        "element_update",
+        "element_update_assignment",
+        "current_liquid_ids",
+        "next_liquid_ids",
+        "liquid_ids_changed",
+        "rebuild_calls",
+        "current_liquid_ids_after_update",
+        "table_cell_created",
+        "update_registered"
+      ],
+      "rule": "Public runtime contract for ConsumeLiquidsDynamic.build(Building, Table) table update and rebuild scheduling state.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_build_state",
+      "source_method": "build(Building build, Table table)",
+      "source_slice": "N1447",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_build_bridge_state",
+        "test_consume_liquids_dynamic_build_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_build_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

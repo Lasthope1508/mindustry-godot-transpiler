@@ -1097,6 +1097,30 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquids_dynamic_build_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquids_dynamic_build_source"))
+        report = source_parity.verify_consume_liquids_dynamic_build_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java")
+        self.assertIn("arc-core/src/arc/scene/ui/layout/Table.java", report["sources"])
+        self.assertIn("arc-core/src/arc/scene/Element.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+            "method": "public void build(Building build, Table table){",
+            "current_expr": "LiquidStack[][] current = {liquids.get(build)};",
+            "table_expr": "table.table(cont -> {",
+            "update_expr": "table.update(() -> {",
+            "changed_expr": "if(current[0] != liquids.get(build)){",
+            "rebuild_expr": "rebuild(build, cont);",
+            "assignment_expr": "current[0] = liquids.get(build);",
+            "table_cons_method": "public Cell<Table> table(Cons<Table> cons){",
+            "table_cons_get": "cons.get(table);",
+            "table_add": "return add(table);",
+            "element_update": "public Element update(Runnable r){",
+            "element_update_assignment": "update = r;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_consumes_source"))
         report = source_parity.verify_consume_liquid_consumes_source(ROOT / "mindustry-upstream")

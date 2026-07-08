@@ -2659,6 +2659,46 @@ func generated_consume_liquids_dynamic_apply_bridge_state(block_has_liquids_befo
 		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null),
 	}
 
+func source_consume_liquids_dynamic_build_state(current_liquid_ids: Array, next_liquid_ids: Array) -> Dictionary:
+	var liquid_ids_changed: bool = current_liquid_ids != next_liquid_ids
+	var rebuild_calls: Array = []
+	rebuild_calls.append({"call": "rebuild(build, cont);", "phase": "initial", "liquid_ids": current_liquid_ids})
+	var current_liquid_ids_after_update: Array = current_liquid_ids.duplicate()
+	if liquid_ids_changed:
+		rebuild_calls.append({"call": "rebuild(build, cont);", "phase": "update", "liquid_ids": next_liquid_ids})
+		current_liquid_ids_after_update = next_liquid_ids.duplicate()
+	return {
+		"source_owner": "PortGame.source_consume_liquids_dynamic_build_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+		"method": "public void build(Building build, Table table){",
+		"current_expr": "LiquidStack[][] current = {liquids.get(build)};",
+		"table_expr": "table.table(cont -> {",
+		"update_expr": "table.update(() -> {",
+		"changed_expr": "if(current[0] != liquids.get(build)){",
+		"rebuild_expr": "rebuild(build, cont);",
+		"assignment_expr": "current[0] = liquids.get(build);",
+		"current_liquid_ids": current_liquid_ids,
+		"next_liquid_ids": next_liquid_ids,
+		"liquid_ids_changed": liquid_ids_changed,
+		"rebuild_calls": rebuild_calls,
+		"current_liquid_ids_after_update": current_liquid_ids_after_update,
+		"table_cell_created": true,
+		"update_registered": true,
+	}
+
+func generated_consume_liquids_dynamic_build_bridge_state(current_liquid_ids: Array, next_liquid_ids: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidsDynamic.gd")
+	var instance = script.new()
+	var result = instance.java_method_build_1([current_liquid_ids, next_liquid_ids])
+	var canonical = source_consume_liquids_dynamic_build_state(current_liquid_ids, next_liquid_ids)
+	return {
+		"source_owner": "PortGame.source_consume_liquids_dynamic_build_state",
+		"generated_owner": "ConsumeLiquidsDynamic.build",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("rebuild_calls", []) == canonical.get("rebuild_calls", []) and result.get("current_liquid_ids_after_update", []) == canonical.get("current_liquid_ids_after_update", []),
+	}
+
 func source_consume_liquids_dynamic_rebuild_state(liquid_ids: Array, liquid_amounts: Array, building_has_liquids: bool) -> Dictionary:
 	var req_images: Array = []
 	var row_calls: Array = []

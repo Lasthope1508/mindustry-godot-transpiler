@@ -151910,6 +151910,272 @@
         }
       },
       "status": "active"
+    },
+    "source_consume_liquids_dynamic_build_input": {
+      "keys": {
+        "current_liquid_ids": {
+          "rule": "source_consume_liquids_dynamic_build_input.current_liquid_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_input.current_liquid_ids",
+          "java_expr": "LiquidStack[][] current = {liquids.get(build)};",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "next_liquid_ids": {
+          "rule": "source_consume_liquids_dynamic_build_input.next_liquid_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_input.next_liquid_ids",
+          "java_expr": "liquids.get(build)",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        }
+      }
+    },
+    "source_consume_liquids_dynamic_build_result": {
+      "keys": {
+        "assignment_expr": {
+          "rule": "source_consume_liquids_dynamic_build_result.assignment_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.assignment_expr",
+          "java_expr": "current[0] = liquids.get(build);",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "changed_expr": {
+          "rule": "source_consume_liquids_dynamic_build_result.changed_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.changed_expr",
+          "java_expr": "if(current[0] != liquids.get(build)){",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "current_expr": {
+          "rule": "source_consume_liquids_dynamic_build_result.current_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.current_expr",
+          "java_expr": "LiquidStack[][] current = {liquids.get(build)};",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "current_liquid_ids": {
+          "rule": "source_consume_liquids_dynamic_build_result.current_liquid_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "alias_of": "source_consume_liquids_dynamic_build_input.current_liquid_ids"
+        },
+        "current_liquid_ids_after_update": {
+          "rule": "source_consume_liquids_dynamic_build_result.current_liquid_ids_after_update.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.current_liquid_ids_after_update",
+          "java_expr": "current[0] = liquids.get(build);",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "element_update": {
+          "rule": "source_consume_liquids_dynamic_build_result.element_update.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.element_update",
+          "java_expr": "public Element update(Runnable r){",
+          "java_method": "Element.update(Runnable r)",
+          "java_source": "arc-core/src/arc/scene/Element.java"
+        },
+        "element_update_assignment": {
+          "rule": "source_consume_liquids_dynamic_build_result.element_update_assignment.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.element_update_assignment",
+          "java_expr": "update = r;",
+          "java_method": "Element.update(Runnable r)",
+          "java_source": "arc-core/src/arc/scene/Element.java"
+        },
+        "liquid_ids_changed": {
+          "rule": "source_consume_liquids_dynamic_build_result.liquid_ids_changed.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.liquid_ids_changed",
+          "java_expr": "if(current[0] != liquids.get(build)){",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "liquids_field": {
+          "rule": "source_consume_liquids_dynamic_build_result.liquids_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.liquids_field",
+          "java_expr": "public final Func<Building, LiquidStack[]> liquids;",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "method": {
+          "rule": "source_consume_liquids_dynamic_build_result.method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.method",
+          "java_expr": "public void build(Building build, Table table){",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "next_liquid_ids": {
+          "rule": "source_consume_liquids_dynamic_build_result.next_liquid_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "alias_of": "source_consume_liquids_dynamic_build_input.next_liquid_ids"
+        },
+        "rebuild_calls": {
+          "rule": "source_consume_liquids_dynamic_build_result.rebuild_calls.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.rebuild_calls",
+          "java_expr": "rebuild(build, cont);",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "rebuild_expr": {
+          "rule": "source_consume_liquids_dynamic_build_result.rebuild_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.rebuild_expr",
+          "java_expr": "rebuild(build, cont);",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "table_add": {
+          "rule": "source_consume_liquids_dynamic_build_result.table_add.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.table_add",
+          "java_expr": "return add(table);",
+          "java_method": "Table.table(Cons<Table> cons)",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Table.java"
+        },
+        "table_cell_created": {
+          "rule": "source_consume_liquids_dynamic_build_result.table_cell_created.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.table_cell_created",
+          "java_expr": "public Cell<Table> table(Cons<Table> cons){",
+          "java_method": "Table.table(Cons<Table> cons)",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Table.java"
+        },
+        "table_cons_get": {
+          "rule": "source_consume_liquids_dynamic_build_result.table_cons_get.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.table_cons_get",
+          "java_expr": "cons.get(table);",
+          "java_method": "Table.table(Cons<Table> cons)",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Table.java"
+        },
+        "table_cons_method": {
+          "rule": "source_consume_liquids_dynamic_build_result.table_cons_method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.table_cons_method",
+          "java_expr": "public Cell<Table> table(Cons<Table> cons){",
+          "java_method": "Table.table(Cons<Table> cons)",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Table.java"
+        },
+        "table_expr": {
+          "rule": "source_consume_liquids_dynamic_build_result.table_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.table_expr",
+          "java_expr": "table.table(cont -> {",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "update_expr": {
+          "rule": "source_consume_liquids_dynamic_build_result.update_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.update_expr",
+          "java_expr": "table.update(() -> {",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        },
+        "update_registered": {
+          "rule": "source_consume_liquids_dynamic_build_result.update_registered.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_build_state"
+          ],
+          "godot_symbol": "source_consume_liquids_dynamic_build_result.update_registered",
+          "java_expr": "table.update(() -> {",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        }
+      }
     }
   },
   "version": 1

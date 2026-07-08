@@ -1545,6 +1545,23 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
         and type_entry.get("name") == "ConsumeLiquidsDynamic"
+        and method.get("name") == "build"
+    ):
+        return [
+            "\tvar current_liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar next_liquid_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar liquid_ids_changed: bool = current_liquid_ids != next_liquid_ids",
+            "\tvar rebuild_calls: Array = []",
+            '\trebuild_calls.append({"call": "rebuild(build, cont);", "phase": "initial", "liquid_ids": current_liquid_ids})',
+            "\tvar current_liquid_ids_after_update: Array = current_liquid_ids.duplicate()",
+            "\tif liquid_ids_changed:",
+            '\t\trebuild_calls.append({"call": "rebuild(build, cont);", "phase": "update", "liquid_ids": next_liquid_ids})',
+            "\t\tcurrent_liquid_ids_after_update = next_liquid_ids.duplicate()",
+            '\treturn {"source_owner": "PortGame.source_consume_liquids_dynamic_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "public void build(Building build, Table table){", "current_expr": "LiquidStack[][] current = {liquids.get(build)};", "table_expr": "table.table(cont -> {", "update_expr": "table.update(() -> {", "changed_expr": "if(current[0] != liquids.get(build)){", "rebuild_expr": "rebuild(build, cont);", "assignment_expr": "current[0] = liquids.get(build);", "current_liquid_ids": current_liquid_ids, "next_liquid_ids": next_liquid_ids, "liquid_ids_changed": liquid_ids_changed, "rebuild_calls": rebuild_calls, "current_liquid_ids_after_update": current_liquid_ids_after_update, "table_cell_created": true, "update_registered": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        and type_entry.get("name") == "ConsumeLiquidsDynamic"
         and method.get("name") == "rebuild"
     ):
         return [
