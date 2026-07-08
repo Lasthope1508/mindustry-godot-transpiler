@@ -4193,6 +4193,31 @@ def verify_consume_item_filter_item_efficiency_multiplier_source(upstream_root: 
         "missing": missing,
     }
 
+def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
+    liquid_source = "core/src/mindustry/type/Liquid.java"
+    consume_liquid_flammable_path = Path(upstream_root) / consume_liquid_flammable_source
+    liquid_path = Path(upstream_root) / liquid_source
+    source = consume_liquid_flammable_path.read_text(encoding="utf-8", errors="replace")
+    liquid_text = liquid_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float liquidEfficiencyMultiplier(Liquid liquid){",
+        "return_expr": "return liquid.flammability;",
+        "liquid_flammability_field": "public float flammability;",
+    }
+    source_by_key = {
+        "method": source,
+        "return_expr": source,
+        "liquid_flammability_field": liquid_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_flammable_source,
+        "sources": [liquid_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_power_produced_source(upstream_root: Path) -> dict[str, Any]:
     power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     building_path = Path(upstream_root) / BUILDING_COMP_SOURCE

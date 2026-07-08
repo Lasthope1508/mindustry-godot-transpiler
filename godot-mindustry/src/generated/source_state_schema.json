@@ -150287,6 +150287,83 @@
           ]
         }
       }
+    },
+    "source_consume_liquid_flammable_liquid_efficiency_multiplier_input": {
+      "keys": {
+        "liquid_flammability": {
+          "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_input.liquid_flammability",
+          "java_expr": "liquid.flammability",
+          "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "rule": "source_consume_liquid_flammable_liquid_efficiency_multiplier_input key liquid_flammability.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state"
+          ]
+        }
+      }
+    },
+    "source_consume_liquid_flammable_liquid_efficiency_multiplier_result": {
+      "keys": {
+        "efficiency_multiplier": {
+          "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result.efficiency_multiplier",
+          "java_expr": "return liquid.flammability;",
+          "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "rule": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result key efficiency_multiplier.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state"
+          ]
+        },
+        "liquid_flammability": {
+          "alias_of": "source_consume_liquid_flammable_liquid_efficiency_multiplier_input.liquid_flammability",
+          "rule": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result key liquid_flammability.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state"
+          ]
+        },
+        "liquid_flammability_field": {
+          "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result.liquid_flammability_field",
+          "java_expr": "public float flammability;",
+          "java_method": "Liquid",
+          "java_source": "core/src/mindustry/type/Liquid.java",
+          "rule": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result key liquid_flammability_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result.method",
+          "java_expr": "public float liquidEfficiencyMultiplier(Liquid liquid){",
+          "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "rule": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result key method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result.return_expr",
+          "java_expr": "return liquid.flammability;",
+          "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+          "rule": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result key return_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

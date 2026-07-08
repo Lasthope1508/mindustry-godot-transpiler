@@ -17,4 +17,6 @@ func java_method_display_0(_args: Array = []) -> Variant:
 	return null
 
 func java_method_liquidEfficiencyMultiplier_1(_args: Array = []) -> Variant:
-	return null
+	var liquid_flammability: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var efficiency_multiplier: float = liquid_flammability
+	return {"source_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java", "method": "public float liquidEfficiencyMultiplier(Liquid liquid){", "liquid_flammability": liquid_flammability, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return liquid.flammability;"}

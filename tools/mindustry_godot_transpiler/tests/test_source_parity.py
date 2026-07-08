@@ -925,6 +925,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_flammable_liquid_efficiency_multiplier_source"))
+        report = source_parity.verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java")
+        self.assertIn("core/src/mindustry/type/Liquid.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "method": "public float liquidEfficiencyMultiplier(Liquid liquid){",
+            "return_expr": "return liquid.flammability;",
+            "liquid_flammability_field": "public float flammability;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_power_produced_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_power_produced_source"))
         report = source_parity.verify_power_graph_power_produced_source(ROOT / "mindustry-upstream")

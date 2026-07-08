@@ -39123,6 +39123,35 @@
         "test_consume_item_filter_item_efficiency_multiplier_matches_upstream_source",
         "test_generated_consume_item_filter_item_efficiency_multiplier_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "params": [
+        {
+          "java_expr": "liquid.flammability",
+          "name": "liquid_flammability",
+          "schema": "source_consume_liquid_flammable_liquid_efficiency_multiplier_input.liquid_flammability",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "liquid_flammability",
+        "efficiency_multiplier",
+        "return_expr",
+        "liquid_flammability_field"
+      ],
+      "rule": "Public runtime contract for ConsumeLiquidFlammable.liquidEfficiencyMultiplier(Liquid) with explicit liquid.flammability input.",
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "source_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "source_slice": "N1436",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
