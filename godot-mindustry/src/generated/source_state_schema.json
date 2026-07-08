@@ -77941,6 +77941,119 @@
         }
       }
     },
+    "source_consume_power_dynamic_display_input": {
+      "keys": {
+        "displayed_power_usage": {
+          "godot_symbol": "source_consume_power_dynamic_display_input.displayed_power_usage",
+          "java_expr": "displayedPowerUsage",
+          "java_method": "display(Stats stats)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+          "rule": "source_consume_power_dynamic_display_input key displayed_power_usage.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_power_dynamic_display_state"
+          ]
+        }
+      }
+    },
+    "source_consume_power_dynamic_display_result": {
+      "keys": {
+        "display_guard": {
+          "godot_symbol": "source_consume_power_dynamic_display_result.display_guard",
+          "java_expr": "if(displayedPowerUsage != 0f){",
+          "java_method": "display(Stats stats)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+          "rule": "source_consume_power_dynamic_display_result key display_guard.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_power_dynamic_display_state"
+          ]
+        },
+        "displayed_power_usage": {
+          "alias_of": "source_consume_power_dynamic_display_input.displayed_power_usage",
+          "rule": "source_consume_power_dynamic_display_result key displayed_power_usage.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_power_dynamic_display_state"
+          ]
+        },
+        "guard_expr": {
+          "godot_symbol": "source_consume_power_dynamic_display_result.guard_expr",
+          "java_expr": "if(displayedPowerUsage != 0f){",
+          "java_method": "display(Stats stats)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+          "rule": "source_consume_power_dynamic_display_result key guard_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_power_dynamic_display_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_consume_power_dynamic_display_result.method",
+          "java_expr": "public void display(Stats stats){",
+          "java_method": "display(Stats stats)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+          "rule": "source_consume_power_dynamic_display_result key method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_power_dynamic_display_state"
+          ]
+        },
+        "power_use_value": {
+          "godot_symbol": "source_consume_power_dynamic_display_result.power_use_value",
+          "java_expr": "displayedPowerUsage * 60f",
+          "java_method": "display(Stats stats)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+          "rule": "source_consume_power_dynamic_display_result key power_use_value.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_power_dynamic_display_state"
+          ]
+        },
+        "stats_add_call": {
+          "godot_symbol": "source_consume_power_dynamic_display_result.stats_add_call",
+          "java_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);",
+          "java_method": "display(Stats stats)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+          "rule": "source_consume_power_dynamic_display_result key stats_add_call.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_consume_power_dynamic_display_state"
+          ]
+        },
+        "stats_add_called": {
+          "godot_symbol": "source_consume_power_dynamic_display_result.stats_add_called",
+          "java_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);",
+          "java_method": "display(Stats stats)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+          "rule": "source_consume_power_dynamic_display_result key stats_add_called.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_power_dynamic_display_state"
+          ]
+        },
+        "stats_add_expr": {
+          "godot_symbol": "source_consume_power_dynamic_display_result.stats_add_expr",
+          "java_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);",
+          "java_method": "display(Stats stats)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+          "rule": "source_consume_power_dynamic_display_result key stats_add_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_power_dynamic_display_state"
+          ]
+        }
+      }
+    },
     "source_consume_power_dynamic_requested_power_input": {
       "keys": {
         "usage_get": {

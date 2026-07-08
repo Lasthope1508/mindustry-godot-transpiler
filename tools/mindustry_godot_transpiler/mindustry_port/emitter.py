@@ -1384,6 +1384,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_power_dynamic_requested_power_state", "source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java", "method": "public float requestedPower(Building entity){", "usage_get": usage_get, "requested_power": requested_power, "return_expr": "return usage.get(entity);"}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumePowerDynamic.java"
+        and type_entry.get("name") == "ConsumePowerDynamic"
+        and method.get("name") == "display"
+    ):
+        return [
+            "\tvar displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar display_guard: bool = displayed_power_usage != 0.0",
+            "\tvar power_use_value: float = displayed_power_usage * 60.0",
+            "\tvar stats_add_call: Dictionary = {}",
+            "\tif display_guard:",
+            '\t\tstats_add_call = {"call": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);", "stat": "Stat.powerUse", "value": power_use_value, "unit": "StatUnit.powerSecond"}',
+            '\treturn {"source_owner": "PortGame.source_consume_power_dynamic_display_state", "source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java", "method": "public void display(Stats stats){", "displayed_power_usage": displayed_power_usage, "display_guard": display_guard, "stats_add_called": display_guard, "power_use_value": power_use_value, "stats_add_call": stats_add_call, "guard_expr": "if(displayedPowerUsage != 0f){", "stats_add_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);"}',
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "tile"

@@ -17195,6 +17195,46 @@ public class ConsumePowerDynamic extends ConsumePower{
             self.assertIn('"return_expr": "return usage.get(entity);"', source_text)
             self.assertIn('"requested_power": requested_power', source_text)
 
+    def test_emit_bridges_consume_power_dynamic_display_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumePowerDynamic.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumePowerDynamic extends ConsumePower{
+    private float displayedPowerUsage;
+
+    public void display(Stats stats){
+        if(displayedPowerUsage != 0f){
+            stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumePowerDynamic.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var display_guard: bool = displayed_power_usage != 0.0", source_text)
+            self.assertIn("var power_use_value: float = displayed_power_usage * 60.0", source_text)
+            self.assertIn('"stat": "Stat.powerUse"', source_text)
+            self.assertIn('"unit": "StatUnit.powerSecond"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_power_dynamic_display_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java"', source_text)
+            self.assertIn('"method": "public void display(Stats stats){"', source_text)
+            self.assertIn('"guard_expr": "if(displayedPowerUsage != 0f){"', source_text)
+            self.assertIn('"stats_add_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);"', source_text)
+
     def test_emit_bridges_build_payload_constructors_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

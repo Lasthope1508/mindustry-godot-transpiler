@@ -4044,6 +4044,23 @@ def verify_consume_power_dynamic_requested_power_source(upstream_root: Path) -> 
         "missing": missing,
     }
 
+def verify_consume_power_dynamic_display_source(upstream_root: Path) -> dict[str, Any]:
+    consume_power_dynamic_source = "core/src/mindustry/world/consumers/ConsumePowerDynamic.java"
+    consume_power_dynamic_path = Path(upstream_root) / consume_power_dynamic_source
+    source = consume_power_dynamic_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "displayed_power_usage_field": "private float displayedPowerUsage;",
+        "display_method": "public void display(Stats stats){",
+        "display_guard": "if(displayedPowerUsage != 0f){",
+        "stats_add": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_power_dynamic_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_power_produced_source(upstream_root: Path) -> dict[str, Any]:
     power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     building_path = Path(upstream_root) / BUILDING_COMP_SOURCE

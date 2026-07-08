@@ -19,4 +19,10 @@ func java_method_requestedPower_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_power_dynamic_requested_power_state", "source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java", "method": "public float requestedPower(Building entity){", "usage_get": usage_get, "requested_power": requested_power, "return_expr": "return usage.get(entity);"}
 
 func java_method_display_1(_args: Array = []) -> Variant:
-	return null
+	var displayed_power_usage: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var display_guard: bool = displayed_power_usage != 0.0
+	var power_use_value: float = displayed_power_usage * 60.0
+	var stats_add_call: Dictionary = {}
+	if display_guard:
+		stats_add_call = {"call": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);", "stat": "Stat.powerUse", "value": power_use_value, "unit": "StatUnit.powerSecond"}
+	return {"source_owner": "PortGame.source_consume_power_dynamic_display_state", "source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java", "method": "public void display(Stats stats){", "displayed_power_usage": displayed_power_usage, "display_guard": display_guard, "stats_add_called": display_guard, "power_use_value": power_use_value, "stats_add_call": stats_add_call, "guard_expr": "if(displayedPowerUsage != 0f){", "stats_add_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);"}

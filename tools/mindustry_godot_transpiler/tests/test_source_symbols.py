@@ -14097,6 +14097,52 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_power_dynamic_requested_power_result")
         self.assertEqual(result_schema["keys"]["requested_power"]["java_expr"], "return usage.get(entity);")
 
+    def test_generated_consume_power_dynamic_display_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        stats_add = source_symbols.source_symbol(registry, "consume_power_dynamic_display.stats_add")
+        self.assertEqual(stats_add["java_source"], "core/src/mindustry/world/consumers/ConsumePowerDynamic.java")
+        self.assertEqual(stats_add["java_method"], "display(Stats stats)")
+        self.assertEqual(stats_add["java_expr"], "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);")
+        self.assertEqual(stats_add["godot_owner"], "PortGame.source_consume_power_dynamic_display_state")
+        self.assertEqual(stats_add["runtime_proof"], "/root/Main.source_consume_power_dynamic_display_state")
+        self.assertEqual(stats_add["godot_symbol"], "source_consume_power_dynamic_display_result.stats_add_call")
+
+        displayed_power_usage = source_symbols.source_symbol(registry, "consume_power_dynamic_display.displayed_power_usage_input")
+        self.assertEqual(displayed_power_usage["status"], "explicit-input")
+        self.assertEqual(displayed_power_usage["java_expr"], "displayedPowerUsage")
+        self.assertEqual(displayed_power_usage["godot_symbol"], "source_consume_power_dynamic_display_input.displayed_power_usage")
+
+        display_slice = source_symbols.source_slice(ledger, "N1429")
+        self.assertEqual(display_slice["title"], "Generated ConsumePowerDynamic display bridge state")
+        self.assertEqual(display_slice["java_source"], "core/src/mindustry/world/consumers/ConsumePowerDynamic.java")
+        self.assertEqual(display_slice["java_method"], "display(Stats stats)")
+        self.assertEqual(display_slice["godot_owner"], "PortGame.source_consume_power_dynamic_display_state")
+        self.assertEqual(display_slice["generated_owner"], "ConsumePowerDynamic.java_method_display_1")
+        self.assertEqual(display_slice["runtime_proof"], "/root/Main.generated_consume_power_dynamic_display_bridge_state")
+        for expr in [
+            "private float displayedPowerUsage;",
+            "public void display(Stats stats){",
+            "if(displayedPowerUsage != 0f){",
+            "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);",
+        ]:
+            self.assertIn(expr, display_slice["exact_exprs"])
+        self.assertIn("consume_power_dynamic_display.stats_add", display_slice["source_symbols"])
+        self.assertIn("consume_power_dynamic_display.displayed_power_usage_input", display_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_power_dynamic_display_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["displayed_power_usage"])
+        self.assertIn("stats_add_call", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_power_dynamic_display_input")
+        self.assertEqual(input_schema["keys"]["displayed_power_usage"]["java_expr"], "displayedPowerUsage")
+        result_schema = source_symbols.state_schema(schema, "source_consume_power_dynamic_display_result")
+        self.assertEqual(result_schema["keys"]["stats_add_call"]["java_expr"], "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);")
+
     def test_power_graph_power_produced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -20591,10 +20637,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 902)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 897)
+        self.assertEqual(audit["totalSourceFunctions"], 903)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 898)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 902)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 903)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20602,6 +20648,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_consume_power_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_power_condition_requested_power_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_power_dynamic_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_power_dynamic_requested_power_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_power_ignore_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_place_default_state", audit["registeredSourceOwners"])

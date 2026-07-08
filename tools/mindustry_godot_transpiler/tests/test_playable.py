@@ -350,6 +350,22 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumePowerDynamic.requestedPower"', source)
         self.assertIn('"matches": result.get("requested_power", null) == canonical.get("requested_power", null)', source)
 
+    def test_port_game_exposes_generated_consume_power_dynamic_display_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_power_dynamic_display_state(displayed_power_usage: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void display(Stats stats){"', source)
+        self.assertIn('"guard_expr": "if(displayedPowerUsage != 0f){"', source)
+        self.assertIn('"stats_add_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);"', source)
+        self.assertIn("func generated_consume_power_dynamic_display_bridge_state(displayed_power_usage: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePowerDynamic.gd")', source)
+        self.assertIn("var result = instance.java_method_display_1([displayed_power_usage])", source)
+        self.assertIn("var canonical = source_consume_power_dynamic_display_state(displayed_power_usage)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_power_dynamic_display_state"', source)
+        self.assertIn('"generated_owner": "ConsumePowerDynamic.display"', source)
+        self.assertIn('"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null)', source)
+
     def test_port_game_exposes_source_power_graph_power_produced_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

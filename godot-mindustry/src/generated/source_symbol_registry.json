@@ -49777,6 +49777,57 @@
         "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_power_dynamic_display.displayed_power_usage_input": {
+      "godot_owner": "PortGame.source_consume_power_dynamic_display_state",
+      "godot_symbol": "source_consume_power_dynamic_display_input.displayed_power_usage",
+      "java_expr": "displayedPowerUsage",
+      "java_method": "display(Stats stats)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "rule": "Explicit displayedPowerUsage input for source-backed ConsumePowerDynamic.display().",
+      "runtime_proof": "/root/Main.source_consume_power_dynamic_display_state",
+      "source_slice": "N1429",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_display_bridge_state",
+        "test_consume_power_dynamic_display_matches_upstream_source",
+        "test_generated_consume_power_dynamic_display_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_power_dynamic_display.guard": {
+      "godot_owner": "PortGame.source_consume_power_dynamic_display_state",
+      "godot_symbol": "source_consume_power_dynamic_display_result.display_guard",
+      "java_expr": "if(displayedPowerUsage != 0f){",
+      "java_method": "display(Stats stats)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "rule": "Source-backed ConsumePowerDynamic.display() only adds powerUse stat when displayedPowerUsage is non-zero.",
+      "runtime_proof": "/root/Main.source_consume_power_dynamic_display_state",
+      "source_slice": "N1429",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_display_bridge_state",
+        "test_consume_power_dynamic_display_matches_upstream_source",
+        "test_generated_consume_power_dynamic_display_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_power_dynamic_display.stats_add": {
+      "godot_owner": "PortGame.source_consume_power_dynamic_display_state",
+      "godot_symbol": "source_consume_power_dynamic_display_result.stats_add_call",
+      "java_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);",
+      "java_method": "display(Stats stats)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "rule": "Source-backed ConsumePowerDynamic.display() adds Stat.powerUse using displayedPowerUsage * 60f and StatUnit.powerSecond.",
+      "runtime_proof": "/root/Main.source_consume_power_dynamic_display_state",
+      "source_slice": "N1429",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_display_bridge_state",
+        "test_consume_power_dynamic_display_matches_upstream_source",
+        "test_generated_consume_power_dynamic_display_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_power_dynamic_requested_power.return": {
       "godot_owner": "PortGame.source_consume_power_dynamic_requested_power_state",
       "godot_symbol": "source_consume_power_dynamic_requested_power_result.requested_power",

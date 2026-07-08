@@ -14766,6 +14766,37 @@
       ],
       "title": "Generated ConsumePowerDynamic requestedPower bridge state"
     },
+    "N1429": {
+      "deferred_exprs": [
+        "Concrete Stats object mutation is represented by a source-backed stats_add_call record until Stats.add runtime object behavior is ported."
+      ],
+      "exact_exprs": [
+        "private float displayedPowerUsage;",
+        "public void display(Stats stats){",
+        "if(displayedPowerUsage != 0f){",
+        "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);"
+      ],
+      "generated_owner": "ConsumePowerDynamic.java_method_display_1",
+      "godot_owner": "PortGame.source_consume_power_dynamic_display_state",
+      "java_class": "ConsumePowerDynamic",
+      "java_method": "display(Stats stats)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "rule": "Generated ConsumePowerDynamic.display bridges the exact displayedPowerUsage guard and Stat.powerUse stats.add call with explicit displayed_power_usage input.",
+      "runtime_proof": "/root/Main.generated_consume_power_dynamic_display_bridge_state",
+      "source_symbols": [
+        "consume_power_dynamic_display.displayed_power_usage_input",
+        "consume_power_dynamic_display.guard",
+        "consume_power_dynamic_display.stats_add"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_display_bridge_state",
+        "test_consume_power_dynamic_display_matches_upstream_source",
+        "test_generated_consume_power_dynamic_display_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumePowerDynamic display bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

@@ -20713,6 +20713,38 @@
         "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_consume_power_dynamic_display_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "params": [
+        {
+          "java_expr": "displayedPowerUsage",
+          "name": "displayed_power_usage",
+          "schema": "source_consume_power_dynamic_display_input.displayed_power_usage",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "displayed_power_usage",
+        "display_guard",
+        "stats_add_called",
+        "power_use_value",
+        "stats_add_call",
+        "guard_expr",
+        "stats_add_expr"
+      ],
+      "rule": "Public runtime contract for ConsumePowerDynamic.display(Stats) with explicit displayedPowerUsage input and source stat-add record.",
+      "runtime_proof": "/root/Main.source_consume_power_dynamic_display_state",
+      "source_method": "display(Stats stats)",
+      "source_slice": "N1429",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_display_bridge_state",
+        "test_consume_power_dynamic_display_matches_upstream_source",
+        "test_generated_consume_power_dynamic_display_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_power_dynamic_requested_power_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
       "params": [

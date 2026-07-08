@@ -2311,6 +2311,36 @@ func generated_consume_power_dynamic_requested_power_bridge_state(usage_get: flo
 		"matches": result.get("requested_power", null) == canonical.get("requested_power", null),
 	}
 
+func source_consume_power_dynamic_display_state(displayed_power_usage: float) -> Dictionary:
+	var display_guard: bool = displayed_power_usage != 0.0
+	var power_use_value: float = displayed_power_usage * 60.0
+	var stats_add_call: Dictionary = {}
+	if display_guard:
+		stats_add_call = {"call": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);", "stat": "Stat.powerUse", "value": power_use_value, "unit": "StatUnit.powerSecond"}
+	return {
+		"method": "public void display(Stats stats){",
+		"displayed_power_usage": displayed_power_usage,
+		"display_guard": display_guard,
+		"stats_add_called": display_guard,
+		"power_use_value": power_use_value,
+		"stats_add_call": stats_add_call,
+		"guard_expr": "if(displayedPowerUsage != 0f){",
+		"stats_add_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);",
+	}
+
+func generated_consume_power_dynamic_display_bridge_state(displayed_power_usage: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePowerDynamic.gd")
+	var instance = script.new()
+	var result = instance.java_method_display_1([displayed_power_usage])
+	var canonical = source_consume_power_dynamic_display_state(displayed_power_usage)
+	return {
+		"source_owner": "PortGame.source_consume_power_dynamic_display_state",
+		"generated_owner": "ConsumePowerDynamic.display",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("stats_add_called", null) == canonical.get("stats_add_called", null),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:
