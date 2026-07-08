@@ -20837,6 +20837,37 @@ func generated_unit_payload_draw_shadow_type_null_bridge_state(unit_type_null: b
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_draw_type_null_state(unit_type_null: bool) -> Dictionary:
+	var returned_early: bool = unit_type_null
+	var deferred_remaining_draw: bool = not returned_early
+	return {
+		"source_owner": "PortGame.source_unit_payload_draw_type_null_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"override_expr": "@Override",
+		"method": "public void draw(){",
+		"todo_comment_expr": "//TODO should not happen",
+		"type_null_guard_expr": "if(unit.type == null) return;",
+		"next_expr": "float e = unit.elevation;",
+		"unit_type_null": unit_type_null,
+		"returned_early": returned_early,
+		"deferred_remaining_draw": deferred_remaining_draw,
+	}
+
+func generated_unit_payload_draw_type_null_bridge_state(unit_type_null: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_draw_15([unit_type_null])
+	var canonical = source_unit_payload_draw_type_null_state(unit_type_null)
+	return {
+		"source_owner": "PortGame.source_unit_payload_draw_type_null_state",
+		"generated_owner": "UnitPayload.java_method_draw_15",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

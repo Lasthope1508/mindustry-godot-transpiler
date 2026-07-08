@@ -18904,6 +18904,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_drawShadow_14"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_draw_type_null_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_draw_type_null_state(unit_type_null: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_type_null_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source)
+        self.assertIn('"field_expr": "public Unit unit;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public void draw(){"', source)
+        self.assertIn('"todo_comment_expr": "//TODO should not happen"', source)
+        self.assertIn('"type_null_guard_expr": "if(unit.type == null) return;"', source)
+        self.assertIn('"next_expr": "float e = unit.elevation;"', source)
+        self.assertIn('"unit_type_null": unit_type_null', source)
+        self.assertIn('"returned_early": returned_early', source)
+        self.assertIn('"deferred_remaining_draw": deferred_remaining_draw', source)
+
+    def test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_draw_type_null_bridge_state(unit_type_null: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_draw_15([unit_type_null])", source)
+        self.assertIn("var canonical = source_unit_payload_draw_type_null_state(unit_type_null)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_type_null_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

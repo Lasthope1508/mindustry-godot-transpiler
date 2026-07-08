@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 880)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 875)
+        self.assertEqual(audit["totalSourceFunctions"], 881)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 876)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 880)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 881)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20384,6 +20384,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_unit_payload_dump_no_client_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_spawn_side_effects_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_draw_shadow_type_null_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_payload_draw_type_null_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_set_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_x_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_y_state", audit["registeredSourceOwners"])
@@ -49178,6 +49179,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_unit_payload_draw_shadow_type_null_result")
         self.assertEqual(result_schema["keys"]["returned_early"]["java_expr"], "if(unit.type == null) return;")
         self.assertEqual(result_schema["keys"]["draw_soft_shadow_call"]["java_expr"], "unit.type.drawSoftShadow(unit, alpha);")
+
+    def test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_payload_draw_type_null.method")
+        self.assertEqual(method["java_expr"], "public void draw(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(method["java_method"], "UnitPayload.draw()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_payload_draw_type_null_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_payload_draw_type_null_state")
+        guard = source_symbols.source_symbol(registry, "unit_payload_draw_type_null.type_null_guard_expr")
+        self.assertEqual(guard["java_expr"], "if(unit.type == null) return;")
+        self.assertEqual(guard["godot_symbol"], "source_unit_payload_draw_type_null_result.returned_early")
+        next_expr = source_symbols.source_symbol(registry, "unit_payload_draw_type_null.next_expr")
+        self.assertEqual(next_expr["java_expr"], "float e = unit.elevation;")
+        self.assertEqual(next_expr["godot_symbol"], "source_unit_payload_draw_type_null_result.deferred_remaining_draw")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1406")
+        self.assertEqual(payload_slice["title"], "Generated UnitPayload draw type-null guard bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(payload_slice["java_method"], "UnitPayload.draw()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_unit_payload_draw_type_null_state")
+        self.assertEqual(payload_slice["generated_owner"], "UnitPayload.java_method_draw_15")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_unit_payload_draw_type_null_bridge_state")
+        for expr in [
+            "public class UnitPayload implements Payload{",
+            "public Unit unit;",
+            "@Override",
+            "public void draw(){",
+            "//TODO should not happen",
+            "if(unit.type == null) return;",
+            "float e = unit.elevation;",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("unit_payload_draw_type_null.type_null_guard_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_unit_payload_draw_type_null_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["unit_type_null"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "override_expr", "method", "todo_comment_expr", "type_null_guard_expr", "next_expr", "unit_type_null", "returned_early", "deferred_remaining_draw"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_unit_payload_draw_type_null_input")
+        self.assertEqual(input_schema["keys"]["unit_type_null"]["java_expr"], "unit.type == null")
+        result_schema = source_symbols.state_schema(schema, "source_unit_payload_draw_type_null_result")
+        self.assertEqual(result_schema["keys"]["returned_early"]["java_expr"], "if(unit.type == null) return;")
+        self.assertEqual(result_schema["keys"]["deferred_remaining_draw"]["java_expr"], "float e = unit.elevation;")
 
     def test_generated_build_payload_place_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

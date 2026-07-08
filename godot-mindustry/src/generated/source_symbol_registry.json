@@ -113696,6 +113696,150 @@
         "test_unit_payload_draw_shadow_type_null_matches_upstream_source",
         "test_generated_unit_payload_draw_shadow_type_null_slice_is_registered_with_source_backing"
       ]
+    },
+    "unit_payload_draw_type_null.class_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "godot_owner": "PortGame.source_unit_payload_draw_type_null_state",
+      "godot_symbol": "source_unit_payload_draw_type_null_result.class_expr",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
+      "rule": "UnitPayload.draw() returns before drawing when unit.type is null; remaining draw body starts at unit.elevation snapshot and is deferred to following slices.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_type_null.field_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "public Unit unit;",
+      "godot_owner": "PortGame.source_unit_payload_draw_type_null_state",
+      "godot_symbol": "source_unit_payload_draw_type_null_result.field_expr",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
+      "rule": "UnitPayload.draw() returns before drawing when unit.type is null; remaining draw body starts at unit.elevation snapshot and is deferred to following slices.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_type_null.override_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "@Override",
+      "godot_owner": "PortGame.source_unit_payload_draw_type_null_state",
+      "godot_symbol": "source_unit_payload_draw_type_null_result.override_expr",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
+      "rule": "UnitPayload.draw() returns before drawing when unit.type is null; remaining draw body starts at unit.elevation snapshot and is deferred to following slices.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_type_null.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "public void draw(){",
+      "godot_owner": "PortGame.source_unit_payload_draw_type_null_state",
+      "godot_symbol": "source_unit_payload_draw_type_null_result.method",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
+      "rule": "UnitPayload.draw() returns before drawing when unit.type is null; remaining draw body starts at unit.elevation snapshot and is deferred to following slices.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_type_null.todo_comment_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "//TODO should not happen",
+      "godot_owner": "PortGame.source_unit_payload_draw_type_null_state",
+      "godot_symbol": "source_unit_payload_draw_type_null_result.todo_comment_expr",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
+      "rule": "UnitPayload.draw() returns before drawing when unit.type is null; remaining draw body starts at unit.elevation snapshot and is deferred to following slices.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_type_null.type_null_guard_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "if(unit.type == null) return;",
+      "godot_owner": "PortGame.source_unit_payload_draw_type_null_state",
+      "godot_symbol": "source_unit_payload_draw_type_null_result.returned_early",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
+      "rule": "UnitPayload.draw() returns before drawing when unit.type is null; remaining draw body starts at unit.elevation snapshot and is deferred to following slices.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_type_null.next_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "float e = unit.elevation;",
+      "godot_owner": "PortGame.source_unit_payload_draw_type_null_state",
+      "godot_symbol": "source_unit_payload_draw_type_null_result.deferred_remaining_draw",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
+      "rule": "UnitPayload.draw() returns before drawing when unit.type is null; remaining draw body starts at unit.elevation snapshot and is deferred to following slices.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_type_null.unit_type_null": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "unit.type == null",
+      "godot_owner": "PortGame.source_unit_payload_draw_type_null_state",
+      "godot_symbol": "source_unit_payload_draw_type_null_input.unit_type_null",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
+      "rule": "Explicit input stands in for UnitPayload.draw() runtime unit.type null check until concrete Unit state is ported.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

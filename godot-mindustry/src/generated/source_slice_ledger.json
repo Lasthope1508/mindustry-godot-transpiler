@@ -34456,6 +34456,51 @@
       ],
       "rule": "Ports UnitPayload.drawShadow(float alpha) type-null guard and records drawSoftShadow(unit, alpha) call without inventing UnitType drawing internals.",
       "notes": "alpha and unit identity are explicit inputs; concrete Drawf/UnitType rendering remains for later drawing slices."
+    },
+    "N1406": {
+      "title": "Generated UnitPayload draw type-null guard bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "godot_owner": "PortGame.source_unit_payload_draw_type_null_state",
+      "generated_owner": "UnitPayload.java_method_draw_15",
+      "runtime_proof": "/root/Main.generated_unit_payload_draw_type_null_bridge_state",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public void draw(){",
+        "//TODO should not happen",
+        "if(unit.type == null) return;",
+        "float e = unit.elevation;"
+      ],
+      "source_symbols": [
+        "unit_payload_draw_type_null.class_expr",
+        "unit_payload_draw_type_null.field_expr",
+        "unit_payload_draw_type_null.override_expr",
+        "unit_payload_draw_type_null.method",
+        "unit_payload_draw_type_null.todo_comment_expr",
+        "unit_payload_draw_type_null.type_null_guard_expr",
+        "unit_payload_draw_type_null.next_expr",
+        "unit_payload_draw_type_null.unit_type_null"
+      ],
+      "deferred_exprs": [
+        "unit.elevation = 0f;",
+        "Draw.scl(1f, 1f);",
+        "unit.type.draw(unit);",
+        "unit.elevation = e;",
+        "//draw warning"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Ports UnitPayload.draw() type-null guard and marks the remaining draw body as deferred without inventing UnitType drawing internals.",
+      "notes": "This slice only closes the null guard; elevation mutation, Draw.scl, unit.type.draw(unit), overlay warning, and timing updates remain for following slices."
     }
   },
   "version": 1

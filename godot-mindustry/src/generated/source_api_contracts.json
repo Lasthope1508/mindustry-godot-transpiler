@@ -37606,6 +37606,43 @@
         "test_unit_payload_draw_shadow_type_null_matches_upstream_source",
         "test_generated_unit_payload_draw_shadow_type_null_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_draw_type_null_state": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.draw()",
+      "source_slice": "N1406",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_type_null_state mirrors UnitPayload.draw() type-null guard and defers the remaining draw body.",
+      "params": [
+        {
+          "name": "unit_type_null",
+          "type": "bool",
+          "java_expr": "unit.type == null",
+          "schema": "source_unit_payload_draw_type_null_input.unit_type_null"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "type_null_guard_expr",
+        "next_expr",
+        "unit_type_null",
+        "returned_early",
+        "deferred_remaining_draw"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
