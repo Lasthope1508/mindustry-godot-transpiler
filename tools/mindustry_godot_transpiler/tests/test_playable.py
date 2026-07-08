@@ -19536,6 +19536,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.acceptPayload"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_build_should_consume_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_build_should_consume_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:", source)
+        self.assertIn("var should_consume: bool = super_should_consume and not recipe_null", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_should_consume_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java"', source)
+        self.assertIn('"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{"', source)
+        self.assertIn('"method": "public boolean shouldConsume(){"', source)
+        self.assertIn('"return_expr": "return super.shouldConsume() && recipe() != null;"', source)
+        self.assertIn('"super_should_consume": super_should_consume', source)
+        self.assertIn('"recipe_null": recipe_null', source)
+        self.assertIn('"should_consume": should_consume', source)
+
+    def test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_build_should_consume_bridge_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_shouldConsume_4([super_should_consume, recipe_null])", source)
+        self.assertIn("var canonical = source_block_producer_build_should_consume_state(super_should_consume, recipe_null)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_should_consume_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.shouldConsume"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

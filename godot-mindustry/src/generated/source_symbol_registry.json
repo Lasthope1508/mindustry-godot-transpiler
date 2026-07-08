@@ -115522,6 +115522,82 @@
       "java_expr": "return false;",
       "rule": "Pin acceptPayload false return for BlockProducerBuild.",
       "status": "source-backed"
+    },
+    "block_producer_build_should_consume.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.shouldConsume()",
+      "godot_owner": "PortGame.source_block_producer_build_should_consume_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_should_consume_state",
+      "source_slice": "N1416",
+      "tests": [
+        "test_emit_bridges_block_producer_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_should_consume_state",
+        "test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state",
+        "test_block_producer_build_should_consume_matches_upstream_source",
+        "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_should_consume_result.method",
+      "java_expr": "public boolean shouldConsume(){",
+      "rule": "Pin BlockProducerBuild.shouldConsume() method boundary.",
+      "status": "source-backed"
+    },
+    "block_producer_build_should_consume.super_should_consume": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.shouldConsume()",
+      "godot_owner": "PortGame.source_block_producer_build_should_consume_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_should_consume_state",
+      "source_slice": "N1416",
+      "tests": [
+        "test_emit_bridges_block_producer_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_should_consume_state",
+        "test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state",
+        "test_block_producer_build_should_consume_matches_upstream_source",
+        "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_should_consume_input.super_should_consume",
+      "java_expr": "super.shouldConsume()",
+      "rule": "Pin inherited shouldConsume result as explicit input.",
+      "status": "source-backed"
+    },
+    "block_producer_build_should_consume.recipe_not_null": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.shouldConsume()",
+      "godot_owner": "PortGame.source_block_producer_build_should_consume_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_should_consume_state",
+      "source_slice": "N1416",
+      "tests": [
+        "test_emit_bridges_block_producer_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_should_consume_state",
+        "test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state",
+        "test_block_producer_build_should_consume_matches_upstream_source",
+        "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_should_consume_input.recipe_null",
+      "java_expr": "recipe() != null",
+      "rule": "Pin recipe non-null predicate as inverse of explicit recipe_null input.",
+      "status": "source-backed"
+    },
+    "block_producer_build_should_consume.return_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.shouldConsume()",
+      "godot_owner": "PortGame.source_block_producer_build_should_consume_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_should_consume_state",
+      "source_slice": "N1416",
+      "tests": [
+        "test_emit_bridges_block_producer_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_should_consume_state",
+        "test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state",
+        "test_block_producer_build_should_consume_matches_upstream_source",
+        "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_should_consume_result.should_consume",
+      "java_expr": "return super.shouldConsume() && recipe() != null;",
+      "rule": "Pin BlockProducerBuild.shouldConsume() conjunction return expression.",
+      "status": "source-backed"
     }
   },
   "version": 1

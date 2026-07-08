@@ -21760,6 +21760,33 @@ func generated_block_producer_build_accept_payload_bridge_state(source_building:
 		"matches": result == canonical,
 	}
 
+func source_block_producer_build_should_consume_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:
+	var should_consume: bool = super_should_consume and not recipe_null
+	return {
+		"source_owner": "PortGame.source_block_producer_build_should_consume_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"method": "public boolean shouldConsume(){",
+		"return_expr": "return super.shouldConsume() && recipe() != null;",
+		"super_should_consume": super_should_consume,
+		"recipe_null": recipe_null,
+		"should_consume": should_consume,
+	}
+
+func generated_block_producer_build_should_consume_bridge_state(super_should_consume: bool, recipe_null: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_shouldConsume_4([super_should_consume, recipe_null])
+	var canonical = source_block_producer_build_should_consume_state(super_should_consume, recipe_null)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_should_consume_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.shouldConsume",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

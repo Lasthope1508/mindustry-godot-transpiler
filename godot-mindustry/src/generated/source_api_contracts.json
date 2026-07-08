@@ -38197,6 +38197,48 @@
         "test_block_producer_build_accept_payload_matches_upstream_source",
         "test_generated_block_producer_build_accept_payload_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_build_should_consume_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.shouldConsume()",
+      "source_slice": "N1416",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_build_should_consume_state",
+      "params": [
+        {
+          "name": "super_should_consume",
+          "type": "bool",
+          "java_expr": "super.shouldConsume()",
+          "schema": "source_block_producer_build_should_consume_input.super_should_consume",
+          "source_symbol": "block_producer_build_should_consume.super_should_consume"
+        },
+        {
+          "name": "recipe_null",
+          "type": "bool",
+          "java_expr": "recipe() == null",
+          "schema": "source_block_producer_build_should_consume_input.recipe_null",
+          "source_symbol": "block_producer_build_should_consume.recipe_not_null"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "return_expr",
+        "super_should_consume",
+        "recipe_null",
+        "should_consume"
+      ],
+      "rule": "PortGame.source_block_producer_build_should_consume_state pins BlockProducerBuild.shouldConsume() conjunction.",
+      "tests": [
+        "test_emit_bridges_block_producer_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_should_consume_state",
+        "test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state",
+        "test_block_producer_build_should_consume_matches_upstream_source",
+        "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

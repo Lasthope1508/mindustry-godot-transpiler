@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 890)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 885)
+        self.assertEqual(audit["totalSourceFunctions"], 891)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 886)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 890)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 891)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20382,6 +20382,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_producer_build_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_get_maximum_accepted_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_accept_payload_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_producer_build_should_consume_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_write_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_overlap_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_no_client_guard_state", audit["registeredSourceOwners"])
@@ -48462,6 +48463,56 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["payload"]["java_expr"], "Payload payload")
         result_schema = source_symbols.state_schema(schema, "source_block_producer_build_accept_payload_result")
         self.assertEqual(result_schema["keys"]["accept_payload"]["java_expr"], "return false;")
+
+    def test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_producer_build_should_consume.method")
+        self.assertEqual(method["java_expr"], "public boolean shouldConsume(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(method["java_method"], "BlockProducerBuild.shouldConsume()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_producer_build_should_consume_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_producer_build_should_consume_state")
+        super_should_consume = source_symbols.source_symbol(registry, "block_producer_build_should_consume.super_should_consume")
+        self.assertEqual(super_should_consume["java_expr"], "super.shouldConsume()")
+        self.assertEqual(super_should_consume["godot_symbol"], "source_block_producer_build_should_consume_input.super_should_consume")
+        recipe_not_null = source_symbols.source_symbol(registry, "block_producer_build_should_consume.recipe_not_null")
+        self.assertEqual(recipe_not_null["java_expr"], "recipe() != null")
+        return_expr = source_symbols.source_symbol(registry, "block_producer_build_should_consume.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return super.shouldConsume() && recipe() != null;")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_producer_build_should_consume_result.should_consume")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1416")
+        self.assertEqual(payload_slice["title"], "Generated BlockProducerBuild shouldConsume bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(payload_slice["java_method"], "BlockProducerBuild.shouldConsume()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_block_producer_build_should_consume_state")
+        self.assertEqual(payload_slice["generated_owner"], "BlockProducer.BlockProducerBuild.shouldConsume")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_block_producer_build_should_consume_bridge_state")
+        for expr in [
+            "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "@Override",
+            "public boolean shouldConsume(){",
+            "return super.shouldConsume() && recipe() != null;",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("block_producer_build_should_consume.return_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_producer_build_should_consume_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["super_should_consume", "recipe_null"])
+        for key in ["source_owner", "source", "inner_class", "override_expr", "method", "return_expr", "super_should_consume", "recipe_null", "should_consume"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_producer_build_should_consume_input")
+        self.assertEqual(input_schema["keys"]["super_should_consume"]["java_expr"], "super.shouldConsume()")
+        self.assertEqual(input_schema["keys"]["recipe_null"]["java_expr"], "recipe() == null")
+        result_schema = source_symbols.state_schema(schema, "source_block_producer_build_should_consume_result")
+        self.assertEqual(result_schema["keys"]["should_consume"]["java_expr"], "return super.shouldConsume() && recipe() != null;")
 
     def test_generated_build_payload_content_equals_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

@@ -34899,6 +34899,40 @@
       ],
       "rule": "Generated BlockProducerBuild.acceptPayload() bridge records the upstream hard false payload gate.",
       "notes": "This slice closes acceptPayload false gate only; moveOutPayload and payload routing remain separate source-backed slices."
+    },
+    "N1416": {
+      "title": "Generated BlockProducerBuild shouldConsume bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.shouldConsume()",
+      "godot_owner": "PortGame.source_block_producer_build_should_consume_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.shouldConsume",
+      "runtime_proof": "/root/Main.generated_block_producer_build_should_consume_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "@Override",
+        "public boolean shouldConsume(){",
+        "return super.shouldConsume() && recipe() != null;"
+      ],
+      "source_symbols": [
+        "block_producer_build_should_consume.method",
+        "block_producer_build_should_consume.super_should_consume",
+        "block_producer_build_should_consume.recipe_not_null",
+        "block_producer_build_should_consume.return_expr"
+      ],
+      "deferred_exprs": [
+        "Concrete super.shouldConsume() implementation and recipe object are separate source-backed states."
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_should_consume_state",
+        "test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state",
+        "test_block_producer_build_should_consume_matches_upstream_source",
+        "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducerBuild.shouldConsume() bridge records inherited consumption gate and recipe non-null predicate.",
+      "notes": "This slice closes shouldConsume conjunction only; parent consumption internals and concrete recipe state remain separate."
     }
   },
   "version": 1

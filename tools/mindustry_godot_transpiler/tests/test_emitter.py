@@ -19899,6 +19899,64 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn('"return_expr": "return false;"', source_text)
             self.assertIn('"accept_payload": accept_payload', source_text)
 
+    def test_emit_bridges_block_producer_build_should_consume_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public abstract class BlockProducer extends PayloadBlock{
+    public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{
+        public abstract @Nullable Block recipe();
+
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            return items.get(item) < getMaximumAccepted(item);
+        }
+
+        @Override
+        public int getMaximumAccepted(Item item){
+            if(recipe() == null) return 0;
+            for(ItemStack stack : recipe().requirements){
+                if(stack.item == item) return stack.amount * 2;
+            }
+            return 0;
+        }
+
+        @Override
+        public boolean acceptPayload(Building source, Payload payload){
+            return false;
+        }
+
+        @Override
+        public boolean shouldConsume(){
+            return super.shouldConsume() && recipe() != null;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_BlockProducerBuild_method_shouldConsume_4(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var super_should_consume: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var recipe_null: bool = bool(_args[1] if _args.size() > 1 else true)", source_text)
+            self.assertIn("var should_consume: bool = super_should_consume and not recipe_null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_producer_build_should_consume_state"', source_text)
+            self.assertIn('"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{"', source_text)
+            self.assertIn('"method": "public boolean shouldConsume(){"', source_text)
+            self.assertIn('"return_expr": "return super.shouldConsume() && recipe() != null;"', source_text)
+            self.assertIn('"should_consume": should_consume', source_text)
+
     def test_emit_bridges_build_payload_place_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

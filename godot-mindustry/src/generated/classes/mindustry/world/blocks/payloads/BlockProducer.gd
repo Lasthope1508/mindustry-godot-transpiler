@@ -71,3 +71,9 @@ func java_inner_class_BlockProducerBuild_method_acceptPayload_3(_args: Array = [
 	var payload: Variant = _args[1] if _args.size() > 1 else null
 	var accept_payload: bool = false
 	return {"source_owner": "PortGame.source_block_producer_build_accept_payload_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public boolean acceptPayload(Building source, Payload payload){", "return_expr": "return false;", "source_building": source_building, "payload": payload, "accept_payload": accept_payload}
+
+func java_inner_class_BlockProducerBuild_method_shouldConsume_4(_args: Array = []) -> Variant:
+	var super_should_consume: bool = bool(_args[0] if _args.size() > 0 else false)
+	var recipe_null: bool = bool(_args[1] if _args.size() > 1 else true)
+	var should_consume: bool = super_should_consume and not recipe_null
+	return {"source_owner": "PortGame.source_block_producer_build_should_consume_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public boolean shouldConsume(){", "return_expr": "return super.shouldConsume() && recipe() != null;", "super_should_consume": super_should_consume, "recipe_null": recipe_null, "should_consume": should_consume}
