@@ -278,6 +278,18 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('if bool(consumer.get("shouldConsumePower", false)):', source)
         self.assertIn('"placed_power_needed": placed_power_needed_state()', source)
 
+    def test_port_game_exposes_generated_consume_power_requested_power_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_consume_power_requested_power_bridge_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")', source)
+        self.assertIn("var result = instance.java_method_requestedPower_4([buffered, usage, capacity, power_status, should_consume])", source)
+        self.assertIn("var canonical = source_consume_power_requested_power_state(buffered, usage, capacity, power_status, should_consume)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_power_requested_power_state"', source)
+        self.assertIn('"generated_owner": "ConsumePower.requestedPower"', source)
+        self.assertIn('"matches": result.get("requested_power", null) == canonical.get("requested_power", null)', source)
+
     def test_port_game_exposes_source_power_graph_power_produced_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

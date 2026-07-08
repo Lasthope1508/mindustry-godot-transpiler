@@ -26,4 +26,10 @@ func java_method_display_3(_args: Array = []) -> Variant:
 	return null
 
 func java_method_requestedPower_4(_args: Array = []) -> Variant:
-	return null
+	var buffered: bool = bool(_args[0] if _args.size() > 0 else false)
+	var usage: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var capacity: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var power_status: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var should_consume: bool = bool(_args[4] if _args.size() > 4 else false)
+	var requested_power: float = (1.0 - power_status) * capacity if buffered else usage * (1.0 if should_consume else 0.0)
+	return {"source_owner": "PortGame.source_consume_power_requested_power_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public float requestedPower(Building entity){", "buffered": buffered, "usage": usage, "capacity": capacity, "power_status": power_status, "should_consume": should_consume, "requested_power": requested_power, "buffered_expr": "(1f - entity.power.status) * capacity", "unbuffered_expr": "usage * (entity.shouldConsume() ? 1f : 0f)"}

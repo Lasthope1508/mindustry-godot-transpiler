@@ -1329,6 +1329,20 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             "\treturn {\"source_owner\": \"PortGame.source_child_update_state\", \"method\": \"public void update(){\", \"parent_guard_expr\": \"if(parent != null){\", \"rot_with_parent_guard_expr\": \"if(rotWithParent){\", \"parent_rotc_guard_expr\": \"if(parent instanceof Rotc r){\", \"parent_rotblock_guard_expr\": \"}else if(parent instanceof RotBlock rot){\", \"trnsx_rotc_expr\": \"x = parent.getX() + Angles.trnsx(r.rotation() + offsetPos, offsetX, offsetY);\", \"trnsy_rotc_expr\": \"y = parent.getY() + Angles.trnsy(r.rotation() + offsetPos, offsetX, offsetY);\", \"rotation_rotc_expr\": \"rotation = r.rotation() + offsetRot;\", \"trnsx_rotblock_expr\": \"x = parent.getX() + Angles.trnsx(rot.buildRotation() + offsetPos, offsetX, offsetY);\", \"trnsy_rotblock_expr\": \"y = parent.getY() + Angles.trnsy(rot.buildRotation() + offsetPos, offsetX, offsetY);\", \"rotation_rotblock_expr\": \"rotation = rot.buildRotation() + offsetRot;\", \"no_rot_x_expr\": \"x = parent.getX() + offsetX;\", \"no_rot_y_expr\": \"y = parent.getY() + offsetY;\", \"parentGuard\": parent_guard, \"rotWithParentGuard\": rot_with_parent_guard, \"parentRotcGuard\": parent_rotc_guard, \"parentRotBlockGuard\": parent_rotblock_guard, \"x\": next_x, \"y\": next_y, \"rotation\": next_rotation}",
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
+        and type_entry.get("name") == "ConsumePower"
+        and method.get("name") == "requestedPower"
+    ):
+        return [
+            "\tvar buffered: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar usage: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar capacity: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar power_status: float = float(_args[3] if _args.size() > 3 else 0.0)",
+            "\tvar should_consume: bool = bool(_args[4] if _args.size() > 4 else false)",
+            "\tvar requested_power: float = (1.0 - power_status) * capacity if buffered else usage * (1.0 if should_consume else 0.0)",
+            '\treturn {"source_owner": "PortGame.source_consume_power_requested_power_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public float requestedPower(Building entity){", "buffered": buffered, "usage": usage, "capacity": capacity, "power_status": power_status, "should_consume": should_consume, "requested_power": requested_power, "buffered_expr": "(1f - entity.power.status) * capacity", "unbuffered_expr": "usage * (entity.shouldConsume() ? 1f : 0f)"}',
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "tile"

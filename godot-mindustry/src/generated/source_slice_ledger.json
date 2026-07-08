@@ -35255,6 +35255,42 @@
       ],
       "rule": "Generated BlockProducerBuild.updateTile() bridge records source-backed moveOutPayload dispatch and PayloadBlockBuild.moveOutPayload movement gates.",
       "notes": "This slice closes moveOutPayload call wiring and movement decision state, not concrete world transfer side effects."
+    },
+    "N1424": {
+      "title": "Generated ConsumePower requestedPower bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "java_class": "ConsumePower",
+      "java_method": "requestedPower(Building entity)",
+      "godot_owner": "PortGame.source_consume_power_requested_power_state",
+      "generated_owner": "ConsumePower.java_method_requestedPower_4",
+      "runtime_proof": "/root/Main.generated_consume_power_requested_power_bridge_state",
+      "rule": "Generated ConsumePower.requestedPower bridges the source buffered and unbuffered requested-power formula with explicit inputs for buffered, usage, capacity, entity.power.status, and entity.shouldConsume(), without inventing Building or PowerModule internals.",
+      "exact_exprs": [
+        "public float requestedPower(Building entity){",
+        "return buffered ?",
+        "(1f - entity.power.status) * capacity",
+        "usage * (entity.shouldConsume() ? 1f : 0f)"
+      ],
+      "deferred_exprs": [
+        "Concrete Building entity and PowerModule objects are represented by explicit power_status and should_consume inputs.",
+        "Power graph accumulation remains owned by source_power_graph_power_needed_state."
+      ],
+      "source_symbols": [
+        "consume_power_requested_power.buffered",
+        "consume_power_requested_power.unbuffered",
+        "consume_power_requested_power.buffered_input",
+        "consume_power_requested_power.usage_input",
+        "consume_power_requested_power.capacity_input",
+        "consume_power_requested_power.power_status_input",
+        "consume_power_requested_power.should_consume_input"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_power_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_requested_power_bridge_state",
+        "test_power_graph_power_needed_matches_upstream_source",
+        "test_generated_consume_power_requested_power_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

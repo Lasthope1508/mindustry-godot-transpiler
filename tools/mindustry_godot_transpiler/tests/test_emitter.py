@@ -17012,6 +17012,50 @@ public class BuildPayload implements Payload{
             self.assertIn('"return_expr": "return build.block;"', source_text)
             self.assertIn('"build_block": build_block', source_text)
 
+    def test_emit_bridges_consume_power_requested_power_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumePower.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumePower extends Consume{
+    public float usage;
+    public float capacity;
+    public boolean buffered;
+
+    public float requestedPower(Building entity){
+        return buffered ?
+            (1f - entity.power.status) * capacity :
+            usage * (entity.shouldConsume() ? 1f : 0f);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumePower.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_requestedPower_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var buffered: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var usage: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var capacity: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var power_status: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var should_consume: bool = bool(_args[4] if _args.size() > 4 else false)", source_text)
+            self.assertIn("var requested_power: float = (1.0 - power_status) * capacity if buffered else usage * (1.0 if should_consume else 0.0)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_power_requested_power_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumePower.java"', source_text)
+            self.assertIn('"method": "public float requestedPower(Building entity){"', source_text)
+            self.assertIn('"buffered_expr": "(1f - entity.power.status) * capacity"', source_text)
+            self.assertIn('"unbuffered_expr": "usage * (entity.shouldConsume() ? 1f : 0f)"', source_text)
+            self.assertIn('"requested_power": requested_power', source_text)
+
     def test_emit_bridges_build_payload_constructors_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

@@ -2243,6 +2243,19 @@ func source_consume_power_requested_power_state(buffered: bool, usage: float, ca
 		"unbuffered_expr": "usage * (entity.shouldConsume() ? 1f : 0f)",
 	}
 
+func generated_consume_power_requested_power_bridge_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")
+	var instance = script.new()
+	var result = instance.java_method_requestedPower_4([buffered, usage, capacity, power_status, should_consume])
+	var canonical = source_consume_power_requested_power_state(buffered, usage, capacity, power_status, should_consume)
+	return {
+		"source_owner": "PortGame.source_consume_power_requested_power_state",
+		"generated_owner": "ConsumePower.requestedPower",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("requested_power", null) == canonical.get("requested_power", null),
+	}
+
 func source_power_graph_power_needed_state(consumers: Array) -> Dictionary:
 	var power_needed := 0.0
 	var counted_consumers := 0
