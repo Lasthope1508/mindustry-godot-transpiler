@@ -4285,6 +4285,22 @@ def verify_consume_liquid_apply_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_liquid_filter_consumes_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+    consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source
+    source = consume_liquid_filter_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "filter_field": "public Boolf<Liquid> filter = l -> false;",
+        "method": "public boolean consumes(Liquid liquid){",
+        "return_expr": "return filter.get(liquid);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_liquid_filter_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_consumes_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_source = "core/src/mindustry/world/consumers/ConsumeLiquid.java"
     consume_liquid_path = Path(upstream_root) / consume_liquid_source

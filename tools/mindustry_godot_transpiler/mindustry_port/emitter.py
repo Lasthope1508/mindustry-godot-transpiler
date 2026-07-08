@@ -1485,6 +1485,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public float liquidEfficiencyMultiplier(Liquid liquid){", "efficiency_multiplier": efficiency_multiplier, "return_expr": "return 1f;"}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+        and type_entry.get("name") == "ConsumeLiquidFilter"
+        and method.get("name") == "consumes"
+    ):
+        return [
+            "\tvar filter_get_liquid: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar consumes_liquid: bool = filter_get_liquid",
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_consumes_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public boolean consumes(Liquid liquid){", "filter_get_liquid": filter_get_liquid, "consumes_liquid": consumes_liquid, "return_expr": "return filter.get(liquid);"}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidBase.java"
         and type_entry.get("name") == "ConsumeLiquidBase"
         and method.get("name") == "apply"

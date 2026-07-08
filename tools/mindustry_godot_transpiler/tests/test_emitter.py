@@ -17520,6 +17520,43 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
             self.assertIn('"return_expr": "return 1f;"', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
+    def test_emit_bridges_consume_liquid_filter_consumes_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumeLiquidFilter extends ConsumeLiquidBase{
+    public Boolf<Liquid> filter = l -> false;
+
+    @Override
+    public boolean consumes(Liquid liquid){
+        return filter.get(liquid);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_consumes_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var filter_get_liquid: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var consumes_liquid: bool = filter_get_liquid", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_consumes_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source_text)
+            self.assertIn('"method": "public boolean consumes(Liquid liquid){"', source_text)
+            self.assertIn('"return_expr": "return filter.get(liquid);"', source_text)
+            self.assertIn('"filter_get_liquid": filter_get_liquid', source_text)
+            self.assertIn('"consumes_liquid": consumes_liquid', source_text)
+
     def test_emit_bridges_consume_liquid_base_apply_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

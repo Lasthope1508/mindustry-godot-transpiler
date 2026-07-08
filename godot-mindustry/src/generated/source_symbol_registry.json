@@ -50151,6 +50151,57 @@
         "test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_liquid_filter_consumes.filter_field": {
+      "godot_owner": "PortGame.source_consume_liquid_filter_consumes_state",
+      "godot_symbol": "source_consume_liquid_filter_consumes_result.filter_field",
+      "java_expr": "public Boolf<Liquid> filter = l -> false;",
+      "java_method": "ConsumeLiquidFilter",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "rule": "Source-backed ConsumeLiquidFilter.filter field used by the consumes predicate.",
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_consumes_state",
+      "source_slice": "N1441",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state",
+        "test_consume_liquid_filter_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_filter_consumes_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_filter_consumes.filter_get_liquid": {
+      "godot_owner": "PortGame.source_consume_liquid_filter_consumes_state",
+      "godot_symbol": "source_consume_liquid_filter_consumes_input.filter_get_liquid",
+      "java_expr": "filter.get(liquid)",
+      "java_method": "consumes(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "rule": "Explicit input for the Boolf filter result before concrete Liquid and Boolf invocation are ported.",
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_consumes_state",
+      "source_slice": "N1441",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state",
+        "test_consume_liquid_filter_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_filter_consumes_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_filter_consumes.return": {
+      "godot_owner": "PortGame.source_consume_liquid_filter_consumes_state",
+      "godot_symbol": "source_consume_liquid_filter_consumes_result.consumes_liquid",
+      "java_expr": "return filter.get(liquid);",
+      "java_method": "consumes(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "rule": "Source-backed ConsumeLiquidFilter.consumes returns the Boolf filter result for the Liquid.",
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_consumes_state",
+      "source_slice": "N1441",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state",
+        "test_consume_liquid_filter_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_filter_consumes_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_field": {
       "godot_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
       "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result.liquid_flammability_field",

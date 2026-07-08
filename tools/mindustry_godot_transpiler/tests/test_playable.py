@@ -489,6 +489,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidFilter.liquidEfficiencyMultiplier"', source)
         self.assertIn('"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_filter_consumes_state(filter_get_liquid: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean consumes(Liquid liquid){"', source)
+        self.assertIn('"filter_field": "public Boolf<Liquid> filter = l -> false;"', source)
+        self.assertIn('"return_expr": "return filter.get(liquid);"', source)
+        self.assertIn('"consumes_liquid": filter_get_liquid', source)
+        self.assertIn("func generated_consume_liquid_filter_consumes_bridge_state(filter_get_liquid: bool) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")', source)
+        self.assertIn("var result = instance.java_method_consumes_7([filter_get_liquid])", source)
+        self.assertIn("var canonical = source_consume_liquid_filter_consumes_state(filter_get_liquid)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_filter_consumes_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquidFilter.consumes"', source)
+        self.assertIn('"matches": result.get("consumes_liquid", null) == canonical.get("consumes_liquid", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_base_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

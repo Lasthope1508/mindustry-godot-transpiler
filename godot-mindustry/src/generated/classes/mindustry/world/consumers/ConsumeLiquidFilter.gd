@@ -35,7 +35,9 @@ func java_method_display_6(_args: Array = []) -> Variant:
 	return null
 
 func java_method_consumes_7(_args: Array = []) -> Variant:
-	return null
+	var filter_get_liquid: bool = bool(_args[0] if _args.size() > 0 else false)
+	var consumes_liquid: bool = filter_get_liquid
+	return {"source_owner": "PortGame.source_consume_liquid_filter_consumes_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public boolean consumes(Liquid liquid){", "filter_get_liquid": filter_get_liquid, "consumes_liquid": consumes_liquid, "return_expr": "return filter.get(liquid);"}
 
 func java_method_liquidEfficiencyMultiplier_8(_args: Array = []) -> Variant:
 	var efficiency_multiplier: float = 1.0

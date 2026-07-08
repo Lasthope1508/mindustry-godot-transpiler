@@ -20938,6 +20938,35 @@
         "test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_consume_liquid_filter_consumes_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "params": [
+        {
+          "java_expr": "filter.get(liquid)",
+          "name": "filter_get_liquid",
+          "schema": "source_consume_liquid_filter_consumes_input.filter_get_liquid",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "filter_field",
+        "filter_get_liquid",
+        "consumes_liquid",
+        "return_expr"
+      ],
+      "rule": "Public runtime contract for ConsumeLiquidFilter.consumes(Liquid) filter predicate return.",
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_consumes_state",
+      "source_method": "consumes(Liquid liquid)",
+      "source_slice": "N1441",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state",
+        "test_consume_liquid_filter_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_filter_consumes_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
       "params": [

@@ -15136,6 +15136,37 @@
       ],
       "title": "Generated ConsumeLiquid consumes bridge state"
     },
+    "N1441": {
+      "deferred_exprs": [
+        "Concrete Liquid object identity and Boolf invocation are represented by explicit filter_get_liquid until generated object references and functional interfaces are wired.",
+        "ConsumeLiquidFilter build, update, efficiency, getConsumed, display, constructors, and concrete filter binding remain later slices."
+      ],
+      "exact_exprs": [
+        "public Boolf<Liquid> filter = l -> false;",
+        "public boolean consumes(Liquid liquid){",
+        "return filter.get(liquid);"
+      ],
+      "generated_owner": "ConsumeLiquidFilter.java_method_consumes_7",
+      "godot_owner": "PortGame.source_consume_liquid_filter_consumes_state",
+      "java_class": "ConsumeLiquidFilter",
+      "java_method": "consumes(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "rule": "Generated ConsumeLiquidFilter.consumes bridges the exact Boolf filter predicate return.",
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_consumes_bridge_state",
+      "source_symbols": [
+        "consume_liquid_filter_consumes.return",
+        "consume_liquid_filter_consumes.filter_field",
+        "consume_liquid_filter_consumes.filter_get_liquid"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state",
+        "test_consume_liquid_filter_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_filter_consumes_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquidFilter consumes bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

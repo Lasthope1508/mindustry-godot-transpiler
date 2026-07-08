@@ -2529,6 +2529,28 @@ func generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state()
 		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null),
 	}
 
+func source_consume_liquid_filter_consumes_state(filter_get_liquid: bool) -> Dictionary:
+	return {
+		"method": "public boolean consumes(Liquid liquid){",
+		"filter_field": "public Boolf<Liquid> filter = l -> false;",
+		"filter_get_liquid": filter_get_liquid,
+		"consumes_liquid": filter_get_liquid,
+		"return_expr": "return filter.get(liquid);",
+	}
+
+func generated_consume_liquid_filter_consumes_bridge_state(filter_get_liquid: bool) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_consumes_7([filter_get_liquid])
+	var canonical = source_consume_liquid_filter_consumes_state(filter_get_liquid)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_consumes_state",
+		"generated_owner": "ConsumeLiquidFilter.consumes",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("consumes_liquid", null) == canonical.get("consumes_liquid", null),
+	}
+
 func source_consume_liquid_base_apply_state(block_has_liquids_before: bool) -> Dictionary:
 	return {
 		"method": "public void apply(Block block){",

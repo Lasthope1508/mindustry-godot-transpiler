@@ -78552,6 +78552,83 @@
         }
       }
     },
+    "source_consume_liquid_filter_consumes_input": {
+      "keys": {
+        "filter_get_liquid": {
+          "godot_symbol": "source_consume_liquid_filter_consumes_input.filter_get_liquid",
+          "java_expr": "filter.get(liquid)",
+          "java_method": "consumes(Liquid liquid)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "rule": "source_consume_liquid_filter_consumes_input key filter_get_liquid.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_liquid_filter_consumes_state"
+          ]
+        }
+      }
+    },
+    "source_consume_liquid_filter_consumes_result": {
+      "keys": {
+        "consumes_liquid": {
+          "godot_symbol": "source_consume_liquid_filter_consumes_result.consumes_liquid",
+          "java_expr": "return filter.get(liquid);",
+          "java_method": "consumes(Liquid liquid)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "rule": "source_consume_liquid_filter_consumes_result key consumes_liquid.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_liquid_filter_consumes_state"
+          ]
+        },
+        "filter_field": {
+          "godot_symbol": "source_consume_liquid_filter_consumes_result.filter_field",
+          "java_expr": "public Boolf<Liquid> filter = l -> false;",
+          "java_method": "ConsumeLiquidFilter",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "rule": "source_consume_liquid_filter_consumes_result key filter_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquid_filter_consumes_state"
+          ]
+        },
+        "filter_get_liquid": {
+          "alias_of": "source_consume_liquid_filter_consumes_input.filter_get_liquid",
+          "rule": "source_consume_liquid_filter_consumes_result key filter_get_liquid.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_liquid_filter_consumes_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_consume_liquid_filter_consumes_result.method",
+          "java_expr": "public boolean consumes(Liquid liquid){",
+          "java_method": "consumes(Liquid liquid)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "rule": "source_consume_liquid_filter_consumes_result key method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquid_filter_consumes_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_consume_liquid_filter_consumes_result.return_expr",
+          "java_expr": "return filter.get(liquid);",
+          "java_method": "consumes(Liquid liquid)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "rule": "source_consume_liquid_filter_consumes_result key return_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquid_filter_consumes_state"
+          ]
+        }
+      }
+    },
     "source_consume_liquid_flammable_liquid_efficiency_multiplier_input": {
       "keys": {
         "liquid_flammability": {
