@@ -2445,6 +2445,28 @@ func generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state(
 		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null),
 	}
 
+func source_consume_item_charged_item_efficiency_multiplier_state(item_charge: float) -> Dictionary:
+	return {
+		"method": "public float itemEfficiencyMultiplier(Item item){",
+		"item_charge": item_charge,
+		"efficiency_multiplier": item_charge,
+		"return_expr": "return item.charge;",
+		"item_charge_field": "public float charge = 0f;",
+	}
+
+func generated_consume_item_charged_item_efficiency_multiplier_bridge_state(item_charge: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemCharged.gd")
+	var instance = script.new()
+	var result = instance.java_method_itemEfficiencyMultiplier_0([item_charge])
+	var canonical = source_consume_item_charged_item_efficiency_multiplier_state(item_charge)
+	return {
+		"source_owner": "PortGame.source_consume_item_charged_item_efficiency_multiplier_state",
+		"generated_owner": "ConsumeItemCharged.itemEfficiencyMultiplier",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

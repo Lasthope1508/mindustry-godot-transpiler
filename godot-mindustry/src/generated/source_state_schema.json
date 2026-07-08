@@ -77855,6 +77855,83 @@
       },
       "status": "active"
     },
+    "source_consume_item_charged_item_efficiency_multiplier_input": {
+      "keys": {
+        "item_charge": {
+          "godot_symbol": "source_consume_item_charged_item_efficiency_multiplier_input.item_charge",
+          "java_expr": "item.charge",
+          "java_method": "itemEfficiencyMultiplier(Item item)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "rule": "source_consume_item_charged_item_efficiency_multiplier_input key item_charge.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_item_charged_item_efficiency_multiplier_state"
+          ]
+        }
+      }
+    },
+    "source_consume_item_charged_item_efficiency_multiplier_result": {
+      "keys": {
+        "efficiency_multiplier": {
+          "godot_symbol": "source_consume_item_charged_item_efficiency_multiplier_result.efficiency_multiplier",
+          "java_expr": "return item.charge;",
+          "java_method": "itemEfficiencyMultiplier(Item item)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "rule": "source_consume_item_charged_item_efficiency_multiplier_result key efficiency_multiplier.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_item_charged_item_efficiency_multiplier_state"
+          ]
+        },
+        "item_charge": {
+          "alias_of": "source_consume_item_charged_item_efficiency_multiplier_input.item_charge",
+          "rule": "source_consume_item_charged_item_efficiency_multiplier_result key item_charge.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_item_charged_item_efficiency_multiplier_state"
+          ]
+        },
+        "item_charge_field": {
+          "godot_symbol": "source_consume_item_charged_item_efficiency_multiplier_result.item_charge_field",
+          "java_expr": "public float charge = 0f;",
+          "java_method": "Item",
+          "java_source": "core/src/mindustry/type/Item.java",
+          "rule": "source_consume_item_charged_item_efficiency_multiplier_result key item_charge_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_charged_item_efficiency_multiplier_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_consume_item_charged_item_efficiency_multiplier_result.method",
+          "java_expr": "public float itemEfficiencyMultiplier(Item item){",
+          "java_method": "itemEfficiencyMultiplier(Item item)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "rule": "source_consume_item_charged_item_efficiency_multiplier_result key method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_charged_item_efficiency_multiplier_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_consume_item_charged_item_efficiency_multiplier_result.return_expr",
+          "java_expr": "return item.charge;",
+          "java_method": "itemEfficiencyMultiplier(Item item)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+          "rule": "source_consume_item_charged_item_efficiency_multiplier_result key return_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_charged_item_efficiency_multiplier_state"
+          ]
+        }
+      }
+    },
     "source_consume_item_explosive_item_efficiency_multiplier_input": {
       "keys": {
         "item_explosiveness": {

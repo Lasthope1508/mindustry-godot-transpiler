@@ -1447,6 +1447,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_radioactivity": item_radioactivity, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.radioactivity;"}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemCharged.java"
+        and type_entry.get("name") == "ConsumeItemCharged"
+        and method.get("name") == "itemEfficiencyMultiplier"
+    ):
+        return [
+            "\tvar item_charge: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar efficiency_multiplier: float = item_charge",
+            '\treturn {"source_owner": "PortGame.source_consume_item_charged_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_charge": item_charge, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.charge;"}',
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "tile"

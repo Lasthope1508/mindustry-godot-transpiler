@@ -14922,6 +14922,36 @@
       ],
       "title": "Generated ConsumeItemRadioactive itemEfficiencyMultiplier bridge state"
     },
+    "N1434": {
+      "deferred_exprs": [
+        "Concrete Item object binding is represented by explicit item_charge input until object field access is ported."
+      ],
+      "exact_exprs": [
+        "public float itemEfficiencyMultiplier(Item item){",
+        "return item.charge;",
+        "public float charge = 0f;"
+      ],
+      "generated_owner": "ConsumeItemCharged.java_method_itemEfficiencyMultiplier_0",
+      "godot_owner": "PortGame.source_consume_item_charged_item_efficiency_multiplier_state",
+      "java_class": "ConsumeItemCharged",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemCharged.java",
+      "rule": "Generated ConsumeItemCharged.itemEfficiencyMultiplier bridges the exact item.charge return with explicit item_charge input.",
+      "runtime_proof": "/root/Main.generated_consume_item_charged_item_efficiency_multiplier_bridge_state",
+      "source_symbols": [
+        "consume_item_charged_item_efficiency_multiplier.return",
+        "consume_item_charged_item_efficiency_multiplier.item_charge_input",
+        "consume_item_charged_item_efficiency_multiplier.item_charge_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_charged_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_charged_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_charged_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_charged_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeItemCharged itemEfficiencyMultiplier bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
