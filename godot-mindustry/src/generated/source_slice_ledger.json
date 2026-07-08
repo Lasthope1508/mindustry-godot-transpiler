@@ -34415,6 +34415,47 @@
         "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
       ],
       "notes": "Ports UnitPayload.dump() spawn side effects after //prevents stacking. Mathf.range outputs are explicit range_x/range_y inputs; concrete Unit mutation/world integration remains represented as source-backed side-effect records."
+    },
+    "N1405": {
+      "title": "Generated UnitPayload drawShadow type-null guard bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.drawShadow(float alpha)",
+      "godot_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state",
+      "generated_owner": "UnitPayload.java_method_drawShadow_14",
+      "runtime_proof": "/root/Main.generated_unit_payload_draw_shadow_type_null_bridge_state",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public void drawShadow(float alpha){",
+        "//TODO should not happen",
+        "if(unit.type == null) return;",
+        "unit.type.drawSoftShadow(unit, alpha);"
+      ],
+      "source_symbols": [
+        "unit_payload_draw_shadow_type_null.class_expr",
+        "unit_payload_draw_shadow_type_null.field_expr",
+        "unit_payload_draw_shadow_type_null.override_expr",
+        "unit_payload_draw_shadow_type_null.method",
+        "unit_payload_draw_shadow_type_null.todo_comment_expr",
+        "unit_payload_draw_shadow_type_null.type_null_guard_expr",
+        "unit_payload_draw_shadow_type_null.draw_soft_shadow_expr",
+        "unit_payload_draw_shadow_type_null.unit_type_null",
+        "unit_payload_draw_shadow_type_null.alpha",
+        "unit_payload_draw_shadow_type_null.unit_id"
+      ],
+      "deferred_exprs": [],
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_shadow_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_shadow_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_shadow_type_null_bridge_state",
+        "test_unit_payload_draw_shadow_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_shadow_type_null_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Ports UnitPayload.drawShadow(float alpha) type-null guard and records drawSoftShadow(unit, alpha) call without inventing UnitType drawing internals.",
+      "notes": "alpha and unit identity are explicit inputs; concrete Drawf/UnitType rendering remains for later drawing slices."
     }
   },
   "version": 1

@@ -20800,6 +20800,43 @@ func generated_unit_payload_dump_spawn_side_effects_bridge_state(unit_type_null:
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_draw_shadow_type_null_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:
+	var returned_early: bool = unit_type_null
+	var draw_soft_shadow_called: bool = not returned_early
+	var draw_soft_shadow_call: Dictionary = {}
+	if draw_soft_shadow_called:
+		draw_soft_shadow_call = {"call": "unit.type.drawSoftShadow(unit, alpha);", "unit": unit_id, "alpha": alpha}
+	return {
+		"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"override_expr": "@Override",
+		"method": "public void drawShadow(float alpha){",
+		"todo_comment_expr": "//TODO should not happen",
+		"type_null_guard_expr": "if(unit.type == null) return;",
+		"draw_soft_shadow_expr": "unit.type.drawSoftShadow(unit, alpha);",
+		"unit_type_null": unit_type_null,
+		"alpha": alpha,
+		"unit_id": unit_id,
+		"returned_early": returned_early,
+		"draw_soft_shadow_called": draw_soft_shadow_called,
+		"draw_soft_shadow_call": draw_soft_shadow_call,
+	}
+
+func generated_unit_payload_draw_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawShadow_14([unit_type_null, alpha, unit_id])
+	var canonical = source_unit_payload_draw_shadow_type_null_state(unit_type_null, alpha, unit_id)
+	return {
+		"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state",
+		"generated_owner": "UnitPayload.java_method_drawShadow_14",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

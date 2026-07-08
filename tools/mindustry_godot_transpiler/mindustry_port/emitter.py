@@ -1988,6 +1988,22 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "guard_expr": "if(unit.type == null) return true;", "return_expr": "return true", "unit_type_null": unit_type_null, "returned": returned, "dump": dump_result, "deferred_remaining_dump": deferred_remaining_dump}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
+        and type_entry.get("name") == "UnitPayload"
+        and method.get("name") == "drawShadow"
+    ):
+        return [
+            "\tvar unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar alpha: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar unit_id: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar returned_early: bool = unit_type_null",
+            "\tvar draw_soft_shadow_called: bool = not returned_early",
+            "\tvar draw_soft_shadow_call: Dictionary = {}",
+            "\tif draw_soft_shadow_called:",
+            '\t\tdraw_soft_shadow_call = {"call": "unit.type.drawSoftShadow(unit, alpha);", "unit": unit_id, "alpha": alpha}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void drawShadow(float alpha){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "draw_soft_shadow_expr": "unit.type.drawSoftShadow(unit, alpha);", "unit_type_null": unit_type_null, "alpha": alpha, "unit_id": unit_id, "returned_early": returned_early, "draw_soft_shadow_called": draw_soft_shadow_called, "draw_soft_shadow_call": draw_soft_shadow_call}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "place"

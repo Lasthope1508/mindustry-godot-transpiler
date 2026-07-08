@@ -143301,6 +143301,272 @@
           ]
         }
       }
+    },
+    "source_unit_payload_draw_shadow_type_null_input": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.drawShadow(float alpha)",
+      "source_slice": "N1405",
+      "owner": "PortGame.source_unit_payload_draw_shadow_type_null_state",
+      "keys": {
+        "unit_type_null": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "unit.type == null",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_input.unit_type_null",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.unit_type_null"
+          ]
+        },
+        "alpha": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "alpha",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_input.alpha",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.alpha"
+          ]
+        },
+        "unit_id": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "unit",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_input.unit_id",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.unit_id"
+          ]
+        }
+      }
+    },
+    "source_unit_payload_draw_shadow_type_null_result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.drawShadow(float alpha)",
+      "source_slice": "N1405",
+      "owner": "PortGame.source_unit_payload_draw_shadow_type_null_state",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "source owner id",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.source_owner",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.source",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": []
+        },
+        "unit_type_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "unit.type == null",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.unit_type_null",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.unit_type_null"
+          ]
+        },
+        "alpha": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "alpha",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.alpha",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.alpha"
+          ]
+        },
+        "unit_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "unit",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.unit_id",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.unit_id"
+          ]
+        },
+        "returned_early": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "if(unit.type == null) return;",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.returned_early",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.type_null_guard_expr"
+          ]
+        },
+        "draw_soft_shadow_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "unit.type.drawSoftShadow(unit, alpha);",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.draw_soft_shadow_called",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.draw_soft_shadow_expr"
+          ]
+        },
+        "draw_soft_shadow_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "unit.type.drawSoftShadow(unit, alpha);",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.draw_soft_shadow_call",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.draw_soft_shadow_expr"
+          ]
+        },
+        "class_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "public class UnitPayload implements Payload{",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.class_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.class_expr"
+          ]
+        },
+        "field_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "public Unit unit;",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.field_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.field_expr"
+          ]
+        },
+        "override_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "@Override",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.override_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.override_expr"
+          ]
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "public void drawShadow(float alpha){",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.method",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.method"
+          ]
+        },
+        "todo_comment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "//TODO should not happen",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.todo_comment_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.todo_comment_expr"
+          ]
+        },
+        "type_null_guard_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "if(unit.type == null) return;",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.returned_early",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.type_null_guard_expr"
+          ]
+        },
+        "draw_soft_shadow_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.drawShadow(float alpha)",
+          "java_expr": "unit.type.drawSoftShadow(unit, alpha);",
+          "godot_symbol": "source_unit_payload_draw_shadow_type_null_result.draw_soft_shadow_call",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_shadow_type_null_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_shadow_type_null.draw_soft_shadow_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

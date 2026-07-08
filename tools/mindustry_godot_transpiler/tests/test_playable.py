@@ -18871,6 +18871,39 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_draw_shadow_type_null_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_draw_shadow_type_null_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source)
+        self.assertIn('"field_expr": "public Unit unit;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public void drawShadow(float alpha){"', source)
+        self.assertIn('"todo_comment_expr": "//TODO should not happen"', source)
+        self.assertIn('"type_null_guard_expr": "if(unit.type == null) return;"', source)
+        self.assertIn('"draw_soft_shadow_expr": "unit.type.drawSoftShadow(unit, alpha);"', source)
+        self.assertIn('"unit_type_null": unit_type_null', source)
+        self.assertIn('"alpha": alpha', source)
+        self.assertIn('"unit_id": unit_id', source)
+        self.assertIn('"returned_early": returned_early', source)
+        self.assertIn('"draw_soft_shadow_called": draw_soft_shadow_called', source)
+        self.assertIn('"draw_soft_shadow_call": draw_soft_shadow_call', source)
+
+    def test_port_game_exposes_generated_unit_payload_draw_shadow_type_null_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_draw_shadow_type_null_bridge_state(unit_type_null: bool, alpha: float, unit_id: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_drawShadow_14([unit_type_null, alpha, unit_id])", source)
+        self.assertIn("var canonical = source_unit_payload_draw_shadow_type_null_state(unit_type_null, alpha, unit_id)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_drawShadow_14"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

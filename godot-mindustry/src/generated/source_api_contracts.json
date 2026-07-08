@@ -37554,6 +37554,58 @@
         "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
         "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_draw_shadow_type_null_state": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.drawShadow(float alpha)",
+      "source_slice": "N1405",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_shadow_type_null_state",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_shadow_type_null_state mirrors UnitPayload.drawShadow(float alpha) guard and drawSoftShadow call record.",
+      "params": [
+        {
+          "name": "unit_type_null",
+          "type": "bool",
+          "java_expr": "unit.type == null",
+          "schema": "source_unit_payload_draw_shadow_type_null_input.unit_type_null"
+        },
+        {
+          "name": "alpha",
+          "type": "float",
+          "java_expr": "alpha",
+          "schema": "source_unit_payload_draw_shadow_type_null_input.alpha"
+        },
+        {
+          "name": "unit_id",
+          "type": "Variant",
+          "java_expr": "unit",
+          "schema": "source_unit_payload_draw_shadow_type_null_input.unit_id"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "type_null_guard_expr",
+        "draw_soft_shadow_expr",
+        "unit_type_null",
+        "alpha",
+        "unit_id",
+        "returned_early",
+        "draw_soft_shadow_called",
+        "draw_soft_shadow_call"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_shadow_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_shadow_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_shadow_type_null_bridge_state",
+        "test_unit_payload_draw_shadow_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_shadow_type_null_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

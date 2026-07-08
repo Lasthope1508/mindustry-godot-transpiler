@@ -184,7 +184,15 @@ func java_method_dump_13(_args: Array = []) -> Variant:
 	return state
 
 func java_method_drawShadow_14(_args: Array = []) -> Variant:
-	return null
+	var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)
+	var alpha: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var unit_id: Variant = _args[2] if _args.size() > 2 else null
+	var returned_early: bool = unit_type_null
+	var draw_soft_shadow_called: bool = not returned_early
+	var draw_soft_shadow_call: Dictionary = {}
+	if draw_soft_shadow_called:
+		draw_soft_shadow_call = {"call": "unit.type.drawSoftShadow(unit, alpha);", "unit": unit_id, "alpha": alpha}
+	return {"source_owner": "PortGame.source_unit_payload_draw_shadow_type_null_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void drawShadow(float alpha){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "draw_soft_shadow_expr": "unit.type.drawSoftShadow(unit, alpha);", "unit_type_null": unit_type_null, "alpha": alpha, "unit_id": unit_id, "returned_early": returned_early, "draw_soft_shadow_called": draw_soft_shadow_called, "draw_soft_shadow_call": draw_soft_shadow_call}
 
 func java_method_draw_15(_args: Array = []) -> Variant:
 	return null
