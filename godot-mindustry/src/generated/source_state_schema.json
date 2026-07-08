@@ -135955,6 +135955,260 @@
           "type": "bool"
         }
       }
+    },
+    "source_unit_payload_update_input": {
+      "owner": "PortGame.source_unit_payload_update_state",
+      "source_slice": "N1389",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_unit_payload_update_state.",
+      "keys": {
+        "unit_type": {
+          "godot_symbol": "source_unit_payload_update_input.unit_type",
+          "java_expr": "unit.type",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.unit_type"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "unit": {
+          "godot_symbol": "source_unit_payload_update_input.unit",
+          "java_expr": "unit",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.unit"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "unit_holder": {
+          "godot_symbol": "source_unit_payload_update_input.unit_holder",
+          "java_expr": "unitHolder",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.unitHolder"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "building_holder": {
+          "godot_symbol": "source_unit_payload_update_input.building_holder",
+          "java_expr": "buildingHolder",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.buildingHolder"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      }
+    },
+    "source_unit_payload_update_result": {
+      "owner": "PortGame.source_unit_payload_update_state",
+      "source_slice": "N1389",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_update_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_unit_payload_update_result.source_owner",
+          "java_expr": "PortGame.source_unit_payload_update_state",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_unit_payload_update_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_unit_payload_update_result.class_expr",
+          "java_expr": "public class UnitPayload implements Payload{",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_unit_payload_update_result.field_expr",
+          "java_expr": "public Unit unit;",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_unit_payload_update_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_unit_payload_update_result.method",
+          "java_expr": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "update_payload_expr": {
+          "godot_symbol": "source_unit_payload_update_result.update_payload_expr",
+          "java_expr": "unit.type.updatePayload(unit, unitHolder, buildingHolder);",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.update_payload_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "unit_type": {
+          "godot_symbol": "source_unit_payload_update_result.unit_type",
+          "java_expr": "unit.type",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.unit_type"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "unit": {
+          "godot_symbol": "source_unit_payload_update_result.unit",
+          "java_expr": "unit",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.unit"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "unitHolder": {
+          "godot_symbol": "source_unit_payload_update_result.unitHolder",
+          "java_expr": "unitHolder",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.unitHolder"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "buildingHolder": {
+          "godot_symbol": "source_unit_payload_update_result.buildingHolder",
+          "java_expr": "buildingHolder",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.buildingHolder"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "update_payload_called": {
+          "godot_symbol": "source_unit_payload_update_result.update_payload_called",
+          "java_expr": "unit.type.updatePayload(unit, unitHolder, buildingHolder);",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.update_payload_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "update_payload_call": {
+          "godot_symbol": "source_unit_payload_update_result.update_payload_call",
+          "java_expr": "unit.type.updatePayload(unit, unitHolder, buildingHolder);",
+          "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_update_state"
+          ],
+          "source_symbols": [
+            "unit_payload_update.update_payload_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        }
+      }
     }
   },
   "version": 1

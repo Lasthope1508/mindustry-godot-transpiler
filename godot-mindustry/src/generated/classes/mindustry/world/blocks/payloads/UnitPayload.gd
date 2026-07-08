@@ -39,7 +39,13 @@ func java_method_contentEquals_2(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_payload_content_equals_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public boolean contentEquals(Payload other){", "return_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;", "other_is_unit_payload": other_is_unit_payload, "other_unit_type": other_unit_type, "unit_type": unit_type, "content_equals": content_equals}
 
 func java_method_update_3(_args: Array = []) -> Variant:
-	return null
+	var unit_type: Variant = _args[0] if _args.size() > 0 else null
+	var unit: Variant = _args[1] if _args.size() > 1 else null
+	var unit_holder: Variant = _args[2] if _args.size() > 2 else null
+	var building_holder: Variant = _args[3] if _args.size() > 3 else null
+	var update_payload_called: bool = true
+	var update_payload_call: Dictionary = {"call": "unit.type.updatePayload(unit, unitHolder, buildingHolder);", "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder}
+	return {"source_owner": "PortGame.source_unit_payload_update_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){", "update_payload_expr": "unit.type.updatePayload(unit, unitHolder, buildingHolder);", "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder, "update_payload_called": update_payload_called, "update_payload_call": update_payload_call}
 
 func java_method_content_4(_args: Array = []) -> Variant:
 	return null

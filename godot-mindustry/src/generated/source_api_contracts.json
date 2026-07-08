@@ -36414,6 +36414,66 @@
         "test_unit_payload_content_equals_matches_upstream_source",
         "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_update_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "source_slice": "N1389",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_unit_payload_update_state",
+      "rule": "PortGame.source_unit_payload_update_state pins UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder) delegate contract.",
+      "params": [
+        {
+          "name": "unit_type",
+          "type": "Variant",
+          "java_expr": "unit.type",
+          "schema": "source_unit_payload_update_input.unit_type",
+          "source_symbol": "unit_payload_update.unit_type"
+        },
+        {
+          "name": "unit",
+          "type": "Variant",
+          "java_expr": "unit",
+          "schema": "source_unit_payload_update_input.unit",
+          "source_symbol": "unit_payload_update.unit"
+        },
+        {
+          "name": "unit_holder",
+          "type": "Variant",
+          "java_expr": "unitHolder",
+          "schema": "source_unit_payload_update_input.unit_holder",
+          "source_symbol": "unit_payload_update.unitHolder"
+        },
+        {
+          "name": "building_holder",
+          "type": "Variant",
+          "java_expr": "buildingHolder",
+          "schema": "source_unit_payload_update_input.building_holder",
+          "source_symbol": "unit_payload_update.buildingHolder"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "update_payload_expr",
+        "unit_type",
+        "unit",
+        "unitHolder",
+        "buildingHolder",
+        "update_payload_called",
+        "update_payload_call"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_update_to_source_state",
+        "test_port_game_exposes_source_unit_payload_update_state",
+        "test_port_game_exposes_generated_unit_payload_update_bridge_state",
+        "test_unit_payload_update_matches_upstream_source",
+        "test_generated_unit_payload_update_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -20021,6 +20021,38 @@ func generated_unit_payload_content_equals_bridge_state(other_is_unit_payload: b
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_update_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:
+	var update_payload_called: bool = true
+	var update_payload_call: Dictionary = {"call": "unit.type.updatePayload(unit, unitHolder, buildingHolder);", "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder}
+	return {
+		"source_owner": "PortGame.source_unit_payload_update_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"override_expr": "@Override",
+		"method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){",
+		"update_payload_expr": "unit.type.updatePayload(unit, unitHolder, buildingHolder);",
+		"unit_type": unit_type,
+		"unit": unit,
+		"unitHolder": unit_holder,
+		"buildingHolder": building_holder,
+		"update_payload_called": update_payload_called,
+		"update_payload_call": update_payload_call,
+	}
+
+func generated_unit_payload_update_bridge_state(unit_type: Variant, unit: Variant, unit_holder: Variant, building_holder: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_3([unit_type, unit, unit_holder, building_holder])
+	var canonical = source_unit_payload_update_state(unit_type, unit, unit_holder, building_holder)
+	return {
+		"source_owner": "PortGame.source_unit_payload_update_state",
+		"generated_owner": "UnitPayload.java_method_update_3",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

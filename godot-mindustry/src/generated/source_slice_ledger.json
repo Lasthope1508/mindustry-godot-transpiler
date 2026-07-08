@@ -33528,6 +33528,47 @@
         "test_unit_payload_content_equals_matches_upstream_source",
         "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1389": {
+      "title": "Generated UnitPayload update bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "UnitPayload",
+      "java_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "godot_owner": "PortGame.source_unit_payload_update_state",
+      "generated_owner": "UnitPayload.java_method_update_3",
+      "runtime_proof": "/root/Main.generated_unit_payload_update_bridge_state",
+      "rule": "Generated UnitPayload.update bridge preserves unit.type.updatePayload delegate with explicit inputs.",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){",
+        "unit.type.updatePayload(unit, unitHolder, buildingHolder);"
+      ],
+      "deferred_exprs": [
+        "Concrete Unit internals are represented by explicit unit input",
+        "UnitType.updatePayload(unit, unitHolder, buildingHolder) internals are deferred beyond this delegate-call slice",
+        "Nullable Unit and Building holder object internals are explicit inputs and not inferred"
+      ],
+      "source_symbols": [
+        "unit_payload_update.class_expr",
+        "unit_payload_update.field_expr",
+        "unit_payload_update.override_expr",
+        "unit_payload_update.method",
+        "unit_payload_update.unit_type",
+        "unit_payload_update.unit",
+        "unit_payload_update.unitHolder",
+        "unit_payload_update.buildingHolder",
+        "unit_payload_update.update_payload_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_update_to_source_state",
+        "test_port_game_exposes_source_unit_payload_update_state",
+        "test_port_game_exposes_generated_unit_payload_update_bridge_state",
+        "test_unit_payload_update_matches_upstream_source",
+        "test_generated_unit_payload_update_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

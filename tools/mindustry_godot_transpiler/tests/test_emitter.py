@@ -17244,6 +17244,60 @@ public class UnitPayload implements Payload{
             self.assertIn('"unit_type": unit_type', source_text)
             self.assertIn('"content_equals": content_equals', source_text)
 
+    def test_emit_bridges_unit_payload_update_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+
+    public void showOverlay(TextureRegion icon){
+    }
+
+    public void showOverlay(TextureRegionDrawable icon){
+    }
+
+    public boolean contentEquals(Payload other){
+        return false;
+    }
+
+    @Override
+    public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){
+        unit.type.updatePayload(unit, unitHolder, buildingHolder);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_update_3(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit_type: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var unit: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var unit_holder: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var building_holder: Variant = _args[3] if _args.size() > 3 else null", source_text)
+            self.assertIn("var update_payload_called: bool = true", source_text)
+            self.assertIn('{"call": "unit.type.updatePayload(unit, unitHolder, buildingHolder);"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_update_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
+            self.assertIn('"field_expr": "public Unit unit;"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){"', source_text)
+            self.assertIn('"update_payload_expr": "unit.type.updatePayload(unit, unitHolder, buildingHolder);"', source_text)
+            self.assertIn('"update_payload_called": update_payload_called', source_text)
+            self.assertIn('"update_payload_call": update_payload_call', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
