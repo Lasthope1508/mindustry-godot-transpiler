@@ -34628,6 +34628,41 @@
       ],
       "rule": "Ports UnitPayload.draw() overlay warning draw call records and overlayTime decay from source; Interp.exp5Out.apply(overlayTime) is explicit input until Interp curve execution is ported.",
       "notes": "This slice records overlay warning draw side effects and overlayTime decay only; concrete TextureRegion drawing, Draw singleton rendering, Interp curve execution, and icon() remain for following slices."
+    },
+    "N1409": {
+      "title": "Generated UnitPayload icon bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.icon()",
+      "godot_owner": "PortGame.source_unit_payload_icon_state",
+      "generated_owner": "UnitPayload.java_method_icon_16",
+      "runtime_proof": "/root/Main.generated_unit_payload_icon_bridge_state",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public TextureRegion icon(){",
+        "return unit.type.fullIcon;"
+      ],
+      "source_symbols": [
+        "unit_payload_icon.class_expr",
+        "unit_payload_icon.field_expr",
+        "unit_payload_icon.override_expr",
+        "unit_payload_icon.method",
+        "unit_payload_icon.return_expr",
+        "unit_payload_icon.unit_type_full_icon"
+      ],
+      "deferred_exprs": [],
+      "tests": [
+        "test_emit_bridges_unit_payload_icon_to_source_state",
+        "test_port_game_exposes_source_unit_payload_icon_state",
+        "test_port_game_exposes_generated_unit_payload_icon_bridge_state",
+        "test_unit_payload_icon_matches_upstream_source",
+        "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Ports UnitPayload.icon() return of unit.type.fullIcon; full icon is explicit input until concrete UnitType texture state is ported.",
+      "notes": "This slice closes UnitPayload.icon() by returning the source-backed fullIcon value supplied as explicit input; concrete UnitType TextureRegion state remains for later source-backed asset slices."
     }
   },
   "version": 1

@@ -144947,6 +144947,160 @@
           "source_symbols": []
         }
       }
+    },
+    "source_unit_payload_icon_input": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.icon()",
+      "source_slice": "N1409",
+      "owner": "PortGame.source_unit_payload_icon_state",
+      "keys": {
+        "unit_type_full_icon": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.icon()",
+          "java_expr": "unit.type.fullIcon",
+          "godot_symbol": "source_unit_payload_icon_input.unit_type_full_icon",
+          "used_by": [
+            "PortGame.source_unit_payload_icon_state"
+          ],
+          "source_symbols": [
+            "unit_payload_icon.unit_type_full_icon"
+          ]
+        }
+      }
+    },
+    "source_unit_payload_icon_result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.icon()",
+      "source_slice": "N1409",
+      "owner": "PortGame.source_unit_payload_icon_state",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.icon()",
+          "java_expr": "source owner id",
+          "godot_symbol": "source_unit_payload_icon_result.source_owner",
+          "used_by": [
+            "PortGame.source_unit_payload_icon_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.icon()",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "godot_symbol": "source_unit_payload_icon_result.source",
+          "used_by": [
+            "PortGame.source_unit_payload_icon_state"
+          ],
+          "source_symbols": []
+        },
+        "class_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.icon()",
+          "java_expr": "public class UnitPayload implements Payload{",
+          "godot_symbol": "source_unit_payload_icon_result.class_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_icon_state"
+          ],
+          "source_symbols": [
+            "unit_payload_icon.class_expr"
+          ]
+        },
+        "field_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.icon()",
+          "java_expr": "public Unit unit;",
+          "godot_symbol": "source_unit_payload_icon_result.field_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_icon_state"
+          ],
+          "source_symbols": [
+            "unit_payload_icon.field_expr"
+          ]
+        },
+        "override_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.icon()",
+          "java_expr": "@Override",
+          "godot_symbol": "source_unit_payload_icon_result.override_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_icon_state"
+          ],
+          "source_symbols": [
+            "unit_payload_icon.override_expr"
+          ]
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.icon()",
+          "java_expr": "public TextureRegion icon(){",
+          "godot_symbol": "source_unit_payload_icon_result.method",
+          "used_by": [
+            "PortGame.source_unit_payload_icon_state"
+          ],
+          "source_symbols": [
+            "unit_payload_icon.method"
+          ]
+        },
+        "return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.icon()",
+          "java_expr": "return unit.type.fullIcon;",
+          "godot_symbol": "source_unit_payload_icon_result.return_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_icon_state"
+          ],
+          "source_symbols": [
+            "unit_payload_icon.return_expr"
+          ]
+        },
+        "unit_type_full_icon": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.icon()",
+          "java_expr": "unit.type.fullIcon",
+          "godot_symbol": "source_unit_payload_icon_result.unit_type_full_icon",
+          "used_by": [
+            "PortGame.source_unit_payload_icon_state"
+          ],
+          "source_symbols": [
+            "unit_payload_icon.unit_type_full_icon"
+          ]
+        },
+        "icon": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.icon()",
+          "java_expr": "return unit.type.fullIcon;",
+          "godot_symbol": "source_unit_payload_icon_result.icon",
+          "used_by": [
+            "PortGame.source_unit_payload_icon_state"
+          ],
+          "source_symbols": [
+            "unit_payload_icon.return_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

@@ -114578,6 +114578,114 @@
         "test_unit_payload_draw_overlay_warning_matches_upstream_source",
         "test_generated_unit_payload_draw_overlay_warning_slice_is_registered_with_source_backing"
       ]
+    },
+    "unit_payload_icon.class_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.icon()",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "godot_owner": "PortGame.source_unit_payload_icon_state",
+      "godot_symbol": "source_unit_payload_icon_result.class_expr",
+      "runtime_proof": "/root/Main.source_unit_payload_icon_state",
+      "rule": "Ports UnitPayload.icon() return of unit.type.fullIcon; full icon is explicit input until concrete UnitType texture state is ported.",
+      "tests": [
+        "test_emit_bridges_unit_payload_icon_to_source_state",
+        "test_port_game_exposes_source_unit_payload_icon_state",
+        "test_port_game_exposes_generated_unit_payload_icon_bridge_state",
+        "test_unit_payload_icon_matches_upstream_source",
+        "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_icon.field_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.icon()",
+      "java_expr": "public Unit unit;",
+      "godot_owner": "PortGame.source_unit_payload_icon_state",
+      "godot_symbol": "source_unit_payload_icon_result.field_expr",
+      "runtime_proof": "/root/Main.source_unit_payload_icon_state",
+      "rule": "Ports UnitPayload.icon() return of unit.type.fullIcon; full icon is explicit input until concrete UnitType texture state is ported.",
+      "tests": [
+        "test_emit_bridges_unit_payload_icon_to_source_state",
+        "test_port_game_exposes_source_unit_payload_icon_state",
+        "test_port_game_exposes_generated_unit_payload_icon_bridge_state",
+        "test_unit_payload_icon_matches_upstream_source",
+        "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_icon.override_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.icon()",
+      "java_expr": "@Override",
+      "godot_owner": "PortGame.source_unit_payload_icon_state",
+      "godot_symbol": "source_unit_payload_icon_result.override_expr",
+      "runtime_proof": "/root/Main.source_unit_payload_icon_state",
+      "rule": "Ports UnitPayload.icon() return of unit.type.fullIcon; full icon is explicit input until concrete UnitType texture state is ported.",
+      "tests": [
+        "test_emit_bridges_unit_payload_icon_to_source_state",
+        "test_port_game_exposes_source_unit_payload_icon_state",
+        "test_port_game_exposes_generated_unit_payload_icon_bridge_state",
+        "test_unit_payload_icon_matches_upstream_source",
+        "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_icon.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.icon()",
+      "java_expr": "public TextureRegion icon(){",
+      "godot_owner": "PortGame.source_unit_payload_icon_state",
+      "godot_symbol": "source_unit_payload_icon_result.method",
+      "runtime_proof": "/root/Main.source_unit_payload_icon_state",
+      "rule": "Ports UnitPayload.icon() return of unit.type.fullIcon; full icon is explicit input until concrete UnitType texture state is ported.",
+      "tests": [
+        "test_emit_bridges_unit_payload_icon_to_source_state",
+        "test_port_game_exposes_source_unit_payload_icon_state",
+        "test_port_game_exposes_generated_unit_payload_icon_bridge_state",
+        "test_unit_payload_icon_matches_upstream_source",
+        "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_icon.return_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.icon()",
+      "java_expr": "return unit.type.fullIcon;",
+      "godot_owner": "PortGame.source_unit_payload_icon_state",
+      "godot_symbol": "source_unit_payload_icon_result.icon",
+      "runtime_proof": "/root/Main.source_unit_payload_icon_state",
+      "rule": "Ports UnitPayload.icon() return of unit.type.fullIcon; full icon is explicit input until concrete UnitType texture state is ported.",
+      "tests": [
+        "test_emit_bridges_unit_payload_icon_to_source_state",
+        "test_port_game_exposes_source_unit_payload_icon_state",
+        "test_port_game_exposes_generated_unit_payload_icon_bridge_state",
+        "test_unit_payload_icon_matches_upstream_source",
+        "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_icon.unit_type_full_icon": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.icon()",
+      "java_expr": "unit.type.fullIcon",
+      "godot_owner": "PortGame.source_unit_payload_icon_state",
+      "godot_symbol": "source_unit_payload_icon_input.unit_type_full_icon",
+      "runtime_proof": "/root/Main.source_unit_payload_icon_state",
+      "rule": "Explicit input stands in for unit.type.fullIcon until concrete UnitType texture state is ported.",
+      "tests": [
+        "test_emit_bridges_unit_payload_icon_to_source_state",
+        "test_port_game_exposes_source_unit_payload_icon_state",
+        "test_port_game_exposes_generated_unit_payload_icon_bridge_state",
+        "test_unit_payload_icon_matches_upstream_source",
+        "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

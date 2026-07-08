@@ -20998,6 +20998,32 @@ func generated_unit_payload_draw_overlay_warning_bridge_state(unit_type_null: bo
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_icon_state(unit_type_full_icon: Variant) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_unit_payload_icon_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"override_expr": "@Override",
+		"method": "public TextureRegion icon(){",
+		"return_expr": "return unit.type.fullIcon;",
+		"unit_type_full_icon": unit_type_full_icon,
+		"icon": unit_type_full_icon,
+	}
+
+func generated_unit_payload_icon_bridge_state(unit_type_full_icon: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_icon_16([unit_type_full_icon])
+	var canonical = source_unit_payload_icon_state(unit_type_full_icon)
+	return {
+		"source_owner": "PortGame.source_unit_payload_icon_state",
+		"generated_owner": "UnitPayload.java_method_icon_16",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

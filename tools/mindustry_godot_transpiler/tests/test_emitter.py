@@ -18569,6 +18569,41 @@ public class UnitPayload implements Payload{
             self.assertIn('"draw_z_restore_expr": "Draw.z(z);"', source_text)
             self.assertIn('"overlay_time_after": overlay_time_after', source_text)
 
+    def test_emit_bridges_unit_payload_icon_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+
+    @Override
+    public TextureRegion icon(){
+        return unit.type.fullIcon;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_icon_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit_type_full_icon: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_icon_state"', source_text)
+            self.assertIn('"method": "public TextureRegion icon(){"', source_text)
+            self.assertIn('"return_expr": "return unit.type.fullIcon;"', source_text)
+            self.assertIn('"unit_type_full_icon": unit_type_full_icon', source_text)
+            self.assertIn('"icon": unit_type_full_icon', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
