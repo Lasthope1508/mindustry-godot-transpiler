@@ -34933,6 +34933,45 @@
       ],
       "rule": "Generated BlockProducerBuild.shouldConsume() bridge records inherited consumption gate and recipe non-null predicate.",
       "notes": "This slice closes shouldConsume conjunction only; parent consumption internals and concrete recipe state remain separate."
+    },
+    "N1417": {
+      "title": "Generated BlockProducerBuild updateTile produce gate bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.updateTile.produceGate",
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_produce_gate_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "@Override",
+        "public void updateTile(){",
+        "super.updateTile();",
+        "var recipe = recipe();",
+        "boolean produce = recipe != null && efficiency > 0 && payload == null;"
+      ],
+      "source_symbols": [
+        "block_producer_build_update_tile_produce_gate.method",
+        "block_producer_build_update_tile_produce_gate.super_update_tile",
+        "block_producer_build_update_tile_produce_gate.recipe_not_null",
+        "block_producer_build_update_tile_produce_gate.efficiency_positive",
+        "block_producer_build_update_tile_produce_gate.payload_null",
+        "block_producer_build_update_tile_produce_gate.produce_expr"
+      ],
+      "deferred_exprs": [
+        "Remaining updateTile branches after the produce gate, including progress, consume, payload creation, effects, heat, time, and moveOutPayload, remain separate source-backed states.",
+        "Concrete recipe object, efficiency source, and payload field lifecycle remain explicit inputs until their runtime systems are ported."
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
+        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducerBuild.updateTile() bridge records the source produce gate without inferring later production side effects.",
+      "notes": "This slice closes only the initial updateTile produce boolean gate through its source expression."
     }
   },
   "version": 1

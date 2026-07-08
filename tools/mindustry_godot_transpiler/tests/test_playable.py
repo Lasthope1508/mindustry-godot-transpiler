@@ -19563,6 +19563,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.shouldConsume"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_build_update_tile_produce_gate_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:", source)
+        self.assertIn("var produce: bool = not recipe_null and efficiency > 0.0 and payload_null", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java"', source)
+        self.assertIn('"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{"', source)
+        self.assertIn('"method": "public void updateTile(){"', source)
+        self.assertIn('"super_call": "super.updateTile();"', source)
+        self.assertIn('"recipe_assignment": "var recipe = recipe();"', source)
+        self.assertIn('"produce_expr": "boolean produce = recipe != null && efficiency > 0 && payload == null;"', source)
+        self.assertIn('"recipe_null": recipe_null', source)
+        self.assertIn('"efficiency": efficiency', source)
+        self.assertIn('"payload_null": payload_null', source)
+        self.assertIn('"produce": produce', source)
+
+    def test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_5([recipe_null, efficiency, payload_null])", source)
+        self.assertIn("var canonical = source_block_producer_build_update_tile_produce_gate_state(recipe_null, efficiency, payload_null)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.produceGate"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

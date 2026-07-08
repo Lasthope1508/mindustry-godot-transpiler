@@ -11650,6 +11650,25 @@ def verify_block_producer_build_should_consume_source(upstream_root: Path) -> di
         "missing": missing,
     }
 
+def verify_block_producer_build_update_tile_produce_gate_source(upstream_root: Path) -> dict[str, Any]:
+    block_producer_source = "core/src/mindustry/world/blocks/payloads/BlockProducer.java"
+    payload_path = Path(upstream_root) / block_producer_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "override_expr": "@Override",
+        "method": "public void updateTile(){",
+        "super_call": "super.updateTile();",
+        "recipe_assignment": "var recipe = recipe();",
+        "produce_expr": "boolean produce = recipe != null && efficiency > 0 && payload == null;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": block_producer_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_content_equals_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

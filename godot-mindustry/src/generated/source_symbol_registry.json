@@ -115598,6 +115598,120 @@
       "java_expr": "return super.shouldConsume() && recipe() != null;",
       "rule": "Pin BlockProducerBuild.shouldConsume() conjunction return expression.",
       "status": "source-backed"
+    },
+    "block_producer_build_update_tile_produce_gate.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
+      "source_slice": "N1417",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
+        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_produce_gate_result.method",
+      "java_expr": "public void updateTile(){",
+      "rule": "Pin BlockProducerBuild.updateTile() method boundary for produce gate.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_produce_gate.super_update_tile": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
+      "source_slice": "N1417",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
+        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_produce_gate_result.super_call",
+      "java_expr": "super.updateTile();",
+      "rule": "Pin parent updateTile call before produce gate.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_produce_gate.recipe_not_null": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
+      "source_slice": "N1417",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
+        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_produce_gate_input.recipe_null",
+      "java_expr": "recipe != null",
+      "rule": "Pin recipe non-null predicate as inverse of explicit recipe_null input.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_produce_gate.efficiency_positive": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
+      "source_slice": "N1417",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
+        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_produce_gate_input.efficiency",
+      "java_expr": "efficiency > 0",
+      "rule": "Pin efficiency positive predicate from updateTile produce gate.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_produce_gate.payload_null": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
+      "source_slice": "N1417",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
+        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_produce_gate_input.payload_null",
+      "java_expr": "payload == null",
+      "rule": "Pin payload null predicate from updateTile produce gate.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_produce_gate.produce_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
+      "source_slice": "N1417",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
+        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_produce_gate_result.produce",
+      "java_expr": "boolean produce = recipe != null && efficiency > 0 && payload == null;",
+      "rule": "Pin BlockProducerBuild.updateTile() produce gate conjunction.",
+      "status": "source-backed"
     }
   },
   "version": 1

@@ -5239,6 +5239,16 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar should_consume: bool = super_should_consume and not recipe_null",
                         '\treturn {"source_owner": "PortGame.source_block_producer_build_should_consume_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public boolean shouldConsume(){", "return_expr": "return super.shouldConsume() && recipe() != null;", "super_should_consume": super_should_consume, "recipe_null": recipe_null, "should_consume": should_consume}',
                     ])
+                elif method.get("name") == "updateTile":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_BlockProducerBuild_method_updateTile_{index}(_args: Array = []) -> Variant:",
+                        "\tvar recipe_null: bool = bool(_args[0] if _args.size() > 0 else true)",
+                        "\tvar efficiency: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                        "\tvar payload_null: bool = bool(_args[2] if _args.size() > 2 else true)",
+                        "\tvar produce: bool = not recipe_null and efficiency > 0.0 and payload_null",
+                        '\treturn {"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "super_call": "super.updateTile();", "recipe_assignment": "var recipe = recipe();", "produce_expr": "boolean produce = recipe != null && efficiency > 0 && payload == null;", "recipe_null": recipe_null, "efficiency": efficiency, "payload_null": payload_null, "produce": produce}',
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
         and type_entry.get("name") == "LiquidTurret"

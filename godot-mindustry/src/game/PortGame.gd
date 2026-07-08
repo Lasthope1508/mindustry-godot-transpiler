@@ -21787,6 +21787,36 @@ func generated_block_producer_build_should_consume_bridge_state(super_should_con
 		"matches": result == canonical,
 	}
 
+func source_block_producer_build_update_tile_produce_gate_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:
+	var produce: bool = not recipe_null and efficiency > 0.0 and payload_null
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"method": "public void updateTile(){",
+		"super_call": "super.updateTile();",
+		"recipe_assignment": "var recipe = recipe();",
+		"produce_expr": "boolean produce = recipe != null && efficiency > 0 && payload == null;",
+		"recipe_null": recipe_null,
+		"efficiency": efficiency,
+		"payload_null": payload_null,
+		"produce": produce,
+	}
+
+func generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe_null: bool, efficiency: float, payload_null: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_5([recipe_null, efficiency, payload_null])
+	var canonical = source_block_producer_build_update_tile_produce_gate_state(recipe_null, efficiency, payload_null)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.produceGate",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

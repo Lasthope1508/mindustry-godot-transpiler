@@ -38239,6 +38239,58 @@
         "test_block_producer_build_should_consume_matches_upstream_source",
         "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_build_update_tile_produce_gate_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile()",
+      "source_slice": "N1417",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
+      "params": [
+        {
+          "name": "recipe_null",
+          "type": "bool",
+          "java_expr": "recipe == null",
+          "schema": "source_block_producer_build_update_tile_produce_gate_input.recipe_null",
+          "source_symbol": "block_producer_build_update_tile_produce_gate.recipe_not_null"
+        },
+        {
+          "name": "efficiency",
+          "type": "float",
+          "java_expr": "efficiency",
+          "schema": "source_block_producer_build_update_tile_produce_gate_input.efficiency",
+          "source_symbol": "block_producer_build_update_tile_produce_gate.efficiency_positive"
+        },
+        {
+          "name": "payload_null",
+          "type": "bool",
+          "java_expr": "payload == null",
+          "schema": "source_block_producer_build_update_tile_produce_gate_input.payload_null",
+          "source_symbol": "block_producer_build_update_tile_produce_gate.payload_null"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "super_call",
+        "recipe_assignment",
+        "produce_expr",
+        "recipe_null",
+        "efficiency",
+        "payload_null",
+        "produce"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_produce_gate_state pins BlockProducerBuild.updateTile() produce gate.",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
+        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

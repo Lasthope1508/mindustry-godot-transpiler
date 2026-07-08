@@ -77,3 +77,10 @@ func java_inner_class_BlockProducerBuild_method_shouldConsume_4(_args: Array = [
 	var recipe_null: bool = bool(_args[1] if _args.size() > 1 else true)
 	var should_consume: bool = super_should_consume and not recipe_null
 	return {"source_owner": "PortGame.source_block_producer_build_should_consume_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public boolean shouldConsume(){", "return_expr": "return super.shouldConsume() && recipe() != null;", "super_should_consume": super_should_consume, "recipe_null": recipe_null, "should_consume": should_consume}
+
+func java_inner_class_BlockProducerBuild_method_updateTile_5(_args: Array = []) -> Variant:
+	var recipe_null: bool = bool(_args[0] if _args.size() > 0 else true)
+	var efficiency: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var payload_null: bool = bool(_args[2] if _args.size() > 2 else true)
+	var produce: bool = not recipe_null and efficiency > 0.0 and payload_null
+	return {"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "super_call": "super.updateTile();", "recipe_assignment": "var recipe = recipe();", "produce_expr": "boolean produce = recipe != null && efficiency > 0 && payload == null;", "recipe_null": recipe_null, "efficiency": efficiency, "payload_null": payload_null, "produce": produce}
