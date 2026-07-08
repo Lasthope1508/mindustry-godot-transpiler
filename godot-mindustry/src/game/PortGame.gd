@@ -21817,6 +21817,38 @@ func generated_block_producer_build_update_tile_produce_gate_bridge_state(recipe
 		"matches": result == canonical,
 	}
 
+func source_block_producer_build_update_tile_progress_accumulation_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:
+	var progress_delta: float = build_speed * edelta if produce else 0.0
+	var progress_after: float = progress_before + progress_delta
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"method": "public void updateTile(){",
+		"if_produce_expr": "if(produce){",
+		"progress_expr": "progress += buildSpeed * edelta();",
+		"produce": produce,
+		"progress_before": progress_before,
+		"build_speed": build_speed,
+		"edelta": edelta,
+		"progress_delta": progress_delta,
+		"progress_after": progress_after,
+	}
+
+func generated_block_producer_build_update_tile_progress_accumulation_bridge_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_5([produce, progress_before, build_speed, edelta])
+	var canonical = source_block_producer_build_update_tile_progress_accumulation_state(produce, progress_before, build_speed, edelta)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.progressAccumulation",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

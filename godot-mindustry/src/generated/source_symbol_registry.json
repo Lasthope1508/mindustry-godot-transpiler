@@ -115712,6 +115712,120 @@
       "java_expr": "boolean produce = recipe != null && efficiency > 0 && payload == null;",
       "rule": "Pin BlockProducerBuild.updateTile() produce gate conjunction.",
       "status": "source-backed"
+    },
+    "block_producer_build_update_tile_progress_accumulation.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
+      "source_slice": "N1418",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.method",
+      "java_expr": "public void updateTile(){",
+      "rule": "Pin BlockProducerBuild.updateTile() method boundary for progress accumulation.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_progress_accumulation.if_produce": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
+      "source_slice": "N1418",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_input.produce",
+      "java_expr": "if(produce){",
+      "rule": "Pin produce guard before progress accumulation.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_progress_accumulation.progress_before": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
+      "source_slice": "N1418",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_input.progress_before",
+      "java_expr": "progress",
+      "rule": "Pin progress value before source accumulation.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_progress_accumulation.build_speed": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
+      "source_slice": "N1418",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_input.build_speed",
+      "java_expr": "buildSpeed",
+      "rule": "Pin BlockProducer buildSpeed factor as explicit input.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_progress_accumulation.edelta": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
+      "source_slice": "N1418",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_input.edelta",
+      "java_expr": "edelta()",
+      "rule": "Pin inherited edelta() factor as explicit input.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_progress_accumulation.progress_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
+      "source_slice": "N1418",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.progress_after",
+      "java_expr": "progress += buildSpeed * edelta();",
+      "rule": "Pin BlockProducerBuild.updateTile() progress accumulation expression.",
+      "status": "source-backed"
     }
   },
   "version": 1

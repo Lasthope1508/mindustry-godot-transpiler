@@ -146931,6 +146931,260 @@
           "type": "bool"
         }
       }
+    },
+    "source_block_producer_build_update_tile_progress_accumulation_input": {
+      "owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+      "source_slice": "N1418",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_block_producer_build_update_tile_progress_accumulation_state.",
+      "keys": {
+        "produce": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_input.produce",
+          "java_expr": "produce",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.if_produce"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "progress_before": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_input.progress_before",
+          "java_expr": "progress",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.progress_before"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "build_speed": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_input.build_speed",
+          "java_expr": "buildSpeed",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.build_speed"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "edelta": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_input.edelta",
+          "java_expr": "edelta()",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.edelta"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        }
+      }
+    },
+    "source_block_producer_build_update_tile_progress_accumulation_result": {
+      "owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+      "source_slice": "N1418",
+      "status": "active",
+      "rule": "Return dictionary from PortGame.source_block_producer_build_update_tile_progress_accumulation_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.source_owner",
+          "java_expr": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "inner_class": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.inner_class",
+          "java_expr": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.method",
+          "java_expr": "public void updateTile(){",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "if_produce_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.if_produce_expr",
+          "java_expr": "if(produce){",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.if_produce"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "progress_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.progress_expr",
+          "java_expr": "progress += buildSpeed * edelta();",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.progress_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "produce": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.produce",
+          "java_expr": "produce",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.if_produce"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "progress_before": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.progress_before",
+          "java_expr": "progress",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.progress_before"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "build_speed": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.build_speed",
+          "java_expr": "buildSpeed",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.build_speed"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "edelta": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.edelta",
+          "java_expr": "edelta()",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.edelta"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "progress_delta": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.progress_delta",
+          "java_expr": "buildSpeed * edelta()",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.progress_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "progress_after": {
+          "godot_symbol": "source_block_producer_build_update_tile_progress_accumulation_result.progress_after",
+          "java_expr": "progress += buildSpeed * edelta();",
+          "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_progress_accumulation.progress_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        }
+      }
     }
   },
   "version": 1

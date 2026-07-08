@@ -19593,6 +19593,38 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.produceGate"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_build_update_tile_progress_accumulation_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:", source)
+        self.assertIn("var progress_delta: float = build_speed * edelta if produce else 0.0", source)
+        self.assertIn("var progress_after: float = progress_before + progress_delta", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java"', source)
+        self.assertIn('"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{"', source)
+        self.assertIn('"method": "public void updateTile(){"', source)
+        self.assertIn('"if_produce_expr": "if(produce){"', source)
+        self.assertIn('"progress_expr": "progress += buildSpeed * edelta();"', source)
+        self.assertIn('"produce": produce', source)
+        self.assertIn('"progress_before": progress_before', source)
+        self.assertIn('"build_speed": build_speed', source)
+        self.assertIn('"edelta": edelta', source)
+        self.assertIn('"progress_delta": progress_delta', source)
+        self.assertIn('"progress_after": progress_after', source)
+
+    def test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_build_update_tile_progress_accumulation_bridge_state(produce: bool, progress_before: float, build_speed: float, edelta: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_5([produce, progress_before, build_speed, edelta])", source)
+        self.assertIn("var canonical = source_block_producer_build_update_tile_progress_accumulation_state(produce, progress_before, build_speed, edelta)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.progressAccumulation"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

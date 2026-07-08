@@ -38291,6 +38291,66 @@
         "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
         "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_build_update_tile_progress_accumulation_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile() progress accumulation",
+      "source_slice": "N1418",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
+      "params": [
+        {
+          "name": "produce",
+          "type": "bool",
+          "java_expr": "produce",
+          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.produce",
+          "source_symbol": "block_producer_build_update_tile_progress_accumulation.if_produce"
+        },
+        {
+          "name": "progress_before",
+          "type": "float",
+          "java_expr": "progress",
+          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.progress_before",
+          "source_symbol": "block_producer_build_update_tile_progress_accumulation.progress_before"
+        },
+        {
+          "name": "build_speed",
+          "type": "float",
+          "java_expr": "buildSpeed",
+          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.build_speed",
+          "source_symbol": "block_producer_build_update_tile_progress_accumulation.build_speed"
+        },
+        {
+          "name": "edelta",
+          "type": "float",
+          "java_expr": "edelta()",
+          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.edelta",
+          "source_symbol": "block_producer_build_update_tile_progress_accumulation.edelta"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "if_produce_expr",
+        "progress_expr",
+        "produce",
+        "progress_before",
+        "build_speed",
+        "edelta",
+        "progress_delta",
+        "progress_after"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state pins progress += buildSpeed * edelta() behind produce guard.",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

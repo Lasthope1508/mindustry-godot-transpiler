@@ -34972,6 +34972,44 @@
       ],
       "rule": "Generated BlockProducerBuild.updateTile() bridge records the source produce gate without inferring later production side effects.",
       "notes": "This slice closes only the initial updateTile produce boolean gate through its source expression."
+    },
+    "N1418": {
+      "title": "Generated BlockProducerBuild updateTile progress accumulation bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() progress accumulation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.updateTile.progressAccumulation",
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "@Override",
+        "public void updateTile(){",
+        "if(produce){",
+        "progress += buildSpeed * edelta();"
+      ],
+      "source_symbols": [
+        "block_producer_build_update_tile_progress_accumulation.method",
+        "block_producer_build_update_tile_progress_accumulation.if_produce",
+        "block_producer_build_update_tile_progress_accumulation.progress_before",
+        "block_producer_build_update_tile_progress_accumulation.build_speed",
+        "block_producer_build_update_tile_progress_accumulation.edelta",
+        "block_producer_build_update_tile_progress_accumulation.progress_expr"
+      ],
+      "deferred_exprs": [
+        "The progress >= recipe.buildTime completion branch, consume(), payload creation, effects, payVector reset, progress modulo, heat/time update, and moveOutPayload remain separate source-backed states.",
+        "Concrete buildSpeed and edelta providers remain explicit inputs until their runtime systems are ported."
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducerBuild.updateTile() bridge records source progress accumulation behind the produce guard.",
+      "notes": "This slice closes only progress += buildSpeed * edelta() when produce is true."
     }
   },
   "version": 1

@@ -5248,6 +5248,15 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar payload_null: bool = bool(_args[2] if _args.size() > 2 else true)",
                         "\tvar produce: bool = not recipe_null and efficiency > 0.0 and payload_null",
                         '\treturn {"source_owner": "PortGame.source_block_producer_build_update_tile_produce_gate_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "super_call": "super.updateTile();", "recipe_assignment": "var recipe = recipe();", "produce_expr": "boolean produce = recipe != null && efficiency > 0 && payload == null;", "recipe_null": recipe_null, "efficiency": efficiency, "payload_null": payload_null, "produce": produce}',
+                        "",
+                        f"func java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_{index}(_args: Array = []) -> Variant:",
+                        "\tvar produce: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar progress_before: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                        "\tvar build_speed: float = float(_args[2] if _args.size() > 2 else 0.0)",
+                        "\tvar edelta: float = float(_args[3] if _args.size() > 3 else 0.0)",
+                        "\tvar progress_delta: float = build_speed * edelta if produce else 0.0",
+                        "\tvar progress_after: float = progress_before + progress_delta",
+                        '\treturn {"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "if_produce_expr": "if(produce){", "progress_expr": "progress += buildSpeed * edelta();", "produce": produce, "progress_before": progress_before, "build_speed": build_speed, "edelta": edelta, "progress_delta": progress_delta, "progress_after": progress_after}',
                     ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"

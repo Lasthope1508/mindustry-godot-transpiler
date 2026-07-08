@@ -19942,6 +19942,10 @@ public abstract class BlockProducer extends PayloadBlock{
             super.updateTile();
             var recipe = recipe();
             boolean produce = recipe != null && efficiency > 0 && payload == null;
+
+            if(produce){
+                progress += buildSpeed * edelta();
+            }
         }
     }
 }
@@ -20030,6 +20034,53 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn('"recipe_assignment": "var recipe = recipe();"', source_text)
             self.assertIn('"produce_expr": "boolean produce = recipe != null && efficiency > 0 && payload == null;"', source_text)
             self.assertIn('"produce": produce', source_text)
+
+    def test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public abstract class BlockProducer extends PayloadBlock{
+    public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{
+        public abstract @Nullable Block recipe();
+
+        @Override
+        public void updateTile(){
+            super.updateTile();
+            var recipe = recipe();
+            boolean produce = recipe != null && efficiency > 0 && payload == null;
+
+            if(produce){
+                progress += buildSpeed * edelta();
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var produce: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var progress_before: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var build_speed: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var edelta: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var progress_delta: float = build_speed * edelta if produce else 0.0", source_text)
+            self.assertIn("var progress_after: float = progress_before + progress_delta", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state"', source_text)
+            self.assertIn('"if_produce_expr": "if(produce){"', source_text)
+            self.assertIn('"progress_expr": "progress += buildSpeed * edelta();"', source_text)
+            self.assertIn('"progress_after": progress_after', source_text)
 
     def test_emit_bridges_build_payload_place_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
