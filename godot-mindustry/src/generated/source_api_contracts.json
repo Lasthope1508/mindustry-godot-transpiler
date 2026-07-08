@@ -38611,6 +38611,182 @@
         "test_block_producer_build_update_tile_heat_time_matches_upstream_source",
         "test_generated_block_producer_build_update_tile_heat_time_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_build_update_tile_move_out_payload_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile() moveOutPayload",
+      "source_slice": "N1423",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "params": [
+        {
+          "name": "payload_present",
+          "type": "bool",
+          "java_expr": "payload != null",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.payload_present",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.payload_present"
+        },
+        {
+          "name": "pay_vector_x",
+          "type": "float",
+          "java_expr": "payVector.x",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.pay_vector_x",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.pay_vector_x"
+        },
+        {
+          "name": "pay_vector_y",
+          "type": "float",
+          "java_expr": "payVector.y",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.pay_vector_y",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.pay_vector_y"
+        },
+        {
+          "name": "pay_rotation_before",
+          "type": "float",
+          "java_expr": "payRotation",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.pay_rotation_before",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.pay_rotation_before"
+        },
+        {
+          "name": "rotdeg_value",
+          "type": "float",
+          "java_expr": "rotdeg()",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.rotdeg_value",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.rotdeg_value"
+        },
+        {
+          "name": "size_value",
+          "type": "float",
+          "java_expr": "size",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.size_value",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.size_value"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "java_expr": "tilesize",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.tilesize",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.tilesize"
+        },
+        {
+          "name": "payload_rotate_speed",
+          "type": "float",
+          "java_expr": "payloadRotateSpeed",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.payload_rotate_speed",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.payload_rotate_speed"
+        },
+        {
+          "name": "payload_speed",
+          "type": "float",
+          "java_expr": "payloadSpeed",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.payload_speed",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.payload_speed"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "java_expr": "delta()",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.time_delta",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.time_delta"
+        },
+        {
+          "name": "front_present",
+          "type": "bool",
+          "java_expr": "front != null",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_present",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_present"
+        },
+        {
+          "name": "front_solid",
+          "type": "bool",
+          "java_expr": "front.tile.solid()",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_solid",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_solid"
+        },
+        {
+          "name": "front_outputs_payload",
+          "type": "bool",
+          "java_expr": "front.block.outputsPayload",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_outputs_payload",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_outputs_payload"
+        },
+        {
+          "name": "front_accepts_payload",
+          "type": "bool",
+          "java_expr": "front.block.acceptsPayload",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_accepts_payload",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_accepts_payload"
+        },
+        {
+          "name": "move_payload_result",
+          "type": "bool",
+          "java_expr": "movePayload(payload)",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.move_payload_result",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.move_payload_result"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "parent_source",
+        "arc_source",
+        "inner_class",
+        "override_expr",
+        "update_tile_method",
+        "move_out_payload_expr",
+        "method",
+        "payload_null_guard",
+        "update_payload_expr",
+        "dest_expr",
+        "pay_rotation_expr",
+        "pay_vector_expr",
+        "front_expr",
+        "can_dump_expr",
+        "can_move_expr",
+        "push_output_expr",
+        "arrived_guard",
+        "clamp_expr",
+        "move_payload_expr",
+        "payload_clear_expr",
+        "dump_payload_expr",
+        "payload_present",
+        "pay_vector_x",
+        "pay_vector_y",
+        "pay_rotation_before",
+        "rotdeg_value",
+        "size_value",
+        "tilesize",
+        "payload_rotate_speed",
+        "payload_speed",
+        "time_delta",
+        "front_present",
+        "front_solid",
+        "front_outputs_payload",
+        "front_accepts_payload",
+        "move_payload_result",
+        "half_extent",
+        "dest",
+        "update_payload_called",
+        "pay_rotation_after",
+        "pay_vector_after",
+        "can_dump",
+        "can_move",
+        "distance_to_dest",
+        "distance_to_dest2",
+        "pushed_output_fraction",
+        "arrived",
+        "move_payload_called",
+        "dump_payload_called",
+        "payload_after_present"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_move_out_payload_state pins moveOutPayload() and PayloadBlockBuild.moveOutPayload() movement gates from source.",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -53374,18 +53374,6 @@
             "PortGame.source_building_draw_state"
           ]
         },
-        "rotation_degrees": {
-          "godot_symbol": "source_building_draw_result.rotation_degrees",
-          "java_expr": "drawrot()",
-          "java_method": "draw()",
-          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
-          "rule": "Runtime rotation_degrees is source drawrot().",
-          "status": "source-backed",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_building_draw_state"
-          ]
-        },
         "rotation_quadrants": {
           "alias_of": "source_building_draw_input.rotation_quadrants",
           "rule": "Carries rotation_quadrants input into result schema.",
@@ -53457,6 +53445,18 @@
           "rule": "Carries source_y input into result schema.",
           "status": "generated",
           "type": "float"
+        },
+        "rotation_degrees": {
+          "godot_symbol": "source_building_draw_result.rotation_degrees",
+          "java_expr": "drawrot()",
+          "java_method": "draw()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Runtime rotation_degrees is source drawrot().",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_building_draw_state"
+          ]
         }
       },
       "status": "active"
@@ -54474,6 +54474,12 @@
             "PortGame.source_building_drawrot_state"
           ]
         },
+        "rotation_quadrants": {
+          "alias_of": "source_building_drawrot_input.rotation_quadrants",
+          "rule": "Carries rotation_quadrants input into result schema.",
+          "status": "generated",
+          "type": "int"
+        },
         "rotation_degrees": {
           "godot_symbol": "source_building_drawrot_result.rotation_degrees",
           "java_expr": "return block.rotate && block.rotateDraw ? rotation * 90 : 0f;",
@@ -54485,12 +54491,6 @@
           "used_by": [
             "PortGame.source_building_drawrot_state"
           ]
-        },
-        "rotation_quadrants": {
-          "alias_of": "source_building_drawrot_input.rotation_quadrants",
-          "rule": "Carries rotation_quadrants input into result schema.",
-          "status": "generated",
-          "type": "int"
         }
       },
       "status": "active"
@@ -72323,18 +72323,6 @@
             "PortGame.source_bullet_rotation_degrees"
           ]
         },
-        "rotation_degrees": {
-          "godot_symbol": "source_bullet_rotation_degrees_result.rotation_degrees",
-          "java_expr": "vel.isZero(0.001f) ? rotation : vel.angle()",
-          "java_method": "rotation()",
-          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
-          "rule": "Return BulletComp rotation from velocity angle unless velocity is zero.",
-          "status": "source-backed",
-          "type": "float",
-          "used_by": [
-            "PortGame.source_bullet_rotation_degrees"
-          ]
-        },
         "vec2_is_zero": {
           "godot_symbol": "source_bullet_rotation_degrees_result.vec2_is_zero",
           "java_expr": "return len2() < margin;",
@@ -72365,6 +72353,18 @@
           "java_method": "rotation()",
           "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
           "rule": "BulletComp rotation zero-velocity margin.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_bullet_rotation_degrees"
+          ]
+        },
+        "rotation_degrees": {
+          "godot_symbol": "source_bullet_rotation_degrees_result.rotation_degrees",
+          "java_expr": "vel.isZero(0.001f) ? rotation : vel.angle()",
+          "java_method": "rotation()",
+          "java_source": "core/src/mindustry/entities/comp/BulletComp.java",
+          "rule": "Return BulletComp rotation from velocity angle unless velocity is zero.",
           "status": "source-backed",
           "type": "float",
           "used_by": [
@@ -148396,6 +148396,962 @@
           ],
           "status": "source-backed",
           "type": "float"
+        }
+      }
+    },
+    "source_block_producer_build_update_tile_move_out_payload_input": {
+      "owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_block_producer_build_update_tile_move_out_payload_state.",
+      "keys": {
+        "payload_present": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.payload_present",
+          "java_expr": "payload != null",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.payload_present"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "pay_vector_x": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.pay_vector_x",
+          "java_expr": "payVector.x",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.pay_vector_x"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "pay_vector_y": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.pay_vector_y",
+          "java_expr": "payVector.y",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.pay_vector_y"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "pay_rotation_before": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.pay_rotation_before",
+          "java_expr": "payRotation",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.pay_rotation_before"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "rotdeg_value": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.rotdeg_value",
+          "java_expr": "rotdeg()",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.rotdeg_value"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "size_value": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.size_value",
+          "java_expr": "size",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.size_value"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "tilesize": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.tilesize",
+          "java_expr": "tilesize",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.tilesize"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "payload_rotate_speed": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.payload_rotate_speed",
+          "java_expr": "payloadRotateSpeed",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.payload_rotate_speed"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "payload_speed": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.payload_speed",
+          "java_expr": "payloadSpeed",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.payload_speed"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "time_delta": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.time_delta",
+          "java_expr": "delta()",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.time_delta"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "front_present": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.front_present",
+          "java_expr": "front != null",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.front_present"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "front_solid": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.front_solid",
+          "java_expr": "front.tile.solid()",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.front_solid"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "front_outputs_payload": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.front_outputs_payload",
+          "java_expr": "front.block.outputsPayload",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.front_outputs_payload"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "front_accepts_payload": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.front_accepts_payload",
+          "java_expr": "front.block.acceptsPayload",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.front_accepts_payload"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "move_payload_result": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.move_payload_result",
+          "java_expr": "movePayload(payload)",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.move_payload_result"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      }
+    },
+    "source_block_producer_build_update_tile_move_out_payload_result": {
+      "owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "status": "active",
+      "rule": "Return dictionary from PortGame.source_block_producer_build_update_tile_move_out_payload_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.source_owner",
+          "java_expr": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+          "java_method": "BlockProducerBuild.updateTile() moveOutPayload",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_method": "BlockProducerBuild.updateTile() moveOutPayload",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "parent_source": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.parent_source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "arc_source": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.arc_source",
+          "java_expr": "arc-core/src/arc/math/Angles.java; arc-core/src/arc/math/geom/Vec2.java; arc-core/src/arc/math/geom/Position.java",
+          "java_method": "BlockProducerBuild.updateTile() moveOutPayload",
+          "java_source": "arc-core/src/arc/math/Angles.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "angles_move_toward.method",
+            "vec2_trns.method",
+            "vec2_approach.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "inner_class": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.inner_class",
+          "java_expr": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+          "java_method": "BlockProducerBuild.updateTile() moveOutPayload",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "BlockProducerBuild.updateTile() moveOutPayload",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "update_tile_method": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.update_tile_method",
+          "java_expr": "public void updateTile(){",
+          "java_method": "BlockProducerBuild.updateTile() moveOutPayload",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "move_out_payload_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.move_out_payload_expr",
+          "java_expr": "moveOutPayload();",
+          "java_method": "BlockProducerBuild.updateTile() moveOutPayload",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.method",
+          "java_expr": "public void moveOutPayload(){",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payload_null_guard": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.payload_null_guard",
+          "java_expr": "if(payload == null) return;",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.payload_null_guard"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "update_payload_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.update_payload_expr",
+          "java_expr": "updatePayload();",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "dest_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.dest_expr",
+          "java_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.dest_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "pay_rotation_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_rotation_expr",
+          "java_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.pay_rotation_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "pay_vector_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_vector_expr",
+          "java_expr": "payVector.approach(dest, payloadSpeed * delta());",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.pay_vector_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "front_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.front_expr",
+          "java_expr": "Building front = front();",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "can_dump_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.can_dump_expr",
+          "java_expr": "boolean canDump = front == null || !front.tile.solid();",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.can_dump_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "can_move_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.can_move_expr",
+          "java_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.can_move_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "push_output_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.push_output_expr",
+          "java_expr": "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.push_output_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "arrived_guard": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.arrived_guard",
+          "java_expr": "if(payVector.within(dest, 0.001f)){",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.arrived_guard"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "clamp_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.clamp_expr",
+          "java_expr": "payVector.clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "move_payload_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.move_payload_expr",
+          "java_expr": "if(movePayload(payload)){",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payload_clear_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.payload_clear_expr",
+          "java_expr": "payload = null;",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.payload_after_present"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "dump_payload_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.dump_payload_expr",
+          "java_expr": "dumpPayload();",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payload_present": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.payload_present",
+          "java_expr": "payload != null",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.payload_present"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "pay_vector_x": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_vector_x",
+          "java_expr": "payVector.x",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.pay_vector_x"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "pay_vector_y": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_vector_y",
+          "java_expr": "payVector.y",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.pay_vector_y"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "pay_rotation_before": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_rotation_before",
+          "java_expr": "payRotation",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.pay_rotation_before"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "rotdeg_value": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.rotdeg_value",
+          "java_expr": "rotdeg()",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.rotdeg_value"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "size_value": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.size_value",
+          "java_expr": "size",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.size_value"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "tilesize": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.tilesize",
+          "java_expr": "tilesize",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.tilesize"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "payload_rotate_speed": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.payload_rotate_speed",
+          "java_expr": "payloadRotateSpeed",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.payload_rotate_speed"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "payload_speed": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.payload_speed",
+          "java_expr": "payloadSpeed",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.payload_speed"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "time_delta": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.time_delta",
+          "java_expr": "delta()",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.time_delta"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "front_present": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.front_present",
+          "java_expr": "front != null",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.front_present"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "front_solid": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.front_solid",
+          "java_expr": "front.tile.solid()",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.front_solid"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "front_outputs_payload": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.front_outputs_payload",
+          "java_expr": "front.block.outputsPayload",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.front_outputs_payload"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "front_accepts_payload": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.front_accepts_payload",
+          "java_expr": "front.block.acceptsPayload",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.front_accepts_payload"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "move_payload_result": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.move_payload_result",
+          "java_expr": "movePayload(payload)",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_move_out_payload.move_payload_result"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "half_extent": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.half_extent",
+          "java_expr": "size * tilesize / 2f",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.dest_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "dest": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.dest",
+          "java_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.dest_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "update_payload_called": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.update_payload_called",
+          "java_expr": "updatePayload();",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "pay_rotation_after": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_rotation_after",
+          "java_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.pay_rotation_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "pay_vector_after": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_vector_after",
+          "java_expr": "payVector.approach(dest, payloadSpeed * delta());",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.pay_vector_expr"
+          ],
+          "status": "source-backed",
+          "type": "Dictionary"
+        },
+        "can_dump": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.can_dump",
+          "java_expr": "boolean canDump = front == null || !front.tile.solid();",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.can_dump_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "can_move": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.can_move",
+          "java_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.can_move_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "distance_to_dest": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.distance_to_dest",
+          "java_expr": "payVector.dst(dest)",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.push_output_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "distance_to_dest2": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.distance_to_dest2",
+          "java_expr": "payVector.within(dest, 0.001f)",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.arrived_guard"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "pushed_output_fraction": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pushed_output_fraction",
+          "java_expr": "1f - (payVector.dst(dest) / (size * tilesize / 2f))",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.push_output_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "arrived": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.arrived",
+          "java_expr": "payVector.within(dest, 0.001f)",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.arrived_guard"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "move_payload_called": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.move_payload_called",
+          "java_expr": "movePayload(payload)",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.payload_after_present"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "dump_payload_called": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.dump_payload_called",
+          "java_expr": "dumpPayload();",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.method"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "payload_after_present": {
+          "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.payload_after_present",
+          "java_expr": "payload = null;",
+          "java_method": "PayloadBlockBuild.moveOutPayload()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_move_out_payload_state"
+          ],
+          "source_symbols": [
+            "payload_block_build_move_out_payload.payload_after_present"
+          ],
+          "status": "source-backed",
+          "type": "bool"
         }
       }
     }

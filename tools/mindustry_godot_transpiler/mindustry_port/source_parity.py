@@ -11805,6 +11805,95 @@ def verify_block_producer_build_update_tile_heat_time_source(upstream_root: Path
         "missing": missing,
     }
 
+def verify_block_producer_build_update_tile_move_out_payload_source(upstream_root: Path) -> dict[str, Any]:
+    block_producer_source = "core/src/mindustry/world/blocks/payloads/BlockProducer.java"
+    payload_block_source = "core/src/mindustry/world/blocks/payloads/PayloadBlock.java"
+    angles_source = "arc-core/src/arc/math/Angles.java"
+    vec2_source = "arc-core/src/arc/math/geom/Vec2.java"
+    position_source = "arc-core/src/arc/math/geom/Position.java"
+    block_producer_path = Path(upstream_root) / block_producer_source
+    payload_block_path = Path(upstream_root) / payload_block_source
+    angles_path = Path(upstream_root).parent / "arc-upstream" / angles_source
+    vec2_path = Path(upstream_root).parent / "arc-upstream" / vec2_source
+    position_path = Path(upstream_root).parent / "arc-upstream" / position_source
+    block_producer_text = block_producer_path.read_text(encoding="utf-8", errors="replace")
+    payload_block_text = payload_block_path.read_text(encoding="utf-8", errors="replace")
+    angles_text = angles_path.read_text(encoding="utf-8", errors="replace")
+    vec2_text = vec2_path.read_text(encoding="utf-8", errors="replace")
+    position_text = position_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "override_expr": "@Override",
+        "update_tile_method": "public void updateTile(){",
+        "move_out_payload_expr": "moveOutPayload();",
+        "payload_block_method": "public void moveOutPayload(){",
+        "payload_null_guard": "if(payload == null) return;",
+        "update_payload_expr": "updatePayload();",
+        "dest_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);",
+        "pay_rotation_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+        "pay_vector_expr": "payVector.approach(dest, payloadSpeed * delta());",
+        "front_expr": "Building front = front();",
+        "can_dump_expr": "boolean canDump = front == null || !front.tile.solid();",
+        "can_move_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);",
+        "push_output_expr": "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));",
+        "arrived_guard": "if(payVector.within(dest, 0.001f)){",
+        "clamp_expr": "payVector.clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+        "move_payload_expr": "if(movePayload(payload)){",
+        "payload_clear_expr": "payload = null;",
+        "dump_payload_expr": "dumpPayload();",
+        "angles_move_toward_method": "public static float moveToward(float angle, float to, float speed){",
+        "vec2_trns_method": "public Vec2 trns(float angle, float amount){",
+        "vec2_approach_method": "public Vec2 approach(Vec2 target, float alpha){",
+        "vec2_dst_method": "public float dst(Vec2 v){",
+        "vec2_clamp_method": "public Vec2 clamp(float minx, float miny, float maxx, float maxy){",
+        "position_within_method": "default boolean within(float x, float y, float dst){",
+    }
+    missing = []
+    for snippet in [
+        checked["inner_class"],
+        checked["override_expr"],
+        checked["update_tile_method"],
+        checked["move_out_payload_expr"],
+    ]:
+        if snippet not in block_producer_text:
+            missing.append(snippet)
+    for snippet in [
+        checked["payload_block_method"],
+        checked["payload_null_guard"],
+        checked["update_payload_expr"],
+        checked["dest_expr"],
+        checked["pay_rotation_expr"],
+        checked["pay_vector_expr"],
+        checked["front_expr"],
+        checked["can_dump_expr"],
+        checked["can_move_expr"],
+        checked["push_output_expr"],
+        checked["arrived_guard"],
+        checked["clamp_expr"],
+        checked["move_payload_expr"],
+        checked["payload_clear_expr"],
+        checked["dump_payload_expr"],
+    ]:
+        if snippet not in payload_block_text:
+            missing.append(snippet)
+    if checked["angles_move_toward_method"] not in angles_text:
+        missing.append(checked["angles_move_toward_method"])
+    for snippet in [
+        checked["vec2_trns_method"],
+        checked["vec2_approach_method"],
+        checked["vec2_dst_method"],
+        checked["vec2_clamp_method"],
+    ]:
+        if snippet not in vec2_text:
+            missing.append(snippet)
+    if checked["position_within_method"] not in position_text:
+        missing.append(checked["position_within_method"])
+    return {
+        "source": block_producer_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_content_equals_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

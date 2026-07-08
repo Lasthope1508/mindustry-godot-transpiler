@@ -35189,6 +35189,72 @@
       ],
       "rule": "Generated BlockProducerBuild.updateTile() bridge records heat lerp and time increment from source.",
       "notes": "This slice closes only heat = Mathf.lerpDelta(...) and time += heat * delta()."
+    },
+    "N1423": {
+      "title": "Generated BlockProducerBuild updateTile moveOutPayload bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() moveOutPayload",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.updateTile.moveOutPayload",
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "@Override",
+        "public void updateTile(){",
+        "moveOutPayload();",
+        "public void moveOutPayload(){",
+        "if(payload == null) return;",
+        "updatePayload();",
+        "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);",
+        "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+        "payVector.approach(dest, payloadSpeed * delta());",
+        "Building front = front();",
+        "boolean canDump = front == null || !front.tile.solid();",
+        "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);",
+        "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));",
+        "if(payVector.within(dest, 0.001f)){",
+        "payVector.clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+        "if(movePayload(payload)){",
+        "payload = null;",
+        "dumpPayload();",
+        "public static float moveToward(float angle, float to, float speed){",
+        "public Vec2 trns(float angle, float amount){",
+        "public Vec2 approach(Vec2 target, float alpha){",
+        "public float dst(Vec2 v){",
+        "public Vec2 clamp(float minx, float miny, float maxx, float maxy){",
+        "default boolean within(float x, float y, float dst){"
+      ],
+      "source_symbols": [
+        "block_producer_build_update_tile_move_out_payload.method",
+        "payload_block_build_move_out_payload.method",
+        "payload_block_build_move_out_payload.payload_null_guard",
+        "payload_block_build_move_out_payload.dest_expr",
+        "payload_block_build_move_out_payload.pay_rotation_expr",
+        "payload_block_build_move_out_payload.pay_vector_expr",
+        "payload_block_build_move_out_payload.can_dump_expr",
+        "payload_block_build_move_out_payload.can_move_expr",
+        "payload_block_build_move_out_payload.push_output_expr",
+        "payload_block_build_move_out_payload.arrived_guard",
+        "payload_block_build_move_out_payload.payload_after_present",
+        "angles_move_toward.method",
+        "vec2_trns.method",
+        "vec2_approach.method"
+      ],
+      "deferred_exprs": [
+        "Concrete pushOutput(payload, fraction), movePayload(payload), and dumpPayload() side effects stay represented as source-backed call flags/results here; their internals are covered by existing or later slices.",
+        "front() world lookup is supplied by explicit front_* inputs to avoid inventing tile graph state."
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducerBuild.updateTile() bridge records source-backed moveOutPayload dispatch and PayloadBlockBuild.moveOutPayload movement gates.",
+      "notes": "This slice closes moveOutPayload call wiring and movement decision state, not concrete world transfer side effects."
     }
   },
   "version": 1

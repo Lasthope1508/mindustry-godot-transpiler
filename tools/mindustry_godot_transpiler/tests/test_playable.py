@@ -19740,6 +19740,49 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.heatTime"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_build_update_tile_move_out_payload_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:", source)
+        self.assertIn("var half_extent: float = size_value * tilesize / 2.0", source)
+        self.assertIn("var dest: Variant = null", source)
+        self.assertIn("dest = _source_payload_move_out_dest(rotdeg_value, half_extent)", source)
+        self.assertIn("var pay_rotation_after: float = pay_rotation_before", source)
+        self.assertIn("pay_rotation_after = source_arc_angles_move_toward(pay_rotation_before, rotdeg_value, payload_rotate_speed * time_delta)", source)
+        self.assertIn('var pay_vector_after: Dictionary = {"x": pay_vector_x, "y": pay_vector_y}', source)
+        self.assertIn("pay_vector_after = _source_vec2_approach(pay_vector_x, pay_vector_y, float(dest.get(\"x\", 0.0)), float(dest.get(\"y\", 0.0)), payload_speed * time_delta)", source)
+        self.assertIn("var can_dump := false", source)
+        self.assertIn("var can_move := false", source)
+        self.assertIn("can_dump = (not front_present) or (not front_solid)", source)
+        self.assertIn("can_move = front_present and (front_outputs_payload or front_accepts_payload)", source)
+        self.assertIn("pushed_output_fraction = 1.0 - (distance_to_dest / half_extent)", source)
+        self.assertIn("if arrived:", source)
+        self.assertIn("arrived = distance_to_dest2 < 0.001 * 0.001", source)
+        self.assertIn("payload_after_present = not move_payload_result", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state"', source)
+        self.assertIn('"move_out_payload_expr": "moveOutPayload();"', source)
+        self.assertIn('"method": "public void moveOutPayload(){"', source)
+        self.assertIn('"payload_null_guard": "if(payload == null) return;"', source)
+        self.assertIn('"dest_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);"', source)
+        self.assertIn('"pay_rotation_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());"', source)
+        self.assertIn('"pay_vector_expr": "payVector.approach(dest, payloadSpeed * delta());"', source)
+        self.assertIn('"can_dump_expr": "boolean canDump = front == null || !front.tile.solid();"', source)
+        self.assertIn('"can_move_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);"', source)
+        self.assertIn('"payload_after_present": payload_after_present', source)
+
+    def test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_build_update_tile_move_out_payload_bridge_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_5([payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result])", source)
+        self.assertIn("var canonical = source_block_producer_build_update_tile_move_out_payload_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.moveOutPayload"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -116510,6 +116510,709 @@
       "java_expr": "time += heat * delta();",
       "rule": "Result time after source time increment.",
       "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() moveOutPayload",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.move_out_payload_expr",
+      "java_expr": "moveOutPayload();",
+      "rule": "Pin BlockProducerBuild.updateTile() moveOutPayload call.",
+      "status": "source-backed"
+    },
+    "payload_block_build_move_out_payload.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.method",
+      "java_expr": "public void moveOutPayload(){",
+      "rule": "Pin PayloadBlockBuild.moveOutPayload() method boundary.",
+      "status": "source-backed"
+    },
+    "payload_block_build_move_out_payload.payload_null_guard": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.payload_null_guard",
+      "java_expr": "if(payload == null) return;",
+      "rule": "Pin payload null early return.",
+      "status": "source-backed"
+    },
+    "payload_block_build_move_out_payload.dest_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.dest",
+      "java_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);",
+      "rule": "Pin outbound payload destination vector.",
+      "status": "source-backed"
+    },
+    "payload_block_build_move_out_payload.pay_rotation_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_rotation_after",
+      "java_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+      "rule": "Pin payload rotation movement.",
+      "status": "source-backed"
+    },
+    "payload_block_build_move_out_payload.pay_vector_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_vector_after",
+      "java_expr": "payVector.approach(dest, payloadSpeed * delta());",
+      "rule": "Pin payload vector approach.",
+      "status": "source-backed"
+    },
+    "payload_block_build_move_out_payload.can_dump_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.can_dump",
+      "java_expr": "boolean canDump = front == null || !front.tile.solid();",
+      "rule": "Pin payload dump gate.",
+      "status": "source-backed"
+    },
+    "payload_block_build_move_out_payload.can_move_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.can_move",
+      "java_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);",
+      "rule": "Pin payload move gate.",
+      "status": "source-backed"
+    },
+    "payload_block_build_move_out_payload.push_output_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pushed_output_fraction",
+      "java_expr": "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));",
+      "rule": "Pin pushOutput fraction calculation.",
+      "status": "source-backed"
+    },
+    "payload_block_build_move_out_payload.arrived_guard": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.arrived",
+      "java_expr": "if(payVector.within(dest, 0.001f)){",
+      "rule": "Pin arrival guard.",
+      "status": "source-backed"
+    },
+    "payload_block_build_move_out_payload.payload_after_present": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.payload_after_present",
+      "java_expr": "payload = null;",
+      "rule": "Pin payload clearing after successful movePayload.",
+      "status": "source-backed"
+    },
+    "angles_move_toward.method": {
+      "java_source": "arc-core/src/arc/math/Angles.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "moveToward(float angle, float to, float speed)",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_rotation_after",
+      "java_expr": "public static float moveToward(float angle, float to, float speed){",
+      "rule": "Pin Arc Angles.moveToward helper.",
+      "status": "source-backed"
+    },
+    "vec2_trns.method": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "trns(float angle, float amount)",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.dest",
+      "java_expr": "public Vec2 trns(float angle, float amount){",
+      "rule": "Pin Arc Vec2.trns helper.",
+      "status": "source-backed"
+    },
+    "vec2_approach.method": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "approach(Vec2 target, float alpha)",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_vector_after",
+      "java_expr": "public Vec2 approach(Vec2 target, float alpha){",
+      "rule": "Pin Arc Vec2.approach helper.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.payload_present": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.payload_present",
+      "java_expr": "payload != null",
+      "rule": "Explicit input for payload != null.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.pay_vector_x": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.pay_vector_x",
+      "java_expr": "payVector.x",
+      "rule": "Explicit input for payVector.x.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.pay_vector_y": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.pay_vector_y",
+      "java_expr": "payVector.y",
+      "rule": "Explicit input for payVector.y.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.pay_rotation_before": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.pay_rotation_before",
+      "java_expr": "payRotation",
+      "rule": "Explicit input for payRotation.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.rotdeg_value": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.rotdeg_value",
+      "java_expr": "rotdeg()",
+      "rule": "Explicit input for rotdeg().",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.size_value": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.size_value",
+      "java_expr": "size",
+      "rule": "Explicit input for size.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.tilesize": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.tilesize",
+      "java_expr": "tilesize",
+      "rule": "Explicit input for tilesize.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.payload_rotate_speed": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.payload_rotate_speed",
+      "java_expr": "payloadRotateSpeed",
+      "rule": "Explicit input for payloadRotateSpeed.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.payload_speed": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.payload_speed",
+      "java_expr": "payloadSpeed",
+      "rule": "Explicit input for payloadSpeed.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.time_delta": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.time_delta",
+      "java_expr": "delta()",
+      "rule": "Explicit input for delta().",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.front_present": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.front_present",
+      "java_expr": "front != null",
+      "rule": "Explicit input for front != null.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.front_solid": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.front_solid",
+      "java_expr": "front.tile.solid()",
+      "rule": "Explicit input for front.tile.solid().",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.front_outputs_payload": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.front_outputs_payload",
+      "java_expr": "front.block.outputsPayload",
+      "rule": "Explicit input for front.block.outputsPayload.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.front_accepts_payload": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.front_accepts_payload",
+      "java_expr": "front.block.acceptsPayload",
+      "rule": "Explicit input for front.block.acceptsPayload.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.move_payload_result": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_input.move_payload_result",
+      "java_expr": "movePayload(payload)",
+      "rule": "Explicit input for movePayload(payload).",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.dest": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.dest",
+      "java_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);",
+      "rule": "Result key for Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.pay_rotation_after": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_rotation_after",
+      "java_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+      "rule": "Result key for payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.pay_vector_after": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pay_vector_after",
+      "java_expr": "payVector.approach(dest, payloadSpeed * delta());",
+      "rule": "Result key for payVector.approach(dest, payloadSpeed * delta());.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.can_dump": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.can_dump",
+      "java_expr": "boolean canDump = front == null || !front.tile.solid();",
+      "rule": "Result key for boolean canDump = front == null || !front.tile.solid();.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.can_move": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.can_move",
+      "java_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);",
+      "rule": "Result key for boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.pushed_output_fraction": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.pushed_output_fraction",
+      "java_expr": "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));",
+      "rule": "Result key for pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.arrived": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.arrived",
+      "java_expr": "payVector.within(dest, 0.001f)",
+      "rule": "Result key for payVector.within(dest, 0.001f).",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_move_out_payload.payload_after_present": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.moveOutPayload()",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_slice": "N1423",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_move_out_payload_result.payload_after_present",
+      "java_expr": "payload = null;",
+      "rule": "Result key for payload = null;.",
+      "status": "source-backed"
     }
   },
   "version": 1

@@ -20270,6 +20270,63 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn('"heat_after": heat_after', source_text)
             self.assertIn('"time_after": time_after', source_text)
 
+    def test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public abstract class BlockProducer extends PayloadBlock{
+    public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{
+        public abstract @Nullable Block recipe();
+
+        @Override
+        public void updateTile(){
+            moveOutPayload();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var payload_present: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var pay_vector_x: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var pay_vector_y: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var pay_rotation_before: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var rotdeg_value: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var half_extent: float = size_value * tilesize / 2.0", source_text)
+            self.assertIn("var dest: Variant = null", source_text)
+            self.assertIn('dest = {"x": half_extent * cos(radians), "y": half_extent * sin(radians)}', source_text)
+            self.assertIn("var can_dump: bool = false", source_text)
+            self.assertIn("var can_move: bool = false", source_text)
+            self.assertIn("can_dump = (not front_present) or (not front_solid)", source_text)
+            self.assertIn("can_move = front_present and (front_outputs_payload or front_accepts_payload)", source_text)
+            self.assertIn("var pushed_output_fraction: Variant = null", source_text)
+            self.assertIn("pushed_output_fraction = 1.0 - (distance_to_dest / half_extent)", source_text)
+            self.assertIn("var arrived: bool = false", source_text)
+            self.assertIn("arrived = distance_to_dest2 < 0.001 * 0.001", source_text)
+            self.assertIn("var move_payload_called: bool = false", source_text)
+            self.assertIn("var dump_payload_called: bool = false", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state"', source_text)
+            self.assertIn('"move_out_payload_expr": "moveOutPayload();"', source_text)
+            self.assertIn('"method": "public void moveOutPayload(){"', source_text)
+            self.assertIn('"payload_null_guard": "if(payload == null) return;"', source_text)
+            self.assertIn('"dest_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);"', source_text)
+            self.assertIn('"can_dump_expr": "boolean canDump = front == null || !front.tile.solid();"', source_text)
+            self.assertIn('"can_move_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);"', source_text)
+            self.assertIn('"payload_after_present": payload_after_present', source_text)
+
     def test_emit_bridges_build_payload_place_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

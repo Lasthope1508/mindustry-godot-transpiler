@@ -21999,6 +21999,139 @@ func generated_block_producer_build_update_tile_heat_time_bridge_state(produce: 
 		"matches": result == canonical,
 	}
 
+func _source_payload_move_out_dest(rotdeg_value: float, half_extent: float) -> Dictionary:
+	var radians := deg_to_rad(rotdeg_value)
+	return {
+		"x": half_extent * cos(radians),
+		"y": half_extent * sin(radians),
+	}
+
+func _source_vec2_approach(from_x: float, from_y: float, target_x: float, target_y: float, alpha: float) -> Dictionary:
+	var dx := from_x - target_x
+	var dy := from_y - target_y
+	var alpha2 := alpha * alpha
+	var len2 := dx * dx + dy * dy
+	if len2 > alpha2:
+		var scl := sqrt(alpha2 / len2)
+		return {
+			"x": from_x - dx * scl,
+			"y": from_y - dy * scl,
+		}
+	return {
+		"x": target_x,
+		"y": target_y,
+	}
+
+func _source_vec2_clamp_rect(vec: Dictionary, min_x: float, min_y: float, max_x: float, max_y: float) -> Dictionary:
+	return {
+		"x": clampf(float(vec.get("x", 0.0)), min_x, max_x),
+		"y": clampf(float(vec.get("y", 0.0)), min_y, max_y),
+	}
+
+func source_block_producer_build_update_tile_move_out_payload_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:
+	var half_extent: float = size_value * tilesize / 2.0
+	var dest: Variant = null
+	var pay_rotation_after: float = pay_rotation_before
+	var pay_vector_after: Dictionary = {"x": pay_vector_x, "y": pay_vector_y}
+	var update_payload_called := false
+	var can_dump := false
+	var can_move := false
+	var pushed_output_fraction: Variant = null
+	var distance_to_dest: float = 0.0
+	var distance_to_dest2: float = 0.0
+	var arrived := false
+	var move_payload_called := false
+	var dump_payload_called := false
+	var payload_after_present := payload_present
+	if payload_present:
+		update_payload_called = true
+		dest = _source_payload_move_out_dest(rotdeg_value, half_extent)
+		pay_rotation_after = source_arc_angles_move_toward(pay_rotation_before, rotdeg_value, payload_rotate_speed * time_delta)
+		pay_vector_after = _source_vec2_approach(pay_vector_x, pay_vector_y, float(dest.get("x", 0.0)), float(dest.get("y", 0.0)), payload_speed * time_delta)
+		can_dump = (not front_present) or (not front_solid)
+		can_move = front_present and (front_outputs_payload or front_accepts_payload)
+		var dx := float(dest.get("x", 0.0)) - float(pay_vector_after.get("x", 0.0))
+		var dy := float(dest.get("y", 0.0)) - float(pay_vector_after.get("y", 0.0))
+		distance_to_dest2 = dx * dx + dy * dy
+		distance_to_dest = sqrt(distance_to_dest2)
+		if can_dump and not can_move:
+			pushed_output_fraction = 1.0 - (distance_to_dest / half_extent)
+		arrived = distance_to_dest2 < 0.001 * 0.001
+		if arrived:
+			pay_vector_after = _source_vec2_clamp_rect(pay_vector_after, -half_extent, -half_extent, half_extent, half_extent)
+			if can_move:
+				move_payload_called = true
+				payload_after_present = not move_payload_result
+			elif can_dump:
+				dump_payload_called = true
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"parent_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+		"arc_source": "arc-core/src/arc/math/Angles.java; arc-core/src/arc/math/geom/Vec2.java; arc-core/src/arc/math/geom/Position.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"update_tile_method": "public void updateTile(){",
+		"move_out_payload_expr": "moveOutPayload();",
+		"method": "public void moveOutPayload(){",
+		"payload_null_guard": "if(payload == null) return;",
+		"update_payload_expr": "updatePayload();",
+		"dest_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);",
+		"pay_rotation_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+		"pay_vector_expr": "payVector.approach(dest, payloadSpeed * delta());",
+		"front_expr": "Building front = front();",
+		"can_dump_expr": "boolean canDump = front == null || !front.tile.solid();",
+		"can_move_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);",
+		"push_output_expr": "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));",
+		"arrived_guard": "if(payVector.within(dest, 0.001f)){",
+		"clamp_expr": "payVector.clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+		"move_payload_expr": "if(movePayload(payload)){",
+		"payload_clear_expr": "payload = null;",
+		"dump_payload_expr": "dumpPayload();",
+		"payload_present": payload_present,
+		"pay_vector_x": pay_vector_x,
+		"pay_vector_y": pay_vector_y,
+		"pay_rotation_before": pay_rotation_before,
+		"rotdeg_value": rotdeg_value,
+		"size_value": size_value,
+		"tilesize": tilesize,
+		"payload_rotate_speed": payload_rotate_speed,
+		"payload_speed": payload_speed,
+		"time_delta": time_delta,
+		"front_present": front_present,
+		"front_solid": front_solid,
+		"front_outputs_payload": front_outputs_payload,
+		"front_accepts_payload": front_accepts_payload,
+		"move_payload_result": move_payload_result,
+		"half_extent": half_extent,
+		"dest": dest,
+		"update_payload_called": update_payload_called,
+		"pay_rotation_after": pay_rotation_after,
+		"pay_vector_after": pay_vector_after,
+		"can_dump": can_dump,
+		"can_move": can_move,
+		"distance_to_dest": distance_to_dest,
+		"distance_to_dest2": distance_to_dest2,
+		"pushed_output_fraction": pushed_output_fraction,
+		"arrived": arrived,
+		"move_payload_called": move_payload_called,
+		"dump_payload_called": dump_payload_called,
+		"payload_after_present": payload_after_present,
+	}
+
+func generated_block_producer_build_update_tile_move_out_payload_bridge_state(payload_present: bool, pay_vector_x: float, pay_vector_y: float, pay_rotation_before: float, rotdeg_value: float, size_value: float, tilesize: float, payload_rotate_speed: float, payload_speed: float, time_delta: float, front_present: bool, front_solid: bool, front_outputs_payload: bool, front_accepts_payload: bool, move_payload_result: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_5([payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result])
+	var canonical = source_block_producer_build_update_tile_move_out_payload_state(payload_present, pay_vector_x, pay_vector_y, pay_rotation_before, rotdeg_value, size_value, tilesize, payload_rotate_speed, payload_speed, time_delta, front_present, front_solid, front_outputs_payload, front_accepts_payload, move_payload_result)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.moveOutPayload",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

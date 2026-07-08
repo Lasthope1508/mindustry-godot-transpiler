@@ -139,3 +139,82 @@ func java_inner_class_BlockProducerBuild_method_updateTile_heat_time_5(_args: Ar
 	var heat_after: float = heat_before + (produce_num - heat_before) * clampf(0.15 * time_delta, 0.0, 1.0)
 	var time_after: float = time_before + heat_after * time_delta
 	return {"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "arc_source": "arc-core/src/arc/math/Mathf.java", "building_source": "core/src/mindustry/entities/comp/BuildingComp.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "field_expr": "public float progress, time, heat;", "heat_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);", "time_expr": "time += heat * delta();", "mathf_num_method": "public static int num(boolean b){", "mathf_lerp_delta_method": "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }", "building_delta_method": "public float delta(){", "produce": produce, "produce_num": produce_num, "heat_before": heat_before, "time_before": time_before, "time_delta": time_delta, "heat_after": heat_after, "time_after": time_after}
+
+func java_inner_class_BlockProducerBuild_method_updateTile_move_out_payload_5(_args: Array = []) -> Variant:
+	var payload_present: bool = bool(_args[0] if _args.size() > 0 else false)
+	var pay_vector_x: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var pay_vector_y: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var pay_rotation_before: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var rotdeg_value: float = float(_args[4] if _args.size() > 4 else 0.0)
+	var size_value: float = float(_args[5] if _args.size() > 5 else 0.0)
+	var tilesize: float = float(_args[6] if _args.size() > 6 else 8.0)
+	var payload_rotate_speed: float = float(_args[7] if _args.size() > 7 else 0.0)
+	var payload_speed: float = float(_args[8] if _args.size() > 8 else 0.0)
+	var time_delta: float = float(_args[9] if _args.size() > 9 else 0.0)
+	var front_present: bool = bool(_args[10] if _args.size() > 10 else false)
+	var front_solid: bool = bool(_args[11] if _args.size() > 11 else false)
+	var front_outputs_payload: bool = bool(_args[12] if _args.size() > 12 else false)
+	var front_accepts_payload: bool = bool(_args[13] if _args.size() > 13 else false)
+	var move_payload_result: bool = bool(_args[14] if _args.size() > 14 else false)
+	var half_extent: float = size_value * tilesize / 2.0
+	var dest: Variant = null
+	var pay_vector_after: Dictionary = {"x": pay_vector_x, "y": pay_vector_y}
+	var pay_rotation_after: float = pay_rotation_before
+	var update_payload_called: bool = false
+	var can_dump: bool = false
+	var can_move: bool = false
+	var distance_to_dest: float = 0.0
+	var distance_to_dest2: float = 0.0
+	var pushed_output_fraction: Variant = null
+	var arrived: bool = false
+	var move_payload_called: bool = false
+	var dump_payload_called: bool = false
+	var payload_after_present: bool = payload_present
+	if payload_present:
+		update_payload_called = true
+		var radians: float = deg_to_rad(rotdeg_value)
+		dest = {"x": half_extent * cos(radians), "y": half_extent * sin(radians)}
+		var rotation_speed: float = payload_rotate_speed * time_delta
+		var angle_a: float = fmod(fmod(pay_rotation_before, 360.0) + 360.0, 360.0)
+		var angle_b: float = fmod(fmod(rotdeg_value, 360.0) + 360.0, 360.0)
+		var forward_angle_dist: float = angle_a - angle_b + 360.0 if (angle_a - angle_b) < 0.0 else angle_a - angle_b
+		var backward_angle_dist: float = angle_b - angle_a + 360.0 if (angle_b - angle_a) < 0.0 else angle_b - angle_a
+		var angle_distance: float = min(forward_angle_dist, backward_angle_dist)
+		if abs(angle_distance) < rotation_speed:
+			pay_rotation_after = rotdeg_value
+		else:
+			var angle_mod: float = fmod(fmod(pay_rotation_before, 360.0) + 360.0, 360.0)
+			var to_mod: float = fmod(fmod(rotdeg_value, 360.0) + 360.0, 360.0)
+			if (angle_mod > to_mod) == ((360.0 - abs(angle_mod - to_mod)) > abs(angle_mod - to_mod)):
+				pay_rotation_after = angle_mod - rotation_speed
+			else:
+				pay_rotation_after = angle_mod + rotation_speed
+		var target_x: float = float(dest.get("x", 0.0))
+		var target_y: float = float(dest.get("y", 0.0))
+		var dx_approach: float = pay_vector_x - target_x
+		var dy_approach: float = pay_vector_y - target_y
+		var approach_alpha: float = payload_speed * time_delta
+		var approach_alpha2: float = approach_alpha * approach_alpha
+		var approach_len2: float = dx_approach * dx_approach + dy_approach * dy_approach
+		if approach_len2 > approach_alpha2:
+			var scl: float = sqrt(approach_alpha2 / approach_len2)
+			pay_vector_after = {"x": pay_vector_x - dx_approach * scl, "y": pay_vector_y - dy_approach * scl}
+		else:
+			pay_vector_after = {"x": target_x, "y": target_y}
+		can_dump = (not front_present) or (not front_solid)
+		can_move = front_present and (front_outputs_payload or front_accepts_payload)
+		var dx: float = target_x - float(pay_vector_after.get("x", 0.0))
+		var dy: float = target_y - float(pay_vector_after.get("y", 0.0))
+		distance_to_dest2 = dx * dx + dy * dy
+		distance_to_dest = sqrt(distance_to_dest2)
+		if can_dump and not can_move:
+			pushed_output_fraction = 1.0 - (distance_to_dest / half_extent)
+		arrived = distance_to_dest2 < 0.001 * 0.001
+		if arrived:
+			pay_vector_after = {"x": clampf(float(pay_vector_after.get("x", 0.0)), -half_extent, half_extent), "y": clampf(float(pay_vector_after.get("y", 0.0)), -half_extent, half_extent)}
+			if can_move:
+				move_payload_called = true
+				payload_after_present = not move_payload_result
+			elif can_dump:
+				dump_payload_called = true
+	return {"source_owner": "PortGame.source_block_producer_build_update_tile_move_out_payload_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "parent_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java", "arc_source": "arc-core/src/arc/math/Angles.java; arc-core/src/arc/math/geom/Vec2.java; arc-core/src/arc/math/geom/Position.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "update_tile_method": "public void updateTile(){", "move_out_payload_expr": "moveOutPayload();", "method": "public void moveOutPayload(){", "payload_null_guard": "if(payload == null) return;", "update_payload_expr": "updatePayload();", "dest_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);", "pay_rotation_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());", "pay_vector_expr": "payVector.approach(dest, payloadSpeed * delta());", "front_expr": "Building front = front();", "can_dump_expr": "boolean canDump = front == null || !front.tile.solid();", "can_move_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);", "push_output_expr": "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));", "arrived_guard": "if(payVector.within(dest, 0.001f)){", "clamp_expr": "payVector.clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);", "move_payload_expr": "if(movePayload(payload)){", "payload_clear_expr": "payload = null;", "dump_payload_expr": "dumpPayload();", "payload_present": payload_present, "pay_vector_x": pay_vector_x, "pay_vector_y": pay_vector_y, "pay_rotation_before": pay_rotation_before, "rotdeg_value": rotdeg_value, "size_value": size_value, "tilesize": tilesize, "payload_rotate_speed": payload_rotate_speed, "payload_speed": payload_speed, "time_delta": time_delta, "front_present": front_present, "front_solid": front_solid, "front_outputs_payload": front_outputs_payload, "front_accepts_payload": front_accepts_payload, "move_payload_result": move_payload_result, "half_extent": half_extent, "dest": dest, "update_payload_called": update_payload_called, "pay_rotation_after": pay_rotation_after, "pay_vector_after": pay_vector_after, "can_dump": can_dump, "can_move": can_move, "distance_to_dest": distance_to_dest, "distance_to_dest2": distance_to_dest2, "pushed_output_fraction": pushed_output_fraction, "arrived": arrived, "move_payload_called": move_payload_called, "dump_payload_called": dump_payload_called, "payload_after_present": payload_after_present}

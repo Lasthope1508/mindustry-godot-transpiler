@@ -11777,6 +11777,40 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_producer_build_update_tile_move_out_payload_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_producer_build_update_tile_move_out_payload_source"))
+        report = source_parity.verify_block_producer_build_update_tile_move_out_payload_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "override_expr": "@Override",
+            "update_tile_method": "public void updateTile(){",
+            "move_out_payload_expr": "moveOutPayload();",
+            "payload_block_method": "public void moveOutPayload(){",
+            "payload_null_guard": "if(payload == null) return;",
+            "update_payload_expr": "updatePayload();",
+            "dest_expr": "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);",
+            "pay_rotation_expr": "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+            "pay_vector_expr": "payVector.approach(dest, payloadSpeed * delta());",
+            "front_expr": "Building front = front();",
+            "can_dump_expr": "boolean canDump = front == null || !front.tile.solid();",
+            "can_move_expr": "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);",
+            "push_output_expr": "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));",
+            "arrived_guard": "if(payVector.within(dest, 0.001f)){",
+            "clamp_expr": "payVector.clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+            "move_payload_expr": "if(movePayload(payload)){",
+            "payload_clear_expr": "payload = null;",
+            "dump_payload_expr": "dumpPayload();",
+            "angles_move_toward_method": "public static float moveToward(float angle, float to, float speed){",
+            "vec2_trns_method": "public Vec2 trns(float angle, float amount){",
+            "vec2_approach_method": "public Vec2 approach(Vec2 target, float alpha){",
+            "vec2_dst_method": "public float dst(Vec2 v){",
+            "vec2_clamp_method": "public Vec2 clamp(float minx, float miny, float maxx, float maxy){",
+            "position_within_method": "default boolean within(float x, float y, float dst){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_build_payload_place_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_build_payload_place_source"))
         report = source_parity.verify_build_payload_place_source(ROOT / "mindustry-upstream")

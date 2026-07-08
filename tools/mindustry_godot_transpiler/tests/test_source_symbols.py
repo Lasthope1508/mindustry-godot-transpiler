@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 897)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 892)
+        self.assertEqual(audit["totalSourceFunctions"], 898)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 893)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 897)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 898)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20389,6 +20389,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_producer_build_update_tile_payload_creation_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_update_tile_heat_time_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_producer_build_update_tile_move_out_payload_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_write_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_overlap_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_no_client_guard_state", audit["registeredSourceOwners"])
@@ -48843,6 +48844,80 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_heat_time_result")
         self.assertEqual(result_schema["keys"]["heat_after"]["java_expr"], "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);")
         self.assertEqual(result_schema["keys"]["time_after"]["java_expr"], "time += heat * delta();")
+
+    def test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_producer_build_update_tile_move_out_payload.method")
+        self.assertEqual(method["java_expr"], "moveOutPayload();")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(method["java_method"], "BlockProducerBuild.updateTile() moveOutPayload")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_producer_build_update_tile_move_out_payload_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_producer_build_update_tile_move_out_payload_state")
+        payload_block_method = source_symbols.source_symbol(registry, "payload_block_build_move_out_payload.method")
+        self.assertEqual(payload_block_method["java_expr"], "public void moveOutPayload(){")
+        self.assertEqual(payload_block_method["java_source"], "core/src/mindustry/world/blocks/payloads/PayloadBlock.java")
+        dest_expr = source_symbols.source_symbol(registry, "payload_block_build_move_out_payload.dest_expr")
+        self.assertEqual(dest_expr["java_expr"], "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);")
+        can_move_expr = source_symbols.source_symbol(registry, "payload_block_build_move_out_payload.can_move_expr")
+        self.assertEqual(can_move_expr["java_expr"], "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);")
+        payload_after = source_symbols.source_symbol(registry, "block_producer_build_update_tile_move_out_payload.payload_after_present")
+        self.assertEqual(payload_after["godot_symbol"], "source_block_producer_build_update_tile_move_out_payload_result.payload_after_present")
+
+        move_out_slice = source_symbols.source_slice(ledger, "N1423")
+        self.assertEqual(move_out_slice["title"], "Generated BlockProducerBuild updateTile moveOutPayload bridge state")
+        self.assertEqual(move_out_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(move_out_slice["java_method"], "BlockProducerBuild.updateTile() moveOutPayload")
+        self.assertEqual(move_out_slice["godot_owner"], "PortGame.source_block_producer_build_update_tile_move_out_payload_state")
+        self.assertEqual(move_out_slice["generated_owner"], "BlockProducer.BlockProducerBuild.updateTile.moveOutPayload")
+        self.assertEqual(move_out_slice["runtime_proof"], "/root/Main.generated_block_producer_build_update_tile_move_out_payload_bridge_state")
+        for expr in [
+            "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "@Override",
+            "public void updateTile(){",
+            "moveOutPayload();",
+            "public void moveOutPayload(){",
+            "if(payload == null) return;",
+            "updatePayload();",
+            "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);",
+            "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());",
+            "payVector.approach(dest, payloadSpeed * delta());",
+            "boolean canDump = front == null || !front.tile.solid();",
+            "boolean canMove = front != null && (front.block.outputsPayload || front.block.acceptsPayload);",
+            "pushOutput(payload, 1f - (payVector.dst(dest) / (size * tilesize / 2f)));",
+            "if(payVector.within(dest, 0.001f)){",
+            "payVector.clamp(-size * tilesize / 2f, -size * tilesize / 2f, size * tilesize / 2f, size * tilesize / 2f);",
+            "payload = null;",
+            "dumpPayload();",
+        ]:
+            self.assertIn(expr, move_out_slice["exact_exprs"])
+        self.assertIn("angles_move_toward.method", move_out_slice["source_symbols"])
+        self.assertIn("vec2_trns.method", move_out_slice["source_symbols"])
+        self.assertIn("vec2_approach.method", move_out_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_producer_build_update_tile_move_out_payload_state")
+        self.assertEqual(
+            [param["name"] for param in contract["params"]],
+            ["payload_present", "pay_vector_x", "pay_vector_y", "pay_rotation_before", "rotdeg_value", "size_value", "tilesize", "payload_rotate_speed", "payload_speed", "time_delta", "front_present", "front_solid", "front_outputs_payload", "front_accepts_payload", "move_payload_result"],
+        )
+        for key in ["source_owner", "source", "parent_source", "arc_source", "inner_class", "method", "move_out_payload_expr", "payload_null_guard", "dest_expr", "pay_rotation_expr", "pay_vector_expr", "can_dump_expr", "can_move_expr", "payload_present", "dest", "pay_rotation_after", "pay_vector_after", "can_dump", "can_move", "pushed_output_fraction", "arrived", "move_payload_called", "dump_payload_called", "payload_after_present"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_move_out_payload_input")
+        self.assertEqual(input_schema["keys"]["payload_present"]["java_expr"], "payload != null")
+        self.assertEqual(input_schema["keys"]["pay_vector_x"]["java_expr"], "payVector.x")
+        self.assertEqual(input_schema["keys"]["rotdeg_value"]["java_expr"], "rotdeg()")
+        self.assertEqual(input_schema["keys"]["front_outputs_payload"]["java_expr"], "front.block.outputsPayload")
+        result_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_move_out_payload_result")
+        self.assertEqual(result_schema["keys"]["dest"]["java_expr"], "Vec2 dest = Tmp.v1.trns(rotdeg(), size * tilesize/2f);")
+        self.assertEqual(result_schema["keys"]["pay_rotation_after"]["java_expr"], "payRotation = Angles.moveToward(payRotation, rotdeg(), payloadRotateSpeed * delta());")
+        self.assertEqual(result_schema["keys"]["pay_vector_after"]["java_expr"], "payVector.approach(dest, payloadSpeed * delta());")
+        self.assertEqual(result_schema["keys"]["payload_after_present"]["java_expr"], "payload = null;")
 
     def test_generated_build_payload_content_equals_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
