@@ -657,6 +657,25 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidsDynamic.build"', source)
         self.assertIn('"matches": result.get("rebuild_calls", []) == canonical.get("rebuild_calls", []) and result.get("current_liquid_ids_after_update", []) == canonical.get("current_liquid_ids_after_update", [])', source)
 
+    def test_port_game_exposes_generated_consume_liquids_dynamic_constructor_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquids_dynamic_constructor_state(liquids: Variant) -> Dictionary:", source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"', source)
+        self.assertIn('"constructor": "public <T extends Building> ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids){"', source)
+        self.assertIn('"suppress_warnings_expr": "@SuppressWarnings(\\"unchecked\\")"', source)
+        self.assertIn('"assignment_expr": "this.liquids = (Func<Building, LiquidStack[]>)liquids;"', source)
+        self.assertIn('"cast_expr": "(Func<Building, LiquidStack[]>)liquids"', source)
+        self.assertIn('"liquids_after": liquids', source)
+        self.assertIn("func generated_consume_liquids_dynamic_constructor_bridge_state(liquids: Variant) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidsDynamic.gd")', source)
+        self.assertIn("var result = instance.java_constructor_ConsumeLiquidsDynamic_0([liquids])", source)
+        self.assertIn("var canonical = source_consume_liquids_dynamic_constructor_state(liquids)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquids_dynamic_constructor_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquidsDynamic.constructor"', source)
+        self.assertIn('"matches": result.get("liquids_after", null) == canonical.get("liquids_after", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_consumes_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

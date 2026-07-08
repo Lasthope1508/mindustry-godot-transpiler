@@ -36098,6 +36098,40 @@
         "test_generated_consume_liquids_dynamic_build_slice_is_registered_with_source_backing"
       ],
       "title": "Generated ConsumeLiquidsDynamic build bridge state"
+    },
+    "N1448": {
+      "deferred_exprs": [
+        "Concrete Func<Building, LiquidStack[]> invocation remains represented as a Variant provider token until generated functional interface dispatch is wired.",
+        "This slice records constructor assignment state only; dynamic provider use by build, rebuild, update, and efficiency remains owned by their existing slices."
+      ],
+      "exact_exprs": [
+        "public final Func<Building, LiquidStack[]> liquids;",
+        "@SuppressWarnings(\"unchecked\")",
+        "public <T extends Building> ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids){",
+        "this.liquids = (Func<Building, LiquidStack[]>)liquids;",
+        "public interface Func<P, R>{",
+        "R get(P param);"
+      ],
+      "generated_owner": "ConsumeLiquidsDynamic.java_constructor_ConsumeLiquidsDynamic_0",
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_constructor_state",
+      "java_class": "ConsumeLiquidsDynamic",
+      "java_method": "ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Generated ConsumeLiquidsDynamic constructor bridges unchecked Func cast assignment into source-backed provider state.",
+      "runtime_proof": "/root/Main.generated_consume_liquids_dynamic_constructor_bridge_state",
+      "source_symbols": [
+        "consume_liquids_dynamic_constructor.assignment",
+        "consume_liquids_dynamic_constructor.liquids",
+        "consume_liquids_dynamic_constructor.func_get"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_constructor_bridge_state",
+        "test_consume_liquids_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_constructor_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquidsDynamic constructor bridge state"
     }
   },
   "version": 1

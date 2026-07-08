@@ -5483,6 +5483,20 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_unit_payload_constructor_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "constructor": "public UnitPayload(Unit unit){", "unit_assign_expr": "this.unit = unit;", "unit": unit, "unit_after": unit}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        and type_entry.get("name") == "ConsumeLiquidsDynamic"
+    ):
+        for index, constructor in enumerate(type_entry.get("constructors", [])):
+            params = constructor.get("parameters", [])
+            if len(params) == 1:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeLiquidsDynamic_{index}(_args: Array = []) -> Variant:",
+                    "\tvar liquids: Variant = _args[0] if _args.size() > 0 else null",
+                    "\tvar liquids_after: Variant = liquids",
+                    '\treturn {"source_owner": "PortGame.source_consume_liquids_dynamic_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "constructor": "public <T extends Building> ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids){", "suppress_warnings_expr": "@SuppressWarnings(\\"unchecked\\")", "assignment_expr": "this.liquids = (Func<Building, LiquidStack[]>)liquids;", "cast_expr": "(Func<Building, LiquidStack[]>)liquids", "liquids": liquids, "liquids_after": liquids_after}',
+                ])
+    if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BlockProducer.java"
         and type_entry.get("name") == "BlockProducer"
     ):

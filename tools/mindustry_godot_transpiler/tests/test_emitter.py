@@ -17947,6 +17947,48 @@ public class ConsumeLiquidsDynamic extends Consume{
             self.assertIn('"changed_expr": "if(current[0] != liquids.get(build)){"', source_text)
             self.assertIn('"assignment_expr": "current[0] = liquids.get(build);"', source_text)
 
+    def test_emit_bridges_consume_liquids_dynamic_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidsDynamic.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeLiquidsDynamic extends Consume{
+    public final Func<Building, LiquidStack[]> liquids;
+
+    @SuppressWarnings("unchecked")
+    public <T extends Building> ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids){
+        this.liquids = (Func<Building, LiquidStack[]>)liquids;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidsDynamic.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeLiquidsDynamic_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var liquids: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var liquids_after: Variant = liquids", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_dynamic_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"', source_text)
+            self.assertIn('"constructor": "public <T extends Building> ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids){"', source_text)
+            self.assertIn('"suppress_warnings_expr": "@SuppressWarnings(\\"unchecked\\")"', source_text)
+            self.assertIn('"assignment_expr": "this.liquids = (Func<Building, LiquidStack[]>)liquids;"', source_text)
+            self.assertIn('"cast_expr": "(Func<Building, LiquidStack[]>)liquids"', source_text)
+            self.assertIn('"liquids_after": liquids_after', source_text)
+
     def test_emit_bridges_consume_liquid_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

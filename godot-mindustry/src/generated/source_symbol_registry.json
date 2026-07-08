@@ -119321,6 +119321,57 @@
         "test_consume_liquids_dynamic_build_matches_upstream_source",
         "test_generated_consume_liquids_dynamic_build_slice_is_registered_with_source_backing"
       ]
+    },
+    "consume_liquids_dynamic_constructor.assignment": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_constructor_state",
+      "godot_symbol": "source_consume_liquids_dynamic_constructor_result.liquids_after",
+      "java_expr": "this.liquids = (Func<Building, LiquidStack[]>)liquids;",
+      "java_method": "ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic constructor stores the dynamic LiquidStack provider after unchecked Func cast.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_constructor_state",
+      "source_slice": "N1448",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_constructor_bridge_state",
+        "test_consume_liquids_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_constructor.liquids": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_constructor_state",
+      "godot_symbol": "source_consume_liquids_dynamic_constructor_input.liquids",
+      "java_expr": "Func<T, LiquidStack[]> liquids",
+      "java_method": "ConsumeLiquidsDynamic(Func<T, LiquidStack[]> liquids)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic constructor receives the dynamic liquid stack provider as explicit input.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_constructor_state",
+      "source_slice": "N1448",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_constructor_bridge_state",
+        "test_consume_liquids_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_constructor_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_constructor.func_get": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_constructor_state",
+      "godot_symbol": "source_consume_liquids_dynamic_constructor_result.func_get_expr",
+      "java_expr": "R get(P param);",
+      "java_method": "Func.get(P param)",
+      "java_source": "arc-core/src/arc/func/Func.java",
+      "rule": "Arc Func provides the provider get(P) contract used by the constructor parameter type.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_constructor_state",
+      "source_slice": "N1448",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_constructor_bridge_state",
+        "test_consume_liquids_dynamic_constructor_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
