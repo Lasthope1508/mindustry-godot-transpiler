@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 895)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 890)
+        self.assertEqual(audit["totalSourceFunctions"], 896)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 891)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 895)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 896)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20387,6 +20387,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_producer_build_update_tile_progress_accumulation_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_update_tile_completion_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_update_tile_payload_creation_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_write_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_overlap_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_no_client_guard_state", audit["registeredSourceOwners"])
@@ -48731,6 +48732,62 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_payload_creation_result")
         self.assertEqual(result_schema["keys"]["payload_after"]["java_expr"], "payload = new BuildPayload(recipe, team);")
         self.assertEqual(result_schema["keys"]["effect_radius"]["java_expr"], "payload.size() / tilesize")
+
+    def test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_producer_build_update_tile_pay_vector_progress_reset.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(method["java_method"], "BlockProducerBuild.updateTile() payVector/progress reset")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state")
+        pay_vector_set_zero = source_symbols.source_symbol(registry, "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_set_zero_expr")
+        self.assertEqual(pay_vector_set_zero["java_expr"], "payVector.setZero();")
+        progress_modulo = source_symbols.source_symbol(registry, "block_producer_build_update_tile_pay_vector_progress_reset.progress_modulo_expr")
+        self.assertEqual(progress_modulo["java_expr"], "progress %= 1f;")
+        progress_after = source_symbols.source_symbol(registry, "block_producer_build_update_tile_pay_vector_progress_reset.progress_after")
+        self.assertEqual(progress_after["java_expr"], "progress %= 1f;")
+        self.assertEqual(progress_after["godot_symbol"], "source_block_producer_build_update_tile_pay_vector_progress_reset_result.progress_after")
+
+        reset_slice = source_symbols.source_slice(ledger, "N1421")
+        self.assertEqual(reset_slice["title"], "Generated BlockProducerBuild updateTile payVector/progress reset bridge state")
+        self.assertEqual(reset_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(reset_slice["java_method"], "BlockProducerBuild.updateTile() payVector/progress reset")
+        self.assertEqual(reset_slice["godot_owner"], "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state")
+        self.assertEqual(reset_slice["generated_owner"], "BlockProducer.BlockProducerBuild.updateTile.payVectorProgressReset")
+        self.assertEqual(reset_slice["runtime_proof"], "/root/Main.generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state")
+        for expr in [
+            "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "public float progress, time, heat;",
+            "public Vec2 payVector = new Vec2();",
+            "@Override",
+            "public void updateTile(){",
+            "if(progress >= recipe.buildTime){",
+            "payVector.setZero();",
+            "progress %= 1f;",
+        ]:
+            self.assertIn(expr, reset_slice["exact_exprs"])
+        self.assertIn("block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_set_zero_expr", reset_slice["source_symbols"])
+        self.assertIn("block_producer_build_update_tile_pay_vector_progress_reset.progress_modulo_expr", reset_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["completion_guard", "pay_vector_x", "pay_vector_y", "progress_before"])
+        for key in ["source_owner", "source", "parent_source", "inner_class", "override_expr", "method", "completion_guard_expr", "pay_vector_set_zero_expr", "progress_modulo_expr", "completion_guard", "pay_vector_x", "pay_vector_y", "progress_before", "pay_vector_after", "progress_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_pay_vector_progress_reset_input")
+        self.assertEqual(input_schema["keys"]["pay_vector_x"]["java_expr"], "payVector.x")
+        self.assertEqual(input_schema["keys"]["pay_vector_y"]["java_expr"], "payVector.y")
+        self.assertEqual(input_schema["keys"]["progress_before"]["java_expr"], "progress")
+        result_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_pay_vector_progress_reset_result")
+        self.assertEqual(result_schema["keys"]["pay_vector_after"]["java_expr"], "payVector.setZero();")
+        self.assertEqual(result_schema["keys"]["progress_after"]["java_expr"], "progress %= 1f;")
 
     def test_generated_build_payload_content_equals_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

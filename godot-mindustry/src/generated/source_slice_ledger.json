@@ -35090,6 +35090,52 @@
       ],
       "rule": "Generated BlockProducerBuild.updateTile() bridge records payload creation and placeEffect.at call from source.",
       "notes": "This slice closes only BuildPayload creation and placeEffect radius expression inside the completion guard."
+    },
+    "N1421": {
+      "title": "Generated BlockProducerBuild updateTile payVector/progress reset bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payVectorProgressReset",
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "public float progress, time, heat;",
+        "public Vec2 payVector = new Vec2();",
+        "@Override",
+        "public void updateTile(){",
+        "if(progress >= recipe.buildTime){",
+        "payVector.setZero();",
+        "progress %= 1f;"
+      ],
+      "source_symbols": [
+        "block_producer_build_update_tile_pay_vector_progress_reset.method",
+        "block_producer_build_update_tile_completion_guard.completion_guard",
+        "block_producer_build_update_tile_pay_vector_progress_reset.progress_field",
+        "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_field",
+        "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_x",
+        "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_y",
+        "block_producer_build_update_tile_pay_vector_progress_reset.progress_before",
+        "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_set_zero_expr",
+        "block_producer_build_update_tile_pay_vector_progress_reset.progress_modulo_expr",
+        "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_after",
+        "block_producer_build_update_tile_pay_vector_progress_reset.progress_after"
+      ],
+      "deferred_exprs": [
+        "Heat lerp, time update, and moveOutPayload remain later source-backed slices.",
+        "Concrete Vec2.setZero() internals remain canonical in existing Vec2-backed SSOT entries; this slice records BlockProducerBuild calling payVector.setZero()."
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducerBuild.updateTile() bridge records payVector.setZero() and progress %= 1f from source.",
+      "notes": "This slice closes only payVector reset and progress modulo after payload creation inside completion guard."
     }
   },
   "version": 1

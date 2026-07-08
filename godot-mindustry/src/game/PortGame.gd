@@ -21920,6 +21920,45 @@ func generated_block_producer_build_update_tile_payload_creation_bridge_state(co
 		"matches": result == canonical,
 	}
 
+func source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:
+	var pay_vector_after: Dictionary = {"x": pay_vector_x, "y": pay_vector_y}
+	var progress_after: float = progress_before
+	if completion_guard:
+		pay_vector_after = {"x": 0.0, "y": 0.0}
+		progress_after = fmod(progress_before, 1.0)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"parent_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"method": "public void updateTile(){",
+		"completion_guard_expr": "if(progress >= recipe.buildTime){",
+		"pay_vector_field": "public Vec2 payVector = new Vec2();",
+		"progress_field": "public float progress, time, heat;",
+		"pay_vector_set_zero_expr": "payVector.setZero();",
+		"progress_modulo_expr": "progress %= 1f;",
+		"completion_guard": completion_guard,
+		"pay_vector_x": pay_vector_x,
+		"pay_vector_y": pay_vector_y,
+		"progress_before": progress_before,
+		"pay_vector_after": pay_vector_after,
+		"progress_after": progress_after,
+	}
+
+func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_pay_vector_progress_reset_5([completion_guard, pay_vector_x, pay_vector_y, progress_before])
+	var canonical = source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payVectorProgressReset",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

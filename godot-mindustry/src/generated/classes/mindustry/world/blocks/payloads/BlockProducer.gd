@@ -117,3 +117,15 @@ func java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5(_a
 	if completion_guard:
 		effect_radius = payload_size / tilesize
 	return {"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "payload_expr": "payload = new BuildPayload(recipe, team);", "place_effect_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);", "completion_guard": completion_guard, "recipe": recipe, "team": team, "x": x, "y": y, "payload_size": payload_size, "tilesize": tilesize, "payload_after": payload_after, "place_effect_called": place_effect_called, "effect_radius": effect_radius}
+
+func java_inner_class_BlockProducerBuild_method_updateTile_pay_vector_progress_reset_5(_args: Array = []) -> Variant:
+	var completion_guard: bool = bool(_args[0] if _args.size() > 0 else false)
+	var pay_vector_x: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var pay_vector_y: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var progress_before: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var pay_vector_after: Dictionary = {"x": pay_vector_x, "y": pay_vector_y}
+	var progress_after: float = progress_before
+	if completion_guard:
+		pay_vector_after = {"x": 0.0, "y": 0.0}
+		progress_after = fmod(progress_before, 1.0)
+	return {"source_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "parent_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "completion_guard_expr": "if(progress >= recipe.buildTime){", "pay_vector_field": "public Vec2 payVector = new Vec2();", "progress_field": "public float progress, time, heat;", "pay_vector_set_zero_expr": "payVector.setZero();", "progress_modulo_expr": "progress %= 1f;", "completion_guard": completion_guard, "pay_vector_x": pay_vector_x, "pay_vector_y": pay_vector_y, "progress_before": progress_before, "pay_vector_after": pay_vector_after, "progress_after": progress_after}

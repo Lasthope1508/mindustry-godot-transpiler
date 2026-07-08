@@ -116111,6 +116111,196 @@
       "java_expr": "payload.size() / tilesize",
       "rule": "Effect radius expression passed as third argument to placeEffect.at.",
       "status": "source-backed"
+    },
+    "block_producer_build_update_tile_pay_vector_progress_reset.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_slice": "N1421",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_pay_vector_progress_reset_result.method",
+      "java_expr": "public void updateTile(){",
+      "rule": "Pin BlockProducerBuild.updateTile() method boundary for payVector/progress reset.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_pay_vector_progress_reset.progress_field": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_slice": "N1421",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_pay_vector_progress_reset_result.progress_field",
+      "java_expr": "public float progress, time, heat;",
+      "rule": "Pin BlockProducerBuild progress field before progress modulo.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_field": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.payVector",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_slice": "N1421",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_pay_vector_progress_reset_result.pay_vector_field",
+      "java_expr": "public Vec2 payVector = new Vec2();",
+      "rule": "Pin PayloadBlockBuild payVector field reset by payVector.setZero().",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_x": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.payVector",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_slice": "N1421",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.pay_vector_x",
+      "java_expr": "payVector.x",
+      "rule": "Explicit current payVector.x input before payVector.setZero().",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_y": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "PayloadBlockBuild.payVector",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_slice": "N1421",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.pay_vector_y",
+      "java_expr": "payVector.y",
+      "rule": "Explicit current payVector.y input before payVector.setZero().",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_pay_vector_progress_reset.progress_before": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_slice": "N1421",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.progress_before",
+      "java_expr": "progress",
+      "rule": "Explicit progress input before progress %= 1f.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_set_zero_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_slice": "N1421",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_pay_vector_progress_reset_result.pay_vector_after",
+      "java_expr": "payVector.setZero();",
+      "rule": "Reset payVector to zero after payload creation inside completion guard.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_pay_vector_progress_reset.progress_modulo_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_slice": "N1421",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_pay_vector_progress_reset_result.progress_after",
+      "java_expr": "progress %= 1f;",
+      "rule": "Apply Java float remainder to progress after payload creation inside completion guard.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_after": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_slice": "N1421",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_pay_vector_progress_reset_result.pay_vector_after",
+      "java_expr": "payVector.setZero();",
+      "rule": "Result payVector after payVector.setZero() when completion guard passes.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_pay_vector_progress_reset.progress_after": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_slice": "N1421",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_pay_vector_progress_reset_result.progress_after",
+      "java_expr": "progress %= 1f;",
+      "rule": "Result progress after progress %= 1f when completion guard passes.",
+      "status": "source-backed"
     }
   },
   "version": 1

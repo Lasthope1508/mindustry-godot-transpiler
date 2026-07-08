@@ -11723,6 +11723,41 @@ def verify_block_producer_build_update_tile_payload_creation_source(upstream_roo
         "missing": missing,
     }
 
+def verify_block_producer_build_update_tile_pay_vector_progress_reset_source(upstream_root: Path) -> dict[str, Any]:
+    block_producer_source = "core/src/mindustry/world/blocks/payloads/BlockProducer.java"
+    payload_block_source = "core/src/mindustry/world/blocks/payloads/PayloadBlock.java"
+    block_producer_path = Path(upstream_root) / block_producer_source
+    payload_block_path = Path(upstream_root) / payload_block_source
+    block_producer_text = block_producer_path.read_text(encoding="utf-8", errors="replace")
+    payload_block_text = payload_block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "progress_field": "public float progress, time, heat;",
+        "pay_vector_field": "public Vec2 payVector = new Vec2();",
+        "override_expr": "@Override",
+        "method": "public void updateTile(){",
+        "completion_guard": "if(progress >= recipe.buildTime){",
+        "pay_vector_set_zero_expr": "payVector.setZero();",
+        "progress_modulo_expr": "progress %= 1f;",
+    }
+    block_producer_values = [
+        checked["inner_class"],
+        checked["progress_field"],
+        checked["override_expr"],
+        checked["method"],
+        checked["completion_guard"],
+        checked["pay_vector_set_zero_expr"],
+        checked["progress_modulo_expr"],
+    ]
+    missing = [snippet for snippet in block_producer_values if snippet not in block_producer_text]
+    if checked["pay_vector_field"] not in payload_block_text:
+        missing.append(checked["pay_vector_field"])
+    return {
+        "source": block_producer_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_content_equals_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

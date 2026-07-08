@@ -19685,6 +19685,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payloadCreation"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:", source)
+        self.assertIn('var pay_vector_after: Dictionary = {"x": pay_vector_x, "y": pay_vector_y}', source)
+        self.assertIn('pay_vector_after = {"x": 0.0, "y": 0.0}', source)
+        self.assertIn("var progress_after: float = progress_before", source)
+        self.assertIn("progress_after = fmod(progress_before, 1.0)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state"', source)
+        self.assertIn('"pay_vector_set_zero_expr": "payVector.setZero();"', source)
+        self.assertIn('"progress_modulo_expr": "progress %= 1f;"', source)
+        self.assertIn('"pay_vector_after": pay_vector_after', source)
+        self.assertIn('"progress_after": progress_after', source)
+
+    def test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state(completion_guard: bool, pay_vector_x: float, pay_vector_y: float, progress_before: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_pay_vector_progress_reset_5([completion_guard, pay_vector_x, pay_vector_y, progress_before])", source)
+        self.assertIn("var canonical = source_block_producer_build_update_tile_pay_vector_progress_reset_state(completion_guard, pay_vector_x, pay_vector_y, progress_before)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payVectorProgressReset"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

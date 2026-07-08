@@ -38480,6 +38480,70 @@
         "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
         "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "source_slice": "N1421",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "params": [
+        {
+          "name": "completion_guard",
+          "type": "bool",
+          "java_expr": "if(progress >= recipe.buildTime){",
+          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.completion_guard",
+          "source_symbol": "block_producer_build_update_tile_completion_guard.completion_guard"
+        },
+        {
+          "name": "pay_vector_x",
+          "type": "float",
+          "java_expr": "payVector.x",
+          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.pay_vector_x",
+          "source_symbol": "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_x"
+        },
+        {
+          "name": "pay_vector_y",
+          "type": "float",
+          "java_expr": "payVector.y",
+          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.pay_vector_y",
+          "source_symbol": "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_y"
+        },
+        {
+          "name": "progress_before",
+          "type": "float",
+          "java_expr": "progress",
+          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.progress_before",
+          "source_symbol": "block_producer_build_update_tile_pay_vector_progress_reset.progress_before"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "parent_source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "completion_guard_expr",
+        "pay_vector_field",
+        "progress_field",
+        "pay_vector_set_zero_expr",
+        "progress_modulo_expr",
+        "completion_guard",
+        "pay_vector_x",
+        "pay_vector_y",
+        "progress_before",
+        "pay_vector_after",
+        "progress_after"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state pins payVector.setZero(); and progress %= 1f;.",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

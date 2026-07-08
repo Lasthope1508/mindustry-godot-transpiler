@@ -11740,6 +11740,23 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_producer_build_update_tile_pay_vector_progress_reset_source"))
+        report = source_parity.verify_block_producer_build_update_tile_pay_vector_progress_reset_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "progress_field": "public float progress, time, heat;",
+            "pay_vector_field": "public Vec2 payVector = new Vec2();",
+            "override_expr": "@Override",
+            "method": "public void updateTile(){",
+            "completion_guard": "if(progress >= recipe.buildTime){",
+            "pay_vector_set_zero_expr": "payVector.setZero();",
+            "progress_modulo_expr": "progress %= 1f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_build_payload_place_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_build_payload_place_source"))
         report = source_parity.verify_build_payload_place_source(ROOT / "mindustry-upstream")
