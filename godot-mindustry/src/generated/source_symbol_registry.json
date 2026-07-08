@@ -109322,6 +109322,114 @@
       "godot_symbol": "source_unit_payload_set_result.rotation",
       "java_expr": "unit.rotation = rotation;",
       "rule": "UnitPayload.set assigns unit.rotation from rotation parameter."
+    },
+    "unit_payload_x.class_expr": {
+      "godot_owner": "PortGame.source_unit_payload_x_state",
+      "godot_symbol": "source_unit_payload_x_result.class_expr",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "java_method": "UnitPayload.x()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Pin UnitPayload class boundary for x bridge.",
+      "runtime_proof": "/root/Main.source_unit_payload_x_state",
+      "source_slice": "N1395",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_x_to_source_state",
+        "test_port_game_exposes_source_unit_payload_x_state",
+        "test_port_game_exposes_generated_unit_payload_x_bridge_state",
+        "test_unit_payload_x_matches_upstream_source",
+        "test_generated_unit_payload_x_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_x.field_expr": {
+      "godot_owner": "PortGame.source_unit_payload_x_state",
+      "godot_symbol": "source_unit_payload_x_result.field_expr",
+      "java_expr": "public Unit unit;",
+      "java_method": "UnitPayload.x()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "UnitPayload unit field supplies unit.x receiver.",
+      "runtime_proof": "/root/Main.source_unit_payload_x_state",
+      "source_slice": "N1395",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_x_to_source_state",
+        "test_port_game_exposes_source_unit_payload_x_state",
+        "test_port_game_exposes_generated_unit_payload_x_bridge_state",
+        "test_unit_payload_x_matches_upstream_source",
+        "test_generated_unit_payload_x_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_x.override_expr": {
+      "godot_owner": "PortGame.source_unit_payload_x_state",
+      "godot_symbol": "source_unit_payload_x_result.override_expr",
+      "java_expr": "@Override",
+      "java_method": "UnitPayload.x()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "UnitPayload.x overrides Payload.x.",
+      "runtime_proof": "/root/Main.source_unit_payload_x_state",
+      "source_slice": "N1395",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_x_to_source_state",
+        "test_port_game_exposes_source_unit_payload_x_state",
+        "test_port_game_exposes_generated_unit_payload_x_bridge_state",
+        "test_unit_payload_x_matches_upstream_source",
+        "test_generated_unit_payload_x_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_x.method": {
+      "godot_owner": "PortGame.source_unit_payload_x_state",
+      "godot_symbol": "source_unit_payload_x_result.method",
+      "java_expr": "public float x(){",
+      "java_method": "UnitPayload.x()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Pin UnitPayload.x method boundary.",
+      "runtime_proof": "/root/Main.source_unit_payload_x_state",
+      "source_slice": "N1395",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_x_to_source_state",
+        "test_port_game_exposes_source_unit_payload_x_state",
+        "test_port_game_exposes_generated_unit_payload_x_bridge_state",
+        "test_unit_payload_x_matches_upstream_source",
+        "test_generated_unit_payload_x_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_x.unit_x": {
+      "godot_owner": "PortGame.source_unit_payload_x_state",
+      "godot_symbol": "source_unit_payload_x_input.unit_x",
+      "java_expr": "unit.x",
+      "java_method": "UnitPayload.x()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Explicit runtime value for Unit.x field.",
+      "runtime_proof": "/root/Main.source_unit_payload_x_state",
+      "source_slice": "N1395",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_unit_payload_x_to_source_state",
+        "test_port_game_exposes_source_unit_payload_x_state",
+        "test_port_game_exposes_generated_unit_payload_x_bridge_state",
+        "test_unit_payload_x_matches_upstream_source",
+        "test_generated_unit_payload_x_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_x.return_expr": {
+      "godot_owner": "PortGame.source_unit_payload_x_state",
+      "godot_symbol": "source_unit_payload_x_result.x",
+      "java_expr": "return unit.x;",
+      "java_method": "UnitPayload.x()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "UnitPayload.x returns unit.x directly.",
+      "runtime_proof": "/root/Main.source_unit_payload_x_state",
+      "source_slice": "N1395",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_x_to_source_state",
+        "test_port_game_exposes_source_unit_payload_x_state",
+        "test_port_game_exposes_generated_unit_payload_x_bridge_state",
+        "test_unit_payload_x_matches_upstream_source",
+        "test_generated_unit_payload_x_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

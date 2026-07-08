@@ -36694,6 +36694,40 @@
         "test_unit_payload_set_matches_upstream_source",
         "test_generated_unit_payload_set_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_x_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
+          "java_expr": "unit.x",
+          "name": "unit_x",
+          "schema": "source_unit_payload_x_input.unit_x",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "unit_x",
+        "x"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_x_state mirrors UnitPayload.x().",
+      "runtime_proof": "/root/Main.source_unit_payload_x_state",
+      "source_method": "UnitPayload.x()",
+      "source_slice": "N1395",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_unit_payload_x_to_source_state",
+        "test_port_game_exposes_source_unit_payload_x_state",
+        "test_port_game_exposes_generated_unit_payload_x_bridge_state",
+        "test_unit_payload_x_matches_upstream_source",
+        "test_generated_unit_payload_x_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

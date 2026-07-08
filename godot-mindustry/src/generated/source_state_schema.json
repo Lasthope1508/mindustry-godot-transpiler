@@ -137201,6 +137201,162 @@
           "type": "Dictionary"
         }
       }
+    },
+    "source_unit_payload_x_input": {
+      "owner": "PortGame.source_unit_payload_x_state",
+      "source_slice": "N1395",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_unit_payload_x_state.",
+      "keys": {
+        "unit_x": {
+          "godot_symbol": "source_unit_payload_x_input.unit_x",
+          "java_expr": "unit.x",
+          "java_method": "UnitPayload.x()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_x_state"
+          ],
+          "source_symbols": [
+            "unit_payload_x.unit_x"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        }
+      }
+    },
+    "source_unit_payload_x_result": {
+      "owner": "PortGame.source_unit_payload_x_state",
+      "source_slice": "N1395",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_x_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_unit_payload_x_result.source_owner",
+          "java_expr": "PortGame.source_unit_payload_x_state",
+          "java_method": "UnitPayload.x()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_x_state"
+          ],
+          "source_symbols": [
+            "unit_payload_x.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_unit_payload_x_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.x()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_x_state"
+          ],
+          "source_symbols": [
+            "unit_payload_x.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_unit_payload_x_result.class_expr",
+          "java_expr": "public class UnitPayload implements Payload{",
+          "java_method": "UnitPayload.x()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_x_state"
+          ],
+          "source_symbols": [
+            "unit_payload_x.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_unit_payload_x_result.field_expr",
+          "java_expr": "public Unit unit;",
+          "java_method": "UnitPayload.x()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_x_state"
+          ],
+          "source_symbols": [
+            "unit_payload_x.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_unit_payload_x_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "UnitPayload.x()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_x_state"
+          ],
+          "source_symbols": [
+            "unit_payload_x.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_unit_payload_x_result.method",
+          "java_expr": "public float x(){",
+          "java_method": "UnitPayload.x()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_x_state"
+          ],
+          "source_symbols": [
+            "unit_payload_x.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_unit_payload_x_result.return_expr",
+          "java_expr": "return unit.x;",
+          "java_method": "UnitPayload.x()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_x_state"
+          ],
+          "source_symbols": [
+            "unit_payload_x.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "unit_x": {
+          "godot_symbol": "source_unit_payload_x_result.unit_x",
+          "java_expr": "unit.x",
+          "java_method": "UnitPayload.x()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_x_state"
+          ],
+          "source_symbols": [
+            "unit_payload_x.unit_x"
+          ],
+          "status": "explicit-input",
+          "type": "float"
+        },
+        "x": {
+          "godot_symbol": "source_unit_payload_x_result.x",
+          "java_expr": "return unit.x;",
+          "java_method": "UnitPayload.x()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_x_state"
+          ],
+          "source_symbols": [
+            "unit_payload_x.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        }
+      }
     }
   },
   "version": 1

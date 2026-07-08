@@ -77,7 +77,8 @@ func java_method_set_8(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_payload_set_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void set(float x, float y, float rotation){", "set_expr": "unit.set(x, y);", "rotation_assign_expr": "unit.rotation = rotation;", "x": x, "y": y, "rotation": rotation_value, "set_called": true, "set_call": set_call}
 
 func java_method_x_9(_args: Array = []) -> Variant:
-	return null
+	var unit_x: float = float(_args[0] if _args.size() > 0 else 0.0)
+	return {"source_owner": "PortGame.source_unit_payload_x_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float x(){", "return_expr": "return unit.x;", "unit_x": unit_x, "x": unit_x}
 
 func java_method_y_10(_args: Array = []) -> Variant:
 	return null

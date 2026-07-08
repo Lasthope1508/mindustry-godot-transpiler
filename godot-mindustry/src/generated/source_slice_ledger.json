@@ -33767,6 +33767,42 @@
         "test_unit_payload_set_matches_upstream_source",
         "test_generated_unit_payload_set_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1395": {
+      "deferred_exprs": [
+        "Concrete Unit internals, UnitPayload.y(), UnitPayload.rotation(), size, dump, draw, icon, and world integration remain deferred to later source-backed slices."
+      ],
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public float x(){",
+        "return unit.x;"
+      ],
+      "generated_owner": "UnitPayload.java_method_x_9",
+      "godot_owner": "PortGame.source_unit_payload_x_state",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.x()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Registers UnitPayload.x() getter bridge against exact return unit.x source expression.",
+      "runtime_proof": "/root/Main.generated_unit_payload_x_bridge_state",
+      "source_symbols": [
+        "unit_payload_x.class_expr",
+        "unit_payload_x.field_expr",
+        "unit_payload_x.override_expr",
+        "unit_payload_x.method",
+        "unit_payload_x.unit_x",
+        "unit_payload_x.return_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_unit_payload_x_to_source_state",
+        "test_port_game_exposes_source_unit_payload_x_state",
+        "test_port_game_exposes_generated_unit_payload_x_bridge_state",
+        "test_unit_payload_x_matches_upstream_source",
+        "test_generated_unit_payload_x_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated UnitPayload x bridge state"
     }
   },
   "version": 1

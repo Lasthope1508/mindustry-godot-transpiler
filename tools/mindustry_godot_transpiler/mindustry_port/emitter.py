@@ -1730,6 +1730,15 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_unit_payload_set_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void set(float x, float y, float rotation){", "set_expr": "unit.set(x, y);", "rotation_assign_expr": "unit.rotation = rotation;", "x": x, "y": y, "rotation": rotation_value, "set_called": true, "set_call": set_call}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
+        and type_entry.get("name") == "UnitPayload"
+        and method.get("name") == "x"
+    ):
+        return [
+            "\tvar unit_x: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            '\treturn {"source_owner": "PortGame.source_unit_payload_x_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float x(){", "return_expr": "return unit.x;", "unit_x": unit_x, "x": unit_x}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "place"
