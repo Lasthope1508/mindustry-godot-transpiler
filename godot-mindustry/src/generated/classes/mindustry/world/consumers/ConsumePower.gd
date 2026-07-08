@@ -17,7 +17,9 @@ func java_method_apply_0(_args: Array = []) -> Variant:
 	return null
 
 func java_method_ignore_1(_args: Array = []) -> Variant:
-	return null
+	var buffered: bool = bool(_args[0] if _args.size() > 0 else false)
+	var ignore_consume: bool = buffered
+	return {"source_owner": "PortGame.source_consume_power_ignore_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public boolean ignore(){", "buffered": buffered, "ignore": ignore_consume, "return_expr": "return buffered;"}
 
 func java_method_efficiency_2(_args: Array = []) -> Variant:
 	return null

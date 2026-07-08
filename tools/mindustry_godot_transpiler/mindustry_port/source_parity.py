@@ -3984,6 +3984,20 @@ def verify_power_graph_power_needed_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_consume_power_ignore_source(upstream_root: Path) -> dict[str, Any]:
+    consume_power_path = Path(upstream_root) / CONSUME_POWER_SOURCE
+    source = consume_power_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "ignore_method": "public boolean ignore(){",
+        "ignore_return": "return buffered;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": CONSUME_POWER_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_power_produced_source(upstream_root: Path) -> dict[str, Any]:
     power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     building_path = Path(upstream_root) / BUILDING_COMP_SOURCE

@@ -789,6 +789,17 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_power_ignore_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_power_ignore_source"))
+        report = source_parity.verify_consume_power_ignore_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumePower.java")
+        self.assertEqual(report["checked"], {
+            "ignore_method": "public boolean ignore(){",
+            "ignore_return": "return buffered;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_power_produced_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_power_produced_source"))
         report = source_parity.verify_power_graph_power_produced_source(ROOT / "mindustry-upstream")

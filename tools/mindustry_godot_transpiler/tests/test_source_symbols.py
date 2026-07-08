@@ -13913,6 +13913,50 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_power_requested_power_result")
         self.assertEqual(result_schema["keys"]["requested_power"]["java_expr"], "return buffered ? (1f - entity.power.status) * capacity : usage * (entity.shouldConsume() ? 1f : 0f);")
 
+    def test_generated_consume_power_ignore_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        ignore_symbol = source_symbols.source_symbol(registry, "consume_power_ignore.return")
+        self.assertEqual(ignore_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumePower.java")
+        self.assertEqual(ignore_symbol["java_method"], "ignore()")
+        self.assertEqual(ignore_symbol["java_expr"], "return buffered;")
+        self.assertEqual(ignore_symbol["godot_owner"], "PortGame.source_consume_power_ignore_state")
+        self.assertEqual(ignore_symbol["runtime_proof"], "/root/Main.source_consume_power_ignore_state")
+        self.assertEqual(ignore_symbol["godot_symbol"], "source_consume_power_ignore_result.ignore")
+
+        input_symbol = source_symbols.source_symbol(registry, "consume_power_ignore.buffered_input")
+        self.assertEqual(input_symbol["status"], "explicit-input")
+        self.assertEqual(input_symbol["java_expr"], "buffered")
+        self.assertEqual(input_symbol["godot_symbol"], "source_consume_power_ignore_input.buffered")
+
+        ignore_slice = source_symbols.source_slice(ledger, "N1425")
+        self.assertEqual(ignore_slice["title"], "Generated ConsumePower ignore bridge state")
+        self.assertEqual(ignore_slice["java_source"], "core/src/mindustry/world/consumers/ConsumePower.java")
+        self.assertEqual(ignore_slice["java_method"], "ignore()")
+        self.assertEqual(ignore_slice["godot_owner"], "PortGame.source_consume_power_ignore_state")
+        self.assertEqual(ignore_slice["generated_owner"], "ConsumePower.java_method_ignore_1")
+        self.assertEqual(ignore_slice["runtime_proof"], "/root/Main.generated_consume_power_ignore_bridge_state")
+        for expr in [
+            "public boolean ignore(){",
+            "return buffered;",
+        ]:
+            self.assertIn(expr, ignore_slice["exact_exprs"])
+        self.assertIn("consume_power_ignore.return", ignore_slice["source_symbols"])
+        self.assertIn("consume_power_ignore.buffered_input", ignore_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_power_ignore_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["buffered"])
+        self.assertIn("ignore", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_power_ignore_input")
+        self.assertEqual(input_schema["keys"]["buffered"]["java_expr"], "buffered")
+        result_schema = source_symbols.state_schema(schema, "source_consume_power_ignore_result")
+        self.assertEqual(result_schema["keys"]["ignore"]["java_expr"], "return buffered;")
+
     def test_power_graph_power_produced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -20407,15 +20451,16 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 898)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 893)
+        self.assertEqual(audit["totalSourceFunctions"], 899)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 894)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 898)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 899)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_api_contract_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_state_schema_state", audit["exemptSourceOwners"])
+        self.assertIn("PortGame.source_consume_power_ignore_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_place_default_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_place_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_update_state", audit["registeredSourceOwners"])

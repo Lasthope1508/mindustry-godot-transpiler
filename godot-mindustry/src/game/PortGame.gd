@@ -2225,6 +2225,27 @@ func source_power_graph_get_id_state(graph_id: int) -> Dictionary:
 func source_power_graph_to_string_state(producers: String, consumers: String, batteries: String, all: String, graph_id: int) -> String:
 	return "PowerGraph{producers=" + producers + ", consumers=" + consumers + ", batteries=" + batteries + ", all=" + all + ", graphID=" + str(graph_id) + "}"
 
+func source_consume_power_ignore_state(buffered: bool) -> Dictionary:
+	return {
+		"method": "public boolean ignore(){",
+		"buffered": buffered,
+		"ignore": buffered,
+		"return_expr": "return buffered;",
+	}
+
+func generated_consume_power_ignore_bridge_state(buffered: bool) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")
+	var instance = script.new()
+	var result = instance.java_method_ignore_1([buffered])
+	var canonical = source_consume_power_ignore_state(buffered)
+	return {
+		"source_owner": "PortGame.source_consume_power_ignore_state",
+		"generated_owner": "ConsumePower.ignore",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("ignore", null) == canonical.get("ignore", null),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

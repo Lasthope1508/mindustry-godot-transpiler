@@ -4860,6 +4860,930 @@
         "test_generated_block_post_init_shown_planets_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_block_producer_build_accept_item_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "owner": "PortGame.source_block_producer_build_accept_item_state",
+      "params": [
+        {
+          "java_expr": "Building source",
+          "name": "source_building",
+          "schema": "source_block_producer_build_accept_item_input.source_building",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "Item item",
+          "name": "item",
+          "schema": "source_block_producer_build_accept_item_input.item",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "items.get(item)",
+          "name": "item_count",
+          "schema": "source_block_producer_build_accept_item_input.item_count",
+          "source_symbol": "block_producer_build_accept_item.item_count",
+          "type": "int"
+        },
+        {
+          "java_expr": "getMaximumAccepted(item)",
+          "name": "maximum_accepted",
+          "schema": "source_block_producer_build_accept_item_input.maximum_accepted",
+          "source_symbol": "block_producer_build_accept_item.maximum_accepted",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "return_expr",
+        "source_building",
+        "item",
+        "item_count",
+        "maximum_accepted",
+        "accept_item"
+      ],
+      "rule": "PortGame.source_block_producer_build_accept_item_state pins BlockProducerBuild.acceptItem() inventory capacity predicate.",
+      "runtime_proof": "/root/Main.source_block_producer_build_accept_item_state",
+      "source_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
+      "source_slice": "N1413",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_item_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_item_bridge_state",
+        "test_block_producer_build_accept_item_matches_upstream_source",
+        "test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_build_accept_payload_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "Building source",
+          "name": "source_building",
+          "schema": "source_block_producer_build_accept_payload_input.source_building",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "Payload payload",
+          "name": "payload",
+          "schema": "source_block_producer_build_accept_payload_input.payload",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "return_expr",
+        "source_building",
+        "payload",
+        "accept_payload"
+      ],
+      "rule": "PortGame.source_block_producer_build_accept_payload_state pins BlockProducerBuild.acceptPayload() false payload gate.",
+      "runtime_proof": "/root/Main.source_block_producer_build_accept_payload_state",
+      "source_method": "BlockProducerBuild.acceptPayload(Building source, Payload payload)",
+      "source_slice": "N1415",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_payload_bridge_state",
+        "test_block_producer_build_accept_payload_matches_upstream_source",
+        "test_generated_block_producer_build_accept_payload_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_build_get_maximum_accepted_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "Item item",
+          "name": "item",
+          "schema": "source_block_producer_build_get_maximum_accepted_input.item",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "recipe() == null",
+          "name": "recipe_null",
+          "schema": "source_block_producer_build_get_maximum_accepted_input.recipe_null",
+          "source_symbol": "block_producer_build_get_maximum_accepted.null_guard",
+          "type": "bool"
+        },
+        {
+          "java_expr": "recipe().requirements",
+          "name": "requirements",
+          "schema": "source_block_producer_build_get_maximum_accepted_input.requirements",
+          "source_symbol": "block_producer_build_get_maximum_accepted.recipe_requirements",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "null_guard",
+        "requirement_loop",
+        "match_expr",
+        "final_return",
+        "item",
+        "recipe_null",
+        "requirements",
+        "matched_requirement",
+        "maximum_accepted"
+      ],
+      "rule": "PortGame.source_block_producer_build_get_maximum_accepted_state pins BlockProducerBuild.getMaximumAccepted() recipe requirement lookup.",
+      "runtime_proof": "/root/Main.source_block_producer_build_get_maximum_accepted_state",
+      "source_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+      "source_slice": "N1414",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_get_maximum_accepted_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_get_maximum_accepted_state",
+        "test_port_game_exposes_generated_block_producer_build_get_maximum_accepted_bridge_state",
+        "test_block_producer_build_get_maximum_accepted_matches_upstream_source",
+        "test_generated_block_producer_build_get_maximum_accepted_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_build_should_consume_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "super.shouldConsume()",
+          "name": "super_should_consume",
+          "schema": "source_block_producer_build_should_consume_input.super_should_consume",
+          "source_symbol": "block_producer_build_should_consume.super_should_consume",
+          "type": "bool"
+        },
+        {
+          "java_expr": "recipe() == null",
+          "name": "recipe_null",
+          "schema": "source_block_producer_build_should_consume_input.recipe_null",
+          "source_symbol": "block_producer_build_should_consume.recipe_not_null",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "return_expr",
+        "super_should_consume",
+        "recipe_null",
+        "should_consume"
+      ],
+      "rule": "PortGame.source_block_producer_build_should_consume_state pins BlockProducerBuild.shouldConsume() conjunction.",
+      "runtime_proof": "/root/Main.source_block_producer_build_should_consume_state",
+      "source_method": "BlockProducerBuild.shouldConsume()",
+      "source_slice": "N1416",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_should_consume_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_should_consume_state",
+        "test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state",
+        "test_block_producer_build_should_consume_matches_upstream_source",
+        "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_build_update_tile_completion_guard_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "progress",
+          "name": "progress",
+          "schema": "source_block_producer_build_update_tile_completion_guard_input.progress",
+          "source_symbol": "block_producer_build_update_tile_completion_guard.progress",
+          "type": "float"
+        },
+        {
+          "java_expr": "recipe.buildTime",
+          "name": "recipe_build_time",
+          "schema": "source_block_producer_build_update_tile_completion_guard_input.recipe_build_time",
+          "source_symbol": "block_producer_build_update_tile_completion_guard.recipe_build_time",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "completion_guard_expr",
+        "consume_expr",
+        "progress",
+        "recipe_build_time",
+        "completion_guard",
+        "consume_called"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_completion_guard_state pins if(progress >= recipe.buildTime){ consume(); }.",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_completion_guard_state",
+      "source_method": "BlockProducerBuild.updateTile() completion guard",
+      "source_slice": "N1419",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_completion_guard_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state",
+        "test_block_producer_build_update_tile_completion_guard_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_build_update_tile_heat_time_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "produce",
+          "name": "produce",
+          "schema": "source_block_producer_build_update_tile_heat_time_input.produce",
+          "source_symbol": "block_producer_build_update_tile_heat_time.produce",
+          "type": "bool"
+        },
+        {
+          "java_expr": "heat",
+          "name": "heat_before",
+          "schema": "source_block_producer_build_update_tile_heat_time_input.heat_before",
+          "source_symbol": "block_producer_build_update_tile_heat_time.heat_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "time",
+          "name": "time_before",
+          "schema": "source_block_producer_build_update_tile_heat_time_input.time_before",
+          "source_symbol": "block_producer_build_update_tile_heat_time.time_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "delta()",
+          "name": "time_delta",
+          "schema": "source_block_producer_build_update_tile_heat_time_input.time_delta",
+          "source_symbol": "block_producer_build_update_tile_heat_time.time_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "arc_source",
+        "building_source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "field_expr",
+        "heat_expr",
+        "time_expr",
+        "mathf_num_method",
+        "mathf_lerp_delta_method",
+        "building_delta_method",
+        "produce",
+        "produce_num",
+        "heat_before",
+        "time_before",
+        "time_delta",
+        "heat_after",
+        "time_after"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_heat_time_state pins heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f); and time += heat * delta();.",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_heat_time_state",
+      "source_method": "BlockProducerBuild.updateTile() heat/time",
+      "source_slice": "N1422",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_heat_time_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_heat_time_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_heat_time_bridge_state",
+        "test_block_producer_build_update_tile_heat_time_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_heat_time_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_build_update_tile_move_out_payload_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "payload != null",
+          "name": "payload_present",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.payload_present",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.payload_present",
+          "type": "bool"
+        },
+        {
+          "java_expr": "payVector.x",
+          "name": "pay_vector_x",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.pay_vector_x",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.pay_vector_x",
+          "type": "float"
+        },
+        {
+          "java_expr": "payVector.y",
+          "name": "pay_vector_y",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.pay_vector_y",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.pay_vector_y",
+          "type": "float"
+        },
+        {
+          "java_expr": "payRotation",
+          "name": "pay_rotation_before",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.pay_rotation_before",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.pay_rotation_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "rotdeg()",
+          "name": "rotdeg_value",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.rotdeg_value",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.rotdeg_value",
+          "type": "float"
+        },
+        {
+          "java_expr": "size",
+          "name": "size_value",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.size_value",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.size_value",
+          "type": "float"
+        },
+        {
+          "java_expr": "tilesize",
+          "name": "tilesize",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.tilesize",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.tilesize",
+          "type": "float"
+        },
+        {
+          "java_expr": "payloadRotateSpeed",
+          "name": "payload_rotate_speed",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.payload_rotate_speed",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.payload_rotate_speed",
+          "type": "float"
+        },
+        {
+          "java_expr": "payloadSpeed",
+          "name": "payload_speed",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.payload_speed",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.payload_speed",
+          "type": "float"
+        },
+        {
+          "java_expr": "delta()",
+          "name": "time_delta",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.time_delta",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.time_delta",
+          "type": "float"
+        },
+        {
+          "java_expr": "front != null",
+          "name": "front_present",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_present",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_present",
+          "type": "bool"
+        },
+        {
+          "java_expr": "front.tile.solid()",
+          "name": "front_solid",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_solid",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_solid",
+          "type": "bool"
+        },
+        {
+          "java_expr": "front.block.outputsPayload",
+          "name": "front_outputs_payload",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_outputs_payload",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_outputs_payload",
+          "type": "bool"
+        },
+        {
+          "java_expr": "front.block.acceptsPayload",
+          "name": "front_accepts_payload",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_accepts_payload",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_accepts_payload",
+          "type": "bool"
+        },
+        {
+          "java_expr": "movePayload(payload)",
+          "name": "move_payload_result",
+          "schema": "source_block_producer_build_update_tile_move_out_payload_input.move_payload_result",
+          "source_symbol": "block_producer_build_update_tile_move_out_payload.move_payload_result",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "parent_source",
+        "arc_source",
+        "inner_class",
+        "override_expr",
+        "update_tile_method",
+        "move_out_payload_expr",
+        "method",
+        "payload_null_guard",
+        "update_payload_expr",
+        "dest_expr",
+        "pay_rotation_expr",
+        "pay_vector_expr",
+        "front_expr",
+        "can_dump_expr",
+        "can_move_expr",
+        "push_output_expr",
+        "arrived_guard",
+        "clamp_expr",
+        "move_payload_expr",
+        "payload_clear_expr",
+        "dump_payload_expr",
+        "payload_present",
+        "pay_vector_x",
+        "pay_vector_y",
+        "pay_rotation_before",
+        "rotdeg_value",
+        "size_value",
+        "tilesize",
+        "payload_rotate_speed",
+        "payload_speed",
+        "time_delta",
+        "front_present",
+        "front_solid",
+        "front_outputs_payload",
+        "front_accepts_payload",
+        "move_payload_result",
+        "half_extent",
+        "dest",
+        "update_payload_called",
+        "pay_rotation_after",
+        "pay_vector_after",
+        "can_dump",
+        "can_move",
+        "distance_to_dest",
+        "distance_to_dest2",
+        "pushed_output_fraction",
+        "arrived",
+        "move_payload_called",
+        "dump_payload_called",
+        "payload_after_present"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_move_out_payload_state pins moveOutPayload() and PayloadBlockBuild.moveOutPayload() movement gates from source.",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
+      "source_method": "BlockProducerBuild.updateTile() moveOutPayload",
+      "source_slice": "N1423",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
+        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "if(progress >= recipe.buildTime){",
+          "name": "completion_guard",
+          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.completion_guard",
+          "source_symbol": "block_producer_build_update_tile_completion_guard.completion_guard",
+          "type": "bool"
+        },
+        {
+          "java_expr": "payVector.x",
+          "name": "pay_vector_x",
+          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.pay_vector_x",
+          "source_symbol": "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_x",
+          "type": "float"
+        },
+        {
+          "java_expr": "payVector.y",
+          "name": "pay_vector_y",
+          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.pay_vector_y",
+          "source_symbol": "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_y",
+          "type": "float"
+        },
+        {
+          "java_expr": "progress",
+          "name": "progress_before",
+          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.progress_before",
+          "source_symbol": "block_producer_build_update_tile_pay_vector_progress_reset.progress_before",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "parent_source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "completion_guard_expr",
+        "pay_vector_field",
+        "progress_field",
+        "pay_vector_set_zero_expr",
+        "progress_modulo_expr",
+        "completion_guard",
+        "pay_vector_x",
+        "pay_vector_y",
+        "progress_before",
+        "pay_vector_after",
+        "progress_after"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state pins payVector.setZero(); and progress %= 1f;.",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+      "source_method": "BlockProducerBuild.updateTile() payVector/progress reset",
+      "source_slice": "N1421",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
+        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_build_update_tile_payload_creation_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "if(progress >= recipe.buildTime){",
+          "name": "completion_guard",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.completion_guard",
+          "source_symbol": "block_producer_build_update_tile_completion_guard.completion_guard",
+          "type": "bool"
+        },
+        {
+          "java_expr": "recipe",
+          "name": "recipe",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.recipe",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.recipe",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "team",
+          "name": "team",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.team",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.team",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "x",
+          "name": "x",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.x",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.x",
+          "type": "float"
+        },
+        {
+          "java_expr": "y",
+          "name": "y",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.y",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.y",
+          "type": "float"
+        },
+        {
+          "java_expr": "payload.size()",
+          "name": "payload_size",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.payload_size",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.payload_size",
+          "type": "float"
+        },
+        {
+          "java_expr": "tilesize",
+          "name": "tilesize",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.tilesize",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.tilesize",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "payload_expr",
+        "place_effect_expr",
+        "completion_guard",
+        "recipe",
+        "team",
+        "x",
+        "y",
+        "payload_size",
+        "tilesize",
+        "payload_after",
+        "place_effect_called",
+        "effect_radius"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_payload_creation_state pins new BuildPayload(recipe, team) and placeEffect.at(x, y, payload.size() / tilesize).",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_method": "BlockProducerBuild.updateTile() payload creation",
+      "source_slice": "N1420",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_build_update_tile_produce_gate_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "recipe == null",
+          "name": "recipe_null",
+          "schema": "source_block_producer_build_update_tile_produce_gate_input.recipe_null",
+          "source_symbol": "block_producer_build_update_tile_produce_gate.recipe_not_null",
+          "type": "bool"
+        },
+        {
+          "java_expr": "efficiency",
+          "name": "efficiency",
+          "schema": "source_block_producer_build_update_tile_produce_gate_input.efficiency",
+          "source_symbol": "block_producer_build_update_tile_produce_gate.efficiency_positive",
+          "type": "float"
+        },
+        {
+          "java_expr": "payload == null",
+          "name": "payload_null",
+          "schema": "source_block_producer_build_update_tile_produce_gate_input.payload_null",
+          "source_symbol": "block_producer_build_update_tile_produce_gate.payload_null",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "super_call",
+        "recipe_assignment",
+        "produce_expr",
+        "recipe_null",
+        "efficiency",
+        "payload_null",
+        "produce"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_produce_gate_state pins BlockProducerBuild.updateTile() produce gate.",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
+      "source_method": "BlockProducerBuild.updateTile()",
+      "source_slice": "N1417",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
+        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_build_update_tile_progress_accumulation_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "produce",
+          "name": "produce",
+          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.produce",
+          "source_symbol": "block_producer_build_update_tile_progress_accumulation.if_produce",
+          "type": "bool"
+        },
+        {
+          "java_expr": "progress",
+          "name": "progress_before",
+          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.progress_before",
+          "source_symbol": "block_producer_build_update_tile_progress_accumulation.progress_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "buildSpeed",
+          "name": "build_speed",
+          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.build_speed",
+          "source_symbol": "block_producer_build_update_tile_progress_accumulation.build_speed",
+          "type": "float"
+        },
+        {
+          "java_expr": "edelta()",
+          "name": "edelta",
+          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.edelta",
+          "source_symbol": "block_producer_build_update_tile_progress_accumulation.edelta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "if_produce_expr",
+        "progress_expr",
+        "produce",
+        "progress_before",
+        "build_speed",
+        "edelta",
+        "progress_delta",
+        "progress_after"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state pins progress += buildSpeed * edelta() behind produce guard.",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
+      "source_method": "BlockProducerBuild.updateTile() progress accumulation",
+      "source_slice": "N1418",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
+        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_draw_plan_region_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "region",
+          "name": "region",
+          "schema": "source_block_producer_draw_plan_region_input.region",
+          "source_symbol": "block_producer_draw_plan_region.region",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "outRegion",
+          "name": "out_region",
+          "schema": "source_block_producer_draw_plan_region_input.out_region",
+          "source_symbol": "block_producer_draw_plan_region.out_region",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "topRegion",
+          "name": "top_region",
+          "schema": "source_block_producer_draw_plan_region_input.top_region",
+          "source_symbol": "block_producer_draw_plan_region.top_region",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "plan.drawx()",
+          "name": "plan_drawx",
+          "schema": "source_block_producer_draw_plan_region_input.plan_drawx",
+          "source_symbol": "block_producer_draw_plan_region.plan_drawx",
+          "type": "float"
+        },
+        {
+          "java_expr": "plan.drawy()",
+          "name": "plan_drawy",
+          "schema": "source_block_producer_draw_plan_region_input.plan_drawy",
+          "source_symbol": "block_producer_draw_plan_region.plan_drawy",
+          "type": "float"
+        },
+        {
+          "java_expr": "plan.rotation",
+          "name": "plan_rotation",
+          "schema": "source_block_producer_draw_plan_region_input.plan_rotation",
+          "source_symbol": "block_producer_draw_plan_region.plan_rotation",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "override_expr",
+        "method",
+        "draw_region_expr",
+        "draw_out_region_expr",
+        "draw_top_region_expr",
+        "region",
+        "out_region",
+        "top_region",
+        "plan_drawx",
+        "plan_drawy",
+        "plan_rotation",
+        "out_region_rotation",
+        "draw_calls"
+      ],
+      "rule": "PortGame.source_block_producer_draw_plan_region_state pins BlockProducer.drawPlanRegion() draw call contract.",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "source_slice": "N1411",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_icons_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "region",
+          "name": "region",
+          "schema": "source_block_producer_icons_input.region",
+          "source_symbol": "block_producer_icons.region",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "outRegion",
+          "name": "out_region",
+          "schema": "source_block_producer_icons_input.out_region",
+          "source_symbol": "block_producer_icons.out_region",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "topRegion",
+          "name": "top_region",
+          "schema": "source_block_producer_icons_input.top_region",
+          "source_symbol": "block_producer_icons.top_region",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "region",
+        "out_region",
+        "top_region",
+        "icons"
+      ],
+      "rule": "PortGame.source_block_producer_icons_state pins BlockProducer.icons() return array contract.",
+      "runtime_proof": "/root/Main.source_block_producer_icons_state",
+      "source_method": "BlockProducer.icons()",
+      "source_slice": "N1410",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_icons_to_source_state",
+        "test_port_game_exposes_source_block_producer_icons_state",
+        "test_port_game_exposes_generated_block_producer_icons_bridge_state",
+        "test_block_producer_icons_matches_upstream_source",
+        "test_generated_block_producer_icons_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_block_producer_set_bars_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "params": [
+        {
+          "java_expr": "entity.recipe() == null",
+          "name": "recipe_null",
+          "schema": "source_block_producer_set_bars_input.recipe_null",
+          "source_symbol": "block_producer_set_bars.recipe_null",
+          "type": "bool"
+        },
+        {
+          "java_expr": "entity.progress",
+          "name": "entity_progress",
+          "schema": "source_block_producer_set_bars_input.entity_progress",
+          "source_symbol": "block_producer_set_bars.entity_progress",
+          "type": "float"
+        },
+        {
+          "java_expr": "entity.recipe().buildTime",
+          "name": "recipe_build_time",
+          "schema": "source_block_producer_set_bars_input.recipe_build_time",
+          "source_symbol": "block_producer_set_bars.recipe_build_time",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "override_expr",
+        "method",
+        "super_set_bars_expr",
+        "add_bar_expr",
+        "bar_text",
+        "bar_color",
+        "bar_progress_expr",
+        "recipe_null",
+        "entity_progress",
+        "recipe_build_time",
+        "super_set_bars_called",
+        "progress_bar_added",
+        "progress_bar_fraction",
+        "progress_bar_call"
+      ],
+      "rule": "PortGame.source_block_producer_set_bars_state pins BlockProducer.setBars() progress bar contract.",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_method": "BlockProducer.setBars()",
+      "source_slice": "N1412",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_block_reinitialize_consumers_apply_loop_state": {
       "java_source": "core/src/mindustry/world/Block.java",
       "params": [
@@ -6499,25 +7423,20 @@
     },
     "PortGame.source_build_payload_constructor_block_team_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
-      "source_method": "BuildPayload(Block block, Team team)",
-      "source_slice": "N1384",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_build_payload_constructor_block_team_state",
-      "rule": "PortGame.source_build_payload_constructor_block_team_state pins BuildPayload(Block, Team) build creation and emptyTile assignment contract.",
       "params": [
         {
-          "name": "block",
-          "type": "Variant",
           "java_expr": "block",
+          "name": "block",
           "schema": "source_build_payload_constructor_block_team_input.block",
-          "source_symbol": "build_payload_constructor_block_team.block"
+          "source_symbol": "build_payload_constructor_block_team.block",
+          "type": "Variant"
         },
         {
-          "name": "team",
-          "type": "Variant",
           "java_expr": "team",
+          "name": "team",
           "schema": "source_build_payload_constructor_block_team_input.team",
-          "source_symbol": "build_payload_constructor_block_team.team"
+          "source_symbol": "build_payload_constructor_block_team.team",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -6534,6 +7453,11 @@
         "create_call",
         "tile_after"
       ],
+      "rule": "PortGame.source_build_payload_constructor_block_team_state pins BuildPayload(Block, Team) build creation and emptyTile assignment contract.",
+      "runtime_proof": "/root/Main.source_build_payload_constructor_block_team_state",
+      "source_method": "BuildPayload(Block block, Team team)",
+      "source_slice": "N1384",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_build_payload_constructors_to_source_state",
         "test_port_game_exposes_source_build_payload_constructor_state",
@@ -6544,18 +7468,13 @@
     },
     "PortGame.source_build_payload_constructor_build_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
-      "source_method": "BuildPayload(Building build)",
-      "source_slice": "N1384",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_build_payload_constructor_build_state",
-      "rule": "PortGame.source_build_payload_constructor_build_state pins BuildPayload(Building) direct build assignment contract.",
       "params": [
         {
-          "name": "build",
-          "type": "Variant",
           "java_expr": "build",
+          "name": "build",
           "schema": "source_build_payload_constructor_build_input.build",
-          "source_symbol": "build_payload_constructor_build.build"
+          "source_symbol": "build_payload_constructor_build.build",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -6568,6 +7487,11 @@
         "build",
         "build_after"
       ],
+      "rule": "PortGame.source_build_payload_constructor_build_state pins BuildPayload(Building) direct build assignment contract.",
+      "runtime_proof": "/root/Main.source_build_payload_constructor_build_state",
+      "source_method": "BuildPayload(Building build)",
+      "source_slice": "N1384",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_build_payload_constructors_to_source_state",
         "test_port_game_exposes_source_build_payload_constructor_state",
@@ -6580,25 +7504,25 @@
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
       "params": [
         {
-          "name": "other_is_build_payload",
-          "type": "bool",
           "java_expr": "other instanceof BuildPayload bp",
+          "name": "other_is_build_payload",
           "schema": "source_build_payload_content_equals_input.other_is_build_payload",
-          "source_symbol": "build_payload_content_equals.other_is_build_payload"
+          "source_symbol": "build_payload_content_equals.other_is_build_payload",
+          "type": "bool"
         },
         {
-          "name": "other_block",
-          "type": "Variant",
           "java_expr": "bp.block()",
+          "name": "other_block",
           "schema": "source_build_payload_content_equals_input.other_block",
-          "source_symbol": "build_payload_content_equals.other_block"
+          "source_symbol": "build_payload_content_equals.other_block",
+          "type": "Variant"
         },
         {
-          "name": "build_block",
-          "type": "Variant",
           "java_expr": "build.block",
+          "name": "build_block",
           "schema": "source_build_payload_content_equals_input.build_block",
-          "source_symbol": "build_payload_content_equals.build_block"
+          "source_symbol": "build_payload_content_equals.build_block",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -6662,11 +7586,6 @@
     },
     "PortGame.source_build_payload_destroyed_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
-      "source_method": "BuildPayload.destroyed()",
-      "source_slice": "N1383",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_build_payload_destroyed_state",
-      "rule": "PortGame.source_build_payload_destroyed_state pins BuildPayload.destroyed dead assignment and onDestroyed delegate contract.",
       "params": [],
       "return_keys": [
         "source_owner",
@@ -6680,6 +7599,11 @@
         "dead_after",
         "on_destroyed_called"
       ],
+      "rule": "PortGame.source_build_payload_destroyed_state pins BuildPayload.destroyed dead assignment and onDestroyed delegate contract.",
+      "runtime_proof": "/root/Main.source_build_payload_destroyed_state",
+      "source_method": "BuildPayload.destroyed()",
+      "source_slice": "N1383",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_build_payload_destroyed_to_source_state",
         "test_port_game_exposes_source_build_payload_destroyed_state",
@@ -6692,39 +7616,39 @@
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
       "params": [
         {
-          "name": "build_x",
-          "type": "float",
           "java_expr": "build.x",
+          "name": "build_x",
           "schema": "source_build_payload_draw_shadow_input.build_x",
-          "source_symbol": "build_payload_draw_shadow.build_x"
+          "source_symbol": "build_payload_draw_shadow.build_x",
+          "type": "float"
         },
         {
-          "name": "build_y",
-          "type": "float",
           "java_expr": "build.y",
+          "name": "build_y",
           "schema": "source_build_payload_draw_shadow_input.build_y",
-          "source_symbol": "build_payload_draw_shadow.build_y"
+          "source_symbol": "build_payload_draw_shadow.build_y",
+          "type": "float"
         },
         {
-          "name": "build_block_size",
-          "type": "float",
           "java_expr": "build.block.size",
+          "name": "build_block_size",
           "schema": "source_build_payload_draw_shadow_input.build_block_size",
-          "source_symbol": "build_payload_draw_shadow.build_block_size"
+          "source_symbol": "build_payload_draw_shadow.build_block_size",
+          "type": "float"
         },
         {
-          "name": "source_tilesize",
-          "type": "float",
           "java_expr": "tilesize",
+          "name": "source_tilesize",
           "schema": "source_build_payload_draw_shadow_input.source_tilesize",
-          "source_symbol": "build_payload_draw_shadow.source_tilesize"
+          "source_symbol": "build_payload_draw_shadow.source_tilesize",
+          "type": "float"
         },
         {
-          "name": "alpha",
-          "type": "float",
           "java_expr": "alpha",
+          "name": "alpha",
           "schema": "source_build_payload_draw_shadow_input.alpha",
-          "source_symbol": "build_payload_draw_shadow.alpha"
+          "source_symbol": "build_payload_draw_shadow.alpha",
+          "type": "float"
         }
       ],
       "return_keys": [
@@ -6761,25 +7685,25 @@
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
       "params": [
         {
-          "name": "prev_z",
-          "type": "float",
           "java_expr": "Draw.z()",
+          "name": "prev_z",
           "schema": "source_build_payload_draw_input.prev_z",
-          "source_symbol": "build_payload_draw.prev_z"
+          "source_symbol": "build_payload_draw.prev_z",
+          "type": "float"
         },
         {
-          "name": "layer_flying_unit_low",
-          "type": "float",
           "java_expr": "Layer.flyingUnitLow",
+          "name": "layer_flying_unit_low",
           "schema": "source_build_payload_draw_input.layer_flying_unit_low",
-          "source_symbol": "build_payload_draw.layer_flying_unit_low"
+          "source_symbol": "build_payload_draw.layer_flying_unit_low",
+          "type": "float"
         },
         {
-          "name": "transform_z",
-          "type": "float",
           "java_expr": "z",
+          "name": "transform_z",
           "schema": "source_build_payload_draw_input.transform_z",
-          "source_symbol": "build_payload_draw.transform_z"
+          "source_symbol": "build_payload_draw.transform_z",
+          "type": "float"
         }
       ],
       "return_keys": [
@@ -6826,11 +7750,11 @@
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
       "params": [
         {
-          "name": "full_icon",
-          "type": "Variant",
           "java_expr": "block().fullIcon",
+          "name": "full_icon",
           "schema": "source_build_payload_icon_input.full_icon",
-          "source_symbol": "build_payload_icon.full_icon"
+          "source_symbol": "build_payload_icon.full_icon",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -6859,32 +7783,27 @@
     },
     "PortGame.source_build_payload_place_default_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
-      "source_method": "BuildPayload.place(Tile tile)",
-      "source_slice": "N1381",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
-      "rule": "PortGame.source_build_payload_place_default_state pins BuildPayload.place(Tile) delegate contract.",
       "params": [
         {
-          "name": "tile",
-          "type": "Variant",
           "java_expr": "tile",
+          "name": "tile",
           "schema": "source_build_payload_place_default_input.tile",
-          "source_symbol": "build_payload_place_default.tile"
+          "source_symbol": "build_payload_place_default.tile",
+          "type": "Variant"
         },
         {
-          "name": "build_block",
-          "type": "Variant",
           "java_expr": "build.block",
+          "name": "build_block",
           "schema": "source_build_payload_place_default_input.build_block",
-          "source_symbol": "build_payload_place_default.build_block"
+          "source_symbol": "build_payload_place_default.build_block",
+          "type": "Variant"
         },
         {
-          "name": "build_team",
-          "type": "Variant",
           "java_expr": "build.team",
+          "name": "build_team",
           "schema": "source_build_payload_place_default_input.build_team",
-          "source_symbol": "build_payload_place_default.build_team"
+          "source_symbol": "build_payload_place_default.build_team",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -6899,6 +7818,11 @@
         "build_team",
         "delegated_rotation"
       ],
+      "rule": "PortGame.source_build_payload_place_default_state pins BuildPayload.place(Tile) delegate contract.",
+      "runtime_proof": "/root/Main.source_build_payload_place_default_state",
+      "source_method": "BuildPayload.place(Tile tile)",
+      "source_slice": "N1381",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_build_payload_place_to_source_state",
         "test_port_game_exposes_source_build_payload_place_state",
@@ -6909,39 +7833,34 @@
     },
     "PortGame.source_build_payload_place_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
-      "source_method": "BuildPayload.place(Tile tile, int rotation)",
-      "source_slice": "N1381",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_build_payload_place_state",
-      "rule": "PortGame.source_build_payload_place_state pins BuildPayload.place(Tile,int) setBlock and dropped side-effect contract.",
       "params": [
         {
-          "name": "tile",
-          "type": "Variant",
           "java_expr": "tile",
+          "name": "tile",
           "schema": "source_build_payload_place_input.tile",
-          "source_symbol": "build_payload_place.tile"
+          "source_symbol": "build_payload_place.tile",
+          "type": "Variant"
         },
         {
-          "name": "build_block",
-          "type": "Variant",
           "java_expr": "build.block",
+          "name": "build_block",
           "schema": "source_build_payload_place_input.build_block",
-          "source_symbol": "build_payload_place.build_block"
+          "source_symbol": "build_payload_place.build_block",
+          "type": "Variant"
         },
         {
-          "name": "build_team",
-          "type": "Variant",
           "java_expr": "build.team",
+          "name": "build_team",
           "schema": "source_build_payload_place_input.build_team",
-          "source_symbol": "build_payload_place.build_team"
+          "source_symbol": "build_payload_place.build_team",
+          "type": "Variant"
         },
         {
-          "name": "rotation_value",
-          "type": "int",
           "java_expr": "rotation",
+          "name": "rotation_value",
           "schema": "source_build_payload_place_input.rotation_value",
-          "source_symbol": "build_payload_place.rotation"
+          "source_symbol": "build_payload_place.rotation",
+          "type": "int"
         }
       ],
       "return_keys": [
@@ -6959,6 +7878,11 @@
         "set_block_call",
         "dropped_called"
       ],
+      "rule": "PortGame.source_build_payload_place_state pins BuildPayload.place(Tile,int) setBlock and dropped side-effect contract.",
+      "runtime_proof": "/root/Main.source_build_payload_place_state",
+      "source_method": "BuildPayload.place(Tile tile, int rotation)",
+      "source_slice": "N1381",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_build_payload_place_to_source_state",
         "test_port_game_exposes_source_build_payload_place_state",
@@ -7030,25 +7954,25 @@
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
       "params": [
         {
-          "name": "x",
-          "type": "float",
           "java_expr": "x",
+          "name": "x",
           "schema": "source_build_payload_set_input.x",
-          "source_symbol": "build_payload_set.x"
+          "source_symbol": "build_payload_set.x",
+          "type": "float"
         },
         {
-          "name": "y",
-          "type": "float",
           "java_expr": "y",
+          "name": "y",
           "schema": "source_build_payload_set_input.y",
-          "source_symbol": "build_payload_set.y"
+          "source_symbol": "build_payload_set.y",
+          "type": "float"
         },
         {
-          "name": "rotation_value",
-          "type": "float",
           "java_expr": "rotation",
+          "name": "rotation_value",
           "schema": "source_build_payload_set_input.rotation_value",
-          "source_symbol": "build_payload_set.rotation"
+          "source_symbol": "build_payload_set.rotation",
+          "type": "float"
         }
       ],
       "return_keys": [
@@ -7122,53 +8046,48 @@
     },
     "PortGame.source_build_payload_update_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
-      "source_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
-      "source_slice": "N1382",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_build_payload_update_state",
-      "rule": "PortGame.source_build_payload_update_state pins BuildPayload.update guard and delegate contract.",
       "params": [
         {
-          "name": "unit_holder_present",
-          "type": "bool",
           "java_expr": "unitHolder != null",
+          "name": "unit_holder_present",
           "schema": "source_build_payload_update_input.unit_holder_present",
-          "source_symbol": "build_payload_update.unit_holder_present"
+          "source_symbol": "build_payload_update.unit_holder_present",
+          "type": "bool"
         },
         {
-          "name": "build_block_update_in_units",
-          "type": "bool",
           "java_expr": "build.block.updateInUnits",
+          "name": "build_block_update_in_units",
           "schema": "source_build_payload_update_input.build_block_update_in_units",
-          "source_symbol": "build_payload_update.build_block_update_in_units"
+          "source_symbol": "build_payload_update.build_block_update_in_units",
+          "type": "bool"
         },
         {
-          "name": "unit_payload_update",
-          "type": "bool",
           "java_expr": "state.rules.unitPayloadUpdate",
+          "name": "unit_payload_update",
           "schema": "source_build_payload_update_input.unit_payload_update",
-          "source_symbol": "build_payload_update.unit_payload_update"
+          "source_symbol": "build_payload_update.unit_payload_update",
+          "type": "bool"
         },
         {
-          "name": "build_block_always_update_in_units",
-          "type": "bool",
           "java_expr": "build.block.alwaysUpdateInUnits",
+          "name": "build_block_always_update_in_units",
           "schema": "source_build_payload_update_input.build_block_always_update_in_units",
-          "source_symbol": "build_payload_update.build_block_always_update_in_units"
+          "source_symbol": "build_payload_update.build_block_always_update_in_units",
+          "type": "bool"
         },
         {
-          "name": "unit_holder",
-          "type": "Variant",
           "java_expr": "unitHolder",
+          "name": "unit_holder",
           "schema": "source_build_payload_update_input.unitHolder",
-          "source_symbol": "build_payload_update.unitHolder"
+          "source_symbol": "build_payload_update.unitHolder",
+          "type": "Variant"
         },
         {
-          "name": "building_holder",
-          "type": "Variant",
           "java_expr": "buildingHolder",
+          "name": "building_holder",
           "schema": "source_build_payload_update_input.buildingHolder",
-          "source_symbol": "build_payload_update.buildingHolder"
+          "source_symbol": "build_payload_update.buildingHolder",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -7193,6 +8112,11 @@
         "update_payload_called",
         "update_payload_call"
       ],
+      "rule": "PortGame.source_build_payload_update_state pins BuildPayload.update guard and delegate contract.",
+      "runtime_proof": "/root/Main.source_build_payload_update_state",
+      "source_method": "BuildPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "source_slice": "N1382",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_build_payload_update_to_source_state",
         "test_port_game_exposes_source_build_payload_update_state",
@@ -7205,25 +8129,25 @@
       "java_source": "core/src/mindustry/world/blocks/payloads/BuildPayload.java",
       "params": [
         {
-          "name": "payload_block",
-          "type": "int",
-          "source_symbol": "build_payload_write.payload_block",
           "java_expr": "payloadBlock",
-          "schema": "source_build_payload_write_input.payload_block"
+          "name": "payload_block",
+          "schema": "source_build_payload_write_input.payload_block",
+          "source_symbol": "build_payload_write.payload_block",
+          "type": "int"
         },
         {
-          "name": "build_block_id",
-          "type": "int",
-          "source_symbol": "build_payload_write.build_block_id",
           "java_expr": "build.block.id",
-          "schema": "source_build_payload_write_input.build_block_id"
+          "name": "build_block_id",
+          "schema": "source_build_payload_write_input.build_block_id",
+          "source_symbol": "build_payload_write.build_block_id",
+          "type": "int"
         },
         {
-          "name": "build_version",
-          "type": "int",
-          "source_symbol": "build_payload_write.build_version",
           "java_expr": "build.version()",
-          "schema": "source_build_payload_write_input.build_version"
+          "name": "build_version",
+          "schema": "source_build_payload_write_input.build_version",
+          "source_symbol": "build_payload_write.build_version",
+          "type": "int"
         }
       ],
       "return_keys": [
@@ -19754,6 +20678,34 @@
         "test_port_game_exposes_source_child_update_state"
       ]
     },
+    "PortGame.source_consume_power_ignore_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "params": [
+        {
+          "java_expr": "buffered",
+          "name": "buffered",
+          "schema": "source_consume_power_ignore_input.buffered",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "buffered",
+        "ignore",
+        "return_expr"
+      ],
+      "rule": "Public runtime contract for ConsumePower.ignore() with explicit buffered input.",
+      "runtime_proof": "/root/Main.source_consume_power_ignore_state",
+      "source_method": "ignore()",
+      "source_slice": "N1425",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_power_ignore_to_source_state",
+        "test_port_game_exposes_generated_consume_power_ignore_bridge_state",
+        "test_consume_power_ignore_matches_upstream_source",
+        "test_generated_consume_power_ignore_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_power_requested_power_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
       "params": [
@@ -31699,25 +32651,20 @@
     },
     "PortGame.source_unit_payload_build_time_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.buildTime()",
-      "source_slice": "N1392",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
-      "rule": "PortGame.source_unit_payload_build_time_state pins UnitPayload.buildTime() return contract.",
       "params": [
         {
-          "name": "unit_type",
-          "type": "Variant",
           "java_expr": "unit.type",
+          "name": "unit_type",
           "schema": "source_unit_payload_build_time_input.unit_type",
-          "source_symbol": "unit_payload_build_time.unit_type"
+          "source_symbol": "unit_payload_build_time.unit_type",
+          "type": "Variant"
         },
         {
-          "name": "build_time",
-          "type": "float",
           "java_expr": "unit.type.getBuildTime()",
+          "name": "build_time",
           "schema": "source_unit_payload_build_time_input.build_time",
-          "source_symbol": "unit_payload_build_time.build_time"
+          "source_symbol": "unit_payload_build_time.build_time",
+          "type": "float"
         }
       ],
       "return_keys": [
@@ -31732,6 +32679,11 @@
         "buildTime",
         "get_build_time_call"
       ],
+      "rule": "PortGame.source_unit_payload_build_time_state pins UnitPayload.buildTime() return contract.",
+      "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
+      "source_method": "UnitPayload.buildTime()",
+      "source_slice": "N1392",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_build_time_to_source_state",
         "test_port_game_exposes_source_unit_payload_build_time_state",
@@ -31742,18 +32694,13 @@
     },
     "PortGame.source_unit_payload_constructor_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload(Unit unit)",
-      "source_slice": "N1385",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_unit_payload_constructor_state",
-      "rule": "PortGame.source_unit_payload_constructor_state pins UnitPayload(Unit) direct unit assignment contract.",
       "params": [
         {
-          "name": "unit",
-          "type": "Variant",
           "java_expr": "unit",
+          "name": "unit",
           "schema": "source_unit_payload_constructor_input.unit",
-          "source_symbol": "unit_payload_constructor.unit"
+          "source_symbol": "unit_payload_constructor.unit",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -31766,6 +32713,11 @@
         "unit",
         "unit_after"
       ],
+      "rule": "PortGame.source_unit_payload_constructor_state pins UnitPayload(Unit) direct unit assignment contract.",
+      "runtime_proof": "/root/Main.source_unit_payload_constructor_state",
+      "source_method": "UnitPayload(Unit unit)",
+      "source_slice": "N1385",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_constructor_to_source_state",
         "test_port_game_exposes_source_unit_payload_constructor_state",
@@ -31776,32 +32728,27 @@
     },
     "PortGame.source_unit_payload_content_equals_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.contentEquals(Payload other)",
-      "source_slice": "N1388",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
-      "rule": "PortGame.source_unit_payload_content_equals_state pins UnitPayload.contentEquals(Payload other) return contract.",
       "params": [
         {
-          "name": "other_is_unit_payload",
-          "type": "bool",
           "java_expr": "other instanceof UnitPayload up",
+          "name": "other_is_unit_payload",
           "schema": "source_unit_payload_content_equals_input.other_is_unit_payload",
-          "source_symbol": "unit_payload_content_equals.other_is_unit_payload"
+          "source_symbol": "unit_payload_content_equals.other_is_unit_payload",
+          "type": "bool"
         },
         {
-          "name": "other_unit_type",
-          "type": "Variant",
           "java_expr": "up.unit.type",
+          "name": "other_unit_type",
           "schema": "source_unit_payload_content_equals_input.other_unit_type",
-          "source_symbol": "unit_payload_content_equals.other_unit_type"
+          "source_symbol": "unit_payload_content_equals.other_unit_type",
+          "type": "Variant"
         },
         {
-          "name": "unit_type",
-          "type": "Variant",
           "java_expr": "unit.type",
+          "name": "unit_type",
           "schema": "source_unit_payload_content_equals_input.unit_type",
-          "source_symbol": "unit_payload_content_equals.unit_type"
+          "source_symbol": "unit_payload_content_equals.unit_type",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -31817,6 +32764,11 @@
         "unit_type",
         "content_equals"
       ],
+      "rule": "PortGame.source_unit_payload_content_equals_state pins UnitPayload.contentEquals(Payload other) return contract.",
+      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
+      "source_method": "UnitPayload.contentEquals(Payload other)",
+      "source_slice": "N1388",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_content_equals_to_source_state",
         "test_port_game_exposes_source_unit_payload_content_equals_state",
@@ -31827,18 +32779,13 @@
     },
     "PortGame.source_unit_payload_content_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.content()",
-      "source_slice": "N1390",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_unit_payload_content_state",
-      "rule": "PortGame.source_unit_payload_content_state pins UnitPayload.content() return contract.",
       "params": [
         {
-          "name": "unit_type",
-          "type": "Variant",
           "java_expr": "unit.type",
+          "name": "unit_type",
           "schema": "source_unit_payload_content_input.unit_type",
-          "source_symbol": "unit_payload_content.unit_type"
+          "source_symbol": "unit_payload_content.unit_type",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -31852,6 +32799,11 @@
         "unit_type",
         "content"
       ],
+      "rule": "PortGame.source_unit_payload_content_state pins UnitPayload.content() return contract.",
+      "runtime_proof": "/root/Main.source_unit_payload_content_state",
+      "source_method": "UnitPayload.content()",
+      "source_slice": "N1390",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_content_to_source_state",
         "test_port_game_exposes_source_unit_payload_content_state",
@@ -31860,25 +32812,295 @@
         "test_generated_unit_payload_content_slice_is_registered_with_source_backing"
       ]
     },
-    "PortGame.source_unit_payload_dump_can_create_guard_state": {
-      "status": "source-backed",
+    "PortGame.source_unit_payload_draw_elevation_setup_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.dump()",
-      "source_slice": "N1400",
-      "runtime_proof": "/root/Main.source_unit_payload_dump_can_create_guard_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_can_create_guard_state mirrors UnitPayload.dump() type-null and canCreate guard order, deferring remaining dump branches.",
       "params": [
         {
-          "name": "unit_type_null",
-          "type": "bool",
           "java_expr": "unit.type == null",
-          "schema": "source_unit_payload_dump_can_create_guard_input.unit_type_null"
+          "name": "unit_type_null",
+          "schema": "source_unit_payload_draw_elevation_setup_input.unit_type_null",
+          "type": "bool"
         },
         {
-          "name": "units_can_create",
-          "type": "bool",
+          "java_expr": "unit.elevation",
+          "name": "unit_elevation",
+          "schema": "source_unit_payload_draw_elevation_setup_input.unit_elevation",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit",
+          "name": "unit_id",
+          "schema": "source_unit_payload_draw_elevation_setup_input.unit_id",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "type_null_guard_expr",
+        "elevation_snapshot_expr",
+        "elevation_zero_expr",
+        "draw_scl_expr",
+        "unit_type_draw_expr",
+        "elevation_restore_expr",
+        "next_expr",
+        "unit_type_null",
+        "unit_elevation",
+        "unit_id",
+        "returned_early",
+        "elevation_snapshot",
+        "elevation_after_zero",
+        "draw_scl_called",
+        "draw_scl_call",
+        "unit_type_draw_called",
+        "unit_type_draw_call",
+        "elevation_after_restore",
+        "deferred_remaining_draw"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_elevation_setup_state mirrors UnitPayload.draw() elevation setup after the type-null guard.",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "source_method": "UnitPayload.draw()",
+      "source_slice": "N1407",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_unit_payload_draw_overlay_warning_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
+          "java_expr": "unit.type == null",
+          "name": "unit_type_null",
+          "schema": "source_unit_payload_draw_overlay_warning_input.unit_type_null",
+          "type": "bool"
+        },
+        {
+          "java_expr": "unit.elevation",
+          "name": "unit_elevation",
+          "schema": "source_unit_payload_draw_overlay_warning_input.unit_elevation",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit",
+          "name": "unit_id",
+          "schema": "source_unit_payload_draw_overlay_warning_input.unit_id",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "overlayTime",
+          "name": "overlay_time",
+          "schema": "source_unit_payload_draw_overlay_warning_input.overlay_time",
+          "type": "float"
+        },
+        {
+          "java_expr": "overlayRegion",
+          "name": "overlay_region",
+          "schema": "source_unit_payload_draw_overlay_warning_input.overlay_region",
+          "type": "Variant"
+        },
+        {
+          "java_expr": "unit.x",
+          "name": "unit_x",
+          "schema": "source_unit_payload_draw_overlay_warning_input.unit_x",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit.y",
+          "name": "unit_y",
+          "schema": "source_unit_payload_draw_overlay_warning_input.unit_y",
+          "type": "float"
+        },
+        {
+          "java_expr": "Time.delta",
+          "name": "time_delta",
+          "schema": "source_unit_payload_draw_overlay_warning_input.time_delta",
+          "type": "float"
+        },
+        {
+          "java_expr": "Draw.z()",
+          "name": "draw_z_before",
+          "schema": "source_unit_payload_draw_overlay_warning_input.draw_z_before",
+          "type": "float"
+        },
+        {
+          "java_expr": "Interp.exp5Out.apply(overlayTime)",
+          "name": "interp_exp5_out_overlay_time",
+          "schema": "source_unit_payload_draw_overlay_warning_input.interp_exp5_out_overlay_time",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "overlay_duration_field_expr",
+        "overlay_time_field_expr",
+        "overlay_region_field_expr",
+        "method",
+        "draw_warning_comment_expr",
+        "overlay_guard_expr",
+        "draw_z_snapshot_expr",
+        "draw_z_warning_expr",
+        "region_expr",
+        "draw_color_expr",
+        "draw_alpha_expr",
+        "size_expr",
+        "draw_rect_expr",
+        "draw_reset_expr",
+        "overlay_time_update_expr",
+        "draw_z_restore_expr",
+        "unit_type_null",
+        "unit_elevation",
+        "unit_id",
+        "overlay_time",
+        "overlay_region",
+        "unit_x",
+        "unit_y",
+        "time_delta",
+        "draw_z_before",
+        "interp_exp5_out_overlay_time",
+        "returned_early",
+        "overlay_duration",
+        "overlay_guard",
+        "draw_z_snapshot",
+        "draw_z_warning_call",
+        "overlay_region_resolved",
+        "draw_color_call",
+        "draw_alpha_value",
+        "draw_alpha_call",
+        "warning_size",
+        "draw_rect_call",
+        "draw_reset_called",
+        "overlay_time_after",
+        "draw_z_restore_call",
+        "deferred_remaining_draw"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_overlay_warning_state mirrors UnitPayload.draw() overlay warning branch after elevation setup.",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_overlay_warning_state",
+      "source_method": "UnitPayload.draw()",
+      "source_slice": "N1408",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_overlay_warning_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_overlay_warning_state",
+        "test_port_game_exposes_generated_unit_payload_draw_overlay_warning_bridge_state",
+        "test_unit_payload_draw_overlay_warning_matches_upstream_source",
+        "test_generated_unit_payload_draw_overlay_warning_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_unit_payload_draw_shadow_type_null_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
+          "java_expr": "unit.type == null",
+          "name": "unit_type_null",
+          "schema": "source_unit_payload_draw_shadow_type_null_input.unit_type_null",
+          "type": "bool"
+        },
+        {
+          "java_expr": "alpha",
+          "name": "alpha",
+          "schema": "source_unit_payload_draw_shadow_type_null_input.alpha",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit",
+          "name": "unit_id",
+          "schema": "source_unit_payload_draw_shadow_type_null_input.unit_id",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "type_null_guard_expr",
+        "draw_soft_shadow_expr",
+        "unit_type_null",
+        "alpha",
+        "unit_id",
+        "returned_early",
+        "draw_soft_shadow_called",
+        "draw_soft_shadow_call"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_shadow_type_null_state mirrors UnitPayload.drawShadow(float alpha) guard and drawSoftShadow call record.",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_shadow_type_null_state",
+      "source_method": "UnitPayload.drawShadow(float alpha)",
+      "source_slice": "N1405",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_shadow_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_shadow_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_shadow_type_null_bridge_state",
+        "test_unit_payload_draw_shadow_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_shadow_type_null_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_unit_payload_draw_type_null_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
+          "java_expr": "unit.type == null",
+          "name": "unit_type_null",
+          "schema": "source_unit_payload_draw_type_null_input.unit_type_null",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "type_null_guard_expr",
+        "next_expr",
+        "unit_type_null",
+        "returned_early",
+        "deferred_remaining_draw"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_type_null_state mirrors UnitPayload.draw() type-null guard and defers the remaining draw body.",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
+      "source_method": "UnitPayload.draw()",
+      "source_slice": "N1406",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
+        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
+        "test_unit_payload_draw_type_null_matches_upstream_source",
+        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_unit_payload_dump_can_create_guard_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
+          "java_expr": "unit.type == null",
+          "name": "unit_type_null",
+          "schema": "source_unit_payload_dump_can_create_guard_input.unit_type_null",
+          "type": "bool"
+        },
+        {
           "java_expr": "Units.canCreate(unit.team, unit.type)",
-          "schema": "source_unit_payload_dump_can_create_guard_input.units_can_create"
+          "name": "units_can_create",
+          "schema": "source_unit_payload_dump_can_create_guard_input.units_can_create",
+          "type": "bool"
         }
       ],
       "return_keys": [
@@ -31906,6 +33128,11 @@
         "overlayRegion_after",
         "deferred_remaining_dump"
       ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_can_create_guard_state mirrors UnitPayload.dump() type-null and canCreate guard order, deferring remaining dump branches.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_can_create_guard_state",
+      "source_method": "UnitPayload.dump()",
+      "source_slice": "N1400",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_dump_can_create_guard_to_source_state",
         "test_port_game_exposes_source_unit_payload_dump_can_create_guard_state",
@@ -31914,55 +33141,362 @@
         "test_generated_unit_payload_dump_can_create_guard_slice_is_registered_with_source_backing"
       ]
     },
-    "PortGame.source_unit_payload_dump_solidity_guard_state": {
-      "status": "source-backed",
+    "PortGame.source_unit_payload_dump_no_client_guard_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.dump()",
-      "source_slice": "N1401",
-      "runtime_proof": "/root/Main.source_unit_payload_dump_solidity_guard_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_solidity_guard_state mirrors UnitPayload.dump() solidity guard order and tile probe, deferring remaining dump branches.",
       "params": [
         {
-          "name": "unit_type_null",
-          "type": "bool",
           "java_expr": "unit.type == null",
-          "schema": "source_unit_payload_dump_solidity_guard_input.unit_type_null"
+          "name": "unit_type_null",
+          "schema": "source_unit_payload_dump_no_client_guard_input.unit_type_null",
+          "type": "bool"
         },
         {
-          "name": "units_can_create",
-          "type": "bool",
           "java_expr": "Units.canCreate(unit.team, unit.type)",
-          "schema": "source_unit_payload_dump_solidity_guard_input.units_can_create"
+          "name": "units_can_create",
+          "schema": "source_unit_payload_dump_no_client_guard_input.units_can_create",
+          "type": "bool"
         },
         {
-          "name": "solid_present",
-          "type": "bool",
           "java_expr": "solid != null",
-          "schema": "source_unit_payload_dump_solidity_guard_input.solid_present"
+          "name": "solid_present",
+          "schema": "source_unit_payload_dump_no_client_guard_input.solid_present",
+          "type": "bool"
         },
         {
-          "name": "unit_rotation",
-          "type": "float",
           "java_expr": "unit.rotation",
-          "schema": "source_unit_payload_dump_solidity_guard_input.unit_rotation"
+          "name": "unit_rotation",
+          "schema": "source_unit_payload_dump_no_client_guard_input.unit_rotation",
+          "type": "float"
         },
         {
-          "name": "unit_x",
-          "type": "float",
           "java_expr": "unit.x",
-          "schema": "source_unit_payload_dump_solidity_guard_input.unit_x"
+          "name": "unit_x",
+          "schema": "source_unit_payload_dump_no_client_guard_input.unit_x",
+          "type": "float"
         },
         {
-          "name": "unit_y",
-          "type": "float",
           "java_expr": "unit.y",
-          "schema": "source_unit_payload_dump_solidity_guard_input.unit_y"
+          "name": "unit_y",
+          "schema": "source_unit_payload_dump_no_client_guard_input.unit_y",
+          "type": "float"
         },
         {
-          "name": "solid_solid",
-          "type": "bool",
           "java_expr": "solid.solid(tx, ty)",
-          "schema": "source_unit_payload_dump_solidity_guard_input.solid_solid"
+          "name": "solid_solid",
+          "schema": "source_unit_payload_dump_no_client_guard_input.solid_solid",
+          "type": "bool"
+        },
+        {
+          "java_expr": "unit.type.flying",
+          "name": "unit_type_flying",
+          "schema": "source_unit_payload_dump_no_client_guard_input.unit_type_flying",
+          "type": "bool"
+        },
+        {
+          "java_expr": "unit.physicSize()",
+          "name": "unit_physic_size",
+          "schema": "source_unit_payload_dump_no_client_guard_input.unit_physic_size",
+          "type": "float"
+        },
+        {
+          "java_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
+          "name": "units_count",
+          "schema": "source_unit_payload_dump_no_client_guard_input.units_count",
+          "type": "int"
+        },
+        {
+          "java_expr": "Vars.net.client()",
+          "name": "net_client",
+          "schema": "source_unit_payload_dump_no_client_guard_input.net_client",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "arc_vec2_source",
+        "world_source",
+        "vars_source",
+        "class_expr",
+        "field_expr",
+        "field_overlay_time_expr",
+        "field_overlay_region_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "type_null_guard_expr",
+        "can_create_guard_expr",
+        "overlay_time_assign_expr",
+        "overlay_region_assign_expr",
+        "solidity_comment_expr",
+        "solid_assign_expr",
+        "solid_guard_expr",
+        "trns_expr",
+        "vec2_trns_amount_expr",
+        "vec2_trns_amount_return_expr",
+        "tile_assign_expr",
+        "world_to_tile_method",
+        "world_to_tile_return",
+        "vars_tilesize_field",
+        "solid_block_comment_expr",
+        "solid_solid_guard_expr",
+        "return_false_expr",
+        "unit_type_null",
+        "units_can_create",
+        "solid_present",
+        "unit_rotation",
+        "unit_x",
+        "unit_y",
+        "solid_solid",
+        "can_create_evaluated",
+        "can_create_guard",
+        "before_solid_returned",
+        "solid_evaluated",
+        "solid_present_guard",
+        "trns_vec",
+        "tx",
+        "ty",
+        "solid_solid_evaluated",
+        "solid_call",
+        "solid_guard",
+        "returned",
+        "dump",
+        "overlayTime_after",
+        "overlayRegion_after",
+        "deferred_remaining_dump",
+        "overlap_comment_expr",
+        "overlap_guard_expr",
+        "unit_type_flying_expr",
+        "units_count_expr",
+        "physic_size_expr",
+        "radius_multiplier_expr",
+        "predicate_is_grounded_expr",
+        "predicate_allow_leg_step_expr",
+        "client_dumping_comment_expr",
+        "unit_type_flying",
+        "unit_physic_size",
+        "units_count",
+        "before_overlap_returned",
+        "overlap_evaluated",
+        "units_count_evaluated",
+        "units_count_call",
+        "overlap_radius",
+        "overlap_guard",
+        "net_client_guard_expr",
+        "vars_net_field",
+        "return_true_expr",
+        "prevents_stacking_comment_expr",
+        "net_client",
+        "before_client_returned",
+        "net_client_evaluated",
+        "client_guard"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_no_client_guard_state mirrors UnitPayload.dump() no-client guard order, deferring stacking/spawn side effects.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_no_client_guard_state",
+      "source_method": "UnitPayload.dump()",
+      "source_slice": "N1403",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_no_client_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_no_client_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_no_client_guard_bridge_state",
+        "test_unit_payload_dump_no_client_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_no_client_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_unit_payload_dump_overlap_guard_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
+          "java_expr": "unit.type == null",
+          "name": "unit_type_null",
+          "schema": "source_unit_payload_dump_overlap_guard_input.unit_type_null",
+          "type": "bool"
+        },
+        {
+          "java_expr": "Units.canCreate(unit.team, unit.type)",
+          "name": "units_can_create",
+          "schema": "source_unit_payload_dump_overlap_guard_input.units_can_create",
+          "type": "bool"
+        },
+        {
+          "java_expr": "solid != null",
+          "name": "solid_present",
+          "schema": "source_unit_payload_dump_overlap_guard_input.solid_present",
+          "type": "bool"
+        },
+        {
+          "java_expr": "unit.rotation",
+          "name": "unit_rotation",
+          "schema": "source_unit_payload_dump_overlap_guard_input.unit_rotation",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit.x",
+          "name": "unit_x",
+          "schema": "source_unit_payload_dump_overlap_guard_input.unit_x",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit.y",
+          "name": "unit_y",
+          "schema": "source_unit_payload_dump_overlap_guard_input.unit_y",
+          "type": "float"
+        },
+        {
+          "java_expr": "solid.solid(tx, ty)",
+          "name": "solid_solid",
+          "schema": "source_unit_payload_dump_overlap_guard_input.solid_solid",
+          "type": "bool"
+        },
+        {
+          "java_expr": "unit.type.flying",
+          "name": "unit_type_flying",
+          "schema": "source_unit_payload_dump_overlap_guard_input.unit_type_flying",
+          "type": "bool"
+        },
+        {
+          "java_expr": "unit.physicSize()",
+          "name": "unit_physic_size",
+          "schema": "source_unit_payload_dump_overlap_guard_input.unit_physic_size",
+          "type": "float"
+        },
+        {
+          "java_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
+          "name": "units_count",
+          "schema": "source_unit_payload_dump_overlap_guard_input.units_count",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "arc_vec2_source",
+        "world_source",
+        "vars_source",
+        "class_expr",
+        "field_expr",
+        "field_overlay_time_expr",
+        "field_overlay_region_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "type_null_guard_expr",
+        "can_create_guard_expr",
+        "overlay_time_assign_expr",
+        "overlay_region_assign_expr",
+        "solidity_comment_expr",
+        "solid_assign_expr",
+        "solid_guard_expr",
+        "trns_expr",
+        "vec2_trns_amount_expr",
+        "vec2_trns_amount_return_expr",
+        "tile_assign_expr",
+        "world_to_tile_method",
+        "world_to_tile_return",
+        "vars_tilesize_field",
+        "solid_block_comment_expr",
+        "solid_solid_guard_expr",
+        "return_false_expr",
+        "unit_type_null",
+        "units_can_create",
+        "solid_present",
+        "unit_rotation",
+        "unit_x",
+        "unit_y",
+        "solid_solid",
+        "can_create_evaluated",
+        "can_create_guard",
+        "before_solid_returned",
+        "solid_evaluated",
+        "solid_present_guard",
+        "trns_vec",
+        "tx",
+        "ty",
+        "solid_solid_evaluated",
+        "solid_call",
+        "solid_guard",
+        "returned",
+        "dump",
+        "overlayTime_after",
+        "overlayRegion_after",
+        "deferred_remaining_dump",
+        "overlap_comment_expr",
+        "overlap_guard_expr",
+        "unit_type_flying_expr",
+        "units_count_expr",
+        "physic_size_expr",
+        "radius_multiplier_expr",
+        "predicate_is_grounded_expr",
+        "predicate_allow_leg_step_expr",
+        "client_dumping_comment_expr",
+        "unit_type_flying",
+        "unit_physic_size",
+        "units_count",
+        "before_overlap_returned",
+        "overlap_evaluated",
+        "units_count_evaluated",
+        "units_count_call",
+        "overlap_radius",
+        "overlap_guard"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_overlap_guard_state mirrors UnitPayload.dump() overlap guard order and Units.count short-circuit, deferring remaining dump branches.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_method": "UnitPayload.dump()",
+      "source_slice": "N1402",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_unit_payload_dump_solidity_guard_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
+          "java_expr": "unit.type == null",
+          "name": "unit_type_null",
+          "schema": "source_unit_payload_dump_solidity_guard_input.unit_type_null",
+          "type": "bool"
+        },
+        {
+          "java_expr": "Units.canCreate(unit.team, unit.type)",
+          "name": "units_can_create",
+          "schema": "source_unit_payload_dump_solidity_guard_input.units_can_create",
+          "type": "bool"
+        },
+        {
+          "java_expr": "solid != null",
+          "name": "solid_present",
+          "schema": "source_unit_payload_dump_solidity_guard_input.solid_present",
+          "type": "bool"
+        },
+        {
+          "java_expr": "unit.rotation",
+          "name": "unit_rotation",
+          "schema": "source_unit_payload_dump_solidity_guard_input.unit_rotation",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit.x",
+          "name": "unit_x",
+          "schema": "source_unit_payload_dump_solidity_guard_input.unit_x",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit.y",
+          "name": "unit_y",
+          "schema": "source_unit_payload_dump_solidity_guard_input.unit_y",
+          "type": "float"
+        },
+        {
+          "java_expr": "solid.solid(tx, ty)",
+          "name": "solid_solid",
+          "schema": "source_unit_payload_dump_solidity_guard_input.solid_solid",
+          "type": "bool"
         }
       ],
       "return_keys": [
@@ -32019,12 +33553,224 @@
         "overlayRegion_after",
         "deferred_remaining_dump"
       ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_solidity_guard_state mirrors UnitPayload.dump() solidity guard order and tile probe, deferring remaining dump branches.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_solidity_guard_state",
+      "source_method": "UnitPayload.dump()",
+      "source_slice": "N1401",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_dump_solidity_guard_to_source_state",
         "test_port_game_exposes_source_unit_payload_dump_solidity_guard_state",
         "test_port_game_exposes_generated_unit_payload_dump_solidity_guard_bridge_state",
         "test_unit_payload_dump_solidity_guard_matches_upstream_source",
         "test_generated_unit_payload_dump_solidity_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_unit_payload_dump_spawn_side_effects_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
+          "java_expr": "unit.type == null",
+          "name": "unit_type_null",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_type_null",
+          "type": "bool"
+        },
+        {
+          "java_expr": "Units.canCreate(unit.team, unit.type)",
+          "name": "units_can_create",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.units_can_create",
+          "type": "bool"
+        },
+        {
+          "java_expr": "solid != null",
+          "name": "solid_present",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.solid_present",
+          "type": "bool"
+        },
+        {
+          "java_expr": "unit.rotation",
+          "name": "unit_rotation",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_rotation",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit.x",
+          "name": "unit_x",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_x",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit.y",
+          "name": "unit_y",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_y",
+          "type": "float"
+        },
+        {
+          "java_expr": "solid.solid(tx, ty)",
+          "name": "solid_solid",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.solid_solid",
+          "type": "bool"
+        },
+        {
+          "java_expr": "unit.type.flying",
+          "name": "unit_type_flying",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_type_flying",
+          "type": "bool"
+        },
+        {
+          "java_expr": "unit.physicSize()",
+          "name": "unit_physic_size",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_physic_size",
+          "type": "float"
+        },
+        {
+          "java_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
+          "name": "units_count",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.units_count",
+          "type": "int"
+        },
+        {
+          "java_expr": "Vars.net.client()",
+          "name": "net_client",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.net_client",
+          "type": "bool"
+        },
+        {
+          "java_expr": "Mathf.range(0.5f)",
+          "name": "range_x",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.range_x",
+          "type": "float"
+        },
+        {
+          "java_expr": "Mathf.range(0.5f)",
+          "name": "range_y",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.range_y",
+          "type": "float"
+        },
+        {
+          "java_expr": "unit",
+          "name": "unit_id",
+          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_id",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "arc_vec2_source",
+        "world_source",
+        "vars_source",
+        "class_expr",
+        "field_expr",
+        "field_overlay_time_expr",
+        "field_overlay_region_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "type_null_guard_expr",
+        "can_create_guard_expr",
+        "overlay_time_assign_expr",
+        "overlay_region_assign_expr",
+        "solidity_comment_expr",
+        "solid_assign_expr",
+        "solid_guard_expr",
+        "trns_expr",
+        "vec2_trns_amount_expr",
+        "vec2_trns_amount_return_expr",
+        "tile_assign_expr",
+        "world_to_tile_method",
+        "world_to_tile_return",
+        "vars_tilesize_field",
+        "solid_block_comment_expr",
+        "solid_solid_guard_expr",
+        "return_false_expr",
+        "unit_type_null",
+        "units_can_create",
+        "solid_present",
+        "unit_rotation",
+        "unit_x",
+        "unit_y",
+        "solid_solid",
+        "can_create_evaluated",
+        "can_create_guard",
+        "before_solid_returned",
+        "solid_evaluated",
+        "solid_present_guard",
+        "trns_vec",
+        "tx",
+        "ty",
+        "solid_solid_evaluated",
+        "solid_call",
+        "solid_guard",
+        "returned",
+        "dump",
+        "overlayTime_after",
+        "overlayRegion_after",
+        "deferred_remaining_dump",
+        "overlap_comment_expr",
+        "overlap_guard_expr",
+        "unit_type_flying_expr",
+        "units_count_expr",
+        "physic_size_expr",
+        "radius_multiplier_expr",
+        "predicate_is_grounded_expr",
+        "predicate_allow_leg_step_expr",
+        "client_dumping_comment_expr",
+        "unit_type_flying",
+        "unit_physic_size",
+        "units_count",
+        "before_overlap_returned",
+        "overlap_evaluated",
+        "units_count_evaluated",
+        "units_count_call",
+        "overlap_radius",
+        "overlap_guard",
+        "net_client_guard_expr",
+        "vars_net_field",
+        "return_true_expr",
+        "prevents_stacking_comment_expr",
+        "net_client",
+        "before_client_returned",
+        "net_client_evaluated",
+        "client_guard",
+        "arc_mathf_source",
+        "units_source",
+        "event_type_source",
+        "velocity_add_expr",
+        "mathf_range_float_method",
+        "mathf_range_float_return",
+        "unit_add_expr",
+        "unit_unloaded_expr",
+        "event_fire_expr",
+        "unit_unload_event_comment",
+        "unit_unload_event_class",
+        "unit_unload_event_constructor",
+        "notify_unit_spawn_expr",
+        "notify_unit_spawn_method",
+        "notify_unit_spawn_guard",
+        "final_return_true_expr",
+        "range_x",
+        "range_y",
+        "unit_id",
+        "before_spawn_returned",
+        "spawn_evaluated",
+        "velocity_add_call",
+        "unit_add_called",
+        "unit_unloaded_called",
+        "event_fire_call",
+        "notify_unit_spawn_call"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_spawn_side_effects_state mirrors UnitPayload.dump() spawn side effects after all guards pass.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
+      "source_method": "UnitPayload.dump()",
+      "source_slice": "N1404",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
+        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
+        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
+        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
       ]
     },
     "PortGame.source_unit_payload_dump_type_null_guard_state": {
@@ -32065,27 +33811,56 @@
         "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
       ]
     },
-    "PortGame.source_unit_payload_requirements_state": {
+    "PortGame.source_unit_payload_icon_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.requirements()",
-      "source_slice": "N1391",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
-      "rule": "PortGame.source_unit_payload_requirements_state pins UnitPayload.requirements() return contract.",
       "params": [
         {
-          "name": "unit_type",
-          "type": "Variant",
+          "java_expr": "unit.type.fullIcon",
+          "name": "unit_type_full_icon",
+          "schema": "source_unit_payload_icon_input.unit_type_full_icon",
+          "type": "Variant"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "unit_type_full_icon",
+        "icon"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_icon_state mirrors UnitPayload.icon().",
+      "runtime_proof": "/root/Main.source_unit_payload_icon_state",
+      "source_method": "UnitPayload.icon()",
+      "source_slice": "N1409",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_icon_to_source_state",
+        "test_port_game_exposes_source_unit_payload_icon_state",
+        "test_port_game_exposes_generated_unit_payload_icon_bridge_state",
+        "test_unit_payload_icon_matches_upstream_source",
+        "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
+      ]
+    },
+    "PortGame.source_unit_payload_requirements_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
           "java_expr": "unit.type",
+          "name": "unit_type",
           "schema": "source_unit_payload_requirements_input.unit_type",
-          "source_symbol": "unit_payload_requirements.unit_type"
+          "source_symbol": "unit_payload_requirements.unit_type",
+          "type": "Variant"
         },
         {
-          "name": "total_requirements",
-          "type": "Variant",
           "java_expr": "unit.type.getTotalRequirements()",
+          "name": "total_requirements",
           "schema": "source_unit_payload_requirements_input.total_requirements",
-          "source_symbol": "unit_payload_requirements.total_requirements"
+          "source_symbol": "unit_payload_requirements.total_requirements",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -32100,6 +33875,11 @@
         "requirements",
         "get_total_requirements_call"
       ],
+      "rule": "PortGame.source_unit_payload_requirements_state pins UnitPayload.requirements() return contract.",
+      "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
+      "source_method": "UnitPayload.requirements()",
+      "source_slice": "N1391",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_requirements_to_source_state",
         "test_port_game_exposes_source_unit_payload_requirements_state",
@@ -32144,32 +33924,27 @@
     },
     "PortGame.source_unit_payload_set_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.set(float x, float y, float rotation)",
-      "source_slice": "N1394",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_unit_payload_set_state",
-      "rule": "PortGame.source_unit_payload_set_state pins UnitPayload.set(float x, float y, float rotation) state contract.",
       "params": [
         {
-          "name": "x",
-          "type": "float",
           "java_expr": "x",
+          "name": "x",
           "schema": "source_unit_payload_set_input.x",
-          "source_symbol": "unit_payload_set.x"
+          "source_symbol": "unit_payload_set.x",
+          "type": "float"
         },
         {
-          "name": "y",
-          "type": "float",
           "java_expr": "y",
+          "name": "y",
           "schema": "source_unit_payload_set_input.y",
-          "source_symbol": "unit_payload_set.y"
+          "source_symbol": "unit_payload_set.y",
+          "type": "float"
         },
         {
-          "name": "rotation_value",
-          "type": "float",
           "java_expr": "rotation",
+          "name": "rotation_value",
           "schema": "source_unit_payload_set_input.rotation_value",
-          "source_symbol": "unit_payload_set.rotation"
+          "source_symbol": "unit_payload_set.rotation",
+          "type": "float"
         }
       ],
       "return_keys": [
@@ -32187,6 +33962,11 @@
         "set_called",
         "set_call"
       ],
+      "rule": "PortGame.source_unit_payload_set_state pins UnitPayload.set(float x, float y, float rotation) state contract.",
+      "runtime_proof": "/root/Main.source_unit_payload_set_state",
+      "source_method": "UnitPayload.set(float x, float y, float rotation)",
+      "source_slice": "N1394",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_set_to_source_state",
         "test_port_game_exposes_source_unit_payload_set_state",
@@ -32197,32 +33977,27 @@
     },
     "PortGame.source_unit_payload_show_overlay_drawable_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.showOverlay(TextureRegionDrawable icon)",
-      "source_slice": "N1387",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_drawable_state",
-      "rule": "PortGame.source_unit_payload_show_overlay_drawable_state pins UnitPayload.showOverlay(TextureRegionDrawable) guard and delegate contract.",
       "params": [
         {
-          "name": "icon_null",
-          "type": "bool",
           "java_expr": "icon == null",
+          "name": "icon_null",
           "schema": "source_unit_payload_show_overlay_drawable_input.icon_null",
-          "source_symbol": "unit_payload_show_overlay_drawable.icon_null"
+          "source_symbol": "unit_payload_show_overlay_drawable.icon_null",
+          "type": "bool"
         },
         {
-          "name": "headless",
-          "type": "bool",
           "java_expr": "headless",
+          "name": "headless",
           "schema": "source_unit_payload_show_overlay_drawable_input.headless",
-          "source_symbol": "unit_payload_show_overlay_drawable.headless"
+          "source_symbol": "unit_payload_show_overlay_drawable.headless",
+          "type": "bool"
         },
         {
-          "name": "region",
-          "type": "Variant",
           "java_expr": "icon.getRegion()",
+          "name": "region",
           "schema": "source_unit_payload_show_overlay_drawable_input.region",
-          "source_symbol": "unit_payload_show_overlay_drawable.region"
+          "source_symbol": "unit_payload_show_overlay_drawable.region",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -32243,6 +34018,11 @@
         "overlayRegion_after",
         "overlayTime_after"
       ],
+      "rule": "PortGame.source_unit_payload_show_overlay_drawable_state pins UnitPayload.showOverlay(TextureRegionDrawable) guard and delegate contract.",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_drawable_state",
+      "source_method": "UnitPayload.showOverlay(TextureRegionDrawable icon)",
+      "source_slice": "N1387",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_show_overlay_drawable_to_source_state",
         "test_port_game_exposes_source_unit_payload_show_overlay_drawable_state",
@@ -32253,18 +34033,13 @@
     },
     "PortGame.source_unit_payload_show_overlay_texture_region_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.showOverlay(TextureRegion icon)",
-      "source_slice": "N1386",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
-      "rule": "PortGame.source_unit_payload_show_overlay_texture_region_state pins UnitPayload.showOverlay(TextureRegion) overlay assignment contract.",
       "params": [
         {
-          "name": "icon",
-          "type": "Variant",
           "java_expr": "icon",
+          "name": "icon",
           "schema": "source_unit_payload_show_overlay_texture_region_input.icon",
-          "source_symbol": "unit_payload_show_overlay_texture_region.icon"
+          "source_symbol": "unit_payload_show_overlay_texture_region.icon",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -32280,6 +34055,11 @@
         "overlayRegion_after",
         "overlayTime_after"
       ],
+      "rule": "PortGame.source_unit_payload_show_overlay_texture_region_state pins UnitPayload.showOverlay(TextureRegion) overlay assignment contract.",
+      "runtime_proof": "/root/Main.source_unit_payload_show_overlay_texture_region_state",
+      "source_method": "UnitPayload.showOverlay(TextureRegion icon)",
+      "source_slice": "N1386",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_show_overlay_texture_region_to_source_state",
         "test_port_game_exposes_source_unit_payload_show_overlay_texture_region_state",
@@ -32324,39 +34104,34 @@
     },
     "PortGame.source_unit_payload_update_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
-      "source_slice": "N1389",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_unit_payload_update_state",
-      "rule": "PortGame.source_unit_payload_update_state pins UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder) delegate contract.",
       "params": [
         {
-          "name": "unit_type",
-          "type": "Variant",
           "java_expr": "unit.type",
+          "name": "unit_type",
           "schema": "source_unit_payload_update_input.unit_type",
-          "source_symbol": "unit_payload_update.unit_type"
+          "source_symbol": "unit_payload_update.unit_type",
+          "type": "Variant"
         },
         {
-          "name": "unit",
-          "type": "Variant",
           "java_expr": "unit",
+          "name": "unit",
           "schema": "source_unit_payload_update_input.unit",
-          "source_symbol": "unit_payload_update.unit"
+          "source_symbol": "unit_payload_update.unit",
+          "type": "Variant"
         },
         {
-          "name": "unit_holder",
-          "type": "Variant",
           "java_expr": "unitHolder",
+          "name": "unit_holder",
           "schema": "source_unit_payload_update_input.unit_holder",
-          "source_symbol": "unit_payload_update.unitHolder"
+          "source_symbol": "unit_payload_update.unitHolder",
+          "type": "Variant"
         },
         {
-          "name": "building_holder",
-          "type": "Variant",
           "java_expr": "buildingHolder",
+          "name": "building_holder",
           "schema": "source_unit_payload_update_input.building_holder",
-          "source_symbol": "unit_payload_update.buildingHolder"
+          "source_symbol": "unit_payload_update.buildingHolder",
+          "type": "Variant"
         }
       ],
       "return_keys": [
@@ -32374,6 +34149,11 @@
         "update_payload_called",
         "update_payload_call"
       ],
+      "rule": "PortGame.source_unit_payload_update_state pins UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder) delegate contract.",
+      "runtime_proof": "/root/Main.source_unit_payload_update_state",
+      "source_method": "UnitPayload.update(@Nullable Unit unitHolder, @Nullable Building buildingHolder)",
+      "source_slice": "N1389",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_update_to_source_state",
         "test_port_game_exposes_source_unit_payload_update_state",
@@ -32384,25 +34164,20 @@
     },
     "PortGame.source_unit_payload_write_state": {
       "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.write(Writes write)",
-      "source_slice": "N1393",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_unit_payload_write_state",
-      "rule": "PortGame.source_unit_payload_write_state pins UnitPayload.write(Writes write) write-call order contract.",
       "params": [
         {
-          "name": "payload_unit",
-          "type": "int",
           "java_expr": "payloadUnit",
+          "name": "payload_unit",
           "schema": "source_unit_payload_write_input.payload_unit",
-          "source_symbol": "unit_payload_write.payload_unit"
+          "source_symbol": "unit_payload_write.payload_unit",
+          "type": "int"
         },
         {
-          "name": "unit_class_id",
-          "type": "int",
           "java_expr": "unit.classId()",
+          "name": "unit_class_id",
           "schema": "source_unit_payload_write_input.unit_class_id",
-          "source_symbol": "unit_payload_write.unit_class_id"
+          "source_symbol": "unit_payload_write.unit_class_id",
+          "type": "int"
         }
       ],
       "return_keys": [
@@ -32420,6 +34195,11 @@
         "unit_write_called",
         "write_calls"
       ],
+      "rule": "PortGame.source_unit_payload_write_state pins UnitPayload.write(Writes write) write-call order contract.",
+      "runtime_proof": "/root/Main.source_unit_payload_write_state",
+      "source_method": "UnitPayload.write(Writes write)",
+      "source_slice": "N1393",
+      "status": "source-backed",
       "tests": [
         "test_emit_bridges_unit_payload_write_to_source_state",
         "test_port_game_exposes_source_unit_payload_write_state",
@@ -37034,1758 +38814,6 @@
         "test_weapons_update_dispatch_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
-      ]
-    },
-    "PortGame.source_unit_payload_dump_overlap_guard_state": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.dump()",
-      "source_slice": "N1402",
-      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_overlap_guard_state mirrors UnitPayload.dump() overlap guard order and Units.count short-circuit, deferring remaining dump branches.",
-      "params": [
-        {
-          "name": "unit_type_null",
-          "type": "bool",
-          "java_expr": "unit.type == null",
-          "schema": "source_unit_payload_dump_overlap_guard_input.unit_type_null"
-        },
-        {
-          "name": "units_can_create",
-          "type": "bool",
-          "java_expr": "Units.canCreate(unit.team, unit.type)",
-          "schema": "source_unit_payload_dump_overlap_guard_input.units_can_create"
-        },
-        {
-          "name": "solid_present",
-          "type": "bool",
-          "java_expr": "solid != null",
-          "schema": "source_unit_payload_dump_overlap_guard_input.solid_present"
-        },
-        {
-          "name": "unit_rotation",
-          "type": "float",
-          "java_expr": "unit.rotation",
-          "schema": "source_unit_payload_dump_overlap_guard_input.unit_rotation"
-        },
-        {
-          "name": "unit_x",
-          "type": "float",
-          "java_expr": "unit.x",
-          "schema": "source_unit_payload_dump_overlap_guard_input.unit_x"
-        },
-        {
-          "name": "unit_y",
-          "type": "float",
-          "java_expr": "unit.y",
-          "schema": "source_unit_payload_dump_overlap_guard_input.unit_y"
-        },
-        {
-          "name": "solid_solid",
-          "type": "bool",
-          "java_expr": "solid.solid(tx, ty)",
-          "schema": "source_unit_payload_dump_overlap_guard_input.solid_solid"
-        },
-        {
-          "name": "unit_type_flying",
-          "type": "bool",
-          "java_expr": "unit.type.flying",
-          "schema": "source_unit_payload_dump_overlap_guard_input.unit_type_flying"
-        },
-        {
-          "name": "unit_physic_size",
-          "type": "float",
-          "java_expr": "unit.physicSize()",
-          "schema": "source_unit_payload_dump_overlap_guard_input.unit_physic_size"
-        },
-        {
-          "name": "units_count",
-          "type": "int",
-          "java_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
-          "schema": "source_unit_payload_dump_overlap_guard_input.units_count"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "arc_vec2_source",
-        "world_source",
-        "vars_source",
-        "class_expr",
-        "field_expr",
-        "field_overlay_time_expr",
-        "field_overlay_region_expr",
-        "override_expr",
-        "method",
-        "todo_comment_expr",
-        "type_null_guard_expr",
-        "can_create_guard_expr",
-        "overlay_time_assign_expr",
-        "overlay_region_assign_expr",
-        "solidity_comment_expr",
-        "solid_assign_expr",
-        "solid_guard_expr",
-        "trns_expr",
-        "vec2_trns_amount_expr",
-        "vec2_trns_amount_return_expr",
-        "tile_assign_expr",
-        "world_to_tile_method",
-        "world_to_tile_return",
-        "vars_tilesize_field",
-        "solid_block_comment_expr",
-        "solid_solid_guard_expr",
-        "return_false_expr",
-        "unit_type_null",
-        "units_can_create",
-        "solid_present",
-        "unit_rotation",
-        "unit_x",
-        "unit_y",
-        "solid_solid",
-        "can_create_evaluated",
-        "can_create_guard",
-        "before_solid_returned",
-        "solid_evaluated",
-        "solid_present_guard",
-        "trns_vec",
-        "tx",
-        "ty",
-        "solid_solid_evaluated",
-        "solid_call",
-        "solid_guard",
-        "returned",
-        "dump",
-        "overlayTime_after",
-        "overlayRegion_after",
-        "deferred_remaining_dump",
-        "overlap_comment_expr",
-        "overlap_guard_expr",
-        "unit_type_flying_expr",
-        "units_count_expr",
-        "physic_size_expr",
-        "radius_multiplier_expr",
-        "predicate_is_grounded_expr",
-        "predicate_allow_leg_step_expr",
-        "client_dumping_comment_expr",
-        "unit_type_flying",
-        "unit_physic_size",
-        "units_count",
-        "before_overlap_returned",
-        "overlap_evaluated",
-        "units_count_evaluated",
-        "units_count_call",
-        "overlap_radius",
-        "overlap_guard"
-      ],
-      "tests": [
-        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
-        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
-        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
-        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
-        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_unit_payload_dump_no_client_guard_state": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.dump()",
-      "source_slice": "N1403",
-      "runtime_proof": "/root/Main.source_unit_payload_dump_no_client_guard_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_no_client_guard_state mirrors UnitPayload.dump() no-client guard order, deferring stacking/spawn side effects.",
-      "params": [
-        {
-          "name": "unit_type_null",
-          "type": "bool",
-          "java_expr": "unit.type == null",
-          "schema": "source_unit_payload_dump_no_client_guard_input.unit_type_null"
-        },
-        {
-          "name": "units_can_create",
-          "type": "bool",
-          "java_expr": "Units.canCreate(unit.team, unit.type)",
-          "schema": "source_unit_payload_dump_no_client_guard_input.units_can_create"
-        },
-        {
-          "name": "solid_present",
-          "type": "bool",
-          "java_expr": "solid != null",
-          "schema": "source_unit_payload_dump_no_client_guard_input.solid_present"
-        },
-        {
-          "name": "unit_rotation",
-          "type": "float",
-          "java_expr": "unit.rotation",
-          "schema": "source_unit_payload_dump_no_client_guard_input.unit_rotation"
-        },
-        {
-          "name": "unit_x",
-          "type": "float",
-          "java_expr": "unit.x",
-          "schema": "source_unit_payload_dump_no_client_guard_input.unit_x"
-        },
-        {
-          "name": "unit_y",
-          "type": "float",
-          "java_expr": "unit.y",
-          "schema": "source_unit_payload_dump_no_client_guard_input.unit_y"
-        },
-        {
-          "name": "solid_solid",
-          "type": "bool",
-          "java_expr": "solid.solid(tx, ty)",
-          "schema": "source_unit_payload_dump_no_client_guard_input.solid_solid"
-        },
-        {
-          "name": "unit_type_flying",
-          "type": "bool",
-          "java_expr": "unit.type.flying",
-          "schema": "source_unit_payload_dump_no_client_guard_input.unit_type_flying"
-        },
-        {
-          "name": "unit_physic_size",
-          "type": "float",
-          "java_expr": "unit.physicSize()",
-          "schema": "source_unit_payload_dump_no_client_guard_input.unit_physic_size"
-        },
-        {
-          "name": "units_count",
-          "type": "int",
-          "java_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
-          "schema": "source_unit_payload_dump_no_client_guard_input.units_count"
-        },
-        {
-          "name": "net_client",
-          "type": "bool",
-          "java_expr": "Vars.net.client()",
-          "schema": "source_unit_payload_dump_no_client_guard_input.net_client"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "arc_vec2_source",
-        "world_source",
-        "vars_source",
-        "class_expr",
-        "field_expr",
-        "field_overlay_time_expr",
-        "field_overlay_region_expr",
-        "override_expr",
-        "method",
-        "todo_comment_expr",
-        "type_null_guard_expr",
-        "can_create_guard_expr",
-        "overlay_time_assign_expr",
-        "overlay_region_assign_expr",
-        "solidity_comment_expr",
-        "solid_assign_expr",
-        "solid_guard_expr",
-        "trns_expr",
-        "vec2_trns_amount_expr",
-        "vec2_trns_amount_return_expr",
-        "tile_assign_expr",
-        "world_to_tile_method",
-        "world_to_tile_return",
-        "vars_tilesize_field",
-        "solid_block_comment_expr",
-        "solid_solid_guard_expr",
-        "return_false_expr",
-        "unit_type_null",
-        "units_can_create",
-        "solid_present",
-        "unit_rotation",
-        "unit_x",
-        "unit_y",
-        "solid_solid",
-        "can_create_evaluated",
-        "can_create_guard",
-        "before_solid_returned",
-        "solid_evaluated",
-        "solid_present_guard",
-        "trns_vec",
-        "tx",
-        "ty",
-        "solid_solid_evaluated",
-        "solid_call",
-        "solid_guard",
-        "returned",
-        "dump",
-        "overlayTime_after",
-        "overlayRegion_after",
-        "deferred_remaining_dump",
-        "overlap_comment_expr",
-        "overlap_guard_expr",
-        "unit_type_flying_expr",
-        "units_count_expr",
-        "physic_size_expr",
-        "radius_multiplier_expr",
-        "predicate_is_grounded_expr",
-        "predicate_allow_leg_step_expr",
-        "client_dumping_comment_expr",
-        "unit_type_flying",
-        "unit_physic_size",
-        "units_count",
-        "before_overlap_returned",
-        "overlap_evaluated",
-        "units_count_evaluated",
-        "units_count_call",
-        "overlap_radius",
-        "overlap_guard",
-        "net_client_guard_expr",
-        "vars_net_field",
-        "return_true_expr",
-        "prevents_stacking_comment_expr",
-        "net_client",
-        "before_client_returned",
-        "net_client_evaluated",
-        "client_guard"
-      ],
-      "tests": [
-        "test_emit_bridges_unit_payload_dump_no_client_guard_to_source_state",
-        "test_port_game_exposes_source_unit_payload_dump_no_client_guard_state",
-        "test_port_game_exposes_generated_unit_payload_dump_no_client_guard_bridge_state",
-        "test_unit_payload_dump_no_client_guard_matches_upstream_source",
-        "test_generated_unit_payload_dump_no_client_guard_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_unit_payload_dump_spawn_side_effects_state": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.dump()",
-      "source_slice": "N1404",
-      "runtime_proof": "/root/Main.source_unit_payload_dump_spawn_side_effects_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_spawn_side_effects_state mirrors UnitPayload.dump() spawn side effects after all guards pass.",
-      "params": [
-        {
-          "name": "unit_type_null",
-          "type": "bool",
-          "java_expr": "unit.type == null",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_type_null"
-        },
-        {
-          "name": "units_can_create",
-          "type": "bool",
-          "java_expr": "Units.canCreate(unit.team, unit.type)",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.units_can_create"
-        },
-        {
-          "name": "solid_present",
-          "type": "bool",
-          "java_expr": "solid != null",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.solid_present"
-        },
-        {
-          "name": "unit_rotation",
-          "type": "float",
-          "java_expr": "unit.rotation",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_rotation"
-        },
-        {
-          "name": "unit_x",
-          "type": "float",
-          "java_expr": "unit.x",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_x"
-        },
-        {
-          "name": "unit_y",
-          "type": "float",
-          "java_expr": "unit.y",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_y"
-        },
-        {
-          "name": "solid_solid",
-          "type": "bool",
-          "java_expr": "solid.solid(tx, ty)",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.solid_solid"
-        },
-        {
-          "name": "unit_type_flying",
-          "type": "bool",
-          "java_expr": "unit.type.flying",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_type_flying"
-        },
-        {
-          "name": "unit_physic_size",
-          "type": "float",
-          "java_expr": "unit.physicSize()",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_physic_size"
-        },
-        {
-          "name": "units_count",
-          "type": "int",
-          "java_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.units_count"
-        },
-        {
-          "name": "net_client",
-          "type": "bool",
-          "java_expr": "Vars.net.client()",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.net_client"
-        },
-        {
-          "name": "range_x",
-          "type": "float",
-          "java_expr": "Mathf.range(0.5f)",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.range_x"
-        },
-        {
-          "name": "range_y",
-          "type": "float",
-          "java_expr": "Mathf.range(0.5f)",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.range_y"
-        },
-        {
-          "name": "unit_id",
-          "type": "Variant",
-          "java_expr": "unit",
-          "schema": "source_unit_payload_dump_spawn_side_effects_input.unit_id"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "arc_vec2_source",
-        "world_source",
-        "vars_source",
-        "class_expr",
-        "field_expr",
-        "field_overlay_time_expr",
-        "field_overlay_region_expr",
-        "override_expr",
-        "method",
-        "todo_comment_expr",
-        "type_null_guard_expr",
-        "can_create_guard_expr",
-        "overlay_time_assign_expr",
-        "overlay_region_assign_expr",
-        "solidity_comment_expr",
-        "solid_assign_expr",
-        "solid_guard_expr",
-        "trns_expr",
-        "vec2_trns_amount_expr",
-        "vec2_trns_amount_return_expr",
-        "tile_assign_expr",
-        "world_to_tile_method",
-        "world_to_tile_return",
-        "vars_tilesize_field",
-        "solid_block_comment_expr",
-        "solid_solid_guard_expr",
-        "return_false_expr",
-        "unit_type_null",
-        "units_can_create",
-        "solid_present",
-        "unit_rotation",
-        "unit_x",
-        "unit_y",
-        "solid_solid",
-        "can_create_evaluated",
-        "can_create_guard",
-        "before_solid_returned",
-        "solid_evaluated",
-        "solid_present_guard",
-        "trns_vec",
-        "tx",
-        "ty",
-        "solid_solid_evaluated",
-        "solid_call",
-        "solid_guard",
-        "returned",
-        "dump",
-        "overlayTime_after",
-        "overlayRegion_after",
-        "deferred_remaining_dump",
-        "overlap_comment_expr",
-        "overlap_guard_expr",
-        "unit_type_flying_expr",
-        "units_count_expr",
-        "physic_size_expr",
-        "radius_multiplier_expr",
-        "predicate_is_grounded_expr",
-        "predicate_allow_leg_step_expr",
-        "client_dumping_comment_expr",
-        "unit_type_flying",
-        "unit_physic_size",
-        "units_count",
-        "before_overlap_returned",
-        "overlap_evaluated",
-        "units_count_evaluated",
-        "units_count_call",
-        "overlap_radius",
-        "overlap_guard",
-        "net_client_guard_expr",
-        "vars_net_field",
-        "return_true_expr",
-        "prevents_stacking_comment_expr",
-        "net_client",
-        "before_client_returned",
-        "net_client_evaluated",
-        "client_guard",
-        "arc_mathf_source",
-        "units_source",
-        "event_type_source",
-        "velocity_add_expr",
-        "mathf_range_float_method",
-        "mathf_range_float_return",
-        "unit_add_expr",
-        "unit_unloaded_expr",
-        "event_fire_expr",
-        "unit_unload_event_comment",
-        "unit_unload_event_class",
-        "unit_unload_event_constructor",
-        "notify_unit_spawn_expr",
-        "notify_unit_spawn_method",
-        "notify_unit_spawn_guard",
-        "final_return_true_expr",
-        "range_x",
-        "range_y",
-        "unit_id",
-        "before_spawn_returned",
-        "spawn_evaluated",
-        "velocity_add_call",
-        "unit_add_called",
-        "unit_unloaded_called",
-        "event_fire_call",
-        "notify_unit_spawn_call"
-      ],
-      "tests": [
-        "test_emit_bridges_unit_payload_dump_spawn_side_effects_to_source_state",
-        "test_port_game_exposes_source_unit_payload_dump_spawn_side_effects_state",
-        "test_port_game_exposes_generated_unit_payload_dump_spawn_side_effects_bridge_state",
-        "test_unit_payload_dump_spawn_side_effects_matches_upstream_source",
-        "test_generated_unit_payload_dump_spawn_side_effects_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_unit_payload_draw_shadow_type_null_state": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.drawShadow(float alpha)",
-      "source_slice": "N1405",
-      "runtime_proof": "/root/Main.source_unit_payload_draw_shadow_type_null_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_shadow_type_null_state mirrors UnitPayload.drawShadow(float alpha) guard and drawSoftShadow call record.",
-      "params": [
-        {
-          "name": "unit_type_null",
-          "type": "bool",
-          "java_expr": "unit.type == null",
-          "schema": "source_unit_payload_draw_shadow_type_null_input.unit_type_null"
-        },
-        {
-          "name": "alpha",
-          "type": "float",
-          "java_expr": "alpha",
-          "schema": "source_unit_payload_draw_shadow_type_null_input.alpha"
-        },
-        {
-          "name": "unit_id",
-          "type": "Variant",
-          "java_expr": "unit",
-          "schema": "source_unit_payload_draw_shadow_type_null_input.unit_id"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "class_expr",
-        "field_expr",
-        "override_expr",
-        "method",
-        "todo_comment_expr",
-        "type_null_guard_expr",
-        "draw_soft_shadow_expr",
-        "unit_type_null",
-        "alpha",
-        "unit_id",
-        "returned_early",
-        "draw_soft_shadow_called",
-        "draw_soft_shadow_call"
-      ],
-      "tests": [
-        "test_emit_bridges_unit_payload_draw_shadow_type_null_to_source_state",
-        "test_port_game_exposes_source_unit_payload_draw_shadow_type_null_state",
-        "test_port_game_exposes_generated_unit_payload_draw_shadow_type_null_bridge_state",
-        "test_unit_payload_draw_shadow_type_null_matches_upstream_source",
-        "test_generated_unit_payload_draw_shadow_type_null_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_unit_payload_draw_type_null_state": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.draw()",
-      "source_slice": "N1406",
-      "runtime_proof": "/root/Main.source_unit_payload_draw_type_null_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_type_null_state mirrors UnitPayload.draw() type-null guard and defers the remaining draw body.",
-      "params": [
-        {
-          "name": "unit_type_null",
-          "type": "bool",
-          "java_expr": "unit.type == null",
-          "schema": "source_unit_payload_draw_type_null_input.unit_type_null"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "class_expr",
-        "field_expr",
-        "override_expr",
-        "method",
-        "todo_comment_expr",
-        "type_null_guard_expr",
-        "next_expr",
-        "unit_type_null",
-        "returned_early",
-        "deferred_remaining_draw"
-      ],
-      "tests": [
-        "test_emit_bridges_unit_payload_draw_type_null_to_source_state",
-        "test_port_game_exposes_source_unit_payload_draw_type_null_state",
-        "test_port_game_exposes_generated_unit_payload_draw_type_null_bridge_state",
-        "test_unit_payload_draw_type_null_matches_upstream_source",
-        "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_unit_payload_draw_elevation_setup_state": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.draw()",
-      "source_slice": "N1407",
-      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_elevation_setup_state mirrors UnitPayload.draw() elevation setup after the type-null guard.",
-      "params": [
-        {
-          "name": "unit_type_null",
-          "type": "bool",
-          "java_expr": "unit.type == null",
-          "schema": "source_unit_payload_draw_elevation_setup_input.unit_type_null"
-        },
-        {
-          "name": "unit_elevation",
-          "type": "float",
-          "java_expr": "unit.elevation",
-          "schema": "source_unit_payload_draw_elevation_setup_input.unit_elevation"
-        },
-        {
-          "name": "unit_id",
-          "type": "Variant",
-          "java_expr": "unit",
-          "schema": "source_unit_payload_draw_elevation_setup_input.unit_id"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "class_expr",
-        "field_expr",
-        "override_expr",
-        "method",
-        "todo_comment_expr",
-        "type_null_guard_expr",
-        "elevation_snapshot_expr",
-        "elevation_zero_expr",
-        "draw_scl_expr",
-        "unit_type_draw_expr",
-        "elevation_restore_expr",
-        "next_expr",
-        "unit_type_null",
-        "unit_elevation",
-        "unit_id",
-        "returned_early",
-        "elevation_snapshot",
-        "elevation_after_zero",
-        "draw_scl_called",
-        "draw_scl_call",
-        "unit_type_draw_called",
-        "unit_type_draw_call",
-        "elevation_after_restore",
-        "deferred_remaining_draw"
-      ],
-      "tests": [
-        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
-        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
-        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
-        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
-        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_unit_payload_draw_overlay_warning_state": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.draw()",
-      "source_slice": "N1408",
-      "runtime_proof": "/root/Main.source_unit_payload_draw_overlay_warning_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_overlay_warning_state mirrors UnitPayload.draw() overlay warning branch after elevation setup.",
-      "params": [
-        {
-          "name": "unit_type_null",
-          "type": "bool",
-          "java_expr": "unit.type == null",
-          "schema": "source_unit_payload_draw_overlay_warning_input.unit_type_null"
-        },
-        {
-          "name": "unit_elevation",
-          "type": "float",
-          "java_expr": "unit.elevation",
-          "schema": "source_unit_payload_draw_overlay_warning_input.unit_elevation"
-        },
-        {
-          "name": "unit_id",
-          "type": "Variant",
-          "java_expr": "unit",
-          "schema": "source_unit_payload_draw_overlay_warning_input.unit_id"
-        },
-        {
-          "name": "overlay_time",
-          "type": "float",
-          "java_expr": "overlayTime",
-          "schema": "source_unit_payload_draw_overlay_warning_input.overlay_time"
-        },
-        {
-          "name": "overlay_region",
-          "type": "Variant",
-          "java_expr": "overlayRegion",
-          "schema": "source_unit_payload_draw_overlay_warning_input.overlay_region"
-        },
-        {
-          "name": "unit_x",
-          "type": "float",
-          "java_expr": "unit.x",
-          "schema": "source_unit_payload_draw_overlay_warning_input.unit_x"
-        },
-        {
-          "name": "unit_y",
-          "type": "float",
-          "java_expr": "unit.y",
-          "schema": "source_unit_payload_draw_overlay_warning_input.unit_y"
-        },
-        {
-          "name": "time_delta",
-          "type": "float",
-          "java_expr": "Time.delta",
-          "schema": "source_unit_payload_draw_overlay_warning_input.time_delta"
-        },
-        {
-          "name": "draw_z_before",
-          "type": "float",
-          "java_expr": "Draw.z()",
-          "schema": "source_unit_payload_draw_overlay_warning_input.draw_z_before"
-        },
-        {
-          "name": "interp_exp5_out_overlay_time",
-          "type": "float",
-          "java_expr": "Interp.exp5Out.apply(overlayTime)",
-          "schema": "source_unit_payload_draw_overlay_warning_input.interp_exp5_out_overlay_time"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "class_expr",
-        "overlay_duration_field_expr",
-        "overlay_time_field_expr",
-        "overlay_region_field_expr",
-        "method",
-        "draw_warning_comment_expr",
-        "overlay_guard_expr",
-        "draw_z_snapshot_expr",
-        "draw_z_warning_expr",
-        "region_expr",
-        "draw_color_expr",
-        "draw_alpha_expr",
-        "size_expr",
-        "draw_rect_expr",
-        "draw_reset_expr",
-        "overlay_time_update_expr",
-        "draw_z_restore_expr",
-        "unit_type_null",
-        "unit_elevation",
-        "unit_id",
-        "overlay_time",
-        "overlay_region",
-        "unit_x",
-        "unit_y",
-        "time_delta",
-        "draw_z_before",
-        "interp_exp5_out_overlay_time",
-        "returned_early",
-        "overlay_duration",
-        "overlay_guard",
-        "draw_z_snapshot",
-        "draw_z_warning_call",
-        "overlay_region_resolved",
-        "draw_color_call",
-        "draw_alpha_value",
-        "draw_alpha_call",
-        "warning_size",
-        "draw_rect_call",
-        "draw_reset_called",
-        "overlay_time_after",
-        "draw_z_restore_call",
-        "deferred_remaining_draw"
-      ],
-      "tests": [
-        "test_emit_bridges_unit_payload_draw_overlay_warning_to_source_state",
-        "test_port_game_exposes_source_unit_payload_draw_overlay_warning_state",
-        "test_port_game_exposes_generated_unit_payload_draw_overlay_warning_bridge_state",
-        "test_unit_payload_draw_overlay_warning_matches_upstream_source",
-        "test_generated_unit_payload_draw_overlay_warning_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_unit_payload_icon_state": {
-      "status": "source-backed",
-      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
-      "source_method": "UnitPayload.icon()",
-      "source_slice": "N1409",
-      "runtime_proof": "/root/Main.source_unit_payload_icon_state",
-      "rule": "Dictionary returned by PortGame.source_unit_payload_icon_state mirrors UnitPayload.icon().",
-      "params": [
-        {
-          "name": "unit_type_full_icon",
-          "type": "Variant",
-          "java_expr": "unit.type.fullIcon",
-          "schema": "source_unit_payload_icon_input.unit_type_full_icon"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "class_expr",
-        "field_expr",
-        "override_expr",
-        "method",
-        "return_expr",
-        "unit_type_full_icon",
-        "icon"
-      ],
-      "tests": [
-        "test_emit_bridges_unit_payload_icon_to_source_state",
-        "test_port_game_exposes_source_unit_payload_icon_state",
-        "test_port_game_exposes_generated_unit_payload_icon_bridge_state",
-        "test_unit_payload_icon_matches_upstream_source",
-        "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_icons_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducer.icons()",
-      "source_slice": "N1410",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_icons_state",
-      "params": [
-        {
-          "name": "region",
-          "type": "Variant",
-          "java_expr": "region",
-          "schema": "source_block_producer_icons_input.region",
-          "source_symbol": "block_producer_icons.region"
-        },
-        {
-          "name": "out_region",
-          "type": "Variant",
-          "java_expr": "outRegion",
-          "schema": "source_block_producer_icons_input.out_region",
-          "source_symbol": "block_producer_icons.out_region"
-        },
-        {
-          "name": "top_region",
-          "type": "Variant",
-          "java_expr": "topRegion",
-          "schema": "source_block_producer_icons_input.top_region",
-          "source_symbol": "block_producer_icons.top_region"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "class_expr",
-        "override_expr",
-        "method",
-        "return_expr",
-        "region",
-        "out_region",
-        "top_region",
-        "icons"
-      ],
-      "rule": "PortGame.source_block_producer_icons_state pins BlockProducer.icons() return array contract.",
-      "tests": [
-        "test_emit_bridges_block_producer_icons_to_source_state",
-        "test_port_game_exposes_source_block_producer_icons_state",
-        "test_port_game_exposes_generated_block_producer_icons_bridge_state",
-        "test_block_producer_icons_matches_upstream_source",
-        "test_generated_block_producer_icons_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_draw_plan_region_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
-      "source_slice": "N1411",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
-      "params": [
-        {
-          "name": "region",
-          "type": "Variant",
-          "java_expr": "region",
-          "schema": "source_block_producer_draw_plan_region_input.region",
-          "source_symbol": "block_producer_draw_plan_region.region"
-        },
-        {
-          "name": "out_region",
-          "type": "Variant",
-          "java_expr": "outRegion",
-          "schema": "source_block_producer_draw_plan_region_input.out_region",
-          "source_symbol": "block_producer_draw_plan_region.out_region"
-        },
-        {
-          "name": "top_region",
-          "type": "Variant",
-          "java_expr": "topRegion",
-          "schema": "source_block_producer_draw_plan_region_input.top_region",
-          "source_symbol": "block_producer_draw_plan_region.top_region"
-        },
-        {
-          "name": "plan_drawx",
-          "type": "float",
-          "java_expr": "plan.drawx()",
-          "schema": "source_block_producer_draw_plan_region_input.plan_drawx",
-          "source_symbol": "block_producer_draw_plan_region.plan_drawx"
-        },
-        {
-          "name": "plan_drawy",
-          "type": "float",
-          "java_expr": "plan.drawy()",
-          "schema": "source_block_producer_draw_plan_region_input.plan_drawy",
-          "source_symbol": "block_producer_draw_plan_region.plan_drawy"
-        },
-        {
-          "name": "plan_rotation",
-          "type": "float",
-          "java_expr": "plan.rotation",
-          "schema": "source_block_producer_draw_plan_region_input.plan_rotation",
-          "source_symbol": "block_producer_draw_plan_region.plan_rotation"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "class_expr",
-        "override_expr",
-        "method",
-        "draw_region_expr",
-        "draw_out_region_expr",
-        "draw_top_region_expr",
-        "region",
-        "out_region",
-        "top_region",
-        "plan_drawx",
-        "plan_drawy",
-        "plan_rotation",
-        "out_region_rotation",
-        "draw_calls"
-      ],
-      "rule": "PortGame.source_block_producer_draw_plan_region_state pins BlockProducer.drawPlanRegion() draw call contract.",
-      "tests": [
-        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
-        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
-        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
-        "test_block_producer_draw_plan_region_matches_upstream_source",
-        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_set_bars_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducer.setBars()",
-      "source_slice": "N1412",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
-      "params": [
-        {
-          "name": "recipe_null",
-          "type": "bool",
-          "java_expr": "entity.recipe() == null",
-          "schema": "source_block_producer_set_bars_input.recipe_null",
-          "source_symbol": "block_producer_set_bars.recipe_null"
-        },
-        {
-          "name": "entity_progress",
-          "type": "float",
-          "java_expr": "entity.progress",
-          "schema": "source_block_producer_set_bars_input.entity_progress",
-          "source_symbol": "block_producer_set_bars.entity_progress"
-        },
-        {
-          "name": "recipe_build_time",
-          "type": "float",
-          "java_expr": "entity.recipe().buildTime",
-          "schema": "source_block_producer_set_bars_input.recipe_build_time",
-          "source_symbol": "block_producer_set_bars.recipe_build_time"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "class_expr",
-        "override_expr",
-        "method",
-        "super_set_bars_expr",
-        "add_bar_expr",
-        "bar_text",
-        "bar_color",
-        "bar_progress_expr",
-        "recipe_null",
-        "entity_progress",
-        "recipe_build_time",
-        "super_set_bars_called",
-        "progress_bar_added",
-        "progress_bar_fraction",
-        "progress_bar_call"
-      ],
-      "rule": "PortGame.source_block_producer_set_bars_state pins BlockProducer.setBars() progress bar contract.",
-      "tests": [
-        "test_emit_bridges_block_producer_set_bars_to_source_state",
-        "test_port_game_exposes_source_block_producer_set_bars_state",
-        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
-        "test_block_producer_set_bars_matches_upstream_source",
-        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_build_accept_item_state": {
-      "owner": "PortGame.source_block_producer_build_accept_item_state",
-      "source_slice": "N1413",
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "runtime_proof": "/root/Main.source_block_producer_build_accept_item_state",
-      "params": [
-        {
-          "name": "source_building",
-          "type": "Variant",
-          "schema": "source_block_producer_build_accept_item_input.source_building",
-          "java_expr": "Building source"
-        },
-        {
-          "name": "item",
-          "type": "Variant",
-          "schema": "source_block_producer_build_accept_item_input.item",
-          "java_expr": "Item item"
-        },
-        {
-          "name": "item_count",
-          "type": "int",
-          "schema": "source_block_producer_build_accept_item_input.item_count",
-          "source_symbol": "block_producer_build_accept_item.item_count",
-          "java_expr": "items.get(item)"
-        },
-        {
-          "name": "maximum_accepted",
-          "type": "int",
-          "schema": "source_block_producer_build_accept_item_input.maximum_accepted",
-          "source_symbol": "block_producer_build_accept_item.maximum_accepted",
-          "java_expr": "getMaximumAccepted(item)"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "inner_class",
-        "override_expr",
-        "method",
-        "return_expr",
-        "source_building",
-        "item",
-        "item_count",
-        "maximum_accepted",
-        "accept_item"
-      ],
-      "rule": "PortGame.source_block_producer_build_accept_item_state pins BlockProducerBuild.acceptItem() inventory capacity predicate.",
-      "tests": [
-        "test_emit_bridges_block_producer_build_accept_item_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_accept_item_state",
-        "test_port_game_exposes_generated_block_producer_build_accept_item_bridge_state",
-        "test_block_producer_build_accept_item_matches_upstream_source",
-        "test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing"
-      ],
-      "source_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
-      "status": "source-backed"
-    },
-    "PortGame.source_block_producer_build_get_maximum_accepted_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
-      "source_slice": "N1414",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_build_get_maximum_accepted_state",
-      "params": [
-        {
-          "name": "item",
-          "type": "Variant",
-          "java_expr": "Item item",
-          "schema": "source_block_producer_build_get_maximum_accepted_input.item"
-        },
-        {
-          "name": "recipe_null",
-          "type": "bool",
-          "java_expr": "recipe() == null",
-          "schema": "source_block_producer_build_get_maximum_accepted_input.recipe_null",
-          "source_symbol": "block_producer_build_get_maximum_accepted.null_guard"
-        },
-        {
-          "name": "requirements",
-          "type": "Array",
-          "java_expr": "recipe().requirements",
-          "schema": "source_block_producer_build_get_maximum_accepted_input.requirements",
-          "source_symbol": "block_producer_build_get_maximum_accepted.recipe_requirements"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "inner_class",
-        "override_expr",
-        "method",
-        "null_guard",
-        "requirement_loop",
-        "match_expr",
-        "final_return",
-        "item",
-        "recipe_null",
-        "requirements",
-        "matched_requirement",
-        "maximum_accepted"
-      ],
-      "rule": "PortGame.source_block_producer_build_get_maximum_accepted_state pins BlockProducerBuild.getMaximumAccepted() recipe requirement lookup.",
-      "tests": [
-        "test_emit_bridges_block_producer_build_get_maximum_accepted_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_get_maximum_accepted_state",
-        "test_port_game_exposes_generated_block_producer_build_get_maximum_accepted_bridge_state",
-        "test_block_producer_build_get_maximum_accepted_matches_upstream_source",
-        "test_generated_block_producer_build_get_maximum_accepted_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_build_accept_payload_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducerBuild.acceptPayload(Building source, Payload payload)",
-      "source_slice": "N1415",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_build_accept_payload_state",
-      "params": [
-        {
-          "name": "source_building",
-          "type": "Variant",
-          "java_expr": "Building source",
-          "schema": "source_block_producer_build_accept_payload_input.source_building"
-        },
-        {
-          "name": "payload",
-          "type": "Variant",
-          "java_expr": "Payload payload",
-          "schema": "source_block_producer_build_accept_payload_input.payload"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "inner_class",
-        "override_expr",
-        "method",
-        "return_expr",
-        "source_building",
-        "payload",
-        "accept_payload"
-      ],
-      "rule": "PortGame.source_block_producer_build_accept_payload_state pins BlockProducerBuild.acceptPayload() false payload gate.",
-      "tests": [
-        "test_emit_bridges_block_producer_build_accept_payload_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_accept_payload_state",
-        "test_port_game_exposes_generated_block_producer_build_accept_payload_bridge_state",
-        "test_block_producer_build_accept_payload_matches_upstream_source",
-        "test_generated_block_producer_build_accept_payload_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_build_should_consume_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducerBuild.shouldConsume()",
-      "source_slice": "N1416",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_build_should_consume_state",
-      "params": [
-        {
-          "name": "super_should_consume",
-          "type": "bool",
-          "java_expr": "super.shouldConsume()",
-          "schema": "source_block_producer_build_should_consume_input.super_should_consume",
-          "source_symbol": "block_producer_build_should_consume.super_should_consume"
-        },
-        {
-          "name": "recipe_null",
-          "type": "bool",
-          "java_expr": "recipe() == null",
-          "schema": "source_block_producer_build_should_consume_input.recipe_null",
-          "source_symbol": "block_producer_build_should_consume.recipe_not_null"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "inner_class",
-        "override_expr",
-        "method",
-        "return_expr",
-        "super_should_consume",
-        "recipe_null",
-        "should_consume"
-      ],
-      "rule": "PortGame.source_block_producer_build_should_consume_state pins BlockProducerBuild.shouldConsume() conjunction.",
-      "tests": [
-        "test_emit_bridges_block_producer_build_should_consume_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_should_consume_state",
-        "test_port_game_exposes_generated_block_producer_build_should_consume_bridge_state",
-        "test_block_producer_build_should_consume_matches_upstream_source",
-        "test_generated_block_producer_build_should_consume_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_build_update_tile_produce_gate_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducerBuild.updateTile()",
-      "source_slice": "N1417",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_produce_gate_state",
-      "params": [
-        {
-          "name": "recipe_null",
-          "type": "bool",
-          "java_expr": "recipe == null",
-          "schema": "source_block_producer_build_update_tile_produce_gate_input.recipe_null",
-          "source_symbol": "block_producer_build_update_tile_produce_gate.recipe_not_null"
-        },
-        {
-          "name": "efficiency",
-          "type": "float",
-          "java_expr": "efficiency",
-          "schema": "source_block_producer_build_update_tile_produce_gate_input.efficiency",
-          "source_symbol": "block_producer_build_update_tile_produce_gate.efficiency_positive"
-        },
-        {
-          "name": "payload_null",
-          "type": "bool",
-          "java_expr": "payload == null",
-          "schema": "source_block_producer_build_update_tile_produce_gate_input.payload_null",
-          "source_symbol": "block_producer_build_update_tile_produce_gate.payload_null"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "inner_class",
-        "override_expr",
-        "method",
-        "super_call",
-        "recipe_assignment",
-        "produce_expr",
-        "recipe_null",
-        "efficiency",
-        "payload_null",
-        "produce"
-      ],
-      "rule": "PortGame.source_block_producer_build_update_tile_produce_gate_state pins BlockProducerBuild.updateTile() produce gate.",
-      "tests": [
-        "test_emit_bridges_block_producer_build_update_tile_produce_gate_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_update_tile_produce_gate_state",
-        "test_port_game_exposes_generated_block_producer_build_update_tile_produce_gate_bridge_state",
-        "test_block_producer_build_update_tile_produce_gate_matches_upstream_source",
-        "test_generated_block_producer_build_update_tile_produce_gate_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_build_update_tile_progress_accumulation_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducerBuild.updateTile() progress accumulation",
-      "source_slice": "N1418",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_progress_accumulation_state",
-      "params": [
-        {
-          "name": "produce",
-          "type": "bool",
-          "java_expr": "produce",
-          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.produce",
-          "source_symbol": "block_producer_build_update_tile_progress_accumulation.if_produce"
-        },
-        {
-          "name": "progress_before",
-          "type": "float",
-          "java_expr": "progress",
-          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.progress_before",
-          "source_symbol": "block_producer_build_update_tile_progress_accumulation.progress_before"
-        },
-        {
-          "name": "build_speed",
-          "type": "float",
-          "java_expr": "buildSpeed",
-          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.build_speed",
-          "source_symbol": "block_producer_build_update_tile_progress_accumulation.build_speed"
-        },
-        {
-          "name": "edelta",
-          "type": "float",
-          "java_expr": "edelta()",
-          "schema": "source_block_producer_build_update_tile_progress_accumulation_input.edelta",
-          "source_symbol": "block_producer_build_update_tile_progress_accumulation.edelta"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "inner_class",
-        "override_expr",
-        "method",
-        "if_produce_expr",
-        "progress_expr",
-        "produce",
-        "progress_before",
-        "build_speed",
-        "edelta",
-        "progress_delta",
-        "progress_after"
-      ],
-      "rule": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state pins progress += buildSpeed * edelta() behind produce guard.",
-      "tests": [
-        "test_emit_bridges_block_producer_build_update_tile_progress_accumulation_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_update_tile_progress_accumulation_state",
-        "test_port_game_exposes_generated_block_producer_build_update_tile_progress_accumulation_bridge_state",
-        "test_block_producer_build_update_tile_progress_accumulation_matches_upstream_source",
-        "test_generated_block_producer_build_update_tile_progress_accumulation_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_build_update_tile_completion_guard_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducerBuild.updateTile() completion guard",
-      "source_slice": "N1419",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_completion_guard_state",
-      "params": [
-        {
-          "name": "progress",
-          "type": "float",
-          "java_expr": "progress",
-          "schema": "source_block_producer_build_update_tile_completion_guard_input.progress",
-          "source_symbol": "block_producer_build_update_tile_completion_guard.progress"
-        },
-        {
-          "name": "recipe_build_time",
-          "type": "float",
-          "java_expr": "recipe.buildTime",
-          "schema": "source_block_producer_build_update_tile_completion_guard_input.recipe_build_time",
-          "source_symbol": "block_producer_build_update_tile_completion_guard.recipe_build_time"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "inner_class",
-        "override_expr",
-        "method",
-        "completion_guard_expr",
-        "consume_expr",
-        "progress",
-        "recipe_build_time",
-        "completion_guard",
-        "consume_called"
-      ],
-      "rule": "PortGame.source_block_producer_build_update_tile_completion_guard_state pins if(progress >= recipe.buildTime){ consume(); }.",
-      "tests": [
-        "test_emit_bridges_block_producer_build_update_tile_completion_guard_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state",
-        "test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state",
-        "test_block_producer_build_update_tile_completion_guard_matches_upstream_source",
-        "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_build_update_tile_payload_creation_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducerBuild.updateTile() payload creation",
-      "source_slice": "N1420",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
-      "params": [
-        {
-          "name": "completion_guard",
-          "type": "bool",
-          "java_expr": "if(progress >= recipe.buildTime){",
-          "schema": "source_block_producer_build_update_tile_payload_creation_input.completion_guard",
-          "source_symbol": "block_producer_build_update_tile_completion_guard.completion_guard"
-        },
-        {
-          "name": "recipe",
-          "type": "Variant",
-          "java_expr": "recipe",
-          "schema": "source_block_producer_build_update_tile_payload_creation_input.recipe",
-          "source_symbol": "block_producer_build_update_tile_payload_creation.recipe"
-        },
-        {
-          "name": "team",
-          "type": "Variant",
-          "java_expr": "team",
-          "schema": "source_block_producer_build_update_tile_payload_creation_input.team",
-          "source_symbol": "block_producer_build_update_tile_payload_creation.team"
-        },
-        {
-          "name": "x",
-          "type": "float",
-          "java_expr": "x",
-          "schema": "source_block_producer_build_update_tile_payload_creation_input.x",
-          "source_symbol": "block_producer_build_update_tile_payload_creation.x"
-        },
-        {
-          "name": "y",
-          "type": "float",
-          "java_expr": "y",
-          "schema": "source_block_producer_build_update_tile_payload_creation_input.y",
-          "source_symbol": "block_producer_build_update_tile_payload_creation.y"
-        },
-        {
-          "name": "payload_size",
-          "type": "float",
-          "java_expr": "payload.size()",
-          "schema": "source_block_producer_build_update_tile_payload_creation_input.payload_size",
-          "source_symbol": "block_producer_build_update_tile_payload_creation.payload_size"
-        },
-        {
-          "name": "tilesize",
-          "type": "float",
-          "java_expr": "tilesize",
-          "schema": "source_block_producer_build_update_tile_payload_creation_input.tilesize",
-          "source_symbol": "block_producer_build_update_tile_payload_creation.tilesize"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "inner_class",
-        "override_expr",
-        "method",
-        "payload_expr",
-        "place_effect_expr",
-        "completion_guard",
-        "recipe",
-        "team",
-        "x",
-        "y",
-        "payload_size",
-        "tilesize",
-        "payload_after",
-        "place_effect_called",
-        "effect_radius"
-      ],
-      "rule": "PortGame.source_block_producer_build_update_tile_payload_creation_state pins new BuildPayload(recipe, team) and placeEffect.at(x, y, payload.size() / tilesize).",
-      "tests": [
-        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
-        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
-        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
-        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducerBuild.updateTile() payVector/progress reset",
-      "source_slice": "N1421",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_pay_vector_progress_reset_state",
-      "params": [
-        {
-          "name": "completion_guard",
-          "type": "bool",
-          "java_expr": "if(progress >= recipe.buildTime){",
-          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.completion_guard",
-          "source_symbol": "block_producer_build_update_tile_completion_guard.completion_guard"
-        },
-        {
-          "name": "pay_vector_x",
-          "type": "float",
-          "java_expr": "payVector.x",
-          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.pay_vector_x",
-          "source_symbol": "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_x"
-        },
-        {
-          "name": "pay_vector_y",
-          "type": "float",
-          "java_expr": "payVector.y",
-          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.pay_vector_y",
-          "source_symbol": "block_producer_build_update_tile_pay_vector_progress_reset.pay_vector_y"
-        },
-        {
-          "name": "progress_before",
-          "type": "float",
-          "java_expr": "progress",
-          "schema": "source_block_producer_build_update_tile_pay_vector_progress_reset_input.progress_before",
-          "source_symbol": "block_producer_build_update_tile_pay_vector_progress_reset.progress_before"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "parent_source",
-        "inner_class",
-        "override_expr",
-        "method",
-        "completion_guard_expr",
-        "pay_vector_field",
-        "progress_field",
-        "pay_vector_set_zero_expr",
-        "progress_modulo_expr",
-        "completion_guard",
-        "pay_vector_x",
-        "pay_vector_y",
-        "progress_before",
-        "pay_vector_after",
-        "progress_after"
-      ],
-      "rule": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state pins payVector.setZero(); and progress %= 1f;.",
-      "tests": [
-        "test_emit_bridges_block_producer_build_update_tile_pay_vector_progress_reset_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_update_tile_pay_vector_progress_reset_state",
-        "test_port_game_exposes_generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge_state",
-        "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
-        "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_build_update_tile_heat_time_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducerBuild.updateTile() heat/time",
-      "source_slice": "N1422",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_heat_time_state",
-      "params": [
-        {
-          "name": "produce",
-          "type": "bool",
-          "java_expr": "produce",
-          "schema": "source_block_producer_build_update_tile_heat_time_input.produce",
-          "source_symbol": "block_producer_build_update_tile_heat_time.produce"
-        },
-        {
-          "name": "heat_before",
-          "type": "float",
-          "java_expr": "heat",
-          "schema": "source_block_producer_build_update_tile_heat_time_input.heat_before",
-          "source_symbol": "block_producer_build_update_tile_heat_time.heat_before"
-        },
-        {
-          "name": "time_before",
-          "type": "float",
-          "java_expr": "time",
-          "schema": "source_block_producer_build_update_tile_heat_time_input.time_before",
-          "source_symbol": "block_producer_build_update_tile_heat_time.time_before"
-        },
-        {
-          "name": "time_delta",
-          "type": "float",
-          "java_expr": "delta()",
-          "schema": "source_block_producer_build_update_tile_heat_time_input.time_delta",
-          "source_symbol": "block_producer_build_update_tile_heat_time.time_delta"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "arc_source",
-        "building_source",
-        "inner_class",
-        "override_expr",
-        "method",
-        "field_expr",
-        "heat_expr",
-        "time_expr",
-        "mathf_num_method",
-        "mathf_lerp_delta_method",
-        "building_delta_method",
-        "produce",
-        "produce_num",
-        "heat_before",
-        "time_before",
-        "time_delta",
-        "heat_after",
-        "time_after"
-      ],
-      "rule": "PortGame.source_block_producer_build_update_tile_heat_time_state pins heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f); and time += heat * delta();.",
-      "tests": [
-        "test_emit_bridges_block_producer_build_update_tile_heat_time_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_update_tile_heat_time_state",
-        "test_port_game_exposes_generated_block_producer_build_update_tile_heat_time_bridge_state",
-        "test_block_producer_build_update_tile_heat_time_matches_upstream_source",
-        "test_generated_block_producer_build_update_tile_heat_time_slice_is_registered_with_source_backing"
-      ]
-    },
-    "PortGame.source_block_producer_build_update_tile_move_out_payload_state": {
-      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
-      "source_method": "BlockProducerBuild.updateTile() moveOutPayload",
-      "source_slice": "N1423",
-      "status": "source-backed",
-      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_move_out_payload_state",
-      "params": [
-        {
-          "name": "payload_present",
-          "type": "bool",
-          "java_expr": "payload != null",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.payload_present",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.payload_present"
-        },
-        {
-          "name": "pay_vector_x",
-          "type": "float",
-          "java_expr": "payVector.x",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.pay_vector_x",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.pay_vector_x"
-        },
-        {
-          "name": "pay_vector_y",
-          "type": "float",
-          "java_expr": "payVector.y",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.pay_vector_y",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.pay_vector_y"
-        },
-        {
-          "name": "pay_rotation_before",
-          "type": "float",
-          "java_expr": "payRotation",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.pay_rotation_before",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.pay_rotation_before"
-        },
-        {
-          "name": "rotdeg_value",
-          "type": "float",
-          "java_expr": "rotdeg()",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.rotdeg_value",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.rotdeg_value"
-        },
-        {
-          "name": "size_value",
-          "type": "float",
-          "java_expr": "size",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.size_value",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.size_value"
-        },
-        {
-          "name": "tilesize",
-          "type": "float",
-          "java_expr": "tilesize",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.tilesize",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.tilesize"
-        },
-        {
-          "name": "payload_rotate_speed",
-          "type": "float",
-          "java_expr": "payloadRotateSpeed",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.payload_rotate_speed",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.payload_rotate_speed"
-        },
-        {
-          "name": "payload_speed",
-          "type": "float",
-          "java_expr": "payloadSpeed",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.payload_speed",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.payload_speed"
-        },
-        {
-          "name": "time_delta",
-          "type": "float",
-          "java_expr": "delta()",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.time_delta",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.time_delta"
-        },
-        {
-          "name": "front_present",
-          "type": "bool",
-          "java_expr": "front != null",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_present",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_present"
-        },
-        {
-          "name": "front_solid",
-          "type": "bool",
-          "java_expr": "front.tile.solid()",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_solid",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_solid"
-        },
-        {
-          "name": "front_outputs_payload",
-          "type": "bool",
-          "java_expr": "front.block.outputsPayload",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_outputs_payload",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_outputs_payload"
-        },
-        {
-          "name": "front_accepts_payload",
-          "type": "bool",
-          "java_expr": "front.block.acceptsPayload",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.front_accepts_payload",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.front_accepts_payload"
-        },
-        {
-          "name": "move_payload_result",
-          "type": "bool",
-          "java_expr": "movePayload(payload)",
-          "schema": "source_block_producer_build_update_tile_move_out_payload_input.move_payload_result",
-          "source_symbol": "block_producer_build_update_tile_move_out_payload.move_payload_result"
-        }
-      ],
-      "return_keys": [
-        "source_owner",
-        "source",
-        "parent_source",
-        "arc_source",
-        "inner_class",
-        "override_expr",
-        "update_tile_method",
-        "move_out_payload_expr",
-        "method",
-        "payload_null_guard",
-        "update_payload_expr",
-        "dest_expr",
-        "pay_rotation_expr",
-        "pay_vector_expr",
-        "front_expr",
-        "can_dump_expr",
-        "can_move_expr",
-        "push_output_expr",
-        "arrived_guard",
-        "clamp_expr",
-        "move_payload_expr",
-        "payload_clear_expr",
-        "dump_payload_expr",
-        "payload_present",
-        "pay_vector_x",
-        "pay_vector_y",
-        "pay_rotation_before",
-        "rotdeg_value",
-        "size_value",
-        "tilesize",
-        "payload_rotate_speed",
-        "payload_speed",
-        "time_delta",
-        "front_present",
-        "front_solid",
-        "front_outputs_payload",
-        "front_accepts_payload",
-        "move_payload_result",
-        "half_extent",
-        "dest",
-        "update_payload_called",
-        "pay_rotation_after",
-        "pay_vector_after",
-        "can_dump",
-        "can_move",
-        "distance_to_dest",
-        "distance_to_dest2",
-        "pushed_output_fraction",
-        "arrived",
-        "move_payload_called",
-        "dump_payload_called",
-        "payload_after_present"
-      ],
-      "rule": "PortGame.source_block_producer_build_update_tile_move_out_payload_state pins moveOutPayload() and PayloadBlockBuild.moveOutPayload() movement gates from source.",
-      "tests": [
-        "test_emit_bridges_block_producer_build_update_tile_move_out_payload_to_source_state",
-        "test_port_game_exposes_source_block_producer_build_update_tile_move_out_payload_state",
-        "test_port_game_exposes_generated_block_producer_build_update_tile_move_out_payload_bridge_state",
-        "test_block_producer_build_update_tile_move_out_payload_matches_upstream_source",
-        "test_generated_block_producer_build_update_tile_move_out_payload_slice_is_registered_with_source_backing"
       ]
     }
   },

@@ -290,6 +290,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumePower.requestedPower"', source)
         self.assertIn('"matches": result.get("requested_power", null) == canonical.get("requested_power", null)', source)
 
+    def test_port_game_exposes_generated_consume_power_ignore_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_power_ignore_state(buffered: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public boolean ignore(){"', source)
+        self.assertIn('"return_expr": "return buffered;"', source)
+        self.assertIn("func generated_consume_power_ignore_bridge_state(buffered: bool) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")', source)
+        self.assertIn("var result = instance.java_method_ignore_1([buffered])", source)
+        self.assertIn("var canonical = source_consume_power_ignore_state(buffered)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_power_ignore_state"', source)
+        self.assertIn('"generated_owner": "ConsumePower.ignore"', source)
+        self.assertIn('"matches": result.get("ignore", null) == canonical.get("ignore", null)', source)
+
     def test_port_game_exposes_source_power_graph_power_produced_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

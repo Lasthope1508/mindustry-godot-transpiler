@@ -1331,6 +1331,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
         and type_entry.get("name") == "ConsumePower"
+        and method.get("name") == "ignore"
+    ):
+        return [
+            "\tvar buffered: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar ignore_consume: bool = buffered",
+            '\treturn {"source_owner": "PortGame.source_consume_power_ignore_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public boolean ignore(){", "buffered": buffered, "ignore": ignore_consume, "return_expr": "return buffered;"}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
+        and type_entry.get("name") == "ConsumePower"
         and method.get("name") == "requestedPower"
     ):
         return [
