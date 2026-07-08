@@ -11599,6 +11599,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_producer_draw_plan_region_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_producer_draw_plan_region_source"))
+        report = source_parity.verify_block_producer_draw_plan_region_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(report["checked"], {
+            "class_expr": "public abstract class BlockProducer extends PayloadBlock{",
+            "override_expr": "@Override",
+            "method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+            "draw_region_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+            "draw_out_region_expr": "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+            "draw_top_region_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy());",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_build_payload_place_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_build_payload_place_source"))
         report = source_parity.verify_build_payload_place_source(ROOT / "mindustry-upstream")

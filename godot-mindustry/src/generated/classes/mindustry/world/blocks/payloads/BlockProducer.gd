@@ -21,7 +21,15 @@ func java_method_icons_0(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_block_producer_icons_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "class_expr": "public abstract class BlockProducer extends PayloadBlock{", "override_expr": "@Override", "method": "public TextureRegion[] icons(){", "return_expr": "return new TextureRegion[]{region, outRegion, topRegion};", "region": region, "out_region": out_region, "top_region": top_region, "icons": icons}
 
 func java_method_drawPlanRegion_1(_args: Array = []) -> Variant:
-	return null
+	var region: Variant = _args[0] if _args.size() > 0 else null
+	var out_region: Variant = _args[1] if _args.size() > 1 else null
+	var top_region: Variant = _args[2] if _args.size() > 2 else null
+	var plan_drawx: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var plan_drawy: float = float(_args[4] if _args.size() > 4 else 0.0)
+	var plan_rotation: float = float(_args[5] if _args.size() > 5 else 0.0)
+	var out_region_rotation: float = plan_rotation * 90.0
+	var draw_calls: Array = [{"call": "Draw.rect(region, plan.drawx(), plan.drawy());", "region": region, "x": plan_drawx, "y": plan_drawy}, {"call": "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);", "region": out_region, "x": plan_drawx, "y": plan_drawy, "rotation": out_region_rotation}, {"call": "Draw.rect(topRegion, plan.drawx(), plan.drawy());", "region": top_region, "x": plan_drawx, "y": plan_drawy}]
+	return {"source_owner": "PortGame.source_block_producer_draw_plan_region_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "class_expr": "public abstract class BlockProducer extends PayloadBlock{", "override_expr": "@Override", "method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){", "draw_region_expr": "Draw.rect(region, plan.drawx(), plan.drawy());", "draw_out_region_expr": "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);", "draw_top_region_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy());", "region": region, "out_region": out_region, "top_region": top_region, "plan_drawx": plan_drawx, "plan_drawy": plan_drawy, "plan_rotation": plan_rotation, "out_region_rotation": out_region_rotation, "draw_calls": draw_calls}
 
 func java_method_setBars_2(_args: Array = []) -> Variant:
 	return null

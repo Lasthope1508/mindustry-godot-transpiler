@@ -34701,6 +34701,54 @@
       ],
       "rule": "Generated BlockProducer.icons() bridge returns region, outRegion, topRegion in exact Java source order.",
       "notes": "This slice closes BlockProducer.icons() array assembly. Concrete TextureRegion asset binding remains for later source-backed texture slices."
+    },
+    "N1411": {
+      "title": "Generated BlockProducer drawPlanRegion bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "generated_owner": "BlockProducer.java_method_drawPlanRegion_1",
+      "runtime_proof": "/root/Main.generated_block_producer_draw_plan_region_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducer extends PayloadBlock{",
+        "@Override",
+        "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+        "Draw.rect(region, plan.drawx(), plan.drawy());",
+        "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+        "Draw.rect(topRegion, plan.drawx(), plan.drawy());"
+      ],
+      "source_symbols": [
+        "block_producer_draw_plan_region.class_expr",
+        "block_producer_draw_plan_region.override_expr",
+        "block_producer_draw_plan_region.method",
+        "block_producer_draw_plan_region.draw_region_expr",
+        "block_producer_draw_plan_region.draw_out_region_expr",
+        "block_producer_draw_plan_region.draw_top_region_expr",
+        "block_producer_draw_plan_region.region",
+        "block_producer_draw_plan_region.out_region",
+        "block_producer_draw_plan_region.top_region",
+        "block_producer_draw_plan_region.plan_drawx",
+        "block_producer_draw_plan_region.plan_drawy",
+        "block_producer_draw_plan_region.plan_rotation",
+        "block_producer_draw_plan_region.out_region_rotation",
+        "block_producer_draw_plan_region.draw_calls"
+      ],
+      "deferred_exprs": [
+        "Real Draw.rect renderer side effects",
+        "TextureRegion internals and actual texture resource loading",
+        "Concrete BuildPlan object state beyond explicit drawx/drawy/rotation inputs"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducer.drawPlanRegion() bridge records the three Draw.rect calls in exact Java order.",
+      "notes": "This slice closes draw call ordering and plan rotation calculation; real renderer integration remains for later rendering slices."
     }
   },
   "version": 1

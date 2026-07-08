@@ -19396,6 +19396,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.java_method_icons_0"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_draw_plan_region_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_draw_plan_region_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_draw_plan_region_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java"', source)
+        self.assertIn('"class_expr": "public abstract class BlockProducer extends PayloadBlock{"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){"', source)
+        self.assertIn('"draw_region_expr": "Draw.rect(region, plan.drawx(), plan.drawy());"', source)
+        self.assertIn('"draw_out_region_expr": "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);"', source)
+        self.assertIn('"draw_top_region_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy());"', source)
+        self.assertIn("var out_region_rotation: float = plan_rotation * 90.0", source)
+        self.assertIn('"draw_calls": draw_calls', source)
+
+    def test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_draw_plan_region_bridge_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_method_drawPlanRegion_1([region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation])", source)
+        self.assertIn("var canonical = source_block_producer_draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_draw_plan_region_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.java_method_drawPlanRegion_1"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -114819,6 +114819,272 @@
       "java_expr": "topRegion",
       "rule": "Explicit runtime value for third TextureRegion returned by icons().",
       "status": "explicit-input"
+    },
+    "block_producer_draw_plan_region.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_result.class_expr",
+      "java_expr": "public abstract class BlockProducer extends PayloadBlock{",
+      "rule": "Pin BlockProducer class boundary for drawPlanRegion().",
+      "status": "source-backed"
+    },
+    "block_producer_draw_plan_region.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "Pin drawPlanRegion() override marker.",
+      "status": "source-backed"
+    },
+    "block_producer_draw_plan_region.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_result.method",
+      "java_expr": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+      "rule": "Pin BlockProducer.drawPlanRegion() method boundary.",
+      "status": "source-backed"
+    },
+    "block_producer_draw_plan_region.draw_region_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_result.draw_calls",
+      "java_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+      "rule": "First drawPlanRegion() call draws region at plan draw coordinates.",
+      "status": "source-backed"
+    },
+    "block_producer_draw_plan_region.draw_out_region_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_result.draw_calls",
+      "java_expr": "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+      "rule": "Second drawPlanRegion() call draws outRegion rotated by plan.rotation * 90.",
+      "status": "source-backed"
+    },
+    "block_producer_draw_plan_region.draw_top_region_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_result.draw_calls",
+      "java_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy());",
+      "rule": "Third drawPlanRegion() call draws topRegion at plan draw coordinates.",
+      "status": "source-backed"
+    },
+    "block_producer_draw_plan_region.region": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_input.region",
+      "java_expr": "region",
+      "rule": "Explicit runtime value for base TextureRegion draw input.",
+      "status": "explicit-input"
+    },
+    "block_producer_draw_plan_region.out_region": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_input.out_region",
+      "java_expr": "outRegion",
+      "rule": "Explicit runtime value for output TextureRegion draw input.",
+      "status": "explicit-input"
+    },
+    "block_producer_draw_plan_region.top_region": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_input.top_region",
+      "java_expr": "topRegion",
+      "rule": "Explicit runtime value for top TextureRegion draw input.",
+      "status": "explicit-input"
+    },
+    "block_producer_draw_plan_region.plan_drawx": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_input.plan_drawx",
+      "java_expr": "plan.drawx()",
+      "rule": "Explicit runtime value for BuildPlan.drawx().",
+      "status": "explicit-input"
+    },
+    "block_producer_draw_plan_region.plan_drawy": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_input.plan_drawy",
+      "java_expr": "plan.drawy()",
+      "rule": "Explicit runtime value for BuildPlan.drawy().",
+      "status": "explicit-input"
+    },
+    "block_producer_draw_plan_region.plan_rotation": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_input.plan_rotation",
+      "java_expr": "plan.rotation",
+      "rule": "Explicit runtime value for BuildPlan.rotation.",
+      "status": "explicit-input"
+    },
+    "block_producer_draw_plan_region.out_region_rotation": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_result.out_region_rotation",
+      "java_expr": "plan.rotation * 90",
+      "rule": "Derived rotation used by the outRegion draw call.",
+      "status": "source-backed"
+    },
+    "block_producer_draw_plan_region.draw_calls": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "godot_owner": "PortGame.source_block_producer_draw_plan_region_state",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "source_slice": "N1411",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_draw_plan_region_result.draw_calls",
+      "java_expr": "Draw.rect(region...), Draw.rect(outRegion...), Draw.rect(topRegion...)",
+      "rule": "Ordered draw call record for BlockProducer.drawPlanRegion().",
+      "status": "source-backed"
     }
   },
   "version": 1

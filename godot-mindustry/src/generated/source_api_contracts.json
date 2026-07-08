@@ -37913,6 +37913,83 @@
         "test_block_producer_icons_matches_upstream_source",
         "test_generated_block_producer_icons_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_draw_plan_region_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)",
+      "source_slice": "N1411",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_draw_plan_region_state",
+      "params": [
+        {
+          "name": "region",
+          "type": "Variant",
+          "java_expr": "region",
+          "schema": "source_block_producer_draw_plan_region_input.region",
+          "source_symbol": "block_producer_draw_plan_region.region"
+        },
+        {
+          "name": "out_region",
+          "type": "Variant",
+          "java_expr": "outRegion",
+          "schema": "source_block_producer_draw_plan_region_input.out_region",
+          "source_symbol": "block_producer_draw_plan_region.out_region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "java_expr": "topRegion",
+          "schema": "source_block_producer_draw_plan_region_input.top_region",
+          "source_symbol": "block_producer_draw_plan_region.top_region"
+        },
+        {
+          "name": "plan_drawx",
+          "type": "float",
+          "java_expr": "plan.drawx()",
+          "schema": "source_block_producer_draw_plan_region_input.plan_drawx",
+          "source_symbol": "block_producer_draw_plan_region.plan_drawx"
+        },
+        {
+          "name": "plan_drawy",
+          "type": "float",
+          "java_expr": "plan.drawy()",
+          "schema": "source_block_producer_draw_plan_region_input.plan_drawy",
+          "source_symbol": "block_producer_draw_plan_region.plan_drawy"
+        },
+        {
+          "name": "plan_rotation",
+          "type": "float",
+          "java_expr": "plan.rotation",
+          "schema": "source_block_producer_draw_plan_region_input.plan_rotation",
+          "source_symbol": "block_producer_draw_plan_region.plan_rotation"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "override_expr",
+        "method",
+        "draw_region_expr",
+        "draw_out_region_expr",
+        "draw_top_region_expr",
+        "region",
+        "out_region",
+        "top_region",
+        "plan_drawx",
+        "plan_drawy",
+        "plan_rotation",
+        "out_region_rotation",
+        "draw_calls"
+      ],
+      "rule": "PortGame.source_block_producer_draw_plan_region_state pins BlockProducer.drawPlanRegion() draw call contract.",
+      "tests": [
+        "test_emit_bridges_block_producer_draw_plan_region_to_source_state",
+        "test_port_game_exposes_source_block_producer_draw_plan_region_state",
+        "test_port_game_exposes_generated_block_producer_draw_plan_region_bridge_state",
+        "test_block_producer_draw_plan_region_matches_upstream_source",
+        "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

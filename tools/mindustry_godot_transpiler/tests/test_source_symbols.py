@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 885)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 880)
+        self.assertEqual(audit["totalSourceFunctions"], 886)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 881)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 885)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 886)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20387,6 +20387,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_unit_payload_draw_overlay_warning_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_icon_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_icons_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_producer_draw_plan_region_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_draw_shadow_type_null_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_draw_type_null_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_set_state", audit["registeredSourceOwners"])
@@ -48200,6 +48201,61 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["top_region"]["java_expr"], "topRegion")
         result_schema = source_symbols.state_schema(schema, "source_block_producer_icons_result")
         self.assertEqual(result_schema["keys"]["icons"]["java_expr"], "return new TextureRegion[]{region, outRegion, topRegion};")
+
+    def test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_producer_draw_plan_region.method")
+        self.assertEqual(method["java_expr"], "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(method["java_method"], "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_producer_draw_plan_region_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_producer_draw_plan_region_state")
+        draw_out = source_symbols.source_symbol(registry, "block_producer_draw_plan_region.draw_out_region_expr")
+        self.assertEqual(draw_out["java_expr"], "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);")
+        self.assertEqual(draw_out["godot_symbol"], "source_block_producer_draw_plan_region_result.draw_calls")
+        plan_rotation = source_symbols.source_symbol(registry, "block_producer_draw_plan_region.plan_rotation")
+        self.assertEqual(plan_rotation["java_expr"], "plan.rotation")
+        self.assertEqual(plan_rotation["godot_symbol"], "source_block_producer_draw_plan_region_input.plan_rotation")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1411")
+        self.assertEqual(payload_slice["title"], "Generated BlockProducer drawPlanRegion bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(payload_slice["java_method"], "BlockProducer.drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list)")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_block_producer_draw_plan_region_state")
+        self.assertEqual(payload_slice["generated_owner"], "BlockProducer.java_method_drawPlanRegion_1")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_block_producer_draw_plan_region_bridge_state")
+        for expr in [
+            "public abstract class BlockProducer extends PayloadBlock{",
+            "@Override",
+            "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+            "Draw.rect(region, plan.drawx(), plan.drawy());",
+            "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+            "Draw.rect(topRegion, plan.drawx(), plan.drawy());",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("block_producer_draw_plan_region.draw_out_region_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_producer_draw_plan_region_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["region", "out_region", "top_region", "plan_drawx", "plan_drawy", "plan_rotation"])
+        for key in ["source_owner", "source", "class_expr", "override_expr", "method", "draw_region_expr", "draw_out_region_expr", "draw_top_region_expr", "region", "out_region", "top_region", "plan_drawx", "plan_drawy", "plan_rotation", "out_region_rotation", "draw_calls"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_producer_draw_plan_region_input")
+        self.assertEqual(input_schema["keys"]["region"]["java_expr"], "region")
+        self.assertEqual(input_schema["keys"]["out_region"]["java_expr"], "outRegion")
+        self.assertEqual(input_schema["keys"]["top_region"]["java_expr"], "topRegion")
+        self.assertEqual(input_schema["keys"]["plan_drawx"]["java_expr"], "plan.drawx()")
+        self.assertEqual(input_schema["keys"]["plan_drawy"]["java_expr"], "plan.drawy()")
+        self.assertEqual(input_schema["keys"]["plan_rotation"]["java_expr"], "plan.rotation")
+        result_schema = source_symbols.state_schema(schema, "source_block_producer_draw_plan_region_result")
+        self.assertEqual(result_schema["keys"]["out_region_rotation"]["java_expr"], "plan.rotation * 90")
+        self.assertEqual(result_schema["keys"]["draw_calls"]["java_expr"], "Draw.rect(region...), Draw.rect(outRegion...), Draw.rect(topRegion...)")
 
     def test_generated_build_payload_content_equals_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

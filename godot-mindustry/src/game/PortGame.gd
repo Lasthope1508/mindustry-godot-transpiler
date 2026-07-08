@@ -21587,6 +21587,45 @@ func generated_block_producer_icons_bridge_state(region: Variant, out_region: Va
 		"matches": result == canonical,
 	}
 
+func source_block_producer_draw_plan_region_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:
+	var out_region_rotation: float = plan_rotation * 90.0
+	var draw_calls: Array = [
+		{"call": "Draw.rect(region, plan.drawx(), plan.drawy());", "region": region, "x": plan_drawx, "y": plan_drawy},
+		{"call": "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);", "region": out_region, "x": plan_drawx, "y": plan_drawy, "rotation": out_region_rotation},
+		{"call": "Draw.rect(topRegion, plan.drawx(), plan.drawy());", "region": top_region, "x": plan_drawx, "y": plan_drawy},
+	]
+	return {
+		"source_owner": "PortGame.source_block_producer_draw_plan_region_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"class_expr": "public abstract class BlockProducer extends PayloadBlock{",
+		"override_expr": "@Override",
+		"method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+		"draw_region_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+		"draw_out_region_expr": "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+		"draw_top_region_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy());",
+		"region": region,
+		"out_region": out_region,
+		"top_region": top_region,
+		"plan_drawx": plan_drawx,
+		"plan_drawy": plan_drawy,
+		"plan_rotation": plan_rotation,
+		"out_region_rotation": out_region_rotation,
+		"draw_calls": draw_calls,
+	}
+
+func generated_block_producer_draw_plan_region_bridge_state(region: Variant, out_region: Variant, top_region: Variant, plan_drawx: float, plan_drawy: float, plan_rotation: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_method_drawPlanRegion_1([region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation])
+	var canonical = source_block_producer_draw_plan_region_state(region, out_region, top_region, plan_drawx, plan_drawy, plan_rotation)
+	return {
+		"source_owner": "PortGame.source_block_producer_draw_plan_region_state",
+		"generated_owner": "BlockProducer.java_method_drawPlanRegion_1",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

@@ -11542,6 +11542,25 @@ def verify_block_producer_icons_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_block_producer_draw_plan_region_source(upstream_root: Path) -> dict[str, Any]:
+    block_producer_source = "core/src/mindustry/world/blocks/payloads/BlockProducer.java"
+    payload_path = Path(upstream_root) / block_producer_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public abstract class BlockProducer extends PayloadBlock{",
+        "override_expr": "@Override",
+        "method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){",
+        "draw_region_expr": "Draw.rect(region, plan.drawx(), plan.drawy());",
+        "draw_out_region_expr": "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);",
+        "draw_top_region_expr": "Draw.rect(topRegion, plan.drawx(), plan.drawy());",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": block_producer_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_content_equals_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

@@ -19655,6 +19655,51 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn('"return_expr": "return new TextureRegion[]{region, outRegion, topRegion};"', source_text)
             self.assertIn('"icons": icons', source_text)
 
+    def test_emit_bridges_block_producer_draw_plan_region_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public abstract class BlockProducer extends PayloadBlock{
+    @Override
+    public TextureRegion[] icons(){
+        return new TextureRegion[]{region, outRegion, topRegion};
+    }
+
+    @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        Draw.rect(region, plan.drawx(), plan.drawy());
+        Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);
+        Draw.rect(topRegion, plan.drawx(), plan.drawy());
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_drawPlanRegion_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var region: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var out_region: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var top_region: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var plan_drawx: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var plan_drawy: float = float(_args[4] if _args.size() > 4 else 0.0)", source_text)
+            self.assertIn("var plan_rotation: float = float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("var out_region_rotation: float = plan_rotation * 90.0", source_text)
+            self.assertIn('"call": "Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_producer_draw_plan_region_state"', source_text)
+            self.assertIn('"method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){"', source_text)
+            self.assertIn('"draw_calls": draw_calls', source_text)
+
     def test_emit_bridges_build_payload_place_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
