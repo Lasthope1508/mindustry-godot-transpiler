@@ -137825,6 +137825,218 @@
           "type": "float"
         }
       }
+    },
+    "source_unit_payload_dump_type_null_guard_input": {
+      "owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "source_slice": "N1399",
+      "status": "active",
+      "rule": "Inputs for PortGame.source_unit_payload_dump_type_null_guard_state.",
+      "keys": {
+        "unit_type_null": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_input.unit_type_null",
+          "java_expr": "unit.type == null",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.unit_type_null"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        }
+      }
+    },
+    "source_unit_payload_dump_type_null_guard_result": {
+      "owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "source_slice": "N1399",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_type_null_guard_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.source_owner",
+          "java_expr": "PortGame.source_unit_payload_dump_type_null_guard_state",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.class_expr",
+          "java_expr": "public class UnitPayload implements Payload{",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.field_expr",
+          "java_expr": "public Unit unit;",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.method",
+          "java_expr": "public boolean dump(){",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "todo_comment_expr": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.todo_comment_expr",
+          "java_expr": "//TODO should not happen",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.todo_comment"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "guard_expr": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.guard_expr",
+          "java_expr": "if(unit.type == null) return true;",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.return_expr",
+          "java_expr": "return true",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "unit_type_null": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.unit_type_null",
+          "java_expr": "unit.type == null",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.unit_type_null"
+          ],
+          "status": "explicit-input",
+          "type": "bool"
+        },
+        "returned": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.returned",
+          "java_expr": "if(unit.type == null) return true;",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.guard_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "dump": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.dump",
+          "java_expr": "return true",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "deferred_remaining_dump": {
+          "godot_symbol": "source_unit_payload_dump_type_null_guard_result.deferred_remaining_dump",
+          "java_expr": "remaining UnitPayload.dump() body after if(unit.type == null) return true;",
+          "java_method": "UnitPayload.dump()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_dump_type_null_guard_state"
+          ],
+          "source_symbols": [
+            "unit_payload_dump_type_null_guard.guard_expr"
+          ],
+          "status": "deferred",
+          "type": "bool"
+        }
+      }
     }
   },
   "version": 1

@@ -17938,6 +17938,52 @@ public class UnitPayload implements Payload{
             self.assertIn('"unit_hit_size": unit_hit_size', source_text)
             self.assertIn('"size": unit_hit_size', source_text)
 
+    def test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+
+    public boolean dump(){
+        //TODO should not happen
+        if(unit.type == null) return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_dump_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var returned: bool = unit_type_null", source_text)
+            self.assertIn("var dump_result: Variant = null", source_text)
+            self.assertIn("if returned:\n\t\tdump_result = true", source_text)
+            self.assertIn("var deferred_remaining_dump: bool = not returned", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
+            self.assertIn('"field_expr": "public Unit unit;"', source_text)
+            self.assertIn('"method": "public boolean dump(){"', source_text)
+            self.assertIn('"todo_comment_expr": "//TODO should not happen"', source_text)
+            self.assertIn('"guard_expr": "if(unit.type == null) return true;"', source_text)
+            self.assertIn('"return_expr": "return true"', source_text)
+            self.assertIn('"unit_type_null": unit_type_null', source_text)
+            self.assertIn('"returned": returned', source_text)
+            self.assertIn('"dump": dump_result', source_text)
+            self.assertIn('"deferred_remaining_dump": deferred_remaining_dump', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

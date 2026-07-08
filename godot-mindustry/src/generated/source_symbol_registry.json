@@ -109754,6 +109754,150 @@
         "test_unit_payload_size_matches_upstream_source",
         "test_generated_unit_payload_size_slice_is_registered_with_source_backing"
       ]
+    },
+    "unit_payload_dump_type_null_guard.class_expr": {
+      "godot_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "godot_symbol": "source_unit_payload_dump_type_null_guard_result.class_expr",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "java_method": "UnitPayload.dump()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Pin UnitPayload class boundary for dump type-null guard.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
+      "source_slice": "N1399",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_dump_type_null_guard.field_expr": {
+      "godot_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "godot_symbol": "source_unit_payload_dump_type_null_guard_result.field_expr",
+      "java_expr": "public Unit unit;",
+      "java_method": "UnitPayload.dump()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "UnitPayload unit field supplies unit.type null guard receiver.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
+      "source_slice": "N1399",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_dump_type_null_guard.override_expr": {
+      "godot_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "godot_symbol": "source_unit_payload_dump_type_null_guard_result.override_expr",
+      "java_expr": "@Override",
+      "java_method": "UnitPayload.dump()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "UnitPayload.dump overrides Payload.dump.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
+      "source_slice": "N1399",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_dump_type_null_guard.method": {
+      "godot_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "godot_symbol": "source_unit_payload_dump_type_null_guard_result.method",
+      "java_expr": "public boolean dump(){",
+      "java_method": "UnitPayload.dump()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Pin UnitPayload.dump method boundary.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
+      "source_slice": "N1399",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_dump_type_null_guard.todo_comment": {
+      "godot_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "godot_symbol": "source_unit_payload_dump_type_null_guard_result.todo_comment_expr",
+      "java_expr": "//TODO should not happen",
+      "java_method": "UnitPayload.dump()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Preserve upstream TODO comment attached to null type guard.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
+      "source_slice": "N1399",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_dump_type_null_guard.unit_type_null": {
+      "godot_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "godot_symbol": "source_unit_payload_dump_type_null_guard_input.unit_type_null",
+      "java_expr": "unit.type == null",
+      "java_method": "UnitPayload.dump()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Explicit runtime value for UnitPayload.dump unit.type null guard.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
+      "source_slice": "N1399",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_dump_type_null_guard.guard_expr": {
+      "godot_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "godot_symbol": "source_unit_payload_dump_type_null_guard_result.guard_expr",
+      "java_expr": "if(unit.type == null) return true;",
+      "java_method": "UnitPayload.dump()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "UnitPayload.dump returns true when unit.type is null.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
+      "source_slice": "N1399",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_dump_type_null_guard.return_expr": {
+      "godot_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "godot_symbol": "source_unit_payload_dump_type_null_guard_result.dump",
+      "java_expr": "return true",
+      "java_method": "UnitPayload.dump()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Guard branch returns true exactly as source line if(unit.type == null) return true;.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
+      "source_slice": "N1399",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

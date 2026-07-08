@@ -93,7 +93,13 @@ func java_method_size_12(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_payload_size_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float size(){", "return_expr": "return unit.hitSize;", "unit_hit_size": unit_hit_size, "size": unit_hit_size}
 
 func java_method_dump_13(_args: Array = []) -> Variant:
-	return null
+	var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)
+	var returned: bool = unit_type_null
+	var dump_result: Variant = null
+	if returned:
+		dump_result = true
+	var deferred_remaining_dump: bool = not returned
+	return {"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "guard_expr": "if(unit.type == null) return true;", "return_expr": "return true", "unit_type_null": unit_type_null, "returned": returned, "dump": dump_result, "deferred_remaining_dump": deferred_remaining_dump}
 
 func java_method_drawShadow_14(_args: Array = []) -> Variant:
 	return null

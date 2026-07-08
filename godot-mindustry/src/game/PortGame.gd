@@ -20305,6 +20305,41 @@ func generated_unit_payload_size_bridge_state(unit_hit_size: float) -> Dictionar
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_dump_type_null_guard_state(unit_type_null: bool) -> Dictionary:
+	var returned: bool = unit_type_null
+	var dump_result: Variant = null
+	if returned:
+		dump_result = true
+	var deferred_remaining_dump: bool = not returned
+	return {
+		"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"override_expr": "@Override",
+		"method": "public boolean dump(){",
+		"todo_comment_expr": "//TODO should not happen",
+		"guard_expr": "if(unit.type == null) return true;",
+		"return_expr": "return true",
+		"unit_type_null": unit_type_null,
+		"returned": returned,
+		"dump": dump_result,
+		"deferred_remaining_dump": deferred_remaining_dump,
+	}
+
+func generated_unit_payload_dump_type_null_guard_bridge_state(unit_type_null: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_dump_13([unit_type_null])
+	var canonical = source_unit_payload_dump_type_null_guard_state(unit_type_null)
+	return {
+		"source_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+		"generated_owner": "UnitPayload.java_method_dump_13",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

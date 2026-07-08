@@ -33911,6 +33911,45 @@
         "test_generated_unit_payload_size_slice_is_registered_with_source_backing"
       ],
       "title": "Generated UnitPayload size bridge state"
+    },
+    "N1399": {
+      "deferred_exprs": [
+        "Remaining UnitPayload.dump() branches for Units.canCreate, overlay mutation, solidity, overlap, client dumping, unit spawn side effects, Events.fire, Units.notifyUnitSpawn, concrete Unit internals, draw, icon, and world integration remain deferred to later source-backed slices."
+      ],
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public boolean dump(){",
+        "//TODO should not happen",
+        "if(unit.type == null) return true;"
+      ],
+      "generated_owner": "UnitPayload.java_method_dump_13",
+      "godot_owner": "PortGame.source_unit_payload_dump_type_null_guard_state",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.dump()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Registers UnitPayload.dump() unit.type null guard without inferring remaining dump branches.",
+      "runtime_proof": "/root/Main.generated_unit_payload_dump_type_null_guard_bridge_state",
+      "source_symbols": [
+        "unit_payload_dump_type_null_guard.class_expr",
+        "unit_payload_dump_type_null_guard.field_expr",
+        "unit_payload_dump_type_null_guard.override_expr",
+        "unit_payload_dump_type_null_guard.method",
+        "unit_payload_dump_type_null_guard.todo_comment",
+        "unit_payload_dump_type_null_guard.unit_type_null",
+        "unit_payload_dump_type_null_guard.guard_expr",
+        "unit_payload_dump_type_null_guard.return_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated UnitPayload dump type-null guard bridge state"
     }
   },
   "version": 1

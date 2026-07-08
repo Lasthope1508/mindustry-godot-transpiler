@@ -36830,6 +36830,44 @@
         "test_unit_payload_size_matches_upstream_source",
         "test_generated_unit_payload_size_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_dump_type_null_guard_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "params": [
+        {
+          "java_expr": "unit.type == null",
+          "name": "unit_type_null",
+          "schema": "source_unit_payload_dump_type_null_guard_input.unit_type_null",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "guard_expr",
+        "return_expr",
+        "unit_type_null",
+        "returned",
+        "dump",
+        "deferred_remaining_dump"
+      ],
+      "rule": "Dictionary returned by PortGame.source_unit_payload_dump_type_null_guard_state mirrors UnitPayload.dump() unit.type null guard and defers remaining branches.",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_type_null_guard_state",
+      "source_method": "UnitPayload.dump()",
+      "source_slice": "N1399",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_type_null_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_type_null_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_type_null_guard_bridge_state",
+        "test_unit_payload_dump_type_null_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_type_null_guard_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
