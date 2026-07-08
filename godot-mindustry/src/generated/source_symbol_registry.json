@@ -108332,6 +108332,150 @@
       "java_expr": "icon.getRegion()",
       "rule": "icon.getRegion() is evaluated only when guard does not return.",
       "status": "source-backed"
+    },
+    "unit_payload_content_equals.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_unit_payload_content_equals_state",
+      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
+      "source_slice": "N1388",
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_content_equals_result.class_expr",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "rule": "Pin UnitPayload class boundary for contentEquals payload bridge."
+    },
+    "unit_payload_content_equals.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_unit_payload_content_equals_state",
+      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
+      "source_slice": "N1388",
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_content_equals_result.field_expr",
+      "java_expr": "public Unit unit;",
+      "rule": "UnitPayload unit field provides unit.type comparison target."
+    },
+    "unit_payload_content_equals.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_unit_payload_content_equals_state",
+      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
+      "source_slice": "N1388",
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_content_equals_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "UnitPayload.contentEquals(Payload other) implements Payload.contentEquals()."
+    },
+    "unit_payload_content_equals.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_unit_payload_content_equals_state",
+      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
+      "source_slice": "N1388",
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_content_equals_result.method",
+      "java_expr": "public boolean contentEquals(Payload other){",
+      "rule": "Pin UnitPayload.contentEquals(Payload other) method boundary."
+    },
+    "unit_payload_content_equals.other_is_unit_payload": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_unit_payload_content_equals_state",
+      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
+      "source_slice": "N1388",
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_payload_content_equals_input.other_is_unit_payload",
+      "java_expr": "other instanceof UnitPayload up",
+      "rule": "Explicit runtime boolean for UnitPayload pattern-match gate."
+    },
+    "unit_payload_content_equals.other_unit_type": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_unit_payload_content_equals_state",
+      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
+      "source_slice": "N1388",
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_payload_content_equals_input.other_unit_type",
+      "java_expr": "up.unit.type",
+      "rule": "Explicit runtime value for matched UnitPayload up.unit.type."
+    },
+    "unit_payload_content_equals.unit_type": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_unit_payload_content_equals_state",
+      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
+      "source_slice": "N1388",
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_payload_content_equals_input.unit_type",
+      "java_expr": "unit.type",
+      "rule": "Explicit runtime value for this payload unit.type."
+    },
+    "unit_payload_content_equals.return_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_unit_payload_content_equals_state",
+      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
+      "source_slice": "N1388",
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_content_equals_result.content_equals",
+      "java_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;",
+      "rule": "UnitPayload.contentEquals returns true only for UnitPayload with identical unit.type reference."
     }
   },
   "version": 1

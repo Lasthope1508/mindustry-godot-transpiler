@@ -36363,6 +36363,57 @@
         "test_unit_payload_show_overlay_drawable_matches_upstream_source",
         "test_generated_unit_payload_show_overlay_drawable_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_content_equals_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.contentEquals(Payload other)",
+      "source_slice": "N1388",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_unit_payload_content_equals_state",
+      "rule": "PortGame.source_unit_payload_content_equals_state pins UnitPayload.contentEquals(Payload other) return contract.",
+      "params": [
+        {
+          "name": "other_is_unit_payload",
+          "type": "bool",
+          "java_expr": "other instanceof UnitPayload up",
+          "schema": "source_unit_payload_content_equals_input.other_is_unit_payload",
+          "source_symbol": "unit_payload_content_equals.other_is_unit_payload"
+        },
+        {
+          "name": "other_unit_type",
+          "type": "Variant",
+          "java_expr": "up.unit.type",
+          "schema": "source_unit_payload_content_equals_input.other_unit_type",
+          "source_symbol": "unit_payload_content_equals.other_unit_type"
+        },
+        {
+          "name": "unit_type",
+          "type": "Variant",
+          "java_expr": "unit.type",
+          "schema": "source_unit_payload_content_equals_input.unit_type",
+          "source_symbol": "unit_payload_content_equals.unit_type"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "other_is_unit_payload",
+        "other_unit_type",
+        "unit_type",
+        "content_equals"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

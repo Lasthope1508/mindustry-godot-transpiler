@@ -11543,6 +11543,24 @@ def verify_build_payload_content_equals_source(upstream_root: Path) -> dict[str,
         "missing": missing,
     }
 
+def verify_unit_payload_content_equals_source(upstream_root: Path) -> dict[str, Any]:
+    unit_payload_source = "core/src/mindustry/world/blocks/payloads/UnitPayload.java"
+    payload_path = Path(upstream_root) / unit_payload_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class UnitPayload implements Payload{",
+        "field_expr": "public Unit unit;",
+        "override_expr": "@Override",
+        "method": "public boolean contentEquals(Payload other){",
+        "return_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": unit_payload_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_place_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

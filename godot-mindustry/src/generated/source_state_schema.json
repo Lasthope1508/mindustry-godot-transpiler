@@ -135743,6 +135743,218 @@
           "type": "Variant"
         }
       }
+    },
+    "source_unit_payload_content_equals_input": {
+      "owner": "PortGame.source_unit_payload_content_equals_state",
+      "source_slice": "N1388",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_unit_payload_content_equals_state.",
+      "keys": {
+        "other_is_unit_payload": {
+          "godot_symbol": "source_unit_payload_content_equals_input.other_is_unit_payload",
+          "java_expr": "other instanceof UnitPayload up",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.other_is_unit_payload"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "other_unit_type": {
+          "godot_symbol": "source_unit_payload_content_equals_input.other_unit_type",
+          "java_expr": "up.unit.type",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.other_unit_type"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "unit_type": {
+          "godot_symbol": "source_unit_payload_content_equals_input.unit_type",
+          "java_expr": "unit.type",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.unit_type"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      }
+    },
+    "source_unit_payload_content_equals_result": {
+      "owner": "PortGame.source_unit_payload_content_equals_state",
+      "source_slice": "N1388",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_content_equals_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_unit_payload_content_equals_result.source_owner",
+          "java_expr": "PortGame.source_unit_payload_content_equals_state",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_unit_payload_content_equals_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_unit_payload_content_equals_result.class_expr",
+          "java_expr": "public class UnitPayload implements Payload{",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_unit_payload_content_equals_result.field_expr",
+          "java_expr": "public Unit unit;",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_unit_payload_content_equals_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_unit_payload_content_equals_result.method",
+          "java_expr": "public boolean contentEquals(Payload other){",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_unit_payload_content_equals_result.return_expr",
+          "java_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "other_is_unit_payload": {
+          "godot_symbol": "source_unit_payload_content_equals_result.other_is_unit_payload",
+          "java_expr": "other instanceof UnitPayload up",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.other_is_unit_payload"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "other_unit_type": {
+          "godot_symbol": "source_unit_payload_content_equals_result.other_unit_type",
+          "java_expr": "up.unit.type",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.other_unit_type"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "unit_type": {
+          "godot_symbol": "source_unit_payload_content_equals_result.unit_type",
+          "java_expr": "unit.type",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.unit_type"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "content_equals": {
+          "godot_symbol": "source_unit_payload_content_equals_result.content_equals",
+          "java_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;",
+          "java_method": "UnitPayload.contentEquals(Payload other)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_equals_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content_equals.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        }
+      }
     }
   },
   "version": 1

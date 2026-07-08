@@ -32,7 +32,11 @@ func java_method_showOverlay_1(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_payload_show_overlay_drawable_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "import_expr": "import static mindustry.Vars.*;", "method": "public void showOverlay(TextureRegionDrawable icon){", "guard_expr": "if(icon == null || headless) return;", "delegate_expr": "showOverlay(icon.getRegion());", "icon_null": icon_null, "headless": headless, "region": region, "returned": returned, "get_region_called": not returned, "show_overlay_called": not returned, "delegate_call": delegate_call, "overlayRegion_after": overlay_region_after, "overlayTime_after": overlay_time_after}
 
 func java_method_contentEquals_2(_args: Array = []) -> Variant:
-	return null
+	var other_is_unit_payload: bool = bool(_args[0] if _args.size() > 0 else false)
+	var other_unit_type: Variant = _args[1] if _args.size() > 1 else null
+	var unit_type: Variant = _args[2] if _args.size() > 2 else null
+	var content_equals: bool = other_is_unit_payload and other_unit_type == unit_type
+	return {"source_owner": "PortGame.source_unit_payload_content_equals_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public boolean contentEquals(Payload other){", "return_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;", "other_is_unit_payload": other_is_unit_payload, "other_unit_type": other_unit_type, "unit_type": unit_type, "content_equals": content_equals}
 
 func java_method_update_3(_args: Array = []) -> Variant:
 	return null

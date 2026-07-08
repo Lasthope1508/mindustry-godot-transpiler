@@ -17194,6 +17194,56 @@ public class UnitPayload implements Payload{
             self.assertIn('"overlayRegion_after": overlay_region_after', source_text)
             self.assertIn('"overlayTime_after": overlay_time_after', source_text)
 
+    def test_emit_bridges_unit_payload_content_equals_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+
+    public void showOverlay(TextureRegion icon){
+    }
+
+    public void showOverlay(TextureRegionDrawable icon){
+    }
+
+    @Override
+    public boolean contentEquals(Payload other){
+        return other instanceof UnitPayload up && up.unit.type == unit.type;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_contentEquals_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var other_is_unit_payload: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var other_unit_type: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var unit_type: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var content_equals: bool = other_is_unit_payload and other_unit_type == unit_type", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_content_equals_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
+            self.assertIn('"field_expr": "public Unit unit;"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public boolean contentEquals(Payload other){"', source_text)
+            self.assertIn('"return_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;"', source_text)
+            self.assertIn('"other_is_unit_payload": other_is_unit_payload', source_text)
+            self.assertIn('"other_unit_type": other_unit_type', source_text)
+            self.assertIn('"unit_type": unit_type', source_text)
+            self.assertIn('"content_equals": content_equals', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

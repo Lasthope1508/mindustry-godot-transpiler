@@ -33488,6 +33488,46 @@
         "test_unit_payload_show_overlay_drawable_matches_upstream_source",
         "test_generated_unit_payload_show_overlay_drawable_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1388": {
+      "title": "Generated UnitPayload contentEquals bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "UnitPayload",
+      "java_method": "UnitPayload.contentEquals(Payload other)",
+      "godot_owner": "PortGame.source_unit_payload_content_equals_state",
+      "generated_owner": "UnitPayload.java_method_contentEquals_2",
+      "runtime_proof": "/root/Main.generated_unit_payload_content_equals_bridge_state",
+      "rule": "Generated UnitPayload.contentEquals(Payload other) bridge preserves UnitPayload type gate and unit.type identity comparison with explicit inputs.",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public boolean contentEquals(Payload other){",
+        "return other instanceof UnitPayload up && up.unit.type == unit.type;"
+      ],
+      "deferred_exprs": [
+        "Runtime Java instanceof mechanics are represented by explicit other_is_unit_payload input",
+        "Reference identity of UnitType objects is represented by equality of explicit other_unit_type and unit_type values",
+        "Concrete Unit and UnitType internals remain deferred to later slices"
+      ],
+      "source_symbols": [
+        "unit_payload_content_equals.class_expr",
+        "unit_payload_content_equals.field_expr",
+        "unit_payload_content_equals.override_expr",
+        "unit_payload_content_equals.method",
+        "unit_payload_content_equals.other_is_unit_payload",
+        "unit_payload_content_equals.other_unit_type",
+        "unit_payload_content_equals.unit_type",
+        "unit_payload_content_equals.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_content_equals_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_equals_state",
+        "test_port_game_exposes_generated_unit_payload_content_equals_bridge_state",
+        "test_unit_payload_content_equals_matches_upstream_source",
+        "test_generated_unit_payload_content_equals_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -19992,6 +19992,35 @@ func generated_unit_payload_show_overlay_drawable_bridge_state(icon_null: bool, 
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_content_equals_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:
+	var content_equals: bool = other_is_unit_payload and other_unit_type == unit_type
+	return {
+		"source_owner": "PortGame.source_unit_payload_content_equals_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"override_expr": "@Override",
+		"method": "public boolean contentEquals(Payload other){",
+		"return_expr": "return other instanceof UnitPayload up && up.unit.type == unit.type;",
+		"other_is_unit_payload": other_is_unit_payload,
+		"other_unit_type": other_unit_type,
+		"unit_type": unit_type,
+		"content_equals": content_equals,
+	}
+
+func generated_unit_payload_content_equals_bridge_state(other_is_unit_payload: bool, other_unit_type: Variant, unit_type: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_contentEquals_2([other_is_unit_payload, other_unit_type, unit_type])
+	var canonical = source_unit_payload_content_equals_state(other_is_unit_payload, other_unit_type, unit_type)
+	return {
+		"source_owner": "PortGame.source_unit_payload_content_equals_state",
+		"generated_owner": "UnitPayload.java_method_contentEquals_2",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {
