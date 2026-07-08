@@ -11641,6 +11641,22 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_producer_build_get_maximum_accepted_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_producer_build_get_maximum_accepted_source"))
+        report = source_parity.verify_block_producer_build_get_maximum_accepted_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "override_expr": "@Override",
+            "method": "public int getMaximumAccepted(Item item){",
+            "null_guard": "if(recipe() == null) return 0;",
+            "requirement_loop": "for(ItemStack stack : recipe().requirements){",
+            "match_expr": "if(stack.item == item) return stack.amount * 2;",
+            "final_return": "return 0;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_build_payload_place_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_build_payload_place_source"))
         report = source_parity.verify_build_payload_place_source(ROOT / "mindustry-upstream")

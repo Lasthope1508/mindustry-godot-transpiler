@@ -21691,6 +21691,48 @@ func generated_block_producer_build_accept_item_bridge_state(source_building: Va
 		"matches": result == canonical,
 	}
 
+func source_block_producer_build_get_maximum_accepted_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:
+	var maximum_accepted: int = 0
+	var matched_requirement: Variant = null
+	if not recipe_null:
+		for stack in requirements:
+			if stack is Dictionary:
+				var stack_item: Variant = stack.get("item", null)
+				if stack_item == item:
+					var stack_amount: int = int(stack.get("amount", 0))
+					maximum_accepted = stack_amount * 2
+					matched_requirement = stack
+					break
+	return {
+		"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"method": "public int getMaximumAccepted(Item item){",
+		"null_guard": "if(recipe() == null) return 0;",
+		"requirement_loop": "for(ItemStack stack : recipe().requirements){",
+		"match_expr": "if(stack.item == item) return stack.amount * 2;",
+		"final_return": "return 0;",
+		"item": item,
+		"recipe_null": recipe_null,
+		"requirements": requirements,
+		"matched_requirement": matched_requirement,
+		"maximum_accepted": maximum_accepted,
+	}
+
+func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2([item, recipe_null, requirements])
+	var canonical = source_block_producer_build_get_maximum_accepted_state(item, recipe_null, requirements)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.getMaximumAccepted",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

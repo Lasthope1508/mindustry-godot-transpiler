@@ -19791,6 +19791,61 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn('"return_expr": "return items.get(item) < getMaximumAccepted(item);"', source_text)
             self.assertIn('"accept_item": accept_item', source_text)
 
+    def test_emit_bridges_block_producer_build_get_maximum_accepted_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public abstract class BlockProducer extends PayloadBlock{
+    public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{
+        public abstract @Nullable Block recipe();
+
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            return items.get(item) < getMaximumAccepted(item);
+        }
+
+        @Override
+        public int getMaximumAccepted(Item item){
+            if(recipe() == null) return 0;
+            for(ItemStack stack : recipe().requirements){
+                if(stack.item == item) return stack.amount * 2;
+            }
+            return 0;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var item: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var recipe_null: bool = bool(_args[1] if _args.size() > 1 else true)", source_text)
+            self.assertIn("var requirements: Array = []", source_text)
+            self.assertIn("if _args.size() > 2 and _args[2] is Array:", source_text)
+            self.assertIn("var maximum_accepted: int = 0", source_text)
+            self.assertIn("if not recipe_null:", source_text)
+            self.assertIn("for stack in requirements:", source_text)
+            self.assertIn("if stack_item == item:", source_text)
+            self.assertIn("maximum_accepted = stack_amount * 2", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state"', source_text)
+            self.assertIn('"method": "public int getMaximumAccepted(Item item){"', source_text)
+            self.assertIn('"null_guard": "if(recipe() == null) return 0;"', source_text)
+            self.assertIn('"requirement_loop": "for(ItemStack stack : recipe().requirements){"', source_text)
+            self.assertIn('"match_expr": "if(stack.item == item) return stack.amount * 2;"', source_text)
+            self.assertIn('"maximum_accepted": maximum_accepted', source_text)
+
     def test_emit_bridges_build_payload_place_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

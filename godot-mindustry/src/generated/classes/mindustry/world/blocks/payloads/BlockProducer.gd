@@ -46,3 +46,22 @@ func java_inner_class_BlockProducerBuild_method_acceptItem_1(_args: Array = []) 
 	var maximum_accepted: int = int(_args[3] if _args.size() > 3 else 0)
 	var accept_item: bool = item_count < maximum_accepted
 	return {"source_owner": "PortGame.source_block_producer_build_accept_item_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public boolean acceptItem(Building source, Item item){", "return_expr": "return items.get(item) < getMaximumAccepted(item);", "source_building": source_building, "item": item, "item_count": item_count, "maximum_accepted": maximum_accepted, "accept_item": accept_item}
+
+func java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2(_args: Array = []) -> Variant:
+	var item: Variant = _args[0] if _args.size() > 0 else null
+	var recipe_null: bool = bool(_args[1] if _args.size() > 1 else true)
+	var requirements: Array = []
+	if _args.size() > 2 and _args[2] is Array:
+		requirements = _args[2]
+	var maximum_accepted: int = 0
+	var matched_requirement: Variant = null
+	if not recipe_null:
+		for stack in requirements:
+			if stack is Dictionary:
+				var stack_item: Variant = stack.get("item", null)
+				if stack_item == item:
+					var stack_amount: int = int(stack.get("amount", 0))
+					maximum_accepted = stack_amount * 2
+					matched_requirement = stack
+					break
+	return {"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public int getMaximumAccepted(Item item){", "null_guard": "if(recipe() == null) return 0;", "requirement_loop": "for(ItemStack stack : recipe().requirements){", "match_expr": "if(stack.item == item) return stack.amount * 2;", "final_return": "return 0;", "item": item, "recipe_null": recipe_null, "requirements": requirements, "matched_requirement": matched_requirement, "maximum_accepted": maximum_accepted}

@@ -5199,6 +5199,28 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar accept_item: bool = item_count < maximum_accepted",
                         '\treturn {"source_owner": "PortGame.source_block_producer_build_accept_item_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public boolean acceptItem(Building source, Item item){", "return_expr": "return items.get(item) < getMaximumAccepted(item);", "source_building": source_building, "item": item, "item_count": item_count, "maximum_accepted": maximum_accepted, "accept_item": accept_item}',
                     ])
+                elif method.get("name") == "getMaximumAccepted":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_BlockProducerBuild_method_getMaximumAccepted_{index}(_args: Array = []) -> Variant:",
+                        "\tvar item: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar recipe_null: bool = bool(_args[1] if _args.size() > 1 else true)",
+                        "\tvar requirements: Array = []",
+                        "\tif _args.size() > 2 and _args[2] is Array:",
+                        "\t\trequirements = _args[2]",
+                        "\tvar maximum_accepted: int = 0",
+                        "\tvar matched_requirement: Variant = null",
+                        "\tif not recipe_null:",
+                        "\t\tfor stack in requirements:",
+                        "\t\t\tif stack is Dictionary:",
+                        "\t\t\t\tvar stack_item: Variant = stack.get(\"item\", null)",
+                        "\t\t\t\tif stack_item == item:",
+                        "\t\t\t\t\tvar stack_amount: int = int(stack.get(\"amount\", 0))",
+                        "\t\t\t\t\tmaximum_accepted = stack_amount * 2",
+                        "\t\t\t\t\tmatched_requirement = stack",
+                        "\t\t\t\t\tbreak",
+                        '\treturn {"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public int getMaximumAccepted(Item item){", "null_guard": "if(recipe() == null) return 0;", "requirement_loop": "for(ItemStack stack : recipe().requirements){", "match_expr": "if(stack.item == item) return stack.amount * 2;", "final_return": "return 0;", "item": item, "recipe_null": recipe_null, "requirements": requirements, "matched_requirement": matched_requirement, "maximum_accepted": maximum_accepted}',
+                    ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
         and type_entry.get("name") == "LiquidTurret"

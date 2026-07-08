@@ -146133,6 +146133,254 @@
         }
       },
       "status": "active"
+    },
+    "source_block_producer_build_get_maximum_accepted_input": {
+      "owner": "PortGame.source_block_producer_build_get_maximum_accepted_state",
+      "source_slice": "N1414",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_block_producer_build_get_maximum_accepted_state.",
+      "keys": {
+        "item": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_input.item",
+          "java_expr": "Item item",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "recipe_null": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_input.recipe_null",
+          "java_expr": "recipe() == null",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.null_guard"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "requirements": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_input.requirements",
+          "java_expr": "recipe().requirements",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.recipe_requirements"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        }
+      }
+    },
+    "source_block_producer_build_get_maximum_accepted_result": {
+      "owner": "PortGame.source_block_producer_build_get_maximum_accepted_state",
+      "source_slice": "N1414",
+      "status": "active",
+      "rule": "Return dictionary from PortGame.source_block_producer_build_get_maximum_accepted_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.source_owner",
+          "java_expr": "PortGame.source_block_producer_build_get_maximum_accepted_state",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "inner_class": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.inner_class",
+          "java_expr": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.method",
+          "java_expr": "public int getMaximumAccepted(Item item){",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "null_guard": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.null_guard",
+          "java_expr": "if(recipe() == null) return 0;",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.null_guard"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "requirement_loop": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.requirement_loop",
+          "java_expr": "for(ItemStack stack : recipe().requirements){",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.recipe_requirements"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "match_expr": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.match_expr",
+          "java_expr": "if(stack.item == item) return stack.amount * 2;",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.stack_item",
+            "block_producer_build_get_maximum_accepted.stack_amount"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "final_return": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.final_return",
+          "java_expr": "return 0;",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.final_return"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "item": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.item",
+          "java_expr": "Item item",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "recipe_null": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.recipe_null",
+          "java_expr": "recipe() == null",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.null_guard"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "requirements": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.requirements",
+          "java_expr": "recipe().requirements",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.recipe_requirements"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        },
+        "matched_requirement": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.matched_requirement",
+          "java_expr": "stack.item == item",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.stack_item"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "maximum_accepted": {
+          "godot_symbol": "source_block_producer_build_get_maximum_accepted_result.maximum_accepted",
+          "java_expr": "if(stack.item == item) return stack.amount * 2;",
+          "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_get_maximum_accepted_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_get_maximum_accepted.stack_amount",
+            "block_producer_build_get_maximum_accepted.final_return"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        }
+      }
     }
   },
   "version": 1

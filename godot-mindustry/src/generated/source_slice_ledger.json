@@ -34827,6 +34827,46 @@
         "Concrete getMaximumAccepted(item) recipe requirement lookup"
       ],
       "notes": "This slice closes the acceptItem predicate bridge; concrete recipe-backed maximumAccepted is planned as following BlockProducerBuild slice."
+    },
+    "N1414": {
+      "title": "Generated BlockProducerBuild getMaximumAccepted bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+      "godot_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.getMaximumAccepted",
+      "runtime_proof": "/root/Main.generated_block_producer_build_get_maximum_accepted_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "@Override",
+        "public int getMaximumAccepted(Item item){",
+        "if(recipe() == null) return 0;",
+        "for(ItemStack stack : recipe().requirements){",
+        "if(stack.item == item) return stack.amount * 2;",
+        "return 0;"
+      ],
+      "source_symbols": [
+        "block_producer_build_get_maximum_accepted.method",
+        "block_producer_build_get_maximum_accepted.null_guard",
+        "block_producer_build_get_maximum_accepted.recipe_requirements",
+        "block_producer_build_get_maximum_accepted.stack_item",
+        "block_producer_build_get_maximum_accepted.stack_amount",
+        "block_producer_build_get_maximum_accepted.final_return"
+      ],
+      "deferred_exprs": [
+        "Concrete recipe() object lifetime and nullability",
+        "Concrete ItemStack object identity beyond explicit requirement dictionaries"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_get_maximum_accepted_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_get_maximum_accepted_state",
+        "test_port_game_exposes_generated_block_producer_build_get_maximum_accepted_bridge_state",
+        "test_block_producer_build_get_maximum_accepted_matches_upstream_source",
+        "test_generated_block_producer_build_get_maximum_accepted_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducerBuild.getMaximumAccepted() bridge records recipe requirement lookup and amount multiplier from source.",
+      "notes": "This slice closes the getMaximumAccepted predicate/value bridge; concrete recipe object integration remains for later payload production slices."
     }
   },
   "version": 1

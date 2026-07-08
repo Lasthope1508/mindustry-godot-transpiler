@@ -38104,6 +38104,59 @@
       ],
       "source_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
       "status": "source-backed"
+    },
+    "PortGame.source_block_producer_build_get_maximum_accepted_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.getMaximumAccepted(Item item)",
+      "source_slice": "N1414",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_build_get_maximum_accepted_state",
+      "params": [
+        {
+          "name": "item",
+          "type": "Variant",
+          "java_expr": "Item item",
+          "schema": "source_block_producer_build_get_maximum_accepted_input.item"
+        },
+        {
+          "name": "recipe_null",
+          "type": "bool",
+          "java_expr": "recipe() == null",
+          "schema": "source_block_producer_build_get_maximum_accepted_input.recipe_null",
+          "source_symbol": "block_producer_build_get_maximum_accepted.null_guard"
+        },
+        {
+          "name": "requirements",
+          "type": "Array",
+          "java_expr": "recipe().requirements",
+          "schema": "source_block_producer_build_get_maximum_accepted_input.requirements",
+          "source_symbol": "block_producer_build_get_maximum_accepted.recipe_requirements"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "null_guard",
+        "requirement_loop",
+        "match_expr",
+        "final_return",
+        "item",
+        "recipe_null",
+        "requirements",
+        "matched_requirement",
+        "maximum_accepted"
+      ],
+      "rule": "PortGame.source_block_producer_build_get_maximum_accepted_state pins BlockProducerBuild.getMaximumAccepted() recipe requirement lookup.",
+      "tests": [
+        "test_emit_bridges_block_producer_build_get_maximum_accepted_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_get_maximum_accepted_state",
+        "test_port_game_exposes_generated_block_producer_build_get_maximum_accepted_bridge_state",
+        "test_block_producer_build_get_maximum_accepted_matches_upstream_source",
+        "test_generated_block_producer_build_get_maximum_accepted_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

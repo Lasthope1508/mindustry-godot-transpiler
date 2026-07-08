@@ -19478,6 +19478,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.acceptItem"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_build_get_maximum_accepted_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_build_get_maximum_accepted_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:", source)
+        self.assertIn("var maximum_accepted: int = 0", source)
+        self.assertIn("for stack in requirements:", source)
+        self.assertIn("if stack_item == item:", source)
+        self.assertIn("maximum_accepted = stack_amount * 2", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java"', source)
+        self.assertIn('"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{"', source)
+        self.assertIn('"method": "public int getMaximumAccepted(Item item){"', source)
+        self.assertIn('"null_guard": "if(recipe() == null) return 0;"', source)
+        self.assertIn('"requirement_loop": "for(ItemStack stack : recipe().requirements){"', source)
+        self.assertIn('"match_expr": "if(stack.item == item) return stack.amount * 2;"', source)
+        self.assertIn('"final_return": "return 0;"', source)
+        self.assertIn('"maximum_accepted": maximum_accepted', source)
+
+    def test_port_game_exposes_generated_block_producer_build_get_maximum_accepted_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Variant, recipe_null: bool, requirements: Array) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2([item, recipe_null, requirements])", source)
+        self.assertIn("var canonical = source_block_producer_build_get_maximum_accepted_state(item, recipe_null, requirements)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.getMaximumAccepted"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
