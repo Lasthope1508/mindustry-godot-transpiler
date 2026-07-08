@@ -49828,6 +49828,57 @@
         "test_generated_consume_item_flammable_item_efficiency_multiplier_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_item_radioactive_item_efficiency_multiplier.item_radioactivity_field": {
+      "godot_owner": "PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_item_radioactive_item_efficiency_multiplier_result.item_radioactivity_field",
+      "java_expr": "public float radioactivity;",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "rule": "Source-backed Item.radioactivity field proving the explicit item_radioactivity input name and type.",
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "source_slice": "N1433",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_radioactive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_radioactive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_radioactive_item_efficiency_multiplier.item_radioactivity_input": {
+      "godot_owner": "PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_item_radioactive_item_efficiency_multiplier_input.item_radioactivity",
+      "java_expr": "item.radioactivity",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "rule": "Explicit input for ConsumeItemRadioactive.itemEfficiencyMultiplier() item.radioactivity until concrete Item object binding is ported.",
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "source_slice": "N1433",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_radioactive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_radioactive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_radioactive_item_efficiency_multiplier.return": {
+      "godot_owner": "PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_item_radioactive_item_efficiency_multiplier_result.efficiency_multiplier",
+      "java_expr": "return item.radioactivity;",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "rule": "Source-backed ConsumeItemRadioactive.itemEfficiencyMultiplier() returns item.radioactivity.",
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "source_slice": "N1433",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_radioactive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_radioactive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_power_condition_requested_power.consume_get_input": {
       "godot_owner": "PortGame.source_consume_power_condition_requested_power_state",
       "godot_symbol": "source_consume_power_condition_requested_power_input.consume_get",

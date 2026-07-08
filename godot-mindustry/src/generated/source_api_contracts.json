@@ -20736,6 +20736,35 @@
         "test_generated_consume_item_flammable_item_efficiency_multiplier_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "params": [
+        {
+          "java_expr": "item.radioactivity",
+          "name": "item_radioactivity",
+          "schema": "source_consume_item_radioactive_item_efficiency_multiplier_input.item_radioactivity",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "item_radioactivity",
+        "efficiency_multiplier",
+        "return_expr",
+        "item_radioactivity_field"
+      ],
+      "rule": "Public runtime contract for ConsumeItemRadioactive.itemEfficiencyMultiplier(Item) with explicit item.radioactivity input.",
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "source_method": "itemEfficiencyMultiplier(Item item)",
+      "source_slice": "N1433",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_radioactive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_radioactive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_power_condition_requested_power_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java",
       "params": [

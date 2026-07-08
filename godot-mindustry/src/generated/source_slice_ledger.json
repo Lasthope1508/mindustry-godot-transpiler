@@ -14892,6 +14892,36 @@
       ],
       "title": "Generated ConsumeItemExplosive itemEfficiencyMultiplier bridge state"
     },
+    "N1433": {
+      "deferred_exprs": [
+        "Concrete Item object binding is represented by explicit item_radioactivity input until object field access is ported."
+      ],
+      "exact_exprs": [
+        "public float itemEfficiencyMultiplier(Item item){",
+        "return item.radioactivity;",
+        "public float radioactivity;"
+      ],
+      "generated_owner": "ConsumeItemRadioactive.java_method_itemEfficiencyMultiplier_0",
+      "godot_owner": "PortGame.source_consume_item_radioactive_item_efficiency_multiplier_state",
+      "java_class": "ConsumeItemRadioactive",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "rule": "Generated ConsumeItemRadioactive.itemEfficiencyMultiplier bridges the exact item.radioactivity return with explicit item_radioactivity input.",
+      "runtime_proof": "/root/Main.generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state",
+      "source_symbols": [
+        "consume_item_radioactive_item_efficiency_multiplier.return",
+        "consume_item_radioactive_item_efficiency_multiplier.item_radioactivity_input",
+        "consume_item_radioactive_item_efficiency_multiplier.item_radioactivity_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_radioactive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_radioactive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeItemRadioactive itemEfficiencyMultiplier bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
