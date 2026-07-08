@@ -36552,6 +36552,49 @@
         "test_unit_payload_requirements_matches_upstream_source",
         "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_build_time_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.buildTime()",
+      "source_slice": "N1392",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
+      "rule": "PortGame.source_unit_payload_build_time_state pins UnitPayload.buildTime() return contract.",
+      "params": [
+        {
+          "name": "unit_type",
+          "type": "Variant",
+          "java_expr": "unit.type",
+          "schema": "source_unit_payload_build_time_input.unit_type",
+          "source_symbol": "unit_payload_build_time.unit_type"
+        },
+        {
+          "name": "build_time",
+          "type": "float",
+          "java_expr": "unit.type.getBuildTime()",
+          "schema": "source_unit_payload_build_time_input.build_time",
+          "source_symbol": "unit_payload_build_time.build_time"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "unit_type",
+        "buildTime",
+        "get_build_time_call"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_unit_payload_build_time_state",
+        "test_port_game_exposes_generated_unit_payload_build_time_bridge_state",
+        "test_unit_payload_build_time_matches_upstream_source",
+        "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

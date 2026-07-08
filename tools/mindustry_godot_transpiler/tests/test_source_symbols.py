@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 866)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 861)
+        self.assertEqual(audit["totalSourceFunctions"], 867)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 862)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 866)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 867)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -48385,6 +48385,59 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_unit_payload_requirements_result")
         self.assertEqual(result_schema["keys"]["requirements"]["java_expr"], "return unit.type.getTotalRequirements();")
         self.assertEqual(result_schema["keys"]["get_total_requirements_call"]["java_expr"], "unit.type.getTotalRequirements();")
+
+    def test_generated_unit_payload_build_time_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_payload_build_time.method")
+        self.assertEqual(method["java_expr"], "public float buildTime(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(method["java_method"], "UnitPayload.buildTime()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_payload_build_time_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_payload_build_time_state")
+        unit_type = source_symbols.source_symbol(registry, "unit_payload_build_time.unit_type")
+        self.assertEqual(unit_type["java_expr"], "unit.type")
+        self.assertEqual(unit_type["godot_symbol"], "source_unit_payload_build_time_input.unit_type")
+        build_time = source_symbols.source_symbol(registry, "unit_payload_build_time.build_time")
+        self.assertEqual(build_time["java_expr"], "unit.type.getBuildTime()")
+        self.assertEqual(build_time["godot_symbol"], "source_unit_payload_build_time_input.build_time")
+        return_expr = source_symbols.source_symbol(registry, "unit_payload_build_time.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return unit.type.getBuildTime();")
+        self.assertEqual(return_expr["godot_symbol"], "source_unit_payload_build_time_result.buildTime")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1392")
+        self.assertEqual(payload_slice["title"], "Generated UnitPayload buildTime bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(payload_slice["java_method"], "UnitPayload.buildTime()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_unit_payload_build_time_state")
+        self.assertEqual(payload_slice["generated_owner"], "UnitPayload.java_method_buildTime_6")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_unit_payload_build_time_bridge_state")
+        for expr in [
+            "public class UnitPayload implements Payload{",
+            "public Unit unit;",
+            "@Override",
+            "public float buildTime(){",
+            "return unit.type.getBuildTime();",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("unit_payload_build_time.return_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_unit_payload_build_time_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["unit_type", "build_time"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "override_expr", "method", "return_expr", "unit_type", "buildTime", "get_build_time_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_unit_payload_build_time_input")
+        self.assertEqual(input_schema["keys"]["unit_type"]["java_expr"], "unit.type")
+        self.assertEqual(input_schema["keys"]["build_time"]["java_expr"], "unit.type.getBuildTime()")
+        result_schema = source_symbols.state_schema(schema, "source_unit_payload_build_time_result")
+        self.assertEqual(result_schema["keys"]["buildTime"]["java_expr"], "return unit.type.getBuildTime();")
+        self.assertEqual(result_schema["keys"]["get_build_time_call"]["java_expr"], "unit.type.getBuildTime();")
 
     def test_generated_build_payload_place_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

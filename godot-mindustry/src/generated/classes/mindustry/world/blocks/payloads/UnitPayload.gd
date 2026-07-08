@@ -58,7 +58,10 @@ func java_method_requirements_5(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_payload_requirements_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public ItemStack[] requirements(){", "return_expr": "return unit.type.getTotalRequirements();", "unit_type": unit_type, "requirements": total_requirements, "get_total_requirements_call": get_total_requirements_call}
 
 func java_method_buildTime_6(_args: Array = []) -> Variant:
-	return null
+	var unit_type: Variant = _args[0] if _args.size() > 0 else null
+	var build_time: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var get_build_time_call: Dictionary = {"call": "unit.type.getBuildTime();", "unit_type": unit_type, "buildTime": build_time}
+	return {"source_owner": "PortGame.source_unit_payload_build_time_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float buildTime(){", "return_expr": "return unit.type.getBuildTime();", "unit_type": unit_type, "buildTime": build_time, "get_build_time_call": get_build_time_call}
 
 func java_method_write_7(_args: Array = []) -> Variant:
 	return null

@@ -1696,6 +1696,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_unit_payload_requirements_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public ItemStack[] requirements(){", "return_expr": "return unit.type.getTotalRequirements();", "unit_type": unit_type, "requirements": total_requirements, "get_total_requirements_call": get_total_requirements_call}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
+        and type_entry.get("name") == "UnitPayload"
+        and method.get("name") == "buildTime"
+    ):
+        return [
+            "\tvar unit_type: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar build_time: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            '\tvar get_build_time_call: Dictionary = {"call": "unit.type.getBuildTime();", "unit_type": unit_type, "buildTime": build_time}',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_build_time_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float buildTime(){", "return_expr": "return unit.type.getBuildTime();", "unit_type": unit_type, "buildTime": build_time, "get_build_time_call": get_build_time_call}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "place"

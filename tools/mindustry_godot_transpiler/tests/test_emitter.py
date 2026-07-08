@@ -17409,6 +17409,69 @@ public class UnitPayload implements Payload{
             self.assertIn('"requirements": total_requirements', source_text)
             self.assertIn('"get_total_requirements_call": get_total_requirements_call', source_text)
 
+    def test_emit_bridges_unit_payload_build_time_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+
+    public void showOverlay(TextureRegion icon){
+    }
+
+    public void showOverlay(TextureRegionDrawable icon){
+    }
+
+    public boolean contentEquals(Payload other){
+        return false;
+    }
+
+    public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){
+    }
+
+    public UnlockableContent content(){
+        return unit.type;
+    }
+
+    public ItemStack[] requirements(){
+        return unit.type.getTotalRequirements();
+    }
+
+    @Override
+    public float buildTime(){
+        return unit.type.getBuildTime();
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_buildTime_6(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit_type: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var build_time: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn('{"call": "unit.type.getBuildTime();"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_build_time_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
+            self.assertIn('"field_expr": "public Unit unit;"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public float buildTime(){"', source_text)
+            self.assertIn('"return_expr": "return unit.type.getBuildTime();"', source_text)
+            self.assertIn('"unit_type": unit_type', source_text)
+            self.assertIn('"buildTime": build_time', source_text)
+            self.assertIn('"get_build_time_call": get_build_time_call', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

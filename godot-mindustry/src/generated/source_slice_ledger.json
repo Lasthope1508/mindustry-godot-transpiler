@@ -33644,6 +33644,44 @@
         "test_unit_payload_requirements_matches_upstream_source",
         "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1392": {
+      "title": "Generated UnitPayload buildTime bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "UnitPayload",
+      "java_method": "UnitPayload.buildTime()",
+      "godot_owner": "PortGame.source_unit_payload_build_time_state",
+      "generated_owner": "UnitPayload.java_method_buildTime_6",
+      "runtime_proof": "/root/Main.generated_unit_payload_build_time_bridge_state",
+      "rule": "Generated UnitPayload.buildTime bridge returns unit.type.getBuildTime() with explicit build_time input.",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public float buildTime(){",
+        "return unit.type.getBuildTime();"
+      ],
+      "deferred_exprs": [
+        "Concrete Unit internals are represented by explicit unit_type input",
+        "Concrete UnitType.getBuildTime() internals are explicit build_time input and deferred beyond this return bridge"
+      ],
+      "source_symbols": [
+        "unit_payload_build_time.class_expr",
+        "unit_payload_build_time.field_expr",
+        "unit_payload_build_time.override_expr",
+        "unit_payload_build_time.method",
+        "unit_payload_build_time.unit_type",
+        "unit_payload_build_time.build_time",
+        "unit_payload_build_time.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_unit_payload_build_time_state",
+        "test_port_game_exposes_generated_unit_payload_build_time_bridge_state",
+        "test_unit_payload_build_time_matches_upstream_source",
+        "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

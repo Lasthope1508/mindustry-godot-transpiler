@@ -20107,6 +20107,34 @@ func generated_unit_payload_requirements_bridge_state(unit_type: Variant, total_
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_build_time_state(unit_type: Variant, build_time: float) -> Dictionary:
+	var get_build_time_call: Dictionary = {"call": "unit.type.getBuildTime();", "unit_type": unit_type, "buildTime": build_time}
+	return {
+		"source_owner": "PortGame.source_unit_payload_build_time_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"override_expr": "@Override",
+		"method": "public float buildTime(){",
+		"return_expr": "return unit.type.getBuildTime();",
+		"unit_type": unit_type,
+		"buildTime": build_time,
+		"get_build_time_call": get_build_time_call,
+	}
+
+func generated_unit_payload_build_time_bridge_state(unit_type: Variant, build_time: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_buildTime_6([unit_type, build_time])
+	var canonical = source_unit_payload_build_time_state(unit_type, build_time)
+	return {
+		"source_owner": "PortGame.source_unit_payload_build_time_state",
+		"generated_owner": "UnitPayload.java_method_buildTime_6",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

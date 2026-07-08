@@ -108872,6 +108872,132 @@
       "godot_symbol": "source_unit_payload_requirements_result.requirements",
       "java_expr": "return unit.type.getTotalRequirements();",
       "rule": "UnitPayload.requirements returns unit.type.getTotalRequirements() directly."
+    },
+    "unit_payload_build_time.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.buildTime()",
+      "godot_owner": "PortGame.source_unit_payload_build_time_state",
+      "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
+      "source_slice": "N1392",
+      "tests": [
+        "test_emit_bridges_unit_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_unit_payload_build_time_state",
+        "test_port_game_exposes_generated_unit_payload_build_time_bridge_state",
+        "test_unit_payload_build_time_matches_upstream_source",
+        "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_build_time_result.class_expr",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "rule": "Pin UnitPayload class boundary for buildTime bridge."
+    },
+    "unit_payload_build_time.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.buildTime()",
+      "godot_owner": "PortGame.source_unit_payload_build_time_state",
+      "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
+      "source_slice": "N1392",
+      "tests": [
+        "test_emit_bridges_unit_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_unit_payload_build_time_state",
+        "test_port_game_exposes_generated_unit_payload_build_time_bridge_state",
+        "test_unit_payload_build_time_matches_upstream_source",
+        "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_build_time_result.field_expr",
+      "java_expr": "public Unit unit;",
+      "rule": "UnitPayload unit field supplies unit.type buildTime target."
+    },
+    "unit_payload_build_time.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.buildTime()",
+      "godot_owner": "PortGame.source_unit_payload_build_time_state",
+      "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
+      "source_slice": "N1392",
+      "tests": [
+        "test_emit_bridges_unit_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_unit_payload_build_time_state",
+        "test_port_game_exposes_generated_unit_payload_build_time_bridge_state",
+        "test_unit_payload_build_time_matches_upstream_source",
+        "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_build_time_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "UnitPayload.buildTime overrides Payload.buildTime."
+    },
+    "unit_payload_build_time.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.buildTime()",
+      "godot_owner": "PortGame.source_unit_payload_build_time_state",
+      "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
+      "source_slice": "N1392",
+      "tests": [
+        "test_emit_bridges_unit_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_unit_payload_build_time_state",
+        "test_port_game_exposes_generated_unit_payload_build_time_bridge_state",
+        "test_unit_payload_build_time_matches_upstream_source",
+        "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_build_time_result.method",
+      "java_expr": "public float buildTime(){",
+      "rule": "Pin UnitPayload.buildTime method boundary."
+    },
+    "unit_payload_build_time.unit_type": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.buildTime()",
+      "godot_owner": "PortGame.source_unit_payload_build_time_state",
+      "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
+      "source_slice": "N1392",
+      "tests": [
+        "test_emit_bridges_unit_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_unit_payload_build_time_state",
+        "test_port_game_exposes_generated_unit_payload_build_time_bridge_state",
+        "test_unit_payload_build_time_matches_upstream_source",
+        "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_payload_build_time_input.unit_type",
+      "java_expr": "unit.type",
+      "rule": "Explicit runtime value for unit.type buildTime receiver."
+    },
+    "unit_payload_build_time.build_time": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.buildTime()",
+      "godot_owner": "PortGame.source_unit_payload_build_time_state",
+      "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
+      "source_slice": "N1392",
+      "tests": [
+        "test_emit_bridges_unit_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_unit_payload_build_time_state",
+        "test_port_game_exposes_generated_unit_payload_build_time_bridge_state",
+        "test_unit_payload_build_time_matches_upstream_source",
+        "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_payload_build_time_input.build_time",
+      "java_expr": "unit.type.getBuildTime()",
+      "rule": "Explicit runtime value for UnitType.getBuildTime() result."
+    },
+    "unit_payload_build_time.return_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.buildTime()",
+      "godot_owner": "PortGame.source_unit_payload_build_time_state",
+      "runtime_proof": "/root/Main.source_unit_payload_build_time_state",
+      "source_slice": "N1392",
+      "tests": [
+        "test_emit_bridges_unit_payload_build_time_to_source_state",
+        "test_port_game_exposes_source_unit_payload_build_time_state",
+        "test_port_game_exposes_generated_unit_payload_build_time_bridge_state",
+        "test_unit_payload_build_time_matches_upstream_source",
+        "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_build_time_result.buildTime",
+      "java_expr": "return unit.type.getBuildTime();",
+      "rule": "UnitPayload.buildTime returns unit.type.getBuildTime() directly."
     }
   },
   "version": 1
