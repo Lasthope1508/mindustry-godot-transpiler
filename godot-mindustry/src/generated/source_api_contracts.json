@@ -20889,6 +20889,35 @@
         "test_generated_consume_liquid_base_apply_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_consume_liquid_consumes_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "params": [
+        {
+          "java_expr": "liquid == this.liquid",
+          "name": "liquid_matches_self_liquid",
+          "schema": "source_consume_liquid_consumes_input.liquid_matches_self_liquid",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "liquid_field",
+        "liquid_matches_self_liquid",
+        "consumes_liquid",
+        "return_expr"
+      ],
+      "rule": "Public runtime contract for ConsumeLiquid.consumes(Liquid) identity comparison.",
+      "runtime_proof": "/root/Main.source_consume_liquid_consumes_state",
+      "source_method": "consumes(Liquid liquid)",
+      "source_slice": "N1440",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_liquid_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_consumes_bridge_state",
+        "test_consume_liquid_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
       "params": [],

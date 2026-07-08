@@ -35,4 +35,6 @@ func java_method_display_4(_args: Array = []) -> Variant:
 	return null
 
 func java_method_consumes_5(_args: Array = []) -> Variant:
-	return null
+	var liquid_matches_self_liquid: bool = bool(_args[0] if _args.size() > 0 else false)
+	var consumes_liquid: bool = liquid_matches_self_liquid
+	return {"source_owner": "PortGame.source_consume_liquid_consumes_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public boolean consumes(Liquid liquid){", "liquid_matches_self_liquid": liquid_matches_self_liquid, "consumes_liquid": consumes_liquid, "return_expr": "return liquid == this.liquid;"}

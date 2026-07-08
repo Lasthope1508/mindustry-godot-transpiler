@@ -17601,6 +17601,43 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             self.assertIn('"liquid_filter_assignment_expr": "block.liquidFilter[liquid.id] = true;"', source_text)
             self.assertIn('"liquid_filter_after": liquid_filter_after', source_text)
 
+    def test_emit_bridges_consume_liquid_consumes_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumeLiquid extends ConsumeLiquidBase{
+    public final Liquid liquid;
+
+    @Override
+    public boolean consumes(Liquid liquid){
+        return liquid == this.liquid;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquid.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_consumes_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var liquid_matches_self_liquid: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var consumes_liquid: bool = liquid_matches_self_liquid", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_consumes_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source_text)
+            self.assertIn('"method": "public boolean consumes(Liquid liquid){"', source_text)
+            self.assertIn('"return_expr": "return liquid == this.liquid;"', source_text)
+            self.assertIn('"liquid_matches_self_liquid": liquid_matches_self_liquid', source_text)
+            self.assertIn('"consumes_liquid": consumes_liquid', source_text)
+
     def test_emit_bridges_build_payload_constructors_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

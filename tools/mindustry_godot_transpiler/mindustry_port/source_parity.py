@@ -4285,6 +4285,22 @@ def verify_consume_liquid_apply_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_liquid_consumes_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_source = "core/src/mindustry/world/consumers/ConsumeLiquid.java"
+    consume_liquid_path = Path(upstream_root) / consume_liquid_source
+    source = consume_liquid_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquid_field": "public final Liquid liquid;",
+        "method": "public boolean consumes(Liquid liquid){",
+        "return_expr": "return liquid == this.liquid;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_liquid_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_power_produced_source(upstream_root: Path) -> dict[str, Any]:
     power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     building_path = Path(upstream_root) / BUILDING_COMP_SOURCE

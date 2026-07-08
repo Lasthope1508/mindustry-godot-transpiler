@@ -15105,6 +15105,37 @@
       ],
       "title": "Generated ConsumeLiquid apply bridge state"
     },
+    "N1440": {
+      "deferred_exprs": [
+        "Concrete Liquid object identity is represented by explicit liquid_matches_self_liquid until generated Liquid object references are wired.",
+        "ConsumeLiquid build, update, efficiency, display, constructors, and concrete liquid field binding remain later slices."
+      ],
+      "exact_exprs": [
+        "public final Liquid liquid;",
+        "public boolean consumes(Liquid liquid){",
+        "return liquid == this.liquid;"
+      ],
+      "generated_owner": "ConsumeLiquid.java_method_consumes_5",
+      "godot_owner": "PortGame.source_consume_liquid_consumes_state",
+      "java_class": "ConsumeLiquid",
+      "java_method": "consumes(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "rule": "Generated ConsumeLiquid.consumes bridges the exact Liquid identity comparison return.",
+      "runtime_proof": "/root/Main.generated_consume_liquid_consumes_bridge_state",
+      "source_symbols": [
+        "consume_liquid_consumes.return",
+        "consume_liquid_consumes.liquid_field",
+        "consume_liquid_consumes.liquid_matches_self_liquid"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquid_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_consumes_bridge_state",
+        "test_consume_liquid_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquid consumes bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

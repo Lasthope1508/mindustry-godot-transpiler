@@ -1509,6 +1509,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_liquid_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void apply(Block block){", "super_apply_expr": "super.apply(block);", "liquid_filter_assignment_expr": "block.liquidFilter[liquid.id] = true;", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": base_apply_state["block_has_liquids_after"], "base_apply_state": base_apply_state, "liquid_filter_before": liquid_filter_before, "liquid_id": liquid_id, "liquid_filter_after": liquid_filter_after}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
+        and type_entry.get("name") == "ConsumeLiquid"
+        and method.get("name") == "consumes"
+    ):
+        return [
+            "\tvar liquid_matches_self_liquid: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar consumes_liquid: bool = liquid_matches_self_liquid",
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_consumes_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public boolean consumes(Liquid liquid){", "liquid_matches_self_liquid": liquid_matches_self_liquid, "consumes_liquid": consumes_liquid, "return_expr": "return liquid == this.liquid;"}',
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "tile"

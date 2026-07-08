@@ -50083,6 +50083,57 @@
         "test_generated_consume_liquid_base_apply_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_liquid_consumes.liquid_field": {
+      "godot_owner": "PortGame.source_consume_liquid_consumes_state",
+      "godot_symbol": "source_consume_liquid_consumes_result.liquid_field",
+      "java_expr": "public final Liquid liquid;",
+      "java_method": "ConsumeLiquid",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "rule": "Source-backed ConsumeLiquid.liquid field used by the identity comparison.",
+      "runtime_proof": "/root/Main.source_consume_liquid_consumes_state",
+      "source_slice": "N1440",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquid_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_consumes_bridge_state",
+        "test_consume_liquid_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_consumes.liquid_matches_self_liquid": {
+      "godot_owner": "PortGame.source_consume_liquid_consumes_state",
+      "godot_symbol": "source_consume_liquid_consumes_input.liquid_matches_self_liquid",
+      "java_expr": "liquid == this.liquid",
+      "java_method": "consumes(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "rule": "Explicit input for the Java object identity comparison before concrete Liquid identity is ported.",
+      "runtime_proof": "/root/Main.source_consume_liquid_consumes_state",
+      "source_slice": "N1440",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquid_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_consumes_bridge_state",
+        "test_consume_liquid_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_consumes.return": {
+      "godot_owner": "PortGame.source_consume_liquid_consumes_state",
+      "godot_symbol": "source_consume_liquid_consumes_result.consumes_liquid",
+      "java_expr": "return liquid == this.liquid;",
+      "java_method": "consumes(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "rule": "Source-backed ConsumeLiquid.consumes returns whether the candidate Liquid is the same instance as this.liquid.",
+      "runtime_proof": "/root/Main.source_consume_liquid_consumes_state",
+      "source_slice": "N1440",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquid_consumes_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_consumes_bridge_state",
+        "test_consume_liquid_consumes_matches_upstream_source",
+        "test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_liquid_filter_liquid_efficiency_multiplier.return": {
       "godot_owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
       "godot_symbol": "source_consume_liquid_filter_liquid_efficiency_multiplier_result.efficiency_multiplier",
