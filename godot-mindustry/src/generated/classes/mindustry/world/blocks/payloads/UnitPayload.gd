@@ -48,7 +48,8 @@ func java_method_update_3(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_payload_update_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){", "update_payload_expr": "unit.type.updatePayload(unit, unitHolder, buildingHolder);", "unit_type": unit_type, "unit": unit, "unitHolder": unit_holder, "buildingHolder": building_holder, "update_payload_called": update_payload_called, "update_payload_call": update_payload_call}
 
 func java_method_content_4(_args: Array = []) -> Variant:
-	return null
+	var unit_type: Variant = _args[0] if _args.size() > 0 else null
+	return {"source_owner": "PortGame.source_unit_payload_content_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public UnlockableContent content(){", "return_expr": "return unit.type;", "unit_type": unit_type, "content": unit_type}
 
 func java_method_requirements_5(_args: Array = []) -> Variant:
 	return null

@@ -33569,6 +33569,43 @@
         "test_unit_payload_update_matches_upstream_source",
         "test_generated_unit_payload_update_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1390": {
+      "title": "Generated UnitPayload content bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "UnitPayload",
+      "java_method": "UnitPayload.content()",
+      "godot_owner": "PortGame.source_unit_payload_content_state",
+      "generated_owner": "UnitPayload.java_method_content_4",
+      "runtime_proof": "/root/Main.generated_unit_payload_content_bridge_state",
+      "rule": "Generated UnitPayload.content bridge returns unit.type with explicit unit_type input.",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public UnlockableContent content(){",
+        "return unit.type;"
+      ],
+      "deferred_exprs": [
+        "Concrete Unit internals are represented by explicit unit_type input",
+        "Concrete UnitType and UnlockableContent behavior are deferred beyond this return bridge"
+      ],
+      "source_symbols": [
+        "unit_payload_content.class_expr",
+        "unit_payload_content.field_expr",
+        "unit_payload_content.override_expr",
+        "unit_payload_content.method",
+        "unit_payload_content.unit_type",
+        "unit_payload_content.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_content_to_source_state",
+        "test_port_game_exposes_source_unit_payload_content_state",
+        "test_port_game_exposes_generated_unit_payload_content_bridge_state",
+        "test_unit_payload_content_matches_upstream_source",
+        "test_generated_unit_payload_content_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

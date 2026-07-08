@@ -136209,6 +136209,162 @@
           "type": "Dictionary"
         }
       }
+    },
+    "source_unit_payload_content_input": {
+      "owner": "PortGame.source_unit_payload_content_state",
+      "source_slice": "N1390",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_unit_payload_content_state.",
+      "keys": {
+        "unit_type": {
+          "godot_symbol": "source_unit_payload_content_input.unit_type",
+          "java_expr": "unit.type",
+          "java_method": "UnitPayload.content()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content.unit_type"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      }
+    },
+    "source_unit_payload_content_result": {
+      "owner": "PortGame.source_unit_payload_content_state",
+      "source_slice": "N1390",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_content_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_unit_payload_content_result.source_owner",
+          "java_expr": "PortGame.source_unit_payload_content_state",
+          "java_method": "UnitPayload.content()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_unit_payload_content_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.content()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_unit_payload_content_result.class_expr",
+          "java_expr": "public class UnitPayload implements Payload{",
+          "java_method": "UnitPayload.content()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_unit_payload_content_result.field_expr",
+          "java_expr": "public Unit unit;",
+          "java_method": "UnitPayload.content()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_unit_payload_content_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "UnitPayload.content()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_unit_payload_content_result.method",
+          "java_expr": "public UnlockableContent content(){",
+          "java_method": "UnitPayload.content()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_unit_payload_content_result.return_expr",
+          "java_expr": "return unit.type;",
+          "java_method": "UnitPayload.content()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "unit_type": {
+          "godot_symbol": "source_unit_payload_content_result.unit_type",
+          "java_expr": "unit.type",
+          "java_method": "UnitPayload.content()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content.unit_type"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "content": {
+          "godot_symbol": "source_unit_payload_content_result.content",
+          "java_expr": "return unit.type;",
+          "java_method": "UnitPayload.content()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_content_state"
+          ],
+          "source_symbols": [
+            "unit_payload_content.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      }
     }
   },
   "version": 1
