@@ -4444,6 +4444,77 @@ def verify_consume_liquids_dynamic_efficiency_source(upstream_root: Path) -> dic
         "missing": missing,
     }
 
+def verify_consume_liquids_dynamic_rebuild_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+    req_image_source = "core/src/mindustry/ui/ReqImage.java"
+    vars_source = "core/src/mindustry/Vars.java"
+    liquid_stack_source = "core/src/mindustry/type/LiquidStack.java"
+    unlockable_content_source = "core/src/mindustry/ctype/UnlockableContent.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    liquid_module_source = "core/src/mindustry/world/modules/LiquidModule.java"
+    consume_liquids_dynamic_path = Path(upstream_root) / consume_liquids_dynamic_source
+    req_image_path = Path(upstream_root) / req_image_source
+    vars_path = Path(upstream_root) / vars_source
+    liquid_stack_path = Path(upstream_root) / liquid_stack_source
+    unlockable_content_path = Path(upstream_root) / unlockable_content_source
+    building_comp_path = Path(upstream_root) / building_comp_source
+    liquid_module_path = Path(upstream_root) / liquid_module_source
+    source = consume_liquids_dynamic_path.read_text(encoding="utf-8", errors="replace")
+    req_image_text = req_image_path.read_text(encoding="utf-8", errors="replace")
+    vars_text = vars_path.read_text(encoding="utf-8", errors="replace")
+    liquid_stack_text = liquid_stack_path.read_text(encoding="utf-8", errors="replace")
+    unlockable_content_text = unlockable_content_path.read_text(encoding="utf-8", errors="replace")
+    building_comp_text = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    liquid_module_text = liquid_module_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+        "method": "private void rebuild(Building build, Table table){",
+        "clear_expr": "table.clear();",
+        "i_initial_expr": "int i = 0;",
+        "loop_expr": "for(LiquidStack stack : liquids.get(build)){",
+        "req_image_expr": "table.add(new ReqImage(stack.liquid.uiIcon,",
+        "valid_expr": "() -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+        "row_expr": "if(++i % 4 == 0) table.row();",
+        "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+        "req_image_valid": "public boolean valid(){",
+        "vars_icon_med": "iconMed = 8*4f",
+        "liquid_stack_liquid_field": "public Liquid liquid;",
+        "liquid_ui_icon_field": "public TextureRegion uiIcon;",
+        "building_liquids_field": "@Nullable LiquidModule liquids;",
+        "liquid_module_get": "public float get(Liquid liquid){",
+    }
+    source_by_key = {
+        "liquids_field": source,
+        "method": source,
+        "clear_expr": source,
+        "i_initial_expr": source,
+        "loop_expr": source,
+        "req_image_expr": source,
+        "valid_expr": source,
+        "row_expr": source,
+        "req_image_constructor": req_image_text,
+        "req_image_valid": req_image_text,
+        "vars_icon_med": vars_text,
+        "liquid_stack_liquid_field": liquid_stack_text,
+        "liquid_ui_icon_field": unlockable_content_text,
+        "building_liquids_field": building_comp_text,
+        "liquid_module_get": liquid_module_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquids_dynamic_source,
+        "sources": [
+            req_image_source,
+            vars_source,
+            liquid_stack_source,
+            unlockable_content_source,
+            building_comp_source,
+            liquid_module_source,
+        ],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_filter_consumes_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
     consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source

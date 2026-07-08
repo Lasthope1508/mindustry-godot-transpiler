@@ -21145,6 +21145,63 @@
         "test_generated_consume_liquids_dynamic_efficiency_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_consume_liquids_dynamic_rebuild_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "params": [
+        {
+          "java_expr": "stack.liquid.id",
+          "name": "liquid_ids",
+          "schema": "source_consume_liquids_dynamic_rebuild_input.liquid_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.liquids.get(stack.liquid)",
+          "name": "liquid_amounts",
+          "schema": "source_consume_liquids_dynamic_rebuild_input.liquid_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.liquids != null",
+          "name": "building_has_liquids",
+          "schema": "source_consume_liquids_dynamic_rebuild_input.building_has_liquids",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source",
+        "method",
+        "clear_expr",
+        "i_initial_expr",
+        "loop_expr",
+        "add_expr",
+        "row_expr",
+        "liquids_field",
+        "liquid_stack_liquid_field",
+        "liquid_ui_icon_field",
+        "building_liquids_field",
+        "liquid_module_get",
+        "req_image_constructor",
+        "req_image_valid",
+        "vars_icon_med",
+        "liquid_ids",
+        "liquid_amounts",
+        "building_has_liquids",
+        "req_images",
+        "row_calls",
+        "cleared"
+      ],
+      "rule": "Public runtime contract for ConsumeLiquidsDynamic.rebuild(Building, Table) ReqImage and row state.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_method": "rebuild(Building build, Table table)",
+      "source_slice": "N1446",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_liquids_dynamic_update_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
       "params": [

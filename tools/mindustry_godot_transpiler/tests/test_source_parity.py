@@ -1067,6 +1067,36 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquids_dynamic_rebuild_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquids_dynamic_rebuild_source"))
+        report = source_parity.verify_consume_liquids_dynamic_rebuild_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java")
+        self.assertIn("core/src/mindustry/ui/ReqImage.java", report["sources"])
+        self.assertIn("core/src/mindustry/Vars.java", report["sources"])
+        self.assertIn("core/src/mindustry/type/LiquidStack.java", report["sources"])
+        self.assertIn("core/src/mindustry/ctype/UnlockableContent.java", report["sources"])
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/modules/LiquidModule.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+            "method": "private void rebuild(Building build, Table table){",
+            "clear_expr": "table.clear();",
+            "i_initial_expr": "int i = 0;",
+            "loop_expr": "for(LiquidStack stack : liquids.get(build)){",
+            "req_image_expr": "table.add(new ReqImage(stack.liquid.uiIcon,",
+            "valid_expr": "() -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+            "row_expr": "if(++i % 4 == 0) table.row();",
+            "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+            "req_image_valid": "public boolean valid(){",
+            "vars_icon_med": "iconMed = 8*4f",
+            "liquid_stack_liquid_field": "public Liquid liquid;",
+            "liquid_ui_icon_field": "public TextureRegion uiIcon;",
+            "building_liquids_field": "@Nullable LiquidModule liquids;",
+            "liquid_module_get": "public float get(Liquid liquid){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_consumes_source"))
         report = source_parity.verify_consume_liquid_consumes_source(ROOT / "mindustry-upstream")

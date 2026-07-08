@@ -613,6 +613,27 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidsDynamic.efficiency"', source)
         self.assertIn('"matches": result.get("efficiency", null) == canonical.get("efficiency", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquids_dynamic_rebuild_state(liquid_ids: Array, liquid_amounts: Array, building_has_liquids: bool) -> Dictionary:", source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"', source)
+        self.assertIn('"method": "private void rebuild(Building build, Table table){"', source)
+        self.assertIn('"clear_expr": "table.clear();"', source)
+        self.assertIn('"i_initial_expr": "int i = 0;"', source)
+        self.assertIn('"add_expr": "table.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);"', source)
+        self.assertIn('"row_expr": "if(++i % 4 == 0) table.row();"', source)
+        self.assertIn("var valid: bool = building_has_liquids and liquid_amount > 0.0", source)
+        self.assertIn("if (index + 1) % 4 == 0:", source)
+        self.assertIn("func generated_consume_liquids_dynamic_rebuild_bridge_state(liquid_ids: Array, liquid_amounts: Array, building_has_liquids: bool) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidsDynamic.gd")', source)
+        self.assertIn("var result = instance.java_method_rebuild_2([liquid_ids, liquid_amounts, building_has_liquids])", source)
+        self.assertIn("var canonical = source_consume_liquids_dynamic_rebuild_state(liquid_ids, liquid_amounts, building_has_liquids)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquidsDynamic.rebuild"', source)
+        self.assertIn('"matches": result.get("req_images", []) == canonical.get("req_images", [])', source)
+
     def test_port_game_exposes_generated_consume_liquid_consumes_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

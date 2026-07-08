@@ -15346,6 +15346,64 @@
       ],
       "title": "Generated ConsumeLiquidsDynamic efficiency bridge state"
     },
+    "N1446": {
+      "deferred_exprs": [
+        "Concrete Func<Building, LiquidStack[]> invocation is represented by explicit liquid_ids until generated object references are wired.",
+        "Concrete LiquidModule.get storage lookup is represented by explicit liquid_amounts until LiquidModule runtime storage is wired.",
+        "Concrete Table/ReqImage UI nodes are represented by source-backed req_images and row_calls state until UI widget construction is wired."
+      ],
+      "exact_exprs": [
+        "public final Func<Building, LiquidStack[]> liquids;",
+        "private void rebuild(Building build, Table table){",
+        "table.clear();",
+        "int i = 0;",
+        "for(LiquidStack stack : liquids.get(build)){",
+        "table.add(new ReqImage(stack.liquid.uiIcon,",
+        "() -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+        "if(++i % 4 == 0) table.row();",
+        "public ReqImage(TextureRegion region, Boolp valid){",
+        "public boolean valid(){",
+        "public static final float iconXLarge = 8*6f, iconLarge = 8*5f, iconMed = 8*4f, iconSmall = 8*3f;",
+        "public Liquid liquid;",
+        "public TextureRegion uiIcon;",
+        "@Nullable LiquidModule liquids;",
+        "public float get(Liquid liquid){"
+      ],
+      "generated_owner": "ConsumeLiquidsDynamic.java_method_rebuild_2",
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "java_class": "ConsumeLiquidsDynamic",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Generated ConsumeLiquidsDynamic.rebuild bridges table clear, ReqImage validity, icon sizing, padding, and row cadence.",
+      "runtime_proof": "/root/Main.generated_consume_liquids_dynamic_rebuild_bridge_state",
+      "source_symbols": [
+        "consume_liquids_dynamic_rebuild.building_has_liquids",
+        "consume_liquids_dynamic_rebuild.building_liquids_field",
+        "consume_liquids_dynamic_rebuild.clear",
+        "consume_liquids_dynamic_rebuild.i_initial",
+        "consume_liquids_dynamic_rebuild.liquid_amounts",
+        "consume_liquids_dynamic_rebuild.liquid_ids",
+        "consume_liquids_dynamic_rebuild.liquid_module_get",
+        "consume_liquids_dynamic_rebuild.liquid_stack_liquid_field",
+        "consume_liquids_dynamic_rebuild.liquid_ui_icon_field",
+        "consume_liquids_dynamic_rebuild.liquids_field",
+        "consume_liquids_dynamic_rebuild.loop",
+        "consume_liquids_dynamic_rebuild.method",
+        "consume_liquids_dynamic_rebuild.req_image",
+        "consume_liquids_dynamic_rebuild.req_image_constructor",
+        "consume_liquids_dynamic_rebuild.req_image_valid",
+        "consume_liquids_dynamic_rebuild.row",
+        "consume_liquids_dynamic_rebuild.vars_icon_med"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquidsDynamic rebuild bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

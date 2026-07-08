@@ -50780,6 +50780,295 @@
         "test_generated_consume_liquids_dynamic_efficiency_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_liquids_dynamic_rebuild.building_has_liquids": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_input.building_has_liquids",
+      "java_expr": "build.liquids != null",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Explicit input for build.liquids null guard used by ReqImage validity.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.building_liquids_field": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.building_liquids_field",
+      "java_expr": "@Nullable LiquidModule liquids;",
+      "java_method": "BuildingComp fields",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp.liquids supplies null guard and LiquidModule.get.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.clear": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.clear_expr",
+      "java_expr": "table.clear();",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic.rebuild clears table before adding ReqImage entries.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.i_initial": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.i_initial_expr",
+      "java_expr": "int i = 0;",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic.rebuild starts row counter at zero.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.liquid_amounts": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_input.liquid_amounts",
+      "java_expr": "build.liquids.get(stack.liquid)",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Explicit input for LiquidModule.get(stack.liquid) used by ReqImage validity.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.liquid_ids": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_input.liquid_ids",
+      "java_expr": "stack.liquid.id",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Explicit liquid id input represents stack.liquid identity until concrete Liquid objects are wired.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.liquid_module_get": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.liquid_module_get",
+      "java_expr": "public float get(Liquid liquid){",
+      "java_method": "LiquidModule.get(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "rule": "LiquidModule.get supplies amount for ReqImage validity.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.liquid_stack_liquid_field": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.liquid_stack_liquid_field",
+      "java_expr": "public Liquid liquid;",
+      "java_method": "LiquidStack fields",
+      "java_source": "core/src/mindustry/type/LiquidStack.java",
+      "rule": "LiquidStack.liquid supplies uiIcon and build.liquids.get target.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.liquid_ui_icon_field": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.liquid_ui_icon_field",
+      "java_expr": "public TextureRegion uiIcon;",
+      "java_method": "UnlockableContent fields",
+      "java_source": "core/src/mindustry/ctype/UnlockableContent.java",
+      "rule": "Liquid uiIcon is inherited from UnlockableContent.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.liquids_field": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.liquids_field",
+      "java_expr": "public final Func<Building, LiquidStack[]> liquids;",
+      "java_method": "ConsumeLiquidsDynamic",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic dynamic LiquidStack provider is iterated by rebuild.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.loop": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.loop_expr",
+      "java_expr": "for(LiquidStack stack : liquids.get(build)){",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic.rebuild iterates dynamic liquid stacks.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.method": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.method",
+      "java_expr": "private void rebuild(Building build, Table table){",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic.rebuild source method.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.req_image": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.req_images",
+      "java_expr": "table.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic.rebuild adds ReqImage for each dynamic liquid stack.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.req_image_constructor": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.req_image_constructor",
+      "java_expr": "public ReqImage(TextureRegion region, Boolp valid){",
+      "java_method": "ReqImage constructors",
+      "java_source": "core/src/mindustry/ui/ReqImage.java",
+      "rule": "ReqImage TextureRegion constructor wraps liquid uiIcon and Boolp validity.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.req_image_valid": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.req_image_valid",
+      "java_expr": "public boolean valid(){",
+      "java_method": "ReqImage.valid()",
+      "java_source": "core/src/mindustry/ui/ReqImage.java",
+      "rule": "ReqImage.valid returns Boolp state.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.row": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.row_calls",
+      "java_expr": "if(++i % 4 == 0) table.row();",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic.rebuild adds a table row after every fourth ReqImage.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_rebuild.vars_icon_med": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_liquids_dynamic_rebuild_result.vars_icon_med",
+      "java_expr": "public static final float iconXLarge = 8*6f, iconLarge = 8*5f, iconMed = 8*4f, iconSmall = 8*3f;",
+      "java_method": "Vars fields",
+      "java_source": "core/src/mindustry/Vars.java",
+      "rule": "Vars.iconMed supplies ReqImage size.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_rebuild_state",
+      "source_slice": "N1446",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_rebuild_bridge_state",
+        "test_consume_liquids_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_liquids_dynamic_update.build_edelta": {
       "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
       "godot_symbol": "source_consume_liquids_dynamic_update_input.build_edelta",

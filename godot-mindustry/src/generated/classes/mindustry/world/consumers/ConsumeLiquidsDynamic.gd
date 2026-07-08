@@ -22,7 +22,18 @@ func java_method_build_1(_args: Array = []) -> Variant:
 	return null
 
 func java_method_rebuild_2(_args: Array = []) -> Variant:
-	return null
+	var liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []
+	var liquid_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+	var building_has_liquids: bool = bool(_args[2] if _args.size() > 2 else true)
+	var req_images: Array = []
+	var row_calls: Array = []
+	for index in liquid_ids.size():
+		var liquid_amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)
+		var valid: bool = building_has_liquids and liquid_amount > 0.0
+		req_images.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "valid": valid, "ui_icon_expr": "stack.liquid.uiIcon", "size": 32.0, "pad_right": 8.0})
+		if (index + 1) % 4 == 0:
+			row_calls.append({"call": "table.row();", "after_count": index + 1})
+	return {"source_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "private void rebuild(Building build, Table table){", "clear_expr": "table.clear();", "i_initial_expr": "int i = 0;", "loop_expr": "for(LiquidStack stack : liquids.get(build)){", "add_expr": "table.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);", "row_expr": "if(++i % 4 == 0) table.row();", "liquid_ids": liquid_ids, "liquid_amounts": liquid_amounts, "building_has_liquids": building_has_liquids, "req_images": req_images, "row_calls": row_calls, "cleared": true}
 
 func java_method_update_3(_args: Array = []) -> Variant:
 	var liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []

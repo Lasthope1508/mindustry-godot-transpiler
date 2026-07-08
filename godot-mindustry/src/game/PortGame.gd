@@ -2659,6 +2659,52 @@ func generated_consume_liquids_dynamic_apply_bridge_state(block_has_liquids_befo
 		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null),
 	}
 
+func source_consume_liquids_dynamic_rebuild_state(liquid_ids: Array, liquid_amounts: Array, building_has_liquids: bool) -> Dictionary:
+	var req_images: Array = []
+	var row_calls: Array = []
+	for index in liquid_ids.size():
+		var liquid_amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)
+		var valid: bool = building_has_liquids and liquid_amount > 0.0
+		req_images.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "valid": valid, "ui_icon_expr": "stack.liquid.uiIcon", "size": 32.0, "pad_right": 8.0})
+		if (index + 1) % 4 == 0:
+			row_calls.append({"call": "table.row();", "after_count": index + 1})
+	return {
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+		"method": "private void rebuild(Building build, Table table){",
+		"clear_expr": "table.clear();",
+		"i_initial_expr": "int i = 0;",
+		"loop_expr": "for(LiquidStack stack : liquids.get(build)){",
+		"add_expr": "table.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids != null && build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+		"row_expr": "if(++i % 4 == 0) table.row();",
+		"liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+		"liquid_stack_liquid_field": "public Liquid liquid;",
+		"liquid_ui_icon_field": "public TextureRegion uiIcon;",
+		"building_liquids_field": "@Nullable LiquidModule liquids;",
+		"liquid_module_get": "public float get(Liquid liquid){",
+		"req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+		"req_image_valid": "public boolean valid(){",
+		"vars_icon_med": "public static final float iconXLarge = 8*6f, iconLarge = 8*5f, iconMed = 8*4f, iconSmall = 8*3f;",
+		"liquid_ids": liquid_ids,
+		"liquid_amounts": liquid_amounts,
+		"building_has_liquids": building_has_liquids,
+		"req_images": req_images,
+		"row_calls": row_calls,
+		"cleared": true,
+	}
+
+func generated_consume_liquids_dynamic_rebuild_bridge_state(liquid_ids: Array, liquid_amounts: Array, building_has_liquids: bool) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidsDynamic.gd")
+	var instance = script.new()
+	var result = instance.java_method_rebuild_2([liquid_ids, liquid_amounts, building_has_liquids])
+	var canonical = source_consume_liquids_dynamic_rebuild_state(liquid_ids, liquid_amounts, building_has_liquids)
+	return {
+		"source_owner": "PortGame.source_consume_liquids_dynamic_rebuild_state",
+		"generated_owner": "ConsumeLiquidsDynamic.rebuild",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("row_calls", []) == canonical.get("row_calls", []) and result.get("cleared", false) == canonical.get("cleared", false),
+	}
+
 func source_consume_liquids_dynamic_update_state(liquid_ids: Array, liquid_stack_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
 	var remove_calls: Array = []
 	for index in liquid_ids.size():
