@@ -18573,6 +18573,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_x_9"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_y_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_y_state(unit_y: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_y_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source)
+        self.assertIn('"field_expr": "public Unit unit;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public float y(){"', source)
+        self.assertIn('"return_expr": "return unit.y;"', source)
+        self.assertIn('"unit_y": unit_y', source)
+        self.assertIn('"y": unit_y', source)
+
+    def test_port_game_exposes_generated_unit_payload_y_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_y_bridge_state(unit_y: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_y_10([unit_y])", source)
+        self.assertIn("var canonical = source_unit_payload_y_state(unit_y)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_y_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_y_10"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
