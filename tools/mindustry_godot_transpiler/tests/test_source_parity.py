@@ -11820,6 +11820,27 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_payload_dump_can_create_guard_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_payload_dump_can_create_guard_source"))
+        report = source_parity.verify_unit_payload_dump_can_create_guard_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class UnitPayload implements Payload{",
+            "field_expr": "public Unit unit;",
+            "field_overlay_time_expr": "public float overlayTime = 0f;",
+            "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;",
+            "override_expr": "@Override",
+            "method": "public boolean dump(){",
+            "todo_comment_expr": "//TODO should not happen",
+            "type_null_guard_expr": "if(unit.type == null) return true;",
+            "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){",
+            "overlay_time_assign_expr": "overlayTime = 1f;",
+            "overlay_region_assign_expr": "overlayRegion = null;",
+            "return_false_expr": "return false;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_get_drill_time_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_get_drill_time_source"))
         report = source_parity.verify_drill_get_drill_time_source(ROOT / "mindustry-upstream")

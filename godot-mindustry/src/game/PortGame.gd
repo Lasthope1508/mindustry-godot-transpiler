@@ -20340,6 +20340,57 @@ func generated_unit_payload_dump_type_null_guard_bridge_state(unit_type_null: bo
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_dump_can_create_guard_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:
+	var can_create_evaluated: bool = not unit_type_null
+	var can_create_guard: bool = can_create_evaluated and not units_can_create
+	var returned: bool = unit_type_null or can_create_guard
+	var dump_result: Variant = null
+	if unit_type_null:
+		dump_result = true
+	elif can_create_guard:
+		dump_result = false
+	var overlayTime_after: float = 1.0 if can_create_guard else 0.0
+	var overlayRegion_after: Variant = null
+	var deferred_remaining_dump: bool = not returned
+	return {
+		"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"field_overlay_time_expr": "public float overlayTime = 0f;",
+		"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;",
+		"override_expr": "@Override",
+		"method": "public boolean dump(){",
+		"todo_comment_expr": "//TODO should not happen",
+		"type_null_guard_expr": "if(unit.type == null) return true;",
+		"can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){",
+		"overlay_time_assign_expr": "overlayTime = 1f;",
+		"overlay_region_assign_expr": "overlayRegion = null;",
+		"return_false_expr": "return false;",
+		"unit_type_null": unit_type_null,
+		"units_can_create": units_can_create,
+		"can_create_evaluated": can_create_evaluated,
+		"can_create_guard": can_create_guard,
+		"returned": returned,
+		"dump": dump_result,
+		"overlayTime_after": overlayTime_after,
+		"overlayRegion_after": overlayRegion_after,
+		"deferred_remaining_dump": deferred_remaining_dump,
+	}
+
+func generated_unit_payload_dump_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_dump_13([unit_type_null, units_can_create])
+	var canonical = source_unit_payload_dump_can_create_guard_state(unit_type_null, units_can_create)
+	return {
+		"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state",
+		"generated_owner": "UnitPayload.java_method_dump_13",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

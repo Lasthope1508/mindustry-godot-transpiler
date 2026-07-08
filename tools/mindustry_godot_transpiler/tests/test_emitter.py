@@ -17984,6 +17984,68 @@ public class UnitPayload implements Payload{
             self.assertIn('"dump": dump_result', source_text)
             self.assertIn('"deferred_remaining_dump": deferred_remaining_dump', source_text)
 
+    def test_emit_bridges_unit_payload_dump_can_create_guard_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+    public float overlayTime = 0f;
+    public @Nullable TextureRegion overlayRegion;
+
+    public boolean dump(){
+        //TODO should not happen
+        if(unit.type == null) return true;
+
+        if(!Units.canCreate(unit.team, unit.type)){
+            overlayTime = 1f;
+            overlayRegion = null;
+            return false;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_dump_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var units_can_create: bool = bool(_args[1] if _args.size() > 1 else true)", source_text)
+            self.assertIn("var can_create_evaluated: bool = not unit_type_null", source_text)
+            self.assertIn("var can_create_guard: bool = can_create_evaluated and not units_can_create", source_text)
+            self.assertIn("var returned: bool = unit_type_null or can_create_guard", source_text)
+            self.assertIn("var dump_result: Variant = null", source_text)
+            self.assertIn("if unit_type_null:\n\t\tdump_result = true", source_text)
+            self.assertIn("elif can_create_guard:\n\t\tdump_result = false", source_text)
+            self.assertIn("var overlayTime_after: float = 1.0 if can_create_guard else 0.0", source_text)
+            self.assertIn("var overlayRegion_after: Variant = null", source_text)
+            self.assertIn("var deferred_remaining_dump: bool = not returned", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state"', source_text)
+            self.assertIn('"field_overlay_time_expr": "public float overlayTime = 0f;"', source_text)
+            self.assertIn('"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;"', source_text)
+            self.assertIn('"type_null_guard_expr": "if(unit.type == null) return true;"', source_text)
+            self.assertIn('"can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){"', source_text)
+            self.assertIn('"overlay_time_assign_expr": "overlayTime = 1f;"', source_text)
+            self.assertIn('"overlay_region_assign_expr": "overlayRegion = null;"', source_text)
+            self.assertIn('"return_false_expr": "return false;"', source_text)
+            self.assertIn('"unit_type_null": unit_type_null', source_text)
+            self.assertIn('"units_can_create": units_can_create', source_text)
+            self.assertIn('"can_create_evaluated": can_create_evaluated', source_text)
+            self.assertIn('"can_create_guard": can_create_guard', source_text)
+            self.assertIn('"overlayTime_after": overlayTime_after', source_text)
+            self.assertIn('"overlayRegion_after": overlayRegion_after', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

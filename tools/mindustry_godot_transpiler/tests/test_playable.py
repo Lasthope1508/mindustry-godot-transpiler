@@ -18687,6 +18687,49 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_dump_can_create_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_dump_can_create_guard_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source)
+        self.assertIn('"field_expr": "public Unit unit;"', source)
+        self.assertIn('"field_overlay_time_expr": "public float overlayTime = 0f;"', source)
+        self.assertIn('"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public boolean dump(){"', source)
+        self.assertIn('"todo_comment_expr": "//TODO should not happen"', source)
+        self.assertIn('"type_null_guard_expr": "if(unit.type == null) return true;"', source)
+        self.assertIn('"can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){"', source)
+        self.assertIn('"overlay_time_assign_expr": "overlayTime = 1f;"', source)
+        self.assertIn('"overlay_region_assign_expr": "overlayRegion = null;"', source)
+        self.assertIn('"return_false_expr": "return false;"', source)
+        self.assertIn("var can_create_evaluated: bool = not unit_type_null", source)
+        self.assertIn("var can_create_guard: bool = can_create_evaluated and not units_can_create", source)
+        self.assertIn("var returned: bool = unit_type_null or can_create_guard", source)
+        self.assertIn("var dump_result: Variant = null", source)
+        self.assertIn("if unit_type_null:\n\t\tdump_result = true", source)
+        self.assertIn("elif can_create_guard:\n\t\tdump_result = false", source)
+        self.assertIn("var overlayTime_after: float = 1.0 if can_create_guard else 0.0", source)
+        self.assertIn("var overlayRegion_after: Variant = null", source)
+        self.assertIn('"units_can_create": units_can_create', source)
+        self.assertIn('"overlayTime_after": overlayTime_after', source)
+        self.assertIn('"overlayRegion_after": overlayRegion_after', source)
+
+    def test_port_game_exposes_generated_unit_payload_dump_can_create_guard_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_dump_can_create_guard_bridge_state(unit_type_null: bool, units_can_create: bool) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_dump_13([unit_type_null, units_can_create])", source)
+        self.assertIn("var canonical = source_unit_payload_dump_can_create_guard_state(unit_type_null, units_can_create)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_can_create_guard_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

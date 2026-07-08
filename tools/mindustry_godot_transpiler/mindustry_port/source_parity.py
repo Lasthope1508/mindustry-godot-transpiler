@@ -11763,6 +11763,31 @@ def verify_unit_payload_dump_type_null_guard_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_unit_payload_dump_can_create_guard_source(upstream_root: Path) -> dict[str, Any]:
+    unit_payload_source = "core/src/mindustry/world/blocks/payloads/UnitPayload.java"
+    payload_path = Path(upstream_root) / unit_payload_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class UnitPayload implements Payload{",
+        "field_expr": "public Unit unit;",
+        "field_overlay_time_expr": "public float overlayTime = 0f;",
+        "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;",
+        "override_expr": "@Override",
+        "method": "public boolean dump(){",
+        "todo_comment_expr": "//TODO should not happen",
+        "type_null_guard_expr": "if(unit.type == null) return true;",
+        "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){",
+        "overlay_time_assign_expr": "overlayTime = 1f;",
+        "overlay_region_assign_expr": "overlayRegion = null;",
+        "return_false_expr": "return false;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": unit_payload_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_place_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source
