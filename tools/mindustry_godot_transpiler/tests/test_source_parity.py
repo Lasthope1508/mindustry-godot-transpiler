@@ -11757,6 +11757,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_block_producer_build_update_tile_heat_time_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_block_producer_build_update_tile_heat_time_source"))
+        report = source_parity.verify_block_producer_build_update_tile_heat_time_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(report["checked"], {
+            "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "field": "public float progress, time, heat;",
+            "override_expr": "@Override",
+            "method": "public void updateTile(){",
+            "heat_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);",
+            "time_expr": "time += heat * delta();",
+            "mathf_lerp_delta_method": "public static float lerpDelta(float fromValue, float toValue, float progress){",
+            "mathf_lerp_delta_return": "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+            "mathf_num_method": "public static int num(boolean b){",
+            "mathf_num_return": "return b ? 1 : 0;",
+            "building_delta_method": "public float delta(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_build_payload_place_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_build_payload_place_source"))
         report = source_parity.verify_build_payload_place_source(ROOT / "mindustry-upstream")

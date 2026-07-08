@@ -148045,6 +148045,359 @@
           "type": "float"
         }
       }
+    },
+    "source_block_producer_build_update_tile_heat_time_input": {
+      "owner": "PortGame.source_block_producer_build_update_tile_heat_time_state",
+      "source_slice": "N1422",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_block_producer_build_update_tile_heat_time_state.",
+      "keys": {
+        "produce": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_input.produce",
+          "java_expr": "produce",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.produce"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "heat_before": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_input.heat_before",
+          "java_expr": "heat",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.heat_before"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "time_before": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_input.time_before",
+          "java_expr": "time",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.time_before"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "time_delta": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_input.time_delta",
+          "java_expr": "delta()",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.time_delta"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        }
+      }
+    },
+    "source_block_producer_build_update_tile_heat_time_result": {
+      "owner": "PortGame.source_block_producer_build_update_tile_heat_time_state",
+      "source_slice": "N1422",
+      "status": "active",
+      "rule": "Return dictionary from PortGame.source_block_producer_build_update_tile_heat_time_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.source_owner",
+          "java_expr": "PortGame.source_block_producer_build_update_tile_heat_time_state",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "arc_source": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.arc_source",
+          "java_expr": "arc-core/src/arc/math/Mathf.java",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "mathf_lerp_delta.method",
+            "arc_mathf_num.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "building_source": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.building_source",
+          "java_expr": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "building_delta.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "inner_class": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.inner_class",
+          "java_expr": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.method",
+          "java_expr": "public void updateTile(){",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.field_expr",
+          "java_expr": "public float progress, time, heat;",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.field"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "heat_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.heat_expr",
+          "java_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.heat_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "time_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.time_expr",
+          "java_expr": "time += heat * delta();",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.time_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "mathf_num_method": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.mathf_num_method",
+          "java_expr": "public static int num(boolean b){",
+          "java_method": "num(boolean b)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "arc_mathf_num.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "mathf_lerp_delta_method": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.mathf_lerp_delta_method",
+          "java_expr": "public static float lerpDelta(float fromValue, float toValue, float progress){\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\n    }",
+          "java_method": "lerpDelta(float fromValue, float toValue, float progress)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "mathf_lerp_delta.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "building_delta_method": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.building_delta_method",
+          "java_expr": "public float delta(){",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "building_delta.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "produce": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.produce",
+          "java_expr": "produce",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.produce"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "produce_num": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.produce_num",
+          "java_expr": "Mathf.num(produce)",
+          "java_method": "num(boolean b)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.produce_num"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "heat_before": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.heat_before",
+          "java_expr": "heat",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.heat_before"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "time_before": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.time_before",
+          "java_expr": "time",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.time_before"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "time_delta": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.time_delta",
+          "java_expr": "delta()",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.time_delta"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "heat_after": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.heat_after",
+          "java_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.heat_after"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "time_after": {
+          "godot_symbol": "source_block_producer_build_update_tile_heat_time_result.time_after",
+          "java_expr": "time += heat * delta();",
+          "java_method": "BlockProducerBuild.updateTile() heat/time",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_heat_time_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_heat_time.time_after"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        }
+      }
     }
   },
   "version": 1

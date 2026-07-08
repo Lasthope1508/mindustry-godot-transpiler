@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 896)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 891)
+        self.assertEqual(audit["totalSourceFunctions"], 897)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 892)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 896)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 897)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20388,6 +20388,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_producer_build_update_tile_completion_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_update_tile_payload_creation_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_producer_build_update_tile_heat_time_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_write_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_overlap_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_no_client_guard_state", audit["registeredSourceOwners"])
@@ -48788,6 +48789,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_pay_vector_progress_reset_result")
         self.assertEqual(result_schema["keys"]["pay_vector_after"]["java_expr"], "payVector.setZero();")
         self.assertEqual(result_schema["keys"]["progress_after"]["java_expr"], "progress %= 1f;")
+
+    def test_generated_block_producer_build_update_tile_heat_time_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_producer_build_update_tile_heat_time.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(method["java_method"], "BlockProducerBuild.updateTile() heat/time")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_producer_build_update_tile_heat_time_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_producer_build_update_tile_heat_time_state")
+        heat_expr = source_symbols.source_symbol(registry, "block_producer_build_update_tile_heat_time.heat_expr")
+        self.assertEqual(heat_expr["java_expr"], "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);")
+        time_expr = source_symbols.source_symbol(registry, "block_producer_build_update_tile_heat_time.time_expr")
+        self.assertEqual(time_expr["java_expr"], "time += heat * delta();")
+        heat_after = source_symbols.source_symbol(registry, "block_producer_build_update_tile_heat_time.heat_after")
+        self.assertEqual(heat_after["godot_symbol"], "source_block_producer_build_update_tile_heat_time_result.heat_after")
+
+        heat_slice = source_symbols.source_slice(ledger, "N1422")
+        self.assertEqual(heat_slice["title"], "Generated BlockProducerBuild updateTile heat/time bridge state")
+        self.assertEqual(heat_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(heat_slice["java_method"], "BlockProducerBuild.updateTile() heat/time")
+        self.assertEqual(heat_slice["godot_owner"], "PortGame.source_block_producer_build_update_tile_heat_time_state")
+        self.assertEqual(heat_slice["generated_owner"], "BlockProducer.BlockProducerBuild.updateTile.heatTime")
+        self.assertEqual(heat_slice["runtime_proof"], "/root/Main.generated_block_producer_build_update_tile_heat_time_bridge_state")
+        for expr in [
+            "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "public float progress, time, heat;",
+            "@Override",
+            "public void updateTile(){",
+            "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);",
+            "time += heat * delta();",
+        ]:
+            self.assertIn(expr, heat_slice["exact_exprs"])
+        self.assertIn("mathf_lerp_delta.method", heat_slice["source_symbols"])
+        self.assertIn("arc_mathf_num.method", heat_slice["source_symbols"])
+        self.assertIn("building_delta.method", heat_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_producer_build_update_tile_heat_time_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["produce", "heat_before", "time_before", "time_delta"])
+        for key in ["source_owner", "source", "arc_source", "building_source", "inner_class", "override_expr", "method", "heat_expr", "time_expr", "produce", "produce_num", "heat_before", "time_before", "time_delta", "heat_after", "time_after"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_heat_time_input")
+        self.assertEqual(input_schema["keys"]["produce"]["java_expr"], "produce")
+        self.assertEqual(input_schema["keys"]["heat_before"]["java_expr"], "heat")
+        self.assertEqual(input_schema["keys"]["time_delta"]["java_expr"], "delta()")
+        result_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_heat_time_result")
+        self.assertEqual(result_schema["keys"]["heat_after"]["java_expr"], "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);")
+        self.assertEqual(result_schema["keys"]["time_after"]["java_expr"], "time += heat * delta();")
 
     def test_generated_build_payload_content_equals_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

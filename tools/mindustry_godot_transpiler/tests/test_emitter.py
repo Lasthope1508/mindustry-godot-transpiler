@@ -20226,6 +20226,50 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn('"pay_vector_after": pay_vector_after', source_text)
             self.assertIn('"progress_after": progress_after', source_text)
 
+    def test_emit_bridges_block_producer_build_update_tile_heat_time_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public abstract class BlockProducer extends PayloadBlock{
+    public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{
+        public abstract @Nullable Block recipe();
+
+        @Override
+        public void updateTile(){
+            heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);
+            time += heat * delta();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_BlockProducerBuild_method_updateTile_heat_time_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var produce: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var heat_before: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var time_before: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var time_delta: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var produce_num: float = 1.0 if produce else 0.0", source_text)
+            self.assertIn("var heat_after: float = heat_before + (produce_num - heat_before) * clampf(0.15 * time_delta, 0.0, 1.0)", source_text)
+            self.assertIn("var time_after: float = time_before + heat_after * time_delta", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state"', source_text)
+            self.assertIn('"heat_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);"', source_text)
+            self.assertIn('"time_expr": "time += heat * delta();"', source_text)
+            self.assertIn('"heat_after": heat_after', source_text)
+            self.assertIn('"time_after": time_after', source_text)
+
     def test_emit_bridges_build_payload_place_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

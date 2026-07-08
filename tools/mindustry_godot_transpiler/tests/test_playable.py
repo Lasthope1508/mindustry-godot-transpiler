@@ -19712,6 +19712,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payVectorProgressReset"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_build_update_tile_heat_time_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_build_update_tile_heat_time_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn("var produce_num: float = float(source_arc_mathf_num(produce))", source)
+        self.assertIn("var heat_after: float = source_mathf_lerp_delta(heat_before, produce_num, 0.15, time_delta)", source)
+        self.assertIn("var time_after: float = time_before + heat_after * time_delta", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state"', source)
+        self.assertIn('"heat_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);"', source)
+        self.assertIn('"time_expr": "time += heat * delta();"', source)
+        self.assertIn('"mathf_num_method": "public static int num(boolean b){"', source)
+        self.assertIn('"mathf_lerp_delta_method": SOURCE_MATHF_LERP_DELTA_METHOD', source)
+        self.assertIn('"heat_after": heat_after', source)
+        self.assertIn('"time_after": time_after', source)
+
+    def test_port_game_exposes_generated_block_producer_build_update_tile_heat_time_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_build_update_tile_heat_time_bridge_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_heat_time_5([produce, heat_before, time_before, time_delta])", source)
+        self.assertIn("var canonical = source_block_producer_build_update_tile_heat_time_state(produce, heat_before, time_before, time_delta)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.heatTime"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

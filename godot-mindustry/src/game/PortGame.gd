@@ -21959,6 +21959,46 @@ func generated_block_producer_build_update_tile_pay_vector_progress_reset_bridge
 		"matches": result == canonical,
 	}
 
+func source_block_producer_build_update_tile_heat_time_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:
+	var produce_num: float = float(source_arc_mathf_num(produce))
+	var heat_after: float = source_mathf_lerp_delta(heat_before, produce_num, 0.15, time_delta)
+	var time_after: float = time_before + heat_after * time_delta
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"arc_source": "arc-core/src/arc/math/Mathf.java",
+		"building_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"method": "public void updateTile(){",
+		"field_expr": "public float progress, time, heat;",
+		"heat_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);",
+		"time_expr": "time += heat * delta();",
+		"mathf_num_method": "public static int num(boolean b){",
+		"mathf_lerp_delta_method": SOURCE_MATHF_LERP_DELTA_METHOD,
+		"building_delta_method": "public float delta(){",
+		"produce": produce,
+		"produce_num": produce_num,
+		"heat_before": heat_before,
+		"time_before": time_before,
+		"time_delta": time_delta,
+		"heat_after": heat_after,
+		"time_after": time_after,
+	}
+
+func generated_block_producer_build_update_tile_heat_time_bridge_state(produce: bool, heat_before: float, time_before: float, time_delta: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_heat_time_5([produce, heat_before, time_before, time_delta])
+	var canonical = source_block_producer_build_update_tile_heat_time_state(produce, heat_before, time_before, time_delta)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.heatTime",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

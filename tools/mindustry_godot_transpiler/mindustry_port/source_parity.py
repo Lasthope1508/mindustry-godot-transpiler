@@ -11758,6 +11758,53 @@ def verify_block_producer_build_update_tile_pay_vector_progress_reset_source(ups
         "missing": missing,
     }
 
+def verify_block_producer_build_update_tile_heat_time_source(upstream_root: Path) -> dict[str, Any]:
+    block_producer_source = "core/src/mindustry/world/blocks/payloads/BlockProducer.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    block_producer_path = Path(upstream_root) / block_producer_source
+    building_comp_path = Path(upstream_root) / building_comp_source
+    mathf_path = Path(upstream_root).parent / "arc-upstream" / ARC_MATHF_SOURCE
+    block_producer_text = block_producer_path.read_text(encoding="utf-8", errors="replace")
+    building_comp_text = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    mathf_text = mathf_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "field": "public float progress, time, heat;",
+        "override_expr": "@Override",
+        "method": "public void updateTile(){",
+        "heat_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);",
+        "time_expr": "time += heat * delta();",
+        "mathf_lerp_delta_method": "public static float lerpDelta(float fromValue, float toValue, float progress){",
+        "mathf_lerp_delta_return": "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+        "mathf_num_method": "public static int num(boolean b){",
+        "mathf_num_return": "return b ? 1 : 0;",
+        "building_delta_method": "public float delta(){",
+    }
+    block_producer_values = [
+        checked["inner_class"],
+        checked["field"],
+        checked["override_expr"],
+        checked["method"],
+        checked["heat_expr"],
+        checked["time_expr"],
+    ]
+    missing = [snippet for snippet in block_producer_values if snippet not in block_producer_text]
+    for snippet in [
+        checked["mathf_lerp_delta_method"],
+        checked["mathf_lerp_delta_return"],
+        checked["mathf_num_method"],
+        checked["mathf_num_return"],
+    ]:
+        if snippet not in mathf_text:
+            missing.append(snippet)
+    if checked["building_delta_method"] not in building_comp_text:
+        missing.append(checked["building_delta_method"])
+    return {
+        "source": block_producer_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_content_equals_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

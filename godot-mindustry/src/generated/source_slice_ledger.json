@@ -35136,6 +35136,59 @@
       ],
       "rule": "Generated BlockProducerBuild.updateTile() bridge records payVector.setZero() and progress %= 1f from source.",
       "notes": "This slice closes only payVector reset and progress modulo after payload creation inside completion guard."
+    },
+    "N1422": {
+      "title": "Generated BlockProducerBuild updateTile heat/time bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() heat/time",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.updateTile.heatTime",
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_heat_time_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "public float progress, time, heat;",
+        "@Override",
+        "public void updateTile(){",
+        "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);",
+        "time += heat * delta();",
+        "public static float lerpDelta(float fromValue, float toValue, float progress){",
+        "return lerp(fromValue, toValue, clamp(progress * Time.delta));",
+        "public static int num(boolean b){",
+        "return b ? 1 : 0;",
+        "public float delta(){"
+      ],
+      "source_symbols": [
+        "block_producer_build_update_tile_heat_time.method",
+        "block_producer_build_update_tile_heat_time.field",
+        "block_producer_build_update_tile_produce_gate.produce",
+        "block_producer_build_update_tile_heat_time.produce",
+        "block_producer_build_update_tile_heat_time.heat_before",
+        "block_producer_build_update_tile_heat_time.time_before",
+        "block_producer_build_update_tile_heat_time.time_delta",
+        "block_producer_build_update_tile_heat_time.heat_expr",
+        "block_producer_build_update_tile_heat_time.time_expr",
+        "block_producer_build_update_tile_heat_time.produce_num",
+        "block_producer_build_update_tile_heat_time.heat_after",
+        "block_producer_build_update_tile_heat_time.time_after",
+        "mathf_lerp_delta.method",
+        "arc_mathf_num.method",
+        "building_delta.method"
+      ],
+      "deferred_exprs": [
+        "moveOutPayload() remains a later source-backed slice.",
+        "Concrete Time.delta source is supplied by explicit time_delta input as existing Mathf.lerpDelta and BuildingComp.delta SSOT require."
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_heat_time_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_heat_time_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_heat_time_bridge_state",
+        "test_block_producer_build_update_tile_heat_time_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_heat_time_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducerBuild.updateTile() bridge records heat lerp and time increment from source.",
+      "notes": "This slice closes only heat = Mathf.lerpDelta(...) and time += heat * delta()."
     }
   },
   "version": 1

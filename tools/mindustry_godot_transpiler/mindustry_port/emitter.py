@@ -5293,6 +5293,16 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         '\t\tpay_vector_after = {"x": 0.0, "y": 0.0}',
                         "\t\tprogress_after = fmod(progress_before, 1.0)",
                         '\treturn {"source_owner": "PortGame.source_block_producer_build_update_tile_pay_vector_progress_reset_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "parent_source": "core/src/mindustry/world/blocks/payloads/PayloadBlock.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "completion_guard_expr": "if(progress >= recipe.buildTime){", "pay_vector_field": "public Vec2 payVector = new Vec2();", "progress_field": "public float progress, time, heat;", "pay_vector_set_zero_expr": "payVector.setZero();", "progress_modulo_expr": "progress %= 1f;", "completion_guard": completion_guard, "pay_vector_x": pay_vector_x, "pay_vector_y": pay_vector_y, "progress_before": progress_before, "pay_vector_after": pay_vector_after, "progress_after": progress_after}',
+                        "",
+                        f"func java_inner_class_BlockProducerBuild_method_updateTile_heat_time_{index}(_args: Array = []) -> Variant:",
+                        "\tvar produce: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar heat_before: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                        "\tvar time_before: float = float(_args[2] if _args.size() > 2 else 0.0)",
+                        "\tvar time_delta: float = float(_args[3] if _args.size() > 3 else 0.0)",
+                        "\tvar produce_num: float = 1.0 if produce else 0.0",
+                        "\tvar heat_after: float = heat_before + (produce_num - heat_before) * clampf(0.15 * time_delta, 0.0, 1.0)",
+                        "\tvar time_after: float = time_before + heat_after * time_delta",
+                        '\treturn {"source_owner": "PortGame.source_block_producer_build_update_tile_heat_time_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "arc_source": "arc-core/src/arc/math/Mathf.java", "building_source": "core/src/mindustry/entities/comp/BuildingComp.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "field_expr": "public float progress, time, heat;", "heat_expr": "heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f);", "time_expr": "time += heat * delta();", "mathf_num_method": "public static int num(boolean b){", "mathf_lerp_delta_method": "public static float lerpDelta(float fromValue, float toValue, float progress){\\n        return lerp(fromValue, toValue, clamp(progress * Time.delta));\\n    }", "building_delta_method": "public float delta(){", "produce": produce, "produce_num": produce_num, "heat_before": heat_before, "time_before": time_before, "time_delta": time_delta, "heat_after": heat_after, "time_after": time_after}',
                     ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"

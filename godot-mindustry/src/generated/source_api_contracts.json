@@ -38544,6 +38544,73 @@
         "test_block_producer_build_update_tile_pay_vector_progress_reset_matches_upstream_source",
         "test_generated_block_producer_build_update_tile_pay_vector_progress_reset_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_build_update_tile_heat_time_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile() heat/time",
+      "source_slice": "N1422",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_heat_time_state",
+      "params": [
+        {
+          "name": "produce",
+          "type": "bool",
+          "java_expr": "produce",
+          "schema": "source_block_producer_build_update_tile_heat_time_input.produce",
+          "source_symbol": "block_producer_build_update_tile_heat_time.produce"
+        },
+        {
+          "name": "heat_before",
+          "type": "float",
+          "java_expr": "heat",
+          "schema": "source_block_producer_build_update_tile_heat_time_input.heat_before",
+          "source_symbol": "block_producer_build_update_tile_heat_time.heat_before"
+        },
+        {
+          "name": "time_before",
+          "type": "float",
+          "java_expr": "time",
+          "schema": "source_block_producer_build_update_tile_heat_time_input.time_before",
+          "source_symbol": "block_producer_build_update_tile_heat_time.time_before"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "java_expr": "delta()",
+          "schema": "source_block_producer_build_update_tile_heat_time_input.time_delta",
+          "source_symbol": "block_producer_build_update_tile_heat_time.time_delta"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "arc_source",
+        "building_source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "field_expr",
+        "heat_expr",
+        "time_expr",
+        "mathf_num_method",
+        "mathf_lerp_delta_method",
+        "building_delta_method",
+        "produce",
+        "produce_num",
+        "heat_before",
+        "time_before",
+        "time_delta",
+        "heat_after",
+        "time_after"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_heat_time_state pins heat = Mathf.lerpDelta(heat, Mathf.num(produce), 0.15f); and time += heat * delta();.",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_heat_time_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_heat_time_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_heat_time_bridge_state",
+        "test_block_producer_build_update_tile_heat_time_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_heat_time_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
