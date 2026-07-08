@@ -34749,6 +34749,49 @@
       ],
       "rule": "Generated BlockProducer.drawPlanRegion() bridge records the three Draw.rect calls in exact Java order.",
       "notes": "This slice closes draw call ordering and plan rotation calculation; real renderer integration remains for later rendering slices."
+    },
+    "N1412": {
+      "title": "Generated BlockProducer setBars bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "generated_owner": "BlockProducer.java_method_setBars_2",
+      "runtime_proof": "/root/Main.generated_block_producer_set_bars_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducer extends PayloadBlock{",
+        "@Override",
+        "public void setBars(){",
+        "super.setBars();",
+        "addBar(\"progress\", (BlockProducerBuild entity) -> new Bar(\"bar.progress\", Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)));"
+      ],
+      "source_symbols": [
+        "block_producer_set_bars.class_expr",
+        "block_producer_set_bars.override_expr",
+        "block_producer_set_bars.method",
+        "block_producer_set_bars.super_set_bars_expr",
+        "block_producer_set_bars.add_bar_expr",
+        "block_producer_set_bars.bar_text",
+        "block_producer_set_bars.bar_color",
+        "block_producer_set_bars.recipe_null",
+        "block_producer_set_bars.entity_progress",
+        "block_producer_set_bars.recipe_build_time",
+        "block_producer_set_bars.progress_bar_fraction"
+      ],
+      "deferred_exprs": [
+        "Real Bar UI object construction and UI attachment",
+        "Concrete BlockProducerBuild recipe() object state beyond explicit inputs"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducer.setBars() bridge records parent setBars call and progress bar fraction contract from source.",
+      "notes": "This slice closes the source-backed progress bar contract; real Godot UI bar rendering remains for later UI integration slices."
     }
   },
   "version": 1

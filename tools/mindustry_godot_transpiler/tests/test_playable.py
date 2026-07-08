@@ -19424,6 +19424,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.java_method_drawPlanRegion_1"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_set_bars_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_set_bars_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_set_bars_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java"', source)
+        self.assertIn('"class_expr": "public abstract class BlockProducer extends PayloadBlock{"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public void setBars(){"', source)
+        self.assertIn('"super_set_bars_expr": "super.setBars();"', source)
+        self.assertIn('"add_bar_expr": "addBar(\\"progress\\", (BlockProducerBuild entity) -> new Bar(\\"bar.progress\\", Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)));"', source)
+        self.assertIn("var progress_bar_fraction: float = 0.0 if recipe_null else entity_progress / recipe_build_time", source)
+        self.assertIn('"progress_bar_call": progress_bar_call', source)
+
+    def test_port_game_exposes_generated_block_producer_set_bars_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_set_bars_bridge_state(recipe_null: bool, entity_progress: float, recipe_build_time: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_method_setBars_2([recipe_null, entity_progress, recipe_build_time])", source)
+        self.assertIn("var canonical = source_block_producer_set_bars_state(recipe_null, entity_progress, recipe_build_time)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_set_bars_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.java_method_setBars_2"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -37990,6 +37990,63 @@
         "test_block_producer_draw_plan_region_matches_upstream_source",
         "test_generated_block_producer_draw_plan_region_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_set_bars_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducer.setBars()",
+      "source_slice": "N1412",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "params": [
+        {
+          "name": "recipe_null",
+          "type": "bool",
+          "java_expr": "entity.recipe() == null",
+          "schema": "source_block_producer_set_bars_input.recipe_null",
+          "source_symbol": "block_producer_set_bars.recipe_null"
+        },
+        {
+          "name": "entity_progress",
+          "type": "float",
+          "java_expr": "entity.progress",
+          "schema": "source_block_producer_set_bars_input.entity_progress",
+          "source_symbol": "block_producer_set_bars.entity_progress"
+        },
+        {
+          "name": "recipe_build_time",
+          "type": "float",
+          "java_expr": "entity.recipe().buildTime",
+          "schema": "source_block_producer_set_bars_input.recipe_build_time",
+          "source_symbol": "block_producer_set_bars.recipe_build_time"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "override_expr",
+        "method",
+        "super_set_bars_expr",
+        "add_bar_expr",
+        "bar_text",
+        "bar_color",
+        "bar_progress_expr",
+        "recipe_null",
+        "entity_progress",
+        "recipe_build_time",
+        "super_set_bars_called",
+        "progress_bar_added",
+        "progress_bar_fraction",
+        "progress_bar_call"
+      ],
+      "rule": "PortGame.source_block_producer_set_bars_state pins BlockProducer.setBars() progress bar contract.",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

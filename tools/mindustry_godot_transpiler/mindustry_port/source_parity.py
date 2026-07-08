@@ -11561,6 +11561,24 @@ def verify_block_producer_draw_plan_region_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_block_producer_set_bars_source(upstream_root: Path) -> dict[str, Any]:
+    block_producer_source = "core/src/mindustry/world/blocks/payloads/BlockProducer.java"
+    payload_path = Path(upstream_root) / block_producer_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public abstract class BlockProducer extends PayloadBlock{",
+        "override_expr": "@Override",
+        "method": "public void setBars(){",
+        "super_set_bars_expr": "super.setBars();",
+        "add_bar_expr": "addBar(\"progress\", (BlockProducerBuild entity) -> new Bar(\"bar.progress\", Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)));",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": block_producer_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_content_equals_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

@@ -19700,6 +19700,56 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn('"method": "public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){"', source_text)
             self.assertIn('"draw_calls": draw_calls', source_text)
 
+    def test_emit_bridges_block_producer_set_bars_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public abstract class BlockProducer extends PayloadBlock{
+    @Override
+    public TextureRegion[] icons(){
+        return new TextureRegion[]{region, outRegion, topRegion};
+    }
+
+    @Override
+    public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list){
+        Draw.rect(region, plan.drawx(), plan.drawy());
+        Draw.rect(outRegion, plan.drawx(), plan.drawy(), plan.rotation * 90);
+        Draw.rect(topRegion, plan.drawx(), plan.drawy());
+    }
+
+    @Override
+    public void setBars(){
+        super.setBars();
+
+        addBar("progress", (BlockProducerBuild entity) -> new Bar("bar.progress", Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_setBars_2(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var recipe_null: bool = bool(_args[0] if _args.size() > 0 else true)", source_text)
+            self.assertIn("var entity_progress: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var recipe_build_time: float = float(_args[2] if _args.size() > 2 else 1.0)", source_text)
+            self.assertIn("var progress_bar_fraction: float = 0.0 if recipe_null else entity_progress / recipe_build_time", source_text)
+            self.assertIn('var progress_bar_call: Dictionary = {"call": "addBar(\\"progress\\", (BlockProducerBuild entity) -> new Bar(\\"bar.progress\\", Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)));", "name": "progress", "bar_text": "bar.progress", "color": "Pal.ammo", "fraction": progress_bar_fraction}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_producer_set_bars_state"', source_text)
+            self.assertIn('"method": "public void setBars(){"', source_text)
+            self.assertIn('"super_set_bars_expr": "super.setBars();"', source_text)
+            self.assertIn('"progress_bar_fraction": progress_bar_fraction', source_text)
+
     def test_emit_bridges_build_payload_place_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

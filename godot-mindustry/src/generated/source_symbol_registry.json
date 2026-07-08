@@ -115085,6 +115085,215 @@
       "java_expr": "Draw.rect(region...), Draw.rect(outRegion...), Draw.rect(topRegion...)",
       "rule": "Ordered draw call record for BlockProducer.drawPlanRegion().",
       "status": "source-backed"
+    },
+    "block_producer_set_bars.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_result.class_expr",
+      "java_expr": "public abstract class BlockProducer extends PayloadBlock{",
+      "rule": "Pin BlockProducer class boundary for setBars().",
+      "status": "source-backed"
+    },
+    "block_producer_set_bars.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "Pin setBars() override marker.",
+      "status": "source-backed"
+    },
+    "block_producer_set_bars.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_result.method",
+      "java_expr": "public void setBars(){",
+      "rule": "Pin BlockProducer.setBars() method boundary.",
+      "status": "source-backed"
+    },
+    "block_producer_set_bars.super_set_bars_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_result.super_set_bars_called",
+      "java_expr": "super.setBars();",
+      "rule": "BlockProducer.setBars() invokes parent bar setup first.",
+      "status": "source-backed"
+    },
+    "block_producer_set_bars.add_bar_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_result.progress_bar_call",
+      "java_expr": "addBar(\"progress\", (BlockProducerBuild entity) -> new Bar(\"bar.progress\", Pal.ammo, () -> entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)));",
+      "rule": "BlockProducer.setBars() adds progress bar with Pal.ammo color.",
+      "status": "source-backed"
+    },
+    "block_producer_set_bars.bar_text": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_result.bar_text",
+      "java_expr": "\"bar.progress\"",
+      "rule": "Progress bar bundle key.",
+      "status": "source-backed"
+    },
+    "block_producer_set_bars.bar_color": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_result.bar_color",
+      "java_expr": "Pal.ammo",
+      "rule": "Progress bar color.",
+      "status": "source-backed"
+    },
+    "block_producer_set_bars.recipe_null": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_input.recipe_null",
+      "java_expr": "entity.recipe() == null",
+      "rule": "Explicit runtime recipe-null guard for progress bar fraction.",
+      "status": "explicit-input"
+    },
+    "block_producer_set_bars.entity_progress": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_input.entity_progress",
+      "java_expr": "entity.progress",
+      "rule": "Explicit runtime entity progress for progress bar fraction.",
+      "status": "explicit-input"
+    },
+    "block_producer_set_bars.recipe_build_time": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_input.recipe_build_time",
+      "java_expr": "entity.recipe().buildTime",
+      "rule": "Explicit runtime recipe buildTime for progress bar fraction.",
+      "status": "explicit-input"
+    },
+    "block_producer_set_bars.progress_bar_fraction": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer",
+      "java_method": "BlockProducer.setBars()",
+      "godot_owner": "PortGame.source_block_producer_set_bars_state",
+      "runtime_proof": "/root/Main.source_block_producer_set_bars_state",
+      "source_slice": "N1412",
+      "tests": [
+        "test_emit_bridges_block_producer_set_bars_to_source_state",
+        "test_port_game_exposes_source_block_producer_set_bars_state",
+        "test_port_game_exposes_generated_block_producer_set_bars_bridge_state",
+        "test_block_producer_set_bars_matches_upstream_source",
+        "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_set_bars_result.progress_bar_fraction",
+      "java_expr": "entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)",
+      "rule": "Progress bar fraction follows source ternary.",
+      "status": "source-backed"
     }
   },
   "version": 1
