@@ -1042,6 +1042,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquids_dynamic_efficiency_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquids_dynamic_efficiency_source"))
+        report = source_parity.verify_consume_liquids_dynamic_efficiency_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java")
+        self.assertIn("core/src/mindustry/world/consumers/Consume.java", report["sources"])
+        self.assertIn("core/src/mindustry/type/LiquidStack.java", report["sources"])
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+            "method": "public float efficiency(Building build){",
+            "ed_expr": "float ed = build.edelta();",
+            "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;",
+            "min_initial_expr": "float min = 1f;",
+            "loop_expr": "for(LiquidStack stack : liquids.get(build)){",
+            "efficiency_expr": "min = Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * multiplier.get(build)), min);",
+            "return_expr": "return min;",
+            "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+            "liquid_stack_liquid_field": "public Liquid liquid;",
+            "liquid_stack_amount_field": "public float amount;",
+            "building_liquids_field": "@Nullable LiquidModule liquids;",
+            "building_edelta_method": "public float edelta(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_consumes_source"))
         report = source_parity.verify_consume_liquid_consumes_source(ROOT / "mindustry-upstream")

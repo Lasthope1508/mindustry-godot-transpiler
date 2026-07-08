@@ -37,4 +37,21 @@ func java_method_update_3(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_liquids_dynamic_update_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "public void update(Building build){", "multiplier_expr": "float mult = multiplier.get(build);", "loop_expr": "for(LiquidStack stack : liquids.get(build)){", "remove_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "remove_calls": remove_calls}
 
 func java_method_efficiency_4(_args: Array = []) -> Variant:
-	return null
+	var liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []
+	var liquid_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+	var liquid_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []
+	var build_edelta: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)
+	var ed: float = build_edelta
+	if ed <= 0.00000001:
+		return {"source_owner": "PortGame.source_consume_liquids_dynamic_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "public float efficiency(Building build){", "ed_expr": "float ed = build.edelta();", "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "liquid_amounts": liquid_amounts, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "ed": ed, "min_initial_expr": "float min = 1f;", "loop_expr": "for(LiquidStack stack : liquids.get(build)){", "efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * multiplier.get(build)), min)", "return_expr": "return min;", "per_stack_efficiencies": [], "efficiency": 0.0}
+	var min_efficiency: float = 1.0
+	var per_stack_efficiencies: Array = []
+	for index in liquid_ids.size():
+		var stack_amount: float = float(liquid_stack_amounts[index] if index < liquid_stack_amounts.size() else 0.0)
+		var liquid_amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)
+		var denominator: float = stack_amount * ed * multiplier_get_build
+		var stack_efficiency: float = liquid_amount / denominator
+		min_efficiency = min(stack_efficiency, min_efficiency)
+		per_stack_efficiencies.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "stack_amount": stack_amount, "denominator": denominator, "efficiency": stack_efficiency})
+	return {"source_owner": "PortGame.source_consume_liquids_dynamic_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "public float efficiency(Building build){", "ed_expr": "float ed = build.edelta();", "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "liquid_amounts": liquid_amounts, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "ed": ed, "min_initial_expr": "float min = 1f;", "loop_expr": "for(LiquidStack stack : liquids.get(build)){", "efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * multiplier.get(build)), min)", "return_expr": "return min;", "per_stack_efficiencies": per_stack_efficiencies, "efficiency": min_efficiency}

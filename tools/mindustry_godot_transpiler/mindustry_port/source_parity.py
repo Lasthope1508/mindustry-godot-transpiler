@@ -4393,6 +4393,57 @@ def verify_consume_liquids_dynamic_update_source(upstream_root: Path) -> dict[st
         "missing": missing,
     }
 
+def verify_consume_liquids_dynamic_efficiency_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    liquid_stack_source = "core/src/mindustry/type/LiquidStack.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    consume_liquids_dynamic_path = Path(upstream_root) / consume_liquids_dynamic_source
+    consume_path = Path(upstream_root) / consume_source
+    liquid_stack_path = Path(upstream_root) / liquid_stack_source
+    building_comp_path = Path(upstream_root) / building_comp_source
+    source = consume_liquids_dynamic_path.read_text(encoding="utf-8", errors="replace")
+    consume_text = consume_path.read_text(encoding="utf-8", errors="replace")
+    liquid_stack_text = liquid_stack_path.read_text(encoding="utf-8", errors="replace")
+    building_comp_text = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+        "method": "public float efficiency(Building build){",
+        "ed_expr": "float ed = build.edelta();",
+        "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;",
+        "min_initial_expr": "float min = 1f;",
+        "loop_expr": "for(LiquidStack stack : liquids.get(build)){",
+        "efficiency_expr": "min = Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * multiplier.get(build)), min);",
+        "return_expr": "return min;",
+        "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+        "liquid_stack_liquid_field": "public Liquid liquid;",
+        "liquid_stack_amount_field": "public float amount;",
+        "building_liquids_field": "@Nullable LiquidModule liquids;",
+        "building_edelta_method": "public float edelta(){",
+    }
+    source_by_key = {
+        "liquids_field": source,
+        "method": source,
+        "ed_expr": source,
+        "ed_guard_expr": source,
+        "min_initial_expr": source,
+        "loop_expr": source,
+        "efficiency_expr": source,
+        "return_expr": source,
+        "multiplier_field": consume_text,
+        "liquid_stack_liquid_field": liquid_stack_text,
+        "liquid_stack_amount_field": liquid_stack_text,
+        "building_liquids_field": building_comp_text,
+        "building_edelta_method": building_comp_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquids_dynamic_source,
+        "sources": [consume_source, liquid_stack_source, building_comp_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_filter_consumes_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
     consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source

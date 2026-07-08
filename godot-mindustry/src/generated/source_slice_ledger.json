@@ -15289,6 +15289,63 @@
       ],
       "title": "Generated ConsumeLiquidsDynamic update bridge state"
     },
+    "N1445": {
+      "deferred_exprs": [
+        "Concrete Func<Building, LiquidStack[]> invocation is represented by explicit liquid_ids, liquid_stack_amounts, and liquid_amounts until generated object references are wired.",
+        "Concrete Floatf<Building> multiplier invocation is represented by explicit multiplier_get_build until functional interfaces are wired.",
+        "Concrete LiquidModule.get storage lookup is represented by explicit liquid_amounts until LiquidModule runtime storage is wired."
+      ],
+      "exact_exprs": [
+        "public final Func<Building, LiquidStack[]> liquids;",
+        "public float efficiency(Building build){",
+        "float ed = build.edelta();",
+        "if(ed <= 0.00000001f) return 0f;",
+        "float min = 1f;",
+        "for(LiquidStack stack : liquids.get(build)){",
+        "min = Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * multiplier.get(build)), min);",
+        "return min;",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "public Liquid liquid;",
+        "public float amount;",
+        "@Nullable LiquidModule liquids;",
+        "public float edelta(){"
+      ],
+      "generated_owner": "ConsumeLiquidsDynamic.java_method_efficiency_4",
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_efficiency_state",
+      "java_class": "ConsumeLiquidsDynamic",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Generated ConsumeLiquidsDynamic.efficiency bridges ed guard and per-stack minimum formula.",
+      "runtime_proof": "/root/Main.generated_consume_liquids_dynamic_efficiency_bridge_state",
+      "source_symbols": [
+        "consume_liquids_dynamic_efficiency.build_edelta",
+        "consume_liquids_dynamic_efficiency.building_edelta_method",
+        "consume_liquids_dynamic_efficiency.building_liquids_field",
+        "consume_liquids_dynamic_efficiency.ed",
+        "consume_liquids_dynamic_efficiency.ed_guard",
+        "consume_liquids_dynamic_efficiency.efficiency",
+        "consume_liquids_dynamic_efficiency.liquid_amounts",
+        "consume_liquids_dynamic_efficiency.liquid_ids",
+        "consume_liquids_dynamic_efficiency.liquid_stack_amount_field",
+        "consume_liquids_dynamic_efficiency.liquid_stack_amounts",
+        "consume_liquids_dynamic_efficiency.liquid_stack_liquid_field",
+        "consume_liquids_dynamic_efficiency.liquids_field",
+        "consume_liquids_dynamic_efficiency.loop",
+        "consume_liquids_dynamic_efficiency.method",
+        "consume_liquids_dynamic_efficiency.min_initial",
+        "consume_liquids_dynamic_efficiency.multiplier_field",
+        "consume_liquids_dynamic_efficiency.multiplier_get_build",
+        "consume_liquids_dynamic_efficiency.return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_efficiency_bridge_state",
+        "test_consume_liquids_dynamic_efficiency_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquidsDynamic efficiency bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

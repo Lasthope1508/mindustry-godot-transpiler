@@ -2697,6 +2697,80 @@ func generated_consume_liquids_dynamic_update_bridge_state(liquid_ids: Array, li
 		"matches": result.get("remove_calls", []) == canonical.get("remove_calls", []),
 	}
 
+func source_consume_liquids_dynamic_efficiency_state(liquid_ids: Array, liquid_stack_amounts: Array, liquid_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	var ed: float = build_edelta
+	if ed <= 0.00000001:
+		return {
+			"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+			"method": "public float efficiency(Building build){",
+			"ed_expr": "float ed = build.edelta();",
+			"ed_guard_expr": "if(ed <= 0.00000001f) return 0f;",
+			"liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+			"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+			"liquid_stack_liquid_field": "public Liquid liquid;",
+			"liquid_stack_amount_field": "public float amount;",
+			"building_liquids_field": "@Nullable LiquidModule liquids;",
+			"building_edelta_method": "public float edelta(){",
+			"liquid_ids": liquid_ids,
+			"liquid_stack_amounts": liquid_stack_amounts,
+			"liquid_amounts": liquid_amounts,
+			"build_edelta": build_edelta,
+			"multiplier_get_build": multiplier_get_build,
+			"ed": ed,
+			"min_initial_expr": "float min = 1f;",
+			"loop_expr": "for(LiquidStack stack : liquids.get(build)){",
+			"efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * multiplier.get(build)), min)",
+			"return_expr": "return min;",
+			"per_stack_efficiencies": [],
+			"efficiency": 0.0,
+		}
+	var min_efficiency: float = 1.0
+	var per_stack_efficiencies: Array = []
+	for index in liquid_ids.size():
+		var stack_amount: float = float(liquid_stack_amounts[index] if index < liquid_stack_amounts.size() else 0.0)
+		var liquid_amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)
+		var denominator: float = stack_amount * ed * multiplier_get_build
+		var stack_efficiency: float = liquid_amount / denominator
+		min_efficiency = min(stack_efficiency, min_efficiency)
+		per_stack_efficiencies.append({"liquid_id": int(liquid_ids[index]), "liquid_amount": liquid_amount, "stack_amount": stack_amount, "denominator": denominator, "efficiency": stack_efficiency})
+	return {
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+		"method": "public float efficiency(Building build){",
+		"ed_expr": "float ed = build.edelta();",
+		"ed_guard_expr": "if(ed <= 0.00000001f) return 0f;",
+		"liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+		"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+		"liquid_stack_liquid_field": "public Liquid liquid;",
+		"liquid_stack_amount_field": "public float amount;",
+		"building_liquids_field": "@Nullable LiquidModule liquids;",
+		"building_edelta_method": "public float edelta(){",
+		"liquid_ids": liquid_ids,
+		"liquid_stack_amounts": liquid_stack_amounts,
+		"liquid_amounts": liquid_amounts,
+		"build_edelta": build_edelta,
+		"multiplier_get_build": multiplier_get_build,
+		"ed": ed,
+		"min_initial_expr": "float min = 1f;",
+		"loop_expr": "for(LiquidStack stack : liquids.get(build)){",
+		"efficiency_expr": "Math.min(build.liquids.get(stack.liquid) / (stack.amount * ed * multiplier.get(build)), min)",
+		"return_expr": "return min;",
+		"per_stack_efficiencies": per_stack_efficiencies,
+		"efficiency": min_efficiency,
+	}
+
+func generated_consume_liquids_dynamic_efficiency_bridge_state(liquid_ids: Array, liquid_stack_amounts: Array, liquid_amounts: Array, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidsDynamic.gd")
+	var instance = script.new()
+	var result = instance.java_method_efficiency_4([liquid_ids, liquid_stack_amounts, liquid_amounts, build_edelta, multiplier_get_build])
+	var canonical = source_consume_liquids_dynamic_efficiency_state(liquid_ids, liquid_stack_amounts, liquid_amounts, build_edelta, multiplier_get_build)
+	return {
+		"source_owner": "PortGame.source_consume_liquids_dynamic_efficiency_state",
+		"generated_owner": "ConsumeLiquidsDynamic.efficiency",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("per_stack_efficiencies", []) == canonical.get("per_stack_efficiencies", []),
+	}
+
 func source_consume_liquid_consumes_state(liquid_matches_self_liquid: bool) -> Dictionary:
 	return {
 		"method": "public boolean consumes(Liquid liquid){",
