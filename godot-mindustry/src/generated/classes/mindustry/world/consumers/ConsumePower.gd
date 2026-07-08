@@ -22,7 +22,9 @@ func java_method_ignore_1(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_power_ignore_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public boolean ignore(){", "buffered": buffered, "ignore": ignore_consume, "return_expr": "return buffered;"}
 
 func java_method_efficiency_2(_args: Array = []) -> Variant:
-	return null
+	var power_status: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var efficiency: float = power_status
+	return {"source_owner": "PortGame.source_consume_power_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public float efficiency(Building build){", "power_status": power_status, "efficiency": efficiency, "return_expr": "return build.power.status;"}
 
 func java_method_display_3(_args: Array = []) -> Variant:
 	return null

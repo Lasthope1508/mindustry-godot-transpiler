@@ -2246,6 +2246,27 @@ func generated_consume_power_ignore_bridge_state(buffered: bool) -> Dictionary:
 		"matches": result.get("ignore", null) == canonical.get("ignore", null),
 	}
 
+func source_consume_power_efficiency_state(power_status: float) -> Dictionary:
+	return {
+		"method": "public float efficiency(Building build){",
+		"power_status": power_status,
+		"efficiency": power_status,
+		"return_expr": "return build.power.status;",
+	}
+
+func generated_consume_power_efficiency_bridge_state(power_status: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")
+	var instance = script.new()
+	var result = instance.java_method_efficiency_2([power_status])
+	var canonical = source_consume_power_efficiency_state(power_status)
+	return {
+		"source_owner": "PortGame.source_consume_power_efficiency_state",
+		"generated_owner": "ConsumePower.efficiency",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency", null) == canonical.get("efficiency", null),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

@@ -14679,6 +14679,34 @@
       ],
       "title": "Generated ConsumePower ignore bridge state"
     },
+    "N1426": {
+      "deferred_exprs": [
+        "Concrete Building and PowerModule object binding is represented by explicit power_status input until object field access is ported."
+      ],
+      "exact_exprs": [
+        "public float efficiency(Building build){",
+        "return build.power.status;"
+      ],
+      "generated_owner": "ConsumePower.java_method_efficiency_2",
+      "godot_owner": "PortGame.source_consume_power_efficiency_state",
+      "java_class": "ConsumePower",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "rule": "Generated ConsumePower.efficiency bridges the exact source return build.power.status expression with explicit power_status input.",
+      "runtime_proof": "/root/Main.generated_consume_power_efficiency_bridge_state",
+      "source_symbols": [
+        "consume_power_efficiency.return",
+        "consume_power_efficiency.power_status_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_power_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_power_efficiency_bridge_state",
+        "test_consume_power_efficiency_matches_upstream_source",
+        "test_generated_consume_power_efficiency_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumePower efficiency bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

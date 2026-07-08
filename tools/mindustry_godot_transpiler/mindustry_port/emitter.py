@@ -1341,6 +1341,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
         and type_entry.get("name") == "ConsumePower"
+        and method.get("name") == "efficiency"
+    ):
+        return [
+            "\tvar power_status: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar efficiency: float = power_status",
+            '\treturn {"source_owner": "PortGame.source_consume_power_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public float efficiency(Building build){", "power_status": power_status, "efficiency": efficiency, "return_expr": "return build.power.status;"}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
+        and type_entry.get("name") == "ConsumePower"
         and method.get("name") == "requestedPower"
     ):
         return [

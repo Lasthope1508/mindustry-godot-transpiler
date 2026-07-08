@@ -77855,6 +77855,71 @@
       },
       "status": "active"
     },
+    "source_consume_power_efficiency_input": {
+      "keys": {
+        "power_status": {
+          "godot_symbol": "source_consume_power_efficiency_input.power_status",
+          "java_expr": "build.power.status",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "rule": "source_consume_power_efficiency_input key power_status.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_power_efficiency_state"
+          ]
+        }
+      }
+    },
+    "source_consume_power_efficiency_result": {
+      "keys": {
+        "efficiency": {
+          "godot_symbol": "source_consume_power_efficiency_result.efficiency",
+          "java_expr": "return build.power.status;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "rule": "source_consume_power_efficiency_result key efficiency.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_power_efficiency_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_consume_power_efficiency_result.method",
+          "java_expr": "public float efficiency(Building build){",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "rule": "source_consume_power_efficiency_result key method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_power_efficiency_state"
+          ]
+        },
+        "power_status": {
+          "alias_of": "source_consume_power_efficiency_input.power_status",
+          "rule": "source_consume_power_efficiency_result key power_status.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_power_efficiency_state"
+          ]
+        },
+        "return_expr": {
+          "godot_symbol": "source_consume_power_efficiency_result.return_expr",
+          "java_expr": "return build.power.status;",
+          "java_method": "efficiency(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+          "rule": "source_consume_power_efficiency_result key return_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_power_efficiency_state"
+          ]
+        }
+      }
+    },
     "source_consume_power_ignore_input": {
       "keys": {
         "buffered": {

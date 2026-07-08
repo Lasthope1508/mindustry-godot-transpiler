@@ -49726,6 +49726,40 @@
         "test_generated_child_comp_update_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_power_efficiency.power_status_input": {
+      "godot_owner": "PortGame.source_consume_power_efficiency_state",
+      "godot_symbol": "source_consume_power_efficiency_input.power_status",
+      "java_expr": "build.power.status",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "rule": "Explicit build.power.status input for source-backed ConsumePower.efficiency().",
+      "runtime_proof": "/root/Main.source_consume_power_efficiency_state",
+      "source_slice": "N1426",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_power_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_power_efficiency_bridge_state",
+        "test_consume_power_efficiency_matches_upstream_source",
+        "test_generated_consume_power_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_power_efficiency.return": {
+      "godot_owner": "PortGame.source_consume_power_efficiency_state",
+      "godot_symbol": "source_consume_power_efficiency_result.efficiency",
+      "java_expr": "return build.power.status;",
+      "java_method": "efficiency(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "rule": "Source-backed ConsumePower.efficiency() returns build.power.status.",
+      "runtime_proof": "/root/Main.source_consume_power_efficiency_state",
+      "source_slice": "N1426",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_power_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_power_efficiency_bridge_state",
+        "test_consume_power_efficiency_matches_upstream_source",
+        "test_generated_consume_power_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_power_ignore.buffered_input": {
       "godot_owner": "PortGame.source_consume_power_ignore_state",
       "godot_symbol": "source_consume_power_ignore_input.buffered",

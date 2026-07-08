@@ -20678,6 +20678,34 @@
         "test_port_game_exposes_source_child_update_state"
       ]
     },
+    "PortGame.source_consume_power_efficiency_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "params": [
+        {
+          "java_expr": "build.power.status",
+          "name": "power_status",
+          "schema": "source_consume_power_efficiency_input.power_status",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "power_status",
+        "efficiency",
+        "return_expr"
+      ],
+      "rule": "Public runtime contract for ConsumePower.efficiency(Building) with explicit build.power.status input.",
+      "runtime_proof": "/root/Main.source_consume_power_efficiency_state",
+      "source_method": "efficiency(Building build)",
+      "source_slice": "N1426",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_power_efficiency_to_source_state",
+        "test_port_game_exposes_generated_consume_power_efficiency_bridge_state",
+        "test_consume_power_efficiency_matches_upstream_source",
+        "test_generated_consume_power_efficiency_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_power_ignore_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
       "params": [
