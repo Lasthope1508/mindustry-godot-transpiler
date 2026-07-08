@@ -1602,6 +1602,22 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_item_dynamic_build_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "public void build(Building build, Table table){", "current_expr": "ItemStack[][] current = {items.get(build)};", "table_expr": "table.table(cont -> {", "update_expr": "table.update(() -> {", "changed_expr": "if(current[0] != items.get(build)){", "rebuild_expr": "rebuild(build, cont);", "assignment_expr": "current[0] = items.get(build);", "current_item_ids": current_item_ids, "next_item_ids": next_item_ids, "item_ids_changed": item_ids_changed, "rebuild_calls": rebuild_calls, "current_item_ids_after_update": current_item_ids_after_update, "table_cell_created": true, "update_registered": true}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemDynamic.java"
+        and type_entry.get("name") == "ConsumeItemDynamic"
+        and method.get("name") == "trigger"
+    ):
+        return [
+            "\tvar item_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar item_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar multiplier_get_build: float = float(_args[2] if _args.size() > 2 else 1.0)",
+            "\tvar remove_calls: Array = []",
+            "\tfor index in item_ids.size():",
+            "\t\tvar stack_amount: float = float(item_stack_amounts[index] if index < item_stack_amounts.size() else 0.0)",
+            "\t\tvar remove_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))",
+            '\t\tremove_calls.append({"call": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "item_id": int(item_ids[index]), "stack_amount": stack_amount, "amount": remove_amount})',
+            '\treturn {"source_owner": "PortGame.source_consume_item_dynamic_trigger_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "public void trigger(Building build){", "items_field": "public final Func<Building, ItemStack[]> items;", "loop_expr": "for(ItemStack stack : items.get(build)){", "remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "round_expr": "Math.round(stack.amount * multiplier.get(build))", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_remove_method": "public void remove(Item item, int amount){", "item_module_remove_clamp": "amount = Math.min(amount, items[item.id]);", "item_ids": item_ids, "item_stack_amounts": item_stack_amounts, "multiplier_get_build": multiplier_get_build, "remove_calls": remove_calls}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
         and type_entry.get("name") == "ConsumeLiquidsDynamic"
         and method.get("name") == "rebuild"

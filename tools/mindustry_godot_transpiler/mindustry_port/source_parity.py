@@ -4532,6 +4532,50 @@ def verify_consume_item_dynamic_build_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_consume_item_dynamic_trigger_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_dynamic_source = "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    item_stack_source = "core/src/mindustry/type/ItemStack.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    item_module_source = "core/src/mindustry/world/modules/ItemModule.java"
+    upstream_root = Path(upstream_root)
+    source = (upstream_root / consume_item_dynamic_source).read_text(encoding="utf-8", errors="replace")
+    consume_text = (upstream_root / consume_source).read_text(encoding="utf-8", errors="replace")
+    item_stack_text = (upstream_root / item_stack_source).read_text(encoding="utf-8", errors="replace")
+    building_comp_text = (upstream_root / building_comp_source).read_text(encoding="utf-8", errors="replace")
+    item_module_text = (upstream_root / item_module_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "items_field": "public final Func<Building, ItemStack[]> items;",
+        "method": "public void trigger(Building build){",
+        "loop_expr": "for(ItemStack stack : items.get(build)){",
+        "remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+        "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+        "item_stack_item_field": "public Item item;",
+        "item_stack_amount_field": "public int amount = 0;",
+        "building_items_field": "@Nullable ItemModule items;",
+        "item_module_remove_method": "public void remove(Item item, int amount){",
+        "item_module_remove_clamp": "amount = Math.min(amount, items[item.id]);",
+    }
+    source_by_key = {
+        "items_field": source,
+        "method": source,
+        "loop_expr": source,
+        "remove_expr": source,
+        "multiplier_field": consume_text,
+        "item_stack_item_field": item_stack_text,
+        "item_stack_amount_field": item_stack_text,
+        "building_items_field": building_comp_text,
+        "item_module_remove_method": item_module_text,
+        "item_module_remove_clamp": item_module_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_dynamic_source,
+        "sources": [consume_source, item_stack_source, building_comp_source, item_module_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquids_dynamic_update_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
     consume_source = "core/src/mindustry/world/consumers/Consume.java"

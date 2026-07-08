@@ -36,7 +36,15 @@ func java_method_rebuild_2(_args: Array = []) -> Variant:
 	return null
 
 func java_method_trigger_3(_args: Array = []) -> Variant:
-	return null
+	var item_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []
+	var item_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+	var multiplier_get_build: float = float(_args[2] if _args.size() > 2 else 1.0)
+	var remove_calls: Array = []
+	for index in item_ids.size():
+		var stack_amount: float = float(item_stack_amounts[index] if index < item_stack_amounts.size() else 0.0)
+		var remove_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
+		remove_calls.append({"call": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "item_id": int(item_ids[index]), "stack_amount": stack_amount, "amount": remove_amount})
+	return {"source_owner": "PortGame.source_consume_item_dynamic_trigger_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "public void trigger(Building build){", "items_field": "public final Func<Building, ItemStack[]> items;", "loop_expr": "for(ItemStack stack : items.get(build)){", "remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "round_expr": "Math.round(stack.amount * multiplier.get(build))", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_remove_method": "public void remove(Item item, int amount){", "item_module_remove_clamp": "amount = Math.min(amount, items[item.id]);", "item_ids": item_ids, "item_stack_amounts": item_stack_amounts, "multiplier_get_build": multiplier_get_build, "remove_calls": remove_calls}
 
 func java_method_efficiency_4(_args: Array = []) -> Variant:
 	return null

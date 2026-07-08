@@ -2789,6 +2789,45 @@ func generated_consume_item_dynamic_build_bridge_state(current_item_ids: Array, 
 		"matches": result.get("rebuild_calls", []) == canonical.get("rebuild_calls", []) and result.get("current_item_ids_after_update", []) == canonical.get("current_item_ids_after_update", []),
 	}
 
+func source_consume_item_dynamic_trigger_state(item_ids: Array, item_stack_amounts: Array, multiplier_get_build: float) -> Dictionary:
+	var remove_calls: Array = []
+	for index in item_ids.size():
+		var stack_amount: float = float(item_stack_amounts[index] if index < item_stack_amounts.size() else 0.0)
+		var remove_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
+		remove_calls.append({"call": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "item_id": int(item_ids[index]), "stack_amount": stack_amount, "amount": remove_amount})
+	return {
+		"source_owner": "PortGame.source_consume_item_dynamic_trigger_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+		"method": "public void trigger(Building build){",
+		"items_field": "public final Func<Building, ItemStack[]> items;",
+		"loop_expr": "for(ItemStack stack : items.get(build)){",
+		"remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+		"round_expr": "Math.round(stack.amount * multiplier.get(build))",
+		"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+		"item_stack_item_field": "public Item item;",
+		"item_stack_amount_field": "public int amount = 0;",
+		"building_items_field": "@Nullable ItemModule items;",
+		"item_module_remove_method": "public void remove(Item item, int amount){",
+		"item_module_remove_clamp": "amount = Math.min(amount, items[item.id]);",
+		"item_ids": item_ids,
+		"item_stack_amounts": item_stack_amounts,
+		"multiplier_get_build": multiplier_get_build,
+		"remove_calls": remove_calls,
+	}
+
+func generated_consume_item_dynamic_trigger_bridge_state(item_ids: Array, item_stack_amounts: Array, multiplier_get_build: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemDynamic.gd")
+	var instance = script.new()
+	var result = instance.java_method_trigger_3([item_ids, item_stack_amounts, multiplier_get_build])
+	var canonical = source_consume_item_dynamic_trigger_state(item_ids, item_stack_amounts, multiplier_get_build)
+	return {
+		"source_owner": "PortGame.source_consume_item_dynamic_trigger_state",
+		"generated_owner": "ConsumeItemDynamic.trigger",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("remove_calls", []) == canonical.get("remove_calls", []),
+	}
+
 func source_consume_liquids_dynamic_apply_state(block_has_liquids_before: bool) -> Dictionary:
 	return {
 		"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",

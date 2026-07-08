@@ -36291,6 +36291,54 @@
         "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
       ],
       "title": "Generated ConsumeItemDynamic build bridge state"
+    },
+    "N1453": {
+      "deferred_exprs": [
+        "Concrete Func<Building, ItemStack[]> invocation remains represented as explicit item id and amount arrays until generated functional interface dispatch is wired.",
+        "Concrete ItemModule mutation remains represented as remove call state until generated Building/ItemModule object wiring is complete."
+      ],
+      "exact_exprs": [
+        "public final Func<Building, ItemStack[]> items;",
+        "public void trigger(Building build){",
+        "for(ItemStack stack : items.get(build)){",
+        "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "public Item item;",
+        "public int amount = 0;",
+        "@Nullable ItemModule items;",
+        "public void remove(Item item, int amount){",
+        "amount = Math.min(amount, items[item.id]);"
+      ],
+      "generated_owner": "ConsumeItemDynamic.java_method_trigger_3",
+      "godot_owner": "PortGame.source_consume_item_dynamic_trigger_state",
+      "java_class": "ConsumeItemDynamic",
+      "java_method": "trigger(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Generated ConsumeItemDynamic.trigger bridges item-stack iteration, Java Math.round multiplier amount calculation, and build.items.remove call state.",
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_trigger_bridge_state",
+      "source_symbols": [
+        "consume_item_dynamic_trigger.items_field",
+        "consume_item_dynamic_trigger.loop",
+        "consume_item_dynamic_trigger.remove",
+        "consume_item_dynamic_trigger.round",
+        "consume_item_dynamic_trigger.item_ids",
+        "consume_item_dynamic_trigger.stack_amounts",
+        "consume_item_dynamic_trigger.multiplier_get_build",
+        "consume_item_dynamic_trigger.multiplier",
+        "consume_item_dynamic_trigger.item_stack_item_field",
+        "consume_item_dynamic_trigger.item_stack_amount_field",
+        "consume_item_dynamic_trigger.building_items_field",
+        "consume_item_dynamic_trigger.item_module_remove",
+        "consume_item_dynamic_trigger.item_module_remove_clamp"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_trigger_bridge_state",
+        "test_consume_item_dynamic_trigger_matches_upstream_source",
+        "test_generated_consume_item_dynamic_trigger_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeItemDynamic trigger bridge state"
     }
   },
   "version": 1
