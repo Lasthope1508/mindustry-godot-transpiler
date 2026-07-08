@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 868)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 863)
+        self.assertEqual(audit["totalSourceFunctions"], 869)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 864)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 868)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 869)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20380,6 +20380,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_build_payload_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_write_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_payload_set_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_constructor_block_team_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_constructor_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_constructor_state", audit["registeredSourceOwners"])
@@ -48494,6 +48495,67 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_unit_payload_write_result")
         self.assertEqual(result_schema["keys"]["unit_write_called"]["java_expr"], "unit.write(write);")
         self.assertEqual(result_schema["keys"]["write_calls"]["java_expr"], "write.b(payloadUnit); / write.b(unit.classId()); / unit.write(write);")
+
+    def test_generated_unit_payload_set_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_payload_set.method")
+        self.assertEqual(method["java_expr"], "public void set(float x, float y, float rotation){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(method["java_method"], "UnitPayload.set(float x, float y, float rotation)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_payload_set_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_payload_set_state")
+        x_symbol = source_symbols.source_symbol(registry, "unit_payload_set.x")
+        self.assertEqual(x_symbol["java_expr"], "x")
+        self.assertEqual(x_symbol["godot_symbol"], "source_unit_payload_set_input.x")
+        y_symbol = source_symbols.source_symbol(registry, "unit_payload_set.y")
+        self.assertEqual(y_symbol["java_expr"], "y")
+        self.assertEqual(y_symbol["godot_symbol"], "source_unit_payload_set_input.y")
+        rotation = source_symbols.source_symbol(registry, "unit_payload_set.rotation")
+        self.assertEqual(rotation["java_expr"], "rotation")
+        self.assertEqual(rotation["godot_symbol"], "source_unit_payload_set_input.rotation_value")
+        set_expr = source_symbols.source_symbol(registry, "unit_payload_set.set_expr")
+        self.assertEqual(set_expr["java_expr"], "unit.set(x, y);")
+        self.assertEqual(set_expr["godot_symbol"], "source_unit_payload_set_result.set_called")
+        rotation_assign = source_symbols.source_symbol(registry, "unit_payload_set.rotation_assign_expr")
+        self.assertEqual(rotation_assign["java_expr"], "unit.rotation = rotation;")
+        self.assertEqual(rotation_assign["godot_symbol"], "source_unit_payload_set_result.rotation")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1394")
+        self.assertEqual(payload_slice["title"], "Generated UnitPayload set bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(payload_slice["java_method"], "UnitPayload.set(float x, float y, float rotation)")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_unit_payload_set_state")
+        self.assertEqual(payload_slice["generated_owner"], "UnitPayload.java_method_set_8")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_unit_payload_set_bridge_state")
+        for expr in [
+            "public class UnitPayload implements Payload{",
+            "public Unit unit;",
+            "@Override",
+            "public void set(float x, float y, float rotation){",
+            "unit.set(x, y);",
+            "unit.rotation = rotation;",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("unit_payload_set.rotation_assign_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_unit_payload_set_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["x", "y", "rotation_value"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "override_expr", "method", "set_expr", "rotation_assign_expr", "x", "y", "rotation", "set_called", "set_call"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_unit_payload_set_input")
+        self.assertEqual(input_schema["keys"]["x"]["java_expr"], "x")
+        self.assertEqual(input_schema["keys"]["y"]["java_expr"], "y")
+        self.assertEqual(input_schema["keys"]["rotation_value"]["java_expr"], "rotation")
+        result_schema = source_symbols.state_schema(schema, "source_unit_payload_set_result")
+        self.assertEqual(result_schema["keys"]["set_called"]["java_expr"], "unit.set(x, y);")
+        self.assertEqual(result_schema["keys"]["rotation"]["java_expr"], "unit.rotation = rotation;")
 
     def test_generated_build_payload_place_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

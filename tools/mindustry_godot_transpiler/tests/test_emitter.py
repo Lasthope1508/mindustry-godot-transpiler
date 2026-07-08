@@ -17454,6 +17454,12 @@ public class UnitPayload implements Payload{
         write.b(unit.classId());
         unit.write(write);
     }
+
+    @Override
+    public void set(float x, float y, float rotation){
+        unit.set(x, y);
+        unit.rotation = rotation;
+    }
 }
 """,
                 encoding="utf-8",
@@ -17552,6 +17558,81 @@ public class UnitPayload implements Payload{
             self.assertIn('"unit_class_id": unit_class_id', source_text)
             self.assertIn('"unit_write_called": true', source_text)
             self.assertIn('"write_calls": write_calls', source_text)
+
+    def test_emit_bridges_unit_payload_set_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+
+    public void showOverlay(TextureRegion icon){
+    }
+
+    public void showOverlay(TextureRegionDrawable icon){
+    }
+
+    public boolean contentEquals(Payload other){
+        return false;
+    }
+
+    public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){
+    }
+
+    public UnlockableContent content(){
+        return unit.type;
+    }
+
+    public ItemStack[] requirements(){
+        return unit.type.getTotalRequirements();
+    }
+
+    public float buildTime(){
+        return unit.type.getBuildTime();
+    }
+
+    public void write(Writes write){
+    }
+
+    @Override
+    public void set(float x, float y, float rotation){
+        unit.set(x, y);
+        unit.rotation = rotation;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_set_8(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var x: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var y: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var rotation_value: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn('{"call": "unit.set(x, y);", "x": x, "y": y}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_set_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
+            self.assertIn('"field_expr": "public Unit unit;"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public void set(float x, float y, float rotation){"', source_text)
+            self.assertIn('"set_expr": "unit.set(x, y);"', source_text)
+            self.assertIn('"rotation_assign_expr": "unit.rotation = rotation;"', source_text)
+            self.assertIn('"x": x', source_text)
+            self.assertIn('"y": y', source_text)
+            self.assertIn('"rotation": rotation_value', source_text)
+            self.assertIn('"set_called": true', source_text)
+            self.assertIn('"set_call": set_call', source_text)
 
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

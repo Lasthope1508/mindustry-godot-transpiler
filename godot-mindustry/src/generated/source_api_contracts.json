@@ -36641,6 +36641,59 @@
         "test_unit_payload_write_matches_upstream_source",
         "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_set_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.set(float x, float y, float rotation)",
+      "source_slice": "N1394",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_unit_payload_set_state",
+      "rule": "PortGame.source_unit_payload_set_state pins UnitPayload.set(float x, float y, float rotation) state contract.",
+      "params": [
+        {
+          "name": "x",
+          "type": "float",
+          "java_expr": "x",
+          "schema": "source_unit_payload_set_input.x",
+          "source_symbol": "unit_payload_set.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "java_expr": "y",
+          "schema": "source_unit_payload_set_input.y",
+          "source_symbol": "unit_payload_set.y"
+        },
+        {
+          "name": "rotation_value",
+          "type": "float",
+          "java_expr": "rotation",
+          "schema": "source_unit_payload_set_input.rotation_value",
+          "source_symbol": "unit_payload_set.rotation"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "set_expr",
+        "rotation_assign_expr",
+        "x",
+        "y",
+        "rotation",
+        "set_called",
+        "set_call"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_set_to_source_state",
+        "test_port_game_exposes_source_unit_payload_set_state",
+        "test_port_game_exposes_generated_unit_payload_set_bridge_state",
+        "test_unit_payload_set_matches_upstream_source",
+        "test_generated_unit_payload_set_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

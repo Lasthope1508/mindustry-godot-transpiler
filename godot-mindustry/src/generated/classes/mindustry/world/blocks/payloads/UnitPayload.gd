@@ -70,7 +70,11 @@ func java_method_write_7(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_payload_write_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void write(Writes write){", "payload_unit_write_expr": "write.b(payloadUnit);", "unit_class_id_write_expr": "write.b(unit.classId());", "unit_write_expr": "unit.write(write);", "payload_unit": payload_unit, "unit_class_id": unit_class_id, "unit_write_called": true, "write_calls": write_calls}
 
 func java_method_set_8(_args: Array = []) -> Variant:
-	return null
+	var x: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var y: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var rotation_value: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var set_call: Dictionary = {"call": "unit.set(x, y);", "x": x, "y": y}
+	return {"source_owner": "PortGame.source_unit_payload_set_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void set(float x, float y, float rotation){", "set_expr": "unit.set(x, y);", "rotation_assign_expr": "unit.rotation = rotation;", "x": x, "y": y, "rotation": rotation_value, "set_called": true, "set_call": set_call}
 
 func java_method_x_9(_args: Array = []) -> Variant:
 	return null
