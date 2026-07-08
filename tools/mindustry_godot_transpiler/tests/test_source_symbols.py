@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 872)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 867)
+        self.assertEqual(audit["totalSourceFunctions"], 873)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 868)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 872)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 873)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20384,6 +20384,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_unit_payload_x_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_y_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_rotation_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_payload_size_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_constructor_block_team_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_constructor_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_constructor_state", audit["registeredSourceOwners"])
@@ -48703,6 +48704,54 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["unit_rotation"]["java_expr"], "unit.rotation")
         result_schema = source_symbols.state_schema(schema, "source_unit_payload_rotation_result")
         self.assertEqual(result_schema["keys"]["rotation"]["java_expr"], "return unit.rotation;")
+
+    def test_generated_unit_payload_size_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_payload_size.method")
+        self.assertEqual(method["java_expr"], "public float size(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(method["java_method"], "UnitPayload.size()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_payload_size_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_payload_size_state")
+        unit_hit_size = source_symbols.source_symbol(registry, "unit_payload_size.unit_hit_size")
+        self.assertEqual(unit_hit_size["java_expr"], "unit.hitSize")
+        self.assertEqual(unit_hit_size["godot_symbol"], "source_unit_payload_size_input.unit_hit_size")
+        return_expr = source_symbols.source_symbol(registry, "unit_payload_size.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return unit.hitSize;")
+        self.assertEqual(return_expr["godot_symbol"], "source_unit_payload_size_result.size")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1398")
+        self.assertEqual(payload_slice["title"], "Generated UnitPayload size bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(payload_slice["java_method"], "UnitPayload.size()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_unit_payload_size_state")
+        self.assertEqual(payload_slice["generated_owner"], "UnitPayload.java_method_size_12")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_unit_payload_size_bridge_state")
+        for expr in [
+            "public class UnitPayload implements Payload{",
+            "public Unit unit;",
+            "@Override",
+            "public float size(){",
+            "return unit.hitSize;",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("unit_payload_size.return_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_unit_payload_size_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["unit_hit_size"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "override_expr", "method", "return_expr", "unit_hit_size", "size"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_unit_payload_size_input")
+        self.assertEqual(input_schema["keys"]["unit_hit_size"]["java_expr"], "unit.hitSize")
+        result_schema = source_symbols.state_schema(schema, "source_unit_payload_size_result")
+        self.assertEqual(result_schema["keys"]["size"]["java_expr"], "return unit.hitSize;")
 
     def test_generated_build_payload_place_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

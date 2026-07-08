@@ -20279,6 +20279,32 @@ func generated_unit_payload_rotation_bridge_state(unit_rotation: float) -> Dicti
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_size_state(unit_hit_size: float) -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_unit_payload_size_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"override_expr": "@Override",
+		"method": "public float size(){",
+		"return_expr": "return unit.hitSize;",
+		"unit_hit_size": unit_hit_size,
+		"size": unit_hit_size,
+	}
+
+func generated_unit_payload_size_bridge_state(unit_hit_size: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_size_12([unit_hit_size])
+	var canonical = source_unit_payload_size_state(unit_hit_size)
+	return {
+		"source_owner": "PortGame.source_unit_payload_size_state",
+		"generated_owner": "UnitPayload.java_method_size_12",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

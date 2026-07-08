@@ -33875,6 +33875,42 @@
         "test_generated_unit_payload_rotation_slice_is_registered_with_source_backing"
       ],
       "title": "Generated UnitPayload rotation bridge state"
+    },
+    "N1398": {
+      "deferred_exprs": [
+        "Concrete Unit internals, UnitPayload.dump(), draw, icon, and world integration remain deferred to later source-backed slices."
+      ],
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public float size(){",
+        "return unit.hitSize;"
+      ],
+      "generated_owner": "UnitPayload.java_method_size_12",
+      "godot_owner": "PortGame.source_unit_payload_size_state",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.size()",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "rule": "Registers UnitPayload.size() getter bridge against exact return unit.hitSize source expression.",
+      "runtime_proof": "/root/Main.generated_unit_payload_size_bridge_state",
+      "source_symbols": [
+        "unit_payload_size.class_expr",
+        "unit_payload_size.field_expr",
+        "unit_payload_size.override_expr",
+        "unit_payload_size.method",
+        "unit_payload_size.unit_hit_size",
+        "unit_payload_size.return_expr"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_unit_payload_size_to_source_state",
+        "test_port_game_exposes_source_unit_payload_size_state",
+        "test_port_game_exposes_generated_unit_payload_size_bridge_state",
+        "test_unit_payload_size_matches_upstream_source",
+        "test_generated_unit_payload_size_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated UnitPayload size bridge state"
     }
   },
   "version": 1

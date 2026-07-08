@@ -17856,6 +17856,88 @@ public class UnitPayload implements Payload{
             self.assertIn('"unit_rotation": unit_rotation', source_text)
             self.assertIn('"rotation": unit_rotation', source_text)
 
+    def test_emit_bridges_unit_payload_size_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+
+    public void showOverlay(TextureRegion icon){
+    }
+
+    public void showOverlay(TextureRegionDrawable icon){
+    }
+
+    public boolean contentEquals(Payload other){
+        return false;
+    }
+
+    public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){
+    }
+
+    public UnlockableContent content(){
+        return unit.type;
+    }
+
+    public ItemStack[] requirements(){
+        return unit.type.getTotalRequirements();
+    }
+
+    public float buildTime(){
+        return unit.type.getBuildTime();
+    }
+
+    public void write(Writes write){
+    }
+
+    public void set(float x, float y, float rotation){
+    }
+
+    public float x(){
+        return unit.x;
+    }
+
+    public float y(){
+        return unit.y;
+    }
+
+    public float rotation(){
+        return unit.rotation;
+    }
+
+    @Override
+    public float size(){
+        return unit.hitSize;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_size_12(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit_hit_size: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_size_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
+            self.assertIn('"field_expr": "public Unit unit;"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public float size(){"', source_text)
+            self.assertIn('"return_expr": "return unit.hitSize;"', source_text)
+            self.assertIn('"unit_hit_size": unit_hit_size', source_text)
+            self.assertIn('"size": unit_hit_size', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
