@@ -49998,6 +49998,159 @@
         "test_generated_consume_liquid_apply_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_liquids_apply.block_has_liquids_before": {
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "godot_symbol": "source_consume_liquids_apply_input.block_has_liquids_before",
+      "java_expr": "block.hasLiquids before apply(Block block)",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "rule": "Explicit Block.hasLiquids input before ConsumeLiquids.apply mutates it.",
+      "runtime_proof": "/root/Main.source_consume_liquids_apply_state",
+      "source_slice": "N1442",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_apply.has_liquids_assignment": {
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "godot_symbol": "source_consume_liquids_apply_result.block_has_liquids_after",
+      "java_expr": "block.hasLiquids = true;",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "rule": "Source-backed ConsumeLiquids.apply marks blocks as having liquids.",
+      "runtime_proof": "/root/Main.source_consume_liquids_apply_state",
+      "source_slice": "N1442",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_apply.liquid_filter_before": {
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "godot_symbol": "source_consume_liquids_apply_input.liquid_filter_before",
+      "java_expr": "block.liquidFilter before apply(Block block)",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "rule": "Explicit liquidFilter input before ConsumeLiquids.apply loop mutates selected entries.",
+      "runtime_proof": "/root/Main.source_consume_liquids_apply_state",
+      "source_slice": "N1442",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_apply.liquid_ids": {
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "godot_symbol": "source_consume_liquids_apply_input.liquid_ids",
+      "java_expr": "stack.liquid.id",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "rule": "Explicit input for each LiquidStack liquid id before concrete LiquidStack objects are wired.",
+      "runtime_proof": "/root/Main.source_consume_liquids_apply_state",
+      "source_slice": "N1442",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_apply.loop": {
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "godot_symbol": "source_consume_liquids_apply_result.loop_expr",
+      "java_expr": "for(var stack : liquids){",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "rule": "Exact ConsumeLiquids.apply loop over LiquidStack entries.",
+      "runtime_proof": "/root/Main.source_consume_liquids_apply_state",
+      "source_slice": "N1442",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_apply.liquid_filter_assignment": {
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "godot_symbol": "source_consume_liquids_apply_result.liquid_filter_after",
+      "java_expr": "block.liquidFilter[stack.liquid.id] = true;",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "rule": "Source-backed liquid filter assignment for each LiquidStack liquid id.",
+      "runtime_proof": "/root/Main.source_consume_liquids_apply_state",
+      "source_slice": "N1442",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_apply.liquids_field": {
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "godot_symbol": "source_consume_liquids_apply_result.liquids_field",
+      "java_expr": "public final LiquidStack[] liquids;",
+      "java_method": "ConsumeLiquids",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "rule": "Source-backed ConsumeLiquids field iterated by apply(Block).",
+      "runtime_proof": "/root/Main.source_consume_liquids_apply_state",
+      "source_slice": "N1442",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_apply.block_liquid_filter_field": {
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "godot_symbol": "source_consume_liquids_apply_result.block_liquid_filter_field",
+      "java_expr": "public boolean[] itemFilter = {}, liquidFilter = {};",
+      "java_method": "Block fields",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Block.liquidFilter backing array mutated by ConsumeLiquids.apply.",
+      "runtime_proof": "/root/Main.source_consume_liquids_apply_state",
+      "source_slice": "N1442",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_apply.liquid_stack_liquid_field": {
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "godot_symbol": "source_consume_liquids_apply_result.liquid_stack_liquid_field",
+      "java_expr": "public Liquid liquid;",
+      "java_method": "LiquidStack fields",
+      "java_source": "core/src/mindustry/type/LiquidStack.java",
+      "rule": "LiquidStack.liquid supplies liquid id used in the filter assignment.",
+      "runtime_proof": "/root/Main.source_consume_liquids_apply_state",
+      "source_slice": "N1442",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_liquid_apply.liquid_filter_before": {
       "godot_owner": "PortGame.source_consume_liquid_apply_state",
       "godot_symbol": "source_consume_liquid_apply_input.liquid_filter_before",

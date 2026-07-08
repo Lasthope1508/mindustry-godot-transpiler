@@ -2603,6 +2603,38 @@ func generated_consume_liquid_apply_bridge_state(block_has_liquids_before: bool,
 		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null) and result.get("liquid_filter_after", []) == canonical.get("liquid_filter_after", []),
 	}
 
+func source_consume_liquids_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_ids: Array) -> Dictionary:
+	var liquid_filter_after := liquid_filter_before.duplicate()
+	for liquid_id in liquid_ids:
+		liquid_filter_after[int(liquid_id)] = true
+	return {
+		"method": "public void apply(Block block){",
+		"has_liquids_assignment_expr": "block.hasLiquids = true;",
+		"loop_expr": "for(var stack : liquids){",
+		"liquid_filter_assignment_expr": "block.liquidFilter[stack.liquid.id] = true;",
+		"block_liquid_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+		"liquids_field": "public final LiquidStack[] liquids;",
+		"liquid_stack_liquid_field": "public Liquid liquid;",
+		"block_has_liquids_before": block_has_liquids_before,
+		"block_has_liquids_after": true,
+		"liquid_filter_before": liquid_filter_before,
+		"liquid_ids": liquid_ids,
+		"liquid_filter_after": liquid_filter_after,
+	}
+
+func generated_consume_liquids_apply_bridge_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_ids: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquids.gd")
+	var instance = script.new()
+	var result = instance.java_method_apply_0([block_has_liquids_before, liquid_filter_before, liquid_ids])
+	var canonical = source_consume_liquids_apply_state(block_has_liquids_before, liquid_filter_before, liquid_ids)
+	return {
+		"source_owner": "PortGame.source_consume_liquids_apply_state",
+		"generated_owner": "ConsumeLiquids.apply",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null) and result.get("liquid_filter_after", []) == canonical.get("liquid_filter_after", []),
+	}
+
 func source_consume_liquid_consumes_state(liquid_matches_self_liquid: bool) -> Dictionary:
 	return {
 		"method": "public boolean consumes(Liquid liquid){",

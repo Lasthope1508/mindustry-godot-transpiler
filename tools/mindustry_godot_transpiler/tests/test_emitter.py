@@ -17638,6 +17638,53 @@ public class ConsumeLiquid extends ConsumeLiquidBase{
             self.assertIn('"liquid_filter_assignment_expr": "block.liquidFilter[liquid.id] = true;"', source_text)
             self.assertIn('"liquid_filter_after": liquid_filter_after', source_text)
 
+    def test_emit_bridges_consume_liquids_apply_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.world.*;
+
+public class ConsumeLiquids extends Consume{
+    public final LiquidStack[] liquids;
+
+    @Override
+    public void apply(Block block){
+        block.hasLiquids = true;
+        for(var stack : liquids){
+            block.liquidFilter[stack.liquid.id] = true;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquids.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_apply_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_has_liquids_before: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var liquid_filter_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn("var liquid_filter_after: Array = liquid_filter_before.duplicate()", source_text)
+            self.assertIn("for liquid_id in liquid_ids:", source_text)
+            self.assertIn("liquid_filter_after[int(liquid_id)] = true", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquids_apply_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java"', source_text)
+            self.assertIn('"method": "public void apply(Block block){"', source_text)
+            self.assertIn('"has_liquids_assignment_expr": "block.hasLiquids = true;"', source_text)
+            self.assertIn('"liquid_filter_assignment_expr": "block.liquidFilter[stack.liquid.id] = true;"', source_text)
+            self.assertIn('"liquid_ids": liquid_ids', source_text)
+            self.assertIn('"liquid_filter_after": liquid_filter_after', source_text)
+
     def test_emit_bridges_consume_liquid_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

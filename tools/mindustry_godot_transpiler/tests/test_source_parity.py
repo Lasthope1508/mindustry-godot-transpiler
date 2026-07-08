@@ -988,6 +988,24 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquids_apply_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquids_apply_source"))
+        report = source_parity.verify_consume_liquids_apply_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquids.java")
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertIn("core/src/mindustry/type/LiquidStack.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquids_field": "public final LiquidStack[] liquids;",
+            "method": "public void apply(Block block){",
+            "has_liquids_assignment_expr": "block.hasLiquids = true;",
+            "loop_expr": "for(var stack : liquids){",
+            "liquid_filter_assignment_expr": "block.liquidFilter[stack.liquid.id] = true;",
+            "block_liquid_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+            "liquid_stack_liquid_field": "public Liquid liquid;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_consumes_source"))
         report = source_parity.verify_consume_liquid_consumes_source(ROOT / "mindustry-upstream")

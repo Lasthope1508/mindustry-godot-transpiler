@@ -15167,6 +15167,47 @@
       ],
       "title": "Generated ConsumeLiquidFilter consumes bridge state"
     },
+    "N1442": {
+      "deferred_exprs": [
+        "Concrete LiquidStack and Liquid object binding is represented by explicit liquid_ids until generated object references are wired.",
+        "ConsumeLiquids constructors, build, update, efficiency, display, and concrete liquids field binding remain later slices."
+      ],
+      "exact_exprs": [
+        "public final LiquidStack[] liquids;",
+        "public void apply(Block block){",
+        "block.hasLiquids = true;",
+        "for(var stack : liquids){",
+        "block.liquidFilter[stack.liquid.id] = true;",
+        "public boolean[] itemFilter = {}, liquidFilter = {};",
+        "public Liquid liquid;"
+      ],
+      "generated_owner": "ConsumeLiquids.java_method_apply_0",
+      "godot_owner": "PortGame.source_consume_liquids_apply_state",
+      "java_class": "ConsumeLiquids",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "rule": "Generated ConsumeLiquids.apply bridges hasLiquids assignment and per-stack liquid filter assignment.",
+      "runtime_proof": "/root/Main.generated_consume_liquids_apply_bridge_state",
+      "source_symbols": [
+        "consume_liquids_apply.block_has_liquids_before",
+        "consume_liquids_apply.has_liquids_assignment",
+        "consume_liquids_apply.liquid_filter_before",
+        "consume_liquids_apply.liquid_ids",
+        "consume_liquids_apply.loop",
+        "consume_liquids_apply.liquid_filter_assignment",
+        "consume_liquids_apply.liquids_field",
+        "consume_liquids_apply.block_liquid_filter_field",
+        "consume_liquids_apply.liquid_stack_liquid_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquids_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_apply_bridge_state",
+        "test_consume_liquids_apply_matches_upstream_source",
+        "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquids apply bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

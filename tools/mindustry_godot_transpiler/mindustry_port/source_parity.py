@@ -4285,6 +4285,42 @@ def verify_consume_liquid_apply_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_liquids_apply_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquids_source = "core/src/mindustry/world/consumers/ConsumeLiquids.java"
+    block_source = "core/src/mindustry/world/Block.java"
+    liquid_stack_source = "core/src/mindustry/type/LiquidStack.java"
+    consume_liquids_path = Path(upstream_root) / consume_liquids_source
+    block_path = Path(upstream_root) / block_source
+    liquid_stack_path = Path(upstream_root) / liquid_stack_source
+    source = consume_liquids_path.read_text(encoding="utf-8", errors="replace")
+    block_text = block_path.read_text(encoding="utf-8", errors="replace")
+    liquid_stack_text = liquid_stack_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquids_field": "public final LiquidStack[] liquids;",
+        "method": "public void apply(Block block){",
+        "has_liquids_assignment_expr": "block.hasLiquids = true;",
+        "loop_expr": "for(var stack : liquids){",
+        "liquid_filter_assignment_expr": "block.liquidFilter[stack.liquid.id] = true;",
+        "block_liquid_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+        "liquid_stack_liquid_field": "public Liquid liquid;",
+    }
+    source_by_key = {
+        "liquids_field": source,
+        "method": source,
+        "has_liquids_assignment_expr": source,
+        "loop_expr": source,
+        "liquid_filter_assignment_expr": source,
+        "block_liquid_filter_field": block_text,
+        "liquid_stack_liquid_field": liquid_stack_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquids_source,
+        "sources": [block_source, liquid_stack_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_filter_consumes_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
     consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source

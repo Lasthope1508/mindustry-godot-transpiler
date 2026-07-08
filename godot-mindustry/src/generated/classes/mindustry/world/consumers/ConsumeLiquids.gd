@@ -14,7 +14,13 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": 
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_apply_0(_args: Array = []) -> Variant:
-	return null
+	var block_has_liquids_before: bool = bool(_args[0] if _args.size() > 0 else false)
+	var liquid_filter_before: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+	var liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []
+	var liquid_filter_after: Array = liquid_filter_before.duplicate()
+	for liquid_id in liquid_ids:
+		liquid_filter_after[int(liquid_id)] = true
+	return {"source_owner": "PortGame.source_consume_liquids_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquids.java", "method": "public void apply(Block block){", "has_liquids_assignment_expr": "block.hasLiquids = true;", "loop_expr": "for(var stack : liquids){", "liquid_filter_assignment_expr": "block.liquidFilter[stack.liquid.id] = true;", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": true, "liquid_filter_before": liquid_filter_before, "liquid_ids": liquid_ids, "liquid_filter_after": liquid_filter_after}
 
 func java_method_build_1(_args: Array = []) -> Variant:
 	return null
