@@ -12030,6 +12030,39 @@ def verify_unit_payload_draw_elevation_setup_source(upstream_root: Path) -> dict
         "missing": missing,
     }
 
+def verify_unit_payload_draw_overlay_warning_source(upstream_root: Path) -> dict[str, Any]:
+    unit_payload_source = "core/src/mindustry/world/blocks/payloads/UnitPayload.java"
+    payload_path = Path(upstream_root) / unit_payload_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class UnitPayload implements Payload{",
+        "overlay_duration_field_expr": "public static final float overlayDuration = 40f;",
+        "overlay_time_field_expr": "public float overlayTime = 0f;",
+        "overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;",
+        "method": "public void draw(){",
+        "draw_warning_comment_expr": "//draw warning",
+        "overlay_guard_expr": "if(overlayTime > 0){",
+        "draw_z_snapshot_expr": "float z = Draw.z();",
+        "draw_z_warning_expr": "Draw.z(Layer.groundUnit + 1f);",
+        "region_expr": "var region = overlayRegion == null ? Icon.warning.getRegion() : overlayRegion;",
+        "draw_color_expr": "Draw.color(Color.scarlet);",
+        "draw_alpha_expr": "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));",
+        "size_expr": "float size = 8f;",
+        "draw_rect_expr": "Draw.rect(region, unit.x, unit.y, size, size);",
+        "draw_reset_expr": "Draw.reset();",
+        "overlay_time_update_expr": "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);",
+        "draw_z_restore_expr": "Draw.z(z);",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in source
+    ]
+    return {
+        "source": unit_payload_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_place_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

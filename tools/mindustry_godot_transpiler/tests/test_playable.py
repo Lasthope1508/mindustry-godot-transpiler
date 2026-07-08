@@ -18971,6 +18971,45 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_draw_overlay_warning_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_draw_overlay_warning_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"overlay_duration_field_expr": "public static final float overlayDuration = 40f;"', source)
+        self.assertIn('"overlay_time_field_expr": "public float overlayTime = 0f;"', source)
+        self.assertIn('"overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;"', source)
+        self.assertIn('"draw_warning_comment_expr": "//draw warning"', source)
+        self.assertIn('"overlay_guard_expr": "if(overlayTime > 0){"', source)
+        self.assertIn('"draw_z_snapshot_expr": "float z = Draw.z();"', source)
+        self.assertIn('"draw_z_warning_expr": "Draw.z(Layer.groundUnit + 1f);"', source)
+        self.assertIn('"region_expr": "var region = overlayRegion == null ? Icon.warning.getRegion() : overlayRegion;"', source)
+        self.assertIn('"draw_color_expr": "Draw.color(Color.scarlet);"', source)
+        self.assertIn('"draw_alpha_expr": "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));"', source)
+        self.assertIn('"size_expr": "float size = 8f;"', source)
+        self.assertIn('"draw_rect_expr": "Draw.rect(region, unit.x, unit.y, size, size);"', source)
+        self.assertIn('"draw_reset_expr": "Draw.reset();"', source)
+        self.assertIn('"overlay_time_update_expr": "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);"', source)
+        self.assertIn('"draw_z_restore_expr": "Draw.z(z);"', source)
+        self.assertIn('"overlay_guard": overlay_guard', source)
+        self.assertIn('"draw_alpha_value": draw_alpha_value', source)
+        self.assertIn('"draw_rect_call": draw_rect_call', source)
+        self.assertIn('"overlay_time_after": overlay_time_after', source)
+
+    def test_port_game_exposes_generated_unit_payload_draw_overlay_warning_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_draw_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_draw_15([unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time])", source)
+        self.assertIn("var canonical = source_unit_payload_draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

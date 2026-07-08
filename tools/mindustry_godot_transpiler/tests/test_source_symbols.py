@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 882)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 877)
+        self.assertEqual(audit["totalSourceFunctions"], 883)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 878)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 882)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 883)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20384,6 +20384,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_unit_payload_dump_no_client_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_spawn_side_effects_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_draw_elevation_setup_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_payload_draw_overlay_warning_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_draw_shadow_type_null_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_draw_type_null_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_set_state", audit["registeredSourceOwners"])
@@ -49300,6 +49301,72 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["draw_scl_call"]["java_expr"], "Draw.scl(1f, 1f);")
         self.assertEqual(result_schema["keys"]["unit_type_draw_call"]["java_expr"], "unit.type.draw(unit);")
         self.assertEqual(result_schema["keys"]["elevation_after_restore"]["java_expr"], "unit.elevation = e;")
+
+    def test_generated_unit_payload_draw_overlay_warning_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_payload_draw_overlay_warning.method")
+        self.assertEqual(method["java_expr"], "public void draw(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(method["java_method"], "UnitPayload.draw()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_payload_draw_overlay_warning_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_payload_draw_overlay_warning_state")
+        overlay_guard = source_symbols.source_symbol(registry, "unit_payload_draw_overlay_warning.overlay_guard_expr")
+        self.assertEqual(overlay_guard["java_expr"], "if(overlayTime > 0){")
+        self.assertEqual(overlay_guard["godot_symbol"], "source_unit_payload_draw_overlay_warning_result.overlay_guard")
+        draw_alpha = source_symbols.source_symbol(registry, "unit_payload_draw_overlay_warning.draw_alpha_expr")
+        self.assertEqual(draw_alpha["java_expr"], "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));")
+        self.assertEqual(draw_alpha["godot_symbol"], "source_unit_payload_draw_overlay_warning_result.draw_alpha_value")
+        overlay_update = source_symbols.source_symbol(registry, "unit_payload_draw_overlay_warning.overlay_time_update_expr")
+        self.assertEqual(overlay_update["java_expr"], "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);")
+        self.assertEqual(overlay_update["godot_symbol"], "source_unit_payload_draw_overlay_warning_result.overlay_time_after")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1408")
+        self.assertEqual(payload_slice["title"], "Generated UnitPayload draw overlay warning bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(payload_slice["java_method"], "UnitPayload.draw()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_unit_payload_draw_overlay_warning_state")
+        self.assertEqual(payload_slice["generated_owner"], "UnitPayload.java_method_draw_15")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_unit_payload_draw_overlay_warning_bridge_state")
+        for expr in [
+            "public static final float overlayDuration = 40f;",
+            "public float overlayTime = 0f;",
+            "public @Nullable TextureRegion overlayRegion;",
+            "//draw warning",
+            "if(overlayTime > 0){",
+            "float z = Draw.z();",
+            "Draw.z(Layer.groundUnit + 1f);",
+            "var region = overlayRegion == null ? Icon.warning.getRegion() : overlayRegion;",
+            "Draw.color(Color.scarlet);",
+            "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));",
+            "float size = 8f;",
+            "Draw.rect(region, unit.x, unit.y, size, size);",
+            "Draw.reset();",
+            "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);",
+            "Draw.z(z);",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("unit_payload_draw_overlay_warning.overlay_guard_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_unit_payload_draw_overlay_warning_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["unit_type_null", "unit_elevation", "unit_id", "overlay_time", "overlay_region", "unit_x", "unit_y", "time_delta", "draw_z_before", "interp_exp5_out_overlay_time"])
+        for key in ["source_owner", "source", "overlay_duration_field_expr", "overlay_time_field_expr", "overlay_region_field_expr", "method", "draw_warning_comment_expr", "overlay_guard_expr", "draw_z_snapshot_expr", "draw_z_warning_expr", "region_expr", "draw_color_expr", "draw_alpha_expr", "size_expr", "draw_rect_expr", "draw_reset_expr", "overlay_time_update_expr", "draw_z_restore_expr", "unit_type_null", "unit_elevation", "unit_id", "overlay_time", "overlay_region", "unit_x", "unit_y", "time_delta", "draw_z_before", "interp_exp5_out_overlay_time", "overlay_duration", "overlay_guard", "draw_z_snapshot", "draw_z_warning_call", "overlay_region_resolved", "draw_color_call", "draw_alpha_value", "draw_alpha_call", "warning_size", "draw_rect_call", "draw_reset_called", "overlay_time_after", "draw_z_restore_call", "deferred_remaining_draw"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_unit_payload_draw_overlay_warning_input")
+        self.assertEqual(input_schema["keys"]["overlay_time"]["java_expr"], "overlayTime")
+        self.assertEqual(input_schema["keys"]["interp_exp5_out_overlay_time"]["java_expr"], "Interp.exp5Out.apply(overlayTime)")
+        result_schema = source_symbols.state_schema(schema, "source_unit_payload_draw_overlay_warning_result")
+        self.assertEqual(result_schema["keys"]["overlay_guard"]["java_expr"], "if(overlayTime > 0){")
+        self.assertEqual(result_schema["keys"]["draw_alpha_value"]["java_expr"], "0.8f * Interp.exp5Out.apply(overlayTime)")
+        self.assertEqual(result_schema["keys"]["draw_rect_call"]["java_expr"], "Draw.rect(region, unit.x, unit.y, size, size);")
+        self.assertEqual(result_schema["keys"]["overlay_time_after"]["java_expr"], "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);")
+        self.assertEqual(result_schema["keys"]["draw_z_restore_call"]["java_expr"], "Draw.z(z);")
 
     def test_generated_build_payload_place_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

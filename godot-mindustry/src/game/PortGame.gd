@@ -20923,6 +20923,81 @@ func generated_unit_payload_draw_elevation_setup_bridge_state(unit_type_null: bo
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_draw_overlay_warning_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:
+	var returned_early: bool = unit_type_null
+	var overlay_duration: float = 40.0
+	var overlay_guard: bool = (not returned_early) and overlay_time > 0.0
+	var draw_z_snapshot: float = draw_z_before
+	var draw_z_warning_call: Dictionary = {"z": "Layer.groundUnit + 1f"} if overlay_guard else {}
+	var overlay_region_resolved: Variant = overlay_region if overlay_region != null else "Icon.warning.getRegion()"
+	var draw_color_call: Dictionary = {"color": "Color.scarlet"} if overlay_guard else {}
+	var draw_alpha_value: float = 0.8 * interp_exp5_out_overlay_time if overlay_guard else 0.0
+	var draw_alpha_call: Dictionary = {"alpha": draw_alpha_value} if overlay_guard else {}
+	var warning_size: float = 8.0
+	var draw_rect_call: Dictionary = {"region": overlay_region_resolved, "x": unit_x, "y": unit_y, "width": warning_size, "height": warning_size} if overlay_guard else {}
+	var draw_reset_called: bool = overlay_guard
+	var overlay_time_after: float = maxf(overlay_time - time_delta / overlay_duration, 0.0) if overlay_guard else overlay_time
+	var draw_z_restore_call: Dictionary = {"z": draw_z_snapshot} if overlay_guard else {}
+	return {
+		"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"overlay_duration_field_expr": "public static final float overlayDuration = 40f;",
+		"overlay_time_field_expr": "public float overlayTime = 0f;",
+		"overlay_region_field_expr": "public @Nullable TextureRegion overlayRegion;",
+		"method": "public void draw(){",
+		"draw_warning_comment_expr": "//draw warning",
+		"overlay_guard_expr": "if(overlayTime > 0){",
+		"draw_z_snapshot_expr": "float z = Draw.z();",
+		"draw_z_warning_expr": "Draw.z(Layer.groundUnit + 1f);",
+		"region_expr": "var region = overlayRegion == null ? Icon.warning.getRegion() : overlayRegion;",
+		"draw_color_expr": "Draw.color(Color.scarlet);",
+		"draw_alpha_expr": "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));",
+		"size_expr": "float size = 8f;",
+		"draw_rect_expr": "Draw.rect(region, unit.x, unit.y, size, size);",
+		"draw_reset_expr": "Draw.reset();",
+		"overlay_time_update_expr": "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);",
+		"draw_z_restore_expr": "Draw.z(z);",
+		"unit_type_null": unit_type_null,
+		"unit_elevation": unit_elevation,
+		"unit_id": unit_id,
+		"overlay_time": overlay_time,
+		"overlay_region": overlay_region,
+		"unit_x": unit_x,
+		"unit_y": unit_y,
+		"time_delta": time_delta,
+		"draw_z_before": draw_z_before,
+		"interp_exp5_out_overlay_time": interp_exp5_out_overlay_time,
+		"returned_early": returned_early,
+		"overlay_duration": overlay_duration,
+		"overlay_guard": overlay_guard,
+		"draw_z_snapshot": draw_z_snapshot,
+		"draw_z_warning_call": draw_z_warning_call,
+		"overlay_region_resolved": overlay_region_resolved,
+		"draw_color_call": draw_color_call,
+		"draw_alpha_value": draw_alpha_value,
+		"draw_alpha_call": draw_alpha_call,
+		"warning_size": warning_size,
+		"draw_rect_call": draw_rect_call,
+		"draw_reset_called": draw_reset_called,
+		"overlay_time_after": overlay_time_after,
+		"draw_z_restore_call": draw_z_restore_call,
+		"deferred_remaining_draw": false,
+	}
+
+func generated_unit_payload_draw_overlay_warning_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant, overlay_time: float, overlay_region: Variant, unit_x: float, unit_y: float, time_delta: float, draw_z_before: float, interp_exp5_out_overlay_time: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_draw_15([unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time])
+	var canonical = source_unit_payload_draw_overlay_warning_state(unit_type_null, unit_elevation, unit_id, overlay_time, overlay_region, unit_x, unit_y, time_delta, draw_z_before, interp_exp5_out_overlay_time)
+	return {
+		"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state",
+		"generated_owner": "UnitPayload.java_method_draw_15",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

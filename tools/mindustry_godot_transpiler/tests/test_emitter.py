@@ -18493,6 +18493,82 @@ public class UnitPayload implements Payload{
             self.assertIn('"unit_type_draw_called": unit_type_draw_called', source_text)
             self.assertIn('"elevation_after_restore": elevation_after_restore', source_text)
 
+    def test_emit_bridges_unit_payload_draw_overlay_warning_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public static final float overlayDuration = 40f;
+    public Unit unit;
+    public float overlayTime = 0f;
+    public @Nullable TextureRegion overlayRegion;
+
+    @Override
+    public void draw(){
+        //TODO should not happen
+        if(unit.type == null) return;
+
+        float e = unit.elevation;
+        unit.elevation = 0f;
+        Draw.scl(1f, 1f);
+        unit.type.draw(unit);
+        unit.elevation = e;
+
+        //draw warning
+        if(overlayTime > 0){
+            float z = Draw.z();
+            Draw.z(Layer.groundUnit + 1f);
+            var region = overlayRegion == null ? Icon.warning.getRegion() : overlayRegion;
+            Draw.color(Color.scarlet);
+            Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));
+
+            float size = 8f;
+            Draw.rect(region, unit.x, unit.y, size, size);
+
+            Draw.reset();
+
+            overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);
+            Draw.z(z);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_draw_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var overlay_time: float = float(_args[3] if _args.size() > 3 else 0.0)", source_text)
+            self.assertIn("var overlay_region: Variant = _args[4] if _args.size() > 4 else null", source_text)
+            self.assertIn("var unit_x: float = float(_args[5] if _args.size() > 5 else 0.0)", source_text)
+            self.assertIn("var unit_y: float = float(_args[6] if _args.size() > 6 else 0.0)", source_text)
+            self.assertIn("var time_delta: float = float(_args[7] if _args.size() > 7 else 0.0)", source_text)
+            self.assertIn("var draw_z_before: float = float(_args[8] if _args.size() > 8 else 0.0)", source_text)
+            self.assertIn("var interp_exp5_out_overlay_time: float = float(_args[9] if _args.size() > 9 else 0.0)", source_text)
+            self.assertIn("var overlay_duration: float = 40.0", source_text)
+            self.assertIn("var overlay_guard: bool = (not returned_early) and overlay_time > 0.0", source_text)
+            self.assertIn("var overlay_region_resolved: Variant = overlay_region if overlay_region != null else \"Icon.warning.getRegion()\"", source_text)
+            self.assertIn("var draw_alpha_value: float = 0.8 * interp_exp5_out_overlay_time if overlay_guard else 0.0", source_text)
+            self.assertIn("var overlay_time_after: float = maxf(overlay_time - time_delta / overlay_duration, 0.0) if overlay_guard else overlay_time", source_text)
+            self.assertIn('var draw_rect_call: Dictionary = {"region": overlay_region_resolved, "x": unit_x, "y": unit_y, "width": warning_size, "height": warning_size}', source_text)
+            self.assertIn("if _args.size() <= 3:", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_draw_overlay_warning_state"', source_text)
+            self.assertIn('"overlay_guard_expr": "if(overlayTime > 0){"', source_text)
+            self.assertIn('"draw_alpha_expr": "Draw.alpha(0.8f * Interp.exp5Out.apply(overlayTime));"', source_text)
+            self.assertIn('"overlay_time_update_expr": "overlayTime = Math.max(overlayTime - Time.delta/overlayDuration, 0f);"', source_text)
+            self.assertIn('"draw_z_restore_expr": "Draw.z(z);"', source_text)
+            self.assertIn('"overlay_time_after": overlay_time_after', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

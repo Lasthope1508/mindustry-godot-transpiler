@@ -37706,6 +37706,129 @@
         "test_unit_payload_draw_elevation_setup_matches_upstream_source",
         "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_draw_overlay_warning_state": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.draw()",
+      "source_slice": "N1408",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_overlay_warning_state",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_overlay_warning_state mirrors UnitPayload.draw() overlay warning branch after elevation setup.",
+      "params": [
+        {
+          "name": "unit_type_null",
+          "type": "bool",
+          "java_expr": "unit.type == null",
+          "schema": "source_unit_payload_draw_overlay_warning_input.unit_type_null"
+        },
+        {
+          "name": "unit_elevation",
+          "type": "float",
+          "java_expr": "unit.elevation",
+          "schema": "source_unit_payload_draw_overlay_warning_input.unit_elevation"
+        },
+        {
+          "name": "unit_id",
+          "type": "Variant",
+          "java_expr": "unit",
+          "schema": "source_unit_payload_draw_overlay_warning_input.unit_id"
+        },
+        {
+          "name": "overlay_time",
+          "type": "float",
+          "java_expr": "overlayTime",
+          "schema": "source_unit_payload_draw_overlay_warning_input.overlay_time"
+        },
+        {
+          "name": "overlay_region",
+          "type": "Variant",
+          "java_expr": "overlayRegion",
+          "schema": "source_unit_payload_draw_overlay_warning_input.overlay_region"
+        },
+        {
+          "name": "unit_x",
+          "type": "float",
+          "java_expr": "unit.x",
+          "schema": "source_unit_payload_draw_overlay_warning_input.unit_x"
+        },
+        {
+          "name": "unit_y",
+          "type": "float",
+          "java_expr": "unit.y",
+          "schema": "source_unit_payload_draw_overlay_warning_input.unit_y"
+        },
+        {
+          "name": "time_delta",
+          "type": "float",
+          "java_expr": "Time.delta",
+          "schema": "source_unit_payload_draw_overlay_warning_input.time_delta"
+        },
+        {
+          "name": "draw_z_before",
+          "type": "float",
+          "java_expr": "Draw.z()",
+          "schema": "source_unit_payload_draw_overlay_warning_input.draw_z_before"
+        },
+        {
+          "name": "interp_exp5_out_overlay_time",
+          "type": "float",
+          "java_expr": "Interp.exp5Out.apply(overlayTime)",
+          "schema": "source_unit_payload_draw_overlay_warning_input.interp_exp5_out_overlay_time"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "overlay_duration_field_expr",
+        "overlay_time_field_expr",
+        "overlay_region_field_expr",
+        "method",
+        "draw_warning_comment_expr",
+        "overlay_guard_expr",
+        "draw_z_snapshot_expr",
+        "draw_z_warning_expr",
+        "region_expr",
+        "draw_color_expr",
+        "draw_alpha_expr",
+        "size_expr",
+        "draw_rect_expr",
+        "draw_reset_expr",
+        "overlay_time_update_expr",
+        "draw_z_restore_expr",
+        "unit_type_null",
+        "unit_elevation",
+        "unit_id",
+        "overlay_time",
+        "overlay_region",
+        "unit_x",
+        "unit_y",
+        "time_delta",
+        "draw_z_before",
+        "interp_exp5_out_overlay_time",
+        "returned_early",
+        "overlay_duration",
+        "overlay_guard",
+        "draw_z_snapshot",
+        "draw_z_warning_call",
+        "overlay_region_resolved",
+        "draw_color_call",
+        "draw_alpha_value",
+        "draw_alpha_call",
+        "warning_size",
+        "draw_rect_call",
+        "draw_reset_called",
+        "overlay_time_after",
+        "draw_z_restore_call",
+        "deferred_remaining_draw"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_overlay_warning_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_overlay_warning_state",
+        "test_port_game_exposes_generated_unit_payload_draw_overlay_warning_bridge_state",
+        "test_unit_payload_draw_overlay_warning_matches_upstream_source",
+        "test_generated_unit_payload_draw_overlay_warning_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
