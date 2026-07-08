@@ -147383,6 +147383,358 @@
           "type": "bool"
         }
       }
+    },
+    "source_block_producer_build_update_tile_payload_creation_input": {
+      "owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_block_producer_build_update_tile_payload_creation_state.",
+      "keys": {
+        "completion_guard": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.completion_guard",
+          "java_expr": "if(progress >= recipe.buildTime){",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_completion_guard.completion_guard"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "recipe": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.recipe",
+          "java_expr": "recipe",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.recipe"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "team": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.team",
+          "java_expr": "team",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.team"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "x": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.x",
+          "java_expr": "x",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.x"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "y": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.y",
+          "java_expr": "y",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.y"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "payload_size": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.payload_size",
+          "java_expr": "payload.size()",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.payload_size"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "tilesize": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.tilesize",
+          "java_expr": "tilesize",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.tilesize"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        }
+      }
+    },
+    "source_block_producer_build_update_tile_payload_creation_result": {
+      "owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "status": "active",
+      "rule": "Return dictionary from PortGame.source_block_producer_build_update_tile_payload_creation_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.source_owner",
+          "java_expr": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "inner_class": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.inner_class",
+          "java_expr": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.method",
+          "java_expr": "public void updateTile(){",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payload_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.payload_expr",
+          "java_expr": "payload = new BuildPayload(recipe, team);",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.payload_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "place_effect_expr": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.place_effect_expr",
+          "java_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.place_effect_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "completion_guard": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.completion_guard",
+          "java_expr": "if(progress >= recipe.buildTime){",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_completion_guard.completion_guard"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "recipe": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.recipe",
+          "java_expr": "recipe",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.recipe"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "team": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.team",
+          "java_expr": "team",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.team"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "x": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.x",
+          "java_expr": "x",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.x"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "y": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.y",
+          "java_expr": "y",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.y"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "payload_size": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.payload_size",
+          "java_expr": "payload.size()",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.payload_size"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "tilesize": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.tilesize",
+          "java_expr": "tilesize",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.tilesize"
+          ],
+          "status": "source-backed",
+          "type": "float"
+        },
+        "payload_after": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.payload_after",
+          "java_expr": "payload = new BuildPayload(recipe, team);",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.payload_expr"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "place_effect_called": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.place_effect_called",
+          "java_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.place_effect_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "effect_radius": {
+          "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.effect_radius",
+          "java_expr": "payload.size() / tilesize",
+          "java_method": "BlockProducerBuild.updateTile() payload creation",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_build_update_tile_payload_creation_state"
+          ],
+          "source_symbols": [
+            "block_producer_build_update_tile_payload_creation.effect_radius"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      }
     }
   },
   "version": 1

@@ -20132,6 +20132,53 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn('"completion_guard": completion_guard', source_text)
             self.assertIn('"consume_called": consume_called', source_text)
 
+    def test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public abstract class BlockProducer extends PayloadBlock{
+    public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{
+        public abstract @Nullable Block recipe();
+
+        @Override
+        public void updateTile(){
+            if(progress >= recipe.buildTime){
+                consume();
+                payload = new BuildPayload(recipe, team);
+                payload.block().placeEffect.at(x, y, payload.size() / tilesize);
+            }
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var completion_guard: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var recipe: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var team: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var payload_after: Variant = null", source_text)
+            self.assertIn("payload_after = {\"recipe\": recipe, \"team\": team}", source_text)
+            self.assertIn("var effect_radius: Variant = null", source_text)
+            self.assertIn("effect_radius = payload_size / tilesize", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state"', source_text)
+            self.assertIn('"payload_expr": "payload = new BuildPayload(recipe, team);"', source_text)
+            self.assertIn('"place_effect_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);"', source_text)
+            self.assertIn('"payload_after": payload_after', source_text)
+            self.assertIn('"place_effect_called": place_effect_called', source_text)
+
     def test_emit_bridges_build_payload_place_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

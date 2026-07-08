@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 894)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 889)
+        self.assertEqual(audit["totalSourceFunctions"], 895)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 890)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 894)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 895)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20386,6 +20386,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_producer_build_update_tile_produce_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_update_tile_progress_accumulation_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_update_tile_completion_guard_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_producer_build_update_tile_payload_creation_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_write_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_overlap_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_no_client_guard_state", audit["registeredSourceOwners"])
@@ -48678,6 +48679,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["recipe_build_time"]["java_expr"], "recipe.buildTime")
         result_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_completion_guard_result")
         self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume();")
+
+    def test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_producer_build_update_tile_payload_creation.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(method["java_method"], "BlockProducerBuild.updateTile() payload creation")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_producer_build_update_tile_payload_creation_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_producer_build_update_tile_payload_creation_state")
+        payload_expr = source_symbols.source_symbol(registry, "block_producer_build_update_tile_payload_creation.payload_expr")
+        self.assertEqual(payload_expr["java_expr"], "payload = new BuildPayload(recipe, team);")
+        place_effect_expr = source_symbols.source_symbol(registry, "block_producer_build_update_tile_payload_creation.place_effect_expr")
+        self.assertEqual(place_effect_expr["java_expr"], "payload.block().placeEffect.at(x, y, payload.size() / tilesize);")
+        effect_radius = source_symbols.source_symbol(registry, "block_producer_build_update_tile_payload_creation.effect_radius")
+        self.assertEqual(effect_radius["java_expr"], "payload.size() / tilesize")
+        self.assertEqual(effect_radius["godot_symbol"], "source_block_producer_build_update_tile_payload_creation_result.effect_radius")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1420")
+        self.assertEqual(payload_slice["title"], "Generated BlockProducerBuild updateTile payload creation bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(payload_slice["java_method"], "BlockProducerBuild.updateTile() payload creation")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_block_producer_build_update_tile_payload_creation_state")
+        self.assertEqual(payload_slice["generated_owner"], "BlockProducer.BlockProducerBuild.updateTile.payloadCreation")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_block_producer_build_update_tile_payload_creation_bridge_state")
+        for expr in [
+            "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "@Override",
+            "public void updateTile(){",
+            "payload = new BuildPayload(recipe, team);",
+            "payload.block().placeEffect.at(x, y, payload.size() / tilesize);",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("block_producer_build_update_tile_payload_creation.payload_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_producer_build_update_tile_payload_creation_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["completion_guard", "recipe", "team", "x", "y", "payload_size", "tilesize"])
+        for key in ["source_owner", "source", "inner_class", "override_expr", "method", "payload_expr", "place_effect_expr", "completion_guard", "recipe", "team", "x", "y", "payload_size", "tilesize", "payload_after", "place_effect_called", "effect_radius"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_payload_creation_input")
+        self.assertEqual(input_schema["keys"]["recipe"]["java_expr"], "recipe")
+        self.assertEqual(input_schema["keys"]["team"]["java_expr"], "team")
+        self.assertEqual(input_schema["keys"]["payload_size"]["java_expr"], "payload.size()")
+        result_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_payload_creation_result")
+        self.assertEqual(result_schema["keys"]["payload_after"]["java_expr"], "payload = new BuildPayload(recipe, team);")
+        self.assertEqual(result_schema["keys"]["effect_radius"]["java_expr"], "payload.size() / tilesize")
 
     def test_generated_build_payload_content_equals_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

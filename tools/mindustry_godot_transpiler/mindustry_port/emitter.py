@@ -5264,6 +5264,23 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar completion_guard: bool = progress >= recipe_build_time",
                         "\tvar consume_called: bool = completion_guard",
                         '\treturn {"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "completion_guard_expr": "if(progress >= recipe.buildTime){", "consume_expr": "consume();", "progress": progress, "recipe_build_time": recipe_build_time, "completion_guard": completion_guard, "consume_called": consume_called}',
+                        "",
+                        f"func java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_{index}(_args: Array = []) -> Variant:",
+                        "\tvar completion_guard: bool = bool(_args[0] if _args.size() > 0 else false)",
+                        "\tvar recipe: Variant = _args[1] if _args.size() > 1 else null",
+                        "\tvar team: Variant = _args[2] if _args.size() > 2 else null",
+                        "\tvar x: float = float(_args[3] if _args.size() > 3 else 0.0)",
+                        "\tvar y: float = float(_args[4] if _args.size() > 4 else 0.0)",
+                        "\tvar payload_size: float = float(_args[5] if _args.size() > 5 else 0.0)",
+                        "\tvar tilesize: float = float(_args[6] if _args.size() > 6 else 1.0)",
+                        "\tvar payload_after: Variant = null",
+                        "\tif completion_guard:",
+                        '\t\tpayload_after = {"recipe": recipe, "team": team}',
+                        "\tvar place_effect_called: bool = completion_guard",
+                        "\tvar effect_radius: Variant = null",
+                        "\tif completion_guard:",
+                        "\t\teffect_radius = payload_size / tilesize",
+                        '\treturn {"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "payload_expr": "payload = new BuildPayload(recipe, team);", "place_effect_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);", "completion_guard": completion_guard, "recipe": recipe, "team": team, "x": x, "y": y, "payload_size": payload_size, "tilesize": tilesize, "payload_after": payload_after, "place_effect_called": place_effect_called, "effect_radius": effect_radius}',
                     ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"

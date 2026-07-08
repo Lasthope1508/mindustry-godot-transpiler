@@ -35047,6 +35047,49 @@
       ],
       "rule": "Generated BlockProducerBuild.updateTile() bridge records source completion guard and consume() call.",
       "notes": "This slice closes only if(progress >= recipe.buildTime){ consume(); }."
+    },
+    "N1420": {
+      "title": "Generated BlockProducerBuild updateTile payload creation bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payloadCreation",
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_payload_creation_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "@Override",
+        "public void updateTile(){",
+        "payload = new BuildPayload(recipe, team);",
+        "payload.block().placeEffect.at(x, y, payload.size() / tilesize);"
+      ],
+      "source_symbols": [
+        "block_producer_build_update_tile_payload_creation.method",
+        "block_producer_build_update_tile_completion_guard.completion_guard",
+        "block_producer_build_update_tile_payload_creation.payload_expr",
+        "block_producer_build_update_tile_payload_creation.place_effect_expr",
+        "block_producer_build_update_tile_payload_creation.recipe",
+        "block_producer_build_update_tile_payload_creation.team",
+        "block_producer_build_update_tile_payload_creation.x",
+        "block_producer_build_update_tile_payload_creation.y",
+        "block_producer_build_update_tile_payload_creation.payload_size",
+        "block_producer_build_update_tile_payload_creation.tilesize",
+        "block_producer_build_update_tile_payload_creation.effect_radius"
+      ],
+      "deferred_exprs": [
+        "payVector.setZero(); and progress %= 1f; remain a later source-backed slice.",
+        "Concrete BuildPayload internals and Effect.at side effects remain separate source-backed states; this slice records the creation/effect call inputs and result shape."
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducerBuild.updateTile() bridge records payload creation and placeEffect.at call from source.",
+      "notes": "This slice closes only BuildPayload creation and placeEffect radius expression inside the completion guard."
     }
   },
   "version": 1

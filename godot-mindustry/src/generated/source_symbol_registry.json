@@ -115921,6 +115921,196 @@
       "java_expr": "consume();",
       "rule": "Pin consume() call gated by completion predicate.",
       "status": "source-backed"
+    },
+    "block_producer_build_update_tile_payload_creation.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.method",
+      "java_expr": "public void updateTile(){",
+      "rule": "Pin BlockProducerBuild.updateTile() method boundary for payload creation.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_payload_creation.payload_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.payload_after",
+      "java_expr": "payload = new BuildPayload(recipe, team);",
+      "rule": "BuildPayload is created from recipe and team after completion guard passes.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_payload_creation.place_effect_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.place_effect_called",
+      "java_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);",
+      "rule": "Place effect is called at x/y after BuildPayload creation when completion guard passes.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_payload_creation.recipe": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.recipe",
+      "java_expr": "recipe",
+      "rule": "Explicit recipe input used by new BuildPayload(recipe, team).",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_payload_creation.team": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.team",
+      "java_expr": "team",
+      "rule": "Explicit team input used by new BuildPayload(recipe, team).",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_payload_creation.x": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.x",
+      "java_expr": "x",
+      "rule": "Explicit x input used by placeEffect.at(x, y, payload.size() / tilesize).",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_payload_creation.y": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.y",
+      "java_expr": "y",
+      "rule": "Explicit y input used by placeEffect.at(x, y, payload.size() / tilesize).",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_payload_creation.payload_size": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.payload_size",
+      "java_expr": "payload.size()",
+      "rule": "Explicit payload size input for payload.size() / tilesize effect radius.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_payload_creation.tilesize": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_payload_creation_input.tilesize",
+      "java_expr": "tilesize",
+      "rule": "Explicit Vars.tilesize input for payload.size() / tilesize effect radius.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_payload_creation.effect_radius": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() payload creation",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "source_slice": "N1420",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_payload_creation_result.effect_radius",
+      "java_expr": "payload.size() / tilesize",
+      "rule": "Effect radius expression passed as third argument to placeEffect.at.",
+      "status": "source-backed"
     }
   },
   "version": 1

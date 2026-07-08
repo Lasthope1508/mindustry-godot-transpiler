@@ -21879,6 +21879,47 @@ func generated_block_producer_build_update_tile_completion_guard_bridge_state(pr
 		"matches": result == canonical,
 	}
 
+func source_block_producer_build_update_tile_payload_creation_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:
+	var payload_after: Variant = null
+	if completion_guard:
+		payload_after = {"recipe": recipe, "team": team}
+	var place_effect_called: bool = completion_guard
+	var effect_radius: Variant = null
+	if completion_guard:
+		effect_radius = payload_size / tilesize
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"method": "public void updateTile(){",
+		"payload_expr": "payload = new BuildPayload(recipe, team);",
+		"place_effect_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);",
+		"completion_guard": completion_guard,
+		"recipe": recipe,
+		"team": team,
+		"x": x,
+		"y": y,
+		"payload_size": payload_size,
+		"tilesize": tilesize,
+		"payload_after": payload_after,
+		"place_effect_called": place_effect_called,
+		"effect_radius": effect_radius,
+	}
+
+func generated_block_producer_build_update_tile_payload_creation_bridge_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5([completion_guard, recipe, team, x, y, payload_size, tilesize])
+	var canonical = source_block_producer_build_update_tile_payload_creation_state(completion_guard, recipe, team, x, y, payload_size, tilesize)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payloadCreation",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

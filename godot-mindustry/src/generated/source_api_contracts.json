@@ -38395,6 +38395,91 @@
         "test_block_producer_build_update_tile_completion_guard_matches_upstream_source",
         "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_build_update_tile_payload_creation_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.updateTile() payload creation",
+      "source_slice": "N1420",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_payload_creation_state",
+      "params": [
+        {
+          "name": "completion_guard",
+          "type": "bool",
+          "java_expr": "if(progress >= recipe.buildTime){",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.completion_guard",
+          "source_symbol": "block_producer_build_update_tile_completion_guard.completion_guard"
+        },
+        {
+          "name": "recipe",
+          "type": "Variant",
+          "java_expr": "recipe",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.recipe",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.recipe"
+        },
+        {
+          "name": "team",
+          "type": "Variant",
+          "java_expr": "team",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.team",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.team"
+        },
+        {
+          "name": "x",
+          "type": "float",
+          "java_expr": "x",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.x",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.x"
+        },
+        {
+          "name": "y",
+          "type": "float",
+          "java_expr": "y",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.y",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.y"
+        },
+        {
+          "name": "payload_size",
+          "type": "float",
+          "java_expr": "payload.size()",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.payload_size",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.payload_size"
+        },
+        {
+          "name": "tilesize",
+          "type": "float",
+          "java_expr": "tilesize",
+          "schema": "source_block_producer_build_update_tile_payload_creation_input.tilesize",
+          "source_symbol": "block_producer_build_update_tile_payload_creation.tilesize"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "payload_expr",
+        "place_effect_expr",
+        "completion_guard",
+        "recipe",
+        "team",
+        "x",
+        "y",
+        "payload_size",
+        "tilesize",
+        "payload_after",
+        "place_effect_called",
+        "effect_radius"
+      ],
+      "rule": "PortGame.source_block_producer_build_update_tile_payload_creation_state pins new BuildPayload(recipe, team) and placeEffect.at(x, y, payload.size() / tilesize).",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_payload_creation_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state",
+        "test_block_producer_build_update_tile_payload_creation_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_payload_creation_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

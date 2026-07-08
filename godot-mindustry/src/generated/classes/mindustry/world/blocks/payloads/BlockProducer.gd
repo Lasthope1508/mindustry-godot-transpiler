@@ -100,3 +100,20 @@ func java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5(_a
 	var completion_guard: bool = progress >= recipe_build_time
 	var consume_called: bool = completion_guard
 	return {"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "completion_guard_expr": "if(progress >= recipe.buildTime){", "consume_expr": "consume();", "progress": progress, "recipe_build_time": recipe_build_time, "completion_guard": completion_guard, "consume_called": consume_called}
+
+func java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5(_args: Array = []) -> Variant:
+	var completion_guard: bool = bool(_args[0] if _args.size() > 0 else false)
+	var recipe: Variant = _args[1] if _args.size() > 1 else null
+	var team: Variant = _args[2] if _args.size() > 2 else null
+	var x: float = float(_args[3] if _args.size() > 3 else 0.0)
+	var y: float = float(_args[4] if _args.size() > 4 else 0.0)
+	var payload_size: float = float(_args[5] if _args.size() > 5 else 0.0)
+	var tilesize: float = float(_args[6] if _args.size() > 6 else 1.0)
+	var payload_after: Variant = null
+	if completion_guard:
+		payload_after = {"recipe": recipe, "team": team}
+	var place_effect_called: bool = completion_guard
+	var effect_radius: Variant = null
+	if completion_guard:
+		effect_radius = payload_size / tilesize
+	return {"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "payload_expr": "payload = new BuildPayload(recipe, team);", "place_effect_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);", "completion_guard": completion_guard, "recipe": recipe, "team": team, "x": x, "y": y, "payload_size": payload_size, "tilesize": tilesize, "payload_after": payload_after, "place_effect_called": place_effect_called, "effect_radius": effect_radius}

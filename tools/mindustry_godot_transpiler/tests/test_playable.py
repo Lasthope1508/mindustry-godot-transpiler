@@ -19655,6 +19655,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.completionGuard"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_build_update_tile_payload_creation_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_build_update_tile_payload_creation_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:", source)
+        self.assertIn("var payload_after: Variant = null", source)
+        self.assertIn('payload_after = {"recipe": recipe, "team": team}', source)
+        self.assertIn("var place_effect_called: bool = completion_guard", source)
+        self.assertIn("var effect_radius: Variant = null", source)
+        self.assertIn("effect_radius = payload_size / tilesize", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java"', source)
+        self.assertIn('"payload_expr": "payload = new BuildPayload(recipe, team);"', source)
+        self.assertIn('"place_effect_expr": "payload.block().placeEffect.at(x, y, payload.size() / tilesize);"', source)
+        self.assertIn('"payload_after": payload_after', source)
+        self.assertIn('"place_effect_called": place_effect_called', source)
+        self.assertIn('"effect_radius": effect_radius', source)
+
+    def test_port_game_exposes_generated_block_producer_build_update_tile_payload_creation_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_build_update_tile_payload_creation_bridge_state(completion_guard: bool, recipe: Variant, team: Variant, x: float, y: float, payload_size: float, tilesize: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_payload_creation_5([completion_guard, recipe, team, x, y, payload_size, tilesize])", source)
+        self.assertIn("var canonical = source_block_producer_build_update_tile_payload_creation_state(completion_guard, recipe, team, x, y, payload_size, tilesize)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_payload_creation_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.payloadCreation"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
