@@ -36509,6 +36509,49 @@
         "test_unit_payload_content_matches_upstream_source",
         "test_generated_unit_payload_content_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_requirements_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.requirements()",
+      "source_slice": "N1391",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
+      "rule": "PortGame.source_unit_payload_requirements_state pins UnitPayload.requirements() return contract.",
+      "params": [
+        {
+          "name": "unit_type",
+          "type": "Variant",
+          "java_expr": "unit.type",
+          "schema": "source_unit_payload_requirements_input.unit_type",
+          "source_symbol": "unit_payload_requirements.unit_type"
+        },
+        {
+          "name": "total_requirements",
+          "type": "Variant",
+          "java_expr": "unit.type.getTotalRequirements()",
+          "schema": "source_unit_payload_requirements_input.total_requirements",
+          "source_symbol": "unit_payload_requirements.total_requirements"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "unit_type",
+        "requirements",
+        "get_total_requirements_call"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_unit_payload_requirements_state",
+        "test_port_game_exposes_generated_unit_payload_requirements_bridge_state",
+        "test_unit_payload_requirements_matches_upstream_source",
+        "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

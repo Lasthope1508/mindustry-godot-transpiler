@@ -18426,6 +18426,35 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_content_4"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_requirements_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_requirements_state(unit_type: Variant, total_requirements: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_requirements_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source)
+        self.assertIn('"field_expr": "public Unit unit;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public ItemStack[] requirements(){"', source)
+        self.assertIn('"return_expr": "return unit.type.getTotalRequirements();"', source)
+        self.assertIn('{"call": "unit.type.getTotalRequirements();"', source)
+        self.assertIn('"unit_type": unit_type', source)
+        self.assertIn('"requirements": total_requirements', source)
+        self.assertIn('"get_total_requirements_call": get_total_requirements_call', source)
+
+    def test_port_game_exposes_generated_unit_payload_requirements_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_requirements_bridge_state(unit_type: Variant, total_requirements: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_requirements_5([unit_type, total_requirements])", source)
+        self.assertIn("var canonical = source_unit_payload_requirements_state(unit_type, total_requirements)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_requirements_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_requirements_5"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

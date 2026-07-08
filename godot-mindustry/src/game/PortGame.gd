@@ -20079,6 +20079,34 @@ func generated_unit_payload_content_bridge_state(unit_type: Variant) -> Dictiona
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_requirements_state(unit_type: Variant, total_requirements: Variant) -> Dictionary:
+	var get_total_requirements_call: Dictionary = {"call": "unit.type.getTotalRequirements();", "unit_type": unit_type, "requirements": total_requirements}
+	return {
+		"source_owner": "PortGame.source_unit_payload_requirements_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"override_expr": "@Override",
+		"method": "public ItemStack[] requirements(){",
+		"return_expr": "return unit.type.getTotalRequirements();",
+		"unit_type": unit_type,
+		"requirements": total_requirements,
+		"get_total_requirements_call": get_total_requirements_call,
+	}
+
+func generated_unit_payload_requirements_bridge_state(unit_type: Variant, total_requirements: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_requirements_5([unit_type, total_requirements])
+	var canonical = source_unit_payload_requirements_state(unit_type, total_requirements)
+	return {
+		"source_owner": "PortGame.source_unit_payload_requirements_state",
+		"generated_owner": "UnitPayload.java_method_requirements_5",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

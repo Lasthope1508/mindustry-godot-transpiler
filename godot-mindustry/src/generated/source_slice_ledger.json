@@ -33606,6 +33606,44 @@
         "test_unit_payload_content_matches_upstream_source",
         "test_generated_unit_payload_content_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1391": {
+      "title": "Generated UnitPayload requirements bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "UnitPayload",
+      "java_method": "UnitPayload.requirements()",
+      "godot_owner": "PortGame.source_unit_payload_requirements_state",
+      "generated_owner": "UnitPayload.java_method_requirements_5",
+      "runtime_proof": "/root/Main.generated_unit_payload_requirements_bridge_state",
+      "rule": "Generated UnitPayload.requirements bridge returns unit.type.getTotalRequirements() with explicit requirements input.",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public ItemStack[] requirements(){",
+        "return unit.type.getTotalRequirements();"
+      ],
+      "deferred_exprs": [
+        "Concrete Unit internals are represented by explicit unit_type input",
+        "Concrete UnitType.getTotalRequirements() internals and ItemStack array construction are explicit total_requirements input and deferred beyond this return bridge"
+      ],
+      "source_symbols": [
+        "unit_payload_requirements.class_expr",
+        "unit_payload_requirements.field_expr",
+        "unit_payload_requirements.override_expr",
+        "unit_payload_requirements.method",
+        "unit_payload_requirements.unit_type",
+        "unit_payload_requirements.total_requirements",
+        "unit_payload_requirements.return_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_unit_payload_requirements_state",
+        "test_port_game_exposes_generated_unit_payload_requirements_bridge_state",
+        "test_unit_payload_requirements_matches_upstream_source",
+        "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

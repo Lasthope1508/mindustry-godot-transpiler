@@ -108746,6 +108746,132 @@
       "godot_symbol": "source_unit_payload_content_result.content",
       "java_expr": "return unit.type;",
       "rule": "UnitPayload.content returns unit.type directly."
+    },
+    "unit_payload_requirements.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.requirements()",
+      "godot_owner": "PortGame.source_unit_payload_requirements_state",
+      "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
+      "source_slice": "N1391",
+      "tests": [
+        "test_emit_bridges_unit_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_unit_payload_requirements_state",
+        "test_port_game_exposes_generated_unit_payload_requirements_bridge_state",
+        "test_unit_payload_requirements_matches_upstream_source",
+        "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_requirements_result.class_expr",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "rule": "Pin UnitPayload class boundary for requirements bridge."
+    },
+    "unit_payload_requirements.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.requirements()",
+      "godot_owner": "PortGame.source_unit_payload_requirements_state",
+      "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
+      "source_slice": "N1391",
+      "tests": [
+        "test_emit_bridges_unit_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_unit_payload_requirements_state",
+        "test_port_game_exposes_generated_unit_payload_requirements_bridge_state",
+        "test_unit_payload_requirements_matches_upstream_source",
+        "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_requirements_result.field_expr",
+      "java_expr": "public Unit unit;",
+      "rule": "UnitPayload unit field supplies unit.type requirements target."
+    },
+    "unit_payload_requirements.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.requirements()",
+      "godot_owner": "PortGame.source_unit_payload_requirements_state",
+      "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
+      "source_slice": "N1391",
+      "tests": [
+        "test_emit_bridges_unit_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_unit_payload_requirements_state",
+        "test_port_game_exposes_generated_unit_payload_requirements_bridge_state",
+        "test_unit_payload_requirements_matches_upstream_source",
+        "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_requirements_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "UnitPayload.requirements overrides Payload.requirements."
+    },
+    "unit_payload_requirements.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.requirements()",
+      "godot_owner": "PortGame.source_unit_payload_requirements_state",
+      "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
+      "source_slice": "N1391",
+      "tests": [
+        "test_emit_bridges_unit_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_unit_payload_requirements_state",
+        "test_port_game_exposes_generated_unit_payload_requirements_bridge_state",
+        "test_unit_payload_requirements_matches_upstream_source",
+        "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_requirements_result.method",
+      "java_expr": "public ItemStack[] requirements(){",
+      "rule": "Pin UnitPayload.requirements method boundary."
+    },
+    "unit_payload_requirements.unit_type": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.requirements()",
+      "godot_owner": "PortGame.source_unit_payload_requirements_state",
+      "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
+      "source_slice": "N1391",
+      "tests": [
+        "test_emit_bridges_unit_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_unit_payload_requirements_state",
+        "test_port_game_exposes_generated_unit_payload_requirements_bridge_state",
+        "test_unit_payload_requirements_matches_upstream_source",
+        "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_payload_requirements_input.unit_type",
+      "java_expr": "unit.type",
+      "rule": "Explicit runtime value for unit.type requirements receiver."
+    },
+    "unit_payload_requirements.total_requirements": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.requirements()",
+      "godot_owner": "PortGame.source_unit_payload_requirements_state",
+      "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
+      "source_slice": "N1391",
+      "tests": [
+        "test_emit_bridges_unit_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_unit_payload_requirements_state",
+        "test_port_game_exposes_generated_unit_payload_requirements_bridge_state",
+        "test_unit_payload_requirements_matches_upstream_source",
+        "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_payload_requirements_input.total_requirements",
+      "java_expr": "unit.type.getTotalRequirements()",
+      "rule": "Explicit runtime value for UnitType.getTotalRequirements() result."
+    },
+    "unit_payload_requirements.return_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.requirements()",
+      "godot_owner": "PortGame.source_unit_payload_requirements_state",
+      "runtime_proof": "/root/Main.source_unit_payload_requirements_state",
+      "source_slice": "N1391",
+      "tests": [
+        "test_emit_bridges_unit_payload_requirements_to_source_state",
+        "test_port_game_exposes_source_unit_payload_requirements_state",
+        "test_port_game_exposes_generated_unit_payload_requirements_bridge_state",
+        "test_unit_payload_requirements_matches_upstream_source",
+        "test_generated_unit_payload_requirements_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_requirements_result.requirements",
+      "java_expr": "return unit.type.getTotalRequirements();",
+      "rule": "UnitPayload.requirements returns unit.type.getTotalRequirements() directly."
     }
   },
   "version": 1

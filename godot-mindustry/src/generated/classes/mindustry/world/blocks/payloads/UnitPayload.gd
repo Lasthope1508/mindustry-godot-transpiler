@@ -52,7 +52,10 @@ func java_method_content_4(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_unit_payload_content_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public UnlockableContent content(){", "return_expr": "return unit.type;", "unit_type": unit_type, "content": unit_type}
 
 func java_method_requirements_5(_args: Array = []) -> Variant:
-	return null
+	var unit_type: Variant = _args[0] if _args.size() > 0 else null
+	var total_requirements: Variant = _args[1] if _args.size() > 1 else []
+	var get_total_requirements_call: Dictionary = {"call": "unit.type.getTotalRequirements();", "unit_type": unit_type, "requirements": total_requirements}
+	return {"source_owner": "PortGame.source_unit_payload_requirements_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public ItemStack[] requirements(){", "return_expr": "return unit.type.getTotalRequirements();", "unit_type": unit_type, "requirements": total_requirements, "get_total_requirements_call": get_total_requirements_call}
 
 func java_method_buildTime_6(_args: Array = []) -> Variant:
 	return null
