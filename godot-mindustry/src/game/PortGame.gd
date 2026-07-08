@@ -2529,6 +2529,28 @@ func generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state()
 		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null),
 	}
 
+func source_consume_liquid_base_apply_state(block_has_liquids_before: bool) -> Dictionary:
+	return {
+		"method": "public void apply(Block block){",
+		"block_has_liquids_before": block_has_liquids_before,
+		"block_has_liquids_after": true,
+		"assignment_expr": "block.hasLiquids = true;",
+		"block_has_liquids_field": "public @NoPatch boolean hasLiquids;",
+	}
+
+func generated_consume_liquid_base_apply_bridge_state(block_has_liquids_before: bool) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidBase.gd")
+	var instance = script.new()
+	var result = instance.java_method_apply_0([block_has_liquids_before])
+	var canonical = source_consume_liquid_base_apply_state(block_has_liquids_before)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_base_apply_state",
+		"generated_owner": "ConsumeLiquidBase.apply",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

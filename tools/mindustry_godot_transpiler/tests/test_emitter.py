@@ -17520,6 +17520,43 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
             self.assertIn('"return_expr": "return 1f;"', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
+    def test_emit_bridges_consume_liquid_base_apply_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidBase.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.world.*;
+
+public abstract class ConsumeLiquidBase extends Consume{
+    @Override
+    public void apply(Block block){
+        block.hasLiquids = true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidBase.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_apply_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_has_liquids_before: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var block_has_liquids_after: bool = true", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_base_apply_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"', source_text)
+            self.assertIn('"method": "public void apply(Block block){"', source_text)
+            self.assertIn('"assignment_expr": "block.hasLiquids = true;"', source_text)
+            self.assertIn('"block_has_liquids_before": block_has_liquids_before', source_text)
+            self.assertIn('"block_has_liquids_after": block_has_liquids_after', source_text)
+
     def test_emit_bridges_build_payload_constructors_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

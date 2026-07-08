@@ -49828,6 +49828,23 @@
         "test_generated_consume_item_explosive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_item_filter_item_efficiency_multiplier.return": {
+      "godot_owner": "PortGame.source_consume_item_filter_item_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_item_filter_item_efficiency_multiplier_result.efficiency_multiplier",
+      "java_expr": "return 1f;",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "rule": "Source-backed ConsumeItemFilter.itemEfficiencyMultiplier() returns constant 1f.",
+      "runtime_proof": "/root/Main.source_consume_item_filter_item_efficiency_multiplier_state",
+      "source_slice": "N1435",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_filter_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_filter_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_item_flammable_item_efficiency_multiplier.item_flammability_field": {
       "godot_owner": "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state",
       "godot_symbol": "source_consume_item_flammable_item_efficiency_multiplier_result.item_flammability_field",
@@ -49928,6 +49945,108 @@
         "test_port_game_exposes_generated_consume_item_radioactive_item_efficiency_multiplier_bridge_state",
         "test_consume_item_radioactive_item_efficiency_multiplier_matches_upstream_source",
         "test_generated_consume_item_radioactive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_base_apply.assignment": {
+      "godot_owner": "PortGame.source_consume_liquid_base_apply_state",
+      "godot_symbol": "source_consume_liquid_base_apply_result.block_has_liquids_after",
+      "java_expr": "block.hasLiquids = true;",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "rule": "Source-backed ConsumeLiquidBase.apply assigns Block.hasLiquids true.",
+      "runtime_proof": "/root/Main.source_consume_liquid_base_apply_state",
+      "source_slice": "N1438",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_apply_bridge_state",
+        "test_consume_liquid_base_apply_matches_upstream_source",
+        "test_generated_consume_liquid_base_apply_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_base_apply.block_has_liquids_field": {
+      "godot_owner": "PortGame.source_consume_liquid_base_apply_state",
+      "godot_symbol": "source_consume_liquid_base_apply_result.block_has_liquids_field",
+      "java_expr": "public @NoPatch boolean hasLiquids;",
+      "java_method": "Block",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "rule": "Source-backed Block.hasLiquids field assigned by ConsumeLiquidBase.apply.",
+      "runtime_proof": "/root/Main.source_consume_liquid_base_apply_state",
+      "source_slice": "N1438",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_apply_bridge_state",
+        "test_consume_liquid_base_apply_matches_upstream_source",
+        "test_generated_consume_liquid_base_apply_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_filter_liquid_efficiency_multiplier.return": {
+      "godot_owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_liquid_filter_liquid_efficiency_multiplier_result.efficiency_multiplier",
+      "java_expr": "return 1f;",
+      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "rule": "Source-backed ConsumeLiquidFilter.liquidEfficiencyMultiplier() returns constant 1f.",
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
+      "source_slice": "N1437",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_field": {
+      "godot_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result.liquid_flammability_field",
+      "java_expr": "public float flammability;",
+      "java_method": "Liquid",
+      "java_source": "core/src/mindustry/type/Liquid.java",
+      "rule": "Source field backing Liquid.flammability input.",
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "source_slice": "N1436",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_input": {
+      "godot_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_input.liquid_flammability",
+      "java_expr": "liquid.flammability",
+      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "rule": "Explicit input for Liquid.flammability until concrete Liquid object binding is ported.",
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "source_slice": "N1436",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_flammable_liquid_efficiency_multiplier.return": {
+      "godot_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result.efficiency_multiplier",
+      "java_expr": "return liquid.flammability;",
+      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "rule": "Source-backed ConsumeLiquidFlammable.liquidEfficiencyMultiplier() returns liquid.flammability.",
+      "runtime_proof": "/root/Main.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "source_slice": "N1436",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
       ]
     },
     "consume_power_condition_requested_power.consume_get_input": {
@@ -117705,91 +117824,6 @@
         "test_weapons_update_dispatch_symbols_are_registered_with_source_backing",
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
-      ]
-    },
-    "consume_item_filter_item_efficiency_multiplier.return": {
-      "godot_owner": "PortGame.source_consume_item_filter_item_efficiency_multiplier_state",
-      "godot_symbol": "source_consume_item_filter_item_efficiency_multiplier_result.efficiency_multiplier",
-      "java_expr": "return 1f;",
-      "java_method": "itemEfficiencyMultiplier(Item item)",
-      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-      "rule": "Source-backed ConsumeItemFilter.itemEfficiencyMultiplier() returns constant 1f.",
-      "runtime_proof": "/root/Main.source_consume_item_filter_item_efficiency_multiplier_state",
-      "source_slice": "N1435",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_consume_item_filter_item_efficiency_multiplier_to_source_state",
-        "test_port_game_exposes_generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
-        "test_consume_item_filter_item_efficiency_multiplier_matches_upstream_source",
-        "test_generated_consume_item_filter_item_efficiency_multiplier_slice_is_registered_with_source_backing"
-      ]
-    },
-    "consume_liquid_flammable_liquid_efficiency_multiplier.return": {
-      "godot_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
-      "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result.efficiency_multiplier",
-      "java_expr": "return liquid.flammability;",
-      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
-      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
-      "rule": "Source-backed ConsumeLiquidFlammable.liquidEfficiencyMultiplier() returns liquid.flammability.",
-      "runtime_proof": "/root/Main.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
-      "source_slice": "N1436",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
-        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
-        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
-        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
-      ]
-    },
-    "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_input": {
-      "godot_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
-      "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_input.liquid_flammability",
-      "java_expr": "liquid.flammability",
-      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
-      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
-      "rule": "Explicit input for Liquid.flammability until concrete Liquid object binding is ported.",
-      "runtime_proof": "/root/Main.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
-      "source_slice": "N1436",
-      "status": "explicit-input",
-      "tests": [
-        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
-        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
-        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
-        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
-      ]
-    },
-    "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_field": {
-      "godot_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
-      "godot_symbol": "source_consume_liquid_flammable_liquid_efficiency_multiplier_result.liquid_flammability_field",
-      "java_expr": "public float flammability;",
-      "java_method": "Liquid",
-      "java_source": "core/src/mindustry/type/Liquid.java",
-      "rule": "Source field backing Liquid.flammability input.",
-      "runtime_proof": "/root/Main.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
-      "source_slice": "N1436",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
-        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
-        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
-        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
-      ]
-    },
-    "consume_liquid_filter_liquid_efficiency_multiplier.return": {
-      "godot_owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
-      "godot_symbol": "source_consume_liquid_filter_liquid_efficiency_multiplier_result.efficiency_multiplier",
-      "java_expr": "return 1f;",
-      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
-      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
-      "rule": "Source-backed ConsumeLiquidFilter.liquidEfficiencyMultiplier() returns constant 1f.",
-      "runtime_proof": "/root/Main.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
-      "source_slice": "N1437",
-      "status": "source-backed",
-      "tests": [
-        "test_emit_bridges_consume_liquid_filter_liquid_efficiency_multiplier_to_source_state",
-        "test_port_game_exposes_generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
-        "test_consume_liquid_filter_liquid_efficiency_multiplier_matches_upstream_source",
-        "test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
       ]
     }
   },

@@ -14952,6 +14952,123 @@
       ],
       "title": "Generated ConsumeItemCharged itemEfficiencyMultiplier bridge state"
     },
+    "N1435": {
+      "deferred_exprs": [
+        "Concrete Item object binding is not needed for this slice because upstream return ignores the item parameter.",
+        "ConsumeItemFilter.efficiencyMultiplier(Building) and getConsumed(Building) remain separate because they depend on Building item storage and filter traversal."
+      ],
+      "exact_exprs": [
+        "public float itemEfficiencyMultiplier(Item item){",
+        "return 1f;"
+      ],
+      "generated_owner": "ConsumeItemFilter.java_method_itemEfficiencyMultiplier_8",
+      "godot_owner": "PortGame.source_consume_item_filter_item_efficiency_multiplier_state",
+      "java_class": "ConsumeItemFilter",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "rule": "Generated ConsumeItemFilter.itemEfficiencyMultiplier bridges the exact constant 1f return.",
+      "runtime_proof": "/root/Main.generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
+      "source_symbols": [
+        "consume_item_filter_item_efficiency_multiplier.return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_filter_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_filter_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeItemFilter itemEfficiencyMultiplier bridge state"
+    },
+    "N1436": {
+      "deferred_exprs": [
+        "Concrete Liquid object binding is represented by explicit liquid_flammability input until object field access is ported.",
+        "ConsumeLiquidFlammable constructor filter and display(Stats) remain separate slices."
+      ],
+      "exact_exprs": [
+        "public float liquidEfficiencyMultiplier(Liquid liquid){",
+        "return liquid.flammability;",
+        "public float flammability;"
+      ],
+      "generated_owner": "ConsumeLiquidFlammable.java_method_liquidEfficiencyMultiplier_1",
+      "godot_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
+      "java_class": "ConsumeLiquidFlammable",
+      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
+      "rule": "Generated ConsumeLiquidFlammable.liquidEfficiencyMultiplier bridges the exact liquid.flammability return with explicit liquid_flammability input.",
+      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
+      "source_symbols": [
+        "consume_liquid_flammable_liquid_efficiency_multiplier.return",
+        "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_input",
+        "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquidFlammable liquidEfficiencyMultiplier bridge state"
+    },
+    "N1437": {
+      "deferred_exprs": [
+        "Concrete Liquid object binding is not needed for this slice because upstream return ignores the liquid parameter.",
+        "ConsumeLiquidFilter.efficiencyMultiplier(Building), getConsumed(Building), consumes(Liquid), update(Building), and display(Stats) remain separate because they depend on Building liquid storage and filter traversal."
+      ],
+      "exact_exprs": [
+        "public float liquidEfficiencyMultiplier(Liquid liquid){",
+        "return 1f;"
+      ],
+      "generated_owner": "ConsumeLiquidFilter.java_method_liquidEfficiencyMultiplier_8",
+      "godot_owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
+      "java_class": "ConsumeLiquidFilter",
+      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "rule": "Generated ConsumeLiquidFilter.liquidEfficiencyMultiplier bridges the exact constant 1f return.",
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
+      "source_symbols": [
+        "consume_liquid_filter_liquid_efficiency_multiplier.return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_liquid_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_liquid_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquidFilter liquidEfficiencyMultiplier bridge state"
+    },
+    "N1438": {
+      "deferred_exprs": [
+        "Concrete Block object mutation is represented as before/after field state until generated Block object wiring is needed by a later slice.",
+        "ConsumeLiquid.apply, ConsumeLiquidFilter.apply, liquid filters, and liquid capacity side effects remain later slices."
+      ],
+      "exact_exprs": [
+        "public void apply(Block block){",
+        "block.hasLiquids = true;",
+        "public @NoPatch boolean hasLiquids;"
+      ],
+      "generated_owner": "ConsumeLiquidBase.java_method_apply_0",
+      "godot_owner": "PortGame.source_consume_liquid_base_apply_state",
+      "java_class": "ConsumeLiquidBase",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "rule": "Generated ConsumeLiquidBase.apply bridges the exact Block.hasLiquids assignment.",
+      "runtime_proof": "/root/Main.generated_consume_liquid_base_apply_bridge_state",
+      "source_symbols": [
+        "consume_liquid_base_apply.assignment",
+        "consume_liquid_base_apply.block_has_liquids_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquid_base_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_base_apply_bridge_state",
+        "test_consume_liquid_base_apply_matches_upstream_source",
+        "test_generated_consume_liquid_base_apply_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquidBase apply bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",
@@ -35592,93 +35709,6 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
-    },
-    "N1435": {
-      "deferred_exprs": [
-        "Concrete Item object binding is not needed for this slice because upstream return ignores the item parameter.",
-        "ConsumeItemFilter.efficiencyMultiplier(Building) and getConsumed(Building) remain separate because they depend on Building item storage and filter traversal."
-      ],
-      "exact_exprs": [
-        "public float itemEfficiencyMultiplier(Item item){",
-        "return 1f;"
-      ],
-      "generated_owner": "ConsumeItemFilter.java_method_itemEfficiencyMultiplier_8",
-      "godot_owner": "PortGame.source_consume_item_filter_item_efficiency_multiplier_state",
-      "java_class": "ConsumeItemFilter",
-      "java_method": "itemEfficiencyMultiplier(Item item)",
-      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
-      "rule": "Generated ConsumeItemFilter.itemEfficiencyMultiplier bridges the exact constant 1f return.",
-      "runtime_proof": "/root/Main.generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
-      "source_symbols": [
-        "consume_item_filter_item_efficiency_multiplier.return"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_consume_item_filter_item_efficiency_multiplier_to_source_state",
-        "test_port_game_exposes_generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
-        "test_consume_item_filter_item_efficiency_multiplier_matches_upstream_source",
-        "test_generated_consume_item_filter_item_efficiency_multiplier_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated ConsumeItemFilter itemEfficiencyMultiplier bridge state"
-    },
-    "N1436": {
-      "deferred_exprs": [
-        "Concrete Liquid object binding is represented by explicit liquid_flammability input until object field access is ported.",
-        "ConsumeLiquidFlammable constructor filter and display(Stats) remain separate slices."
-      ],
-      "exact_exprs": [
-        "public float liquidEfficiencyMultiplier(Liquid liquid){",
-        "return liquid.flammability;",
-        "public float flammability;"
-      ],
-      "generated_owner": "ConsumeLiquidFlammable.java_method_liquidEfficiencyMultiplier_1",
-      "godot_owner": "PortGame.source_consume_liquid_flammable_liquid_efficiency_multiplier_state",
-      "java_class": "ConsumeLiquidFlammable",
-      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
-      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java",
-      "rule": "Generated ConsumeLiquidFlammable.liquidEfficiencyMultiplier bridges the exact liquid.flammability return with explicit liquid_flammability input.",
-      "runtime_proof": "/root/Main.generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
-      "source_symbols": [
-        "consume_liquid_flammable_liquid_efficiency_multiplier.return",
-        "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_input",
-        "consume_liquid_flammable_liquid_efficiency_multiplier.liquid_flammability_field"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state",
-        "test_port_game_exposes_generated_consume_liquid_flammable_liquid_efficiency_multiplier_bridge_state",
-        "test_consume_liquid_flammable_liquid_efficiency_multiplier_matches_upstream_source",
-        "test_generated_consume_liquid_flammable_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated ConsumeLiquidFlammable liquidEfficiencyMultiplier bridge state"
-    },
-    "N1437": {
-      "deferred_exprs": [
-        "Concrete Liquid object binding is not needed for this slice because upstream return ignores the liquid parameter.",
-        "ConsumeLiquidFilter.efficiencyMultiplier(Building), getConsumed(Building), consumes(Liquid), update(Building), and display(Stats) remain separate because they depend on Building liquid storage and filter traversal."
-      ],
-      "exact_exprs": [
-        "public float liquidEfficiencyMultiplier(Liquid liquid){",
-        "return 1f;"
-      ],
-      "generated_owner": "ConsumeLiquidFilter.java_method_liquidEfficiencyMultiplier_8",
-      "godot_owner": "PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state",
-      "java_class": "ConsumeLiquidFilter",
-      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
-      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
-      "rule": "Generated ConsumeLiquidFilter.liquidEfficiencyMultiplier bridges the exact constant 1f return.",
-      "runtime_proof": "/root/Main.generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
-      "source_symbols": [
-        "consume_liquid_filter_liquid_efficiency_multiplier.return"
-      ],
-      "status": "done",
-      "tests": [
-        "test_emit_bridges_consume_liquid_filter_liquid_efficiency_multiplier_to_source_state",
-        "test_port_game_exposes_generated_consume_liquid_filter_liquid_efficiency_multiplier_bridge_state",
-        "test_consume_liquid_filter_liquid_efficiency_multiplier_matches_upstream_source",
-        "test_generated_consume_liquid_filter_liquid_efficiency_multiplier_slice_is_registered_with_source_backing"
-      ],
-      "title": "Generated ConsumeLiquidFilter liquidEfficiencyMultiplier bridge state"
     }
   },
   "version": 1

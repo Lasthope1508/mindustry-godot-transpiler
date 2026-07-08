@@ -4233,6 +4233,31 @@ def verify_consume_liquid_filter_liquid_efficiency_multiplier_source(upstream_ro
         "missing": missing,
     }
 
+def verify_consume_liquid_base_apply_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
+    block_source = "core/src/mindustry/world/Block.java"
+    consume_liquid_base_path = Path(upstream_root) / consume_liquid_base_source
+    block_path = Path(upstream_root) / block_source
+    source = consume_liquid_base_path.read_text(encoding="utf-8", errors="replace")
+    block_text = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void apply(Block block){",
+        "assignment_expr": "block.hasLiquids = true;",
+        "block_has_liquids_field": "public @NoPatch boolean hasLiquids;",
+    }
+    source_by_key = {
+        "method": source,
+        "assignment_expr": source,
+        "block_has_liquids_field": block_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_base_source,
+        "sources": [block_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_power_produced_source(upstream_root: Path) -> dict[str, Any]:
     power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     building_path = Path(upstream_root) / BUILDING_COMP_SOURCE
