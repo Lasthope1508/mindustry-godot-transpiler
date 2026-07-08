@@ -15240,6 +15240,55 @@
       ],
       "title": "Generated ConsumeLiquidsDynamic apply bridge state"
     },
+    "N1444": {
+      "deferred_exprs": [
+        "Concrete Func<Building, LiquidStack[]> invocation is represented by explicit liquid_ids and liquid_stack_amounts until generated object references are wired.",
+        "Concrete Floatf<Building> multiplier invocation is represented by explicit multiplier_get_build until functional interfaces are wired.",
+        "LiquidModule.remove mutation/clamping internals remain a separate source-backed slice; this slice records the remove calls and source formula."
+      ],
+      "exact_exprs": [
+        "public final Func<Building, LiquidStack[]> liquids;",
+        "public void update(Building build){",
+        "float mult = multiplier.get(build);",
+        "for(LiquidStack stack : liquids.get(build)){",
+        "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "public Liquid liquid;",
+        "public float amount;",
+        "@Nullable LiquidModule liquids;",
+        "public float edelta(){"
+      ],
+      "generated_owner": "ConsumeLiquidsDynamic.java_method_update_3",
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "java_class": "ConsumeLiquidsDynamic",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Generated ConsumeLiquidsDynamic.update bridges per-stack remove call formula.",
+      "runtime_proof": "/root/Main.generated_consume_liquids_dynamic_update_bridge_state",
+      "source_symbols": [
+        "consume_liquids_dynamic_update.build_edelta",
+        "consume_liquids_dynamic_update.building_edelta_method",
+        "consume_liquids_dynamic_update.building_liquids_field",
+        "consume_liquids_dynamic_update.liquid_ids",
+        "consume_liquids_dynamic_update.liquid_stack_amount_field",
+        "consume_liquids_dynamic_update.liquid_stack_amounts",
+        "consume_liquids_dynamic_update.liquid_stack_liquid_field",
+        "consume_liquids_dynamic_update.liquids_field",
+        "consume_liquids_dynamic_update.loop",
+        "consume_liquids_dynamic_update.multiplier",
+        "consume_liquids_dynamic_update.multiplier_field",
+        "consume_liquids_dynamic_update.multiplier_get_build",
+        "consume_liquids_dynamic_update.remove"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquidsDynamic update bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

@@ -1543,6 +1543,23 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_liquids_dynamic_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "public void apply(Block block){", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": block_has_liquids_after, "assignment_expr": "block.hasLiquids = true;"}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+        and type_entry.get("name") == "ConsumeLiquidsDynamic"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar liquid_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar liquid_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar multiplier_get_build: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar remove_calls: Array = []",
+            "\tfor index in liquid_ids.size():",
+            "\t\tvar stack_amount: float = float(liquid_stack_amounts[index] if index < liquid_stack_amounts.size() else 0.0)",
+            "\t\tvar remove_amount: float = stack_amount * build_edelta * multiplier_get_build",
+            '\t\tremove_calls.append({"call": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);", "liquid_id": int(liquid_ids[index]), "stack_amount": stack_amount, "amount": remove_amount})',
+            '\treturn {"source_owner": "PortGame.source_consume_liquids_dynamic_update_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "public void update(Building build){", "multiplier_expr": "float mult = multiplier.get(build);", "loop_expr": "for(LiquidStack stack : liquids.get(build)){", "remove_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);", "liquid_ids": liquid_ids, "liquid_stack_amounts": liquid_stack_amounts, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "remove_calls": remove_calls}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
         and type_entry.get("name") == "ConsumeLiquid"
         and method.get("name") == "consumes"

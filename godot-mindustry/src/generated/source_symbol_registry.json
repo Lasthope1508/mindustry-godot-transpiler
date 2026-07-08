@@ -50219,6 +50219,227 @@
         "test_generated_consume_liquids_dynamic_apply_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_liquids_dynamic_update.build_edelta": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_input.build_edelta",
+      "java_expr": "build.edelta()",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Explicit input for build.edelta() used by dynamic liquid consumption update.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.building_edelta_method": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_result.building_edelta_method",
+      "java_expr": "public float edelta(){",
+      "java_method": "BuildingComp.edelta()",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp.edelta method supplies build.edelta() value.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.building_liquids_field": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_result.building_liquids_field",
+      "java_expr": "@Nullable LiquidModule liquids;",
+      "java_method": "BuildingComp fields",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp liquids module receives remove calls in ConsumeLiquidsDynamic.update.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.liquid_ids": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_input.liquid_ids",
+      "java_expr": "stack.liquid.id",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Explicit liquid id input represents stack.liquid identity until concrete Liquid objects are wired.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.liquid_stack_amount_field": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_result.liquid_stack_amount_field",
+      "java_expr": "public float amount;",
+      "java_method": "LiquidStack fields",
+      "java_source": "core/src/mindustry/type/LiquidStack.java",
+      "rule": "LiquidStack.amount field used by dynamic update removal formula.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.liquid_stack_amounts": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_input.liquid_stack_amounts",
+      "java_expr": "stack.amount",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Explicit stack.amount input used in remove amount formula.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.liquid_stack_liquid_field": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_result.liquid_stack_liquid_field",
+      "java_expr": "public Liquid liquid;",
+      "java_method": "LiquidStack fields",
+      "java_source": "core/src/mindustry/type/LiquidStack.java",
+      "rule": "LiquidStack.liquid supplies target liquid for remove call.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.liquids_field": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_result.liquids_field",
+      "java_expr": "public final Func<Building, LiquidStack[]> liquids;",
+      "java_method": "ConsumeLiquidsDynamic",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic dynamic LiquidStack provider is iterated by update.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.loop": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_result.loop_expr",
+      "java_expr": "for(LiquidStack stack : liquids.get(build)){",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic.update iterates dynamic liquid stacks.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.multiplier": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_result.multiplier_expr",
+      "java_expr": "float mult = multiplier.get(build);",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic.update caches multiplier.get(build) into mult.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.multiplier_field": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_result.multiplier_field",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "java_method": "Consume fields",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "rule": "Consume multiplier field supplies default multiplier function.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.multiplier_get_build": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_input.multiplier_get_build",
+      "java_expr": "multiplier.get(build)",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "Explicit input for multiplier.get(build) until concrete Floatf invocation is wired.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquids_dynamic_update.remove": {
+      "godot_owner": "PortGame.source_consume_liquids_dynamic_update_state",
+      "godot_symbol": "source_consume_liquids_dynamic_update_result.remove_calls",
+      "java_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "rule": "ConsumeLiquidsDynamic.update removes stack amount scaled by edelta and multiplier.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_update_state",
+      "source_slice": "N1444",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_update_bridge_state",
+        "test_consume_liquids_dynamic_update_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_update_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_liquid_apply.liquid_filter_before": {
       "godot_owner": "PortGame.source_consume_liquid_apply_state",
       "godot_symbol": "source_consume_liquid_apply_input.liquid_filter_before",

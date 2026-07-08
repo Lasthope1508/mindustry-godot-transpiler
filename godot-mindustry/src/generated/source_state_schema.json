@@ -78638,6 +78638,242 @@
         }
       }
     },
+    "source_consume_liquids_dynamic_update_input": {
+      "keys": {
+        "build_edelta": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_input.build_edelta",
+          "java_expr": "build.edelta()",
+          "java_method": "update(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_input key build_edelta.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "liquid_ids": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_input.liquid_ids",
+          "java_expr": "stack.liquid.id",
+          "java_method": "update(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_input key liquid_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "liquid_stack_amounts": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_input.liquid_stack_amounts",
+          "java_expr": "stack.amount",
+          "java_method": "update(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_input key liquid_stack_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "multiplier_get_build": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_input.multiplier_get_build",
+          "java_expr": "multiplier.get(build)",
+          "java_method": "update(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_input key multiplier_get_build.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        }
+      }
+    },
+    "source_consume_liquids_dynamic_update_result": {
+      "keys": {
+        "build_edelta": {
+          "alias_of": "source_consume_liquids_dynamic_update_input.build_edelta",
+          "rule": "source_consume_liquids_dynamic_update_result key build_edelta.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "building_edelta_method": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.building_edelta_method",
+          "java_expr": "public float edelta(){",
+          "java_method": "BuildingComp.edelta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "source_consume_liquids_dynamic_update_result key building_edelta_method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "building_liquids_field": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.building_liquids_field",
+          "java_expr": "@Nullable LiquidModule liquids;",
+          "java_method": "BuildingComp fields",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "source_consume_liquids_dynamic_update_result key building_liquids_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "liquid_ids": {
+          "alias_of": "source_consume_liquids_dynamic_update_input.liquid_ids",
+          "rule": "source_consume_liquids_dynamic_update_result key liquid_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "liquid_stack_amount_field": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.liquid_stack_amount_field",
+          "java_expr": "public float amount;",
+          "java_method": "LiquidStack fields",
+          "java_source": "core/src/mindustry/type/LiquidStack.java",
+          "rule": "source_consume_liquids_dynamic_update_result key liquid_stack_amount_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "liquid_stack_amounts": {
+          "alias_of": "source_consume_liquids_dynamic_update_input.liquid_stack_amounts",
+          "rule": "source_consume_liquids_dynamic_update_result key liquid_stack_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "liquid_stack_liquid_field": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.liquid_stack_liquid_field",
+          "java_expr": "public Liquid liquid;",
+          "java_method": "LiquidStack fields",
+          "java_source": "core/src/mindustry/type/LiquidStack.java",
+          "rule": "source_consume_liquids_dynamic_update_result key liquid_stack_liquid_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "liquids_field": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.liquids_field",
+          "java_expr": "public final Func<Building, LiquidStack[]> liquids;",
+          "java_method": "ConsumeLiquidsDynamic",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_result key liquids_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "loop_expr": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.loop_expr",
+          "java_expr": "for(LiquidStack stack : liquids.get(build)){",
+          "java_method": "update(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_result key loop_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.method",
+          "java_expr": "public void update(Building build){",
+          "java_method": "update(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_result key method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "multiplier_expr": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.multiplier_expr",
+          "java_expr": "float mult = multiplier.get(build);",
+          "java_method": "update(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_result key multiplier_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "multiplier_field": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.multiplier_field",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "java_method": "Consume fields",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "rule": "source_consume_liquids_dynamic_update_result key multiplier_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "multiplier_get_build": {
+          "alias_of": "source_consume_liquids_dynamic_update_input.multiplier_get_build",
+          "rule": "source_consume_liquids_dynamic_update_result key multiplier_get_build.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "remove_calls": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.remove_calls",
+          "java_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);",
+          "java_method": "update(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_result key remove_calls.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "remove_expr": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.remove_expr",
+          "java_expr": "build.liquids.remove(stack.liquid, stack.amount * build.edelta() * mult);",
+          "java_method": "update(Building build)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_result key remove_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        },
+        "source": {
+          "godot_symbol": "source_consume_liquids_dynamic_update_result.source",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "java_method": "source path",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+          "rule": "source_consume_liquids_dynamic_update_result key source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquids_dynamic_update_state"
+          ]
+        }
+      }
+    },
     "source_consume_liquid_base_apply_input": {
       "keys": {
         "block_has_liquids_before": {
