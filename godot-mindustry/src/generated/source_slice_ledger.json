@@ -36339,6 +36339,69 @@
         "test_generated_consume_item_dynamic_trigger_slice_is_registered_with_source_backing"
       ],
       "title": "Generated ConsumeItemDynamic trigger bridge state"
+    },
+    "N1454": {
+      "deferred_exprs": [
+        "Concrete Func<Building, ItemStack[]> invocation remains represented as explicit item id and amount arrays until generated functional interface dispatch is wired.",
+        "Concrete Arc Table, ReqImage, StatValues.stack, and ItemModule.has objects remain represented as source-backed UI state until live generated UI widget wiring is complete."
+      ],
+      "exact_exprs": [
+        "public final Func<Building, ItemStack[]> items;",
+        "private void rebuild(Building build, Table table){",
+        "table.clear();",
+        "int i = 0;",
+        "for(ItemStack stack : items.get(build)){",
+        "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),",
+        "() -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();",
+        "if(++i % 4 == 0) table.row();",
+        "public ReqImage(Element image, Boolp valid){",
+        "public boolean valid(){",
+        "public static Stack stack(UnlockableContent item, int amount){",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "public Item item;",
+        "public int amount = 0;",
+        "@Nullable ItemModule items;",
+        "public boolean has(Item item, int amount){",
+        "public Cell<T> padRight(float padRight){",
+        "public Cell<T> left(){"
+      ],
+      "generated_owner": "ConsumeItemDynamic.java_method_rebuild_2",
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "java_class": "ConsumeItemDynamic",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Generated ConsumeItemDynamic.rebuild bridges table clear, dynamic item stack ReqImage construction, rounded multiplier requirement amount, availability validity, pad/right-left layout, and row cadence state.",
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_rebuild_bridge_state",
+      "source_symbols": [
+        "consume_item_dynamic_rebuild.items_field",
+        "consume_item_dynamic_rebuild.clear",
+        "consume_item_dynamic_rebuild.loop",
+        "consume_item_dynamic_rebuild.req_image",
+        "consume_item_dynamic_rebuild.row",
+        "consume_item_dynamic_rebuild.item_ids",
+        "consume_item_dynamic_rebuild.stack_amounts",
+        "consume_item_dynamic_rebuild.item_amounts",
+        "consume_item_dynamic_rebuild.building_has_items",
+        "consume_item_dynamic_rebuild.multiplier_get_build",
+        "consume_item_dynamic_rebuild.stat_values_stack",
+        "consume_item_dynamic_rebuild.req_image_constructor",
+        "consume_item_dynamic_rebuild.req_image_valid",
+        "consume_item_dynamic_rebuild.multiplier",
+        "consume_item_dynamic_rebuild.item_stack_item_field",
+        "consume_item_dynamic_rebuild.item_stack_amount_field",
+        "consume_item_dynamic_rebuild.building_items_field",
+        "consume_item_dynamic_rebuild.item_module_has",
+        "consume_item_dynamic_rebuild.cell_pad_right",
+        "consume_item_dynamic_rebuild.cell_left"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeItemDynamic rebuild bridge state"
     }
   },
   "version": 1

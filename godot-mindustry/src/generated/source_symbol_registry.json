@@ -119882,6 +119882,346 @@
         "test_consume_item_dynamic_trigger_matches_upstream_source",
         "test_generated_consume_item_dynamic_trigger_slice_is_registered_with_source_backing"
       ]
+    },
+    "consume_item_dynamic_rebuild.items_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.items_field",
+      "java_expr": "public final Func<Building, ItemStack[]> items;",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.rebuild reads dynamic ItemStack arrays from the items function.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.clear": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.cleared",
+      "java_expr": "table.clear();",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.rebuild clears the target table before adding requirement images.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.loop": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.req_images",
+      "java_expr": "for(ItemStack stack : items.get(build)){",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.rebuild loops over each dynamic item stack.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.req_image": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.req_images",
+      "java_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.rebuild adds a ReqImage with StatValues.stack, item availability validity, padRight, and left alignment.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.row": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.row_calls",
+      "java_expr": "if(++i % 4 == 0) table.row();",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ConsumeItemDynamic.rebuild inserts a table row after each fourth item stack.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.item_ids": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_input.item_ids",
+      "java_expr": "stack.item",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Item object identity is represented by explicit item ids until concrete generated Item references are wired.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.stack_amounts": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_input.item_stack_amounts",
+      "java_expr": "stack.amount",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "ItemStack.amount is represented as explicit stack amount input until concrete ItemStack objects are wired.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.item_amounts": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_input.item_amounts",
+      "java_expr": "build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build)))",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Current build item stock is represented as explicit amounts until concrete ItemModule.has dispatch is wired.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.building_has_items": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_input.building_has_items",
+      "java_expr": "build.items != null",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Nullable build.items guard is represented as explicit input until generated Building item module wiring is complete.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.multiplier_get_build": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_input.multiplier_get_build",
+      "java_expr": "multiplier.get(build)",
+      "java_method": "rebuild(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Consume multiplier function result is explicit input until generated Floatf dispatch is wired.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.stat_values_stack": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.stat_values_stack_expr",
+      "java_expr": "public static Stack stack(UnlockableContent item, int amount){",
+      "java_method": "StatValues.stack(UnlockableContent item, int amount)",
+      "java_source": "core/src/mindustry/world/meta/StatValues.java",
+      "rule": "StatValues.stack builds the item/amount UI element used by ReqImage.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.req_image_constructor": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.req_image_constructor",
+      "java_expr": "public ReqImage(Element image, Boolp valid){",
+      "java_method": "ReqImage(Element image, Boolp valid)",
+      "java_source": "core/src/mindustry/ui/ReqImage.java",
+      "rule": "ReqImage stores the validity predicate and overlays invalid visuals.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.req_image_valid": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.req_image_valid_expr",
+      "java_expr": "public boolean valid(){",
+      "java_method": "ReqImage.valid()",
+      "java_source": "core/src/mindustry/ui/ReqImage.java",
+      "rule": "ReqImage.valid delegates to the Boolp validity predicate.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.multiplier": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.multiplier_field",
+      "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+      "java_method": "Consume",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "rule": "Consume defines the Building multiplier used by ConsumeItemDynamic.rebuild.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.item_stack_item_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.item_stack_item_field",
+      "java_expr": "public Item item;",
+      "java_method": "ItemStack",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "rule": "ItemStack stores the item reference rendered by rebuild.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.item_stack_amount_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.item_stack_amount_field",
+      "java_expr": "public int amount = 0;",
+      "java_method": "ItemStack",
+      "java_source": "core/src/mindustry/type/ItemStack.java",
+      "rule": "ItemStack stores the base item amount rounded after multiplier application.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.building_items_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.building_items_field",
+      "java_expr": "@Nullable ItemModule items;",
+      "java_method": "BuildingComp",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "BuildingComp owns the nullable ItemModule checked by rebuild.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.item_module_has": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.item_module_has_expr",
+      "java_expr": "public boolean has(Item item, int amount){",
+      "java_method": "ItemModule.has(Item item, int amount)",
+      "java_source": "core/src/mindustry/world/modules/ItemModule.java",
+      "rule": "ItemModule.has checks whether the required item amount is available.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.cell_pad_right": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.cell_pad_right_expr",
+      "java_expr": "public Cell<T> padRight(float padRight){",
+      "java_method": "Cell.padRight(float padRight)",
+      "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+      "rule": "Cell.padRight backs the padRight(8) UI layout call.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_dynamic_rebuild.cell_left": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_rebuild_state",
+      "godot_symbol": "source_consume_item_dynamic_rebuild_result.cell_left_expr",
+      "java_expr": "public Cell<T> left(){",
+      "java_method": "Cell.left()",
+      "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java",
+      "rule": "Cell.left backs the left alignment UI layout call.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_slice": "N1454",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

@@ -18226,6 +18226,65 @@ public class ConsumeItemDynamic extends Consume{
             self.assertIn('"round_expr": "Math.round(stack.amount * multiplier.get(build))"', source_text)
             self.assertIn('"remove_calls": remove_calls', source_text)
 
+    def test_emit_bridges_consume_item_dynamic_rebuild_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemDynamic.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import arc.scene.ui.layout.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+import mindustry.ui.*;
+import mindustry.world.meta.*;
+
+public class ConsumeItemDynamic extends Consume{
+    public final Func<Building, ItemStack[]> items;
+
+    private void rebuild(Building build, Table table){
+        table.clear();
+        int i = 0;
+
+        for(ItemStack stack : items.get(build)){
+            table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),
+            () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();
+            if(++i % 4 == 0) table.row();
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemDynamic.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_rebuild_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var item_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var item_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var item_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn("var building_has_items: bool = bool(_args[3] if _args.size() > 3 else true)", source_text)
+            self.assertIn("var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)", source_text)
+            self.assertIn("var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))", source_text)
+            self.assertIn("var valid: bool = building_has_items and item_amount >= required_amount", source_text)
+            self.assertIn('"stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))"', source_text)
+            self.assertIn('"pad_right": 8.0', source_text)
+            self.assertIn('"left": true', source_text)
+            self.assertIn('row_calls.append({"call": "table.row();", "after_count": index + 1})', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_dynamic_rebuild_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"', source_text)
+            self.assertIn('"method": "private void rebuild(Building build, Table table){"', source_text)
+            self.assertIn('"clear_expr": "table.clear();"', source_text)
+            self.assertIn('"add_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();"', source_text)
+            self.assertIn('"row_expr": "if(++i % 4 == 0) table.row();"', source_text)
+
     def test_emit_bridges_consume_liquid_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

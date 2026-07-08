@@ -774,6 +774,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemDynamic.trigger"', source)
         self.assertIn('"matches": result.get("remove_calls", []) == canonical.get("remove_calls", [])', source)
 
+    def test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_dynamic_rebuild_state(item_ids: Array, item_stack_amounts: Array, item_amounts: Array, building_has_items: bool, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"', source)
+        self.assertIn('"method": "private void rebuild(Building build, Table table){"', source)
+        self.assertIn('"clear_expr": "table.clear();"', source)
+        self.assertIn('"add_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();"', source)
+        self.assertIn('"row_expr": "if(++i % 4 == 0) table.row();"', source)
+        self.assertIn("var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))", source)
+        self.assertIn("var valid: bool = building_has_items and item_amount >= required_amount", source)
+        self.assertIn("func generated_consume_item_dynamic_rebuild_bridge_state(item_ids: Array, item_stack_amounts: Array, item_amounts: Array, building_has_items: bool, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemDynamic.gd")', source)
+        self.assertIn("var result = instance.java_method_rebuild_2([item_ids, item_stack_amounts, item_amounts, building_has_items, multiplier_get_build])", source)
+        self.assertIn("var canonical = source_consume_item_dynamic_rebuild_state(item_ids, item_stack_amounts, item_amounts, building_has_items, multiplier_get_build)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_dynamic_rebuild_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemDynamic.rebuild"', source)
+        self.assertIn('"matches": result.get("req_images", []) == canonical.get("req_images", [])', source)
+
     def test_port_game_exposes_generated_consume_liquid_consumes_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

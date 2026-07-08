@@ -39891,6 +39891,81 @@
         "test_consume_item_dynamic_trigger_matches_upstream_source",
         "test_generated_consume_item_dynamic_trigger_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_item_dynamic_rebuild_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "params": [
+        {
+          "java_expr": "stack.item",
+          "name": "item_ids",
+          "schema": "source_consume_item_dynamic_rebuild_input.item_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "stack.amount",
+          "name": "item_stack_amounts",
+          "schema": "source_consume_item_dynamic_rebuild_input.item_stack_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build)))",
+          "name": "item_amounts",
+          "schema": "source_consume_item_dynamic_rebuild_input.item_amounts",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.items != null",
+          "name": "building_has_items",
+          "schema": "source_consume_item_dynamic_rebuild_input.building_has_items",
+          "type": "bool"
+        },
+        {
+          "java_expr": "multiplier.get(build)",
+          "name": "multiplier_get_build",
+          "schema": "source_consume_item_dynamic_rebuild_input.multiplier_get_build",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "items_field",
+        "clear_expr",
+        "i_initial_expr",
+        "loop_expr",
+        "add_expr",
+        "row_expr",
+        "multiplier_field",
+        "item_stack_item_field",
+        "item_stack_amount_field",
+        "building_items_field",
+        "item_module_has_expr",
+        "stat_values_stack_expr",
+        "req_image_constructor",
+        "req_image_valid_expr",
+        "cell_pad_right_expr",
+        "cell_left_expr",
+        "item_ids",
+        "item_stack_amounts",
+        "item_amounts",
+        "building_has_items",
+        "multiplier_get_build",
+        "req_images",
+        "row_calls",
+        "cleared"
+      ],
+      "rule": "Public runtime contract for ConsumeItemDynamic.rebuild(Building, Table) dynamic item ReqImage state.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_rebuild_state",
+      "source_method": "rebuild(Building build, Table table)",
+      "source_slice": "N1454",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_rebuild_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_rebuild_bridge_state",
+        "test_consume_item_dynamic_rebuild_matches_upstream_source",
+        "test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

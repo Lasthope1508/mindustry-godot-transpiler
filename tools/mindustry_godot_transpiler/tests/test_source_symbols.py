@@ -15352,6 +15352,71 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["remove_calls"]["java_expr"], "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));")
         self.assertEqual(result_schema["keys"]["amount"]["java_expr"], "Math.round(stack.amount * multiplier.get(build))")
 
+    def test_generated_consume_item_dynamic_rebuild_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        req_image_symbol = source_symbols.source_symbol(registry, "consume_item_dynamic_rebuild.req_image")
+        self.assertEqual(req_image_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertEqual(req_image_symbol["java_method"], "rebuild(Building build, Table table)")
+        self.assertEqual(req_image_symbol["java_expr"], "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();")
+        self.assertEqual(req_image_symbol["godot_owner"], "PortGame.source_consume_item_dynamic_rebuild_state")
+        self.assertEqual(req_image_symbol["runtime_proof"], "/root/Main.source_consume_item_dynamic_rebuild_state")
+        self.assertEqual(req_image_symbol["godot_symbol"], "source_consume_item_dynamic_rebuild_result.req_images")
+
+        building_has_items = source_symbols.source_symbol(registry, "consume_item_dynamic_rebuild.building_has_items")
+        self.assertEqual(building_has_items["java_expr"], "build.items != null")
+        self.assertEqual(building_has_items["status"], "explicit-input")
+
+        row_symbol = source_symbols.source_symbol(registry, "consume_item_dynamic_rebuild.row")
+        self.assertEqual(row_symbol["java_expr"], "if(++i % 4 == 0) table.row();")
+        self.assertEqual(row_symbol["status"], "source-backed")
+
+        dynamic_slice = source_symbols.source_slice(ledger, "N1454")
+        self.assertEqual(dynamic_slice["title"], "Generated ConsumeItemDynamic rebuild bridge state")
+        self.assertEqual(dynamic_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertEqual(dynamic_slice["java_method"], "rebuild(Building build, Table table)")
+        self.assertEqual(dynamic_slice["godot_owner"], "PortGame.source_consume_item_dynamic_rebuild_state")
+        self.assertEqual(dynamic_slice["generated_owner"], "ConsumeItemDynamic.java_method_rebuild_2")
+        self.assertEqual(dynamic_slice["runtime_proof"], "/root/Main.generated_consume_item_dynamic_rebuild_bridge_state")
+        for expr in [
+            "public final Func<Building, ItemStack[]> items;",
+            "private void rebuild(Building build, Table table){",
+            "table.clear();",
+            "int i = 0;",
+            "for(ItemStack stack : items.get(build)){",
+            "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),",
+            "() -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();",
+            "if(++i % 4 == 0) table.row();",
+            "public ReqImage(Element image, Boolp valid){",
+            "public boolean valid(){",
+            "public static Stack stack(UnlockableContent item, int amount){",
+            "public Floatf<Building> multiplier = b -> 1f;",
+            "public Item item;",
+            "public int amount = 0;",
+            "@Nullable ItemModule items;",
+            "public boolean has(Item item, int amount){",
+            "public Cell<T> padRight(float padRight){",
+            "public Cell<T> left(){",
+        ]:
+            self.assertIn(expr, dynamic_slice["exact_exprs"])
+        self.assertIn("consume_item_dynamic_rebuild.req_image", dynamic_slice["source_symbols"])
+        self.assertIn("consume_item_dynamic_rebuild.building_has_items", dynamic_slice["source_symbols"])
+        self.assertIn("consume_item_dynamic_rebuild.row", dynamic_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_dynamic_rebuild_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["item_ids", "item_stack_amounts", "item_amounts", "building_has_items", "multiplier_get_build"])
+        self.assertIn("req_images", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_item_dynamic_rebuild_input")
+        self.assertEqual(input_schema["keys"]["item_amounts"]["java_expr"], "build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build)))")
+        self.assertEqual(input_schema["keys"]["building_has_items"]["java_expr"], "build.items != null")
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_dynamic_rebuild_result")
+        self.assertEqual(result_schema["keys"]["req_images"]["java_expr"], "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();")
+
     def test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -21890,10 +21955,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 927)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 922)
+        self.assertEqual(audit["totalSourceFunctions"], 928)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 923)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 927)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 928)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])

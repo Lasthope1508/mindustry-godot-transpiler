@@ -33,7 +33,22 @@ func java_method_build_1(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_item_dynamic_build_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "public void build(Building build, Table table){", "current_expr": "ItemStack[][] current = {items.get(build)};", "table_expr": "table.table(cont -> {", "update_expr": "table.update(() -> {", "changed_expr": "if(current[0] != items.get(build)){", "rebuild_expr": "rebuild(build, cont);", "assignment_expr": "current[0] = items.get(build);", "current_item_ids": current_item_ids, "next_item_ids": next_item_ids, "item_ids_changed": item_ids_changed, "rebuild_calls": rebuild_calls, "current_item_ids_after_update": current_item_ids_after_update, "table_cell_created": true, "update_registered": true}
 
 func java_method_rebuild_2(_args: Array = []) -> Variant:
-	return null
+	var item_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []
+	var item_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []
+	var item_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []
+	var building_has_items: bool = bool(_args[3] if _args.size() > 3 else true)
+	var multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)
+	var req_images: Array = []
+	var row_calls: Array = []
+	for index in item_ids.size():
+		var stack_amount: float = float(item_stack_amounts[index] if index < item_stack_amounts.size() else 0.0)
+		var item_amount: float = float(item_amounts[index] if index < item_amounts.size() else 0.0)
+		var required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
+		var valid: bool = building_has_items and item_amount >= required_amount
+		req_images.append({"item_id": int(item_ids[index]), "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0, "left": true})
+		if (index + 1) % 4 == 0:
+			row_calls.append({"call": "table.row();", "after_count": index + 1})
+	return {"source_owner": "PortGame.source_consume_item_dynamic_rebuild_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "private void rebuild(Building build, Table table){", "items_field": "public final Func<Building, ItemStack[]> items;", "clear_expr": "table.clear();", "i_initial_expr": "int i = 0;", "loop_expr": "for(ItemStack stack : items.get(build)){", "add_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();", "row_expr": "if(++i % 4 == 0) table.row();", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_has_expr": "public boolean has(Item item, int amount){", "stat_values_stack_expr": "public static Stack stack(UnlockableContent item, int amount){", "req_image_constructor": "public ReqImage(Element image, Boolp valid){", "req_image_valid_expr": "public boolean valid(){", "cell_pad_right_expr": "public Cell<T> padRight(float padRight){", "cell_left_expr": "public Cell<T> left(){", "item_ids": item_ids, "item_stack_amounts": item_stack_amounts, "item_amounts": item_amounts, "building_has_items": building_has_items, "multiplier_get_build": multiplier_get_build, "req_images": req_images, "row_calls": row_calls, "cleared": true}
 
 func java_method_trigger_3(_args: Array = []) -> Variant:
 	var item_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []

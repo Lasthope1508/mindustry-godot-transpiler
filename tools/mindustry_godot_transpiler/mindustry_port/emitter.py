@@ -1604,6 +1604,29 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemDynamic.java"
         and type_entry.get("name") == "ConsumeItemDynamic"
+        and method.get("name") == "rebuild"
+    ):
+        return [
+            "\tvar item_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar item_stack_amounts: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar item_amounts: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar building_has_items: bool = bool(_args[3] if _args.size() > 3 else true)",
+            "\tvar multiplier_get_build: float = float(_args[4] if _args.size() > 4 else 1.0)",
+            "\tvar req_images: Array = []",
+            "\tvar row_calls: Array = []",
+            "\tfor index in item_ids.size():",
+            "\t\tvar stack_amount: float = float(item_stack_amounts[index] if index < item_stack_amounts.size() else 0.0)",
+            "\t\tvar item_amount: float = float(item_amounts[index] if index < item_amounts.size() else 0.0)",
+            "\t\tvar required_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))",
+            "\t\tvar valid: bool = building_has_items and item_amount >= required_amount",
+            '\t\treq_images.append({"item_id": int(item_ids[index]), "stack_amount": stack_amount, "required_amount": required_amount, "item_amount": item_amount, "valid": valid, "stat_values_stack_expr": "StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build)))", "pad_right": 8.0, "left": true})',
+            "\t\tif (index + 1) % 4 == 0:",
+            '\t\t\trow_calls.append({"call": "table.row();", "after_count": index + 1})',
+            '\treturn {"source_owner": "PortGame.source_consume_item_dynamic_rebuild_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "private void rebuild(Building build, Table table){", "items_field": "public final Func<Building, ItemStack[]> items;", "clear_expr": "table.clear();", "i_initial_expr": "int i = 0;", "loop_expr": "for(ItemStack stack : items.get(build)){", "add_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();", "row_expr": "if(++i % 4 == 0) table.row();", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_has_expr": "public boolean has(Item item, int amount){", "stat_values_stack_expr": "public static Stack stack(UnlockableContent item, int amount){", "req_image_constructor": "public ReqImage(Element image, Boolp valid){", "req_image_valid_expr": "public boolean valid(){", "cell_pad_right_expr": "public Cell<T> padRight(float padRight){", "cell_left_expr": "public Cell<T> left(){", "item_ids": item_ids, "item_stack_amounts": item_stack_amounts, "item_amounts": item_amounts, "building_has_items": building_has_items, "multiplier_get_build": multiplier_get_build, "req_images": req_images, "row_calls": row_calls, "cleared": true}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemDynamic.java"
+        and type_entry.get("name") == "ConsumeItemDynamic"
         and method.get("name") == "trigger"
     ):
         return [

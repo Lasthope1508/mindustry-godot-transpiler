@@ -1236,6 +1236,40 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_dynamic_rebuild_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_dynamic_rebuild_source"))
+        report = source_parity.verify_consume_item_dynamic_rebuild_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertIn("core/src/mindustry/ui/ReqImage.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/meta/StatValues.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/consumers/Consume.java", report["sources"])
+        self.assertIn("core/src/mindustry/type/ItemStack.java", report["sources"])
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/modules/ItemModule.java", report["sources"])
+        self.assertIn("arc-core/src/arc/scene/ui/layout/Cell.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "items_field": "public final Func<Building, ItemStack[]> items;",
+            "method": "private void rebuild(Building build, Table table){",
+            "clear_expr": "table.clear();",
+            "i_initial_expr": "int i = 0;",
+            "loop_expr": "for(ItemStack stack : items.get(build)){",
+            "req_image_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))),",
+            "valid_expr": "() -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();",
+            "row_expr": "if(++i % 4 == 0) table.row();",
+            "req_image_constructor": "public ReqImage(Element image, Boolp valid){",
+            "req_image_valid": "public boolean valid(){",
+            "stat_values_stack": "public static Stack stack(UnlockableContent item, int amount){",
+            "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+            "item_stack_item_field": "public Item item;",
+            "item_stack_amount_field": "public int amount = 0;",
+            "building_items_field": "@Nullable ItemModule items;",
+            "item_module_has": "public boolean has(Item item, int amount){",
+            "cell_pad_right": "public Cell<T> padRight(float padRight){",
+            "cell_left": "public Cell<T> left(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_consumes_source"))
         report = source_parity.verify_consume_liquid_consumes_source(ROOT / "mindustry-upstream")

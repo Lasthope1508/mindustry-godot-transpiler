@@ -153337,6 +153337,395 @@
           "alias_of": "source_consume_item_dynamic_trigger_input.multiplier_get_build"
         }
       }
+    },
+    "source_consume_item_dynamic_rebuild_input": {
+      "keys": {
+        "item_ids": {
+          "rule": "source_consume_item_dynamic_rebuild_input.item_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_input.item_ids",
+          "java_expr": "stack.item",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_stack_amounts": {
+          "rule": "source_consume_item_dynamic_rebuild_input.item_stack_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_input.item_stack_amounts",
+          "java_expr": "stack.amount",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_amounts": {
+          "rule": "source_consume_item_dynamic_rebuild_input.item_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_input.item_amounts",
+          "java_expr": "build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build)))",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "building_has_items": {
+          "rule": "source_consume_item_dynamic_rebuild_input.building_has_items.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_input.building_has_items",
+          "java_expr": "build.items != null",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "multiplier_get_build": {
+          "rule": "source_consume_item_dynamic_rebuild_input.multiplier_get_build.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_input.multiplier_get_build",
+          "java_expr": "multiplier.get(build)",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        }
+      }
+    },
+    "source_consume_item_dynamic_rebuild_result": {
+      "keys": {
+        "source_owner": {
+          "rule": "source_consume_item_dynamic_rebuild_result.source_owner.",
+          "status": "generated",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.source_owner",
+          "java_expr": "PortGame.source_consume_item_dynamic_rebuild_state",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "source": {
+          "rule": "source_consume_item_dynamic_rebuild_result.source.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.source",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "method": {
+          "rule": "source_consume_item_dynamic_rebuild_result.method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.method",
+          "java_expr": "private void rebuild(Building build, Table table){",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "items_field": {
+          "rule": "source_consume_item_dynamic_rebuild_result.items_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.items_field",
+          "java_expr": "public final Func<Building, ItemStack[]> items;",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "clear_expr": {
+          "rule": "source_consume_item_dynamic_rebuild_result.clear_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.clear_expr",
+          "java_expr": "table.clear();",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "i_initial_expr": {
+          "rule": "source_consume_item_dynamic_rebuild_result.i_initial_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.i_initial_expr",
+          "java_expr": "int i = 0;",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "loop_expr": {
+          "rule": "source_consume_item_dynamic_rebuild_result.loop_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.loop_expr",
+          "java_expr": "for(ItemStack stack : items.get(build)){",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "add_expr": {
+          "rule": "source_consume_item_dynamic_rebuild_result.add_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.add_expr",
+          "java_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "row_expr": {
+          "rule": "source_consume_item_dynamic_rebuild_result.row_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.row_expr",
+          "java_expr": "if(++i % 4 == 0) table.row();",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "multiplier_field": {
+          "rule": "source_consume_item_dynamic_rebuild_result.multiplier_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.multiplier_field",
+          "java_expr": "public Floatf<Building> multiplier = b -> 1f;",
+          "java_method": "Consume",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java"
+        },
+        "item_stack_item_field": {
+          "rule": "source_consume_item_dynamic_rebuild_result.item_stack_item_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.item_stack_item_field",
+          "java_expr": "public Item item;",
+          "java_method": "ItemStack",
+          "java_source": "core/src/mindustry/type/ItemStack.java"
+        },
+        "item_stack_amount_field": {
+          "rule": "source_consume_item_dynamic_rebuild_result.item_stack_amount_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.item_stack_amount_field",
+          "java_expr": "public int amount = 0;",
+          "java_method": "ItemStack",
+          "java_source": "core/src/mindustry/type/ItemStack.java"
+        },
+        "building_items_field": {
+          "rule": "source_consume_item_dynamic_rebuild_result.building_items_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.building_items_field",
+          "java_expr": "@Nullable ItemModule items;",
+          "java_method": "BuildingComp",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java"
+        },
+        "item_module_has_expr": {
+          "rule": "source_consume_item_dynamic_rebuild_result.item_module_has_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.item_module_has_expr",
+          "java_expr": "public boolean has(Item item, int amount){",
+          "java_method": "ItemModule.has(Item item, int amount)",
+          "java_source": "core/src/mindustry/world/modules/ItemModule.java"
+        },
+        "stat_values_stack_expr": {
+          "rule": "source_consume_item_dynamic_rebuild_result.stat_values_stack_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.stat_values_stack_expr",
+          "java_expr": "public static Stack stack(UnlockableContent item, int amount){",
+          "java_method": "StatValues.stack(UnlockableContent item, int amount)",
+          "java_source": "core/src/mindustry/world/meta/StatValues.java"
+        },
+        "req_image_constructor": {
+          "rule": "source_consume_item_dynamic_rebuild_result.req_image_constructor.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.req_image_constructor",
+          "java_expr": "public ReqImage(Element image, Boolp valid){",
+          "java_method": "ReqImage(Element image, Boolp valid)",
+          "java_source": "core/src/mindustry/ui/ReqImage.java"
+        },
+        "req_image_valid_expr": {
+          "rule": "source_consume_item_dynamic_rebuild_result.req_image_valid_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.req_image_valid_expr",
+          "java_expr": "public boolean valid(){",
+          "java_method": "ReqImage.valid()",
+          "java_source": "core/src/mindustry/ui/ReqImage.java"
+        },
+        "cell_pad_right_expr": {
+          "rule": "source_consume_item_dynamic_rebuild_result.cell_pad_right_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.cell_pad_right_expr",
+          "java_expr": "public Cell<T> padRight(float padRight){",
+          "java_method": "Cell.padRight(float padRight)",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java"
+        },
+        "cell_left_expr": {
+          "rule": "source_consume_item_dynamic_rebuild_result.cell_left_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.cell_left_expr",
+          "java_expr": "public Cell<T> left(){",
+          "java_method": "Cell.left()",
+          "java_source": "arc-core/src/arc/scene/ui/layout/Cell.java"
+        },
+        "req_images": {
+          "rule": "source_consume_item_dynamic_rebuild_result.req_images.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.req_images",
+          "java_expr": "table.add(new ReqImage(StatValues.stack(stack.item, Math.round(stack.amount * multiplier.get(build))), () -> build.items != null && build.items.has(stack.item, Math.round(stack.amount * multiplier.get(build))))).padRight(8).left();",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "row_calls": {
+          "rule": "source_consume_item_dynamic_rebuild_result.row_calls.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.row_calls",
+          "java_expr": "if(++i % 4 == 0) table.row();",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "cleared": {
+          "rule": "source_consume_item_dynamic_rebuild_result.cleared.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.cleared",
+          "java_expr": "table.clear();",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "required_amount": {
+          "rule": "source_consume_item_dynamic_rebuild_result.required_amount.",
+          "status": "source-backed",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "godot_symbol": "source_consume_item_dynamic_rebuild_result.required_amount",
+          "java_expr": "Math.round(stack.amount * multiplier.get(build))",
+          "java_method": "rebuild(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+        },
+        "item_ids": {
+          "rule": "source_consume_item_dynamic_rebuild_result.item_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "alias_of": "source_consume_item_dynamic_rebuild_input.item_ids"
+        },
+        "item_stack_amounts": {
+          "rule": "source_consume_item_dynamic_rebuild_result.item_stack_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "alias_of": "source_consume_item_dynamic_rebuild_input.item_stack_amounts"
+        },
+        "item_amounts": {
+          "rule": "source_consume_item_dynamic_rebuild_result.item_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "alias_of": "source_consume_item_dynamic_rebuild_input.item_amounts"
+        },
+        "building_has_items": {
+          "rule": "source_consume_item_dynamic_rebuild_result.building_has_items.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "alias_of": "source_consume_item_dynamic_rebuild_input.building_has_items"
+        },
+        "multiplier_get_build": {
+          "rule": "source_consume_item_dynamic_rebuild_result.multiplier_get_build.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_consume_item_dynamic_rebuild_state"
+          ],
+          "alias_of": "source_consume_item_dynamic_rebuild_input.multiplier_get_build"
+        }
+      }
     }
   },
   "version": 1
