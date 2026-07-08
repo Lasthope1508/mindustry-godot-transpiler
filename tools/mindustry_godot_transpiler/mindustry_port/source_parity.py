@@ -4483,6 +4483,55 @@ def verify_consume_item_dynamic_apply_source(upstream_root: Path) -> dict[str, A
         "missing": missing,
     }
 
+def verify_consume_item_dynamic_build_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_dynamic_source = "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+    table_source = "arc-core/src/arc/scene/ui/layout/Table.java"
+    element_source = "arc-core/src/arc/scene/Element.java"
+    consume_item_dynamic_path = Path(upstream_root) / consume_item_dynamic_source
+    arc_root = Path(upstream_root).parent / "arc-upstream"
+    table_path = arc_root / table_source
+    element_path = arc_root / element_source
+    source = consume_item_dynamic_path.read_text(encoding="utf-8", errors="replace")
+    table_text = table_path.read_text(encoding="utf-8", errors="replace")
+    element_text = element_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "items_field": "public final Func<Building, ItemStack[]> items;",
+        "method": "public void build(Building build, Table table){",
+        "current_expr": "ItemStack[][] current = {items.get(build)};",
+        "table_expr": "table.table(cont -> {",
+        "update_expr": "table.update(() -> {",
+        "changed_expr": "if(current[0] != items.get(build)){",
+        "rebuild_expr": "rebuild(build, cont);",
+        "assignment_expr": "current[0] = items.get(build);",
+        "table_cons_method": "public Cell<Table> table(Cons<Table> cons){",
+        "table_cons_get": "cons.get(table);",
+        "table_add": "return add(table);",
+        "element_update": "public Element update(Runnable r){",
+        "element_update_assignment": "update = r;",
+    }
+    source_by_key = {
+        "items_field": source,
+        "method": source,
+        "current_expr": source,
+        "table_expr": source,
+        "update_expr": source,
+        "changed_expr": source,
+        "rebuild_expr": source,
+        "assignment_expr": source,
+        "table_cons_method": table_text,
+        "table_cons_get": table_text,
+        "table_add": table_text,
+        "element_update": element_text,
+        "element_update_assignment": element_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_dynamic_source,
+        "sources": [table_source, element_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquids_dynamic_update_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
     consume_source = "core/src/mindustry/world/consumers/Consume.java"

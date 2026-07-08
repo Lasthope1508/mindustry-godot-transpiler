@@ -18119,6 +18119,65 @@ public class ConsumeItemDynamic extends Consume{
             self.assertIn('"block_has_items_after": block_has_items_after', source_text)
             self.assertIn('"block_accepts_items_after": block_accepts_items_after', source_text)
 
+    def test_emit_bridges_consume_item_dynamic_build_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemDynamic.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import arc.scene.ui.layout.*;
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeItemDynamic extends Consume{
+    public final Func<Building, ItemStack[]> items;
+
+    @Override
+    public void build(Building build, Table table){
+        ItemStack[][] current = {items.get(build)};
+
+        table.table(cont -> {
+            table.update(() -> {
+                if(current[0] != items.get(build)){
+                    rebuild(build, cont);
+                    current[0] = items.get(build);
+                }
+            });
+
+            rebuild(build, cont);
+        });
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemDynamic.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_build_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_item_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var next_item_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []", source_text)
+            self.assertIn("var item_ids_changed: bool = current_item_ids != next_item_ids", source_text)
+            self.assertIn("var rebuild_calls: Array = []", source_text)
+            self.assertIn('rebuild_calls.append({"call": "rebuild(build, cont);", "phase": "initial", "item_ids": current_item_ids})', source_text)
+            self.assertIn('rebuild_calls.append({"call": "rebuild(build, cont);", "phase": "update", "item_ids": next_item_ids})', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_dynamic_build_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"', source_text)
+            self.assertIn('"method": "public void build(Building build, Table table){"', source_text)
+            self.assertIn('"current_expr": "ItemStack[][] current = {items.get(build)};"', source_text)
+            self.assertIn('"table_expr": "table.table(cont -> {"', source_text)
+            self.assertIn('"update_expr": "table.update(() -> {"', source_text)
+            self.assertIn('"changed_expr": "if(current[0] != items.get(build)){"', source_text)
+            self.assertIn('"assignment_expr": "current[0] = items.get(build);"', source_text)
+
     def test_emit_bridges_consume_liquid_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

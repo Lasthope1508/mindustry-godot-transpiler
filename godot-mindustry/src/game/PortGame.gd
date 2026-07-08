@@ -2749,6 +2749,46 @@ func generated_consume_item_dynamic_apply_bridge_state(block_has_items_before: b
 		"matches": result.get("block_has_items_after", null) == canonical.get("block_has_items_after", null) and result.get("block_accepts_items_after", null) == canonical.get("block_accepts_items_after", null),
 	}
 
+func source_consume_item_dynamic_build_state(current_item_ids: Array, next_item_ids: Array) -> Dictionary:
+	var item_ids_changed: bool = current_item_ids != next_item_ids
+	var rebuild_calls: Array = []
+	rebuild_calls.append({"call": "rebuild(build, cont);", "phase": "initial", "item_ids": current_item_ids})
+	var current_item_ids_after_update: Array = current_item_ids.duplicate()
+	if item_ids_changed:
+		rebuild_calls.append({"call": "rebuild(build, cont);", "phase": "update", "item_ids": next_item_ids})
+		current_item_ids_after_update = next_item_ids.duplicate()
+	return {
+		"source_owner": "PortGame.source_consume_item_dynamic_build_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+		"method": "public void build(Building build, Table table){",
+		"current_expr": "ItemStack[][] current = {items.get(build)};",
+		"table_expr": "table.table(cont -> {",
+		"update_expr": "table.update(() -> {",
+		"changed_expr": "if(current[0] != items.get(build)){",
+		"rebuild_expr": "rebuild(build, cont);",
+		"assignment_expr": "current[0] = items.get(build);",
+		"current_item_ids": current_item_ids,
+		"next_item_ids": next_item_ids,
+		"item_ids_changed": item_ids_changed,
+		"rebuild_calls": rebuild_calls,
+		"current_item_ids_after_update": current_item_ids_after_update,
+		"table_cell_created": true,
+		"update_registered": true,
+	}
+
+func generated_consume_item_dynamic_build_bridge_state(current_item_ids: Array, next_item_ids: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemDynamic.gd")
+	var instance = script.new()
+	var result = instance.java_method_build_1([current_item_ids, next_item_ids])
+	var canonical = source_consume_item_dynamic_build_state(current_item_ids, next_item_ids)
+	return {
+		"source_owner": "PortGame.source_consume_item_dynamic_build_state",
+		"generated_owner": "ConsumeItemDynamic.build",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("rebuild_calls", []) == canonical.get("rebuild_calls", []) and result.get("current_item_ids_after_update", []) == canonical.get("current_item_ids_after_update", []),
+	}
+
 func source_consume_liquids_dynamic_apply_state(block_has_liquids_before: bool) -> Dictionary:
 	return {
 		"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",

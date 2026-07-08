@@ -39786,6 +39786,58 @@
         "test_consume_item_dynamic_apply_matches_upstream_source",
         "test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_item_dynamic_build_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "params": [
+        {
+          "java_expr": "ItemStack[][] current = {items.get(build)};",
+          "name": "current_item_ids",
+          "schema": "source_consume_item_dynamic_build_input.current_item_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "items.get(build)",
+          "name": "next_item_ids",
+          "schema": "source_consume_item_dynamic_build_input.next_item_ids",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "current_expr",
+        "table_expr",
+        "update_expr",
+        "changed_expr",
+        "rebuild_expr",
+        "assignment_expr",
+        "items_field",
+        "table_cons_method",
+        "table_cons_get",
+        "table_add",
+        "element_update",
+        "element_update_assignment",
+        "current_item_ids",
+        "next_item_ids",
+        "item_ids_changed",
+        "rebuild_calls",
+        "current_item_ids_after_update",
+        "table_cell_created",
+        "update_registered"
+      ],
+      "rule": "Public runtime contract for ConsumeItemDynamic.build(Building, Table) table update and rebuild scheduling state.",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_build_state",
+      "source_method": "build(Building build, Table table)",
+      "source_slice": "N1452",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

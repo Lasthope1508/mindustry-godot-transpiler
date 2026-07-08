@@ -731,6 +731,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeItemDynamic.apply"', source)
         self.assertIn('"matches": result.get("block_has_items_after", null) == canonical.get("block_has_items_after", null) and result.get("block_accepts_items_after", null) == canonical.get("block_accepts_items_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_dynamic_build_state(current_item_ids: Array, next_item_ids: Array) -> Dictionary:", source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"', source)
+        self.assertIn('"method": "public void build(Building build, Table table){"', source)
+        self.assertIn('"current_expr": "ItemStack[][] current = {items.get(build)};"', source)
+        self.assertIn('"table_expr": "table.table(cont -> {"', source)
+        self.assertIn('"update_expr": "table.update(() -> {"', source)
+        self.assertIn('"changed_expr": "if(current[0] != items.get(build)){"', source)
+        self.assertIn('"assignment_expr": "current[0] = items.get(build);"', source)
+        self.assertIn("var item_ids_changed: bool = current_item_ids != next_item_ids", source)
+        self.assertIn('rebuild_calls.append({"call": "rebuild(build, cont);", "phase": "initial", "item_ids": current_item_ids})', source)
+        self.assertIn('rebuild_calls.append({"call": "rebuild(build, cont);", "phase": "update", "item_ids": next_item_ids})', source)
+        self.assertIn("func generated_consume_item_dynamic_build_bridge_state(current_item_ids: Array, next_item_ids: Array) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemDynamic.gd")', source)
+        self.assertIn("var result = instance.java_method_build_1([current_item_ids, next_item_ids])", source)
+        self.assertIn("var canonical = source_consume_item_dynamic_build_state(current_item_ids, next_item_ids)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_dynamic_build_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemDynamic.build"', source)
+        self.assertIn('"matches": result.get("rebuild_calls", []) == canonical.get("rebuild_calls", []) and result.get("current_item_ids_after_update", []) == canonical.get("current_item_ids_after_update", [])', source)
+
     def test_port_game_exposes_generated_consume_liquid_consumes_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

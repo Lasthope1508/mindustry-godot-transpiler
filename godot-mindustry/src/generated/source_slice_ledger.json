@@ -36238,6 +36238,59 @@
         "test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing"
       ],
       "title": "Generated ConsumeItemDynamic apply bridge state"
+    },
+    "N1452": {
+      "deferred_exprs": [
+        "Concrete Func<Building, ItemStack[]> invocation remains represented as explicit item id arrays until generated functional interface dispatch is wired.",
+        "This slice records build scheduling state only; concrete rebuild UI and item stack ReqImage state remain later slices."
+      ],
+      "exact_exprs": [
+        "public final Func<Building, ItemStack[]> items;",
+        "public void build(Building build, Table table){",
+        "ItemStack[][] current = {items.get(build)};",
+        "table.table(cont -> {",
+        "table.update(() -> {",
+        "if(current[0] != items.get(build)){",
+        "rebuild(build, cont);",
+        "current[0] = items.get(build);",
+        "public Cell<Table> table(Cons<Table> cons){",
+        "cons.get(table);",
+        "return add(table);",
+        "public Element update(Runnable r){",
+        "update = r;"
+      ],
+      "generated_owner": "ConsumeItemDynamic.java_method_build_1",
+      "godot_owner": "PortGame.source_consume_item_dynamic_build_state",
+      "java_class": "ConsumeItemDynamic",
+      "java_method": "build(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Generated ConsumeItemDynamic.build bridges current item stack capture, table child creation, update callback registration, rebuild call scheduling, and current[0] refresh state.",
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_build_bridge_state",
+      "source_symbols": [
+        "consume_item_dynamic_build.assignment",
+        "consume_item_dynamic_build.changed",
+        "consume_item_dynamic_build.current",
+        "consume_item_dynamic_build.current_item_ids",
+        "consume_item_dynamic_build.element_update",
+        "consume_item_dynamic_build.element_update_assignment",
+        "consume_item_dynamic_build.items_field",
+        "consume_item_dynamic_build.method",
+        "consume_item_dynamic_build.next_item_ids",
+        "consume_item_dynamic_build.rebuild",
+        "consume_item_dynamic_build.table_add",
+        "consume_item_dynamic_build.table_cons_get",
+        "consume_item_dynamic_build.table_cons_method",
+        "consume_item_dynamic_build.table_expr",
+        "consume_item_dynamic_build.update"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_build_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_build_bridge_state",
+        "test_consume_item_dynamic_build_matches_upstream_source",
+        "test_generated_consume_item_dynamic_build_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeItemDynamic build bridge state"
     }
   },
   "version": 1

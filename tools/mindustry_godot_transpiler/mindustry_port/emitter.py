@@ -1585,6 +1585,23 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_liquids_dynamic_build_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "public void build(Building build, Table table){", "current_expr": "LiquidStack[][] current = {liquids.get(build)};", "table_expr": "table.table(cont -> {", "update_expr": "table.update(() -> {", "changed_expr": "if(current[0] != liquids.get(build)){", "rebuild_expr": "rebuild(build, cont);", "assignment_expr": "current[0] = liquids.get(build);", "current_liquid_ids": current_liquid_ids, "next_liquid_ids": next_liquid_ids, "liquid_ids_changed": liquid_ids_changed, "rebuild_calls": rebuild_calls, "current_liquid_ids_after_update": current_liquid_ids_after_update, "table_cell_created": true, "update_registered": true}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemDynamic.java"
+        and type_entry.get("name") == "ConsumeItemDynamic"
+        and method.get("name") == "build"
+    ):
+        return [
+            "\tvar current_item_ids: Array = (_args[0] as Array).duplicate() if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar next_item_ids: Array = (_args[1] as Array).duplicate() if _args.size() > 1 and _args[1] is Array else []",
+            "\tvar item_ids_changed: bool = current_item_ids != next_item_ids",
+            "\tvar rebuild_calls: Array = []",
+            '\trebuild_calls.append({"call": "rebuild(build, cont);", "phase": "initial", "item_ids": current_item_ids})',
+            "\tvar current_item_ids_after_update: Array = current_item_ids.duplicate()",
+            "\tif item_ids_changed:",
+            '\t\trebuild_calls.append({"call": "rebuild(build, cont);", "phase": "update", "item_ids": next_item_ids})',
+            "\t\tcurrent_item_ids_after_update = next_item_ids.duplicate()",
+            '\treturn {"source_owner": "PortGame.source_consume_item_dynamic_build_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "public void build(Building build, Table table){", "current_expr": "ItemStack[][] current = {items.get(build)};", "table_expr": "table.table(cont -> {", "update_expr": "table.update(() -> {", "changed_expr": "if(current[0] != items.get(build)){", "rebuild_expr": "rebuild(build, cont);", "assignment_expr": "current[0] = items.get(build);", "current_item_ids": current_item_ids, "next_item_ids": next_item_ids, "item_ids_changed": item_ids_changed, "rebuild_calls": rebuild_calls, "current_item_ids_after_update": current_item_ids_after_update, "table_cell_created": true, "update_registered": true}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
         and type_entry.get("name") == "ConsumeLiquidsDynamic"
         and method.get("name") == "rebuild"
