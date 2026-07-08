@@ -14,7 +14,9 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": 
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_apply_0(_args: Array = []) -> Variant:
-	return null
+	var block_has_liquids_before: bool = bool(_args[0] if _args.size() > 0 else false)
+	var block_has_liquids_after: bool = true
+	return {"source_owner": "PortGame.source_consume_liquids_dynamic_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "public void apply(Block block){", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": block_has_liquids_after, "assignment_expr": "block.hasLiquids = true;"}
 
 func java_method_build_1(_args: Array = []) -> Variant:
 	return null

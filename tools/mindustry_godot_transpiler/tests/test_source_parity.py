@@ -1006,6 +1006,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquids_dynamic_apply_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquids_dynamic_apply_source"))
+        report = source_parity.verify_consume_liquids_dynamic_apply_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java")
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+            "method": "public void apply(Block block){",
+            "assignment_expr": "block.hasLiquids = true;",
+            "block_has_liquids_field": "public @NoPatch boolean hasLiquids;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_consumes_source"))
         report = source_parity.verify_consume_liquid_consumes_source(ROOT / "mindustry-upstream")

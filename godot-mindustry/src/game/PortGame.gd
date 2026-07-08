@@ -2635,6 +2635,30 @@ func generated_consume_liquids_apply_bridge_state(block_has_liquids_before: bool
 		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null) and result.get("liquid_filter_after", []) == canonical.get("liquid_filter_after", []),
 	}
 
+func source_consume_liquids_dynamic_apply_state(block_has_liquids_before: bool) -> Dictionary:
+	return {
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+		"method": "public void apply(Block block){",
+		"block_has_liquids_before": block_has_liquids_before,
+		"block_has_liquids_after": true,
+		"assignment_expr": "block.hasLiquids = true;",
+		"liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+		"block_has_liquids_field": "public @NoPatch boolean hasLiquids;",
+	}
+
+func generated_consume_liquids_dynamic_apply_bridge_state(block_has_liquids_before: bool) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidsDynamic.gd")
+	var instance = script.new()
+	var result = instance.java_method_apply_0([block_has_liquids_before])
+	var canonical = source_consume_liquids_dynamic_apply_state(block_has_liquids_before)
+	return {
+		"source_owner": "PortGame.source_consume_liquids_dynamic_apply_state",
+		"generated_owner": "ConsumeLiquidsDynamic.apply",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null),
+	}
+
 func source_consume_liquid_consumes_state(liquid_matches_self_liquid: bool) -> Dictionary:
 	return {
 		"method": "public boolean consumes(Liquid liquid){",

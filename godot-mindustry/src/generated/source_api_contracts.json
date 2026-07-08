@@ -20908,6 +20908,37 @@
         "test_generated_consume_liquids_apply_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_consume_liquids_dynamic_apply_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",
+      "params": [
+        {
+          "java_expr": "block.hasLiquids before apply(Block block)",
+          "name": "block_has_liquids_before",
+          "schema": "source_consume_liquids_dynamic_apply_input.block_has_liquids_before",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "source",
+        "method",
+        "block_has_liquids_before",
+        "block_has_liquids_after",
+        "assignment_expr",
+        "liquids_field",
+        "block_has_liquids_field"
+      ],
+      "rule": "Public runtime contract for ConsumeLiquidsDynamic.apply(Block) Block.hasLiquids assignment.",
+      "runtime_proof": "/root/Main.source_consume_liquids_dynamic_apply_state",
+      "source_method": "apply(Block block)",
+      "source_slice": "N1443",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_liquids_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_dynamic_apply_bridge_state",
+        "test_consume_liquids_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_liquids_dynamic_apply_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_liquid_base_apply_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
       "params": [

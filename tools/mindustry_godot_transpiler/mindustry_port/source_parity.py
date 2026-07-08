@@ -4321,6 +4321,33 @@ def verify_consume_liquids_apply_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_liquids_dynamic_apply_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
+    block_source = "core/src/mindustry/world/Block.java"
+    consume_liquids_dynamic_path = Path(upstream_root) / consume_liquids_dynamic_source
+    block_path = Path(upstream_root) / block_source
+    source = consume_liquids_dynamic_path.read_text(encoding="utf-8", errors="replace")
+    block_text = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquids_field": "public final Func<Building, LiquidStack[]> liquids;",
+        "method": "public void apply(Block block){",
+        "assignment_expr": "block.hasLiquids = true;",
+        "block_has_liquids_field": "public @NoPatch boolean hasLiquids;",
+    }
+    source_by_key = {
+        "liquids_field": source,
+        "method": source,
+        "assignment_expr": source,
+        "block_has_liquids_field": block_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquids_dynamic_source,
+        "sources": [block_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_filter_consumes_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
     consume_liquid_filter_path = Path(upstream_root) / consume_liquid_filter_source
