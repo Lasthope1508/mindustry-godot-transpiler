@@ -14797,6 +14797,41 @@
       ],
       "title": "Generated ConsumePowerDynamic display bridge state"
     },
+    "N1430": {
+      "deferred_exprs": [
+        "Concrete ConsumePower instance field binding is represented by explicit buffered, usage, and capacity inputs until object field storage is ported.",
+        "Concrete Stats object mutation is represented by a source-backed stats_add_call record until Stats.add runtime object behavior is ported."
+      ],
+      "exact_exprs": [
+        "public void display(Stats stats){",
+        "if(buffered){",
+        "stats.add(Stat.powerCapacity, capacity, StatUnit.none);",
+        "}else if(usage > 0f){",
+        "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);"
+      ],
+      "generated_owner": "ConsumePower.java_method_display_3",
+      "godot_owner": "PortGame.source_consume_power_display_state",
+      "java_class": "ConsumePower",
+      "java_method": "display(Stats stats)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "rule": "Generated ConsumePower.display bridges the exact buffered capacity stat branch and usage power stat branch with explicit field inputs.",
+      "runtime_proof": "/root/Main.generated_consume_power_display_bridge_state",
+      "source_symbols": [
+        "consume_power_display.capacity_stats_add",
+        "consume_power_display.usage_stats_add",
+        "consume_power_display.buffered_input",
+        "consume_power_display.usage_input",
+        "consume_power_display.capacity_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_power_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_display_bridge_state",
+        "test_consume_power_display_matches_upstream_source",
+        "test_generated_consume_power_display_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumePower display bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

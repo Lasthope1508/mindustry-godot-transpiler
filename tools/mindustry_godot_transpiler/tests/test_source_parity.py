@@ -811,6 +811,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_power_display_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_power_display_source"))
+        report = source_parity.verify_consume_power_display_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumePower.java")
+        self.assertEqual(report["checked"], {
+            "display_method": "public void display(Stats stats){",
+            "buffered_guard": "if(buffered){",
+            "capacity_stats_add": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);",
+            "usage_guard": "}else if(usage > 0f){",
+            "usage_stats_add": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_power_condition_requested_power_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_power_condition_requested_power_source"))
         report = source_parity.verify_consume_power_condition_requested_power_source(ROOT / "mindustry-upstream")

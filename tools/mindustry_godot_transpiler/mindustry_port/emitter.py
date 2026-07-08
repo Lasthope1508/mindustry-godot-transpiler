@@ -1351,6 +1351,25 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
         and type_entry.get("name") == "ConsumePower"
+        and method.get("name") == "display"
+    ):
+        return [
+            "\tvar buffered: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar usage: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar capacity: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar buffered_guard: bool = buffered",
+            "\tvar usage_guard: bool = usage > 0.0",
+            "\tvar power_use_value: float = usage * 60.0",
+            "\tvar stats_add_call: Dictionary = {}",
+            "\tif buffered_guard:",
+            '\t\tstats_add_call = {"call": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);", "stat": "Stat.powerCapacity", "value": capacity, "unit": "StatUnit.none"}',
+            "\telif usage_guard:",
+            '\t\tstats_add_call = {"call": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);", "stat": "Stat.powerUse", "value": power_use_value, "unit": "StatUnit.powerSecond"}',
+            '\treturn {"source_owner": "PortGame.source_consume_power_display_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public void display(Stats stats){", "buffered": buffered, "usage": usage, "capacity": capacity, "buffered_guard": buffered_guard, "usage_guard": usage_guard, "stats_add_called": not stats_add_call.is_empty(), "power_use_value": power_use_value, "stats_add_call": stats_add_call, "buffered_guard_expr": "if(buffered){", "usage_guard_expr": "}else if(usage > 0f){", "capacity_stats_add_expr": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);", "usage_stats_add_expr": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);"}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumePower.java"
+        and type_entry.get("name") == "ConsumePower"
         and method.get("name") == "requestedPower"
     ):
         return [

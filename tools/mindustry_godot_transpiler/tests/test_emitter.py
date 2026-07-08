@@ -17124,6 +17124,57 @@ public class ConsumePower extends Consume{
             self.assertIn('"return_expr": "return build.power.status;"', source_text)
             self.assertIn('"efficiency": efficiency', source_text)
 
+    def test_emit_bridges_consume_power_display_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumePower.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumePower extends Consume{
+    public float usage;
+    public float capacity;
+    public boolean buffered;
+
+    public void display(Stats stats){
+        if(buffered){
+            stats.add(Stat.powerCapacity, capacity, StatUnit.none);
+        }else if(usage > 0f){
+            stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumePower.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var buffered: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var usage: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var capacity: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var buffered_guard: bool = buffered", source_text)
+            self.assertIn("var usage_guard: bool = usage > 0.0", source_text)
+            self.assertIn("var power_use_value: float = usage * 60.0", source_text)
+            self.assertIn('"stat": "Stat.powerCapacity"', source_text)
+            self.assertIn('"stat": "Stat.powerUse"', source_text)
+            self.assertIn('"unit": "StatUnit.none"', source_text)
+            self.assertIn('"unit": "StatUnit.powerSecond"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_power_display_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumePower.java"', source_text)
+            self.assertIn('"method": "public void display(Stats stats){"', source_text)
+            self.assertIn('"buffered_guard_expr": "if(buffered){"', source_text)
+            self.assertIn('"usage_guard_expr": "}else if(usage > 0f){"', source_text)
+            self.assertIn('"capacity_stats_add_expr": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);"', source_text)
+            self.assertIn('"usage_stats_add_expr": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);"', source_text)
+
     def test_emit_bridges_consume_power_condition_requested_power_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

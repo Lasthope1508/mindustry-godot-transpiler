@@ -27,7 +27,18 @@ func java_method_efficiency_2(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_power_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public float efficiency(Building build){", "power_status": power_status, "efficiency": efficiency, "return_expr": "return build.power.status;"}
 
 func java_method_display_3(_args: Array = []) -> Variant:
-	return null
+	var buffered: bool = bool(_args[0] if _args.size() > 0 else false)
+	var usage: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var capacity: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var buffered_guard: bool = buffered
+	var usage_guard: bool = usage > 0.0
+	var power_use_value: float = usage * 60.0
+	var stats_add_call: Dictionary = {}
+	if buffered_guard:
+		stats_add_call = {"call": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);", "stat": "Stat.powerCapacity", "value": capacity, "unit": "StatUnit.none"}
+	elif usage_guard:
+		stats_add_call = {"call": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);", "stat": "Stat.powerUse", "value": power_use_value, "unit": "StatUnit.powerSecond"}
+	return {"source_owner": "PortGame.source_consume_power_display_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public void display(Stats stats){", "buffered": buffered, "usage": usage, "capacity": capacity, "buffered_guard": buffered_guard, "usage_guard": usage_guard, "stats_add_called": not stats_add_call.is_empty(), "power_use_value": power_use_value, "stats_add_call": stats_add_call, "buffered_guard_expr": "if(buffered){", "usage_guard_expr": "}else if(usage > 0f){", "capacity_stats_add_expr": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);", "usage_stats_add_expr": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);"}
 
 func java_method_requestedPower_4(_args: Array = []) -> Variant:
 	var buffered: bool = bool(_args[0] if _args.size() > 0 else false)

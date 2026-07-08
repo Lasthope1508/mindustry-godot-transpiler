@@ -2267,6 +2267,44 @@ func generated_consume_power_efficiency_bridge_state(power_status: float) -> Dic
 		"matches": result.get("efficiency", null) == canonical.get("efficiency", null),
 	}
 
+func source_consume_power_display_state(buffered: bool, usage: float, capacity: float) -> Dictionary:
+	var buffered_guard: bool = buffered
+	var usage_guard: bool = usage > 0.0
+	var power_use_value: float = usage * 60.0
+	var stats_add_call: Dictionary = {}
+	if buffered_guard:
+		stats_add_call = {"call": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);", "stat": "Stat.powerCapacity", "value": capacity, "unit": "StatUnit.none"}
+	elif usage_guard:
+		stats_add_call = {"call": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);", "stat": "Stat.powerUse", "value": power_use_value, "unit": "StatUnit.powerSecond"}
+	return {
+		"method": "public void display(Stats stats){",
+		"buffered": buffered,
+		"usage": usage,
+		"capacity": capacity,
+		"buffered_guard": buffered_guard,
+		"usage_guard": usage_guard,
+		"stats_add_called": not stats_add_call.is_empty(),
+		"power_use_value": power_use_value,
+		"stats_add_call": stats_add_call,
+		"buffered_guard_expr": "if(buffered){",
+		"usage_guard_expr": "}else if(usage > 0f){",
+		"capacity_stats_add_expr": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);",
+		"usage_stats_add_expr": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);",
+	}
+
+func generated_consume_power_display_bridge_state(buffered: bool, usage: float, capacity: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")
+	var instance = script.new()
+	var result = instance.java_method_display_3([buffered, usage, capacity])
+	var canonical = source_consume_power_display_state(buffered, usage, capacity)
+	return {
+		"source_owner": "PortGame.source_consume_power_display_state",
+		"generated_owner": "ConsumePower.display",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("stats_add_called", null) == canonical.get("stats_add_called", null),
+	}
+
 func source_consume_power_condition_requested_power_state(usage: float, consume_get: bool) -> Dictionary:
 	var requested_power: float = usage if consume_get else 0.0
 	return {

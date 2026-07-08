@@ -320,6 +320,24 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumePower.efficiency"', source)
         self.assertIn('"matches": result.get("efficiency", null) == canonical.get("efficiency", null)', source)
 
+    def test_port_game_exposes_generated_consume_power_display_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_power_display_state(buffered: bool, usage: float, capacity: float) -> Dictionary:", source)
+        self.assertIn('"method": "public void display(Stats stats){"', source)
+        self.assertIn('"buffered_guard_expr": "if(buffered){"', source)
+        self.assertIn('"usage_guard_expr": "}else if(usage > 0f){"', source)
+        self.assertIn('"capacity_stats_add_expr": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);"', source)
+        self.assertIn('"usage_stats_add_expr": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);"', source)
+        self.assertIn("func generated_consume_power_display_bridge_state(buffered: bool, usage: float, capacity: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePower.gd")', source)
+        self.assertIn("var result = instance.java_method_display_3([buffered, usage, capacity])", source)
+        self.assertIn("var canonical = source_consume_power_display_state(buffered, usage, capacity)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_power_display_state"', source)
+        self.assertIn('"generated_owner": "ConsumePower.display"', source)
+        self.assertIn('"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null)', source)
+
     def test_port_game_exposes_generated_consume_power_condition_requested_power_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -4012,6 +4012,23 @@ def verify_consume_power_efficiency_source(upstream_root: Path) -> dict[str, Any
         "missing": missing,
     }
 
+def verify_consume_power_display_source(upstream_root: Path) -> dict[str, Any]:
+    consume_power_path = Path(upstream_root) / CONSUME_POWER_SOURCE
+    source = consume_power_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "display_method": "public void display(Stats stats){",
+        "buffered_guard": "if(buffered){",
+        "capacity_stats_add": "stats.add(Stat.powerCapacity, capacity, StatUnit.none);",
+        "usage_guard": "}else if(usage > 0f){",
+        "usage_stats_add": "stats.add(Stat.powerUse, usage * 60f, StatUnit.powerSecond);",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": CONSUME_POWER_SOURCE,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_power_condition_requested_power_source(upstream_root: Path) -> dict[str, Any]:
     consume_power_condition_source = "core/src/mindustry/world/consumers/ConsumePowerCondition.java"
     consume_power_condition_path = Path(upstream_root) / consume_power_condition_source

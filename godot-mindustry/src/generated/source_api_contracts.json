@@ -20713,6 +20713,55 @@
         "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_consume_power_display_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
+      "params": [
+        {
+          "java_expr": "buffered",
+          "name": "buffered",
+          "schema": "source_consume_power_display_input.buffered",
+          "type": "bool"
+        },
+        {
+          "java_expr": "usage",
+          "name": "usage",
+          "schema": "source_consume_power_display_input.usage",
+          "type": "float"
+        },
+        {
+          "java_expr": "capacity",
+          "name": "capacity",
+          "schema": "source_consume_power_display_input.capacity",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "buffered",
+        "usage",
+        "capacity",
+        "buffered_guard",
+        "usage_guard",
+        "stats_add_called",
+        "power_use_value",
+        "stats_add_call",
+        "buffered_guard_expr",
+        "usage_guard_expr",
+        "capacity_stats_add_expr",
+        "usage_stats_add_expr"
+      ],
+      "rule": "Public runtime contract for ConsumePower.display(Stats) with explicit ConsumePower field inputs and source stat-add record.",
+      "runtime_proof": "/root/Main.source_consume_power_display_state",
+      "source_method": "display(Stats stats)",
+      "source_slice": "N1430",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_power_display_to_source_state",
+        "test_port_game_exposes_generated_consume_power_display_bridge_state",
+        "test_consume_power_display_matches_upstream_source",
+        "test_generated_consume_power_display_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_power_dynamic_display_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
       "params": [
