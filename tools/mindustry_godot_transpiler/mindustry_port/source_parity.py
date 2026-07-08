@@ -4452,6 +4452,37 @@ def verify_consume_item_dynamic_constructor_source(upstream_root: Path) -> dict[
         "missing": missing,
     }
 
+def verify_consume_item_dynamic_apply_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_dynamic_source = "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"
+    block_source = "core/src/mindustry/world/Block.java"
+    consume_item_dynamic_path = Path(upstream_root) / consume_item_dynamic_source
+    block_path = Path(upstream_root) / block_source
+    source = consume_item_dynamic_path.read_text(encoding="utf-8", errors="replace")
+    block_text = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "items_field": "public final Func<Building, ItemStack[]> items;",
+        "method": "public void apply(Block block){",
+        "has_items_assignment_expr": "block.hasItems = true;",
+        "accepts_items_assignment_expr": "block.acceptsItems = true;",
+        "block_has_items_field": "public @NoPatch boolean hasItems;",
+        "block_accepts_items_field": "public boolean acceptsItems = false;",
+    }
+    source_by_key = {
+        "items_field": source,
+        "method": source,
+        "has_items_assignment_expr": source,
+        "accepts_items_assignment_expr": source,
+        "block_has_items_field": block_text,
+        "block_accepts_items_field": block_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_dynamic_source,
+        "sources": [block_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquids_dynamic_update_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
     consume_source = "core/src/mindustry/world/consumers/Consume.java"

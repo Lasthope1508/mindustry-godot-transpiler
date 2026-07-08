@@ -36203,6 +36203,41 @@
         "test_generated_consume_item_dynamic_constructor_slice_is_registered_with_source_backing"
       ],
       "title": "Generated ConsumeItemDynamic constructor bridge state"
+    },
+    "N1451": {
+      "deferred_exprs": [
+        "ConsumeItemDynamic build, rebuild, trigger, efficiency, and concrete items Func invocation remain later slices."
+      ],
+      "exact_exprs": [
+        "public final Func<Building, ItemStack[]> items;",
+        "public void apply(Block block){",
+        "block.hasItems = true;",
+        "block.acceptsItems = true;",
+        "public @NoPatch boolean hasItems;",
+        "public boolean acceptsItems = false;"
+      ],
+      "generated_owner": "ConsumeItemDynamic.java_method_apply_0",
+      "godot_owner": "PortGame.source_consume_item_dynamic_apply_state",
+      "java_class": "ConsumeItemDynamic",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "rule": "Generated ConsumeItemDynamic.apply bridges Block.hasItems and Block.acceptsItems assignments.",
+      "runtime_proof": "/root/Main.generated_consume_item_dynamic_apply_bridge_state",
+      "source_symbols": [
+        "consume_item_dynamic_apply.has_items_assignment",
+        "consume_item_dynamic_apply.accepts_items_assignment",
+        "consume_item_dynamic_apply.items_field",
+        "consume_item_dynamic_apply.block_has_items_field",
+        "consume_item_dynamic_apply.block_accepts_items_field"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_apply_bridge_state",
+        "test_consume_item_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeItemDynamic apply bridge state"
     }
   },
   "version": 1

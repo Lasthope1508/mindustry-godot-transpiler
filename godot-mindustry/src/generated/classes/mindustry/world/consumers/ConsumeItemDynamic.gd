@@ -14,7 +14,11 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "apply", "parameters": 
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_apply_0(_args: Array = []) -> Variant:
-	return null
+	var block_has_items_before: bool = bool(_args[0] if _args.size() > 0 else false)
+	var block_accepts_items_before: bool = bool(_args[1] if _args.size() > 1 else false)
+	var block_has_items_after: bool = true
+	var block_accepts_items_after: bool = true
+	return {"source_owner": "PortGame.source_consume_item_dynamic_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "public void apply(Block block){", "has_items_assignment_expr": "block.hasItems = true;", "accepts_items_assignment_expr": "block.acceptsItems = true;", "block_has_items_before": block_has_items_before, "block_accepts_items_before": block_accepts_items_before, "block_has_items_after": block_has_items_after, "block_accepts_items_after": block_accepts_items_after}
 
 func java_method_build_1(_args: Array = []) -> Variant:
 	return null

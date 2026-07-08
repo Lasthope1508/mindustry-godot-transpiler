@@ -18074,6 +18074,51 @@ public class ConsumeItemDynamic extends Consume{
             self.assertIn('"cast_expr": "(Func<Building, ItemStack[]>)items"', source_text)
             self.assertIn('"items_after": items_after', source_text)
 
+    def test_emit_bridges_consume_item_dynamic_apply_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemDynamic.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.world.*;
+
+public class ConsumeItemDynamic extends Consume{
+    public final Func<Building, ItemStack[]> items;
+
+    @Override
+    public void apply(Block block){
+        block.hasItems = true;
+        block.acceptsItems = true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemDynamic.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_apply_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_has_items_before: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var block_accepts_items_before: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var block_has_items_after: bool = true", source_text)
+            self.assertIn("var block_accepts_items_after: bool = true", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_dynamic_apply_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java"', source_text)
+            self.assertIn('"method": "public void apply(Block block){"', source_text)
+            self.assertIn('"has_items_assignment_expr": "block.hasItems = true;"', source_text)
+            self.assertIn('"accepts_items_assignment_expr": "block.acceptsItems = true;"', source_text)
+            self.assertIn('"block_has_items_before": block_has_items_before', source_text)
+            self.assertIn('"block_accepts_items_before": block_accepts_items_before', source_text)
+            self.assertIn('"block_has_items_after": block_has_items_after', source_text)
+            self.assertIn('"block_accepts_items_after": block_accepts_items_after', source_text)
+
     def test_emit_bridges_consume_liquid_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

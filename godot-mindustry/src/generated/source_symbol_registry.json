@@ -119508,6 +119508,91 @@
         "test_consume_item_dynamic_constructor_matches_upstream_source",
         "test_generated_consume_item_dynamic_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "consume_item_dynamic_apply.has_items_assignment": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_apply_state",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_apply_state",
+      "source_slice": "N1451",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_apply_bridge_state",
+        "test_consume_item_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_consume_item_dynamic_apply_result.block_has_items_after",
+      "java_expr": "block.hasItems = true;",
+      "rule": "ConsumeItemDynamic.apply sets Block.hasItems true."
+    },
+    "consume_item_dynamic_apply.accepts_items_assignment": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_apply_state",
+      "java_method": "apply(Block block)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_apply_state",
+      "source_slice": "N1451",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_apply_bridge_state",
+        "test_consume_item_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_consume_item_dynamic_apply_result.block_accepts_items_after",
+      "java_expr": "block.acceptsItems = true;",
+      "rule": "ConsumeItemDynamic.apply sets Block.acceptsItems true."
+    },
+    "consume_item_dynamic_apply.items_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_apply_state",
+      "java_method": "ConsumeItemDynamic",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_apply_state",
+      "source_slice": "N1451",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_apply_bridge_state",
+        "test_consume_item_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_consume_item_dynamic_apply_result.items_field",
+      "java_expr": "public final Func<Building, ItemStack[]> items;",
+      "rule": "ConsumeItemDynamic stores dynamic ItemStack provider; apply only sets item flags."
+    },
+    "consume_item_dynamic_apply.block_has_items_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_apply_state",
+      "java_method": "Block fields",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_apply_state",
+      "source_slice": "N1451",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_apply_bridge_state",
+        "test_consume_item_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_consume_item_dynamic_apply_result.block_has_items_field",
+      "java_expr": "public @NoPatch boolean hasItems;",
+      "rule": "Block.hasItems field assigned by ConsumeItemDynamic.apply."
+    },
+    "consume_item_dynamic_apply.block_accepts_items_field": {
+      "godot_owner": "PortGame.source_consume_item_dynamic_apply_state",
+      "java_method": "Block fields",
+      "java_source": "core/src/mindustry/world/Block.java",
+      "runtime_proof": "/root/Main.source_consume_item_dynamic_apply_state",
+      "source_slice": "N1451",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_dynamic_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_item_dynamic_apply_bridge_state",
+        "test_consume_item_dynamic_apply_matches_upstream_source",
+        "test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_consume_item_dynamic_apply_result.block_accepts_items_field",
+      "java_expr": "public boolean acceptsItems = false;",
+      "rule": "Block.acceptsItems field assigned by ConsumeItemDynamic.apply."
     }
   },
   "version": 1

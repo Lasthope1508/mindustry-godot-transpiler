@@ -2721,6 +2721,34 @@ func generated_consume_item_dynamic_constructor_bridge_state(items: Variant) -> 
 		"matches": result.get("items_after", null) == canonical.get("items_after", null),
 	}
 
+func source_consume_item_dynamic_apply_state(block_has_items_before: bool, block_accepts_items_before: bool) -> Dictionary:
+	return {
+		"source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java",
+		"method": "public void apply(Block block){",
+		"items_field": "public final Func<Building, ItemStack[]> items;",
+		"has_items_assignment_expr": "block.hasItems = true;",
+		"accepts_items_assignment_expr": "block.acceptsItems = true;",
+		"block_has_items_field": "public @NoPatch boolean hasItems;",
+		"block_accepts_items_field": "public boolean acceptsItems = false;",
+		"block_has_items_before": block_has_items_before,
+		"block_accepts_items_before": block_accepts_items_before,
+		"block_has_items_after": true,
+		"block_accepts_items_after": true,
+	}
+
+func generated_consume_item_dynamic_apply_bridge_state(block_has_items_before: bool, block_accepts_items_before: bool) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemDynamic.gd")
+	var instance = script.new()
+	var result = instance.java_method_apply_0([block_has_items_before, block_accepts_items_before])
+	var canonical = source_consume_item_dynamic_apply_state(block_has_items_before, block_accepts_items_before)
+	return {
+		"source_owner": "PortGame.source_consume_item_dynamic_apply_state",
+		"generated_owner": "ConsumeItemDynamic.apply",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("block_has_items_after", null) == canonical.get("block_has_items_after", null) and result.get("block_accepts_items_after", null) == canonical.get("block_accepts_items_after", null),
+	}
+
 func source_consume_liquids_dynamic_apply_state(block_has_liquids_before: bool) -> Dictionary:
 	return {
 		"source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java",

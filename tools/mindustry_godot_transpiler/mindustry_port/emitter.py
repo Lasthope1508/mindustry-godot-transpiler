@@ -1556,6 +1556,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_liquids_dynamic_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java", "method": "public void apply(Block block){", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": block_has_liquids_after, "assignment_expr": "block.hasLiquids = true;"}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemDynamic.java"
+        and type_entry.get("name") == "ConsumeItemDynamic"
+        and method.get("name") == "apply"
+    ):
+        return [
+            "\tvar block_has_items_before: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar block_accepts_items_before: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar block_has_items_after: bool = true",
+            "\tvar block_accepts_items_after: bool = true",
+            '\treturn {"source_owner": "PortGame.source_consume_item_dynamic_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeItemDynamic.java", "method": "public void apply(Block block){", "has_items_assignment_expr": "block.hasItems = true;", "accepts_items_assignment_expr": "block.acceptsItems = true;", "block_has_items_before": block_has_items_before, "block_accepts_items_before": block_accepts_items_before, "block_has_items_after": block_has_items_after, "block_accepts_items_after": block_accepts_items_after}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidsDynamic.java"
         and type_entry.get("name") == "ConsumeLiquidsDynamic"
         and method.get("name") == "build"

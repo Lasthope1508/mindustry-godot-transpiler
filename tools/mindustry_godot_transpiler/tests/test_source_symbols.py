@@ -15166,6 +15166,71 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_item_dynamic_constructor_result")
         self.assertEqual(result_schema["keys"]["items_after"]["java_expr"], "this.items = (Func<Building, ItemStack[]>)items;")
 
+    def test_generated_consume_item_dynamic_apply_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        has_items_assignment = source_symbols.source_symbol(registry, "consume_item_dynamic_apply.has_items_assignment")
+        self.assertEqual(has_items_assignment["java_source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertEqual(has_items_assignment["java_method"], "apply(Block block)")
+        self.assertEqual(has_items_assignment["java_expr"], "block.hasItems = true;")
+        self.assertEqual(has_items_assignment["godot_owner"], "PortGame.source_consume_item_dynamic_apply_state")
+        self.assertEqual(has_items_assignment["runtime_proof"], "/root/Main.source_consume_item_dynamic_apply_state")
+        self.assertEqual(has_items_assignment["godot_symbol"], "source_consume_item_dynamic_apply_result.block_has_items_after")
+
+        accepts_items_assignment = source_symbols.source_symbol(registry, "consume_item_dynamic_apply.accepts_items_assignment")
+        self.assertEqual(accepts_items_assignment["java_expr"], "block.acceptsItems = true;")
+        self.assertEqual(accepts_items_assignment["godot_symbol"], "source_consume_item_dynamic_apply_result.block_accepts_items_after")
+
+        items_field = source_symbols.source_symbol(registry, "consume_item_dynamic_apply.items_field")
+        self.assertEqual(items_field["java_expr"], "public final Func<Building, ItemStack[]> items;")
+        self.assertEqual(items_field["status"], "source-backed")
+
+        block_has_items_field = source_symbols.source_symbol(registry, "consume_item_dynamic_apply.block_has_items_field")
+        self.assertEqual(block_has_items_field["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(block_has_items_field["java_expr"], "public @NoPatch boolean hasItems;")
+
+        block_accepts_items_field = source_symbols.source_symbol(registry, "consume_item_dynamic_apply.block_accepts_items_field")
+        self.assertEqual(block_accepts_items_field["java_source"], "core/src/mindustry/world/Block.java")
+        self.assertEqual(block_accepts_items_field["java_expr"], "public boolean acceptsItems = false;")
+
+        dynamic_slice = source_symbols.source_slice(ledger, "N1451")
+        self.assertEqual(dynamic_slice["title"], "Generated ConsumeItemDynamic apply bridge state")
+        self.assertEqual(dynamic_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItemDynamic.java")
+        self.assertEqual(dynamic_slice["java_method"], "apply(Block block)")
+        self.assertEqual(dynamic_slice["godot_owner"], "PortGame.source_consume_item_dynamic_apply_state")
+        self.assertEqual(dynamic_slice["generated_owner"], "ConsumeItemDynamic.java_method_apply_0")
+        self.assertEqual(dynamic_slice["runtime_proof"], "/root/Main.generated_consume_item_dynamic_apply_bridge_state")
+        for expr in [
+            "public final Func<Building, ItemStack[]> items;",
+            "public void apply(Block block){",
+            "block.hasItems = true;",
+            "block.acceptsItems = true;",
+            "public @NoPatch boolean hasItems;",
+            "public boolean acceptsItems = false;",
+        ]:
+            self.assertIn(expr, dynamic_slice["exact_exprs"])
+        self.assertIn("consume_item_dynamic_apply.has_items_assignment", dynamic_slice["source_symbols"])
+        self.assertIn("consume_item_dynamic_apply.accepts_items_assignment", dynamic_slice["source_symbols"])
+        self.assertIn("consume_item_dynamic_apply.items_field", dynamic_slice["source_symbols"])
+        self.assertIn("consume_item_dynamic_apply.block_has_items_field", dynamic_slice["source_symbols"])
+        self.assertIn("consume_item_dynamic_apply.block_accepts_items_field", dynamic_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_item_dynamic_apply_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["block_has_items_before", "block_accepts_items_before"])
+        self.assertIn("block_has_items_after", contract["return_keys"])
+        self.assertIn("block_accepts_items_after", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_item_dynamic_apply_input")
+        self.assertEqual(input_schema["keys"]["block_has_items_before"]["java_expr"], "block.hasItems before apply(Block block)")
+        self.assertEqual(input_schema["keys"]["block_accepts_items_before"]["java_expr"], "block.acceptsItems before apply(Block block)")
+        result_schema = source_symbols.state_schema(schema, "source_consume_item_dynamic_apply_result")
+        self.assertEqual(result_schema["keys"]["block_has_items_after"]["java_expr"], "block.hasItems = true;")
+        self.assertEqual(result_schema["keys"]["block_accepts_items_after"]["java_expr"], "block.acceptsItems = true;")
+
     def test_generated_consume_liquid_consumes_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -21704,10 +21769,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 924)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 919)
+        self.assertEqual(audit["totalSourceFunctions"], 925)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 920)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 924)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 925)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
