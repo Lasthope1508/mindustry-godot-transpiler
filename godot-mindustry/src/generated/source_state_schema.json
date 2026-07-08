@@ -136733,6 +136733,234 @@
           "type": "Dictionary"
         }
       }
+    },
+    "source_unit_payload_write_input": {
+      "owner": "PortGame.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_unit_payload_write_state.",
+      "keys": {
+        "payload_unit": {
+          "godot_symbol": "source_unit_payload_write_input.payload_unit",
+          "java_expr": "payloadUnit",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.payload_unit"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        },
+        "unit_class_id": {
+          "godot_symbol": "source_unit_payload_write_input.unit_class_id",
+          "java_expr": "unit.classId()",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.unit_class_id"
+          ],
+          "status": "explicit-input",
+          "type": "int"
+        }
+      }
+    },
+    "source_unit_payload_write_result": {
+      "owner": "PortGame.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "status": "active",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_write_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_unit_payload_write_result.source_owner",
+          "java_expr": "PortGame.source_unit_payload_write_state",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_unit_payload_write_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_unit_payload_write_result.class_expr",
+          "java_expr": "public class UnitPayload implements Payload{",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "field_expr": {
+          "godot_symbol": "source_unit_payload_write_result.field_expr",
+          "java_expr": "public Unit unit;",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.field_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_unit_payload_write_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_unit_payload_write_result.method",
+          "java_expr": "public void write(Writes write){",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payload_unit_write_expr": {
+          "godot_symbol": "source_unit_payload_write_result.payload_unit_write_expr",
+          "java_expr": "write.b(payloadUnit);",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.payload_unit_write_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "unit_class_id_write_expr": {
+          "godot_symbol": "source_unit_payload_write_result.unit_class_id_write_expr",
+          "java_expr": "write.b(unit.classId());",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.unit_class_id_write_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "unit_write_expr": {
+          "godot_symbol": "source_unit_payload_write_result.unit_write_expr",
+          "java_expr": "unit.write(write);",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.unit_write_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "payload_unit": {
+          "godot_symbol": "source_unit_payload_write_result.payload_unit",
+          "java_expr": "payloadUnit",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.payload_unit"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "unit_class_id": {
+          "godot_symbol": "source_unit_payload_write_result.unit_class_id",
+          "java_expr": "unit.classId()",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.unit_class_id"
+          ],
+          "status": "source-backed",
+          "type": "int"
+        },
+        "unit_write_called": {
+          "godot_symbol": "source_unit_payload_write_result.unit_write_called",
+          "java_expr": "unit.write(write);",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.unit_write_expr"
+          ],
+          "status": "source-backed",
+          "type": "bool"
+        },
+        "write_calls": {
+          "godot_symbol": "source_unit_payload_write_result.write_calls",
+          "java_expr": "write.b(payloadUnit); / write.b(unit.classId()); / unit.write(write);",
+          "java_method": "UnitPayload.write(Writes write)",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "owners": [
+            "PortGame.source_unit_payload_write_state"
+          ],
+          "source_symbols": [
+            "unit_payload_write.payload_unit_write_expr",
+            "unit_payload_write.unit_class_id_write_expr",
+            "unit_payload_write.unit_write_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        }
+      }
     }
   },
   "version": 1

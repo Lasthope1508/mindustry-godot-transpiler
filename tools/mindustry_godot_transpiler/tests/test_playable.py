@@ -18484,6 +18484,37 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_buildTime_6"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_write_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_write_state(payload_unit: int, unit_class_id: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_write_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source)
+        self.assertIn('"field_expr": "public Unit unit;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public void write(Writes write){"', source)
+        self.assertIn('"payload_unit_write_expr": "write.b(payloadUnit);"', source)
+        self.assertIn('"unit_class_id_write_expr": "write.b(unit.classId());"', source)
+        self.assertIn('"unit_write_expr": "unit.write(write);"', source)
+        self.assertIn('"payload_unit": payload_unit', source)
+        self.assertIn('"unit_class_id": unit_class_id', source)
+        self.assertIn('"unit_write_called": true', source)
+        self.assertIn('"write_calls": write_calls', source)
+
+    def test_port_game_exposes_generated_unit_payload_write_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_write_7([payload_unit, unit_class_id])", source)
+        self.assertIn("var canonical = source_unit_payload_write_state(payload_unit, unit_class_id)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_write_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_write_7"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

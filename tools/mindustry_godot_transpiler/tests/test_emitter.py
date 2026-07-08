@@ -17447,6 +17447,13 @@ public class UnitPayload implements Payload{
     public float buildTime(){
         return unit.type.getBuildTime();
     }
+
+    @Override
+    public void write(Writes write){
+        write.b(payloadUnit);
+        write.b(unit.classId());
+        unit.write(write);
+    }
 }
 """,
                 encoding="utf-8",
@@ -17471,6 +17478,80 @@ public class UnitPayload implements Payload{
             self.assertIn('"unit_type": unit_type', source_text)
             self.assertIn('"buildTime": build_time', source_text)
             self.assertIn('"get_build_time_call": get_build_time_call', source_text)
+
+    def test_emit_bridges_unit_payload_write_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+
+    public void showOverlay(TextureRegion icon){
+    }
+
+    public void showOverlay(TextureRegionDrawable icon){
+    }
+
+    public boolean contentEquals(Payload other){
+        return false;
+    }
+
+    public void update(@Nullable Unit unitHolder, @Nullable Building buildingHolder){
+    }
+
+    public UnlockableContent content(){
+        return unit.type;
+    }
+
+    public ItemStack[] requirements(){
+        return unit.type.getTotalRequirements();
+    }
+
+    public float buildTime(){
+        return unit.type.getBuildTime();
+    }
+
+    @Override
+    public void write(Writes write){
+        write.b(payloadUnit);
+        write.b(unit.classId());
+        unit.write(write);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_write_7(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var payload_unit: int = int(_args[0] if _args.size() > 0 else 0)", source_text)
+            self.assertIn("var unit_class_id: int = int(_args[1] if _args.size() > 1 else 0)", source_text)
+            self.assertIn('{"call": "write.b(payloadUnit);", "method": "write.b", "value": payload_unit}', source_text)
+            self.assertIn('{"call": "write.b(unit.classId());", "method": "write.b", "value": unit_class_id}', source_text)
+            self.assertIn('{"call": "unit.write(write);", "method": "unit.write", "called": true}', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_write_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source_text)
+            self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source_text)
+            self.assertIn('"field_expr": "public Unit unit;"', source_text)
+            self.assertIn('"override_expr": "@Override"', source_text)
+            self.assertIn('"method": "public void write(Writes write){"', source_text)
+            self.assertIn('"payload_unit_write_expr": "write.b(payloadUnit);"', source_text)
+            self.assertIn('"unit_class_id_write_expr": "write.b(unit.classId());"', source_text)
+            self.assertIn('"unit_write_expr": "unit.write(write);"', source_text)
+            self.assertIn('"payload_unit": payload_unit', source_text)
+            self.assertIn('"unit_class_id": unit_class_id', source_text)
+            self.assertIn('"unit_write_called": true', source_text)
+            self.assertIn('"write_calls": write_calls', source_text)
 
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

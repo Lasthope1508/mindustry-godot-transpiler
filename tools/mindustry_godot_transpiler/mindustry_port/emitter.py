@@ -1707,6 +1707,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_unit_payload_build_time_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public float buildTime(){", "return_expr": "return unit.type.getBuildTime();", "unit_type": unit_type, "buildTime": build_time, "get_build_time_call": get_build_time_call}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/UnitPayload.java"
+        and type_entry.get("name") == "UnitPayload"
+        and method.get("name") == "write"
+    ):
+        return [
+            "\tvar payload_unit: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar unit_class_id: int = int(_args[1] if _args.size() > 1 else 0)",
+            '\tvar write_calls: Array = [{"call": "write.b(payloadUnit);", "method": "write.b", "value": payload_unit}, {"call": "write.b(unit.classId());", "method": "write.b", "value": unit_class_id}, {"call": "unit.write(write);", "method": "unit.write", "called": true}]',
+            '\treturn {"source_owner": "PortGame.source_unit_payload_write_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void write(Writes write){", "payload_unit_write_expr": "write.b(payloadUnit);", "unit_class_id_write_expr": "write.b(unit.classId());", "unit_write_expr": "unit.write(write);", "payload_unit": payload_unit, "unit_class_id": unit_class_id, "unit_write_called": true, "write_calls": write_calls}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "place"

@@ -108998,6 +108998,168 @@
       "godot_symbol": "source_unit_payload_build_time_result.buildTime",
       "java_expr": "return unit.type.getBuildTime();",
       "rule": "UnitPayload.buildTime returns unit.type.getBuildTime() directly."
+    },
+    "unit_payload_write.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "runtime_proof": "/root/Main.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_write_result.class_expr",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "rule": "Pin UnitPayload class boundary for write bridge."
+    },
+    "unit_payload_write.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "runtime_proof": "/root/Main.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_write_result.field_expr",
+      "java_expr": "public Unit unit;",
+      "rule": "UnitPayload unit field supplies classId and write target."
+    },
+    "unit_payload_write.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "runtime_proof": "/root/Main.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_write_result.override_expr",
+      "java_expr": "@Override",
+      "rule": "UnitPayload.write overrides Payload.write."
+    },
+    "unit_payload_write.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "runtime_proof": "/root/Main.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_write_result.method",
+      "java_expr": "public void write(Writes write){",
+      "rule": "Pin UnitPayload.write method boundary."
+    },
+    "unit_payload_write.payload_unit": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "runtime_proof": "/root/Main.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_payload_write_input.payload_unit",
+      "java_expr": "payloadUnit",
+      "rule": "Explicit runtime value for payloadUnit written by UnitPayload.write()."
+    },
+    "unit_payload_write.unit_class_id": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "runtime_proof": "/root/Main.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "status": "explicit-input",
+      "godot_symbol": "source_unit_payload_write_input.unit_class_id",
+      "java_expr": "unit.classId()",
+      "rule": "Explicit runtime value for unit.classId() written by UnitPayload.write()."
+    },
+    "unit_payload_write.payload_unit_write_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "runtime_proof": "/root/Main.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_write_result.payload_unit_write_expr",
+      "java_expr": "write.b(payloadUnit);",
+      "rule": "UnitPayload.write writes payloadUnit marker first."
+    },
+    "unit_payload_write.unit_class_id_write_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "runtime_proof": "/root/Main.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_write_result.unit_class_id_write_expr",
+      "java_expr": "write.b(unit.classId());",
+      "rule": "UnitPayload.write writes unit.classId() second."
+    },
+    "unit_payload_write.unit_write_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "runtime_proof": "/root/Main.source_unit_payload_write_state",
+      "source_slice": "N1393",
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ],
+      "status": "source-backed",
+      "godot_symbol": "source_unit_payload_write_result.unit_write_called",
+      "java_expr": "unit.write(write);",
+      "rule": "UnitPayload.write delegates remaining unit serialization to unit.write(write)."
     }
   },
   "version": 1

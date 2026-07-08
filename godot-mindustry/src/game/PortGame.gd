@@ -20135,6 +20135,41 @@ func generated_unit_payload_build_time_bridge_state(unit_type: Variant, build_ti
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_write_state(payload_unit: int, unit_class_id: int) -> Dictionary:
+	var write_calls: Array = [
+		{"call": "write.b(payloadUnit);", "method": "write.b", "value": payload_unit},
+		{"call": "write.b(unit.classId());", "method": "write.b", "value": unit_class_id},
+		{"call": "unit.write(write);", "method": "unit.write", "called": true},
+	]
+	return {
+		"source_owner": "PortGame.source_unit_payload_write_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"override_expr": "@Override",
+		"method": "public void write(Writes write){",
+		"payload_unit_write_expr": "write.b(payloadUnit);",
+		"unit_class_id_write_expr": "write.b(unit.classId());",
+		"unit_write_expr": "unit.write(write);",
+		"payload_unit": payload_unit,
+		"unit_class_id": unit_class_id,
+		"unit_write_called": true,
+		"write_calls": write_calls,
+	}
+
+func generated_unit_payload_write_bridge_state(payload_unit: int, unit_class_id: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_write_7([payload_unit, unit_class_id])
+	var canonical = source_unit_payload_write_state(payload_unit, unit_class_id)
+	return {
+		"source_owner": "PortGame.source_unit_payload_write_state",
+		"generated_owner": "UnitPayload.java_method_write_7",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

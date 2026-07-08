@@ -33682,6 +33682,49 @@
         "test_unit_payload_build_time_matches_upstream_source",
         "test_generated_unit_payload_build_time_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1393": {
+      "title": "Generated UnitPayload write bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "UnitPayload",
+      "java_method": "UnitPayload.write(Writes write)",
+      "godot_owner": "PortGame.source_unit_payload_write_state",
+      "generated_owner": "UnitPayload.java_method_write_7",
+      "runtime_proof": "/root/Main.generated_unit_payload_write_bridge_state",
+      "rule": "Generated UnitPayload.write bridge records source write-call order and unit.write(write) delegation.",
+      "exact_exprs": [
+        "public class UnitPayload implements Payload{",
+        "public Unit unit;",
+        "@Override",
+        "public void write(Writes write){",
+        "write.b(payloadUnit);",
+        "write.b(unit.classId());",
+        "unit.write(write);"
+      ],
+      "deferred_exprs": [
+        "Concrete payloadUnit numeric value is explicit payload_unit input from Payload serialization context.",
+        "Concrete Unit.classId() result is explicit unit_class_id input.",
+        "Concrete Unit.write(Writes) internals are delegated and deferred beyond this write-call order bridge."
+      ],
+      "source_symbols": [
+        "unit_payload_write.class_expr",
+        "unit_payload_write.field_expr",
+        "unit_payload_write.override_expr",
+        "unit_payload_write.method",
+        "unit_payload_write.payload_unit",
+        "unit_payload_write.unit_class_id",
+        "unit_payload_write.payload_unit_write_expr",
+        "unit_payload_write.unit_class_id_write_expr",
+        "unit_payload_write.unit_write_expr"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_write_to_source_state",
+        "test_port_game_exposes_source_unit_payload_write_state",
+        "test_port_game_exposes_generated_unit_payload_write_bridge_state",
+        "test_unit_payload_write_matches_upstream_source",
+        "test_generated_unit_payload_write_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1
