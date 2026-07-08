@@ -17286,6 +17286,40 @@ public class ConsumePowerDynamic extends ConsumePower{
             self.assertIn('"guard_expr": "if(displayedPowerUsage != 0f){"', source_text)
             self.assertIn('"stats_add_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);"', source_text)
 
+    def test_emit_bridges_consume_item_flammable_item_efficiency_multiplier_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemFlammable.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumeItemFlammable extends ConsumeItemEfficiency{
+    public float itemEfficiencyMultiplier(Item item){
+        return item.flammability;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemFlammable.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_itemEfficiencyMultiplier_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var item_flammability: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var efficiency_multiplier: float = item_flammability", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java"', source_text)
+            self.assertIn('"method": "public float itemEfficiencyMultiplier(Item item){"', source_text)
+            self.assertIn('"return_expr": "return item.flammability;"', source_text)
+            self.assertIn('"item_flammability": item_flammability', source_text)
+            self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
+
     def test_emit_bridges_build_payload_constructors_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

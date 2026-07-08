@@ -1417,6 +1417,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_power_dynamic_display_state", "source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java", "method": "public void display(Stats stats){", "displayed_power_usage": displayed_power_usage, "display_guard": display_guard, "stats_add_called": display_guard, "power_use_value": power_use_value, "stats_add_call": stats_add_call, "guard_expr": "if(displayedPowerUsage != 0f){", "stats_add_expr": "stats.add(Stat.powerUse, displayedPowerUsage * 60f, StatUnit.powerSecond);"}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItemFlammable.java"
+        and type_entry.get("name") == "ConsumeItemFlammable"
+        and method.get("name") == "itemEfficiencyMultiplier"
+    ):
+        return [
+            "\tvar item_flammability: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar efficiency_multiplier: float = item_flammability",
+            '\treturn {"source_owner": "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_flammability": item_flammability, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.flammability;"}',
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "tile"

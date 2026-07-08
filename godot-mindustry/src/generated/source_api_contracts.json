@@ -20678,6 +20678,35 @@
         "test_port_game_exposes_source_child_update_state"
       ]
     },
+    "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java",
+      "params": [
+        {
+          "java_expr": "item.flammability",
+          "name": "item_flammability",
+          "schema": "source_consume_item_flammable_item_efficiency_multiplier_input.item_flammability",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "item_flammability",
+        "efficiency_multiplier",
+        "return_expr",
+        "item_flammability_field"
+      ],
+      "rule": "Public runtime contract for ConsumeItemFlammable.itemEfficiencyMultiplier(Item) with explicit item.flammability input.",
+      "runtime_proof": "/root/Main.source_consume_item_flammable_item_efficiency_multiplier_state",
+      "source_method": "itemEfficiencyMultiplier(Item item)",
+      "source_slice": "N1431",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_item_flammable_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_flammable_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_flammable_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_flammable_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_power_condition_requested_power_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java",
       "params": [

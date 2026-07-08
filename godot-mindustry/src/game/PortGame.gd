@@ -2379,6 +2379,28 @@ func generated_consume_power_dynamic_display_bridge_state(displayed_power_usage:
 		"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null) and result.get("stats_add_called", null) == canonical.get("stats_add_called", null),
 	}
 
+func source_consume_item_flammable_item_efficiency_multiplier_state(item_flammability: float) -> Dictionary:
+	return {
+		"method": "public float itemEfficiencyMultiplier(Item item){",
+		"item_flammability": item_flammability,
+		"efficiency_multiplier": item_flammability,
+		"return_expr": "return item.flammability;",
+		"item_flammability_field": "public float flammability = 0f;",
+	}
+
+func generated_consume_item_flammable_item_efficiency_multiplier_bridge_state(item_flammability: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFlammable.gd")
+	var instance = script.new()
+	var result = instance.java_method_itemEfficiencyMultiplier_0([item_flammability])
+	var canonical = source_consume_item_flammable_item_efficiency_multiplier_state(item_flammability)
+	return {
+		"source_owner": "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state",
+		"generated_owner": "ConsumeItemFlammable.itemEfficiencyMultiplier",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

@@ -14,4 +14,6 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "itemEfficiencyMultipli
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_itemEfficiencyMultiplier_0(_args: Array = []) -> Variant:
-	return null
+	var item_flammability: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var efficiency_multiplier: float = item_flammability
+	return {"source_owner": "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFlammable.java", "method": "public float itemEfficiencyMultiplier(Item item){", "item_flammability": item_flammability, "efficiency_multiplier": efficiency_multiplier, "return_expr": "return item.flammability;"}

@@ -384,6 +384,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumePowerDynamic.display"', source)
         self.assertIn('"matches": result.get("stats_add_call", null) == canonical.get("stats_add_call", null)', source)
 
+    def test_port_game_exposes_generated_consume_item_flammable_item_efficiency_multiplier_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_item_flammable_item_efficiency_multiplier_state(item_flammability: float) -> Dictionary:", source)
+        self.assertIn('"method": "public float itemEfficiencyMultiplier(Item item){"', source)
+        self.assertIn('"return_expr": "return item.flammability;"', source)
+        self.assertIn("func generated_consume_item_flammable_item_efficiency_multiplier_bridge_state(item_flammability: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemFlammable.gd")', source)
+        self.assertIn("var result = instance.java_method_itemEfficiencyMultiplier_0([item_flammability])", source)
+        self.assertIn("var canonical = source_consume_item_flammable_item_efficiency_multiplier_state(item_flammability)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state"', source)
+        self.assertIn('"generated_owner": "ConsumeItemFlammable.itemEfficiencyMultiplier"', source)
+        self.assertIn('"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null)', source)
+
     def test_port_game_exposes_source_power_graph_power_produced_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")
