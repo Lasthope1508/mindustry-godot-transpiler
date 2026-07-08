@@ -11840,6 +11840,36 @@ def verify_unit_payload_dump_solidity_guard_source(upstream_root: Path, arc_root
         "missing": missing,
     }
 
+def verify_unit_payload_dump_overlap_guard_source(upstream_root: Path) -> dict[str, Any]:
+    unit_payload_source = "core/src/mindustry/world/blocks/payloads/UnitPayload.java"
+    payload_path = Path(upstream_root) / unit_payload_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class UnitPayload implements Payload{",
+        "field_expr": "public Unit unit;",
+        "override_expr": "@Override",
+        "method": "public boolean dump(){",
+        "overlap_comment_expr": "//cannot dump when there's a lot of overlap going on",
+        "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){",
+        "unit_type_flying_expr": "unit.type.flying",
+        "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
+        "physic_size_expr": "unit.physicSize()",
+        "radius_multiplier_expr": "1.05f",
+        "predicate_is_grounded_expr": "o.isGrounded()",
+        "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep",
+        "return_false_expr": "return false;",
+        "client_dumping_comment_expr": "//no client dumping",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in source
+    ]
+    return {
+        "source": unit_payload_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_place_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

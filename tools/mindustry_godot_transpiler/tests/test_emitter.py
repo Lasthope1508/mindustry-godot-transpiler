@@ -18025,14 +18025,14 @@ public class UnitPayload implements Payload{
             self.assertIn("var can_create_evaluated: bool = not unit_type_null", source_text)
             self.assertIn("var can_create_guard: bool = can_create_evaluated and not units_can_create", source_text)
             self.assertIn("var before_solid_returned: bool = unit_type_null or can_create_guard", source_text)
-            self.assertIn("var returned: bool = before_solid_returned or solid_guard", source_text)
+            self.assertIn("var returned: bool = before_overlap_returned or overlap_guard", source_text)
             self.assertIn("var dump_result: Variant = null", source_text)
             self.assertIn("if unit_type_null:\n\t\tdump_result = true", source_text)
             self.assertIn("elif can_create_guard:\n\t\tdump_result = false", source_text)
             self.assertIn("var overlayTime_after: float = 1.0 if can_create_guard else 0.0", source_text)
             self.assertIn("var overlayRegion_after: Variant = null", source_text)
             self.assertIn("var deferred_remaining_dump: bool = not returned", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state"', source_text)
             self.assertIn('"field_overlay_time_expr": "public float overlayTime = 0f;"', source_text)
             self.assertIn('"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;"', source_text)
             self.assertIn('"type_null_guard_expr": "if(unit.type == null) return true;"', source_text)
@@ -18112,7 +18112,7 @@ public class UnitPayload implements Payload{
             self.assertIn("var ty: int = int(round((unit_y + float(trns_vec.get(\"y\", 0.0))) / source_tilesize)) if solid_present_guard else 0", source_text)
             self.assertIn("var solid_solid_evaluated: bool = solid_present_guard", source_text)
             self.assertIn("var solid_guard: bool = solid_solid_evaluated and solid_solid", source_text)
-            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_solidity_guard_state"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state"', source_text)
             self.assertIn('"solidity_comment_expr": "//check if unit can be dumped here"', source_text)
             self.assertIn('"solid_assign_expr": "SolidPred solid = unit.solidity();"', source_text)
             self.assertIn('"solid_guard_expr": "if(solid != null){"', source_text)
@@ -18122,6 +18122,74 @@ public class UnitPayload implements Payload{
             self.assertIn('"solid_call": solid_call', source_text)
             self.assertIn('"tx": tx', source_text)
             self.assertIn('"ty": ty', source_text)
+
+    def test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+    public float overlayTime = 0f;
+    public @Nullable TextureRegion overlayRegion;
+
+    public boolean dump(){
+        //TODO should not happen
+        if(unit.type == null) return true;
+
+        if(!Units.canCreate(unit.team, unit.type)){
+            overlayTime = 1f;
+            overlayRegion = null;
+            return false;
+        }
+
+        //check if unit can be dumped here
+        SolidPred solid = unit.solidity();
+        if(solid != null){
+            Tmp.v1.trns(unit.rotation, 1f);
+
+            int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);
+
+            //cannot dump on solid blocks
+            if(solid.solid(tx, ty)) return false;
+        }
+
+        //cannot dump when there's a lot of overlap going on
+        if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){
+            return false;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var unit_type_flying: bool = bool(_args[7] if _args.size() > 7 else false)", source_text)
+            self.assertIn("var unit_physic_size: float = float(_args[8] if _args.size() > 8 else 0.0)", source_text)
+            self.assertIn("var units_count: int = int(_args[9] if _args.size() > 9 else 0)", source_text)
+            self.assertIn("var before_overlap_returned: bool = before_solid_returned or solid_guard", source_text)
+            self.assertIn("var overlap_evaluated: bool = not before_overlap_returned", source_text)
+            self.assertIn("var units_count_evaluated: bool = overlap_evaluated and not unit_type_flying", source_text)
+            self.assertIn("var overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0", source_text)
+            self.assertIn("var overlap_guard: bool = units_count_evaluated and units_count > 0", source_text)
+            self.assertIn("elif overlap_guard:", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state"', source_text)
+            self.assertIn('"overlap_comment_expr": "//cannot dump when there\'s a lot of overlap going on"', source_text)
+            self.assertIn('"overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){"', source_text)
+            self.assertIn('"units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))"', source_text)
+            self.assertIn('"overlap_radius": overlap_radius', source_text)
+            self.assertIn('"units_count_evaluated": units_count_evaluated', source_text)
+            self.assertIn('"overlap_guard": overlap_guard', source_text)
 
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:

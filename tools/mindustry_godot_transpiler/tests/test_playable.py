@@ -18770,6 +18770,39 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_dump_overlap_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_dump_overlap_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state"', source)
+        self.assertIn('"overlap_comment_expr": "//cannot dump when there\'s a lot of overlap going on"', source)
+        self.assertIn('"overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){"', source)
+        self.assertIn('"unit_type_flying_expr": "unit.type.flying"', source)
+        self.assertIn('"units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))"', source)
+        self.assertIn('"physic_size_expr": "unit.physicSize()"', source)
+        self.assertIn('"radius_multiplier_expr": "1.05f"', source)
+        self.assertIn('"predicate_is_grounded_expr": "o.isGrounded()"', source)
+        self.assertIn('"predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep"', source)
+        self.assertIn("var before_overlap_returned: bool = before_solid_returned or solid_guard", source)
+        self.assertIn("var units_count_evaluated: bool = overlap_evaluated and not unit_type_flying", source)
+        self.assertIn("var overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0", source)
+        self.assertIn("var overlap_guard: bool = units_count_evaluated and units_count > 0", source)
+        self.assertIn('"overlap_guard": overlap_guard', source)
+        self.assertIn('"deferred_remaining_dump": deferred_remaining_dump', source)
+
+    def test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_dump_overlap_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count])", source)
+        self.assertIn("var canonical = source_unit_payload_dump_overlap_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

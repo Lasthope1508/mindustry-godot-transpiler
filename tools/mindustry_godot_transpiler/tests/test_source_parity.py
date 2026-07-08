@@ -11873,6 +11873,29 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_payload_dump_overlap_guard_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_payload_dump_overlap_guard_source"))
+        report = source_parity.verify_unit_payload_dump_overlap_guard_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class UnitPayload implements Payload{",
+            "field_expr": "public Unit unit;",
+            "override_expr": "@Override",
+            "method": "public boolean dump(){",
+            "overlap_comment_expr": "//cannot dump when there's a lot of overlap going on",
+            "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){",
+            "unit_type_flying_expr": "unit.type.flying",
+            "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
+            "physic_size_expr": "unit.physicSize()",
+            "radius_multiplier_expr": "1.05f",
+            "predicate_is_grounded_expr": "o.isGrounded()",
+            "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep",
+            "return_false_expr": "return false;",
+            "client_dumping_comment_expr": "//no client dumping",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_get_drill_time_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_get_drill_time_source"))
         report = source_parity.verify_drill_get_drill_time_source(ROOT / "mindustry-upstream")

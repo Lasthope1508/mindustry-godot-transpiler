@@ -110690,6 +110690,744 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "unit_payload_dump_overlap_guard.can_create_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(!Units.canCreate(unit.team, unit.type)){",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.can_create_guard_expr",
+      "status": "source-backed",
+      "rule": "canCreate guard before overlap."
+    },
+    "unit_payload_dump_overlap_guard.class_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public class UnitPayload implements Payload{",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.class_expr",
+      "status": "source-backed",
+      "rule": "UnitPayload class boundary."
+    },
+    "unit_payload_dump_overlap_guard.field_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public Unit unit;",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.field_expr",
+      "status": "source-backed",
+      "rule": "UnitPayload unit field used by dump guards."
+    },
+    "unit_payload_dump_overlap_guard.field_overlay_region_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public @Nullable TextureRegion overlayRegion;",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.field_overlay_region_expr",
+      "status": "source-backed",
+      "rule": "Overlay region field preserved from canCreate branch."
+    },
+    "unit_payload_dump_overlap_guard.field_overlay_time_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public float overlayTime = 0f;",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.field_overlay_time_expr",
+      "status": "source-backed",
+      "rule": "Overlay time field preserved from canCreate branch."
+    },
+    "unit_payload_dump_overlap_guard.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public boolean dump(){",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.method",
+      "status": "source-backed",
+      "rule": "UnitPayload.dump method boundary."
+    },
+    "unit_payload_dump_overlap_guard.override_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "@Override",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.override_expr",
+      "status": "source-backed",
+      "rule": "Override marker for Payload.dump."
+    },
+    "unit_payload_dump_overlap_guard.return_false_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "return false;",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.dump",
+      "status": "source-backed",
+      "rule": "Solid block guard return value."
+    },
+    "unit_payload_dump_overlap_guard.solid_assign_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "SolidPred solid = unit.solidity();",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.solid_assign_expr",
+      "status": "source-backed",
+      "rule": "Unit overlap predicate assignment."
+    },
+    "unit_payload_dump_overlap_guard.solid_block_comment_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "//cannot dump on solid blocks",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.solid_block_comment_expr",
+      "status": "source-backed",
+      "rule": "Solid block guard comment."
+    },
+    "unit_payload_dump_overlap_guard.solid_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(solid != null){",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.solid_guard_expr",
+      "status": "source-backed",
+      "rule": "SolidPred null guard."
+    },
+    "unit_payload_dump_overlap_guard.solid_present": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "solid != null",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_input.solid_present",
+      "status": "explicit-input",
+      "rule": "Explicit input for null check on SolidPred."
+    },
+    "unit_payload_dump_overlap_guard.solid_solid": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "solid.solid(tx, ty)",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_input.solid_solid",
+      "status": "explicit-input",
+      "rule": "Explicit input for SolidPred.solid result until concrete world predicate runtime is ported."
+    },
+    "unit_payload_dump_overlap_guard.solid_solid_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(solid.solid(tx, ty)) return false;",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.solid_solid_guard_expr",
+      "status": "source-backed",
+      "rule": "Solid block guard returns false."
+    },
+    "unit_payload_dump_overlap_guard.solidity_comment_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "//check if unit can be dumped here",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.solidity_comment_expr",
+      "status": "source-backed",
+      "rule": "Overlap branch comment."
+    },
+    "unit_payload_dump_overlap_guard.tile_assign_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.tile_assign_expr",
+      "status": "source-backed",
+      "rule": "Tile coordinate assignment from unit plus Tmp.v1."
+    },
+    "unit_payload_dump_overlap_guard.trns_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Tmp.v1.trns(unit.rotation, 1f);",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.trns_vec",
+      "status": "source-backed",
+      "rule": "Tmp.v1.trns call for forward tile probe."
+    },
+    "unit_payload_dump_overlap_guard.tx": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "World.toTile(unit.x + Tmp.v1.x)",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.tx",
+      "status": "source-backed",
+      "rule": "Tile X expression."
+    },
+    "unit_payload_dump_overlap_guard.ty": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "World.toTile(unit.y + Tmp.v1.y)",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.ty",
+      "status": "source-backed",
+      "rule": "Tile Y expression."
+    },
+    "unit_payload_dump_overlap_guard.type_null_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(unit.type == null) return true;",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.type_null_guard_expr",
+      "status": "source-backed",
+      "rule": "First dump guard returns true before canCreate and overlap are evaluated."
+    },
+    "unit_payload_dump_overlap_guard.unit_rotation": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.rotation",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_input.unit_rotation",
+      "status": "explicit-input",
+      "rule": "Explicit input for Tmp.v1.trns(unit.rotation, 1f)."
+    },
+    "unit_payload_dump_overlap_guard.unit_type_null": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.type == null",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_input.unit_type_null",
+      "status": "explicit-input",
+      "rule": "Explicit input preserving first guard order."
+    },
+    "unit_payload_dump_overlap_guard.unit_x": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.x",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_input.unit_x",
+      "status": "explicit-input",
+      "rule": "Explicit input for World.toTile(unit.x + Tmp.v1.x)."
+    },
+    "unit_payload_dump_overlap_guard.unit_y": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.y",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_input.unit_y",
+      "status": "explicit-input",
+      "rule": "Explicit input for World.toTile(unit.y + Tmp.v1.y)."
+    },
+    "unit_payload_dump_overlap_guard.units_can_create": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Units.canCreate(unit.team, unit.type)",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_input.units_can_create",
+      "status": "explicit-input",
+      "rule": "Explicit input until Units/team/type runtime is ported."
+    },
+    "unit_payload_dump_overlap_guard.vars_tilesize_field": {
+      "java_source": "core/src/mindustry/Vars.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public static final int tilesize = 8;",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.vars_tilesize_field",
+      "status": "source-backed",
+      "rule": "Mindustry tile size constant."
+    },
+    "unit_payload_dump_overlap_guard.vec2_trns_amount_expr": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public Vec2 trns(float angle, float amount){",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.vec2_trns_amount_expr",
+      "status": "source-backed",
+      "rule": "Arc Vec2.trns angle/amount method boundary."
+    },
+    "unit_payload_dump_overlap_guard.vec2_trns_amount_return_expr": {
+      "java_source": "arc-core/src/arc/math/geom/Vec2.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "return set(amount, 0).rotate(angle);",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.vec2_trns_amount_return_expr",
+      "status": "source-backed",
+      "rule": "Arc Vec2.trns amount return expression."
+    },
+    "unit_payload_dump_overlap_guard.world_to_tile_method": {
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "public static int toTile(float coord){",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.world_to_tile_method",
+      "status": "source-backed",
+      "rule": "World.toTile method boundary."
+    },
+    "unit_payload_dump_overlap_guard.world_to_tile_return": {
+      "java_source": "core/src/mindustry/core/World.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "return Math.round(coord / tilesize);",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.world_to_tile_return",
+      "status": "source-backed",
+      "rule": "World.toTile return formula."
+    },
+    "unit_payload_dump_overlap_guard.overlap_comment_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "//cannot dump when there's a lot of overlap going on",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.overlap_comment_expr",
+      "status": "source-backed",
+      "rule": "Overlap guard comment."
+    },
+    "unit_payload_dump_overlap_guard.overlap_guard_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.overlap_guard_expr",
+      "status": "source-backed",
+      "rule": "Overlap guard branch."
+    },
+    "unit_payload_dump_overlap_guard.unit_type_flying": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.type.flying",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_input.unit_type_flying",
+      "status": "explicit-input",
+      "rule": "Explicit input for Java unit.type.flying short-circuit."
+    },
+    "unit_payload_dump_overlap_guard.unit_physic_size": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.physicSize()",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_input.unit_physic_size",
+      "status": "explicit-input",
+      "rule": "Explicit input for Java unit.physicSize()."
+    },
+    "unit_payload_dump_overlap_guard.units_count": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_input.units_count",
+      "status": "explicit-input",
+      "rule": "Explicit input for Units.count(...) until unit group query is ported."
+    },
+    "unit_payload_dump_overlap_guard.overlap_radius": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.physicSize() * 1.05f",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.overlap_radius",
+      "status": "source-backed",
+      "rule": "Overlap Units.count radius formula."
+    },
+    "unit_payload_dump_overlap_guard.physic_size_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "unit.physicSize()",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.physic_size_expr",
+      "status": "source-backed",
+      "rule": "Unit physical size method call."
+    },
+    "unit_payload_dump_overlap_guard.radius_multiplier_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "1.05f",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.radius_multiplier_expr",
+      "status": "source-backed",
+      "rule": "Overlap radius multiplier literal."
+    },
+    "unit_payload_dump_overlap_guard.predicate_is_grounded_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "o.isGrounded()",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.predicate_is_grounded_expr",
+      "status": "source-backed",
+      "rule": "Units.count predicate grounded call."
+    },
+    "unit_payload_dump_overlap_guard.predicate_allow_leg_step_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "o.type.allowLegStep == unit.type.allowLegStep",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.predicate_allow_leg_step_expr",
+      "status": "source-backed",
+      "rule": "Units.count predicate allowLegStep comparison."
+    },
+    "unit_payload_dump_overlap_guard.client_dumping_comment_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.dump()",
+      "godot_owner": "PortGame.source_unit_payload_dump_overlap_guard_state",
+      "runtime_proof": "/root/Main.source_unit_payload_dump_overlap_guard_state",
+      "source_slice": "N1402",
+      "tests": [
+        "test_emit_bridges_unit_payload_dump_overlap_guard_to_source_state",
+        "test_port_game_exposes_source_unit_payload_dump_overlap_guard_state",
+        "test_port_game_exposes_generated_unit_payload_dump_overlap_guard_bridge_state",
+        "test_unit_payload_dump_overlap_guard_matches_upstream_source",
+        "test_generated_unit_payload_dump_overlap_guard_slice_is_registered_with_source_backing"
+      ],
+      "java_expr": "//no client dumping",
+      "godot_symbol": "source_unit_payload_dump_overlap_guard_result.client_dumping_comment_expr",
+      "status": "deferred",
+      "rule": "Next UnitPayload.dump boundary after overlap guard."
     }
   },
   "version": 1
