@@ -39103,6 +39103,26 @@
         "test_port_game_exposes_source_weapons_update_dispatch_state",
         "test_weapons_update_dispatch_matches_upstream_source"
       ]
+    },
+    "PortGame.source_consume_item_filter_item_efficiency_multiplier_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "params": [],
+      "return_keys": [
+        "method",
+        "efficiency_multiplier",
+        "return_expr"
+      ],
+      "rule": "Public runtime contract for ConsumeItemFilter.itemEfficiencyMultiplier(Item) constant return.",
+      "runtime_proof": "/root/Main.source_consume_item_filter_item_efficiency_multiplier_state",
+      "source_method": "itemEfficiencyMultiplier(Item item)",
+      "source_slice": "N1435",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_filter_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_filter_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

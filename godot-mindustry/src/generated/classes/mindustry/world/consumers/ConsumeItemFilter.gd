@@ -38,4 +38,5 @@ func java_method_efficiencyMultiplier_7(_args: Array = []) -> Variant:
 	return null
 
 func java_method_itemEfficiencyMultiplier_8(_args: Array = []) -> Variant:
-	return null
+	var efficiency_multiplier: float = 1.0
+	return {"source_owner": "PortGame.source_consume_item_filter_item_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public float itemEfficiencyMultiplier(Item item){", "efficiency_multiplier": efficiency_multiplier, "return_expr": "return 1f;"}

@@ -4178,6 +4178,21 @@ def verify_consume_item_charged_item_efficiency_multiplier_source(upstream_root:
         "missing": missing,
     }
 
+def verify_consume_item_filter_item_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    consume_item_filter_path = Path(upstream_root) / consume_item_filter_source
+    source = consume_item_filter_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float itemEfficiencyMultiplier(Item item){",
+        "return_expr": "return 1f;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_item_filter_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_power_produced_source(upstream_root: Path) -> dict[str, Any]:
     power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     building_path = Path(upstream_root) / BUILDING_COMP_SOURCE

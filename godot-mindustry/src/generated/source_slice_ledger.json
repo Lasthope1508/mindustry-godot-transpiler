@@ -35592,6 +35592,34 @@
         "test_port_game_exposes_source_building_get_power_connections_manual_links_loop_state",
         "test_building_get_power_connections_manual_links_loop_symbols_are_registered_with_source_backing"
       ]
+    },
+    "N1435": {
+      "deferred_exprs": [
+        "Concrete Item object binding is not needed for this slice because upstream return ignores the item parameter.",
+        "ConsumeItemFilter.efficiencyMultiplier(Building) and getConsumed(Building) remain separate because they depend on Building item storage and filter traversal."
+      ],
+      "exact_exprs": [
+        "public float itemEfficiencyMultiplier(Item item){",
+        "return 1f;"
+      ],
+      "generated_owner": "ConsumeItemFilter.java_method_itemEfficiencyMultiplier_8",
+      "godot_owner": "PortGame.source_consume_item_filter_item_efficiency_multiplier_state",
+      "java_class": "ConsumeItemFilter",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java",
+      "rule": "Generated ConsumeItemFilter.itemEfficiencyMultiplier bridges the exact constant 1f return.",
+      "runtime_proof": "/root/Main.generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
+      "source_symbols": [
+        "consume_item_filter_item_efficiency_multiplier.return"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_item_filter_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_filter_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_filter_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_filter_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeItemFilter itemEfficiencyMultiplier bridge state"
     }
   },
   "version": 1
