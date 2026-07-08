@@ -14581,6 +14581,51 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_liquid_base_apply_result")
         self.assertEqual(result_schema["keys"]["block_has_liquids_after"]["java_expr"], "block.hasLiquids = true;")
 
+    def test_generated_consume_liquid_apply_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        super_symbol = source_symbols.source_symbol(registry, "consume_liquid_apply.super_apply")
+        self.assertEqual(super_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertEqual(super_symbol["java_method"], "apply(Block block)")
+        self.assertEqual(super_symbol["java_expr"], "super.apply(block);")
+        self.assertEqual(super_symbol["godot_owner"], "PortGame.source_consume_liquid_apply_state")
+        self.assertEqual(super_symbol["runtime_proof"], "/root/Main.source_consume_liquid_apply_state")
+        self.assertEqual(super_symbol["godot_symbol"], "source_consume_liquid_apply_result.base_apply_state")
+
+        filter_symbol = source_symbols.source_symbol(registry, "consume_liquid_apply.liquid_filter_assignment")
+        self.assertEqual(filter_symbol["java_expr"], "block.liquidFilter[liquid.id] = true;")
+        self.assertEqual(filter_symbol["godot_symbol"], "source_consume_liquid_apply_result.liquid_filter_after")
+
+        liquid_slice = source_symbols.source_slice(ledger, "N1439")
+        self.assertEqual(liquid_slice["title"], "Generated ConsumeLiquid apply bridge state")
+        self.assertEqual(liquid_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertEqual(liquid_slice["java_method"], "apply(Block block)")
+        self.assertEqual(liquid_slice["godot_owner"], "PortGame.source_consume_liquid_apply_state")
+        self.assertEqual(liquid_slice["generated_owner"], "ConsumeLiquid.java_method_apply_0")
+        self.assertEqual(liquid_slice["runtime_proof"], "/root/Main.generated_consume_liquid_apply_bridge_state")
+        for expr in [
+            "public void apply(Block block){",
+            "super.apply(block);",
+            "block.liquidFilter[liquid.id] = true;",
+            "public boolean[] itemFilter = {}, liquidFilter = {};",
+        ]:
+            self.assertIn(expr, liquid_slice["exact_exprs"])
+        self.assertIn("consume_liquid_apply.super_apply", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquid_apply.liquid_filter_assignment", liquid_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_liquid_apply_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["block_has_liquids_before", "liquid_filter_before", "liquid_id"])
+        self.assertIn("liquid_filter_after", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_liquid_apply_input")
+        self.assertEqual(input_schema["keys"]["liquid_id"]["java_expr"], "liquid.id")
+        result_schema = source_symbols.state_schema(schema, "source_consume_liquid_apply_result")
+        self.assertEqual(result_schema["keys"]["liquid_filter_after"]["java_expr"], "block.liquidFilter[liquid.id] = true;")
+
     def test_power_graph_power_produced_symbols_are_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         errors = source_symbols.validate_source_symbol_registry(registry)
@@ -21075,10 +21120,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 912)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 907)
+        self.assertEqual(audit["totalSourceFunctions"], 913)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 908)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 912)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 913)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])

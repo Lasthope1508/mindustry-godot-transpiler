@@ -78203,6 +78203,161 @@
         }
       }
     },
+    "source_consume_liquid_apply_input": {
+      "keys": {
+        "block_has_liquids_before": {
+          "godot_symbol": "source_consume_liquid_apply_input.block_has_liquids_before",
+          "java_expr": "block.hasLiquids before super.apply(block)",
+          "java_method": "apply(Block block)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "rule": "source_consume_liquid_apply_input key block_has_liquids_before.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "liquid_filter_before": {
+          "godot_symbol": "source_consume_liquid_apply_input.liquid_filter_before",
+          "java_expr": "block.liquidFilter before apply(Block block)",
+          "java_method": "apply(Block block)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "rule": "source_consume_liquid_apply_input key liquid_filter_before.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "liquid_id": {
+          "godot_symbol": "source_consume_liquid_apply_input.liquid_id",
+          "java_expr": "liquid.id",
+          "java_method": "apply(Block block)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "rule": "source_consume_liquid_apply_input key liquid_id.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        }
+      }
+    },
+    "source_consume_liquid_apply_result": {
+      "keys": {
+        "base_apply_state": {
+          "godot_symbol": "source_consume_liquid_apply_result.base_apply_state",
+          "java_expr": "super.apply(block);",
+          "java_method": "apply(Block block)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "rule": "source_consume_liquid_apply_result key base_apply_state.",
+          "status": "source-backed",
+          "type": "Dictionary",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "block_has_liquids_after": {
+          "godot_symbol": "source_consume_liquid_apply_result.block_has_liquids_after",
+          "java_expr": "super.apply(block);",
+          "java_method": "apply(Block block)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "rule": "source_consume_liquid_apply_result key block_has_liquids_after.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "block_has_liquids_before": {
+          "alias_of": "source_consume_liquid_apply_input.block_has_liquids_before",
+          "rule": "source_consume_liquid_apply_result key block_has_liquids_before.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "block_liquid_filter_field": {
+          "godot_symbol": "source_consume_liquid_apply_result.block_liquid_filter_field",
+          "java_expr": "public boolean[] itemFilter = {}, liquidFilter = {};",
+          "java_method": "Block",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "rule": "source_consume_liquid_apply_result key block_liquid_filter_field.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "liquid_filter_after": {
+          "godot_symbol": "source_consume_liquid_apply_result.liquid_filter_after",
+          "java_expr": "block.liquidFilter[liquid.id] = true;",
+          "java_method": "apply(Block block)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "rule": "source_consume_liquid_apply_result key liquid_filter_after.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "liquid_filter_assignment_expr": {
+          "godot_symbol": "source_consume_liquid_apply_result.liquid_filter_assignment_expr",
+          "java_expr": "block.liquidFilter[liquid.id] = true;",
+          "java_method": "apply(Block block)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "rule": "source_consume_liquid_apply_result key liquid_filter_assignment_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "liquid_filter_before": {
+          "alias_of": "source_consume_liquid_apply_input.liquid_filter_before",
+          "rule": "source_consume_liquid_apply_result key liquid_filter_before.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "liquid_id": {
+          "alias_of": "source_consume_liquid_apply_input.liquid_id",
+          "rule": "source_consume_liquid_apply_result key liquid_id.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "method": {
+          "godot_symbol": "source_consume_liquid_apply_result.method",
+          "java_expr": "public void apply(Block block){",
+          "java_method": "apply(Block block)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "rule": "source_consume_liquid_apply_result key method.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        },
+        "super_apply_expr": {
+          "godot_symbol": "source_consume_liquid_apply_result.super_apply_expr",
+          "java_expr": "super.apply(block);",
+          "java_method": "apply(Block block)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+          "rule": "source_consume_liquid_apply_result key super_apply_expr.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_consume_liquid_apply_state"
+          ]
+        }
+      }
+    },
     "source_consume_liquid_base_apply_input": {
       "keys": {
         "block_has_liquids_before": {

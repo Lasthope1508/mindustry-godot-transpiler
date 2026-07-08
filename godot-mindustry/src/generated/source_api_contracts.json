@@ -20814,6 +20814,52 @@
         "test_generated_consume_item_radioactive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_consume_liquid_apply_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "params": [
+        {
+          "java_expr": "block.hasLiquids before super.apply(block)",
+          "name": "block_has_liquids_before",
+          "schema": "source_consume_liquid_apply_input.block_has_liquids_before",
+          "type": "bool"
+        },
+        {
+          "java_expr": "block.liquidFilter before apply(Block block)",
+          "name": "liquid_filter_before",
+          "schema": "source_consume_liquid_apply_input.liquid_filter_before",
+          "type": "Array"
+        },
+        {
+          "java_expr": "liquid.id",
+          "name": "liquid_id",
+          "schema": "source_consume_liquid_apply_input.liquid_id",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "super_apply_expr",
+        "liquid_filter_assignment_expr",
+        "block_liquid_filter_field",
+        "block_has_liquids_before",
+        "block_has_liquids_after",
+        "base_apply_state",
+        "liquid_filter_before",
+        "liquid_id",
+        "liquid_filter_after"
+      ],
+      "rule": "Public runtime contract for ConsumeLiquid.apply(Block) super apply and liquidFilter assignment.",
+      "runtime_proof": "/root/Main.source_consume_liquid_apply_state",
+      "source_method": "apply(Block block)",
+      "source_slice": "N1439",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_liquid_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_apply_bridge_state",
+        "test_consume_liquid_apply_matches_upstream_source",
+        "test_generated_consume_liquid_apply_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_liquid_base_apply_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
       "params": [

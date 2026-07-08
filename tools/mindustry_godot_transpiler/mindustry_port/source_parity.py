@@ -4258,6 +4258,33 @@ def verify_consume_liquid_base_apply_source(upstream_root: Path) -> dict[str, An
         "missing": missing,
     }
 
+def verify_consume_liquid_apply_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_source = "core/src/mindustry/world/consumers/ConsumeLiquid.java"
+    block_source = "core/src/mindustry/world/Block.java"
+    consume_liquid_path = Path(upstream_root) / consume_liquid_source
+    block_path = Path(upstream_root) / block_source
+    source = consume_liquid_path.read_text(encoding="utf-8", errors="replace")
+    block_text = block_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public void apply(Block block){",
+        "super_apply_expr": "super.apply(block);",
+        "liquid_filter_assignment_expr": "block.liquidFilter[liquid.id] = true;",
+        "block_liquid_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+    }
+    source_by_key = {
+        "method": source,
+        "super_apply_expr": source,
+        "liquid_filter_assignment_expr": source,
+        "block_liquid_filter_field": block_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_source,
+        "sources": [block_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_power_produced_source(upstream_root: Path) -> dict[str, Any]:
     power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     building_path = Path(upstream_root) / BUILDING_COMP_SOURCE

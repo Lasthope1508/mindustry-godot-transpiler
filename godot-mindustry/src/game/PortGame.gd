@@ -2551,6 +2551,36 @@ func generated_consume_liquid_base_apply_bridge_state(block_has_liquids_before: 
 		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null),
 	}
 
+func source_consume_liquid_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int) -> Dictionary:
+	var base_apply_state := source_consume_liquid_base_apply_state(block_has_liquids_before)
+	var liquid_filter_after := liquid_filter_before.duplicate()
+	liquid_filter_after[liquid_id] = true
+	return {
+		"method": "public void apply(Block block){",
+		"super_apply_expr": "super.apply(block);",
+		"liquid_filter_assignment_expr": "block.liquidFilter[liquid.id] = true;",
+		"block_liquid_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+		"block_has_liquids_before": block_has_liquids_before,
+		"block_has_liquids_after": base_apply_state.get("block_has_liquids_after", null),
+		"base_apply_state": base_apply_state,
+		"liquid_filter_before": liquid_filter_before,
+		"liquid_id": liquid_id,
+		"liquid_filter_after": liquid_filter_after,
+	}
+
+func generated_consume_liquid_apply_bridge_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_id: int) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")
+	var instance = script.new()
+	var result = instance.java_method_apply_0([block_has_liquids_before, liquid_filter_before, liquid_id])
+	var canonical = source_consume_liquid_apply_state(block_has_liquids_before, liquid_filter_before, liquid_id)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_apply_state",
+		"generated_owner": "ConsumeLiquid.apply",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null) and result.get("liquid_filter_after", []) == canonical.get("liquid_filter_after", []),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

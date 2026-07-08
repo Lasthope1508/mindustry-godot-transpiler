@@ -962,6 +962,20 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_apply_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_apply_source"))
+        report = source_parity.verify_consume_liquid_apply_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "method": "public void apply(Block block){",
+            "super_apply_expr": "super.apply(block);",
+            "liquid_filter_assignment_expr": "block.liquidFilter[liquid.id] = true;",
+            "block_liquid_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_power_produced_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_power_produced_source"))
         report = source_parity.verify_power_graph_power_produced_source(ROOT / "mindustry-upstream")
