@@ -18191,6 +18191,77 @@ public class UnitPayload implements Payload{
             self.assertIn('"units_count_evaluated": units_count_evaluated', source_text)
             self.assertIn('"overlap_guard": overlap_guard', source_text)
 
+    def test_emit_bridges_unit_payload_dump_no_client_guard_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+    public float overlayTime = 0f;
+    public @Nullable TextureRegion overlayRegion;
+
+    public boolean dump(){
+        //TODO should not happen
+        if(unit.type == null) return true;
+
+        if(!Units.canCreate(unit.team, unit.type)){
+            overlayTime = 1f;
+            overlayRegion = null;
+            return false;
+        }
+
+        //check if unit can be dumped here
+        SolidPred solid = unit.solidity();
+        if(solid != null){
+            Tmp.v1.trns(unit.rotation, 1f);
+
+            int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);
+
+            //cannot dump on solid blocks
+            if(solid.solid(tx, ty)) return false;
+        }
+
+        //cannot dump when there's a lot of overlap going on
+        if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){
+            return false;
+        }
+
+        //no client dumping
+        if(Vars.net.client()) return true;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("var net_client: bool = bool(_args[10] if _args.size() > 10 else false)", source_text)
+            self.assertIn("var before_client_returned: bool = before_overlap_returned or overlap_guard", source_text)
+            self.assertIn("var net_client_evaluated: bool = not before_client_returned", source_text)
+            self.assertIn("var client_guard: bool = net_client_evaluated and net_client", source_text)
+            self.assertIn("var returned: bool = before_client_returned or client_guard", source_text)
+            self.assertIn("elif client_guard:", source_text)
+            self.assertIn("\t\tdump_result = true", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state"', source_text)
+            self.assertIn('"client_dumping_comment_expr": "//no client dumping"', source_text)
+            self.assertIn('"net_client_guard_expr": "if(Vars.net.client()) return true;"', source_text)
+            self.assertIn('"vars_net_field": "public static Net net;"', source_text)
+            self.assertIn('"return_true_expr": "return true;"', source_text)
+            self.assertIn('"prevents_stacking_comment_expr": "//prevents stacking"', source_text)
+            self.assertIn('"net_client": net_client', source_text)
+            self.assertIn('"net_client_evaluated": net_client_evaluated', source_text)
+            self.assertIn('"client_guard": client_guard', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

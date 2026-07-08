@@ -11896,6 +11896,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_payload_dump_no_client_guard_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_payload_dump_no_client_guard_source"))
+        report = source_parity.verify_unit_payload_dump_no_client_guard_source(ROOT / "mindustry-upstream", ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(report["sources"], ["core/src/mindustry/Vars.java"])
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class UnitPayload implements Payload{",
+            "field_expr": "public Unit unit;",
+            "override_expr": "@Override",
+            "method": "public boolean dump(){",
+            "client_dumping_comment_expr": "//no client dumping",
+            "net_client_guard_expr": "if(Vars.net.client()) return true;",
+            "vars_net_field": "public static Net net;",
+            "return_true_expr": "return true;",
+            "prevents_stacking_comment_expr": "//prevents stacking",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_get_drill_time_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_get_drill_time_source"))
         report = source_parity.verify_drill_get_drill_time_source(ROOT / "mindustry-upstream")

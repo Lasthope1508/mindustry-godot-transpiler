@@ -18803,6 +18803,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_dump_no_client_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_dump_no_client_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state"', source)
+        self.assertIn('"client_dumping_comment_expr": "//no client dumping"', source)
+        self.assertIn('"net_client_guard_expr": "if(Vars.net.client()) return true;"', source)
+        self.assertIn('"vars_net_field": "public static Net net;"', source)
+        self.assertIn('"return_true_expr": "return true;"', source)
+        self.assertIn('"prevents_stacking_comment_expr": "//prevents stacking"', source)
+        self.assertIn("var before_client_returned: bool = before_overlap_returned or overlap_guard", source)
+        self.assertIn("var net_client_evaluated: bool = not before_client_returned", source)
+        self.assertIn("var client_guard: bool = net_client_evaluated and net_client", source)
+        self.assertIn("elif client_guard:", source)
+        self.assertIn('"net_client": net_client', source)
+        self.assertIn('"client_guard": client_guard', source)
+        self.assertIn('"deferred_remaining_dump": deferred_remaining_dump', source)
+
+    def test_port_game_exposes_generated_unit_payload_dump_no_client_guard_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client])", source)
+        self.assertIn("var canonical = source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_dump_13"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

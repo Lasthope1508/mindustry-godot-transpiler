@@ -11870,6 +11870,39 @@ def verify_unit_payload_dump_overlap_guard_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_unit_payload_dump_no_client_guard_source(upstream_root: Path, vars_root: Path) -> dict[str, Any]:
+    unit_payload_source = "core/src/mindustry/world/blocks/payloads/UnitPayload.java"
+    payload_path = Path(upstream_root) / unit_payload_source
+    vars_path = Path(vars_root) / VARS_SOURCE
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    vars_source = vars_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class UnitPayload implements Payload{",
+        "field_expr": "public Unit unit;",
+        "override_expr": "@Override",
+        "method": "public boolean dump(){",
+        "client_dumping_comment_expr": "//no client dumping",
+        "net_client_guard_expr": "if(Vars.net.client()) return true;",
+        "vars_net_field": "public static Net net;",
+        "return_true_expr": "return true;",
+        "prevents_stacking_comment_expr": "//prevents stacking",
+    }
+    sources_by_key = {
+        "vars_net_field": vars_source,
+    }
+    missing = [
+        snippet for key, snippet in checked.items()
+        if snippet not in sources_by_key.get(key, source)
+    ]
+    return {
+        "source": unit_payload_source,
+        "sources": [
+            VARS_SOURCE,
+        ],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_place_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

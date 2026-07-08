@@ -20605,6 +20605,140 @@ func generated_unit_payload_dump_overlap_guard_bridge_state(unit_type_null: bool
 		"matches": result == canonical,
 	}
 
+func source_unit_payload_dump_no_client_guard_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:
+	var can_create_evaluated: bool = not unit_type_null
+	var can_create_guard: bool = can_create_evaluated and not units_can_create
+	var before_solid_returned: bool = unit_type_null or can_create_guard
+	var solid_evaluated: bool = not before_solid_returned
+	var solid_present_guard: bool = solid_evaluated and solid_present
+	var trns_vec: Dictionary = source_arc_angles_trns_vec(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}
+	var tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0
+	var ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / SOURCE_TILESIZE)) if solid_present_guard else 0
+	var solid_solid_evaluated: bool = solid_present_guard
+	var solid_guard: bool = solid_solid_evaluated and solid_solid
+	var before_overlap_returned: bool = before_solid_returned or solid_guard
+	var overlap_evaluated: bool = not before_overlap_returned
+	var units_count_evaluated: bool = overlap_evaluated and not unit_type_flying
+	var overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0
+	var overlap_guard: bool = units_count_evaluated and units_count > 0
+	var before_client_returned: bool = before_overlap_returned or overlap_guard
+	var net_client_evaluated: bool = not before_client_returned
+	var client_guard: bool = net_client_evaluated and net_client
+	var returned: bool = before_client_returned or client_guard
+	var dump_result: Variant = null
+	if unit_type_null:
+		dump_result = true
+	elif can_create_guard:
+		dump_result = false
+	elif solid_guard:
+		dump_result = false
+	elif overlap_guard:
+		dump_result = false
+	elif client_guard:
+		dump_result = true
+	var overlayTime_after: float = 1.0 if can_create_guard else 0.0
+	var overlayRegion_after: Variant = null
+	var solid_call: Dictionary = {}
+	if solid_solid_evaluated:
+		solid_call = {"call": "solid.solid(tx, ty)", "tx": tx, "ty": ty, "result": solid_solid}
+	var units_count_call: Dictionary = {}
+	if units_count_evaluated:
+		units_count_call = {"call": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}
+	var deferred_remaining_dump: bool = not returned
+	return {
+		"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state",
+		"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+		"arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java",
+		"world_source": "core/src/mindustry/core/World.java",
+		"vars_source": "core/src/mindustry/Vars.java",
+		"class_expr": "public class UnitPayload implements Payload{",
+		"field_expr": "public Unit unit;",
+		"field_overlay_time_expr": "public float overlayTime = 0f;",
+		"field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;",
+		"override_expr": "@Override",
+		"method": "public boolean dump(){",
+		"todo_comment_expr": "//TODO should not happen",
+		"type_null_guard_expr": "if(unit.type == null) return true;",
+		"can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){",
+		"overlay_time_assign_expr": "overlayTime = 1f;",
+		"overlay_region_assign_expr": "overlayRegion = null;",
+		"solidity_comment_expr": "//check if unit can be dumped here",
+		"solid_assign_expr": "SolidPred solid = unit.solidity();",
+		"solid_guard_expr": "if(solid != null){",
+		"trns_expr": "Tmp.v1.trns(unit.rotation, 1f);",
+		"vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){",
+		"vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);",
+		"tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);",
+		"world_to_tile_method": "public static int toTile(float coord){",
+		"world_to_tile_return": "return Math.round(coord / tilesize);",
+		"vars_tilesize_field": "public static final int tilesize = 8;",
+		"solid_block_comment_expr": "//cannot dump on solid blocks",
+		"solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;",
+		"overlap_comment_expr": "//cannot dump when there's a lot of overlap going on",
+		"overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){",
+		"unit_type_flying_expr": "unit.type.flying",
+		"units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))",
+		"physic_size_expr": "unit.physicSize()",
+		"radius_multiplier_expr": "1.05f",
+		"predicate_is_grounded_expr": "o.isGrounded()",
+		"predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep",
+		"return_false_expr": "return false;",
+		"client_dumping_comment_expr": "//no client dumping",
+		"net_client_guard_expr": "if(Vars.net.client()) return true;",
+		"vars_net_field": "public static Net net;",
+		"return_true_expr": "return true;",
+		"prevents_stacking_comment_expr": "//prevents stacking",
+		"unit_type_null": unit_type_null,
+		"units_can_create": units_can_create,
+		"solid_present": solid_present,
+		"unit_rotation": unit_rotation,
+		"unit_x": unit_x,
+		"unit_y": unit_y,
+		"solid_solid": solid_solid,
+		"unit_type_flying": unit_type_flying,
+		"unit_physic_size": unit_physic_size,
+		"units_count": units_count,
+		"net_client": net_client,
+		"can_create_evaluated": can_create_evaluated,
+		"can_create_guard": can_create_guard,
+		"before_solid_returned": before_solid_returned,
+		"solid_evaluated": solid_evaluated,
+		"solid_present_guard": solid_present_guard,
+		"trns_vec": trns_vec,
+		"tx": tx,
+		"ty": ty,
+		"solid_solid_evaluated": solid_solid_evaluated,
+		"solid_call": solid_call,
+		"solid_guard": solid_guard,
+		"before_overlap_returned": before_overlap_returned,
+		"overlap_evaluated": overlap_evaluated,
+		"units_count_evaluated": units_count_evaluated,
+		"units_count_call": units_count_call,
+		"overlap_radius": overlap_radius,
+		"overlap_guard": overlap_guard,
+		"before_client_returned": before_client_returned,
+		"net_client_evaluated": net_client_evaluated,
+		"client_guard": client_guard,
+		"returned": returned,
+		"dump": dump_result,
+		"overlayTime_after": overlayTime_after,
+		"overlayRegion_after": overlayRegion_after,
+		"deferred_remaining_dump": deferred_remaining_dump,
+	}
+
+func generated_unit_payload_dump_no_client_guard_bridge_state(unit_type_null: bool, units_can_create: bool, solid_present: bool, unit_rotation: float, unit_x: float, unit_y: float, solid_solid: bool, unit_type_flying: bool, unit_physic_size: float, units_count: int, net_client: bool) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")
+	var instance = script.new()
+	var result = instance.java_method_dump_13([unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client])
+	var canonical = source_unit_payload_dump_no_client_guard_state(unit_type_null, units_can_create, solid_present, unit_rotation, unit_x, unit_y, solid_solid, unit_type_flying, unit_physic_size, units_count, net_client)
+	return {
+		"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state",
+		"generated_owner": "UnitPayload.java_method_dump_13",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_build_payload_place_default_state(tile: Variant, build_block: Variant, build_team: Variant) -> Dictionary:
 	var rotation_value: int = 0
 	return {

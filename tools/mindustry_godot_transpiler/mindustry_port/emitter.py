@@ -1772,6 +1772,61 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     ):
         field_names = {field.get("name") for field in type_entry.get("fields", [])}
         if {"overlayTime", "overlayRegion"}.issubset(field_names):
+            source_text = str(java_file.get("_source_text", ""))
+            if "if(Vars.net.client()) return true;" not in source_text:
+                return [
+                    "\tvar unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)",
+                    "\tvar units_can_create: bool = bool(_args[1] if _args.size() > 1 else true)",
+                    "\tvar solid_present: bool = bool(_args[2] if _args.size() > 2 else false)",
+                    "\tvar unit_rotation: float = float(_args[3] if _args.size() > 3 else 0.0)",
+                    "\tvar unit_x: float = float(_args[4] if _args.size() > 4 else 0.0)",
+                    "\tvar unit_y: float = float(_args[5] if _args.size() > 5 else 0.0)",
+                    "\tvar solid_solid: bool = bool(_args[6] if _args.size() > 6 else false)",
+                    "\tvar unit_type_flying: bool = bool(_args[7] if _args.size() > 7 else false)",
+                    "\tvar unit_physic_size: float = float(_args[8] if _args.size() > 8 else 0.0)",
+                    "\tvar units_count: int = int(_args[9] if _args.size() > 9 else 0)",
+                    "\tvar can_create_evaluated: bool = not unit_type_null",
+                    "\tvar can_create_guard: bool = can_create_evaluated and not units_can_create",
+                    "\tvar before_solid_returned: bool = unit_type_null or can_create_guard",
+                    "\tvar solid_evaluated: bool = not before_solid_returned",
+                    "\tvar solid_present_guard: bool = solid_evaluated and solid_present",
+                    "\tvar _source_arc_angles_trns_vec := func(angle_degrees: float, x_value: float, y_value: float) -> Dictionary:",
+                    "\t\tvar radians := deg_to_rad(angle_degrees)",
+                    "\t\tvar cos_value := cos(radians)",
+                    "\t\tvar sin_value := sin(radians)",
+                    '\t\treturn {"x": x_value * cos_value - y_value * sin_value, "y": x_value * sin_value + y_value * cos_value, "angle": angle_degrees, "source": "rv.set(x, y).rotate(angle)", "vec2RotateSource": "newX = this.x * cos - this.y * sin; newY = this.x * sin + this.y * cos"}',
+                    "\tvar source_tilesize: float = 8.0",
+                    '\tvar trns_vec: Dictionary = _source_arc_angles_trns_vec.call(unit_rotation, 1.0, 0.0) if solid_present_guard else {"x": 0.0, "y": 0.0}',
+                    '\tvar tx: int = int(round((unit_x + float(trns_vec.get("x", 0.0))) / source_tilesize)) if solid_present_guard else 0',
+                    '\tvar ty: int = int(round((unit_y + float(trns_vec.get("y", 0.0))) / source_tilesize)) if solid_present_guard else 0',
+                    "\tvar solid_solid_evaluated: bool = solid_present_guard",
+                    "\tvar solid_guard: bool = solid_solid_evaluated and solid_solid",
+                    "\tvar before_overlap_returned: bool = before_solid_returned or solid_guard",
+                    "\tvar overlap_evaluated: bool = not before_overlap_returned",
+                    "\tvar units_count_evaluated: bool = overlap_evaluated and not unit_type_flying",
+                    "\tvar overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0",
+                    "\tvar overlap_guard: bool = units_count_evaluated and units_count > 0",
+                    "\tvar returned: bool = before_overlap_returned or overlap_guard",
+                    "\tvar dump_result: Variant = null",
+                    "\tif unit_type_null:",
+                    "\t\tdump_result = true",
+                    "\telif can_create_guard:",
+                    "\t\tdump_result = false",
+                    "\telif solid_guard:",
+                    "\t\tdump_result = false",
+                    "\telif overlap_guard:",
+                    "\t\tdump_result = false",
+                    "\tvar overlayTime_after: float = 1.0 if can_create_guard else 0.0",
+                    "\tvar overlayRegion_after: Variant = null",
+                    "\tvar solid_call: Dictionary = {}",
+                    "\tif solid_solid_evaluated:",
+                    '\t\tsolid_call = {"call": "solid.solid(tx, ty)", "tx": tx, "ty": ty, "result": solid_solid}',
+                    "\tvar units_count_call: Dictionary = {}",
+                    "\tif units_count_evaluated:",
+                    '\t\tunits_count_call = {"call": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}',
+                    "\tvar deferred_remaining_dump: bool = not returned",
+                    '\treturn {"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java", "world_source": "core/src/mindustry/core/World.java", "vars_source": "core/src/mindustry/Vars.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "solidity_comment_expr": "//check if unit can be dumped here", "solid_assign_expr": "SolidPred solid = unit.solidity();", "solid_guard_expr": "if(solid != null){", "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);", "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){", "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);", "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);", "world_to_tile_method": "public static int toTile(float coord){", "world_to_tile_return": "return Math.round(coord / tilesize);", "vars_tilesize_field": "public static final int tilesize = 8;", "solid_block_comment_expr": "//cannot dump on solid blocks", "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;", "overlap_comment_expr": "//cannot dump when there\'s a lot of overlap going on", "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){", "unit_type_flying_expr": "unit.type.flying", "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "physic_size_expr": "unit.physicSize()", "radius_multiplier_expr": "1.05f", "predicate_is_grounded_expr": "o.isGrounded()", "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep", "return_false_expr": "return false;", "client_dumping_comment_expr": "//no client dumping", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}',
+                ]
             return [
                 "\tvar unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)",
                 "\tvar units_can_create: bool = bool(_args[1] if _args.size() > 1 else true)",
@@ -1783,6 +1838,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                 "\tvar unit_type_flying: bool = bool(_args[7] if _args.size() > 7 else false)",
                 "\tvar unit_physic_size: float = float(_args[8] if _args.size() > 8 else 0.0)",
                 "\tvar units_count: int = int(_args[9] if _args.size() > 9 else 0)",
+                "\tvar net_client: bool = bool(_args[10] if _args.size() > 10 else false)",
                 "\tvar can_create_evaluated: bool = not unit_type_null",
                 "\tvar can_create_guard: bool = can_create_evaluated and not units_can_create",
                 "\tvar before_solid_returned: bool = unit_type_null or can_create_guard",
@@ -1804,7 +1860,10 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                 "\tvar units_count_evaluated: bool = overlap_evaluated and not unit_type_flying",
                 "\tvar overlap_radius: float = unit_physic_size * 1.05 if units_count_evaluated else 0.0",
                 "\tvar overlap_guard: bool = units_count_evaluated and units_count > 0",
-                "\tvar returned: bool = before_overlap_returned or overlap_guard",
+                "\tvar before_client_returned: bool = before_overlap_returned or overlap_guard",
+                "\tvar net_client_evaluated: bool = not before_client_returned",
+                "\tvar client_guard: bool = net_client_evaluated and net_client",
+                "\tvar returned: bool = before_client_returned or client_guard",
                 "\tvar dump_result: Variant = null",
                 "\tif unit_type_null:",
                 "\t\tdump_result = true",
@@ -1814,6 +1873,8 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                 "\t\tdump_result = false",
                 "\telif overlap_guard:",
                 "\t\tdump_result = false",
+                "\telif client_guard:",
+                "\t\tdump_result = true",
                 "\tvar overlayTime_after: float = 1.0 if can_create_guard else 0.0",
                 "\tvar overlayRegion_after: Variant = null",
                 "\tvar solid_call: Dictionary = {}",
@@ -1823,7 +1884,7 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
                 "\tif units_count_evaluated:",
                 '\t\tunits_count_call = {"call": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "x": unit_x, "y": unit_y, "radius": overlap_radius, "result": units_count}',
                 "\tvar deferred_remaining_dump: bool = not returned",
-                '\treturn {"source_owner": "PortGame.source_unit_payload_dump_overlap_guard_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java", "world_source": "core/src/mindustry/core/World.java", "vars_source": "core/src/mindustry/Vars.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "solidity_comment_expr": "//check if unit can be dumped here", "solid_assign_expr": "SolidPred solid = unit.solidity();", "solid_guard_expr": "if(solid != null){", "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);", "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){", "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);", "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);", "world_to_tile_method": "public static int toTile(float coord){", "world_to_tile_return": "return Math.round(coord / tilesize);", "vars_tilesize_field": "public static final int tilesize = 8;", "solid_block_comment_expr": "//cannot dump on solid blocks", "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;", "overlap_comment_expr": "//cannot dump when there\'s a lot of overlap going on", "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){", "unit_type_flying_expr": "unit.type.flying", "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "physic_size_expr": "unit.physicSize()", "radius_multiplier_expr": "1.05f", "predicate_is_grounded_expr": "o.isGrounded()", "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep", "return_false_expr": "return false;", "client_dumping_comment_expr": "//no client dumping", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}',
+                '\treturn {"source_owner": "PortGame.source_unit_payload_dump_no_client_guard_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "arc_vec2_source": "arc-core/src/arc/math/geom/Vec2.java", "world_source": "core/src/mindustry/core/World.java", "vars_source": "core/src/mindustry/Vars.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "field_overlay_time_expr": "public float overlayTime = 0f;", "field_overlay_region_expr": "public @Nullable TextureRegion overlayRegion;", "override_expr": "@Override", "method": "public boolean dump(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return true;", "can_create_guard_expr": "if(!Units.canCreate(unit.team, unit.type)){", "overlay_time_assign_expr": "overlayTime = 1f;", "overlay_region_assign_expr": "overlayRegion = null;", "solidity_comment_expr": "//check if unit can be dumped here", "solid_assign_expr": "SolidPred solid = unit.solidity();", "solid_guard_expr": "if(solid != null){", "trns_expr": "Tmp.v1.trns(unit.rotation, 1f);", "vec2_trns_amount_expr": "public Vec2 trns(float angle, float amount){", "vec2_trns_amount_return_expr": "return set(amount, 0).rotate(angle);", "tile_assign_expr": "int tx = World.toTile(unit.x + Tmp.v1.x), ty = World.toTile(unit.y + Tmp.v1.y);", "world_to_tile_method": "public static int toTile(float coord){", "world_to_tile_return": "return Math.round(coord / tilesize);", "vars_tilesize_field": "public static final int tilesize = 8;", "solid_block_comment_expr": "//cannot dump on solid blocks", "solid_solid_guard_expr": "if(solid.solid(tx, ty)) return false;", "overlap_comment_expr": "//cannot dump when there\'s a lot of overlap going on", "overlap_guard_expr": "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){", "unit_type_flying_expr": "unit.type.flying", "units_count_expr": "Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep))", "physic_size_expr": "unit.physicSize()", "radius_multiplier_expr": "1.05f", "predicate_is_grounded_expr": "o.isGrounded()", "predicate_allow_leg_step_expr": "o.type.allowLegStep == unit.type.allowLegStep", "return_false_expr": "return false;", "client_dumping_comment_expr": "//no client dumping", "net_client_guard_expr": "if(Vars.net.client()) return true;", "vars_net_field": "public static Net net;", "return_true_expr": "return true;", "prevents_stacking_comment_expr": "//prevents stacking", "unit_type_null": unit_type_null, "units_can_create": units_can_create, "solid_present": solid_present, "unit_rotation": unit_rotation, "unit_x": unit_x, "unit_y": unit_y, "solid_solid": solid_solid, "unit_type_flying": unit_type_flying, "unit_physic_size": unit_physic_size, "units_count": units_count, "net_client": net_client, "can_create_evaluated": can_create_evaluated, "can_create_guard": can_create_guard, "before_solid_returned": before_solid_returned, "solid_evaluated": solid_evaluated, "solid_present_guard": solid_present_guard, "trns_vec": trns_vec, "tx": tx, "ty": ty, "solid_solid_evaluated": solid_solid_evaluated, "solid_call": solid_call, "solid_guard": solid_guard, "before_overlap_returned": before_overlap_returned, "overlap_evaluated": overlap_evaluated, "units_count_evaluated": units_count_evaluated, "units_count_call": units_count_call, "overlap_radius": overlap_radius, "overlap_guard": overlap_guard, "before_client_returned": before_client_returned, "net_client_evaluated": net_client_evaluated, "client_guard": client_guard, "returned": returned, "dump": dump_result, "overlayTime_after": overlayTime_after, "overlayRegion_after": overlayRegion_after, "deferred_remaining_dump": deferred_remaining_dump}',
             ]
         return [
             "\tvar unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)",
@@ -5857,6 +5918,9 @@ def emit_gdscript_classes(source_root: Path, output_root: Path, limit: int | Non
     files = []
     registry_entries = []
     for java_file in manifest["files"]:
+        source_path = Path(source_root) / java_file.get("path", "")
+        if source_path.exists():
+            java_file["_source_text"] = source_path.read_text(encoding="utf-8", errors="replace")
         for type_entry in java_file.get("types", []):
             if not type_entry.get("name"):
                 continue

@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 877)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 872)
+        self.assertEqual(audit["totalSourceFunctions"], 878)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 873)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 877)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 878)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20381,6 +20381,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_build_payload_destroyed_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_write_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_overlap_guard_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_unit_payload_dump_no_client_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_set_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_x_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_y_state", audit["registeredSourceOwners"])
@@ -49009,6 +49010,55 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(result_schema["keys"]["overlap_radius"]["java_expr"], "unit.physicSize() * 1.05f")
         self.assertEqual(result_schema["keys"]["overlap_guard"]["java_expr"], "if(!unit.type.flying && Units.count(unit.x, unit.y, unit.physicSize() * 1.05f, o -> o.isGrounded() && (o.type.allowLegStep == unit.type.allowLegStep)) > 0){")
         self.assertEqual(result_schema["keys"]["dump"]["java_expr"], "return false;")
+
+    def test_generated_unit_payload_dump_no_client_guard_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "unit_payload_dump_no_client_guard.method")
+        self.assertEqual(method["java_expr"], "public boolean dump(){")
+        self.assertEqual(method["godot_owner"], "PortGame.source_unit_payload_dump_no_client_guard_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_unit_payload_dump_no_client_guard_state")
+        net_client = source_symbols.source_symbol(registry, "unit_payload_dump_no_client_guard.net_client")
+        self.assertEqual(net_client["java_expr"], "Vars.net.client()")
+        self.assertEqual(net_client["godot_symbol"], "source_unit_payload_dump_no_client_guard_input.net_client")
+        net_guard = source_symbols.source_symbol(registry, "unit_payload_dump_no_client_guard.net_client_guard_expr")
+        self.assertEqual(net_guard["java_expr"], "if(Vars.net.client()) return true;")
+        return_true = source_symbols.source_symbol(registry, "unit_payload_dump_no_client_guard.return_true_expr")
+        self.assertEqual(return_true["java_expr"], "return true;")
+        self.assertEqual(return_true["godot_symbol"], "source_unit_payload_dump_no_client_guard_result.dump")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1403")
+        self.assertEqual(payload_slice["title"], "Generated UnitPayload dump no-client guard bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(payload_slice["java_method"], "UnitPayload.dump()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_unit_payload_dump_no_client_guard_state")
+        self.assertEqual(payload_slice["generated_owner"], "UnitPayload.java_method_dump_13")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_unit_payload_dump_no_client_guard_bridge_state")
+        for expr in [
+            "//no client dumping",
+            "if(Vars.net.client()) return true;",
+            "public static Net net;",
+            "return true;",
+            "//prevents stacking",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("unit_payload_dump_no_client_guard.net_client_guard_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_unit_payload_dump_no_client_guard_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["unit_type_null", "units_can_create", "solid_present", "unit_rotation", "unit_x", "unit_y", "solid_solid", "unit_type_flying", "unit_physic_size", "units_count", "net_client"])
+        for key in ["source_owner", "source", "class_expr", "field_expr", "override_expr", "method", "client_dumping_comment_expr", "net_client_guard_expr", "vars_net_field", "return_true_expr", "prevents_stacking_comment_expr", "net_client", "net_client_evaluated", "client_guard", "returned", "dump", "deferred_remaining_dump"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_unit_payload_dump_no_client_guard_input")
+        self.assertEqual(input_schema["keys"]["net_client"]["java_expr"], "Vars.net.client()")
+        result_schema = source_symbols.state_schema(schema, "source_unit_payload_dump_no_client_guard_result")
+        self.assertEqual(result_schema["keys"]["client_guard"]["java_expr"], "if(Vars.net.client()) return true;")
+        self.assertEqual(result_schema["keys"]["dump"]["java_expr"], "return true;")
 
     def test_generated_build_payload_place_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
