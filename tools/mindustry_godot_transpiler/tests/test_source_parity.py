@@ -811,6 +811,18 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_power_condition_requested_power_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_power_condition_requested_power_source"))
+        report = source_parity.verify_consume_power_condition_requested_power_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumePowerCondition.java")
+        self.assertEqual(report["checked"], {
+            "consume_field": "private final Boolf<Building> consume;",
+            "requested_power_method": "public float requestedPower(Building entity){",
+            "requested_power_return": "return consume.get(entity) ? usage : 0f;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_power_graph_power_produced_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_power_graph_power_produced_source"))
         report = source_parity.verify_power_graph_power_produced_source(ROOT / "mindustry-upstream")

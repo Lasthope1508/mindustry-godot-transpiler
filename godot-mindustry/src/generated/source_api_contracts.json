@@ -20678,6 +20678,41 @@
         "test_port_game_exposes_source_child_update_state"
       ]
     },
+    "PortGame.source_consume_power_condition_requested_power_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java",
+      "params": [
+        {
+          "java_expr": "usage",
+          "name": "usage",
+          "schema": "source_consume_power_condition_requested_power_input.usage",
+          "type": "float"
+        },
+        {
+          "java_expr": "consume.get(entity)",
+          "name": "consume_get",
+          "schema": "source_consume_power_condition_requested_power_input.consume_get",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "usage",
+        "consume_get",
+        "requested_power",
+        "return_expr"
+      ],
+      "rule": "Public runtime contract for ConsumePowerCondition.requestedPower(Building) with explicit usage and consume.get(entity) inputs.",
+      "runtime_proof": "/root/Main.source_consume_power_condition_requested_power_state",
+      "source_method": "requestedPower(Building entity)",
+      "source_slice": "N1427",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_power_condition_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_condition_requested_power_bridge_state",
+        "test_consume_power_condition_requested_power_matches_upstream_source",
+        "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_power_efficiency_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
       "params": [

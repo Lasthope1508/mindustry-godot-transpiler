@@ -2267,6 +2267,29 @@ func generated_consume_power_efficiency_bridge_state(power_status: float) -> Dic
 		"matches": result.get("efficiency", null) == canonical.get("efficiency", null),
 	}
 
+func source_consume_power_condition_requested_power_state(usage: float, consume_get: bool) -> Dictionary:
+	var requested_power: float = usage if consume_get else 0.0
+	return {
+		"method": "public float requestedPower(Building entity){",
+		"usage": usage,
+		"consume_get": consume_get,
+		"requested_power": requested_power,
+		"return_expr": "return consume.get(entity) ? usage : 0f;",
+	}
+
+func generated_consume_power_condition_requested_power_bridge_state(usage: float, consume_get: bool) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePowerCondition.gd")
+	var instance = script.new()
+	var result = instance.java_method_requestedPower_0([usage, consume_get])
+	var canonical = source_consume_power_condition_requested_power_state(usage, consume_get)
+	return {
+		"source_owner": "PortGame.source_consume_power_condition_requested_power_state",
+		"generated_owner": "ConsumePowerCondition.requestedPower",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("requested_power", null) == canonical.get("requested_power", null),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:

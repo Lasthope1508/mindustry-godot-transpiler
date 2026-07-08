@@ -49726,6 +49726,57 @@
         "test_generated_child_comp_update_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_power_condition_requested_power.consume_get_input": {
+      "godot_owner": "PortGame.source_consume_power_condition_requested_power_state",
+      "godot_symbol": "source_consume_power_condition_requested_power_input.consume_get",
+      "java_expr": "consume.get(entity)",
+      "java_method": "requestedPower(Building entity)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java",
+      "rule": "Explicit consume.get(entity) input for source-backed ConsumePowerCondition.requestedPower().",
+      "runtime_proof": "/root/Main.source_consume_power_condition_requested_power_state",
+      "source_slice": "N1427",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_power_condition_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_condition_requested_power_bridge_state",
+        "test_consume_power_condition_requested_power_matches_upstream_source",
+        "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_power_condition_requested_power.return": {
+      "godot_owner": "PortGame.source_consume_power_condition_requested_power_state",
+      "godot_symbol": "source_consume_power_condition_requested_power_result.requested_power",
+      "java_expr": "return consume.get(entity) ? usage : 0f;",
+      "java_method": "requestedPower(Building entity)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java",
+      "rule": "Source-backed ConsumePowerCondition.requestedPower() returns usage when consume.get(entity) is true, otherwise 0f.",
+      "runtime_proof": "/root/Main.source_consume_power_condition_requested_power_state",
+      "source_slice": "N1427",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_power_condition_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_condition_requested_power_bridge_state",
+        "test_consume_power_condition_requested_power_matches_upstream_source",
+        "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_power_condition_requested_power.usage_input": {
+      "godot_owner": "PortGame.source_consume_power_condition_requested_power_state",
+      "godot_symbol": "source_consume_power_condition_requested_power_input.usage",
+      "java_expr": "usage",
+      "java_method": "requestedPower(Building entity)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java",
+      "rule": "Explicit usage input inherited from ConsumePower for source-backed ConsumePowerCondition.requestedPower().",
+      "runtime_proof": "/root/Main.source_consume_power_condition_requested_power_state",
+      "source_slice": "N1427",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_power_condition_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_condition_requested_power_bridge_state",
+        "test_consume_power_condition_requested_power_matches_upstream_source",
+        "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_power_efficiency.power_status_input": {
       "godot_owner": "PortGame.source_consume_power_efficiency_state",
       "godot_symbol": "source_consume_power_efficiency_input.power_status",

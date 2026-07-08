@@ -14707,6 +14707,36 @@
       ],
       "title": "Generated ConsumePower efficiency bridge state"
     },
+    "N1427": {
+      "deferred_exprs": [
+        "Concrete Boolf<Building> consume and Building entity binding are represented by explicit consume_get input until object callback state is ported."
+      ],
+      "exact_exprs": [
+        "private final Boolf<Building> consume;",
+        "public float requestedPower(Building entity){",
+        "return consume.get(entity) ? usage : 0f;"
+      ],
+      "generated_owner": "ConsumePowerCondition.java_method_requestedPower_0",
+      "godot_owner": "PortGame.source_consume_power_condition_requested_power_state",
+      "java_class": "ConsumePowerCondition",
+      "java_method": "requestedPower(Building entity)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java",
+      "rule": "Generated ConsumePowerCondition.requestedPower bridges the exact source consume.get(entity) ternary with explicit usage and consume_get inputs, without inventing Boolf or Building internals.",
+      "runtime_proof": "/root/Main.generated_consume_power_condition_requested_power_bridge_state",
+      "source_symbols": [
+        "consume_power_condition_requested_power.return",
+        "consume_power_condition_requested_power.consume_get_input",
+        "consume_power_condition_requested_power.usage_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_power_condition_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_condition_requested_power_bridge_state",
+        "test_consume_power_condition_requested_power_matches_upstream_source",
+        "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumePowerCondition requestedPower bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

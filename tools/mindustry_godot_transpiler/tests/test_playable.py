@@ -320,6 +320,21 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumePower.efficiency"', source)
         self.assertIn('"matches": result.get("efficiency", null) == canonical.get("efficiency", null)', source)
 
+    def test_port_game_exposes_generated_consume_power_condition_requested_power_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_power_condition_requested_power_state(usage: float, consume_get: bool) -> Dictionary:", source)
+        self.assertIn('"method": "public float requestedPower(Building entity){"', source)
+        self.assertIn('"return_expr": "return consume.get(entity) ? usage : 0f;"', source)
+        self.assertIn("func generated_consume_power_condition_requested_power_bridge_state(usage: float, consume_get: bool) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePowerCondition.gd")', source)
+        self.assertIn("var result = instance.java_method_requestedPower_0([usage, consume_get])", source)
+        self.assertIn("var canonical = source_consume_power_condition_requested_power_state(usage, consume_get)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_power_condition_requested_power_state"', source)
+        self.assertIn('"generated_owner": "ConsumePowerCondition.requestedPower"', source)
+        self.assertIn('"matches": result.get("requested_power", null) == canonical.get("requested_power", null)', source)
+
     def test_port_game_exposes_source_power_graph_power_produced_state_for_mcp(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

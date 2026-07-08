@@ -1363,6 +1363,17 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_power_requested_power_state", "source": "core/src/mindustry/world/consumers/ConsumePower.java", "method": "public float requestedPower(Building entity){", "buffered": buffered, "usage": usage, "capacity": capacity, "power_status": power_status, "should_consume": should_consume, "requested_power": requested_power, "buffered_expr": "(1f - entity.power.status) * capacity", "unbuffered_expr": "usage * (entity.shouldConsume() ? 1f : 0f)"}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumePowerCondition.java"
+        and type_entry.get("name") == "ConsumePowerCondition"
+        and method.get("name") == "requestedPower"
+    ):
+        return [
+            "\tvar usage: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar consume_get: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar requested_power: float = usage if consume_get else 0.0",
+            '\treturn {"source_owner": "PortGame.source_consume_power_condition_requested_power_state", "source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java", "method": "public float requestedPower(Building entity){", "usage": usage, "consume_get": consume_get, "requested_power": requested_power, "return_expr": "return consume.get(entity) ? usage : 0f;"}',
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "tile"
