@@ -5181,6 +5181,25 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     '\treturn {"source_owner": "PortGame.source_unit_payload_constructor_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "constructor": "public UnitPayload(Unit unit){", "unit_assign_expr": "this.unit = unit;", "unit": unit, "unit_after": unit}',
                 ])
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BlockProducer.java"
+        and type_entry.get("name") == "BlockProducer"
+    ):
+        for inner_class in type_entry.get("inner_classes", []):
+            if inner_class.get("name") != "BlockProducerBuild":
+                continue
+            for index, method in enumerate(inner_class.get("methods", [])):
+                if method.get("name") == "acceptItem":
+                    lines.extend([
+                        "",
+                        f"func java_inner_class_BlockProducerBuild_method_acceptItem_{index}(_args: Array = []) -> Variant:",
+                        "\tvar source_building: Variant = _args[0] if _args.size() > 0 else null",
+                        "\tvar item: Variant = _args[1] if _args.size() > 1 else null",
+                        "\tvar item_count: int = int(_args[2] if _args.size() > 2 else 0)",
+                        "\tvar maximum_accepted: int = int(_args[3] if _args.size() > 3 else 0)",
+                        "\tvar accept_item: bool = item_count < maximum_accepted",
+                        '\treturn {"source_owner": "PortGame.source_block_producer_build_accept_item_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public boolean acceptItem(Building source, Item item){", "return_expr": "return items.get(item) < getMaximumAccepted(item);", "source_building": source_building, "item": item, "item_count": item_count, "maximum_accepted": maximum_accepted, "accept_item": accept_item}',
+                    ])
+    if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"
         and type_entry.get("name") == "LiquidTurret"
     ):

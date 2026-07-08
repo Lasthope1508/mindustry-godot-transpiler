@@ -38047,6 +38047,63 @@
         "test_block_producer_set_bars_matches_upstream_source",
         "test_generated_block_producer_set_bars_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_build_accept_item_state": {
+      "owner": "PortGame.source_block_producer_build_accept_item_state",
+      "source_slice": "N1413",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "runtime_proof": "/root/Main.source_block_producer_build_accept_item_state",
+      "params": [
+        {
+          "name": "source_building",
+          "type": "Variant",
+          "schema": "source_block_producer_build_accept_item_input.source_building",
+          "java_expr": "Building source"
+        },
+        {
+          "name": "item",
+          "type": "Variant",
+          "schema": "source_block_producer_build_accept_item_input.item",
+          "java_expr": "Item item"
+        },
+        {
+          "name": "item_count",
+          "type": "int",
+          "schema": "source_block_producer_build_accept_item_input.item_count",
+          "source_symbol": "block_producer_build_accept_item.item_count",
+          "java_expr": "items.get(item)"
+        },
+        {
+          "name": "maximum_accepted",
+          "type": "int",
+          "schema": "source_block_producer_build_accept_item_input.maximum_accepted",
+          "source_symbol": "block_producer_build_accept_item.maximum_accepted",
+          "java_expr": "getMaximumAccepted(item)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "return_expr",
+        "source_building",
+        "item",
+        "item_count",
+        "maximum_accepted",
+        "accept_item"
+      ],
+      "rule": "PortGame.source_block_producer_build_accept_item_state pins BlockProducerBuild.acceptItem() inventory capacity predicate.",
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_item_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_item_bridge_state",
+        "test_block_producer_build_accept_item_matches_upstream_source",
+        "test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "source_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
+      "status": "source-backed"
     }
   },
   "policy": {

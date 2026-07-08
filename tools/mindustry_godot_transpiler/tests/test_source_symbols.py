@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 887)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 882)
+        self.assertEqual(audit["totalSourceFunctions"], 888)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 883)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 887)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 888)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20379,6 +20379,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_build_payload_place_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_build_payload_destroyed_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_producer_build_accept_item_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_write_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_overlap_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_no_client_guard_state", audit["registeredSourceOwners"])
@@ -48308,6 +48309,57 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_block_producer_set_bars_result")
         self.assertEqual(result_schema["keys"]["super_set_bars_called"]["java_expr"], "super.setBars();")
         self.assertEqual(result_schema["keys"]["progress_bar_fraction"]["java_expr"], "entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)")
+
+    def test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_producer_build_accept_item.method")
+        self.assertEqual(method["java_expr"], "public boolean acceptItem(Building source, Item item){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(method["java_method"], "BlockProducerBuild.acceptItem(Building source, Item item)")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_producer_build_accept_item_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_producer_build_accept_item_state")
+        return_expr = source_symbols.source_symbol(registry, "block_producer_build_accept_item.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return items.get(item) < getMaximumAccepted(item);")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_producer_build_accept_item_result.accept_item")
+        item_count = source_symbols.source_symbol(registry, "block_producer_build_accept_item.item_count")
+        self.assertEqual(item_count["java_expr"], "items.get(item)")
+        self.assertEqual(item_count["godot_symbol"], "source_block_producer_build_accept_item_input.item_count")
+        maximum_accepted = source_symbols.source_symbol(registry, "block_producer_build_accept_item.maximum_accepted")
+        self.assertEqual(maximum_accepted["java_expr"], "getMaximumAccepted(item)")
+        self.assertEqual(maximum_accepted["godot_symbol"], "source_block_producer_build_accept_item_input.maximum_accepted")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1413")
+        self.assertEqual(payload_slice["title"], "Generated BlockProducerBuild acceptItem bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(payload_slice["java_method"], "BlockProducerBuild.acceptItem(Building source, Item item)")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_block_producer_build_accept_item_state")
+        self.assertEqual(payload_slice["generated_owner"], "BlockProducer.BlockProducerBuild.acceptItem")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_block_producer_build_accept_item_bridge_state")
+        for expr in [
+            "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "@Override",
+            "public boolean acceptItem(Building source, Item item){",
+            "return items.get(item) < getMaximumAccepted(item);",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("block_producer_build_accept_item.return_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_producer_build_accept_item_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["source_building", "item", "item_count", "maximum_accepted"])
+        for key in ["source_owner", "source", "inner_class", "override_expr", "method", "return_expr", "source_building", "item", "item_count", "maximum_accepted", "accept_item"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_producer_build_accept_item_input")
+        self.assertEqual(input_schema["keys"]["item_count"]["java_expr"], "items.get(item)")
+        self.assertEqual(input_schema["keys"]["maximum_accepted"]["java_expr"], "getMaximumAccepted(item)")
+        result_schema = source_symbols.state_schema(schema, "source_block_producer_build_accept_item_result")
+        self.assertEqual(result_schema["keys"]["accept_item"]["java_expr"], "return items.get(item) < getMaximumAccepted(item);")
 
     def test_generated_build_payload_content_equals_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

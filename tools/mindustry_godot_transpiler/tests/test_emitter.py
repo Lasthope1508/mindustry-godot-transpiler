@@ -19750,6 +19750,47 @@ public abstract class BlockProducer extends PayloadBlock{
             self.assertIn('"super_set_bars_expr": "super.setBars();"', source_text)
             self.assertIn('"progress_bar_fraction": progress_bar_fraction', source_text)
 
+    def test_emit_bridges_block_producer_build_accept_item_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public abstract class BlockProducer extends PayloadBlock{
+    public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{
+        public abstract @Nullable Block recipe();
+
+        @Override
+        public boolean acceptItem(Building source, Item item){
+            return items.get(item) < getMaximumAccepted(item);
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "BlockProducer.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_inner_class_BlockProducerBuild_method_acceptItem_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var source_building: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var item: Variant = _args[1] if _args.size() > 1 else null", source_text)
+            self.assertIn("var item_count: int = int(_args[2] if _args.size() > 2 else 0)", source_text)
+            self.assertIn("var maximum_accepted: int = int(_args[3] if _args.size() > 3 else 0)", source_text)
+            self.assertIn("var accept_item: bool = item_count < maximum_accepted", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_block_producer_build_accept_item_state"', source_text)
+            self.assertIn('"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{"', source_text)
+            self.assertIn('"method": "public boolean acceptItem(Building source, Item item){"', source_text)
+            self.assertIn('"return_expr": "return items.get(item) < getMaximumAccepted(item);"', source_text)
+            self.assertIn('"accept_item": accept_item', source_text)
+
     def test_emit_bridges_build_payload_place_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

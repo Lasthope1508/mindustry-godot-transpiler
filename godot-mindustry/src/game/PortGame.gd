@@ -21662,6 +21662,35 @@ func generated_block_producer_set_bars_bridge_state(recipe_null: bool, entity_pr
 		"matches": result == canonical,
 	}
 
+func source_block_producer_build_accept_item_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:
+	var accept_item: bool = item_count < maximum_accepted
+	return {
+		"source_owner": "PortGame.source_block_producer_build_accept_item_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"method": "public boolean acceptItem(Building source, Item item){",
+		"return_expr": "return items.get(item) < getMaximumAccepted(item);",
+		"source_building": source_building,
+		"item": item,
+		"item_count": item_count,
+		"maximum_accepted": maximum_accepted,
+		"accept_item": accept_item,
+	}
+
+func generated_block_producer_build_accept_item_bridge_state(source_building: Variant, item: Variant, item_count: int, maximum_accepted: int) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_acceptItem_1([source_building, item, item_count, maximum_accepted])
+	var canonical = source_block_producer_build_accept_item_state(source_building, item, item_count, maximum_accepted)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_accept_item_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.acceptItem",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

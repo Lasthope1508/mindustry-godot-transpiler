@@ -115294,6 +115294,82 @@
       "java_expr": "entity.recipe() == null ? 0f : (entity.progress / entity.recipe().buildTime)",
       "rule": "Progress bar fraction follows source ternary.",
       "status": "source-backed"
+    },
+    "block_producer_build_accept_item.method": {
+      "godot_owner": "PortGame.source_block_producer_build_accept_item_state",
+      "godot_symbol": "source_block_producer_build_accept_item_result.method",
+      "java_expr": "public boolean acceptItem(Building source, Item item){",
+      "java_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "runtime_proof": "/root/Main.source_block_producer_build_accept_item_state",
+      "source_slice": "N1413",
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_item_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_item_bridge_state",
+        "test_block_producer_build_accept_item_matches_upstream_source",
+        "test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "status": "source-backed",
+      "rule": "Pin BlockProducerBuild.acceptItem() method boundary."
+    },
+    "block_producer_build_accept_item.return_expr": {
+      "godot_owner": "PortGame.source_block_producer_build_accept_item_state",
+      "godot_symbol": "source_block_producer_build_accept_item_result.accept_item",
+      "java_expr": "return items.get(item) < getMaximumAccepted(item);",
+      "java_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "runtime_proof": "/root/Main.source_block_producer_build_accept_item_state",
+      "source_slice": "N1413",
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_item_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_item_bridge_state",
+        "test_block_producer_build_accept_item_matches_upstream_source",
+        "test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "status": "source-backed",
+      "rule": "Pin acceptItem return predicate items.get(item) < getMaximumAccepted(item)."
+    },
+    "block_producer_build_accept_item.item_count": {
+      "godot_owner": "PortGame.source_block_producer_build_accept_item_state",
+      "godot_symbol": "source_block_producer_build_accept_item_input.item_count",
+      "java_expr": "items.get(item)",
+      "java_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "runtime_proof": "/root/Main.source_block_producer_build_accept_item_state",
+      "source_slice": "N1413",
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_item_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_item_bridge_state",
+        "test_block_producer_build_accept_item_matches_upstream_source",
+        "test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "status": "source-backed",
+      "rule": "Pin items.get(item) as explicit current item count input until item inventory object is ported."
+    },
+    "block_producer_build_accept_item.maximum_accepted": {
+      "godot_owner": "PortGame.source_block_producer_build_accept_item_state",
+      "godot_symbol": "source_block_producer_build_accept_item_input.maximum_accepted",
+      "java_expr": "getMaximumAccepted(item)",
+      "java_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "runtime_proof": "/root/Main.source_block_producer_build_accept_item_state",
+      "source_slice": "N1413",
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_item_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_item_bridge_state",
+        "test_block_producer_build_accept_item_matches_upstream_source",
+        "test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "status": "source-backed",
+      "rule": "Pin getMaximumAccepted(item) as explicit capacity input until recipe requirement lookup is ported."
     }
   },
   "version": 1

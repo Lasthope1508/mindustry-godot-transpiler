@@ -34792,6 +34792,41 @@
       ],
       "rule": "Generated BlockProducer.setBars() bridge records parent setBars call and progress bar fraction contract from source.",
       "notes": "This slice closes the source-backed progress bar contract; real Godot UI bar rendering remains for later UI integration slices."
+    },
+    "N1413": {
+      "title": "Generated BlockProducerBuild acceptItem bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_method": "BlockProducerBuild.acceptItem(Building source, Item item)",
+      "godot_owner": "PortGame.source_block_producer_build_accept_item_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.acceptItem",
+      "runtime_proof": "/root/Main.generated_block_producer_build_accept_item_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "@Override",
+        "public boolean acceptItem(Building source, Item item){",
+        "return items.get(item) < getMaximumAccepted(item);"
+      ],
+      "source_symbols": [
+        "block_producer_build_accept_item.method",
+        "block_producer_build_accept_item.return_expr",
+        "block_producer_build_accept_item.item_count",
+        "block_producer_build_accept_item.maximum_accepted"
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_item_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_item_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_item_bridge_state",
+        "test_block_producer_build_accept_item_matches_upstream_source",
+        "test_generated_block_producer_build_accept_item_slice_is_registered_with_source_backing"
+      ],
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "rule": "Generated BlockProducerBuild.acceptItem() bridge records source inventory-capacity predicate.",
+      "deferred_exprs": [
+        "Concrete ItemModule items.get(item) object access",
+        "Concrete getMaximumAccepted(item) recipe requirement lookup"
+      ],
+      "notes": "This slice closes the acceptItem predicate bridge; concrete recipe-backed maximumAccepted is planned as following BlockProducerBuild slice."
     }
   },
   "version": 1
