@@ -4103,6 +4103,31 @@ def verify_consume_item_flammable_item_efficiency_multiplier_source(upstream_roo
         "missing": missing,
     }
 
+def verify_consume_item_explosive_item_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_explosive_source = "core/src/mindustry/world/consumers/ConsumeItemExplosive.java"
+    item_source = "core/src/mindustry/type/Item.java"
+    consume_item_explosive_path = Path(upstream_root) / consume_item_explosive_source
+    item_path = Path(upstream_root) / item_source
+    source = consume_item_explosive_path.read_text(encoding="utf-8", errors="replace")
+    item_text = item_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float itemEfficiencyMultiplier(Item item){",
+        "return_expr": "return item.explosiveness;",
+        "item_explosiveness_field": "public float explosiveness = 0f;",
+    }
+    source_by_key = {
+        "method": source,
+        "return_expr": source,
+        "item_explosiveness_field": item_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_item_explosive_source,
+        "sources": [item_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_power_graph_power_produced_source(upstream_root: Path) -> dict[str, Any]:
     power_graph_path = Path(upstream_root) / POWER_GRAPH_SOURCE
     building_path = Path(upstream_root) / BUILDING_COMP_SOURCE

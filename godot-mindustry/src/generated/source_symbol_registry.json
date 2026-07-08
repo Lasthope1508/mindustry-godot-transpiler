@@ -49726,6 +49726,57 @@
         "test_generated_child_comp_update_slice_is_registered_with_source_backing"
       ]
     },
+    "consume_item_explosive_item_efficiency_multiplier.item_explosiveness_field": {
+      "godot_owner": "PortGame.source_consume_item_explosive_item_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_item_explosive_item_efficiency_multiplier_result.item_explosiveness_field",
+      "java_expr": "public float explosiveness = 0f;",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/type/Item.java",
+      "rule": "Source-backed Item.explosiveness field proving the explicit item_explosiveness input name and type.",
+      "runtime_proof": "/root/Main.source_consume_item_explosive_item_efficiency_multiplier_state",
+      "source_slice": "N1432",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_explosive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_explosive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_explosive_item_efficiency_multiplier.item_explosiveness_input": {
+      "godot_owner": "PortGame.source_consume_item_explosive_item_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_item_explosive_item_efficiency_multiplier_input.item_explosiveness",
+      "java_expr": "item.explosiveness",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "rule": "Explicit input for ConsumeItemExplosive.itemEfficiencyMultiplier() item.explosiveness until concrete Item object binding is ported.",
+      "runtime_proof": "/root/Main.source_consume_item_explosive_item_efficiency_multiplier_state",
+      "source_slice": "N1432",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_explosive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_explosive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_item_explosive_item_efficiency_multiplier.return": {
+      "godot_owner": "PortGame.source_consume_item_explosive_item_efficiency_multiplier_state",
+      "godot_symbol": "source_consume_item_explosive_item_efficiency_multiplier_result.efficiency_multiplier",
+      "java_expr": "return item.explosiveness;",
+      "java_method": "itemEfficiencyMultiplier(Item item)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "rule": "Source-backed ConsumeItemExplosive.itemEfficiencyMultiplier() returns item.explosiveness.",
+      "runtime_proof": "/root/Main.source_consume_item_explosive_item_efficiency_multiplier_state",
+      "source_slice": "N1432",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_item_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_item_efficiency_multiplier_bridge_state",
+        "test_consume_item_explosive_item_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_item_explosive_item_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ]
+    },
     "consume_item_flammable_item_efficiency_multiplier.item_flammability_field": {
       "godot_owner": "PortGame.source_consume_item_flammable_item_efficiency_multiplier_state",
       "godot_symbol": "source_consume_item_flammable_item_efficiency_multiplier_result.item_flammability_field",
