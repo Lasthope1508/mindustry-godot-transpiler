@@ -35010,6 +35010,43 @@
       ],
       "rule": "Generated BlockProducerBuild.updateTile() bridge records source progress accumulation behind the produce guard.",
       "notes": "This slice closes only progress += buildSpeed * edelta() when produce is true."
+    },
+    "N1419": {
+      "title": "Generated BlockProducerBuild updateTile completion guard bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() completion guard",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.updateTile.completionGuard",
+      "runtime_proof": "/root/Main.generated_block_producer_build_update_tile_completion_guard_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "@Override",
+        "public void updateTile(){",
+        "if(progress >= recipe.buildTime){",
+        "consume();"
+      ],
+      "source_symbols": [
+        "block_producer_build_update_tile_completion_guard.method",
+        "block_producer_build_update_tile_completion_guard.progress",
+        "block_producer_build_update_tile_completion_guard.recipe_build_time",
+        "block_producer_build_update_tile_completion_guard.completion_guard",
+        "block_producer_build_update_tile_completion_guard.consume_expr"
+      ],
+      "deferred_exprs": [
+        "BuildPayload creation, place effect, payVector reset, progress modulo, heat/time update, and moveOutPayload remain separate source-backed states.",
+        "Concrete consume() internals remain a separate source-backed state; this slice records that consume() is called when the guard passes."
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_completion_guard_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state",
+        "test_block_producer_build_update_tile_completion_guard_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducerBuild.updateTile() bridge records source completion guard and consume() call.",
+      "notes": "This slice closes only if(progress >= recipe.buildTime){ consume(); }."
     }
   },
   "version": 1

@@ -93,3 +93,10 @@ func java_inner_class_BlockProducerBuild_method_updateTile_progress_accumulation
 	var progress_delta: float = build_speed * edelta if produce else 0.0
 	var progress_after: float = progress_before + progress_delta
 	return {"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "if_produce_expr": "if(produce){", "progress_expr": "progress += buildSpeed * edelta();", "produce": produce, "progress_before": progress_before, "build_speed": build_speed, "edelta": edelta, "progress_delta": progress_delta, "progress_after": progress_after}
+
+func java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5(_args: Array = []) -> Variant:
+	var progress: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var recipe_build_time: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var completion_guard: bool = progress >= recipe_build_time
+	var consume_called: bool = completion_guard
+	return {"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "completion_guard_expr": "if(progress >= recipe.buildTime){", "consume_expr": "consume();", "progress": progress, "recipe_build_time": recipe_build_time, "completion_guard": completion_guard, "consume_called": consume_called}

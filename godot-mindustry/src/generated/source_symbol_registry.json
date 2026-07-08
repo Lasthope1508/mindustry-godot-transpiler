@@ -115826,6 +115826,101 @@
       "java_expr": "progress += buildSpeed * edelta();",
       "rule": "Pin BlockProducerBuild.updateTile() progress accumulation expression.",
       "status": "source-backed"
+    },
+    "block_producer_build_update_tile_completion_guard.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() completion guard",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_completion_guard_state",
+      "source_slice": "N1419",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_completion_guard_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state",
+        "test_block_producer_build_update_tile_completion_guard_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_completion_guard_result.method",
+      "java_expr": "public void updateTile(){",
+      "rule": "Pin BlockProducerBuild.updateTile() method boundary for completion guard.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_completion_guard.progress": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() completion guard",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_completion_guard_state",
+      "source_slice": "N1419",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_completion_guard_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state",
+        "test_block_producer_build_update_tile_completion_guard_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_completion_guard_input.progress",
+      "java_expr": "progress",
+      "rule": "Pin progress value after accumulation as explicit input.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_completion_guard.recipe_build_time": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() completion guard",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_completion_guard_state",
+      "source_slice": "N1419",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_completion_guard_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state",
+        "test_block_producer_build_update_tile_completion_guard_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_completion_guard_input.recipe_build_time",
+      "java_expr": "recipe.buildTime",
+      "rule": "Pin recipe build time threshold as explicit input.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_completion_guard.completion_guard": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() completion guard",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_completion_guard_state",
+      "source_slice": "N1419",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_completion_guard_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state",
+        "test_block_producer_build_update_tile_completion_guard_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_completion_guard_result.completion_guard",
+      "java_expr": "if(progress >= recipe.buildTime){",
+      "rule": "Pin completion guard predicate.",
+      "status": "source-backed"
+    },
+    "block_producer_build_update_tile_completion_guard.consume_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.updateTile() completion guard",
+      "godot_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_update_tile_completion_guard_state",
+      "source_slice": "N1419",
+      "tests": [
+        "test_emit_bridges_block_producer_build_update_tile_completion_guard_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state",
+        "test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state",
+        "test_block_producer_build_update_tile_completion_guard_matches_upstream_source",
+        "test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_update_tile_completion_guard_result.consume_called",
+      "java_expr": "consume();",
+      "rule": "Pin consume() call gated by completion predicate.",
+      "status": "source-backed"
     }
   },
   "version": 1

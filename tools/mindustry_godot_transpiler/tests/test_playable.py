@@ -19625,6 +19625,36 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.progressAccumulation"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_build_update_tile_completion_guard_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_build_update_tile_completion_guard_state(progress: float, recipe_build_time: float) -> Dictionary:", source)
+        self.assertIn("var completion_guard: bool = progress >= recipe_build_time", source)
+        self.assertIn("var consume_called: bool = completion_guard", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java"', source)
+        self.assertIn('"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{"', source)
+        self.assertIn('"method": "public void updateTile(){"', source)
+        self.assertIn('"completion_guard_expr": "if(progress >= recipe.buildTime){"', source)
+        self.assertIn('"consume_expr": "consume();"', source)
+        self.assertIn('"progress": progress', source)
+        self.assertIn('"recipe_build_time": recipe_build_time', source)
+        self.assertIn('"completion_guard": completion_guard', source)
+        self.assertIn('"consume_called": consume_called', source)
+
+    def test_port_game_exposes_generated_block_producer_build_update_tile_completion_guard_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_build_update_tile_completion_guard_bridge_state(progress: float, recipe_build_time: float) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5([progress, recipe_build_time])", source)
+        self.assertIn("var canonical = source_block_producer_build_update_tile_completion_guard_state(progress, recipe_build_time)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.completionGuard"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

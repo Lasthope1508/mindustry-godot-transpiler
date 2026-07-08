@@ -21849,6 +21849,36 @@ func generated_block_producer_build_update_tile_progress_accumulation_bridge_sta
 		"matches": result == canonical,
 	}
 
+func source_block_producer_build_update_tile_completion_guard_state(progress: float, recipe_build_time: float) -> Dictionary:
+	var completion_guard: bool = progress >= recipe_build_time
+	var consume_called: bool = completion_guard
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"method": "public void updateTile(){",
+		"completion_guard_expr": "if(progress >= recipe.buildTime){",
+		"consume_expr": "consume();",
+		"progress": progress,
+		"recipe_build_time": recipe_build_time,
+		"completion_guard": completion_guard,
+		"consume_called": consume_called,
+	}
+
+func generated_block_producer_build_update_tile_completion_guard_bridge_state(progress: float, recipe_build_time: float) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_5([progress, recipe_build_time])
+	var canonical = source_block_producer_build_update_tile_completion_guard_state(progress, recipe_build_time)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.updateTile.completionGuard",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

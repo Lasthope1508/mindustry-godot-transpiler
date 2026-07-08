@@ -5257,6 +5257,13 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                         "\tvar progress_delta: float = build_speed * edelta if produce else 0.0",
                         "\tvar progress_after: float = progress_before + progress_delta",
                         '\treturn {"source_owner": "PortGame.source_block_producer_build_update_tile_progress_accumulation_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "if_produce_expr": "if(produce){", "progress_expr": "progress += buildSpeed * edelta();", "produce": produce, "progress_before": progress_before, "build_speed": build_speed, "edelta": edelta, "progress_delta": progress_delta, "progress_after": progress_after}',
+                        "",
+                        f"func java_inner_class_BlockProducerBuild_method_updateTile_completion_guard_{index}(_args: Array = []) -> Variant:",
+                        "\tvar progress: float = float(_args[0] if _args.size() > 0 else 0.0)",
+                        "\tvar recipe_build_time: float = float(_args[1] if _args.size() > 1 else 0.0)",
+                        "\tvar completion_guard: bool = progress >= recipe_build_time",
+                        "\tvar consume_called: bool = completion_guard",
+                        '\treturn {"source_owner": "PortGame.source_block_producer_build_update_tile_completion_guard_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public void updateTile(){", "completion_guard_expr": "if(progress >= recipe.buildTime){", "consume_expr": "consume();", "progress": progress, "recipe_build_time": recipe_build_time, "completion_guard": completion_guard, "consume_called": consume_called}',
                     ])
     if (
         java_file.get("path") == "mindustry/world/blocks/defense/turrets/LiquidTurret.java"

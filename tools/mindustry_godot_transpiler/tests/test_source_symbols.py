@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 893)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 888)
+        self.assertEqual(audit["totalSourceFunctions"], 894)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 889)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 893)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 894)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20385,6 +20385,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_block_producer_build_should_consume_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_update_tile_produce_gate_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_block_producer_build_update_tile_progress_accumulation_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_producer_build_update_tile_completion_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_write_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_overlap_guard_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_dump_no_client_guard_state", audit["registeredSourceOwners"])
@@ -48625,6 +48626,58 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["edelta"]["java_expr"], "edelta()")
         result_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_progress_accumulation_result")
         self.assertEqual(result_schema["keys"]["progress_after"]["java_expr"], "progress += buildSpeed * edelta();")
+
+    def test_generated_block_producer_build_update_tile_completion_guard_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_producer_build_update_tile_completion_guard.method")
+        self.assertEqual(method["java_expr"], "public void updateTile(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(method["java_method"], "BlockProducerBuild.updateTile() completion guard")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_producer_build_update_tile_completion_guard_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_producer_build_update_tile_completion_guard_state")
+        progress = source_symbols.source_symbol(registry, "block_producer_build_update_tile_completion_guard.progress")
+        self.assertEqual(progress["java_expr"], "progress")
+        recipe_build_time = source_symbols.source_symbol(registry, "block_producer_build_update_tile_completion_guard.recipe_build_time")
+        self.assertEqual(recipe_build_time["java_expr"], "recipe.buildTime")
+        completion_guard = source_symbols.source_symbol(registry, "block_producer_build_update_tile_completion_guard.completion_guard")
+        self.assertEqual(completion_guard["java_expr"], "if(progress >= recipe.buildTime){")
+        consume_expr = source_symbols.source_symbol(registry, "block_producer_build_update_tile_completion_guard.consume_expr")
+        self.assertEqual(consume_expr["java_expr"], "consume();")
+        self.assertEqual(consume_expr["godot_symbol"], "source_block_producer_build_update_tile_completion_guard_result.consume_called")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1419")
+        self.assertEqual(payload_slice["title"], "Generated BlockProducerBuild updateTile completion guard bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(payload_slice["java_method"], "BlockProducerBuild.updateTile() completion guard")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_block_producer_build_update_tile_completion_guard_state")
+        self.assertEqual(payload_slice["generated_owner"], "BlockProducer.BlockProducerBuild.updateTile.completionGuard")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_block_producer_build_update_tile_completion_guard_bridge_state")
+        for expr in [
+            "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+            "@Override",
+            "public void updateTile(){",
+            "if(progress >= recipe.buildTime){",
+            "consume();",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("block_producer_build_update_tile_completion_guard.consume_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_producer_build_update_tile_completion_guard_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["progress", "recipe_build_time"])
+        for key in ["source_owner", "source", "inner_class", "override_expr", "method", "completion_guard_expr", "consume_expr", "progress", "recipe_build_time", "completion_guard", "consume_called"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_completion_guard_input")
+        self.assertEqual(input_schema["keys"]["progress"]["java_expr"], "progress")
+        self.assertEqual(input_schema["keys"]["recipe_build_time"]["java_expr"], "recipe.buildTime")
+        result_schema = source_symbols.state_schema(schema, "source_block_producer_build_update_tile_completion_guard_result")
+        self.assertEqual(result_schema["keys"]["consume_called"]["java_expr"], "consume();")
 
     def test_generated_build_payload_content_equals_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
