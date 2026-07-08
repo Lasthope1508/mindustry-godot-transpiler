@@ -18934,6 +18934,43 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_unit_payload_draw_elevation_setup_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_unit_payload_draw_elevation_setup_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java"', source)
+        self.assertIn('"class_expr": "public class UnitPayload implements Payload{"', source)
+        self.assertIn('"field_expr": "public Unit unit;"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public void draw(){"', source)
+        self.assertIn('"type_null_guard_expr": "if(unit.type == null) return;"', source)
+        self.assertIn('"elevation_snapshot_expr": "float e = unit.elevation;"', source)
+        self.assertIn('"elevation_zero_expr": "unit.elevation = 0f;"', source)
+        self.assertIn('"draw_scl_expr": "Draw.scl(1f, 1f);"', source)
+        self.assertIn('"unit_type_draw_expr": "unit.type.draw(unit);"', source)
+        self.assertIn('"elevation_restore_expr": "unit.elevation = e;"', source)
+        self.assertIn('"next_expr": "//draw warning"', source)
+        self.assertIn('"unit_elevation": unit_elevation', source)
+        self.assertIn('"elevation_snapshot": elevation_snapshot', source)
+        self.assertIn('"draw_scl_call": draw_scl_call', source)
+        self.assertIn('"unit_type_draw_call": unit_type_draw_call', source)
+        self.assertIn('"elevation_after_restore": elevation_after_restore', source)
+        self.assertIn('"deferred_remaining_draw": deferred_remaining_draw', source)
+
+    def test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_unit_payload_draw_elevation_setup_bridge_state(unit_type_null: bool, unit_elevation: float, unit_id: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/UnitPayload.gd")', source)
+        self.assertIn("var result = instance.java_method_draw_15([unit_type_null, unit_elevation, unit_id])", source)
+        self.assertIn("var canonical = source_unit_payload_draw_elevation_setup_state(unit_type_null, unit_elevation, unit_id)", source)
+        self.assertIn('"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state"', source)
+        self.assertIn('"generated_owner": "UnitPayload.java_method_draw_15"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_content_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

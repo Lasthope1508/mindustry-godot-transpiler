@@ -143763,6 +143763,424 @@
           ]
         }
       }
+    },
+    "source_unit_payload_draw_elevation_setup_input": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.draw()",
+      "source_slice": "N1407",
+      "owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "keys": {
+        "unit_type_null": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.type == null",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_input.unit_type_null",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.unit_type_null"
+          ]
+        },
+        "unit_elevation": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.elevation",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_input.unit_elevation",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.unit_elevation"
+          ]
+        },
+        "unit_id": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_input.unit_id",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.unit_id"
+          ]
+        }
+      }
+    },
+    "source_unit_payload_draw_elevation_setup_result": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_method": "UnitPayload.draw()",
+      "source_slice": "N1407",
+      "owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "source owner id",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.source_owner",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": []
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.source",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": []
+        },
+        "class_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "public class UnitPayload implements Payload{",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.class_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.class_expr"
+          ]
+        },
+        "field_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "public Unit unit;",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.field_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.field_expr"
+          ]
+        },
+        "override_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "@Override",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.override_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.override_expr"
+          ]
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "public void draw(){",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.method",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.method"
+          ]
+        },
+        "todo_comment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "//TODO should not happen",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.todo_comment_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": []
+        },
+        "type_null_guard_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "if(unit.type == null) return;",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.returned_early",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.type_null_guard_expr"
+          ]
+        },
+        "elevation_snapshot_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "float e = unit.elevation;",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.elevation_snapshot_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.elevation_snapshot_expr"
+          ]
+        },
+        "elevation_zero_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.elevation = 0f;",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.elevation_zero_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.elevation_zero_expr"
+          ]
+        },
+        "draw_scl_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "Draw.scl(1f, 1f);",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.draw_scl_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.draw_scl_expr"
+          ]
+        },
+        "unit_type_draw_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.type.draw(unit);",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.unit_type_draw_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.unit_type_draw_expr"
+          ]
+        },
+        "elevation_restore_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.elevation = e;",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.elevation_restore_expr",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.elevation_restore_expr"
+          ]
+        },
+        "next_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "//draw warning",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.deferred_remaining_draw",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.next_expr"
+          ]
+        },
+        "unit_type_null": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.type == null",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.unit_type_null",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.unit_type_null"
+          ]
+        },
+        "unit_elevation": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.elevation",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.unit_elevation",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.unit_elevation"
+          ]
+        },
+        "unit_id": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.unit_id",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.unit_id"
+          ]
+        },
+        "returned_early": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "if(unit.type == null) return;",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.returned_early",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.type_null_guard_expr"
+          ]
+        },
+        "elevation_snapshot": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "float e = unit.elevation;",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.elevation_snapshot",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.elevation_snapshot_expr"
+          ]
+        },
+        "elevation_after_zero": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.elevation = 0f;",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.elevation_after_zero",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.elevation_zero_expr"
+          ]
+        },
+        "draw_scl_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "Draw.scl(1f, 1f);",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.draw_scl_called",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.draw_scl_expr"
+          ]
+        },
+        "draw_scl_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "Draw.scl(1f, 1f);",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.draw_scl_call",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.draw_scl_expr"
+          ]
+        },
+        "unit_type_draw_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.type.draw(unit);",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.unit_type_draw_called",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.unit_type_draw_expr"
+          ]
+        },
+        "unit_type_draw_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.type.draw(unit);",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.unit_type_draw_call",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.unit_type_draw_expr"
+          ]
+        },
+        "elevation_after_restore": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "unit.elevation = e;",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.elevation_after_restore",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.elevation_restore_expr"
+          ]
+        },
+        "deferred_remaining_draw": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+          "java_method": "UnitPayload.draw()",
+          "java_expr": "//draw warning",
+          "godot_symbol": "source_unit_payload_draw_elevation_setup_result.deferred_remaining_draw",
+          "used_by": [
+            "PortGame.source_unit_payload_draw_elevation_setup_state"
+          ],
+          "source_symbols": [
+            "unit_payload_draw_elevation_setup.next_expr"
+          ]
+        }
+      }
     }
   },
   "version": 1

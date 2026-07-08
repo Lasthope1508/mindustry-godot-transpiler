@@ -37643,6 +37643,69 @@
         "test_unit_payload_draw_type_null_matches_upstream_source",
         "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_unit_payload_draw_elevation_setup_state": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "source_method": "UnitPayload.draw()",
+      "source_slice": "N1407",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Dictionary returned by PortGame.source_unit_payload_draw_elevation_setup_state mirrors UnitPayload.draw() elevation setup after the type-null guard.",
+      "params": [
+        {
+          "name": "unit_type_null",
+          "type": "bool",
+          "java_expr": "unit.type == null",
+          "schema": "source_unit_payload_draw_elevation_setup_input.unit_type_null"
+        },
+        {
+          "name": "unit_elevation",
+          "type": "float",
+          "java_expr": "unit.elevation",
+          "schema": "source_unit_payload_draw_elevation_setup_input.unit_elevation"
+        },
+        {
+          "name": "unit_id",
+          "type": "Variant",
+          "java_expr": "unit",
+          "schema": "source_unit_payload_draw_elevation_setup_input.unit_id"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "field_expr",
+        "override_expr",
+        "method",
+        "todo_comment_expr",
+        "type_null_guard_expr",
+        "elevation_snapshot_expr",
+        "elevation_zero_expr",
+        "draw_scl_expr",
+        "unit_type_draw_expr",
+        "elevation_restore_expr",
+        "next_expr",
+        "unit_type_null",
+        "unit_elevation",
+        "unit_id",
+        "returned_early",
+        "elevation_snapshot",
+        "elevation_after_zero",
+        "draw_scl_called",
+        "draw_scl_call",
+        "unit_type_draw_called",
+        "unit_type_draw_call",
+        "elevation_after_restore",
+        "deferred_remaining_draw"
+      ],
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

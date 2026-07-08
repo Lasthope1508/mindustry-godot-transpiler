@@ -12003,6 +12003,33 @@ def verify_unit_payload_draw_type_null_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_unit_payload_draw_elevation_setup_source(upstream_root: Path) -> dict[str, Any]:
+    unit_payload_source = "core/src/mindustry/world/blocks/payloads/UnitPayload.java"
+    payload_path = Path(upstream_root) / unit_payload_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public class UnitPayload implements Payload{",
+        "field_expr": "public Unit unit;",
+        "override_expr": "@Override",
+        "method": "public void draw(){",
+        "type_null_guard_expr": "if(unit.type == null) return;",
+        "elevation_snapshot_expr": "float e = unit.elevation;",
+        "elevation_zero_expr": "unit.elevation = 0f;",
+        "draw_scl_expr": "Draw.scl(1f, 1f);",
+        "unit_type_draw_expr": "unit.type.draw(unit);",
+        "elevation_restore_expr": "unit.elevation = e;",
+        "next_expr": "//draw warning",
+    }
+    missing = [
+        snippet for snippet in checked.values()
+        if snippet not in source
+    ]
+    return {
+        "source": unit_payload_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_place_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

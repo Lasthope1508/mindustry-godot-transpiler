@@ -11975,6 +11975,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_unit_payload_draw_elevation_setup_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_unit_payload_draw_elevation_setup_source"))
+        report = source_parity.verify_unit_payload_draw_elevation_setup_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/blocks/payloads/UnitPayload.java")
+        self.assertEqual(report["checked"], {
+            "class_expr": "public class UnitPayload implements Payload{",
+            "field_expr": "public Unit unit;",
+            "override_expr": "@Override",
+            "method": "public void draw(){",
+            "type_null_guard_expr": "if(unit.type == null) return;",
+            "elevation_snapshot_expr": "float e = unit.elevation;",
+            "elevation_zero_expr": "unit.elevation = 0f;",
+            "draw_scl_expr": "Draw.scl(1f, 1f);",
+            "unit_type_draw_expr": "unit.type.draw(unit);",
+            "elevation_restore_expr": "unit.elevation = e;",
+            "next_expr": "//draw warning",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_drill_get_drill_time_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_drill_get_drill_time_source"))
         report = source_parity.verify_drill_get_drill_time_source(ROOT / "mindustry-upstream")

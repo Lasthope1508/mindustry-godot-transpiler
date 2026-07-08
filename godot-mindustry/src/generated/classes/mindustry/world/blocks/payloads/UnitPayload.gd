@@ -196,9 +196,23 @@ func java_method_drawShadow_14(_args: Array = []) -> Variant:
 
 func java_method_draw_15(_args: Array = []) -> Variant:
 	var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)
+	var unit_elevation: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var unit_id: Variant = _args[2] if _args.size() > 2 else null
 	var returned_early: bool = unit_type_null
+	var elevation_snapshot: float = unit_elevation
+	var elevation_after_zero: float = 0.0 if not returned_early else unit_elevation
+	var draw_scl_call: Dictionary = {"sx": 1.0, "sy": 1.0}
+	var unit_type_draw_call: Dictionary = {"unit": unit_id}
+	var draw_scl_called: bool = not returned_early
+	var unit_type_draw_called: bool = not returned_early
+	if returned_early:
+		draw_scl_call = {}
+		unit_type_draw_call = {}
+	var elevation_after_restore: float = elevation_snapshot if not returned_early else unit_elevation
 	var deferred_remaining_draw: bool = not returned_early
-	return {"source_owner": "PortGame.source_unit_payload_draw_type_null_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "next_expr": "float e = unit.elevation;", "unit_type_null": unit_type_null, "returned_early": returned_early, "deferred_remaining_draw": deferred_remaining_draw}
+	if _args.size() <= 1:
+		return {"source_owner": "PortGame.source_unit_payload_draw_type_null_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "next_expr": "float e = unit.elevation;", "unit_type_null": unit_type_null, "returned_early": returned_early, "deferred_remaining_draw": deferred_remaining_draw}
+	return {"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public void draw(){", "todo_comment_expr": "//TODO should not happen", "type_null_guard_expr": "if(unit.type == null) return;", "elevation_snapshot_expr": "float e = unit.elevation;", "elevation_zero_expr": "unit.elevation = 0f;", "draw_scl_expr": "Draw.scl(1f, 1f);", "unit_type_draw_expr": "unit.type.draw(unit);", "elevation_restore_expr": "unit.elevation = e;", "next_expr": "//draw warning", "unit_type_null": unit_type_null, "unit_elevation": unit_elevation, "unit_id": unit_id, "returned_early": returned_early, "elevation_snapshot": elevation_snapshot, "elevation_after_zero": elevation_after_zero, "draw_scl_called": draw_scl_called, "draw_scl_call": draw_scl_call, "unit_type_draw_called": unit_type_draw_called, "unit_type_draw_call": unit_type_draw_call, "elevation_after_restore": elevation_after_restore, "deferred_remaining_draw": deferred_remaining_draw}
 
 func java_method_icon_16(_args: Array = []) -> Variant:
 	return null

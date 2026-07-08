@@ -113840,6 +113840,258 @@
         "test_unit_payload_draw_type_null_matches_upstream_source",
         "test_generated_unit_payload_draw_type_null_slice_is_registered_with_source_backing"
       ]
+    },
+    "unit_payload_draw_elevation_setup.class_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "public class UnitPayload implements Payload{",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.class_expr",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.field_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "public Unit unit;",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.field_expr",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.override_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "@Override",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.override_expr",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "public void draw(){",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.method",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.type_null_guard_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "if(unit.type == null) return;",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.returned_early",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.elevation_snapshot_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "float e = unit.elevation;",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.elevation_snapshot",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.elevation_zero_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "unit.elevation = 0f;",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.elevation_after_zero",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.draw_scl_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "Draw.scl(1f, 1f);",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.draw_scl_call",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.unit_type_draw_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "unit.type.draw(unit);",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.unit_type_draw_call",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.elevation_restore_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "unit.elevation = e;",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.elevation_after_restore",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.next_expr": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "//draw warning",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_result.deferred_remaining_draw",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Ports UnitPayload.draw() elevation snapshot, zeroing, Draw.scl, UnitType.draw call record, and elevation restore after the type-null guard without inventing UnitType rendering internals.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.unit_type_null": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "unit.type == null",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_input.unit_type_null",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Explicit input stands in for UnitPayload.draw() runtime unit.type null check until concrete Unit state is ported.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.unit_elevation": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "unit.elevation",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_input.unit_elevation",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Explicit input stands in for UnitPayload.draw() runtime unit.elevation until concrete Unit state mutation is ported.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
+    },
+    "unit_payload_draw_elevation_setup.unit_id": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java",
+      "java_class": "mindustry.world.blocks.payloads.UnitPayload",
+      "java_method": "UnitPayload.draw()",
+      "java_expr": "unit",
+      "godot_owner": "PortGame.source_unit_payload_draw_elevation_setup_state",
+      "godot_symbol": "source_unit_payload_draw_elevation_setup_input.unit_id",
+      "runtime_proof": "/root/Main.source_unit_payload_draw_elevation_setup_state",
+      "rule": "Explicit input identifies the Unit passed to unit.type.draw(unit) until concrete Unit object drawing is ported.",
+      "tests": [
+        "test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state",
+        "test_port_game_exposes_source_unit_payload_draw_elevation_setup_state",
+        "test_port_game_exposes_generated_unit_payload_draw_elevation_setup_bridge_state",
+        "test_unit_payload_draw_elevation_setup_matches_upstream_source",
+        "test_generated_unit_payload_draw_elevation_setup_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

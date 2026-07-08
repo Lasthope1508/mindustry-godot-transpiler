@@ -18435,6 +18435,64 @@ public class UnitPayload implements Payload{
             self.assertIn('"returned_early": returned_early', source_text)
             self.assertIn('"deferred_remaining_draw": deferred_remaining_draw', source_text)
 
+    def test_emit_bridges_unit_payload_draw_elevation_setup_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            payload_path = source_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.java"
+            payload_path.parent.mkdir(parents=True, exist_ok=True)
+            payload_path.write_text(
+                """
+package mindustry.world.blocks.payloads;
+
+public class UnitPayload implements Payload{
+    public Unit unit;
+
+    @Override
+    public void draw(){
+        //TODO should not happen
+        if(unit.type == null) return;
+
+        float e = unit.elevation;
+        unit.elevation = 0f;
+        Draw.scl(1f, 1f);
+        unit.type.draw(unit);
+        unit.elevation = e;
+
+        //draw warning
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "blocks" / "payloads" / "UnitPayload.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_draw_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var unit_type_null: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var unit_elevation: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var unit_id: Variant = _args[2] if _args.size() > 2 else null", source_text)
+            self.assertIn("var returned_early: bool = unit_type_null", source_text)
+            self.assertIn("var elevation_snapshot: float = unit_elevation", source_text)
+            self.assertIn("var elevation_after_zero: float = 0.0 if not returned_early else unit_elevation", source_text)
+            self.assertIn('var draw_scl_call: Dictionary = {"sx": 1.0, "sy": 1.0}', source_text)
+            self.assertIn('var unit_type_draw_call: Dictionary = {"unit": unit_id}', source_text)
+            self.assertIn("var elevation_after_restore: float = elevation_snapshot if not returned_early else unit_elevation", source_text)
+            self.assertIn("var deferred_remaining_draw: bool = not returned_early", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_unit_payload_draw_elevation_setup_state"', source_text)
+            self.assertIn('"elevation_snapshot_expr": "float e = unit.elevation;"', source_text)
+            self.assertIn('"elevation_zero_expr": "unit.elevation = 0f;"', source_text)
+            self.assertIn('"draw_scl_expr": "Draw.scl(1f, 1f);"', source_text)
+            self.assertIn('"unit_type_draw_expr": "unit.type.draw(unit);"', source_text)
+            self.assertIn('"elevation_restore_expr": "unit.elevation = e;"', source_text)
+            self.assertIn('"next_expr": "//draw warning"', source_text)
+            self.assertIn('"draw_scl_called": draw_scl_called', source_text)
+            self.assertIn('"unit_type_draw_called": unit_type_draw_called', source_text)
+            self.assertIn('"elevation_after_restore": elevation_after_restore', source_text)
+
     def test_emit_bridges_build_payload_content_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
