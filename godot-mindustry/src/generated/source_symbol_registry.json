@@ -119372,6 +119372,91 @@
         "test_consume_liquids_dynamic_constructor_matches_upstream_source",
         "test_generated_consume_liquids_dynamic_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "consume_liquid_update.remove": {
+      "godot_owner": "PortGame.source_consume_liquid_update_state",
+      "godot_symbol": "source_consume_liquid_update_result.remove_amount",
+      "java_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "rule": "ConsumeLiquid.update removes the configured liquid scaled by amount, edelta, and multiplier.",
+      "runtime_proof": "/root/Main.source_consume_liquid_update_state",
+      "source_slice": "N1449",
+      "status": "source-backed",
+      "tests": [
+        "test_emit_bridges_consume_liquid_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_update_bridge_state",
+        "test_consume_liquid_update_matches_upstream_source",
+        "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_update.amount": {
+      "godot_owner": "PortGame.source_consume_liquid_update_state",
+      "godot_symbol": "source_consume_liquid_update_input.amount",
+      "java_expr": "amount",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "rule": "ConsumeLiquid.update uses ConsumeLiquidBase.amount as explicit input until concrete instance fields are wired.",
+      "runtime_proof": "/root/Main.source_consume_liquid_update_state",
+      "source_slice": "N1449",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquid_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_update_bridge_state",
+        "test_consume_liquid_update_matches_upstream_source",
+        "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_update.liquid_id": {
+      "godot_owner": "PortGame.source_consume_liquid_update_state",
+      "godot_symbol": "source_consume_liquid_update_input.liquid_id",
+      "java_expr": "liquid",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "rule": "ConsumeLiquid.update receives the configured liquid as explicit liquid_id until concrete Liquid object references are wired.",
+      "runtime_proof": "/root/Main.source_consume_liquid_update_state",
+      "source_slice": "N1449",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquid_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_update_bridge_state",
+        "test_consume_liquid_update_matches_upstream_source",
+        "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_update.build_edelta": {
+      "godot_owner": "PortGame.source_consume_liquid_update_state",
+      "godot_symbol": "source_consume_liquid_update_input.build_edelta",
+      "java_expr": "build.edelta()",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "rule": "ConsumeLiquid.update scales removal by Building.edelta explicit input.",
+      "runtime_proof": "/root/Main.source_consume_liquid_update_state",
+      "source_slice": "N1449",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquid_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_update_bridge_state",
+        "test_consume_liquid_update_matches_upstream_source",
+        "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
+      ]
+    },
+    "consume_liquid_update.multiplier_get_build": {
+      "godot_owner": "PortGame.source_consume_liquid_update_state",
+      "godot_symbol": "source_consume_liquid_update_input.multiplier_get_build",
+      "java_expr": "multiplier.get(build)",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "rule": "ConsumeLiquid.update scales removal by Consume.multiplier.get(build) explicit input.",
+      "runtime_proof": "/root/Main.source_consume_liquid_update_state",
+      "source_slice": "N1449",
+      "status": "explicit-input",
+      "tests": [
+        "test_emit_bridges_consume_liquid_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_update_bridge_state",
+        "test_consume_liquid_update_matches_upstream_source",
+        "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

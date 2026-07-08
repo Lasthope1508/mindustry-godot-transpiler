@@ -14670,6 +14670,60 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_liquid_apply_result")
         self.assertEqual(result_schema["keys"]["liquid_filter_after"]["java_expr"], "block.liquidFilter[liquid.id] = true;")
 
+    def test_generated_consume_liquid_update_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        remove_symbol = source_symbols.source_symbol(registry, "consume_liquid_update.remove")
+        self.assertEqual(remove_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertEqual(remove_symbol["java_method"], "update(Building build)")
+        self.assertEqual(remove_symbol["java_expr"], "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));")
+        self.assertEqual(remove_symbol["godot_owner"], "PortGame.source_consume_liquid_update_state")
+        self.assertEqual(remove_symbol["runtime_proof"], "/root/Main.source_consume_liquid_update_state")
+        self.assertEqual(remove_symbol["godot_symbol"], "source_consume_liquid_update_result.remove_amount")
+
+        amount_symbol = source_symbols.source_symbol(registry, "consume_liquid_update.amount")
+        self.assertEqual(amount_symbol["java_expr"], "amount")
+        self.assertEqual(amount_symbol["status"], "explicit-input")
+
+        multiplier_symbol = source_symbols.source_symbol(registry, "consume_liquid_update.multiplier_get_build")
+        self.assertEqual(multiplier_symbol["java_expr"], "multiplier.get(build)")
+        self.assertEqual(multiplier_symbol["status"], "explicit-input")
+
+        liquid_slice = source_symbols.source_slice(ledger, "N1449")
+        self.assertEqual(liquid_slice["title"], "Generated ConsumeLiquid update bridge state")
+        self.assertEqual(liquid_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertEqual(liquid_slice["java_method"], "update(Building build)")
+        self.assertEqual(liquid_slice["godot_owner"], "PortGame.source_consume_liquid_update_state")
+        self.assertEqual(liquid_slice["generated_owner"], "ConsumeLiquid.java_method_update_2")
+        self.assertEqual(liquid_slice["runtime_proof"], "/root/Main.generated_consume_liquid_update_bridge_state")
+        for expr in [
+            "public final Liquid liquid;",
+            "public float amount;",
+            "public void update(Building build){",
+            "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+            "public Floatf<Building> multiplier = b -> 1f;",
+            "@Nullable LiquidModule liquids;",
+            "public float edelta(){",
+        ]:
+            self.assertIn(expr, liquid_slice["exact_exprs"])
+        self.assertIn("consume_liquid_update.remove", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquid_update.amount", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquid_update.multiplier_get_build", liquid_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_liquid_update_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["liquid_id", "amount", "build_edelta", "multiplier_get_build"])
+        self.assertIn("remove_amount", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_liquid_update_input")
+        self.assertEqual(input_schema["keys"]["amount"]["java_expr"], "amount")
+        self.assertEqual(input_schema["keys"]["build_edelta"]["java_expr"], "build.edelta()")
+        result_schema = source_symbols.state_schema(schema, "source_consume_liquid_update_result")
+        self.assertEqual(result_schema["keys"]["remove_amount"]["java_expr"], "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));")
+
     def test_generated_consume_liquids_apply_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -21598,10 +21652,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 922)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 917)
+        self.assertEqual(audit["totalSourceFunctions"], 923)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 918)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 922)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 923)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])

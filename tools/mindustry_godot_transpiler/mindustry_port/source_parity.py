@@ -4285,6 +4285,48 @@ def verify_consume_liquid_apply_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_liquid_update_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_source = "core/src/mindustry/world/consumers/ConsumeLiquid.java"
+    consume_source = "core/src/mindustry/world/consumers/Consume.java"
+    consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
+    liquid_source = "core/src/mindustry/type/Liquid.java"
+    building_comp_source = "core/src/mindustry/entities/comp/BuildingComp.java"
+    consume_liquid_path = Path(upstream_root) / consume_liquid_source
+    consume_path = Path(upstream_root) / consume_source
+    consume_liquid_base_path = Path(upstream_root) / consume_liquid_base_source
+    liquid_path = Path(upstream_root) / liquid_source
+    building_comp_path = Path(upstream_root) / building_comp_source
+    source = consume_liquid_path.read_text(encoding="utf-8", errors="replace")
+    consume_text = consume_path.read_text(encoding="utf-8", errors="replace")
+    consume_liquid_base_text = consume_liquid_base_path.read_text(encoding="utf-8", errors="replace")
+    liquid_text = liquid_path.read_text(encoding="utf-8", errors="replace")
+    building_comp_text = building_comp_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquid_field": "public final Liquid liquid;",
+        "amount_field": "public float amount;",
+        "method": "public void update(Building build){",
+        "remove_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+        "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+        "building_liquids_field": "@Nullable LiquidModule liquids;",
+        "building_edelta_method": "public float edelta(){",
+    }
+    source_by_key = {
+        "liquid_field": source,
+        "amount_field": consume_liquid_base_text,
+        "method": source,
+        "remove_expr": source,
+        "multiplier_field": consume_text,
+        "building_liquids_field": building_comp_text,
+        "building_edelta_method": building_comp_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_source,
+        "sources": [consume_source, consume_liquid_base_source, liquid_source, building_comp_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquids_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquids_source = "core/src/mindustry/world/consumers/ConsumeLiquids.java"
     block_source = "core/src/mindustry/world/Block.java"

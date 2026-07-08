@@ -1519,6 +1519,19 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_liquid_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void apply(Block block){", "super_apply_expr": "super.apply(block);", "liquid_filter_assignment_expr": "block.liquidFilter[liquid.id] = true;", "block_has_liquids_before": block_has_liquids_before, "block_has_liquids_after": base_apply_state["block_has_liquids_after"], "base_apply_state": base_apply_state, "liquid_filter_before": liquid_filter_before, "liquid_id": liquid_id, "liquid_filter_after": liquid_filter_after}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquid.java"
+        and type_entry.get("name") == "ConsumeLiquid"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar liquid_id: int = int(_args[0] if _args.size() > 0 else 0)",
+            "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar multiplier_get_build: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar remove_amount: float = amount * build_edelta * multiplier_get_build",
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_update_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void update(Building build){", "remove_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));", "liquid_id": liquid_id, "amount": amount, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "remove_amount": remove_amount}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquids.java"
         and type_entry.get("name") == "ConsumeLiquids"
         and method.get("name") == "apply"

@@ -2603,6 +2603,38 @@ func generated_consume_liquid_apply_bridge_state(block_has_liquids_before: bool,
 		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null) and result.get("liquid_filter_after", []) == canonical.get("liquid_filter_after", []),
 	}
 
+func source_consume_liquid_update_state(liquid_id: int, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	var remove_amount: float = amount * build_edelta * multiplier_get_build
+	return {
+		"source_owner": "PortGame.source_consume_liquid_update_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+		"method": "public void update(Building build){",
+		"remove_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+		"liquid_field": "public final Liquid liquid;",
+		"amount_field": "public float amount;",
+		"multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+		"building_liquids_field": "@Nullable LiquidModule liquids;",
+		"building_edelta_method": "public float edelta(){",
+		"liquid_id": liquid_id,
+		"amount": amount,
+		"build_edelta": build_edelta,
+		"multiplier_get_build": multiplier_get_build,
+		"remove_amount": remove_amount,
+	}
+
+func generated_consume_liquid_update_bridge_state(liquid_id: int, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_2([liquid_id, amount, build_edelta, multiplier_get_build])
+	var canonical = source_consume_liquid_update_state(liquid_id, amount, build_edelta, multiplier_get_build)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_update_state",
+		"generated_owner": "ConsumeLiquid.update",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("remove_amount", null) == canonical.get("remove_amount", null),
+	}
+
 func source_consume_liquids_apply_state(block_has_liquids_before: bool, liquid_filter_before: Array, liquid_ids: Array) -> Dictionary:
 	var liquid_filter_after := liquid_filter_before.duplicate()
 	for liquid_id in liquid_ids:

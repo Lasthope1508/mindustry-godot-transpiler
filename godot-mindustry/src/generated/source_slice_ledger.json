@@ -36132,6 +36132,43 @@
         "test_generated_consume_liquids_dynamic_constructor_slice_is_registered_with_source_backing"
       ],
       "title": "Generated ConsumeLiquidsDynamic constructor bridge state"
+    },
+    "N1449": {
+      "deferred_exprs": [
+        "Concrete Liquid object reference and LiquidModule.remove mutation/clamping remain deferred; this slice records source-backed remove amount formula only.",
+        "Concrete ConsumeLiquid instance fields are represented by explicit liquid_id and amount inputs until generated object field state is wired."
+      ],
+      "exact_exprs": [
+        "public final Liquid liquid;",
+        "public float amount;",
+        "public void update(Building build){",
+        "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "@Nullable LiquidModule liquids;",
+        "public float edelta(){"
+      ],
+      "generated_owner": "ConsumeLiquid.java_method_update_2",
+      "godot_owner": "PortGame.source_consume_liquid_update_state",
+      "java_class": "ConsumeLiquid",
+      "java_method": "update(Building build)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "rule": "Generated ConsumeLiquid.update bridges liquid removal amount formula from amount, edelta, and multiplier.",
+      "runtime_proof": "/root/Main.generated_consume_liquid_update_bridge_state",
+      "source_symbols": [
+        "consume_liquid_update.remove",
+        "consume_liquid_update.amount",
+        "consume_liquid_update.liquid_id",
+        "consume_liquid_update.build_edelta",
+        "consume_liquid_update.multiplier_get_build"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquid_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_update_bridge_state",
+        "test_consume_liquid_update_matches_upstream_source",
+        "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquid update bridge state"
     }
   },
   "version": 1

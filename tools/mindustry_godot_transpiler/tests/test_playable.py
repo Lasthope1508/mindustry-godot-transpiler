@@ -539,6 +539,23 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquid.apply"', source)
         self.assertIn('"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null) and result.get("liquid_filter_after", []) == canonical.get("liquid_filter_after", [])', source)
 
+    def test_port_game_exposes_generated_consume_liquid_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_update_state(liquid_id: int, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquid.java"', source)
+        self.assertIn('"method": "public void update(Building build){"', source)
+        self.assertIn('"remove_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));"', source)
+        self.assertIn("var remove_amount: float = amount * build_edelta * multiplier_get_build", source)
+        self.assertIn("func generated_consume_liquid_update_bridge_state(liquid_id: int, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquid.gd")', source)
+        self.assertIn("var result = instance.java_method_update_2([liquid_id, amount, build_edelta, multiplier_get_build])", source)
+        self.assertIn("var canonical = source_consume_liquid_update_state(liquid_id, amount, build_edelta, multiplier_get_build)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_update_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquid.update"', source)
+        self.assertIn('"matches": result.get("remove_amount", null) == canonical.get("remove_amount", null)', source)
+
     def test_port_game_exposes_generated_consume_liquids_apply_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

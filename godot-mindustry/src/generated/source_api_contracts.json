@@ -39655,6 +39655,62 @@
         "test_consume_liquids_dynamic_constructor_matches_upstream_source",
         "test_generated_consume_liquids_dynamic_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_consume_liquid_update_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquid.java",
+      "params": [
+        {
+          "java_expr": "liquid",
+          "name": "liquid_id",
+          "schema": "source_consume_liquid_update_input.liquid_id",
+          "type": "int"
+        },
+        {
+          "java_expr": "amount",
+          "name": "amount",
+          "schema": "source_consume_liquid_update_input.amount",
+          "type": "float"
+        },
+        {
+          "java_expr": "build.edelta()",
+          "name": "build_edelta",
+          "schema": "source_consume_liquid_update_input.build_edelta",
+          "type": "float"
+        },
+        {
+          "java_expr": "multiplier.get(build)",
+          "name": "multiplier_get_build",
+          "schema": "source_consume_liquid_update_input.multiplier_get_build",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "remove_expr",
+        "liquid_field",
+        "amount_field",
+        "multiplier_field",
+        "building_liquids_field",
+        "building_edelta_method",
+        "liquid_id",
+        "amount",
+        "build_edelta",
+        "multiplier_get_build",
+        "remove_amount"
+      ],
+      "rule": "Public runtime contract for ConsumeLiquid.update(Building) liquid removal amount formula.",
+      "runtime_proof": "/root/Main.source_consume_liquid_update_state",
+      "source_method": "update(Building build)",
+      "source_slice": "N1449",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_liquid_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_update_bridge_state",
+        "test_consume_liquid_update_matches_upstream_source",
+        "test_generated_consume_liquid_update_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -988,6 +988,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_update_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_update_source"))
+        report = source_parity.verify_consume_liquid_update_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquid.java")
+        self.assertIn("core/src/mindustry/world/consumers/Consume.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/consumers/ConsumeLiquidBase.java", report["sources"])
+        self.assertIn("core/src/mindustry/type/Liquid.java", report["sources"])
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquid_field": "public final Liquid liquid;",
+            "amount_field": "public float amount;",
+            "method": "public void update(Building build){",
+            "remove_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));",
+            "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+            "building_liquids_field": "@Nullable LiquidModule liquids;",
+            "building_edelta_method": "public float edelta(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquids_apply_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquids_apply_source"))
         report = source_parity.verify_consume_liquids_apply_source(ROOT / "mindustry-upstream")

@@ -26,7 +26,12 @@ func java_method_build_1(_args: Array = []) -> Variant:
 	return null
 
 func java_method_update_2(_args: Array = []) -> Variant:
-	return null
+	var liquid_id: int = int(_args[0] if _args.size() > 0 else 0)
+	var amount: float = float(_args[1] if _args.size() > 1 else 0.0)
+	var build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)
+	var multiplier_get_build: float = float(_args[3] if _args.size() > 3 else 1.0)
+	var remove_amount: float = amount * build_edelta * multiplier_get_build
+	return {"source_owner": "PortGame.source_consume_liquid_update_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquid.java", "method": "public void update(Building build){", "remove_expr": "build.liquids.remove(liquid, amount * build.edelta() * multiplier.get(build));", "liquid_id": liquid_id, "amount": amount, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "remove_amount": remove_amount}
 
 func java_method_efficiency_3(_args: Array = []) -> Variant:
 	return null
