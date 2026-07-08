@@ -19368,6 +19368,34 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BuildPayload.java_method_icon_17"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_icons_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_icons_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_icons_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java"', source)
+        self.assertIn('"class_expr": "public abstract class BlockProducer extends PayloadBlock{"', source)
+        self.assertIn('"override_expr": "@Override"', source)
+        self.assertIn('"method": "public TextureRegion[] icons(){"', source)
+        self.assertIn('"return_expr": "return new TextureRegion[]{region, outRegion, topRegion};"', source)
+        self.assertIn('"region": region', source)
+        self.assertIn('"out_region": out_region', source)
+        self.assertIn('"top_region": top_region', source)
+        self.assertIn('"icons": icons', source)
+
+    def test_port_game_exposes_generated_block_producer_icons_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_icons_bridge_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_method_icons_0([region, out_region, top_region])", source)
+        self.assertIn("var canonical = source_block_producer_icons_state(region, out_region, top_region)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_icons_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.java_method_icons_0"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -37863,6 +37863,56 @@
         "test_unit_payload_icon_matches_upstream_source",
         "test_generated_unit_payload_icon_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_icons_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducer.icons()",
+      "source_slice": "N1410",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_icons_state",
+      "params": [
+        {
+          "name": "region",
+          "type": "Variant",
+          "java_expr": "region",
+          "schema": "source_block_producer_icons_input.region",
+          "source_symbol": "block_producer_icons.region"
+        },
+        {
+          "name": "out_region",
+          "type": "Variant",
+          "java_expr": "outRegion",
+          "schema": "source_block_producer_icons_input.out_region",
+          "source_symbol": "block_producer_icons.out_region"
+        },
+        {
+          "name": "top_region",
+          "type": "Variant",
+          "java_expr": "topRegion",
+          "schema": "source_block_producer_icons_input.top_region",
+          "source_symbol": "block_producer_icons.top_region"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "class_expr",
+        "override_expr",
+        "method",
+        "return_expr",
+        "region",
+        "out_region",
+        "top_region",
+        "icons"
+      ],
+      "rule": "PortGame.source_block_producer_icons_state pins BlockProducer.icons() return array contract.",
+      "tests": [
+        "test_emit_bridges_block_producer_icons_to_source_state",
+        "test_port_game_exposes_source_block_producer_icons_state",
+        "test_port_game_exposes_generated_block_producer_icons_bridge_state",
+        "test_block_producer_icons_matches_upstream_source",
+        "test_generated_block_producer_icons_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

@@ -21559,6 +21559,34 @@ func generated_build_payload_icon_bridge_state(full_icon: Variant) -> Dictionary
 		"matches": result == canonical,
 	}
 
+func source_block_producer_icons_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:
+	var icons: Array = [region, out_region, top_region]
+	return {
+		"source_owner": "PortGame.source_block_producer_icons_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"class_expr": "public abstract class BlockProducer extends PayloadBlock{",
+		"override_expr": "@Override",
+		"method": "public TextureRegion[] icons(){",
+		"return_expr": "return new TextureRegion[]{region, outRegion, topRegion};",
+		"region": region,
+		"out_region": out_region,
+		"top_region": top_region,
+		"icons": icons,
+	}
+
+func generated_block_producer_icons_bridge_state(region: Variant, out_region: Variant, top_region: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_method_icons_0([region, out_region, top_region])
+	var canonical = source_block_producer_icons_state(region, out_region, top_region)
+	return {
+		"source_owner": "PortGame.source_block_producer_icons_state",
+		"generated_owner": "BlockProducer.java_method_icons_0",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

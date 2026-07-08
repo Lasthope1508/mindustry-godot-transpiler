@@ -20366,10 +20366,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 884)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 879)
+        self.assertEqual(audit["totalSourceFunctions"], 885)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 880)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 884)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 885)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -20386,6 +20386,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_unit_payload_draw_elevation_setup_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_draw_overlay_warning_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_icon_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_block_producer_icons_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_draw_shadow_type_null_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_draw_type_null_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_unit_payload_set_state", audit["registeredSourceOwners"])
@@ -48144,6 +48145,61 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertEqual(input_schema["keys"]["full_icon"]["java_expr"], "block().fullIcon")
         result_schema = source_symbols.state_schema(schema, "source_build_payload_icon_result")
         self.assertEqual(result_schema["keys"]["icon"]["java_expr"], "return block().fullIcon;")
+
+    def test_generated_block_producer_icons_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        method = source_symbols.source_symbol(registry, "block_producer_icons.method")
+        self.assertEqual(method["java_expr"], "public TextureRegion[] icons(){")
+        self.assertEqual(method["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(method["java_method"], "BlockProducer.icons()")
+        self.assertEqual(method["godot_owner"], "PortGame.source_block_producer_icons_state")
+        self.assertEqual(method["runtime_proof"], "/root/Main.source_block_producer_icons_state")
+        return_expr = source_symbols.source_symbol(registry, "block_producer_icons.return_expr")
+        self.assertEqual(return_expr["java_expr"], "return new TextureRegion[]{region, outRegion, topRegion};")
+        self.assertEqual(return_expr["godot_symbol"], "source_block_producer_icons_result.icons")
+        region = source_symbols.source_symbol(registry, "block_producer_icons.region")
+        self.assertEqual(region["java_expr"], "region")
+        self.assertEqual(region["godot_symbol"], "source_block_producer_icons_input.region")
+        out_region = source_symbols.source_symbol(registry, "block_producer_icons.out_region")
+        self.assertEqual(out_region["java_expr"], "outRegion")
+        self.assertEqual(out_region["godot_symbol"], "source_block_producer_icons_input.out_region")
+        top_region = source_symbols.source_symbol(registry, "block_producer_icons.top_region")
+        self.assertEqual(top_region["java_expr"], "topRegion")
+        self.assertEqual(top_region["godot_symbol"], "source_block_producer_icons_input.top_region")
+
+        payload_slice = source_symbols.source_slice(ledger, "N1410")
+        self.assertEqual(payload_slice["title"], "Generated BlockProducer icons bridge state")
+        self.assertEqual(payload_slice["java_source"], "core/src/mindustry/world/blocks/payloads/BlockProducer.java")
+        self.assertEqual(payload_slice["java_method"], "BlockProducer.icons()")
+        self.assertEqual(payload_slice["godot_owner"], "PortGame.source_block_producer_icons_state")
+        self.assertEqual(payload_slice["generated_owner"], "BlockProducer.java_method_icons_0")
+        self.assertEqual(payload_slice["runtime_proof"], "/root/Main.generated_block_producer_icons_bridge_state")
+        for expr in [
+            "public abstract class BlockProducer extends PayloadBlock{",
+            "@Override",
+            "public TextureRegion[] icons(){",
+            "return new TextureRegion[]{region, outRegion, topRegion};",
+        ]:
+            self.assertIn(expr, payload_slice["exact_exprs"])
+        self.assertIn("block_producer_icons.return_expr", payload_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_block_producer_icons_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["region", "out_region", "top_region"])
+        for key in ["source_owner", "source", "class_expr", "override_expr", "method", "return_expr", "region", "out_region", "top_region", "icons"]:
+            self.assertIn(key, contract["return_keys"])
+
+        input_schema = source_symbols.state_schema(schema, "source_block_producer_icons_input")
+        self.assertEqual(input_schema["keys"]["region"]["java_expr"], "region")
+        self.assertEqual(input_schema["keys"]["out_region"]["java_expr"], "outRegion")
+        self.assertEqual(input_schema["keys"]["top_region"]["java_expr"], "topRegion")
+        result_schema = source_symbols.state_schema(schema, "source_block_producer_icons_result")
+        self.assertEqual(result_schema["keys"]["icons"]["java_expr"], "return new TextureRegion[]{region, outRegion, topRegion};")
 
     def test_generated_build_payload_content_equals_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")

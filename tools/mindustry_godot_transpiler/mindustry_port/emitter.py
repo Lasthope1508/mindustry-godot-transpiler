@@ -2060,6 +2060,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_unit_payload_icon_state", "source": "core/src/mindustry/world/blocks/payloads/UnitPayload.java", "class_expr": "public class UnitPayload implements Payload{", "field_expr": "public Unit unit;", "override_expr": "@Override", "method": "public TextureRegion icon(){", "return_expr": "return unit.type.fullIcon;", "unit_type_full_icon": unit_type_full_icon, "icon": unit_type_full_icon}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/blocks/payloads/BlockProducer.java"
+        and type_entry.get("name") == "BlockProducer"
+        and method.get("name") == "icons"
+    ):
+        return [
+            "\tvar region: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar out_region: Variant = _args[1] if _args.size() > 1 else null",
+            "\tvar top_region: Variant = _args[2] if _args.size() > 2 else null",
+            "\tvar icons: Array = [region, out_region, top_region]",
+            '\treturn {"source_owner": "PortGame.source_block_producer_icons_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "class_expr": "public abstract class BlockProducer extends PayloadBlock{", "override_expr": "@Override", "method": "public TextureRegion[] icons(){", "return_expr": "return new TextureRegion[]{region, outRegion, topRegion};", "region": region, "out_region": out_region, "top_region": top_region, "icons": icons}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/blocks/payloads/BuildPayload.java"
         and type_entry.get("name") == "BuildPayload"
         and method.get("name") == "place"

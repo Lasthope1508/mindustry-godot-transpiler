@@ -11525,6 +11525,23 @@ def verify_build_payload_icon_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_block_producer_icons_source(upstream_root: Path) -> dict[str, Any]:
+    block_producer_source = "core/src/mindustry/world/blocks/payloads/BlockProducer.java"
+    payload_path = Path(upstream_root) / block_producer_source
+    source = payload_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "class_expr": "public abstract class BlockProducer extends PayloadBlock{",
+        "override_expr": "@Override",
+        "method": "public TextureRegion[] icons(){",
+        "return_expr": "return new TextureRegion[]{region, outRegion, topRegion};",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": block_producer_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_build_payload_content_equals_source(upstream_root: Path) -> dict[str, Any]:
     build_payload_source = "core/src/mindustry/world/blocks/payloads/BuildPayload.java"
     payload_path = Path(upstream_root) / build_payload_source

@@ -145101,6 +145101,204 @@
           ]
         }
       }
+    },
+    "source_block_producer_icons_input": {
+      "owner": "PortGame.source_block_producer_icons_state",
+      "source_slice": "N1410",
+      "status": "active",
+      "rule": "Inputs supplied to PortGame.source_block_producer_icons_state.",
+      "keys": {
+        "region": {
+          "godot_symbol": "source_block_producer_icons_input.region",
+          "java_expr": "region",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.region"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "out_region": {
+          "godot_symbol": "source_block_producer_icons_input.out_region",
+          "java_expr": "outRegion",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.out_region"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "top_region": {
+          "godot_symbol": "source_block_producer_icons_input.top_region",
+          "java_expr": "topRegion",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.top_region"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        }
+      }
+    },
+    "source_block_producer_icons_result": {
+      "owner": "PortGame.source_block_producer_icons_state",
+      "source_slice": "N1410",
+      "status": "active",
+      "rule": "Return dictionary from PortGame.source_block_producer_icons_state.",
+      "keys": {
+        "source_owner": {
+          "godot_symbol": "source_block_producer_icons_result.source_owner",
+          "java_expr": "PortGame.source_block_producer_icons_state",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "source": {
+          "godot_symbol": "source_block_producer_icons_result.source",
+          "java_expr": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "class_expr": {
+          "godot_symbol": "source_block_producer_icons_result.class_expr",
+          "java_expr": "public abstract class BlockProducer extends PayloadBlock{",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.class_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "override_expr": {
+          "godot_symbol": "source_block_producer_icons_result.override_expr",
+          "java_expr": "@Override",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.override_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "method": {
+          "godot_symbol": "source_block_producer_icons_result.method",
+          "java_expr": "public TextureRegion[] icons(){",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.method"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "return_expr": {
+          "godot_symbol": "source_block_producer_icons_result.return_expr",
+          "java_expr": "return new TextureRegion[]{region, outRegion, topRegion};",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "String"
+        },
+        "region": {
+          "godot_symbol": "source_block_producer_icons_result.region",
+          "java_expr": "region",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.region"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "out_region": {
+          "godot_symbol": "source_block_producer_icons_result.out_region",
+          "java_expr": "outRegion",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.out_region"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "top_region": {
+          "godot_symbol": "source_block_producer_icons_result.top_region",
+          "java_expr": "topRegion",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.top_region"
+          ],
+          "status": "source-backed",
+          "type": "Variant"
+        },
+        "icons": {
+          "godot_symbol": "source_block_producer_icons_result.icons",
+          "java_expr": "return new TextureRegion[]{region, outRegion, topRegion};",
+          "java_method": "BlockProducer.icons()",
+          "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+          "owners": [
+            "PortGame.source_block_producer_icons_state"
+          ],
+          "source_symbols": [
+            "block_producer_icons.return_expr"
+          ],
+          "status": "source-backed",
+          "type": "Array"
+        }
+      }
     }
   },
   "version": 1
