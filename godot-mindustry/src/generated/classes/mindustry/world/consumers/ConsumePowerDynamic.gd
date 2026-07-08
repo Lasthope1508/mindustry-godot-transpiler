@@ -14,7 +14,9 @@ const JAVA_METHODS := [{"modifiers": ["public"], "name": "requestedPower", "para
 const JAVA_ENUM_CONSTANTS := []
 
 func java_method_requestedPower_0(_args: Array = []) -> Variant:
-	return null
+	var usage_get: float = float(_args[0] if _args.size() > 0 else 0.0)
+	var requested_power: float = usage_get
+	return {"source_owner": "PortGame.source_consume_power_dynamic_requested_power_state", "source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java", "method": "public float requestedPower(Building entity){", "usage_get": usage_get, "requested_power": requested_power, "return_expr": "return usage.get(entity);"}
 
 func java_method_display_1(_args: Array = []) -> Variant:
 	return null

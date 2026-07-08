@@ -1374,6 +1374,16 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_power_condition_requested_power_state", "source": "core/src/mindustry/world/consumers/ConsumePowerCondition.java", "method": "public float requestedPower(Building entity){", "usage": usage, "consume_get": consume_get, "requested_power": requested_power, "return_expr": "return consume.get(entity) ? usage : 0f;"}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumePowerDynamic.java"
+        and type_entry.get("name") == "ConsumePowerDynamic"
+        and method.get("name") == "requestedPower"
+    ):
+        return [
+            "\tvar usage_get: float = float(_args[0] if _args.size() > 0 else 0.0)",
+            "\tvar requested_power: float = usage_get",
+            '\treturn {"source_owner": "PortGame.source_consume_power_dynamic_requested_power_state", "source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java", "method": "public float requestedPower(Building entity){", "usage_get": usage_get, "requested_power": requested_power, "return_expr": "return usage.get(entity);"}',
+        ]
+    if (
         java_file.get("path") == "mindustry/entities/comp/BlockUnitComp.java"
         and type_entry.get("name") == "BlockUnitComp"
         and method.get("name") == "tile"

@@ -17160,6 +17160,41 @@ public class ConsumePowerCondition extends ConsumePower{
             self.assertIn('"return_expr": "return consume.get(entity) ? usage : 0f;"', source_text)
             self.assertIn('"requested_power": requested_power', source_text)
 
+    def test_emit_bridges_consume_power_dynamic_requested_power_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumePowerDynamic.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumePowerDynamic extends ConsumePower{
+    private final Floatf<Building> usage;
+
+    public float requestedPower(Building entity){
+        return usage.get(entity);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumePowerDynamic.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_requestedPower_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var usage_get: float = float(_args[0] if _args.size() > 0 else 0.0)", source_text)
+            self.assertIn("var requested_power: float = usage_get", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_power_dynamic_requested_power_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java"', source_text)
+            self.assertIn('"method": "public float requestedPower(Building entity){"', source_text)
+            self.assertIn('"return_expr": "return usage.get(entity);"', source_text)
+            self.assertIn('"requested_power": requested_power', source_text)
+
     def test_emit_bridges_build_payload_constructors_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

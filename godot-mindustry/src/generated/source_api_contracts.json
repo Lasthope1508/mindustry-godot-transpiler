@@ -20713,6 +20713,34 @@
         "test_generated_consume_power_condition_requested_power_slice_is_registered_with_source_backing"
       ]
     },
+    "PortGame.source_consume_power_dynamic_requested_power_state": {
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "params": [
+        {
+          "java_expr": "usage.get(entity)",
+          "name": "usage_get",
+          "schema": "source_consume_power_dynamic_requested_power_input.usage_get",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "method",
+        "usage_get",
+        "requested_power",
+        "return_expr"
+      ],
+      "rule": "Public runtime contract for ConsumePowerDynamic.requestedPower(Building) with explicit usage.get(entity) input.",
+      "runtime_proof": "/root/Main.source_consume_power_dynamic_requested_power_state",
+      "source_method": "requestedPower(Building entity)",
+      "source_slice": "N1428",
+      "status": "active",
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_requested_power_bridge_state",
+        "test_consume_power_dynamic_requested_power_matches_upstream_source",
+        "test_generated_consume_power_dynamic_requested_power_slice_is_registered_with_source_backing"
+      ]
+    },
     "PortGame.source_consume_power_efficiency_state": {
       "java_source": "core/src/mindustry/world/consumers/ConsumePower.java",
       "params": [

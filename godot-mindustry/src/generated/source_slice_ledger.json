@@ -14737,6 +14737,35 @@
       ],
       "title": "Generated ConsumePowerCondition requestedPower bridge state"
     },
+    "N1428": {
+      "deferred_exprs": [
+        "Concrete Floatf<Building> usage callback and Building entity binding are represented by explicit usage_get input until callback object state is ported."
+      ],
+      "exact_exprs": [
+        "private final Floatf<Building> usage;",
+        "public float requestedPower(Building entity){",
+        "return usage.get(entity);"
+      ],
+      "generated_owner": "ConsumePowerDynamic.java_method_requestedPower_0",
+      "godot_owner": "PortGame.source_consume_power_dynamic_requested_power_state",
+      "java_class": "ConsumePowerDynamic",
+      "java_method": "requestedPower(Building entity)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumePowerDynamic.java",
+      "rule": "Generated ConsumePowerDynamic.requestedPower bridges the exact source usage.get(entity) return with explicit usage_get input, without inventing Floatf or Building internals.",
+      "runtime_proof": "/root/Main.generated_consume_power_dynamic_requested_power_bridge_state",
+      "source_symbols": [
+        "consume_power_dynamic_requested_power.return",
+        "consume_power_dynamic_requested_power.usage_get_input"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_power_dynamic_requested_power_to_source_state",
+        "test_port_game_exposes_generated_consume_power_dynamic_requested_power_bridge_state",
+        "test_consume_power_dynamic_requested_power_matches_upstream_source",
+        "test_generated_consume_power_dynamic_requested_power_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumePowerDynamic requestedPower bridge state"
+    },
     "N399": {
       "exact_exprs": [
         "DrawPart.params.set(b.fin(), 0f, 0f, 0f, 0f, 0f, b.x, b.y, b.rotation())",

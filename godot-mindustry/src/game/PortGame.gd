@@ -2290,6 +2290,27 @@ func generated_consume_power_condition_requested_power_bridge_state(usage: float
 		"matches": result.get("requested_power", null) == canonical.get("requested_power", null),
 	}
 
+func source_consume_power_dynamic_requested_power_state(usage_get: float) -> Dictionary:
+	return {
+		"method": "public float requestedPower(Building entity){",
+		"usage_get": usage_get,
+		"requested_power": usage_get,
+		"return_expr": "return usage.get(entity);",
+	}
+
+func generated_consume_power_dynamic_requested_power_bridge_state(usage_get: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumePowerDynamic.gd")
+	var instance = script.new()
+	var result = instance.java_method_requestedPower_0([usage_get])
+	var canonical = source_consume_power_dynamic_requested_power_state(usage_get)
+	return {
+		"source_owner": "PortGame.source_consume_power_dynamic_requested_power_state",
+		"generated_owner": "ConsumePowerDynamic.requestedPower",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("requested_power", null) == canonical.get("requested_power", null),
+	}
+
 func source_consume_power_requested_power_state(buffered: bool, usage: float, capacity: float, power_status: float, should_consume: bool) -> Dictionary:
 	var requested_power := 0.0
 	if buffered:
