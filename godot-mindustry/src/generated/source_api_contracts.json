@@ -38157,6 +38157,46 @@
         "test_block_producer_build_get_maximum_accepted_matches_upstream_source",
         "test_generated_block_producer_build_get_maximum_accepted_slice_is_registered_with_source_backing"
       ]
+    },
+    "PortGame.source_block_producer_build_accept_payload_state": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "source_method": "BlockProducerBuild.acceptPayload(Building source, Payload payload)",
+      "source_slice": "N1415",
+      "status": "source-backed",
+      "runtime_proof": "/root/Main.source_block_producer_build_accept_payload_state",
+      "params": [
+        {
+          "name": "source_building",
+          "type": "Variant",
+          "java_expr": "Building source",
+          "schema": "source_block_producer_build_accept_payload_input.source_building"
+        },
+        {
+          "name": "payload",
+          "type": "Variant",
+          "java_expr": "Payload payload",
+          "schema": "source_block_producer_build_accept_payload_input.payload"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "inner_class",
+        "override_expr",
+        "method",
+        "return_expr",
+        "source_building",
+        "payload",
+        "accept_payload"
+      ],
+      "rule": "PortGame.source_block_producer_build_accept_payload_state pins BlockProducerBuild.acceptPayload() false payload gate.",
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_payload_bridge_state",
+        "test_block_producer_build_accept_payload_matches_upstream_source",
+        "test_generated_block_producer_build_accept_payload_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {

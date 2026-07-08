@@ -21733,6 +21733,33 @@ func generated_block_producer_build_get_maximum_accepted_bridge_state(item: Vari
 		"matches": result == canonical,
 	}
 
+func source_block_producer_build_accept_payload_state(source_building: Variant, payload: Variant) -> Dictionary:
+	var accept_payload: bool = false
+	return {
+		"source_owner": "PortGame.source_block_producer_build_accept_payload_state",
+		"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+		"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+		"override_expr": "@Override",
+		"method": "public boolean acceptPayload(Building source, Payload payload){",
+		"return_expr": "return false;",
+		"source_building": source_building,
+		"payload": payload,
+		"accept_payload": accept_payload,
+	}
+
+func generated_block_producer_build_accept_payload_bridge_state(source_building: Variant, payload: Variant) -> Dictionary:
+	var script = ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")
+	var instance = script.new()
+	var result = instance.java_inner_class_BlockProducerBuild_method_acceptPayload_3([source_building, payload])
+	var canonical = source_block_producer_build_accept_payload_state(source_building, payload)
+	return {
+		"source_owner": "PortGame.source_block_producer_build_accept_payload_state",
+		"generated_owner": "BlockProducer.BlockProducerBuild.acceptPayload",
+		"result": result,
+		"canonical": canonical,
+		"matches": result == canonical,
+	}
+
 func source_block_init_item_liquid_filters_state(content_items_size: int, content_liquids_size: int) -> Dictionary:
 	var item_filter: Array = []
 	for _i in range(max(content_items_size, 0)):

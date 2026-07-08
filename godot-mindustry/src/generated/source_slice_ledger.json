@@ -34867,6 +34867,38 @@
       ],
       "rule": "Generated BlockProducerBuild.getMaximumAccepted() bridge records recipe requirement lookup and amount multiplier from source.",
       "notes": "This slice closes the getMaximumAccepted predicate/value bridge; concrete recipe object integration remains for later payload production slices."
+    },
+    "N1415": {
+      "title": "Generated BlockProducerBuild acceptPayload bridge state",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.acceptPayload(Building source, Payload payload)",
+      "godot_owner": "PortGame.source_block_producer_build_accept_payload_state",
+      "generated_owner": "BlockProducer.BlockProducerBuild.acceptPayload",
+      "runtime_proof": "/root/Main.generated_block_producer_build_accept_payload_bridge_state",
+      "exact_exprs": [
+        "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{",
+        "@Override",
+        "public boolean acceptPayload(Building source, Payload payload){",
+        "return false;"
+      ],
+      "source_symbols": [
+        "block_producer_build_accept_payload.method",
+        "block_producer_build_accept_payload.return_expr"
+      ],
+      "deferred_exprs": [
+        "Concrete payload acceptance policy beyond upstream hard false is not present in this method."
+      ],
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_payload_bridge_state",
+        "test_block_producer_build_accept_payload_matches_upstream_source",
+        "test_generated_block_producer_build_accept_payload_slice_is_registered_with_source_backing"
+      ],
+      "rule": "Generated BlockProducerBuild.acceptPayload() bridge records the upstream hard false payload gate.",
+      "notes": "This slice closes acceptPayload false gate only; moveOutPayload and payload routing remain separate source-backed slices."
     }
   },
   "version": 1

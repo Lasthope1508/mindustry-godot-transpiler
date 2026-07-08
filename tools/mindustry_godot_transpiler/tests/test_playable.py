@@ -19509,6 +19509,33 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.getMaximumAccepted"', source)
         self.assertIn('"matches": result == canonical', source)
 
+    def test_port_game_exposes_source_block_producer_build_accept_payload_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_block_producer_build_accept_payload_state(source_building: Variant, payload: Variant) -> Dictionary:", source)
+        self.assertIn("var accept_payload: bool = false", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_accept_payload_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java"', source)
+        self.assertIn('"inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{"', source)
+        self.assertIn('"method": "public boolean acceptPayload(Building source, Payload payload){"', source)
+        self.assertIn('"return_expr": "return false;"', source)
+        self.assertIn('"source_building": source_building', source)
+        self.assertIn('"payload": payload', source)
+        self.assertIn('"accept_payload": accept_payload', source)
+
+    def test_port_game_exposes_generated_block_producer_build_accept_payload_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func generated_block_producer_build_accept_payload_bridge_state(source_building: Variant, payload: Variant) -> Dictionary:", source)
+        self.assertIn('ResourceLoader.load("res://src/generated/classes/mindustry/world/blocks/payloads/BlockProducer.gd")', source)
+        self.assertIn("var result = instance.java_inner_class_BlockProducerBuild_method_acceptPayload_3([source_building, payload])", source)
+        self.assertIn("var canonical = source_block_producer_build_accept_payload_state(source_building, payload)", source)
+        self.assertIn('"source_owner": "PortGame.source_block_producer_build_accept_payload_state"', source)
+        self.assertIn('"generated_owner": "BlockProducer.BlockProducerBuild.acceptPayload"', source)
+        self.assertIn('"matches": result == canonical', source)
+
     def test_port_game_exposes_source_build_payload_place_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

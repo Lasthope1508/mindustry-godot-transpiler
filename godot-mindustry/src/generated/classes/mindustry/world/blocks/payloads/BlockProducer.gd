@@ -65,3 +65,9 @@ func java_inner_class_BlockProducerBuild_method_getMaximumAccepted_2(_args: Arra
 					matched_requirement = stack
 					break
 	return {"source_owner": "PortGame.source_block_producer_build_get_maximum_accepted_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public int getMaximumAccepted(Item item){", "null_guard": "if(recipe() == null) return 0;", "requirement_loop": "for(ItemStack stack : recipe().requirements){", "match_expr": "if(stack.item == item) return stack.amount * 2;", "final_return": "return 0;", "item": item, "recipe_null": recipe_null, "requirements": requirements, "matched_requirement": matched_requirement, "maximum_accepted": maximum_accepted}
+
+func java_inner_class_BlockProducerBuild_method_acceptPayload_3(_args: Array = []) -> Variant:
+	var source_building: Variant = _args[0] if _args.size() > 0 else null
+	var payload: Variant = _args[1] if _args.size() > 1 else null
+	var accept_payload: bool = false
+	return {"source_owner": "PortGame.source_block_producer_build_accept_payload_state", "source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java", "inner_class": "public abstract class BlockProducerBuild extends PayloadBlockBuild<BuildPayload>{", "override_expr": "@Override", "method": "public boolean acceptPayload(Building source, Payload payload){", "return_expr": "return false;", "source_building": source_building, "payload": payload, "accept_payload": accept_payload}

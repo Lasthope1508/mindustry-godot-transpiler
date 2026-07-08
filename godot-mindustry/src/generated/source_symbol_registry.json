@@ -115484,6 +115484,44 @@
       "java_expr": "return 0;",
       "rule": "Pin no-match and recipe-null fallback return value.",
       "status": "source-backed"
+    },
+    "block_producer_build_accept_payload.method": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.acceptPayload(Building source, Payload payload)",
+      "godot_owner": "PortGame.source_block_producer_build_accept_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_accept_payload_state",
+      "source_slice": "N1415",
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_payload_bridge_state",
+        "test_block_producer_build_accept_payload_matches_upstream_source",
+        "test_generated_block_producer_build_accept_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_accept_payload_result.method",
+      "java_expr": "public boolean acceptPayload(Building source, Payload payload){",
+      "rule": "Pin BlockProducerBuild.acceptPayload(Building source, Payload payload) method boundary.",
+      "status": "source-backed"
+    },
+    "block_producer_build_accept_payload.return_expr": {
+      "java_source": "core/src/mindustry/world/blocks/payloads/BlockProducer.java",
+      "java_class": "mindustry.world.blocks.payloads.BlockProducer.BlockProducerBuild",
+      "java_method": "BlockProducerBuild.acceptPayload(Building source, Payload payload)",
+      "godot_owner": "PortGame.source_block_producer_build_accept_payload_state",
+      "runtime_proof": "/root/Main.source_block_producer_build_accept_payload_state",
+      "source_slice": "N1415",
+      "tests": [
+        "test_emit_bridges_block_producer_build_accept_payload_to_source_state",
+        "test_port_game_exposes_source_block_producer_build_accept_payload_state",
+        "test_port_game_exposes_generated_block_producer_build_accept_payload_bridge_state",
+        "test_block_producer_build_accept_payload_matches_upstream_source",
+        "test_generated_block_producer_build_accept_payload_slice_is_registered_with_source_backing"
+      ],
+      "godot_symbol": "source_block_producer_build_accept_payload_result.accept_payload",
+      "java_expr": "return false;",
+      "rule": "Pin acceptPayload false return for BlockProducerBuild.",
+      "status": "source-backed"
     }
   },
   "version": 1
