@@ -17493,6 +17493,46 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('"filter_field": "public Boolf<Item> filter = i -> false;"', source_text)
             self.assertIn('"filter_after": filter_after', source_text)
 
+    def test_emit_bridges_consume_item_filter_default_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import arc.func.*;
+import mindustry.type.*;
+
+public class ConsumeItemFilter extends Consume{
+    public Boolf<Item> filter = i -> false;
+
+    public ConsumeItemFilter(Boolf<Item> item){
+        this.filter = item;
+    }
+
+    public ConsumeItemFilter(){
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeItemFilter_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn('var filter_after: String = "i -> false"', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_filter_default_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java"', source_text)
+            self.assertIn('"constructor": "public ConsumeItemFilter(){"', source_text)
+            self.assertIn('"filter_field": "public Boolf<Item> filter = i -> false;"', source_text)
+            self.assertIn('"filter_after": filter_after', source_text)
+
     def test_emit_bridges_consume_liquid_flammable_liquid_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

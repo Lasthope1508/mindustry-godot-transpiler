@@ -5656,6 +5656,13 @@ def _extra_method_stub_lines(java_file: dict, type_entry: dict) -> list[str]:
                     "\tvar filter_after: Variant = item",
                     '\treturn {"source_owner": "PortGame.source_consume_item_filter_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "constructor": "public ConsumeItemFilter(Boolf<Item> item){", "filter_assignment_expr": "this.filter = item;", "filter_field": "public Boolf<Item> filter = i -> false;", "item": item, "filter_after": filter_after}',
                 ])
+            elif len(params) == 0:
+                lines.extend([
+                    "",
+                    f"func java_constructor_ConsumeItemFilter_{index}(_args: Array = []) -> Variant:",
+                    '\tvar filter_after: String = "i -> false"',
+                    '\treturn {"source_owner": "PortGame.source_consume_item_filter_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "constructor": "public ConsumeItemFilter(){", "filter_field": "public Boolf<Item> filter = i -> false;", "filter_after": filter_after}',
+                ])
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemEfficiency.java"
         and type_entry.get("name") == "ConsumeItemEfficiency"

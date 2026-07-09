@@ -4208,6 +4208,20 @@ def verify_consume_item_filter_constructor_source(upstream_root: Path) -> dict[s
         "missing": missing,
     }
 
+def verify_consume_item_filter_default_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_filter_source = "core/src/mindustry/world/consumers/ConsumeItemFilter.java"
+    source = (Path(upstream_root) / consume_item_filter_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "filter_field": "public Boolf<Item> filter = i -> false;",
+        "constructor": "public ConsumeItemFilter(){",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_item_filter_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_flammable_liquid_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_flammable_source = "core/src/mindustry/world/consumers/ConsumeLiquidFlammable.java"
     liquid_source = "core/src/mindustry/type/Liquid.java"
