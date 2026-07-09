@@ -155661,6 +155661,183 @@
           "rule": "0.0 when consumed_item is null, else item_efficiency_multiplier."
         }
       }
+    },
+    "source_consume_items_apply_input": {
+      "status": "source-backed",
+      "source_slice": "N1472",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "runtime_proof": "/root/Main.source_consume_items_apply_state",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "block_has_items_before": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "block.hasItems",
+          "rule": "Explicit pre-apply Block.hasItems value."
+        },
+        "block_accepts_items_before": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "block.acceptsItems",
+          "rule": "Explicit pre-apply Block.acceptsItems value."
+        },
+        "item_filter_before": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "block.itemFilter",
+          "rule": "Explicit pre-apply Block.itemFilter array."
+        },
+        "item_stacks": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "for(var stack : items){",
+          "rule": "Explicit ordered ItemStack rows from ConsumeItems.items."
+        }
+      }
+    },
+    "source_consume_items_apply_result": {
+      "status": "source-backed",
+      "source_slice": "N1472",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "runtime_proof": "/root/Main.source_consume_items_apply_state",
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_items_apply_state",
+          "rule": "Canonical Godot owner label."
+        },
+        "source": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "rule": "Exact upstream source path."
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "public void apply(Block block){",
+          "rule": "Exact method boundary."
+        },
+        "items_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "public final ItemStack[] items;",
+          "rule": "Exact items field."
+        },
+        "has_items_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "block.hasItems = true;",
+          "rule": "Exact hasItems assignment."
+        },
+        "accepts_items_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "block.acceptsItems = true;",
+          "rule": "Exact acceptsItems assignment."
+        },
+        "items_loop_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "for(var stack : items){",
+          "rule": "Exact items loop."
+        },
+        "item_filter_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "block.itemFilter[stack.item.id] = true;",
+          "rule": "Exact itemFilter assignment source label."
+        },
+        "block_has_items_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public @NoPatch boolean hasItems;",
+          "rule": "Block field anchor."
+        },
+        "block_accepts_items_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean acceptsItems = false;",
+          "rule": "Block field anchor."
+        },
+        "block_item_filter_field": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "java_expr": "public boolean[] itemFilter = {}, liquidFilter = {};",
+          "rule": "Block field anchor."
+        },
+        "block_has_items_before": {
+          "type": "bool",
+          "status": "explicit-input",
+          "alias_of": "source_consume_items_apply_input.block_has_items_before",
+          "rule": "Returned input echo."
+        },
+        "block_accepts_items_before": {
+          "type": "bool",
+          "status": "explicit-input",
+          "alias_of": "source_consume_items_apply_input.block_accepts_items_before",
+          "rule": "Returned input echo."
+        },
+        "item_filter_before": {
+          "type": "Array",
+          "status": "explicit-input",
+          "alias_of": "source_consume_items_apply_input.item_filter_before",
+          "rule": "Returned input echo."
+        },
+        "item_stacks": {
+          "type": "Array",
+          "status": "explicit-input",
+          "alias_of": "source_consume_items_apply_input.item_stacks",
+          "rule": "Returned input echo."
+        },
+        "block_has_items_after": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "block.hasItems = true;",
+          "rule": "Result after exact source assignment."
+        },
+        "block_accepts_items_after": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "block.acceptsItems = true;",
+          "rule": "Result after exact source assignment."
+        },
+        "item_filter_after": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+          "java_expr": "block.itemFilter[stack.item.id] = true;",
+          "rule": "Result after applying each ItemStack item id."
+        }
+      }
     }
   },
   "version": 1

@@ -3,6 +3,40 @@
     "canonicalOwner": "source_slice_ledger",
     "newConsumerSliceRequiresSourceBackedLedgerMirror": true
   },
-  "slices": {},
+  "slices": {
+    "N1472": {
+      "status": "done",
+      "canonical_ledger": "source_slice_ledger.N1472",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "generated_owner": "ConsumeItems.java_method_apply_0",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_method": "apply(Block block)",
+      "source_symbols": [
+        "consume_items_apply.items_field",
+        "consume_items_apply.method",
+        "consume_items_apply.has_items_assignment",
+        "consume_items_apply.accepts_items_assignment",
+        "consume_items_apply.items_loop",
+        "consume_items_apply.item_stacks",
+        "consume_items_apply.stack_item_id",
+        "consume_items_apply.item_filter_assignment",
+        "consume_items_apply.block_has_items_field",
+        "consume_items_apply.block_accepts_items_field",
+        "consume_items_apply.block_item_filter_field",
+        "consume_items_apply.block_has_items_before",
+        "consume_items_apply.block_accepts_items_before",
+        "consume_items_apply.item_filter_before",
+        "consume_items_apply.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_items_apply_bridge_state",
+      "rule": "Consumer shard mirror for ConsumeItems.apply; canonical data remains source_slice_ledger.N1472."
+    }
+  },
   "version": 1
 }

@@ -2499,6 +2499,47 @@ func generated_consume_item_filter_apply_bridge_state(block_has_items_before: bo
 		"matches": result.get("block_has_items_after", null) == canonical.get("block_has_items_after", null) and result.get("block_accepts_items_after", null) == canonical.get("block_accepts_items_after", null) and result.get("item_filter_after", []) == canonical.get("item_filter_after", []),
 	}
 
+func source_consume_items_apply_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, item_stacks: Array) -> Dictionary:
+	var item_filter_after := item_filter_before.duplicate()
+	for stack in item_stacks:
+		if not stack is Dictionary:
+			continue
+		var item_id := int(stack.get("item_id", -1))
+		item_filter_after[item_id] = true
+	return {
+		"source_owner": "PortGame.source_consume_items_apply_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+		"method": "public void apply(Block block){",
+		"items_field": "public final ItemStack[] items;",
+		"has_items_assignment_expr": "block.hasItems = true;",
+		"accepts_items_assignment_expr": "block.acceptsItems = true;",
+		"items_loop_expr": "for(var stack : items){",
+		"item_filter_assignment_expr": "block.itemFilter[stack.item.id] = true;",
+		"block_has_items_field": "public @NoPatch boolean hasItems;",
+		"block_accepts_items_field": "public boolean acceptsItems = false;",
+		"block_item_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+		"block_has_items_before": block_has_items_before,
+		"block_accepts_items_before": block_accepts_items_before,
+		"item_filter_before": item_filter_before,
+		"item_stacks": item_stacks,
+		"block_has_items_after": true,
+		"block_accepts_items_after": true,
+		"item_filter_after": item_filter_after,
+	}
+
+func generated_consume_items_apply_bridge_state(block_has_items_before: bool, block_accepts_items_before: bool, item_filter_before: Array, item_stacks: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItems.gd")
+	var instance = script.new()
+	var result = instance.java_method_apply_0([block_has_items_before, block_accepts_items_before, item_filter_before, item_stacks])
+	var canonical = source_consume_items_apply_state(block_has_items_before, block_accepts_items_before, item_filter_before, item_stacks)
+	return {
+		"source_owner": "PortGame.source_consume_items_apply_state",
+		"generated_owner": "ConsumeItems.apply",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("block_has_items_after", null) == canonical.get("block_has_items_after", null) and result.get("block_accepts_items_after", null) == canonical.get("block_accepts_items_after", null) and result.get("item_filter_after", []) == canonical.get("item_filter_after", []),
+	}
+
 func source_consume_item_filter_build_state(filtered_item_ids: Array, build_items_has_item_flags: Array) -> Dictionary:
 	var req_images: Array = []
 	for index in filtered_item_ids.size():

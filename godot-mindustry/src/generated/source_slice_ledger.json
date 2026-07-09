@@ -36993,6 +36993,56 @@
         "Concrete itemEfficiencyMultiplier(Item) dynamic override dispatch remains explicit through item_efficiency_multiplier."
       ],
       "rule": "Generated bridge models exact efficiencyMultiplier ternary from local getConsumed result to itemEfficiencyMultiplier result."
+    },
+    "N1472": {
+      "title": "Generated ConsumeItems apply bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_class": "ConsumeItems",
+      "java_method": "apply(Block block)",
+      "generated_owner": "ConsumeItems.java_method_apply_0",
+      "godot_owner": "PortGame.source_consume_items_apply_state",
+      "runtime_proof": "/root/Main.generated_consume_items_apply_bridge_state",
+      "rule": "Generated bridge models exact ConsumeItems.apply block item acceptance assignments and ItemStack itemFilter mutation without inventing live ItemStack objects.",
+      "exact_exprs": [
+        "public final ItemStack[] items;",
+        "public void apply(Block block){",
+        "block.hasItems = true;",
+        "block.acceptsItems = true;",
+        "for(var stack : items){",
+        "block.itemFilter[stack.item.id] = true;",
+        "public void build(Building build, Table table){",
+        "public @NoPatch boolean hasItems;",
+        "public boolean acceptsItems = false;",
+        "public boolean[] itemFilter = {}, liquidFilter = {};"
+      ],
+      "source_symbols": [
+        "consume_items_apply.items_field",
+        "consume_items_apply.method",
+        "consume_items_apply.has_items_assignment",
+        "consume_items_apply.accepts_items_assignment",
+        "consume_items_apply.items_loop",
+        "consume_items_apply.item_stacks",
+        "consume_items_apply.stack_item_id",
+        "consume_items_apply.item_filter_assignment",
+        "consume_items_apply.block_has_items_field",
+        "consume_items_apply.block_accepts_items_field",
+        "consume_items_apply.block_item_filter_field",
+        "consume_items_apply.block_has_items_before",
+        "consume_items_apply.block_accepts_items_before",
+        "consume_items_apply.item_filter_before",
+        "consume_items_apply.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Concrete live ConsumeItems.items object storage remains explicit through item_stacks until generated instance fields are wired.",
+        "Concrete ItemStack and Item objects remain represented by explicit item_id rows from stack.item.id."
+      ]
     }
   },
   "version": 1

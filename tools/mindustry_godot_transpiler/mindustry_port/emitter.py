@@ -1474,6 +1474,26 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_item_filter_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeItemFilter.java", "method": "public void apply(Block block){", "has_items_assignment_expr": "block.hasItems = true;", "accepts_items_assignment_expr": "block.acceptsItems = true;", "each_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true);", "item_filter_assignment_expr": "block.itemFilter[item.id] = true;", "block_has_items_before": block_has_items_before, "block_accepts_items_before": block_accepts_items_before, "item_filter_before": item_filter_before, "filtered_item_ids": filtered_item_ids, "block_has_items_after": block_has_items_after, "block_accepts_items_after": block_accepts_items_after, "item_filter_after": item_filter_after}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
+        and type_entry.get("name") == "ConsumeItems"
+        and method.get("name") == "apply"
+    ):
+        return [
+            "\tvar block_has_items_before: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar block_accepts_items_before: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar item_filter_before: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            "\tvar item_stacks: Array = (_args[3] as Array).duplicate(true) if _args.size() > 3 and _args[3] is Array else []",
+            "\tvar item_filter_after: Array = item_filter_before.duplicate()",
+            "\tfor stack in item_stacks:",
+            "\t\tif not stack is Dictionary:",
+            "\t\t\tcontinue",
+            '\t\tvar item_id := int(stack.get("item_id", -1))',
+            "\t\titem_filter_after[item_id] = true",
+            "\tvar block_has_items_after: bool = true",
+            "\tvar block_accepts_items_after: bool = true",
+            '\treturn {"source_owner": "PortGame.source_consume_items_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "method": "public void apply(Block block){", "items_field": "public final ItemStack[] items;", "has_items_assignment_expr": "block.hasItems = true;", "accepts_items_assignment_expr": "block.acceptsItems = true;", "items_loop_expr": "for(var stack : items){", "item_filter_assignment_expr": "block.itemFilter[stack.item.id] = true;", "block_has_items_field": "public @NoPatch boolean hasItems;", "block_accepts_items_field": "public boolean acceptsItems = false;", "block_item_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};", "block_has_items_before": block_has_items_before, "block_accepts_items_before": block_accepts_items_before, "item_filter_before": item_filter_before, "item_stacks": item_stacks, "block_has_items_after": block_has_items_after, "block_accepts_items_after": block_accepts_items_after, "item_filter_after": item_filter_after}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
         and type_entry.get("name") == "ConsumeItemFilter"
         and method.get("name") == "build"

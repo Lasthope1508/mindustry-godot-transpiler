@@ -17580,6 +17580,54 @@ public class ConsumeItemFilter extends Consume{
             self.assertIn('"each_expr": "content.items().each(filter, item -> block.itemFilter[item.id] = true);"', source_text)
             self.assertIn('"item_filter_assignment_expr": "block.itemFilter[item.id] = true;"', source_text)
 
+    def test_emit_bridges_consume_items_apply_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItems.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.type.*;
+import mindustry.world.*;
+
+public class ConsumeItems extends Consume{
+    public final ItemStack[] items;
+
+    public void apply(Block block){
+        block.hasItems = true;
+        block.acceptsItems = true;
+        for(var stack : items){
+            block.itemFilter[stack.item.id] = true;
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItems.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_apply_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var block_has_items_before: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var block_accepts_items_before: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var item_filter_before: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []", source_text)
+            self.assertIn("var item_stacks: Array = (_args[3] as Array).duplicate(true) if _args.size() > 3 and _args[3] is Array else []", source_text)
+            self.assertIn("for stack in item_stacks:", source_text)
+            self.assertIn('var item_id := int(stack.get("item_id", -1))', source_text)
+            self.assertIn("item_filter_after[item_id] = true", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_items_apply_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source_text)
+            self.assertIn('"method": "public void apply(Block block){"', source_text)
+            self.assertIn('"items_field": "public final ItemStack[] items;"', source_text)
+            self.assertIn('"items_loop_expr": "for(var stack : items){"', source_text)
+            self.assertIn('"item_filter_assignment_expr": "block.itemFilter[stack.item.id] = true;"', source_text)
+
     def test_emit_bridges_consume_item_filter_build_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

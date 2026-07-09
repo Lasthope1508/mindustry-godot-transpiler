@@ -967,6 +967,26 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_items_apply_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_items_apply_source"))
+        report = source_parity.verify_consume_items_apply_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItems.java")
+        self.assertIn("core/src/mindustry/world/Block.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "items_field": "public final ItemStack[] items;",
+            "method": "public void apply(Block block){",
+            "has_items_assignment": "block.hasItems = true;",
+            "accepts_items_assignment": "block.acceptsItems = true;",
+            "items_loop": "for(var stack : items){",
+            "item_filter_assignment": "block.itemFilter[stack.item.id] = true;",
+            "next_method": "public void build(Building build, Table table){",
+            "block_has_items_field": "public @NoPatch boolean hasItems;",
+            "block_accepts_items_field": "public boolean acceptsItems = false;",
+            "block_item_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_item_filter_build_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_item_filter_build_source"))
         report = source_parity.verify_consume_item_filter_build_source(ROOT / "mindustry-upstream")

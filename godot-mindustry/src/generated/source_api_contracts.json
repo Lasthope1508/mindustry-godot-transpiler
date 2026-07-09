@@ -40584,6 +40584,66 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_filter_efficiency_multiplier_state",
       "rule": "Public source helper exposes efficiencyMultiplier ternary state backed by ConsumeItemFilter.efficiencyMultiplier(Building)."
+    },
+    "PortGame.source_consume_items_apply_state": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "source_method": "apply(Block block)",
+      "source_slice": "N1472",
+      "runtime_proof": "/root/Main.source_consume_items_apply_state",
+      "rule": "Public runtime contract for ConsumeItems.apply source-backed item filter mutation state.",
+      "params": [
+        {
+          "name": "block_has_items_before",
+          "type": "bool",
+          "schema": "source_consume_items_apply_input.block_has_items_before",
+          "java_expr": "block.hasItems"
+        },
+        {
+          "name": "block_accepts_items_before",
+          "type": "bool",
+          "schema": "source_consume_items_apply_input.block_accepts_items_before",
+          "java_expr": "block.acceptsItems"
+        },
+        {
+          "name": "item_filter_before",
+          "type": "Array",
+          "schema": "source_consume_items_apply_input.item_filter_before",
+          "java_expr": "block.itemFilter"
+        },
+        {
+          "name": "item_stacks",
+          "type": "Array",
+          "schema": "source_consume_items_apply_input.item_stacks",
+          "java_expr": "for(var stack : items){"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "items_field",
+        "has_items_assignment_expr",
+        "accepts_items_assignment_expr",
+        "items_loop_expr",
+        "item_filter_assignment_expr",
+        "block_has_items_field",
+        "block_accepts_items_field",
+        "block_item_filter_field",
+        "block_has_items_before",
+        "block_accepts_items_before",
+        "item_filter_before",
+        "item_stacks",
+        "block_has_items_after",
+        "block_accepts_items_after",
+        "item_filter_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_apply_to_source_state",
+        "test_port_game_exposes_generated_consume_items_apply_bridge_state",
+        "test_consume_items_apply_matches_upstream_source",
+        "test_generated_consume_items_apply_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "policy": {
