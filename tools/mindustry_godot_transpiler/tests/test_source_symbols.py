@@ -14834,6 +14834,66 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_items_apply_result")
         self.assertEqual(result_schema["keys"]["item_filter_after"]["java_expr"], "block.itemFilter[stack.item.id] = true;")
 
+    def test_generated_consume_items_trigger_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        remove_symbol = source_symbols.source_symbol(registry, "consume_items_trigger.remove")
+        self.assertEqual(remove_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeItems.java")
+        self.assertEqual(remove_symbol["java_method"], "trigger(Building build)")
+        self.assertEqual(remove_symbol["java_expr"], "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));")
+        self.assertEqual(remove_symbol["godot_owner"], "PortGame.source_consume_items_trigger_state")
+        self.assertEqual(remove_symbol["runtime_proof"], "/root/Main.source_consume_items_trigger_state")
+        self.assertEqual(remove_symbol["godot_symbol"], "source_consume_items_trigger_result.remove_calls")
+
+        item_stacks = source_symbols.source_symbol(registry, "consume_items_trigger.item_stacks")
+        self.assertEqual(item_stacks["status"], "explicit-input")
+        self.assertEqual(item_stacks["java_expr"], "for(var stack : items){")
+        self.assertEqual(item_stacks["godot_symbol"], "source_consume_items_trigger_input.item_stacks")
+
+        multiplier = source_symbols.source_symbol(registry, "consume_items_trigger.multiplier")
+        self.assertEqual(multiplier["java_source"], "core/src/mindustry/world/consumers/Consume.java")
+        self.assertEqual(multiplier["java_expr"], "public Floatf<Building> multiplier = b -> 1f;")
+        self.assertEqual(multiplier["godot_symbol"], "source_consume_items_trigger_input.multiplier_get_build")
+
+        trigger_slice = source_symbols.source_slice(ledger, "N1473")
+        self.assertEqual(trigger_slice["title"], "Generated ConsumeItems trigger bridge state")
+        self.assertEqual(trigger_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeItems.java")
+        self.assertEqual(trigger_slice["java_method"], "trigger(Building build)")
+        self.assertEqual(trigger_slice["godot_owner"], "PortGame.source_consume_items_trigger_state")
+        self.assertEqual(trigger_slice["generated_owner"], "ConsumeItems.java_method_trigger_2")
+        self.assertEqual(trigger_slice["runtime_proof"], "/root/Main.generated_consume_items_trigger_bridge_state")
+        self.assertEqual(consumer_shard["slices"]["N1473"]["canonical_ledger"], "source_slice_ledger.N1473")
+        for expr in [
+            "public final ItemStack[] items;",
+            "public void trigger(Building build){",
+            "for(var stack : items){",
+            "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+            "public Floatf<Building> multiplier = b -> 1f;",
+            "public Item item;",
+            "public int amount = 0;",
+            "@Nullable ItemModule items;",
+            "public void remove(Item item, int amount){",
+            "amount = Math.min(amount, items[item.id]);",
+        ]:
+            self.assertIn(expr, trigger_slice["exact_exprs"])
+        self.assertIn("consume_items_trigger.remove", trigger_slice["source_symbols"])
+        self.assertIn("consume_items_trigger.item_stacks", trigger_slice["source_symbols"])
+        self.assertIn("consume_items_trigger.multiplier", trigger_slice["source_symbols"])
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_items_trigger_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["item_stacks", "multiplier_get_build"])
+        self.assertIn("remove_calls", contract["return_keys"])
+        input_schema = source_symbols.state_schema(schema, "source_consume_items_trigger_input")
+        self.assertEqual(input_schema["keys"]["item_stacks"]["java_expr"], "for(var stack : items){")
+        result_schema = source_symbols.state_schema(schema, "source_consume_items_trigger_result")
+        self.assertEqual(result_schema["keys"]["remove_calls"]["java_expr"], "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));")
+
     def test_generated_consume_item_filter_build_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -22953,10 +23013,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 943)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 938)
+        self.assertEqual(audit["totalSourceFunctions"], 944)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 939)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 943)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 944)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -22969,6 +23029,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_item_filter_default_constructor_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_apply_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_items_apply_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_items_trigger_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_item_filter_trigger_state", audit["registeredSourceOwners"])

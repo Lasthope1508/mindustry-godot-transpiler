@@ -32,7 +32,17 @@ func java_method_build_1(_args: Array = []) -> Variant:
 	return null
 
 func java_method_trigger_2(_args: Array = []) -> Variant:
-	return null
+	var item_stacks: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []
+	var multiplier_get_build: float = float(_args[1] if _args.size() > 1 else 1.0)
+	var remove_calls: Array = []
+	for stack in item_stacks:
+		if not stack is Dictionary:
+			continue
+		var item_id: int = int(stack.get("item_id", -1))
+		var stack_amount: float = float(stack.get("amount", 0.0))
+		var remove_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))
+		remove_calls.append({"call": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "item_id": item_id, "stack_amount": stack_amount, "amount": remove_amount})
+	return {"source_owner": "PortGame.source_consume_items_trigger_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "method": "public void trigger(Building build){", "items_field": "public final ItemStack[] items;", "items_loop_expr": "for(var stack : items){", "remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "round_expr": "Math.round(stack.amount * multiplier.get(build))", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_remove_method": "public void remove(Item item, int amount){", "item_module_remove_clamp": "amount = Math.min(amount, items[item.id]);", "item_stacks": item_stacks, "multiplier_get_build": multiplier_get_build, "remove_calls": remove_calls}
 
 func java_method_efficiency_3(_args: Array = []) -> Variant:
 	return null

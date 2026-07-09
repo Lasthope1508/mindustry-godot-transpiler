@@ -1494,6 +1494,24 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
             '\treturn {"source_owner": "PortGame.source_consume_items_apply_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "method": "public void apply(Block block){", "items_field": "public final ItemStack[] items;", "has_items_assignment_expr": "block.hasItems = true;", "accepts_items_assignment_expr": "block.acceptsItems = true;", "items_loop_expr": "for(var stack : items){", "item_filter_assignment_expr": "block.itemFilter[stack.item.id] = true;", "block_has_items_field": "public @NoPatch boolean hasItems;", "block_accepts_items_field": "public boolean acceptsItems = false;", "block_item_filter_field": "public boolean[] itemFilter = {}, liquidFilter = {};", "block_has_items_before": block_has_items_before, "block_accepts_items_before": block_accepts_items_before, "item_filter_before": item_filter_before, "item_stacks": item_stacks, "block_has_items_after": block_has_items_after, "block_accepts_items_after": block_accepts_items_after, "item_filter_after": item_filter_after}',
         ]
     if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeItems.java"
+        and type_entry.get("name") == "ConsumeItems"
+        and method.get("name") == "trigger"
+    ):
+        return [
+            "\tvar item_stacks: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []",
+            "\tvar multiplier_get_build: float = float(_args[1] if _args.size() > 1 else 1.0)",
+            "\tvar remove_calls: Array = []",
+            "\tfor stack in item_stacks:",
+            "\t\tif not stack is Dictionary:",
+            "\t\t\tcontinue",
+            '\t\tvar item_id: int = int(stack.get("item_id", -1))',
+            '\t\tvar stack_amount: float = float(stack.get("amount", 0.0))',
+            "\t\tvar remove_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))",
+            '\t\tremove_calls.append({"call": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "item_id": item_id, "stack_amount": stack_amount, "amount": remove_amount})',
+            '\treturn {"source_owner": "PortGame.source_consume_items_trigger_state", "source": "core/src/mindustry/world/consumers/ConsumeItems.java", "method": "public void trigger(Building build){", "items_field": "public final ItemStack[] items;", "items_loop_expr": "for(var stack : items){", "remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "round_expr": "Math.round(stack.amount * multiplier.get(build))", "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;", "item_stack_item_field": "public Item item;", "item_stack_amount_field": "public int amount = 0;", "building_items_field": "@Nullable ItemModule items;", "item_module_remove_method": "public void remove(Item item, int amount){", "item_module_remove_clamp": "amount = Math.min(amount, items[item.id]);", "item_stacks": item_stacks, "multiplier_get_build": multiplier_get_build, "remove_calls": remove_calls}',
+        ]
+    if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeItemFilter.java"
         and type_entry.get("name") == "ConsumeItemFilter"
         and method.get("name") == "build"

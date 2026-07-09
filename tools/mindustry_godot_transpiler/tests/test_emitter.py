@@ -17628,6 +17628,50 @@ public class ConsumeItems extends Consume{
             self.assertIn('"items_loop_expr": "for(var stack : items){"', source_text)
             self.assertIn('"item_filter_assignment_expr": "block.itemFilter[stack.item.id] = true;"', source_text)
 
+    def test_emit_bridges_consume_items_trigger_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItems.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeItems extends Consume{
+    public final ItemStack[] items;
+
+    public void trigger(Building build){
+        for(var stack : items){
+            build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));
+        }
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItems.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_trigger_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var item_stacks: Array = (_args[0] as Array).duplicate(true) if _args.size() > 0 and _args[0] is Array else []", source_text)
+            self.assertIn("var multiplier_get_build: float = float(_args[1] if _args.size() > 1 else 1.0)", source_text)
+            self.assertIn("for stack in item_stacks:", source_text)
+            self.assertIn("var stack_amount: float = float(stack.get(\"amount\", 0.0))", source_text)
+            self.assertIn("var remove_amount: int = int(floor(stack_amount * multiplier_get_build + 0.5))", source_text)
+            self.assertIn('remove_calls.append({"call": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));", "item_id": item_id, "stack_amount": stack_amount, "amount": remove_amount})', source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_items_trigger_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItems.java"', source_text)
+            self.assertIn('"method": "public void trigger(Building build){"', source_text)
+            self.assertIn('"items_loop_expr": "for(var stack : items){"', source_text)
+            self.assertIn('"remove_expr": "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));"', source_text)
+
     def test_emit_bridges_consume_item_filter_build_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

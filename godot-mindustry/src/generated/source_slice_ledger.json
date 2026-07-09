@@ -37043,6 +37043,59 @@
         "Concrete live ConsumeItems.items object storage remains explicit through item_stacks until generated instance fields are wired.",
         "Concrete ItemStack and Item objects remain represented by explicit item_id rows from stack.item.id."
       ]
+    },
+    "N1473": {
+      "title": "Generated ConsumeItems trigger bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItems.java",
+      "java_class": "ConsumeItems",
+      "java_method": "trigger(Building build)",
+      "generated_owner": "ConsumeItems.java_method_trigger_2",
+      "godot_owner": "PortGame.source_consume_items_trigger_state",
+      "runtime_proof": "/root/Main.generated_consume_items_trigger_bridge_state",
+      "rule": "Generated bridge models exact ConsumeItems.trigger item removal loop without inventing live ItemStack or Item objects.",
+      "exact_exprs": [
+        "public final ItemStack[] items;",
+        "public void trigger(Building build){",
+        "for(var stack : items){",
+        "build.items.remove(stack.item, Math.round(stack.amount * multiplier.get(build)));",
+        "public Floatf<Building> multiplier = b -> 1f;",
+        "public Item item;",
+        "public int amount = 0;",
+        "@Nullable ItemModule items;",
+        "public void remove(Item item, int amount){",
+        "amount = Math.min(amount, items[item.id]);",
+        "public float efficiency(Building build){"
+      ],
+      "source_symbols": [
+        "consume_items_trigger.items_field",
+        "consume_items_trigger.method",
+        "consume_items_trigger.items_loop",
+        "consume_items_trigger.remove",
+        "consume_items_trigger.round",
+        "consume_items_trigger.item_stacks",
+        "consume_items_trigger.stack_item_id",
+        "consume_items_trigger.stack_amount",
+        "consume_items_trigger.multiplier_get_build",
+        "consume_items_trigger.multiplier",
+        "consume_items_trigger.item_stack_item_field",
+        "consume_items_trigger.item_stack_amount_field",
+        "consume_items_trigger.building_items_field",
+        "consume_items_trigger.item_module_remove",
+        "consume_items_trigger.item_module_remove_clamp",
+        "consume_items_trigger.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_items_trigger_to_source_state",
+        "test_port_game_exposes_generated_consume_items_trigger_bridge_state",
+        "test_consume_items_trigger_matches_upstream_source",
+        "test_generated_consume_items_trigger_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Concrete live ConsumeItems.items object storage remains explicit through item_stacks until generated instance fields are wired.",
+        "Concrete ItemStack and Item objects remain represented by explicit item_id and amount rows.",
+        "Actual ItemModule inventory mutation remains represented as remove_calls until live Building ItemModule wiring is ported."
+      ]
     }
   },
   "version": 1
