@@ -37981,6 +37981,44 @@
         "test_consume_liquid_filter_efficiency_matches_upstream_source",
         "test_generated_consume_liquid_filter_efficiency_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1503": {
+      "title": "Generated ConsumeLiquidFilter efficiencyMultiplier bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_class": "ConsumeLiquidFilter",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "generated_owner": "ConsumeLiquidFilter.java_method_efficiencyMultiplier_4",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+      "exact_exprs": [
+        "public float efficiencyMultiplier(Building build){",
+        "var liq = getConsumed(build);",
+        "return liq == null ? 0 : liquidEfficiencyMultiplier(liq);",
+        "public @Nullable Liquid getConsumed(Building build){",
+        "public float liquidEfficiencyMultiplier(Liquid liquid){"
+      ],
+      "source_symbols": [
+        "consume_liquid_filter_efficiency_multiplier.method",
+        "consume_liquid_filter_efficiency_multiplier.consumed_liquid",
+        "consume_liquid_filter_efficiency_multiplier.liquid_efficiency_multiplier",
+        "consume_liquid_filter_efficiency_multiplier.has_consumed_liquid",
+        "consume_liquid_filter_efficiency_multiplier.efficiency_multiplier",
+        "consume_liquid_filter_efficiency_multiplier.get_consumed_method",
+        "consume_liquid_filter_efficiency_multiplier.liquid_efficiency_multiplier_method",
+        "consume_liquid_filter_efficiency_multiplier.next_method"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "deferred": [
+        "Concrete getConsumed(Building) dispatch into live Building liquid storage remains separate from this bridge input.",
+        "Concrete liquidEfficiencyMultiplier(Liquid) dynamic override dispatch remains explicit through liquid_efficiency_multiplier."
+      ],
+      "rule": "Generated bridge models exact ConsumeLiquidFilter.efficiencyMultiplier ternary from local getConsumed liquid result to liquidEfficiencyMultiplier result; consumed_liquid and liquid_efficiency_multiplier remain explicit inputs until live Building/getConsumed and override dispatch are ported."
     }
   },
   "version": 1

@@ -51,7 +51,11 @@ func java_method_efficiency_3(_args: Array = []) -> Variant:
 	return {"source_owner": "PortGame.source_consume_liquid_filter_efficiency_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public float efficiency(Building build){", "get_consumed_expr": "var liq = getConsumed(build);", "ed_expr": "float ed = build.edelta();", "ed_guard_expr": "if(ed <= 0.00000001f) return 0f;", "return_expr": "return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;", "build_liquids_get_expr": "build.liquids.get(liq)", "amount_expr": "amount", "build_edelta_expr": "build.edelta()", "multiplier_get_build_expr": "multiplier.get(build)", "consumed_liquid": consumed_liquid, "build_liquids_get": build_liquids_get, "amount": amount, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "ed": ed, "ed_guard": ed_guard, "has_consumed_liquid": has_consumed_liquid, "required_liquid_amount": required_liquid_amount, "raw_efficiency": raw_efficiency, "efficiency": efficiency}
 
 func java_method_efficiencyMultiplier_4(_args: Array = []) -> Variant:
-	return null
+	var consumed_liquid: Variant = _args[0] if _args.size() > 0 else null
+	var liquid_efficiency_multiplier: float = float(_args[1] if _args.size() > 1 else 1.0)
+	var has_consumed_liquid: bool = consumed_liquid != null
+	var efficiency_multiplier: float = liquid_efficiency_multiplier if has_consumed_liquid else 0.0
+	return {"source_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public float efficiencyMultiplier(Building build){", "get_consumed_expr": "var liq = getConsumed(build);", "return_expr": "return liq == null ? 0 : liquidEfficiencyMultiplier(liq);", "liquid_efficiency_multiplier_expr": "liquidEfficiencyMultiplier(liq)", "consumed_liquid": consumed_liquid, "liquid_efficiency_multiplier": liquid_efficiency_multiplier, "has_consumed_liquid": has_consumed_liquid, "efficiency_multiplier": efficiency_multiplier}
 
 func java_method_getConsumed_5(_args: Array = []) -> Variant:
 	var current_liquid: Variant = _args[0] if _args.size() > 0 else null

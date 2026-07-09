@@ -19130,6 +19130,51 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
             self.assertIn('"return_expr": "return liq != null ? Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) : 0f;"', source_text)
             self.assertIn('"efficiency": efficiency', source_text)
 
+    def test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeLiquidFilter extends ConsumeLiquidBase{
+    @Override
+    public float efficiencyMultiplier(Building build){
+        var liq = getConsumed(build);
+        return liq == null ? 0 : liquidEfficiencyMultiplier(liq);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_efficiencyMultiplier_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var consumed_liquid: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var liquid_efficiency_multiplier: float = float(_args[1] if _args.size() > 1 else 1.0)", source_text)
+            self.assertIn("var has_consumed_liquid: bool = consumed_liquid != null", source_text)
+            self.assertIn("var efficiency_multiplier: float = liquid_efficiency_multiplier if has_consumed_liquid else 0.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source_text)
+            self.assertIn('"method": "public float efficiencyMultiplier(Building build){"', source_text)
+            self.assertIn('"get_consumed_expr": "var liq = getConsumed(build);"', source_text)
+            self.assertIn('"return_expr": "return liq == null ? 0 : liquidEfficiencyMultiplier(liq);"', source_text)
+            self.assertIn('"liquid_efficiency_multiplier_expr": "liquidEfficiencyMultiplier(liq)"', source_text)
+            self.assertIn('"consumed_liquid": consumed_liquid', source_text)
+            self.assertIn('"liquid_efficiency_multiplier": liquid_efficiency_multiplier', source_text)
+            self.assertIn('"has_consumed_liquid": has_consumed_liquid', source_text)
+            self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
+
     def test_emit_bridges_consume_liquid_filter_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

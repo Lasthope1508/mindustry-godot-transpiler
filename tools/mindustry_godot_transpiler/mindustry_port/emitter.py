@@ -1787,6 +1787,18 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
         and type_entry.get("name") == "ConsumeLiquidFilter"
+        and method.get("name") == "efficiencyMultiplier"
+    ):
+        return [
+            "\tvar consumed_liquid: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar liquid_efficiency_multiplier: float = float(_args[1] if _args.size() > 1 else 1.0)",
+            "\tvar has_consumed_liquid: bool = consumed_liquid != null",
+            "\tvar efficiency_multiplier: float = liquid_efficiency_multiplier if has_consumed_liquid else 0.0",
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public float efficiencyMultiplier(Building build){", "get_consumed_expr": "var liq = getConsumed(build);", "return_expr": "return liq == null ? 0 : liquidEfficiencyMultiplier(liq);", "liquid_efficiency_multiplier_expr": "liquidEfficiencyMultiplier(liq)", "consumed_liquid": consumed_liquid, "liquid_efficiency_multiplier": liquid_efficiency_multiplier, "has_consumed_liquid": has_consumed_liquid, "efficiency_multiplier": efficiency_multiplier}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+        and type_entry.get("name") == "ConsumeLiquidFilter"
         and method.get("name") == "getConsumed"
     ):
         return [

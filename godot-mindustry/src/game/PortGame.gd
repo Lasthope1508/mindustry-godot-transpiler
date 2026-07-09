@@ -3642,6 +3642,35 @@ func generated_consume_liquid_filter_efficiency_bridge_state(consumed_liquid: Va
 		"matches": result.get("efficiency", null) == canonical.get("efficiency", null) and result.get("raw_efficiency", null) == canonical.get("raw_efficiency", null) and result.get("ed_guard", null) == canonical.get("ed_guard", null),
 	}
 
+func source_consume_liquid_filter_efficiency_multiplier_state(consumed_liquid: Variant, liquid_efficiency_multiplier: float) -> Dictionary:
+	var has_consumed_liquid: bool = consumed_liquid != null
+	var efficiency_multiplier: float = liquid_efficiency_multiplier if has_consumed_liquid else 0.0
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+		"method": "public float efficiencyMultiplier(Building build){",
+		"get_consumed_expr": "var liq = getConsumed(build);",
+		"return_expr": "return liq == null ? 0 : liquidEfficiencyMultiplier(liq);",
+		"liquid_efficiency_multiplier_expr": "liquidEfficiencyMultiplier(liq)",
+		"consumed_liquid": consumed_liquid,
+		"liquid_efficiency_multiplier": liquid_efficiency_multiplier,
+		"has_consumed_liquid": has_consumed_liquid,
+		"efficiency_multiplier": efficiency_multiplier,
+	}
+
+func generated_consume_liquid_filter_efficiency_multiplier_bridge_state(consumed_liquid: Variant, liquid_efficiency_multiplier: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_efficiencyMultiplier_4([consumed_liquid, liquid_efficiency_multiplier])
+	var canonical = source_consume_liquid_filter_efficiency_multiplier_state(consumed_liquid, liquid_efficiency_multiplier)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+		"generated_owner": "ConsumeLiquidFilter.efficiencyMultiplier",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null) and result.get("has_consumed_liquid", null) == canonical.get("has_consumed_liquid", null),
+	}
+
 func source_consume_liquid_filter_liquid_efficiency_multiplier_state() -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

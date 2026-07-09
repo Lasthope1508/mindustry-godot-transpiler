@@ -1222,6 +1222,29 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidFilter.efficiency"', source)
         self.assertIn('"matches": result.get("efficiency", null) == canonical.get("efficiency", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_filter_efficiency_multiplier_state(consumed_liquid: Variant, liquid_efficiency_multiplier: float) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state"', source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source)
+        self.assertIn('"method": "public float efficiencyMultiplier(Building build){"', source)
+        self.assertIn('"get_consumed_expr": "var liq = getConsumed(build);"', source)
+        self.assertIn('"return_expr": "return liq == null ? 0 : liquidEfficiencyMultiplier(liq);"', source)
+        self.assertIn('"liquid_efficiency_multiplier_expr": "liquidEfficiencyMultiplier(liq)"', source)
+        self.assertIn("var has_consumed_liquid: bool = consumed_liquid != null", source)
+        self.assertIn("var efficiency_multiplier: float = liquid_efficiency_multiplier if has_consumed_liquid else 0.0", source)
+        self.assertIn('"consumed_liquid": consumed_liquid', source)
+        self.assertIn('"liquid_efficiency_multiplier": liquid_efficiency_multiplier', source)
+        self.assertIn('"has_consumed_liquid": has_consumed_liquid', source)
+        self.assertIn('"efficiency_multiplier": efficiency_multiplier', source)
+        self.assertIn("func generated_consume_liquid_filter_efficiency_multiplier_bridge_state(consumed_liquid: Variant, liquid_efficiency_multiplier: float) -> Dictionary:", source)
+        self.assertIn("var result = instance.java_method_efficiencyMultiplier_4([consumed_liquid, liquid_efficiency_multiplier])", source)
+        self.assertIn("var canonical = source_consume_liquid_filter_efficiency_multiplier_state(consumed_liquid, liquid_efficiency_multiplier)", source)
+        self.assertIn('"generated_owner": "ConsumeLiquidFilter.efficiencyMultiplier"', source)
+        self.assertIn('"matches": result.get("efficiency_multiplier", null) == canonical.get("efficiency_multiplier", null) and result.get("has_consumed_liquid", null) == canonical.get("has_consumed_liquid", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

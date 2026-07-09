@@ -1614,6 +1614,21 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_efficiency_multiplier_source"))
+        report = source_parity.verify_consume_liquid_filter_efficiency_multiplier_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java")
+        self.assertEqual(report["checked"], {
+            "method": "public float efficiencyMultiplier(Building build){",
+            "get_consumed_expr": "var liq = getConsumed(build);",
+            "return_expr": "return liq == null ? 0 : liquidEfficiencyMultiplier(liq);",
+            "get_consumed_method": "public @Nullable Liquid getConsumed(Building build){",
+            "liquid_efficiency_multiplier_method": "public float liquidEfficiencyMultiplier(Liquid liquid){",
+            "next_method": "public @Nullable Liquid getConsumed(Building build){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_filter_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_consumes_source"))
         report = source_parity.verify_consume_liquid_filter_consumes_source(ROOT / "mindustry-upstream")

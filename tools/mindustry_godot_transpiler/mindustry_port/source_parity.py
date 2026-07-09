@@ -5389,6 +5389,24 @@ def verify_consume_liquid_filter_efficiency_source(upstream_root: Path, arc_root
         "missing": missing,
     }
 
+def verify_consume_liquid_filter_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+    source = (Path(upstream_root) / consume_liquid_filter_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public float efficiencyMultiplier(Building build){",
+        "get_consumed_expr": "var liq = getConsumed(build);",
+        "return_expr": "return liq == null ? 0 : liquidEfficiencyMultiplier(liq);",
+        "get_consumed_method": "public @Nullable Liquid getConsumed(Building build){",
+        "liquid_efficiency_multiplier_method": "public float liquidEfficiencyMultiplier(Liquid liquid){",
+        "next_method": "public @Nullable Liquid getConsumed(Building build){",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_liquid_filter_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_base_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
     block_source = "core/src/mindustry/world/Block.java"

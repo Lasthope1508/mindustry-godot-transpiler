@@ -1160,6 +1160,47 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_state",
       "rule": "Source efficiency gets consumed liquid, reads build.edelta(), returns 0 when ed <= 0.00000001f, otherwise returns Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f) when liq != null, else 0; consumed_liquid, liquid amount, and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported."
+    },
+    "PortGame.source_consume_liquid_filter_efficiency_multiplier_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+      "status": "source-backed",
+      "source_slice": "N1503",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "source_method": "efficiencyMultiplier(Building build)",
+      "params": [
+        {
+          "name": "consumed_liquid",
+          "type": "Variant",
+          "schema": "source_consume_liquid_filter_efficiency_multiplier_input.consumed_liquid",
+          "java_expr": "var liq = getConsumed(build);"
+        },
+        {
+          "name": "liquid_efficiency_multiplier",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_efficiency_multiplier_input.liquid_efficiency_multiplier",
+          "java_expr": "liquidEfficiencyMultiplier(liq)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "get_consumed_expr",
+        "return_expr",
+        "liquid_efficiency_multiplier_expr",
+        "consumed_liquid",
+        "liquid_efficiency_multiplier",
+        "has_consumed_liquid",
+        "efficiency_multiplier"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_multiplier_state",
+      "rule": "Generated bridge models exact ConsumeLiquidFilter.efficiencyMultiplier ternary from local getConsumed liquid result to liquidEfficiencyMultiplier result; consumed_liquid and liquid_efficiency_multiplier remain explicit inputs until live Building/getConsumed and override dispatch are ported."
     }
   }
 }

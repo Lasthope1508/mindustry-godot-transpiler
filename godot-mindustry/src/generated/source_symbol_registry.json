@@ -126588,6 +126588,142 @@
       "status": "source-backed",
       "java_expr": "Math.min(build.liquids.get(liq) / (amount * ed * multiplier.get(build)), 1f)",
       "godot_symbol": "source_consume_liquid_filter_efficiency_result.efficiency"
+    },
+    "consume_liquid_filter_efficiency_multiplier.method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "java_expr": "public float efficiencyMultiplier(Building build){",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_multiplier_result.method",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_multiplier_state",
+      "rule": "Exact ConsumeLiquidFilter.efficiencyMultiplier method boundary.",
+      "source_slice": "N1503"
+    },
+    "consume_liquid_filter_efficiency_multiplier.consumed_liquid": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "java_expr": "var liq = getConsumed(build);",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_multiplier_input.consumed_liquid",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_multiplier_state",
+      "rule": "Explicit getConsumed(build) local liquid result until live Building/getConsumed dispatch is wired.",
+      "source_slice": "N1503"
+    },
+    "consume_liquid_filter_efficiency_multiplier.liquid_efficiency_multiplier": {
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "java_expr": "liquidEfficiencyMultiplier(liq)",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_multiplier_input.liquid_efficiency_multiplier",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_multiplier_state",
+      "rule": "Explicit liquidEfficiencyMultiplier(liq) result when liquid is non-null.",
+      "source_slice": "N1503"
+    },
+    "consume_liquid_filter_efficiency_multiplier.has_consumed_liquid": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "java_expr": "liq == null",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_multiplier_result.has_consumed_liquid",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_multiplier_state",
+      "rule": "Source null check inverted into has_consumed_liquid.",
+      "source_slice": "N1503"
+    },
+    "consume_liquid_filter_efficiency_multiplier.efficiency_multiplier": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "java_expr": "return liq == null ? 0 : liquidEfficiencyMultiplier(liq);",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_multiplier_result.efficiency_multiplier",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_multiplier_state",
+      "rule": "Exact ternary return from efficiencyMultiplier.",
+      "source_slice": "N1503"
+    },
+    "consume_liquid_filter_efficiency_multiplier.get_consumed_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "getConsumed(Building build)",
+      "java_expr": "public @Nullable Liquid getConsumed(Building build){",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_multiplier_result.get_consumed_method",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_multiplier_state",
+      "rule": "getConsumed method anchor used by local liquid assignment.",
+      "source_slice": "N1503"
+    },
+    "consume_liquid_filter_efficiency_multiplier.liquid_efficiency_multiplier_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "liquidEfficiencyMultiplier(Liquid liquid)",
+      "java_expr": "public float liquidEfficiencyMultiplier(Liquid liquid){",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_multiplier_result.liquid_efficiency_multiplier_method",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_multiplier_state",
+      "rule": "liquidEfficiencyMultiplier method anchor used by ternary branch.",
+      "source_slice": "N1503"
+    },
+    "consume_liquid_filter_efficiency_multiplier.next_method": {
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "efficiencyMultiplier(Building build)",
+      "java_expr": "public @Nullable Liquid getConsumed(Building build){",
+      "godot_symbol": "source_consume_liquid_filter_efficiency_multiplier_result.next_method",
+      "godot_owner": "PortGame.source_consume_liquid_filter_efficiency_multiplier_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_efficiency_multiplier_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_efficiency_multiplier_bridge_state",
+        "test_consume_liquid_filter_efficiency_multiplier_matches_upstream_source",
+        "test_generated_consume_liquid_filter_efficiency_multiplier_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_efficiency_multiplier_state",
+      "rule": "Next upstream method boundary after efficiencyMultiplier.",
+      "source_slice": "N1503"
     }
   },
   "version": 1
