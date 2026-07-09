@@ -18809,6 +18809,45 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
             self.assertIn('"return_expr": "return 1f;"', source_text)
             self.assertIn('"efficiency_multiplier": efficiency_multiplier', source_text)
 
+    def test_emit_bridges_consume_liquid_filter_display_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+public class ConsumeLiquidFilter extends ConsumeLiquidBase{
+    @Override
+    public void display(Stats stats){
+        stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(filter, amount * 60f, true));
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_display_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var booster: bool = bool(_args[0] if _args.size() > 0 else false)", source_text)
+            self.assertIn("var amount: float = float(_args[1] if _args.size() > 1 else 0.0)", source_text)
+            self.assertIn("var display_amount_per_second: float = amount * 60.0", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_display_state"', source_text)
+            self.assertIn('"method": "public void display(Stats stats){"', source_text)
+            self.assertIn('"stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(filter, amount * 60f, true));"', source_text)
+            self.assertIn('"stat_values_liquids_expr": "StatValues.liquids(filter, amount * 60f, true)"', source_text)
+            self.assertIn('"stat_values_liquids_method": "public static StatValue liquids(Boolf<Liquid> filter, float amount, boolean perSecond){"', source_text)
+            self.assertIn('"content_filter_expr": "Seq<Liquid> list = content.liquids().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());"', source_text)
+            self.assertIn('"display_liquid_expr": "table.add(displayLiquid(list.get(i), amount, perSecond)).padRight(5);"', source_text)
+            self.assertIn('"separator_expr": "table.add(\\"/\\");"', source_text)
+            self.assertIn('"display_amount_per_second": display_amount_per_second', source_text)
+
     def test_emit_bridges_consume_liquid_filter_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

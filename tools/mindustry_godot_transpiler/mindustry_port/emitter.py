@@ -1738,6 +1738,25 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
         and type_entry.get("name") == "ConsumeLiquidFilter"
+        and method.get("name") == "display"
+    ):
+        return [
+            "\tvar booster: bool = bool(_args[0] if _args.size() > 0 else false)",
+            "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar filtered_liquid_ids: Array = (_args[2] as Array).duplicate() if _args.size() > 2 and _args[2] is Array else []",
+            '\tvar selected_stat: String = "booster" if booster else "input"',
+            "\tvar display_amount_per_second: float = amount * 60.0",
+            "\tvar display_liquids: Array = []",
+            "\tfor index in filtered_liquid_ids.size():",
+            "\t\tvar liquid_id: int = int(filtered_liquid_ids[index])",
+            "\t\tvar has_separator_after: bool = index != filtered_liquid_ids.size() - 1",
+            '\t\tdisplay_liquids.append({"liquid_id": liquid_id, "display_amount_per_second": display_amount_per_second, "per_second": true, "has_separator_after": has_separator_after})',
+            '\tvar stats_add_call: Dictionary = {"call": "stats.add", "stat": selected_stat, "stat_value_expr": "StatValues.liquids(filter, amount * 60f, true)", "amount": amount, "display_amount_per_second": display_amount_per_second, "filtered_liquid_ids": filtered_liquid_ids}',
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_display_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public void display(Stats stats){", "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(filter, amount * 60f, true));", "stats_add_call_expr": "stats.add", "selected_stat_expr": "booster ? Stat.booster : Stat.input", "selected_stat": selected_stat, "stat_values_liquids_expr": "StatValues.liquids(filter, amount * 60f, true)", "stat_values_liquids_method": "public static StatValue liquids(Boolf<Liquid> filter, float amount, boolean perSecond){", "content_filter_expr": "Seq<Liquid> list = content.liquids().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());", "loop_expr": "for(int i = 0; i < list.size; i++){", "display_liquid_expr": "table.add(displayLiquid(list.get(i), amount, perSecond)).padRight(5);", "separator_guard_expr": "if(i != list.size - 1){", "separator_expr": "table.add(\\"/\\");", "booster": booster, "amount": amount, "display_amount_per_second": display_amount_per_second, "per_second": true, "filtered_liquid_ids": filtered_liquid_ids, "stats_add_call": stats_add_call, "display_liquids": display_liquids}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+        and type_entry.get("name") == "ConsumeLiquidFilter"
         and method.get("name") == "liquidEfficiencyMultiplier"
     ):
         return [

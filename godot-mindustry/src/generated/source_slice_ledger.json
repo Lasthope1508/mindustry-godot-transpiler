@@ -37732,6 +37732,50 @@
         "test_consume_liquid_flammable_display_matches_upstream_source",
         "test_generated_consume_liquid_flammable_display_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1495": {
+      "title": "Generated ConsumeLiquidFilter display bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_class": "ConsumeLiquidFilter",
+      "java_method": "display(Stats stats)",
+      "generated_owner": "ConsumeLiquidFilter.java_method_display_6",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_display_bridge_state",
+      "rule": "Generated bridge models exact ConsumeLiquidFilter display stats.add call and StatValues.liquids display list without executing live UI Table mutation or Boolf<Liquid>.",
+      "exact_exprs": [
+        "public void display(Stats stats){",
+        "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(filter, amount * 60f, true));",
+        "public void add(Stat stat, StatValue value){",
+        "public static StatValue liquids(Boolf<Liquid> filter, float amount, boolean perSecond){",
+        "Seq<Liquid> list = content.liquids().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());",
+        "for(int i = 0; i < list.size; i++){",
+        "table.add(displayLiquid(list.get(i), amount, perSecond)).padRight(5);",
+        "if(i != list.size - 1){",
+        "table.add(\"/\");",
+        "public boolean booster;",
+        "booster = new Stat(\"booster\", StatCat.optional),"
+      ],
+      "source_symbols": [
+        "consume_liquid_filter_display.method",
+        "consume_liquid_filter_display.booster",
+        "consume_liquid_filter_display.amount",
+        "consume_liquid_filter_display.filtered_liquid_ids",
+        "consume_liquid_filter_display.stats_add",
+        "consume_liquid_filter_display.selected_stat",
+        "consume_liquid_filter_display.stat_values_liquids",
+        "consume_liquid_filter_display.display_amount_per_second",
+        "consume_liquid_filter_display.per_second",
+        "consume_liquid_filter_display.content_filter",
+        "consume_liquid_filter_display.display_liquid",
+        "consume_liquid_filter_display.separator"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

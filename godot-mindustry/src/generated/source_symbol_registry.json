@@ -125619,6 +125619,210 @@
       "java_expr": "b.add(Core.bundle.format(\"stat.efficiency\", fixValue(efficiency.get(liquid) * 100f))).right().pad(10f).padRight(15f);",
       "godot_symbol": "source_consume_liquid_flammable_display_result.display_rows",
       "rule": "StatValues liquidEffMultiplier displays each liquid efficiency percentage."
+    },
+    "consume_liquid_filter_display.method": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "source-backed",
+      "java_expr": "public void display(Stats stats){",
+      "godot_symbol": "source_consume_liquid_filter_display_result.method",
+      "rule": "Canonical ConsumeLiquidFilter display method boundary."
+    },
+    "consume_liquid_filter_display.booster": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "explicit-input",
+      "java_expr": "booster",
+      "godot_symbol": "source_consume_liquid_filter_display_input.booster",
+      "rule": "Explicit input mirrors Consume.booster selected stat branch."
+    },
+    "consume_liquid_filter_display.amount": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "explicit-input",
+      "java_expr": "amount",
+      "godot_symbol": "source_consume_liquid_filter_display_input.amount",
+      "rule": "Explicit input mirrors inherited liquid amount used by display."
+    },
+    "consume_liquid_filter_display.filtered_liquid_ids": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "explicit-input",
+      "java_expr": "content.liquids().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())",
+      "godot_symbol": "source_consume_liquid_filter_display_input.filtered_liquid_ids",
+      "rule": "Explicit input stands in for source filtered liquid list until concrete Liquid binding is ported."
+    },
+    "consume_liquid_filter_display.stats_add": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "source-backed",
+      "java_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(filter, amount * 60f, true));",
+      "godot_symbol": "source_consume_liquid_filter_display_result.stats_add_call",
+      "rule": "Source display adds filtered liquid StatValue using selected booster/input stat."
+    },
+    "consume_liquid_filter_display.selected_stat": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "source-backed",
+      "java_expr": "booster ? Stat.booster : Stat.input",
+      "godot_symbol": "source_consume_liquid_filter_display_result.selected_stat",
+      "rule": "Selected stat follows exact booster ternary from display source."
+    },
+    "consume_liquid_filter_display.stat_values_liquids": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "source-backed",
+      "java_expr": "StatValues.liquids(filter, amount * 60f, true)",
+      "godot_symbol": "source_consume_liquid_filter_display_result.stat_values_liquids_expr",
+      "rule": "Source display delegates rendering to StatValues.liquids."
+    },
+    "consume_liquid_filter_display.display_amount_per_second": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "source-backed",
+      "java_expr": "amount * 60f",
+      "godot_symbol": "source_consume_liquid_filter_display_result.display_amount_per_second",
+      "rule": "Source display converts amount to per-second quantity with exact 60f multiplier."
+    },
+    "consume_liquid_filter_display.per_second": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "source-backed",
+      "java_expr": "true",
+      "godot_symbol": "source_consume_liquid_filter_display_result.per_second",
+      "rule": "Source display passes exact perSecond true literal to StatValues.liquids."
+    },
+    "consume_liquid_filter_display.content_filter": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "source-backed",
+      "java_expr": "Seq<Liquid> list = content.liquids().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());",
+      "godot_symbol": "source_consume_liquid_filter_display_result.filtered_liquid_ids",
+      "rule": "StatValues.liquids selects filtered unlocked visible liquids."
+    },
+    "consume_liquid_filter_display.display_liquid": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "source-backed",
+      "java_expr": "table.add(displayLiquid(list.get(i), amount, perSecond)).padRight(5);",
+      "godot_symbol": "source_consume_liquid_filter_display_result.display_liquids",
+      "rule": "StatValues.liquids displays each selected liquid with source amount and perSecond flag."
+    },
+    "consume_liquid_filter_display.separator": {
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_method": "display(Stats stats)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_display_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "status": "source-backed",
+      "java_expr": "table.add(\"/\");",
+      "godot_symbol": "source_consume_liquid_filter_display_result.display_liquids",
+      "rule": "StatValues.liquids inserts slash separators between displayed liquids."
     }
   },
   "version": 1

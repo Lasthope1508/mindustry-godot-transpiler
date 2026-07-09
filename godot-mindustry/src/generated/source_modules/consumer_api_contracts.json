@@ -778,6 +778,64 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_flammable_display_state",
       "rule": "Source state mirrors ConsumeLiquidFlammable display stats.add with booster/input stat selection, amount * 60f display amount, and liquidEffMultiplier rows; live UI Table mutation and concrete Liquid binding deferred."
+    },
+    "PortGame.source_consume_liquid_filter_display_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_filter_display_state",
+      "status": "source-backed",
+      "source_slice": "N1495",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "source_method": "display(Stats stats)",
+      "params": [
+        {
+          "name": "booster",
+          "type": "bool",
+          "schema": "source_consume_liquid_filter_display_input.booster",
+          "java_expr": "booster"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_display_input.amount",
+          "java_expr": "amount"
+        },
+        {
+          "name": "filtered_liquid_ids",
+          "type": "Array",
+          "schema": "source_consume_liquid_filter_display_input.filtered_liquid_ids",
+          "java_expr": "content.liquids().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden())"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "stats_add_expr",
+        "stats_add_call_expr",
+        "selected_stat_expr",
+        "selected_stat",
+        "stat_values_liquids_expr",
+        "stat_values_liquids_method",
+        "content_filter_expr",
+        "loop_expr",
+        "display_liquid_expr",
+        "separator_guard_expr",
+        "separator_expr",
+        "booster",
+        "amount",
+        "display_amount_per_second",
+        "per_second",
+        "filtered_liquid_ids",
+        "stats_add_call",
+        "display_liquids"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_display_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_display_bridge_state",
+        "test_consume_liquid_filter_display_matches_upstream_source",
+        "test_generated_consume_liquid_filter_display_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_display_state",
+      "rule": "Source state mirrors ConsumeLiquidFilter display stats.add with booster/input stat selection, amount * 60f display amount, true perSecond flag, and StatValues.liquids rows; live UI Table mutation and concrete Liquid binding deferred."
     }
   }
 }

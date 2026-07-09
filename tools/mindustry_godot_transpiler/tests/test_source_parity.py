@@ -1469,6 +1469,25 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_filter_display_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_display_source"))
+        report = source_parity.verify_consume_liquid_filter_display_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java")
+        self.assertEqual(report["checked"], {
+            "method": "public void display(Stats stats){",
+            "stats_add_expr": "stats.add(booster ? Stat.booster : Stat.input, StatValues.liquids(filter, amount * 60f, true));",
+            "stats_add_method": "public void add(Stat stat, StatValue value){",
+            "stat_values_liquids_method": "public static StatValue liquids(Boolf<Liquid> filter, float amount, boolean perSecond){",
+            "content_filter_expr": "Seq<Liquid> list = content.liquids().select(i -> filter.get(i) && i.unlockedNow() && !i.isHidden());",
+            "display_liquid_expr": "table.add(displayLiquid(list.get(i), amount, perSecond)).padRight(5);",
+            "separator_guard_expr": "if(i != list.size - 1){",
+            "separator_expr": "table.add(\"/\");",
+            "booster_field": "public boolean booster;",
+            "stat_booster": "booster = new Stat(\"booster\", StatCat.optional),",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_filter_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_consumes_source"))
         report = source_parity.verify_consume_liquid_filter_consumes_source(ROOT / "mindustry-upstream")
