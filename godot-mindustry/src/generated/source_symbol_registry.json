@@ -124616,6 +124616,91 @@
         "test_generated_consume_item_explosive_constructor_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.source_consume_item_explosive_constructor_state"
+    },
+    "consume_item_explosive_default_constructor.constructor": {
+      "status": "source-backed",
+      "source_slice": "N1484",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "java_expr": "public ConsumeItemExplosive(){",
+      "godot_symbol": "source_consume_item_explosive_default_constructor_result.constructor",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "rule": "Canonical ConsumeItemExplosive default constructor boundary.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
+    },
+    "consume_item_explosive_default_constructor.default_call": {
+      "status": "source-backed",
+      "source_slice": "N1484",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "java_expr": "this(0.2f);",
+      "godot_symbol": "source_consume_item_explosive_default_constructor_result.min_explosiveness_after",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "rule": "Default constructor delegates to this(0.2f).",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
+    },
+    "consume_item_explosive_default_constructor.default_min_charge": {
+      "status": "source-backed",
+      "source_slice": "N1484",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "java_expr": "this(0.2f);",
+      "godot_symbol": "source_consume_item_explosive_default_constructor_result.default_min_charge",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "rule": "Canonical default minCharge literal from constructor delegation.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
+    },
+    "consume_item_explosive_default_constructor.typed_constructor": {
+      "status": "source-backed",
+      "source_slice": "N1484",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "java_expr": "public ConsumeItemExplosive(float minCharge){",
+      "godot_symbol": "source_consume_item_explosive_default_constructor_result.typed_constructor_expr",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "rule": "Typed constructor target for default delegation.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
+    },
+    "consume_item_explosive_default_constructor.assignment": {
+      "status": "source-backed",
+      "source_slice": "N1484",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "java_expr": "this.minExplosiveness = minCharge;",
+      "godot_symbol": "source_consume_item_explosive_default_constructor_result.min_explosiveness_after",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "rule": "Delegated constructor assigns default minCharge to minExplosiveness field.",
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_explosive_default_constructor_state"
     }
   },
   "version": 1

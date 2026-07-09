@@ -931,6 +931,19 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_item_explosive_default_constructor_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_item_explosive_default_constructor_source"))
+        report = source_parity.verify_consume_item_explosive_default_constructor_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeItemExplosive.java")
+        self.assertEqual(report["checked"], {
+            "constructor": "public ConsumeItemExplosive(){",
+            "default_call": "this(0.2f);",
+            "typed_constructor": "public ConsumeItemExplosive(float minCharge){",
+            "assignment": "this.minExplosiveness = minCharge;",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_item_radioactive_item_efficiency_multiplier_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_item_radioactive_item_efficiency_multiplier_source"))
         report = source_parity.verify_consume_item_radioactive_item_efficiency_multiplier_source(ROOT / "mindustry-upstream")

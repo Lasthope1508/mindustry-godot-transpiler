@@ -23,3 +23,9 @@ func java_constructor_ConsumeItemExplosive_0(_args: Array = []) -> Variant:
 	var min_explosiveness_after: float = min_charge
 	var filter_expr: String = "item -> item.explosiveness >= this.minExplosiveness"
 	return {"source_owner": "PortGame.source_consume_item_explosive_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java", "constructor": "public ConsumeItemExplosive(float minCharge){", "min_explosiveness_field": "public float minExplosiveness;", "assignment_expr": "this.minExplosiveness = minCharge;", "filter_assignment_expr": "filter = item -> item.explosiveness >= this.minExplosiveness;", "filter_expr": filter_expr, "item_explosiveness_field": "public float explosiveness = 0f;", "min_charge": min_charge, "min_explosiveness_after": min_explosiveness_after}
+
+func java_constructor_ConsumeItemExplosive_1(_args: Array = []) -> Variant:
+	var min_charge: float = 0.2
+	var min_explosiveness_after: float = min_charge
+	var filter_expr: String = "item -> item.explosiveness >= this.minExplosiveness"
+	return {"source_owner": "PortGame.source_consume_item_explosive_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java", "constructor": "public ConsumeItemExplosive(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemExplosive(float minCharge){", "assignment_expr": "this.minExplosiveness = minCharge;", "filter_assignment_expr": "filter = item -> item.explosiveness >= this.minExplosiveness;", "filter_expr": filter_expr, "default_min_charge": 0.2, "min_explosiveness_after": min_explosiveness_after}

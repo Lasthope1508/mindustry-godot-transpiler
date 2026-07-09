@@ -308,6 +308,29 @@
       ],
       "runtime_proof": "/root/Main.generated_consume_item_explosive_constructor_bridge_state",
       "rule": "Consumer shard mirror for ConsumeItemExplosive constructor; canonical data remains source_slice_ledger.N1483."
+    },
+    "N1484": {
+      "status": "done",
+      "canonical_ledger": "source_slice_ledger.N1484",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemExplosive.java",
+      "java_method": "ConsumeItemExplosive()",
+      "godot_owner": "PortGame.source_consume_item_explosive_default_constructor_state",
+      "generated_owner": "ConsumeItemExplosive.java_constructor_ConsumeItemExplosive_1",
+      "source_symbols": [
+        "consume_item_explosive_default_constructor.constructor",
+        "consume_item_explosive_default_constructor.default_call",
+        "consume_item_explosive_default_constructor.default_min_charge",
+        "consume_item_explosive_default_constructor.typed_constructor",
+        "consume_item_explosive_default_constructor.assignment"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_explosive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_explosive_default_constructor_bridge_state",
+        "test_consume_item_explosive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_explosive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_item_explosive_default_constructor_bridge_state",
+      "rule": "Consumer shard mirror for ConsumeItemExplosive default constructor; canonical data remains source_slice_ledger.N1484."
     }
   },
   "version": 1
