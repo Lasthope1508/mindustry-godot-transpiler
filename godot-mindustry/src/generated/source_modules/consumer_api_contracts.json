@@ -1030,6 +1030,65 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
       "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported."
+    },
+    "PortGame.source_consume_liquid_filter_update_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquid_filter_update_state",
+      "status": "source-backed",
+      "source_slice": "N1501",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "source_method": "update(Building build)",
+      "params": [
+        {
+          "name": "consumed_liquid",
+          "type": "Variant",
+          "schema": "source_consume_liquid_filter_update_input.consumed_liquid",
+          "java_expr": "Liquid liq = getConsumed(build);"
+        },
+        {
+          "name": "amount",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_update_input.amount",
+          "java_expr": "amount"
+        },
+        {
+          "name": "build_edelta",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_update_input.build_edelta",
+          "java_expr": "build.edelta()"
+        },
+        {
+          "name": "multiplier_get_build",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_update_input.multiplier_get_build",
+          "java_expr": "multiplier.get(build)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "get_consumed_expr",
+        "guard_expr",
+        "remove_expr",
+        "amount_expr",
+        "build_edelta_expr",
+        "multiplier_get_build_expr",
+        "consumed_liquid",
+        "amount",
+        "build_edelta",
+        "multiplier_get_build",
+        "remove_called",
+        "remove_amount",
+        "remove_call"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
+        "test_consume_liquid_filter_update_matches_upstream_source",
+        "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_update_state",
+      "rule": "Source update gets Liquid liq = getConsumed(build), only removes liquid when liq != null, and removes amount * build.edelta() * multiplier.get(build); consumed_liquid and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported."
     }
   }
 }

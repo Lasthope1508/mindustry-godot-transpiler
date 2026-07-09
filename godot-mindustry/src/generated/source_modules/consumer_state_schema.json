@@ -2950,6 +2950,140 @@
           "java_expr": "return liq;"
         }
       }
+    },
+    "source_consume_liquid_filter_update_input": {
+      "canonical_schema": "source_state_schema.source_consume_liquid_filter_update_input",
+      "status": "source-backed",
+      "source_slice": "N1501",
+      "keys": {
+        "consumed_liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "Liquid liq = getConsumed(build);"
+        },
+        "amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "amount"
+        },
+        "build_edelta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "build.edelta()"
+        },
+        "multiplier_get_build": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "multiplier.get(build)"
+        }
+      }
+    },
+    "source_consume_liquid_filter_update_result": {
+      "canonical_schema": "source_state_schema.source_consume_liquid_filter_update_result",
+      "status": "source-backed",
+      "source_slice": "N1501",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "canonical-owner",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "update(Building build)"
+        },
+        "source": {
+          "type": "String",
+          "status": "source-path",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "public void update(Building build){"
+        },
+        "get_consumed_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "Liquid liq = getConsumed(build);"
+        },
+        "guard_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "if(liq != null){"
+        },
+        "remove_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));"
+        },
+        "amount_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "amount"
+        },
+        "build_edelta_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "build.edelta()"
+        },
+        "multiplier_get_build_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "multiplier.get(build)"
+        },
+        "consumed_liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "Liquid liq = getConsumed(build);"
+        },
+        "amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+          "java_expr": "amount"
+        },
+        "build_edelta": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "java_expr": "build.edelta()"
+        },
+        "multiplier_get_build": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/Consume.java",
+          "java_expr": "multiplier.get(build)"
+        },
+        "remove_called": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "if(liq != null){"
+        },
+        "remove_amount": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "amount * build.edelta() * multiplier.get(build)"
+        },
+        "remove_call": {
+          "type": "Dictionary",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));"
+        }
+      }
     }
   },
   "version": 1

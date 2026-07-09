@@ -1181,6 +1181,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidFilter.getConsumed"', source)
         self.assertIn('"matches": result.get("consumed_liquid", null) == canonical.get("consumed_liquid", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_filter_update_state(consumed_liquid: Variant, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"', source)
+        self.assertIn('"method": "public void update(Building build){"', source)
+        self.assertIn('"get_consumed_expr": "Liquid liq = getConsumed(build);"', source)
+        self.assertIn('"guard_expr": "if(liq != null){"', source)
+        self.assertIn('"remove_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));"', source)
+        self.assertIn("var remove_called: bool = consumed_liquid != null", source)
+        self.assertIn("var remove_amount: float = amount * build_edelta * multiplier_get_build if remove_called else 0.0", source)
+        self.assertIn("func generated_consume_liquid_filter_update_bridge_state(consumed_liquid: Variant, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")', source)
+        self.assertIn("var result = instance.java_method_update_2([consumed_liquid, amount, build_edelta, multiplier_get_build])", source)
+        self.assertIn("var canonical = source_consume_liquid_filter_update_state(consumed_liquid, amount, build_edelta, multiplier_get_build)", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_filter_update_state"', source)
+        self.assertIn('"generated_owner": "ConsumeLiquidFilter.update"', source)
+        self.assertIn('"matches": result.get("remove_call", {}) == canonical.get("remove_call", {})', source)
+
     def test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

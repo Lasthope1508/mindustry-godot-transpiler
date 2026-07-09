@@ -1753,6 +1753,21 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
         and type_entry.get("name") == "ConsumeLiquidFilter"
+        and method.get("name") == "update"
+    ):
+        return [
+            "\tvar consumed_liquid: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar amount: float = float(_args[1] if _args.size() > 1 else 0.0)",
+            "\tvar build_edelta: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar multiplier_get_build: float = float(_args[3] if _args.size() > 3 else 1.0)",
+            "\tvar remove_called: bool = consumed_liquid != null",
+            "\tvar remove_amount: float = amount * build_edelta * multiplier_get_build if remove_called else 0.0",
+            '\tvar remove_call: Dictionary = {"call": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));", "liquid": consumed_liquid, "amount": remove_amount} if remove_called else {}',
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_update_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public void update(Building build){", "get_consumed_expr": "Liquid liq = getConsumed(build);", "guard_expr": "if(liq != null){", "remove_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));", "amount_expr": "amount", "build_edelta_expr": "build.edelta()", "multiplier_get_build_expr": "multiplier.get(build)", "consumed_liquid": consumed_liquid, "amount": amount, "build_edelta": build_edelta, "multiplier_get_build": multiplier_get_build, "remove_called": remove_called, "remove_amount": remove_amount, "remove_call": remove_call}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+        and type_entry.get("name") == "ConsumeLiquidFilter"
         and method.get("name") == "getConsumed"
     ):
         return [

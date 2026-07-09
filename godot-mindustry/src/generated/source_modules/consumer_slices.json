@@ -654,6 +654,33 @@
         "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
       ],
       "runtime_proof": "/root/Main.generated_consume_liquid_filter_get_consumed_bridge_state"
+    },
+    "N1501": {
+      "canonical_ledger": "source_slice_ledger.N1501",
+      "title": "Generated ConsumeLiquidFilter update bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_class": "ConsumeLiquidFilter",
+      "java_method": "update(Building build)",
+      "generated_owner": "ConsumeLiquidFilter.java_method_update_2",
+      "godot_owner": "PortGame.source_consume_liquid_filter_update_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_update_bridge_state",
+      "source_symbols": [
+        "consume_liquid_filter_update.method",
+        "consume_liquid_filter_update.consumed_liquid",
+        "consume_liquid_filter_update.amount",
+        "consume_liquid_filter_update.build_edelta",
+        "consume_liquid_filter_update.multiplier_get_build",
+        "consume_liquid_filter_update.remove_called",
+        "consume_liquid_filter_update.remove_amount",
+        "consume_liquid_filter_update.remove_call"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
+        "test_consume_liquid_filter_update_matches_upstream_source",
+        "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

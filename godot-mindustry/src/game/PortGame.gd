@@ -3561,6 +3561,42 @@ func generated_consume_liquid_filter_get_consumed_bridge_state(current_liquid: V
 		"matches": result.get("consumed_liquid", null) == canonical.get("consumed_liquid", null) and result.get("consumed_index", null) == canonical.get("consumed_index", null) and result.get("current_branch_matched", null) == canonical.get("current_branch_matched", null) and result.get("checked_liquids", []) == canonical.get("checked_liquids", []),
 	}
 
+func source_consume_liquid_filter_update_state(consumed_liquid: Variant, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	var remove_called: bool = consumed_liquid != null
+	var remove_amount: float = amount * build_edelta * multiplier_get_build if remove_called else 0.0
+	var remove_call: Dictionary = {"call": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));", "liquid": consumed_liquid, "amount": remove_amount} if remove_called else {}
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_update_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+		"method": "public void update(Building build){",
+		"get_consumed_expr": "Liquid liq = getConsumed(build);",
+		"guard_expr": "if(liq != null){",
+		"remove_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));",
+		"amount_expr": "amount",
+		"build_edelta_expr": "build.edelta()",
+		"multiplier_get_build_expr": "multiplier.get(build)",
+		"consumed_liquid": consumed_liquid,
+		"amount": amount,
+		"build_edelta": build_edelta,
+		"multiplier_get_build": multiplier_get_build,
+		"remove_called": remove_called,
+		"remove_amount": remove_amount,
+		"remove_call": remove_call,
+	}
+
+func generated_consume_liquid_filter_update_bridge_state(consumed_liquid: Variant, amount: float, build_edelta: float, multiplier_get_build: float) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_update_2([consumed_liquid, amount, build_edelta, multiplier_get_build])
+	var canonical = source_consume_liquid_filter_update_state(consumed_liquid, amount, build_edelta, multiplier_get_build)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_update_state",
+		"generated_owner": "ConsumeLiquidFilter.update",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("remove_call", {}) == canonical.get("remove_call", {}) and result.get("remove_called", null) == canonical.get("remove_called", null) and result.get("remove_amount", null) == canonical.get("remove_amount", null),
+	}
+
 func source_consume_liquid_filter_liquid_efficiency_multiplier_state() -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

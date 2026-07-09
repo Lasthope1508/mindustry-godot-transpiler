@@ -126282,6 +126282,142 @@
       "status": "source-backed",
       "java_expr": "return liq;",
       "godot_symbol": "source_consume_liquid_filter_get_consumed_result.consumed_liquid"
+    },
+    "consume_liquid_filter_update.method": {
+      "source_slice": "N1501",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_update_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
+        "test_consume_liquid_filter_update_matches_upstream_source",
+        "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_update_state",
+      "rule": "Source update gets Liquid liq = getConsumed(build), only removes liquid when liq != null, and removes amount * build.edelta() * multiplier.get(build); consumed_liquid and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "public void update(Building build){",
+      "godot_symbol": "source_consume_liquid_filter_update_result.method"
+    },
+    "consume_liquid_filter_update.consumed_liquid": {
+      "source_slice": "N1501",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_update_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
+        "test_consume_liquid_filter_update_matches_upstream_source",
+        "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_update_state",
+      "rule": "Source update gets Liquid liq = getConsumed(build), only removes liquid when liq != null, and removes amount * build.edelta() * multiplier.get(build); consumed_liquid and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "explicit-input",
+      "java_expr": "Liquid liq = getConsumed(build);",
+      "godot_symbol": "source_consume_liquid_filter_update_input.consumed_liquid"
+    },
+    "consume_liquid_filter_update.amount": {
+      "source_slice": "N1501",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_update_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
+        "test_consume_liquid_filter_update_matches_upstream_source",
+        "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_update_state",
+      "rule": "Source update gets Liquid liq = getConsumed(build), only removes liquid when liq != null, and removes amount * build.edelta() * multiplier.get(build); consumed_liquid and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidBase.java",
+      "status": "explicit-input",
+      "java_expr": "amount",
+      "godot_symbol": "source_consume_liquid_filter_update_input.amount"
+    },
+    "consume_liquid_filter_update.build_edelta": {
+      "source_slice": "N1501",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_update_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
+        "test_consume_liquid_filter_update_matches_upstream_source",
+        "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_update_state",
+      "rule": "Source update gets Liquid liq = getConsumed(build), only removes liquid when liq != null, and removes amount * build.edelta() * multiplier.get(build); consumed_liquid and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+      "status": "explicit-input",
+      "java_expr": "build.edelta()",
+      "godot_symbol": "source_consume_liquid_filter_update_input.build_edelta"
+    },
+    "consume_liquid_filter_update.multiplier_get_build": {
+      "source_slice": "N1501",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_update_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
+        "test_consume_liquid_filter_update_matches_upstream_source",
+        "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_update_state",
+      "rule": "Source update gets Liquid liq = getConsumed(build), only removes liquid when liq != null, and removes amount * build.edelta() * multiplier.get(build); consumed_liquid and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/Consume.java",
+      "status": "explicit-input",
+      "java_expr": "multiplier.get(build)",
+      "godot_symbol": "source_consume_liquid_filter_update_input.multiplier_get_build"
+    },
+    "consume_liquid_filter_update.remove_called": {
+      "source_slice": "N1501",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_update_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
+        "test_consume_liquid_filter_update_matches_upstream_source",
+        "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_update_state",
+      "rule": "Source update gets Liquid liq = getConsumed(build), only removes liquid when liq != null, and removes amount * build.edelta() * multiplier.get(build); consumed_liquid and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "if(liq != null){",
+      "godot_symbol": "source_consume_liquid_filter_update_result.remove_called"
+    },
+    "consume_liquid_filter_update.remove_amount": {
+      "source_slice": "N1501",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_update_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
+        "test_consume_liquid_filter_update_matches_upstream_source",
+        "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_update_state",
+      "rule": "Source update gets Liquid liq = getConsumed(build), only removes liquid when liq != null, and removes amount * build.edelta() * multiplier.get(build); consumed_liquid and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "amount * build.edelta() * multiplier.get(build)",
+      "godot_symbol": "source_consume_liquid_filter_update_result.remove_amount"
+    },
+    "consume_liquid_filter_update.remove_call": {
+      "source_slice": "N1501",
+      "java_method": "update(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_update_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_update_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_update_bridge_state",
+        "test_consume_liquid_filter_update_matches_upstream_source",
+        "test_generated_consume_liquid_filter_update_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_update_state",
+      "rule": "Source update gets Liquid liq = getConsumed(build), only removes liquid when liq != null, and removes amount * build.edelta() * multiplier.get(build); consumed_liquid and multiplier result are explicit inputs until concrete Building/Liquid/Floatf binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));",
+      "godot_symbol": "source_consume_liquid_filter_update_result.remove_call"
     }
   },
   "version": 1

@@ -1563,6 +1563,31 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_filter_update_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_update_source"))
+        report = source_parity.verify_consume_liquid_filter_update_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java")
+        self.assertIn("core/src/mindustry/world/consumers/Consume.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/consumers/ConsumeLiquidBase.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/modules/LiquidModule.java", report["sources"])
+        self.assertIn("core/src/mindustry/entities/comp/BuildingComp.java", report["sources"])
+        self.assertIn("arc-core/src/arc/func/Floatf.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "method": "public void update(Building build){",
+            "get_consumed_expr": "Liquid liq = getConsumed(build);",
+            "guard_expr": "if(liq != null){",
+            "remove_expr": "build.liquids.remove(liq, amount * build.edelta() * multiplier.get(build));",
+            "amount_field": "public float amount;",
+            "multiplier_field": "public Floatf<Building> multiplier = b -> 1f;",
+            "floatf_get": "float get(T t);",
+            "liquid_module_remove": "public void remove(Liquid liquid, float amount){",
+            "building_liquids_field": "@Nullable LiquidModule liquids;",
+            "building_edelta_method": "public float edelta(){",
+            "next_method": "public float efficiency(Building build){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_filter_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_consumes_source"))
         report = source_parity.verify_consume_liquid_filter_consumes_source(ROOT / "mindustry-upstream")
