@@ -1253,6 +1253,55 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_filter_build_state",
       "rule": "Generated bridge models exact ConsumeLiquidFilter.build MultiReqImage list construction; filtered_liquid_ids and consumed_liquid remain explicit inputs until live content.liquids(), Liquid uiIcon objects, and getConsumed(Building) dispatch are ported."
+    },
+    "PortGame.source_consume_liquids_build_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_liquids_build_state",
+      "status": "active",
+      "source_slice": "N1506",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "source_method": "build(Building build, Table table)",
+      "params": [
+        {
+          "java_expr": "stack.liquid.id",
+          "name": "liquid_ids",
+          "schema": "source_consume_liquids_build_input.liquid_ids",
+          "type": "Array"
+        },
+        {
+          "java_expr": "build.liquids.get(stack.liquid)",
+          "name": "liquid_amounts",
+          "schema": "source_consume_liquids_build_input.liquid_amounts",
+          "type": "Array"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "table_expr",
+        "i_initial_expr",
+        "loop_expr",
+        "add_expr",
+        "valid_expr",
+        "row_expr",
+        "table_left_expr",
+        "req_image_constructor",
+        "req_image_valid",
+        "vars_icon_med",
+        "liquid_ids",
+        "liquid_amounts",
+        "req_images",
+        "row_calls",
+        "table_left"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_build_bridge_state",
+        "test_consume_liquids_build_matches_upstream_source",
+        "test_generated_consume_liquids_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_build_state",
+      "rule": "Public runtime contract for ConsumeLiquids.build(Building, Table) ReqImage state."
     }
   }
 }

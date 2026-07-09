@@ -762,6 +762,26 @@
         "test_consume_liquid_filter_build_matches_upstream_source",
         "test_generated_consume_liquid_filter_build_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1506": {
+      "canonical_ledger": "source_slice_ledger.N1506",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "build(Building build, Table table)",
+      "godot_owner": "PortGame.source_consume_liquids_build_state",
+      "generated_owner": "ConsumeLiquids.java_method_build_1",
+      "source_symbols": [
+        "consume_liquids_build.req_image",
+        "consume_liquids_build.liquid_amounts",
+        "consume_liquids_build.row"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquids_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_build_bridge_state",
+        "test_consume_liquids_build_matches_upstream_source",
+        "test_generated_consume_liquids_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_consume_liquids_build_bridge_state"
     }
   },
   "version": 1

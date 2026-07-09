@@ -5585,6 +5585,67 @@ def verify_consume_liquids_apply_source(upstream_root: Path) -> dict[str, Any]:
         "missing": missing,
     }
 
+def verify_consume_liquids_build_source(upstream_root: Path) -> dict[str, Any]:
+    consume_liquids_source = "core/src/mindustry/world/consumers/ConsumeLiquids.java"
+    req_image_source = "core/src/mindustry/ui/ReqImage.java"
+    vars_source = "core/src/mindustry/Vars.java"
+    liquid_module_source = "core/src/mindustry/world/modules/LiquidModule.java"
+    liquid_stack_source = "core/src/mindustry/type/LiquidStack.java"
+    cell_source = "arc-core/src/arc/scene/ui/layout/Cell.java"
+    upstream_root = Path(upstream_root)
+    arc_root = upstream_root.parent / "arc-upstream"
+    source = (upstream_root / consume_liquids_source).read_text(encoding="utf-8", errors="replace")
+    req_image_text = (upstream_root / req_image_source).read_text(encoding="utf-8", errors="replace")
+    vars_text = (upstream_root / vars_source).read_text(encoding="utf-8", errors="replace")
+    liquid_module_text = (upstream_root / liquid_module_source).read_text(encoding="utf-8", errors="replace")
+    liquid_stack_text = (upstream_root / liquid_stack_source).read_text(encoding="utf-8", errors="replace")
+    cell_text = (arc_root / cell_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "liquids_field": "public final LiquidStack[] liquids;",
+        "method": "public void build(Building build, Table table){",
+        "table_expr": "table.table(c -> {",
+        "i_initial_expr": "int i = 0;",
+        "loop_expr": "for(var stack : liquids){",
+        "add_expr": "c.add(new ReqImage(stack.liquid.uiIcon,",
+        "valid_expr": "() -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+        "row_expr": "if(++i % 4 == 0) c.row();",
+        "table_left_expr": "}).left();",
+        "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+        "req_image_valid": "public boolean valid(){",
+        "vars_icon_med": "iconMed = 8*4f",
+        "liquid_stack_liquid_field": "public Liquid liquid;",
+        "liquid_module_get": "public float get(Liquid liquid){",
+        "cell_size": "public Cell<T> size(float size){",
+        "cell_pad_right": "public Cell<T> padRight(float padRight){",
+        "cell_left": "public Cell<T> left(){",
+    }
+    source_by_key = {
+        "liquids_field": source,
+        "method": source,
+        "table_expr": source,
+        "i_initial_expr": source,
+        "loop_expr": source,
+        "add_expr": source,
+        "valid_expr": source,
+        "row_expr": source,
+        "table_left_expr": source,
+        "req_image_constructor": req_image_text,
+        "req_image_valid": req_image_text,
+        "vars_icon_med": vars_text,
+        "liquid_stack_liquid_field": liquid_stack_text,
+        "liquid_module_get": liquid_module_text,
+        "cell_size": cell_text,
+        "cell_pad_right": cell_text,
+        "cell_left": cell_text,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquids_source,
+        "sources": [req_image_source, vars_source, liquid_module_source, liquid_stack_source, cell_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquids_dynamic_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquids_dynamic_source = "core/src/mindustry/world/consumers/ConsumeLiquidsDynamic.java"
     block_source = "core/src/mindustry/world/Block.java"

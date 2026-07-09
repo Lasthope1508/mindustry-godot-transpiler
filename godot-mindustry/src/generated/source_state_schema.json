@@ -159098,6 +159098,74 @@
           "java_expr": "table.add(image).size(8 * 4);"
         }
       }
+    },
+    "source_consume_liquids_build_input": {
+      "keys": {
+        "liquid_ids": {
+          "godot_symbol": "source_consume_liquids_build_input.liquid_ids",
+          "java_expr": "stack.liquid.id",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+          "rule": "source_consume_liquids_build_input key liquid_ids.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_build_state"
+          ]
+        },
+        "liquid_amounts": {
+          "godot_symbol": "source_consume_liquids_build_input.liquid_amounts",
+          "java_expr": "build.liquids.get(stack.liquid)",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+          "rule": "source_consume_liquids_build_input key liquid_amounts.",
+          "status": "explicit-input",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_build_state"
+          ]
+        }
+      }
+    },
+    "source_consume_liquids_build_result": {
+      "keys": {
+        "req_images": {
+          "godot_symbol": "source_consume_liquids_build_result.req_images",
+          "java_expr": "c.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+          "rule": "source_consume_liquids_build_result key req_images.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_build_state"
+          ]
+        },
+        "row_calls": {
+          "godot_symbol": "source_consume_liquids_build_result.row_calls",
+          "java_expr": "if(++i % 4 == 0) c.row();",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+          "rule": "source_consume_liquids_build_result key row_calls.",
+          "status": "source-backed",
+          "type": "Array",
+          "used_by": [
+            "PortGame.source_consume_liquids_build_state"
+          ]
+        },
+        "table_left": {
+          "godot_symbol": "source_consume_liquids_build_result.table_left",
+          "java_expr": "}).left();",
+          "java_method": "build(Building build, Table table)",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+          "rule": "source_consume_liquids_build_result key table_left.",
+          "status": "source-backed",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_consume_liquids_build_state"
+          ]
+        }
+      }
     }
   },
   "version": 1

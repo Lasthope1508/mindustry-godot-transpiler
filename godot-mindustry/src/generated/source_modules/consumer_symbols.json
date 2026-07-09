@@ -4372,6 +4372,57 @@
       "runtime_proof": "/root/Main.source_consume_liquid_filter_build_state",
       "rule": "Source table cell size from exact 8 * 4 expression.",
       "source_slice": "N1504"
+    },
+    "consume_liquids_build.req_image": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_build.req_image",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "c.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+      "godot_symbol": "source_consume_liquids_build_result.req_images",
+      "godot_owner": "PortGame.source_consume_liquids_build_state",
+      "rule": "ConsumeLiquids.build adds a ReqImage for each static liquid stack using source icon, validity predicate, icon size, and right padding.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_build_bridge_state",
+        "test_consume_liquids_build_matches_upstream_source",
+        "test_generated_consume_liquids_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_build_state"
+    },
+    "consume_liquids_build.liquid_amounts": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_build.liquid_amounts",
+      "status": "explicit-input",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "build.liquids.get(stack.liquid)",
+      "godot_symbol": "source_consume_liquids_build_input.liquid_amounts",
+      "godot_owner": "PortGame.source_consume_liquids_build_state",
+      "rule": "Runtime liquid_amounts supply the source validity predicate until concrete Building LiquidModule reads are wired.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_build_bridge_state",
+        "test_consume_liquids_build_matches_upstream_source",
+        "test_generated_consume_liquids_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_build_state"
+    },
+    "consume_liquids_build.row": {
+      "canonical_symbol": "source_symbol_registry.consume_liquids_build.row",
+      "status": "source-backed",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "java_method": "build(Building build, Table table)",
+      "java_expr": "if(++i % 4 == 0) c.row();",
+      "godot_symbol": "source_consume_liquids_build_result.row_calls",
+      "godot_owner": "PortGame.source_consume_liquids_build_state",
+      "rule": "ConsumeLiquids.build adds a row after every fourth ReqImage.",
+      "tests": [
+        "test_emit_bridges_consume_liquids_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_build_bridge_state",
+        "test_consume_liquids_build_matches_upstream_source",
+        "test_generated_consume_liquids_build_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquids_build_state"
     }
   }
 }

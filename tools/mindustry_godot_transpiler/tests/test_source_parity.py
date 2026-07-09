@@ -1731,6 +1731,37 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquids_build_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquids_build_source"))
+        report = source_parity.verify_consume_liquids_build_source(ROOT / "mindustry-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquids.java")
+        self.assertIn("core/src/mindustry/ui/ReqImage.java", report["sources"])
+        self.assertIn("core/src/mindustry/Vars.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/modules/LiquidModule.java", report["sources"])
+        self.assertIn("core/src/mindustry/type/LiquidStack.java", report["sources"])
+        self.assertIn("arc-core/src/arc/scene/ui/layout/Cell.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "liquids_field": "public final LiquidStack[] liquids;",
+            "method": "public void build(Building build, Table table){",
+            "table_expr": "table.table(c -> {",
+            "i_initial_expr": "int i = 0;",
+            "loop_expr": "for(var stack : liquids){",
+            "add_expr": "c.add(new ReqImage(stack.liquid.uiIcon,",
+            "valid_expr": "() -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+            "row_expr": "if(++i % 4 == 0) c.row();",
+            "table_left_expr": "}).left();",
+            "req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+            "req_image_valid": "public boolean valid(){",
+            "vars_icon_med": "iconMed = 8*4f",
+            "liquid_stack_liquid_field": "public Liquid liquid;",
+            "liquid_module_get": "public float get(Liquid liquid){",
+            "cell_size": "public Cell<T> size(float size){",
+            "cell_pad_right": "public Cell<T> padRight(float padRight){",
+            "cell_left": "public Cell<T> left(){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquids_dynamic_apply_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquids_dynamic_apply_source"))
         report = source_parity.verify_consume_liquids_dynamic_apply_source(ROOT / "mindustry-upstream")

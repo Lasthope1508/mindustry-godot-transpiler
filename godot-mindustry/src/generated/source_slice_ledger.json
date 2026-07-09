@@ -38061,6 +38061,51 @@
         "Live Liquid.uiIcon, ReqImage UI element, and getConsumed(Building) callback dispatch remain represented as source-backed records."
       ],
       "rule": "Generated bridge models exact ConsumeLiquidFilter.build MultiReqImage list construction; filtered_liquid_ids and consumed_liquid remain explicit inputs until live content.liquids(), Liquid uiIcon objects, and getConsumed(Building) dispatch are ported."
+    },
+    "N1506": {
+      "deferred_exprs": [
+        "Concrete LiquidStack, Liquid, ReqImage, Table, and TextureRegion object binding remain later slices.",
+        "This slice records UI build state only and does not mutate live Arc scene graph widgets."
+      ],
+      "exact_exprs": [
+        "public final LiquidStack[] liquids;",
+        "public void build(Building build, Table table){",
+        "table.table(c -> {",
+        "int i = 0;",
+        "for(var stack : liquids){",
+        "c.add(new ReqImage(stack.liquid.uiIcon,",
+        "() -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+        "if(++i % 4 == 0) c.row();",
+        "}).left();",
+        "public ReqImage(TextureRegion region, Boolp valid){",
+        "public boolean valid(){",
+        "iconMed = 8*4f",
+        "public Liquid liquid;",
+        "public float get(Liquid liquid){",
+        "public Cell<T> size(float size){",
+        "public Cell<T> padRight(float padRight){",
+        "public Cell<T> left(){"
+      ],
+      "generated_owner": "ConsumeLiquids.java_method_build_1",
+      "godot_owner": "PortGame.source_consume_liquids_build_state",
+      "java_class": "ConsumeLiquids",
+      "java_method": "build(Building build, Table table)",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+      "rule": "Generated ConsumeLiquids.build bridges per-stack ReqImage validity and table row grouping without creating live Arc UI widgets.",
+      "runtime_proof": "/root/Main.generated_consume_liquids_build_bridge_state",
+      "source_symbols": [
+        "consume_liquids_build.req_image",
+        "consume_liquids_build.liquid_amounts",
+        "consume_liquids_build.row"
+      ],
+      "status": "done",
+      "tests": [
+        "test_emit_bridges_consume_liquids_build_to_source_state",
+        "test_port_game_exposes_generated_consume_liquids_build_bridge_state",
+        "test_consume_liquids_build_matches_upstream_source",
+        "test_generated_consume_liquids_build_slice_is_registered_with_source_backing"
+      ],
+      "title": "Generated ConsumeLiquids build bridge state"
     }
   },
   "version": 1

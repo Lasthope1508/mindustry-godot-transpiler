@@ -3918,6 +3918,50 @@ func generated_consume_liquids_apply_bridge_state(block_has_liquids_before: bool
 		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null) and result.get("liquid_filter_after", []) == canonical.get("liquid_filter_after", []),
 	}
 
+func source_consume_liquids_build_state(liquid_ids: Array, liquid_amounts: Array) -> Dictionary:
+	var req_images: Array = []
+	var row_calls: Array = []
+	var icon_size: String = "Vars.iconMed"
+	var pad_right: float = 8.0
+	for index in range(liquid_ids.size()):
+		var amount: float = float(liquid_amounts[index] if index < liquid_amounts.size() else 0.0)
+		req_images.append({"liquid_id": liquid_ids[index], "amount": amount, "valid": amount > 0.0, "icon": "stack.liquid.uiIcon", "size": icon_size, "pad_right": pad_right})
+		if (index + 1) % 4 == 0:
+			row_calls.append(index + 1)
+	return {
+		"source_owner": "PortGame.source_consume_liquids_build_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquids.java",
+		"method": "public void build(Building build, Table table){",
+		"table_expr": "table.table(c -> {",
+		"i_initial_expr": "int i = 0;",
+		"loop_expr": "for(var stack : liquids){",
+		"add_expr": "c.add(new ReqImage(stack.liquid.uiIcon,",
+		"valid_expr": "() -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+		"row_expr": "if(++i % 4 == 0) c.row();",
+		"table_left_expr": "}).left();",
+		"req_image_constructor": "public ReqImage(TextureRegion region, Boolp valid){",
+		"req_image_valid": "public boolean valid(){",
+		"vars_icon_med": "iconMed = 8*4f",
+		"liquid_ids": liquid_ids,
+		"liquid_amounts": liquid_amounts,
+		"req_images": req_images,
+		"row_calls": row_calls,
+		"table_left": true,
+	}
+
+func generated_consume_liquids_build_bridge_state(liquid_ids: Array, liquid_amounts: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquids.gd")
+	var instance = script.new()
+	var result = instance.java_method_build_1([liquid_ids, liquid_amounts])
+	var canonical = source_consume_liquids_build_state(liquid_ids, liquid_amounts)
+	return {
+		"source_owner": "PortGame.source_consume_liquids_build_state",
+		"generated_owner": "ConsumeLiquids.build",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("req_images", []) == canonical.get("req_images", []) and result.get("row_calls", []) == canonical.get("row_calls", []) and result.get("table_left", null) == canonical.get("table_left", null),
+	}
+
 func source_consume_liquids_dynamic_constructor_state(liquids: Variant) -> Dictionary:
 	return {
 		"source_owner": "PortGame.source_consume_liquids_dynamic_constructor_state",

@@ -17799,6 +17799,86 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         result_schema = source_symbols.state_schema(schema, "source_consume_liquids_apply_result")
         self.assertEqual(result_schema["keys"]["liquid_filter_after"]["java_expr"], "block.liquidFilter[stack.liquid.id] = true;")
 
+    def test_generated_consume_liquids_build_slice_is_registered_with_source_backing(self):
+        registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
+        ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
+        contracts = source_symbols.load_source_api_contracts(ROOT / "godot-mindustry")
+        schema = source_symbols.load_source_state_schema(ROOT / "godot-mindustry")
+        consumer_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_slices")
+        consumer_contract_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_api_contracts")
+        consumer_schema_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_state_schema")
+        consumer_symbol_shard = source_symbols.source_ssot.load_registered_json(ROOT / "godot-mindustry", "consumer_symbols")
+        errors = source_symbols.validate_source_symbol_registry(registry)
+        self.assertEqual(errors, [])
+
+        req_image_symbol = source_symbols.source_symbol(registry, "consume_liquids_build.req_image")
+        self.assertEqual(req_image_symbol["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquids.java")
+        self.assertEqual(req_image_symbol["java_method"], "build(Building build, Table table)")
+        self.assertEqual(req_image_symbol["java_expr"], "c.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);")
+        self.assertEqual(req_image_symbol["godot_owner"], "PortGame.source_consume_liquids_build_state")
+        self.assertEqual(req_image_symbol["runtime_proof"], "/root/Main.source_consume_liquids_build_state")
+        self.assertEqual(req_image_symbol["godot_symbol"], "source_consume_liquids_build_result.req_images")
+
+        amount_symbol = source_symbols.source_symbol(registry, "consume_liquids_build.liquid_amounts")
+        self.assertEqual(amount_symbol["java_expr"], "build.liquids.get(stack.liquid)")
+        self.assertEqual(amount_symbol["status"], "explicit-input")
+
+        row_symbol = source_symbols.source_symbol(registry, "consume_liquids_build.row")
+        self.assertEqual(row_symbol["java_expr"], "if(++i % 4 == 0) c.row();")
+        self.assertEqual(row_symbol["godot_symbol"], "source_consume_liquids_build_result.row_calls")
+
+        liquid_slice = source_symbols.source_slice(ledger, "N1506")
+        self.assertEqual(liquid_slice["title"], "Generated ConsumeLiquids build bridge state")
+        self.assertEqual(liquid_slice["java_source"], "core/src/mindustry/world/consumers/ConsumeLiquids.java")
+        self.assertEqual(liquid_slice["java_method"], "build(Building build, Table table)")
+        self.assertEqual(liquid_slice["godot_owner"], "PortGame.source_consume_liquids_build_state")
+        self.assertEqual(liquid_slice["generated_owner"], "ConsumeLiquids.java_method_build_1")
+        self.assertEqual(liquid_slice["runtime_proof"], "/root/Main.generated_consume_liquids_build_bridge_state")
+        self.assertEqual(consumer_shard["slices"]["N1506"]["canonical_ledger"], "source_slice_ledger.N1506")
+        for expr in [
+            "public final LiquidStack[] liquids;",
+            "public void build(Building build, Table table){",
+            "table.table(c -> {",
+            "int i = 0;",
+            "for(var stack : liquids){",
+            "c.add(new ReqImage(stack.liquid.uiIcon,",
+            "() -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);",
+            "if(++i % 4 == 0) c.row();",
+            "}).left();",
+            "iconMed = 8*4f",
+        ]:
+            self.assertIn(expr, liquid_slice["exact_exprs"])
+        self.assertIn("consume_liquids_build.req_image", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquids_build.liquid_amounts", liquid_slice["source_symbols"])
+        self.assertIn("consume_liquids_build.row", liquid_slice["source_symbols"])
+        self.assertEqual(
+            consumer_symbol_shard["symbols"]["consume_liquids_build.req_image"]["canonical_symbol"],
+            "source_symbol_registry.consume_liquids_build.req_image",
+        )
+
+        contract = source_symbols.api_contract(contracts, "PortGame.source_consume_liquids_build_state")
+        self.assertEqual([param["name"] for param in contract["params"]], ["liquid_ids", "liquid_amounts"])
+        self.assertIn("req_images", contract["return_keys"])
+        self.assertIn("row_calls", contract["return_keys"])
+        self.assertEqual(
+            consumer_contract_shard["contracts"]["PortGame.source_consume_liquids_build_state"]["canonical_contract"],
+            "source_api_contracts.PortGame.source_consume_liquids_build_state",
+        )
+        input_schema = source_symbols.state_schema(schema, "source_consume_liquids_build_input")
+        self.assertEqual(input_schema["keys"]["liquid_ids"]["java_expr"], "stack.liquid.id")
+        self.assertEqual(input_schema["keys"]["liquid_amounts"]["java_expr"], "build.liquids.get(stack.liquid)")
+        result_schema = source_symbols.state_schema(schema, "source_consume_liquids_build_result")
+        self.assertEqual(result_schema["keys"]["req_images"]["java_expr"], "c.add(new ReqImage(stack.liquid.uiIcon, () -> build.liquids.get(stack.liquid) > 0)).size(Vars.iconMed).padRight(8);")
+        self.assertEqual(result_schema["keys"]["row_calls"]["java_expr"], "if(++i % 4 == 0) c.row();")
+        self.assertEqual(
+            consumer_schema_shard["schemas"]["source_consume_liquids_build_input"]["canonical_schema"],
+            "source_state_schema.source_consume_liquids_build_input",
+        )
+        self.assertEqual(
+            consumer_schema_shard["schemas"]["source_consume_liquids_build_result"]["canonical_schema"],
+            "source_state_schema.source_consume_liquids_build_result",
+        )
+
     def test_generated_consume_liquids_dynamic_apply_slice_is_registered_with_source_backing(self):
         registry = source_symbols.load_source_symbol_registry(ROOT / "godot-mindustry")
         ledger = source_symbols.load_source_slice_ledger(ROOT / "godot-mindustry")
@@ -25202,10 +25282,10 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         audit = source_symbols.audit_godot_source_symbol_coverage(ROOT / "godot-mindustry", registry)
 
         self.assertGreater(audit["totalSourceFunctions"], 400)
-        self.assertEqual(audit["totalSourceFunctions"], 970)
-        self.assertEqual(audit["registeredSourceOwnerCount"], 965)
+        self.assertEqual(audit["totalSourceFunctions"], 971)
+        self.assertEqual(audit["registeredSourceOwnerCount"], 966)
         self.assertEqual(audit["exemptSourceOwnerCount"], 5)
-        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 970)
+        self.assertEqual(audit["legacyUnregisteredOwnerCount"], audit["totalSourceFunctions"] - 971)
         self.assertIn("PortGame.source_symbol_registry_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_symbol_audit_state", audit["exemptSourceOwners"])
         self.assertIn("PortGame.source_slice_ledger_state", audit["exemptSourceOwners"])
@@ -25240,6 +25320,7 @@ class SourceSymbolRegistryTests(unittest.TestCase):
         self.assertIn("PortGame.source_consume_liquids_dynamic_efficiency_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_update_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquids_dynamic_apply_state", audit["registeredSourceOwners"])
+        self.assertIn("PortGame.source_consume_liquids_build_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquid_filter_liquid_efficiency_multiplier_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquid_filter_display_state", audit["registeredSourceOwners"])
         self.assertIn("PortGame.source_consume_liquid_filter_update_state", audit["registeredSourceOwners"])
