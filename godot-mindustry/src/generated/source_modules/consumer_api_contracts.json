@@ -501,6 +501,34 @@
       ],
       "runtime_proof": "/root/Main.source_consume_item_radioactive_constructor_state",
       "rule": "Source state mirrors constructor assignment and filter expression; live predicate execution deferred."
+    },
+    "PortGame.source_consume_item_radioactive_default_constructor_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_consume_item_radioactive_default_constructor_state",
+      "status": "source-backed",
+      "source_slice": "N1487",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "source_method": "ConsumeItemRadioactive()",
+      "params": [],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "constructor",
+        "default_call_expr",
+        "typed_constructor_expr",
+        "assignment_expr",
+        "filter_assignment_expr",
+        "filter_expr",
+        "default_min_radioactivity",
+        "min_radioactivity_after"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_default_constructor_bridge_state",
+        "test_consume_item_radioactive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_default_constructor_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_item_radioactive_default_constructor_state",
+      "rule": "Source state mirrors default constructor delegation and delegated assignment result; live predicate execution deferred."
     }
   }
 }

@@ -37493,6 +37493,34 @@
         "test_consume_item_radioactive_constructor_matches_upstream_source",
         "test_generated_consume_item_radioactive_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1487": {
+      "title": "Generated ConsumeItemRadioactive default constructor bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+      "java_class": "ConsumeItemRadioactive",
+      "java_method": "ConsumeItemRadioactive()",
+      "generated_owner": "ConsumeItemRadioactive.java_constructor_ConsumeItemRadioactive_1",
+      "godot_owner": "PortGame.source_consume_item_radioactive_default_constructor_state",
+      "runtime_proof": "/root/Main.generated_consume_item_radioactive_default_constructor_bridge_state",
+      "rule": "Generated bridge models exact ConsumeItemRadioactive default constructor delegation without executing live Boolf<Item>.",
+      "exact_exprs": [
+        "public ConsumeItemRadioactive(){",
+        "this(0.2f);",
+        "public ConsumeItemRadioactive(float minRadioactivity){",
+        "this.minRadioactivity = minRadioactivity;"
+      ],
+      "source_symbols": [
+        "consume_item_radioactive_default_constructor.constructor",
+        "consume_item_radioactive_default_constructor.default_call",
+        "consume_item_radioactive_default_constructor.typed_constructor"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_item_radioactive_default_constructor_to_source_state",
+        "test_port_game_exposes_generated_consume_item_radioactive_default_constructor_bridge_state",
+        "test_consume_item_radioactive_default_constructor_matches_upstream_source",
+        "test_generated_consume_item_radioactive_default_constructor_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

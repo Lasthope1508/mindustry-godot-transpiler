@@ -23,3 +23,9 @@ func java_constructor_ConsumeItemRadioactive_0(_args: Array = []) -> Variant:
 	var min_radioactivity_after: float = min_radioactivity
 	var filter_expr: String = "item -> item.radioactivity >= this.minRadioactivity"
 	return {"source_owner": "PortGame.source_consume_item_radioactive_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "constructor": "public ConsumeItemRadioactive(float minRadioactivity){", "min_radioactivity_field": "public float minRadioactivity;", "assignment_expr": "this.minRadioactivity = minRadioactivity;", "filter_assignment_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;", "filter_expr": filter_expr, "item_radioactivity_field": "public float radioactivity;", "min_radioactivity": min_radioactivity, "min_radioactivity_after": min_radioactivity_after}
+
+func java_constructor_ConsumeItemRadioactive_1(_args: Array = []) -> Variant:
+	var min_radioactivity: float = 0.2
+	var min_radioactivity_after: float = min_radioactivity
+	var filter_expr: String = "item -> item.radioactivity >= this.minRadioactivity"
+	return {"source_owner": "PortGame.source_consume_item_radioactive_default_constructor_state", "source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java", "constructor": "public ConsumeItemRadioactive(){", "default_call_expr": "this(0.2f);", "typed_constructor_expr": "public ConsumeItemRadioactive(float minRadioactivity){", "assignment_expr": "this.minRadioactivity = minRadioactivity;", "filter_assignment_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;", "filter_expr": filter_expr, "default_min_radioactivity": 0.2, "min_radioactivity_after": min_radioactivity_after}

@@ -1716,6 +1716,71 @@
           "java_expr": "this.minRadioactivity = minRadioactivity;"
         }
       }
+    },
+    "source_consume_item_radioactive_default_constructor_result": {
+      "canonical_schema": "source_state_schema.source_consume_item_radioactive_default_constructor_result",
+      "status": "source-backed",
+      "source_slice": "N1487",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "PortGame.source_consume_item_radioactive_default_constructor_state"
+        },
+        "source": {
+          "type": "String",
+          "status": "generated",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java"
+        },
+        "constructor": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "public ConsumeItemRadioactive(){"
+        },
+        "default_call_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "this(0.2f);"
+        },
+        "typed_constructor_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "public ConsumeItemRadioactive(float minRadioactivity){"
+        },
+        "assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "this.minRadioactivity = minRadioactivity;"
+        },
+        "filter_assignment_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;"
+        },
+        "filter_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;"
+        },
+        "default_min_radioactivity": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "this(0.2f);"
+        },
+        "min_radioactivity_after": {
+          "type": "float",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+          "java_expr": "this(0.2f);"
+        }
+      }
     }
   },
   "version": 1

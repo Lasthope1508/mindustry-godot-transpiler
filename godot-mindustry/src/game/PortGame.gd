@@ -2508,6 +2508,33 @@ func generated_consume_item_radioactive_constructor_bridge_state(min_radioactivi
 		"matches": result.get("min_radioactivity_after", null) == canonical.get("min_radioactivity_after", null) and result.get("filter_expr", "") == canonical.get("filter_expr", ""),
 	}
 
+func source_consume_item_radioactive_default_constructor_state() -> Dictionary:
+	return {
+		"source_owner": "PortGame.source_consume_item_radioactive_default_constructor_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java",
+		"constructor": "public ConsumeItemRadioactive(){",
+		"default_call_expr": "this(0.2f);",
+		"typed_constructor_expr": "public ConsumeItemRadioactive(float minRadioactivity){",
+		"assignment_expr": "this.minRadioactivity = minRadioactivity;",
+		"filter_assignment_expr": "filter = item -> item.radioactivity >= this.minRadioactivity;",
+		"filter_expr": "item -> item.radioactivity >= this.minRadioactivity",
+		"default_min_radioactivity": 0.2,
+		"min_radioactivity_after": 0.2,
+	}
+
+func generated_consume_item_radioactive_default_constructor_bridge_state() -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeItemRadioactive.gd")
+	var instance = script.new()
+	var result = instance.java_constructor_ConsumeItemRadioactive_1([])
+	var canonical = source_consume_item_radioactive_default_constructor_state()
+	return {
+		"source_owner": "PortGame.source_consume_item_radioactive_default_constructor_state",
+		"generated_owner": "ConsumeItemRadioactive.default_constructor",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("min_radioactivity_after", null) == canonical.get("min_radioactivity_after", null) and result.get("filter_expr", "") == canonical.get("filter_expr", ""),
+	}
+
 func source_consume_item_charged_item_efficiency_multiplier_state(item_charge: float) -> Dictionary:
 	return {
 		"method": "public float itemEfficiencyMultiplier(Item item){",

@@ -17597,6 +17597,50 @@ public class ConsumeItemRadioactive extends ConsumeItemEfficiency{
             self.assertIn('"min_radioactivity": min_radioactivity', source_text)
             self.assertIn('"min_radioactivity_after": min_radioactivity_after', source_text)
 
+    def test_emit_bridges_consume_item_radioactive_default_constructor_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeItemRadioactive.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.type.*;
+
+public class ConsumeItemRadioactive extends ConsumeItemEfficiency{
+    public float minRadioactivity;
+
+    public ConsumeItemRadioactive(float minRadioactivity){
+        this.minRadioactivity = minRadioactivity;
+        filter = item -> item.radioactivity >= this.minRadioactivity;
+    }
+
+    public ConsumeItemRadioactive(){
+        this(0.2f);
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeItemRadioactive.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_constructor_ConsumeItemRadioactive_1(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var min_radioactivity: float = 0.2", source_text)
+            self.assertIn("var min_radioactivity_after: float = min_radioactivity", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_item_radioactive_default_constructor_state"', source_text)
+            self.assertIn('"source": "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java"', source_text)
+            self.assertIn('"constructor": "public ConsumeItemRadioactive(){"', source_text)
+            self.assertIn('"default_call_expr": "this(0.2f);"', source_text)
+            self.assertIn('"typed_constructor_expr": "public ConsumeItemRadioactive(float minRadioactivity){"', source_text)
+            self.assertIn('"default_min_radioactivity": 0.2', source_text)
+            self.assertIn('"min_radioactivity_after": min_radioactivity_after', source_text)
+
     def test_emit_bridges_consume_item_charged_item_efficiency_multiplier_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

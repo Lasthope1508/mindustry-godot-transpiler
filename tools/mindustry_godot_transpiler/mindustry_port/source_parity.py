@@ -4274,6 +4274,23 @@ def verify_consume_item_radioactive_constructor_source(upstream_root: Path) -> d
         "missing": missing,
     }
 
+def verify_consume_item_radioactive_default_constructor_source(upstream_root: Path) -> dict[str, Any]:
+    consume_item_radioactive_source = "core/src/mindustry/world/consumers/ConsumeItemRadioactive.java"
+    consume_item_radioactive_path = Path(upstream_root) / consume_item_radioactive_source
+    source = consume_item_radioactive_path.read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "constructor": "public ConsumeItemRadioactive(){",
+        "default_call": "this(0.2f);",
+        "typed_constructor": "public ConsumeItemRadioactive(float minRadioactivity){",
+        "assignment": "this.minRadioactivity = minRadioactivity;",
+    }
+    missing = [snippet for snippet in checked.values() if snippet not in source]
+    return {
+        "source": consume_item_radioactive_source,
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_item_charged_item_efficiency_multiplier_source(upstream_root: Path) -> dict[str, Any]:
     consume_item_charged_source = "core/src/mindustry/world/consumers/ConsumeItemCharged.java"
     item_source = "core/src/mindustry/type/Item.java"
