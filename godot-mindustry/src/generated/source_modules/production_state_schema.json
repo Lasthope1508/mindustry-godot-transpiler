@@ -1,0 +1,609 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "source_state_schema",
+    "newProductionStateSchemaRequiresCanonicalMirror": true,
+    "source": "Derived from production_api_contracts params and canonical result schemas."
+  },
+  "schemas": {
+    "source_drill_delay_input": {
+      "canonical_schema": "source_state_schema.source_drill_delay_input",
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_drill_delay_input.block_id",
+          "java_expr": "Drill block",
+          "java_method": "getDrillTime(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Godot block_id identifies source Drill instance.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_delay"
+          ]
+        },
+        "item_id": {
+          "godot_symbol": "source_drill_delay_input.item_id",
+          "java_expr": "Item item",
+          "java_method": "getDrillTime(Item item)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Godot item_id identifies source Item item parameter.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_delay"
+          ]
+        }
+      }
+    },
+    "source_drill_dump_interval_input": {
+      "canonical_schema": "source_state_schema.source_drill_dump_interval_input",
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_drill_dump_interval_input.block_id",
+          "java_expr": "Block block",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/Block.java",
+          "rule": "Godot block_id identifies source block dumpTime.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        },
+        "time_scale": {
+          "godot_symbol": "source_drill_dump_interval_input.time_scale",
+          "java_expr": "timeScale",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Godot time_scale supplies source timeScale.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_dump_interval"
+          ]
+        }
+      }
+    },
+    "source_drill_inactive_warmup_input": {
+      "canonical_schema": "source_state_schema.source_drill_inactive_warmup_input",
+      "keys": {
+        "current_warmup": {
+          "godot_symbol": "source_drill_inactive_warmup_input.current_warmup",
+          "java_expr": "warmup",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input current DrillBuild warmup before inactive decay.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_drill_inactive_warmup_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "Mathf.approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Input source Time.delta used by Mathf.approachDelta.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "warmup_speed": {
+          "godot_symbol": "source_drill_inactive_warmup_input.warmup_speed",
+          "java_expr": "warmupSpeed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input Drill warmupSpeed for inactive decay.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        }
+      }
+    },
+    "source_drill_inactive_warmup_result": {
+      "canonical_schema": "source_state_schema.source_drill_inactive_warmup_result",
+      "keys": {
+        "current_warmup": {
+          "alias_of": "source_drill_inactive_warmup_input.current_warmup",
+          "rule": "Carries current warmup input into inactive warmup result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "lastDrillSpeed": {
+          "godot_symbol": "source_drill_inactive_warmup_result.lastDrillSpeed",
+          "java_expr": "lastDrillSpeed = 0f;",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Inactive branch resets lastDrillSpeed to zero.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "source_delta": {
+          "alias_of": "source_drill_inactive_warmup_input.source_delta",
+          "rule": "Carries source delta input into inactive warmup result schema.",
+          "status": "generated",
+          "type": "float"
+        },
+        "warmup": {
+          "godot_symbol": "source_drill_inactive_warmup_result.warmup",
+          "java_expr": "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Inactive branch decays warmup toward zero via Mathf.approachDelta.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "warmupSpeed": {
+          "godot_symbol": "source_drill_inactive_warmup_result.warmupSpeed",
+          "java_expr": "warmupSpeed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Runtime warmup speed used by inactive warmup decay.",
+          "status": "source-backed",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "warmupSpeedField": {
+          "godot_symbol": "source_drill_inactive_warmup_result.warmupSpeedField",
+          "java_expr": "public float warmupSpeed = 0.015f;",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Drill warmupSpeed field declaration.",
+          "status": "source-backed",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_inactive_warmup_state"
+          ]
+        },
+        "warmup_speed": {
+          "alias_of": "source_drill_inactive_warmup_input.warmup_speed",
+          "rule": "Carries warmup speed input into inactive warmup result schema.",
+          "status": "generated",
+          "type": "float"
+        }
+      }
+    },
+    "source_drill_last_speed_input": {
+      "canonical_schema": "source_state_schema.source_drill_last_speed_input",
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_drill_last_speed_input.block_id",
+          "java_expr": "Drill block",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input Drill block identity for getDrillTime.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_last_speed"
+          ]
+        },
+        "dominant_items": {
+          "godot_symbol": "source_drill_last_speed_input.dominant_items",
+          "java_expr": "dominantItems",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild dominantItems count.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_last_speed"
+          ]
+        },
+        "item_id": {
+          "godot_symbol": "source_drill_last_speed_input.item_id",
+          "java_expr": "Item dominantItem",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input dominantItem identity for getDrillTime.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_last_speed"
+          ]
+        },
+        "speed": {
+          "godot_symbol": "source_drill_last_speed_input.speed",
+          "java_expr": "speed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input source local speed after liquid boost and efficiency.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_last_speed"
+          ]
+        },
+        "warmup": {
+          "godot_symbol": "source_drill_last_speed_input.warmup",
+          "java_expr": "warmup",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild warmup before active warmup progression.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_last_speed"
+          ]
+        }
+      }
+    },
+    "source_drill_ore_count_input": {
+      "canonical_schema": "source_state_schema.source_drill_ore_count_input",
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_drill_ore_count_input.block_id",
+          "java_expr": "Drill block",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input Drill block identity for linked tile footprint.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "cell": {
+          "godot_symbol": "source_drill_ore_count_input.cell",
+          "java_expr": "Tile tile",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input source Tile tile for countOre.",
+          "status": "explicit-input",
+          "type": "Vector2i",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        },
+        "item_id": {
+          "godot_symbol": "source_drill_ore_count_input.item_id",
+          "java_expr": "returnItem = itemArray.peek();",
+          "java_method": "countOre(Tile tile)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input selected returnItem identity to count in Godot.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_ore_count"
+          ]
+        }
+      }
+    },
+    "source_drill_output_batch_input": {
+      "canonical_schema": "source_state_schema.source_drill_output_batch_input",
+      "keys": {
+        "delay": {
+          "godot_symbol": "source_drill_output_batch_input.delay",
+          "java_expr": "delay",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input getDrillTime delay for batch amount division.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_batch"
+          ]
+        },
+        "dominant_items": {
+          "godot_symbol": "source_drill_output_batch_input.dominant_items",
+          "java_expr": "dominantItems",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild dominantItems gate.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_output_batch"
+          ]
+        },
+        "item_capacity": {
+          "godot_symbol": "source_drill_output_batch_input.item_capacity",
+          "java_expr": "itemCapacity",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input itemCapacity gate.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_output_batch"
+          ]
+        },
+        "items_total": {
+          "godot_symbol": "source_drill_output_batch_input.items_total",
+          "java_expr": "items.total()",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input items.total() gate.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_output_batch"
+          ]
+        },
+        "progress": {
+          "godot_symbol": "source_drill_output_batch_input.progress",
+          "java_expr": "progress",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild progress before batch gate.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_batch"
+          ]
+        }
+      }
+    },
+    "source_drill_output_delta_input": {
+      "canonical_schema": "source_state_schema.source_drill_output_delta_input",
+      "keys": {
+        "dominant_items": {
+          "godot_symbol": "source_drill_output_delta_input.dominant_items",
+          "java_expr": "dominantItems",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild dominantItems count.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_drill_output_delta_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input Time.delta before BuildingComp timeScale, supplied as seconds converted to source ticks.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        },
+        "speed": {
+          "godot_symbol": "source_drill_output_delta_input.speed",
+          "java_expr": "speed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input source local speed after liquid boost and efficiency.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        },
+        "time_scale": {
+          "godot_symbol": "source_drill_output_delta_input.time_scale",
+          "java_expr": "timeScale",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input BuildingComp timeScale for delta().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        },
+        "warmup": {
+          "godot_symbol": "source_drill_output_delta_input.warmup",
+          "java_expr": "warmup",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild warmup before active progress increment.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_output_delta"
+          ]
+        }
+      }
+    },
+    "source_drill_output_rate_input": {
+      "canonical_schema": "source_state_schema.source_drill_output_rate_input",
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_drill_output_rate_input.block_id",
+          "java_expr": "Drill block",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input Drill block identity for getDrillTime(returnItem).",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_output_rate"
+          ]
+        },
+        "item_id": {
+          "godot_symbol": "source_drill_output_rate_input.item_id",
+          "java_expr": "returnItem",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input returnItem identity selected by countOre.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_output_rate"
+          ]
+        },
+        "return_count": {
+          "godot_symbol": "source_drill_output_rate_input.return_count",
+          "java_expr": "returnCount",
+          "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input returnCount selected by countOre.",
+          "status": "explicit-input",
+          "type": "int",
+          "used_by": [
+            "PortGame.source_drill_output_rate"
+          ]
+        }
+      }
+    },
+    "source_drill_progress_fraction_input": {
+      "canonical_schema": "source_state_schema.source_drill_progress_fraction_input",
+      "keys": {
+        "delay": {
+          "godot_symbol": "source_drill_progress_fraction_input.delay",
+          "java_expr": "getDrillTime(dominantItem)",
+          "java_method": "progress()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input delay mirrors source getDrillTime(dominantItem).",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        },
+        "has_dominant_item": {
+          "godot_symbol": "source_drill_progress_fraction_input.has_dominant_item",
+          "java_expr": "dominantItem == null",
+          "java_method": "progress()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input boolean is inverse of source dominantItem null guard.",
+          "status": "explicit-input",
+          "type": "bool",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        },
+        "progress": {
+          "godot_symbol": "source_drill_progress_fraction_input.progress",
+          "java_expr": "progress",
+          "java_method": "progress()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input source DrillBuild progress field.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_progress_fraction"
+          ]
+        }
+      }
+    },
+    "source_drill_time_drilled_delta_input": {
+      "canonical_schema": "source_state_schema.source_drill_time_drilled_delta_input",
+      "keys": {
+        "source_delta": {
+          "godot_symbol": "source_drill_time_drilled_delta_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input source Time.delta supplied as seconds converted to source ticks.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_time_drilled_delta"
+          ]
+        },
+        "time_scale": {
+          "godot_symbol": "source_drill_time_drilled_delta_input.time_scale",
+          "java_expr": "timeScale",
+          "java_method": "delta()",
+          "java_source": "core/src/mindustry/entities/comp/BuildingComp.java",
+          "rule": "Input BuildingComp timeScale for delta().",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_time_drilled_delta"
+          ]
+        },
+        "warmup": {
+          "godot_symbol": "source_drill_time_drilled_delta_input.warmup",
+          "java_expr": "warmup",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild warmup multiplier.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_time_drilled_delta"
+          ]
+        }
+      }
+    },
+    "source_drill_warmup_speed_input": {
+      "canonical_schema": "source_state_schema.source_drill_warmup_speed_input",
+      "keys": {
+        "block_id": {
+          "godot_symbol": "source_drill_warmup_speed_input.block_id",
+          "java_expr": "Drill block",
+          "java_method": "field declaration",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input block id selects source Drill block metadata.",
+          "status": "explicit-input",
+          "type": "String",
+          "used_by": [
+            "PortGame.source_drill_warmup_speed"
+          ]
+        }
+      }
+    },
+    "source_drill_warmup_state_input": {
+      "canonical_schema": "source_state_schema.source_drill_warmup_state_input",
+      "keys": {
+        "current_warmup": {
+          "godot_symbol": "source_drill_warmup_state_input.current_warmup",
+          "java_expr": "warmup",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input DrillBuild warmup before active branch approach.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_warmup_state"
+          ]
+        },
+        "source_delta": {
+          "godot_symbol": "source_drill_warmup_state_input.source_delta",
+          "java_expr": "Time.delta",
+          "java_method": "approachDelta(float from, float to, float speed)",
+          "java_source": "arc-core/src/arc/math/Mathf.java",
+          "rule": "Input Java Time.delta used by Mathf.approachDelta.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_warmup_state"
+          ]
+        },
+        "speed": {
+          "godot_symbol": "source_drill_warmup_state_input.speed",
+          "java_expr": "speed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input active branch target speed.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_warmup_state"
+          ]
+        },
+        "warmup_speed": {
+          "godot_symbol": "source_drill_warmup_state_input.warmup_speed",
+          "java_expr": "warmupSpeed",
+          "java_method": "DrillBuild.updateTile()",
+          "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+          "rule": "Input Drill warmupSpeed field value.",
+          "status": "explicit-input",
+          "type": "float",
+          "used_by": [
+            "PortGame.source_drill_warmup_state"
+          ]
+        }
+      }
+    }
+  }
+}

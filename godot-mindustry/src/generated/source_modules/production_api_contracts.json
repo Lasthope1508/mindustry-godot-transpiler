@@ -1,0 +1,450 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "source_api_contracts",
+    "newProductionApiContractRequiresCanonicalMirror": true,
+    "source": "Derived from production_slices.godot_owner and canonical source_api_contracts."
+  },
+  "contracts": {
+    "PortGame.source_drill_delay": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_delay",
+      "status": "active",
+      "source_slice": "N690",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "getDrillTime(Item item)",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_delay_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_drill_delay_input.item_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "drillTime",
+        "hardnessDrillMultiplier",
+        "itemHardness",
+        "drillMultiplier"
+      ],
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay",
+      "rule": "Public runtime contract for Drill.getDrillTime using drillTime, hardnessDrillMultiplier, item.hardness, and drillMultipliers.get(item, 1f)."
+    },
+    "PortGame.source_drill_dump_interval": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_dump_interval",
+      "status": "active",
+      "source_slice": "N691",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_dump_interval_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "time_scale",
+          "schema": "source_drill_dump_interval_input.time_scale",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "dumpInterval",
+        "dumpTime",
+        "timeScale"
+      ],
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval",
+      "rule": "Public runtime contract for DrillBuild updateTile timer interval dumpTime / timeScale."
+    },
+    "PortGame.source_drill_inactive_warmup_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_inactive_warmup_state",
+      "status": "active",
+      "source_slice": "N692",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "current_warmup",
+          "schema": "source_drill_inactive_warmup_input.current_warmup",
+          "type": "float"
+        },
+        {
+          "name": "warmup_speed",
+          "schema": "source_drill_inactive_warmup_input.warmup_speed",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_drill_inactive_warmup_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "lastDrillSpeed",
+        "warmup",
+        "warmupSpeed"
+      ],
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state",
+      "rule": "Public runtime contract for DrillBuild inactive branch warmup decay and lastDrillSpeed reset."
+    },
+    "PortGame.source_drill_last_speed": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_last_speed",
+      "status": "active",
+      "source_slice": "N693",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_last_speed_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_drill_last_speed_input.item_id",
+          "type": "String"
+        },
+        {
+          "name": "dominant_items",
+          "schema": "source_drill_last_speed_input.dominant_items",
+          "type": "int"
+        },
+        {
+          "name": "warmup",
+          "schema": "source_drill_last_speed_input.warmup",
+          "type": "float"
+        },
+        {
+          "name": "speed",
+          "schema": "source_drill_last_speed_input.speed",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "lastDrillSpeed",
+        "delay",
+        "speed"
+      ],
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed",
+      "rule": "Public runtime contract for DrillBuild active branch lastDrillSpeed formula."
+    },
+    "PortGame.source_drill_ore_count": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_ore_count",
+      "status": "active",
+      "source_slice": "N695",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "countOre(Tile tile)",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_ore_count_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "cell",
+          "schema": "source_drill_ore_count_input.cell",
+          "type": "Vector2i"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_drill_ore_count_input.item_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "returnCount",
+        "returnItem"
+      ],
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count",
+      "rule": "Public runtime contract for Drill.countOre(Tile tile) item count over linked drill cells."
+    },
+    "PortGame.source_drill_output_batch": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_output_batch",
+      "status": "active",
+      "source_slice": "N696",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "progress",
+          "schema": "source_drill_output_batch_input.progress",
+          "type": "float"
+        },
+        {
+          "name": "delay",
+          "schema": "source_drill_output_batch_input.delay",
+          "type": "float"
+        },
+        {
+          "name": "dominant_items",
+          "schema": "source_drill_output_batch_input.dominant_items",
+          "type": "int"
+        },
+        {
+          "name": "items_total",
+          "schema": "source_drill_output_batch_input.items_total",
+          "type": "int"
+        },
+        {
+          "name": "item_capacity",
+          "schema": "source_drill_output_batch_input.item_capacity",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "amount",
+        "progress"
+      ],
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_batch",
+      "rule": "Public runtime contract for DrillBuild output batch amount and progress modulo gate."
+    },
+    "PortGame.source_drill_output_delta": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_output_delta",
+      "status": "active",
+      "source_slice": "N697",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "dominant_items",
+          "schema": "source_drill_output_delta_input.dominant_items",
+          "type": "int"
+        },
+        {
+          "name": "seconds",
+          "schema": "source_drill_output_delta_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "time_scale",
+          "schema": "source_drill_output_delta_input.time_scale",
+          "type": "float"
+        },
+        {
+          "name": "warmup",
+          "schema": "source_drill_output_delta_input.warmup",
+          "type": "float"
+        },
+        {
+          "name": "speed",
+          "schema": "source_drill_output_delta_input.speed",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "progress",
+        "delta",
+        "dominant_items",
+        "source_delta",
+        "time_scale",
+        "warmup",
+        "speed"
+      ],
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_delta",
+      "rule": "Public runtime contract for DrillBuild active branch raw progress increment."
+    },
+    "PortGame.source_drill_output_rate": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_output_rate",
+      "status": "active",
+      "source_slice": "N699",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_output_rate_input.block_id",
+          "type": "String"
+        },
+        {
+          "name": "item_id",
+          "schema": "source_drill_output_rate_input.item_id",
+          "type": "String"
+        },
+        {
+          "name": "return_count",
+          "schema": "source_drill_output_rate_input.return_count",
+          "type": "int"
+        }
+      ],
+      "return_keys": [
+        "rate",
+        "rateExpr",
+        "delay",
+        "block_id",
+        "item_id",
+        "return_count"
+      ],
+      "tests": [
+        "test_drill_output_rate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_rate",
+      "rule": "Public runtime contract for Drill.drawPlace drillspeed rate expression using getDrillTime(returnItem) and returnCount."
+    },
+    "PortGame.source_drill_progress_fraction": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_progress_fraction",
+      "status": "active",
+      "source_slice": "N700",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "progress()",
+      "params": [
+        {
+          "name": "progress",
+          "schema": "source_drill_progress_fraction_input.progress",
+          "type": "float"
+        },
+        {
+          "name": "delay",
+          "schema": "source_drill_progress_fraction_input.delay",
+          "type": "float"
+        },
+        {
+          "name": "has_dominant_item",
+          "schema": "source_drill_progress_fraction_input.has_dominant_item",
+          "type": "bool"
+        }
+      ],
+      "return_keys": [
+        "fraction",
+        "method",
+        "dominantItemNull",
+        "progressRatio",
+        "mathfClamp",
+        "progress",
+        "delay",
+        "has_dominant_item"
+      ],
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_progress_fraction",
+      "rule": "Public runtime contract for DrillBuild.progress() progress fraction with dominantItem null guard and Mathf.clamp."
+    },
+    "PortGame.source_drill_time_drilled_delta": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_time_drilled_delta",
+      "status": "active",
+      "source_slice": "N701",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "warmup",
+          "schema": "source_drill_time_drilled_delta_input.warmup",
+          "type": "float"
+        },
+        {
+          "name": "seconds",
+          "schema": "source_drill_time_drilled_delta_input.source_delta",
+          "type": "float"
+        },
+        {
+          "name": "time_scale",
+          "schema": "source_drill_time_drilled_delta_input.time_scale",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "delta",
+        "timeDrilled",
+        "buildingDelta",
+        "warmup",
+        "source_delta",
+        "time_scale"
+      ],
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta",
+      "rule": "Public runtime contract for DrillBuild timeDrilled update via warmup * delta()."
+    },
+    "PortGame.source_drill_warmup_speed": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_warmup_speed",
+      "status": "active",
+      "source_slice": "N702",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "field declaration",
+      "params": [
+        {
+          "name": "block_id",
+          "schema": "source_drill_warmup_speed_input.block_id",
+          "type": "String"
+        }
+      ],
+      "return_keys": [
+        "warmupSpeed",
+        "comment",
+        "key",
+        "default"
+      ],
+      "tests": [
+        "test_drill_warmup_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_speed",
+      "rule": "Public runtime contract for Drill warmupSpeed field lookup with source default fallback."
+    },
+    "PortGame.source_drill_warmup_state": {
+      "canonical_contract": "source_api_contracts.PortGame.source_drill_warmup_state",
+      "status": "active",
+      "source_slice": "N703",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "source_method": "DrillBuild.updateTile()",
+      "params": [
+        {
+          "name": "current_warmup",
+          "schema": "source_drill_warmup_state_input.current_warmup",
+          "type": "float"
+        },
+        {
+          "name": "speed",
+          "schema": "source_drill_warmup_state_input.speed",
+          "type": "float"
+        },
+        {
+          "name": "warmup_speed",
+          "schema": "source_drill_warmup_state_input.warmup_speed",
+          "type": "float"
+        },
+        {
+          "name": "source_delta",
+          "schema": "source_drill_warmup_state_input.source_delta",
+          "type": "float"
+        }
+      ],
+      "return_keys": [
+        "warmup",
+        "current_warmup",
+        "speed",
+        "warmup_speed",
+        "source_delta"
+      ],
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_state",
+      "rule": "Public runtime contract for DrillBuild active warmup approach state."
+    }
+  }
+}

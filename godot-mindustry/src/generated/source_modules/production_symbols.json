@@ -1,0 +1,1138 @@
+{
+  "version": 1,
+  "policy": {
+    "canonicalOwner": "source_symbol_registry",
+    "newProductionSymbolRequiresCanonicalMirror": true,
+    "source": "Derived from production_slices.source_symbols and canonical source_symbol_registry.symbols; no symbol metadata is authored here."
+  },
+  "symbols": {
+    "drill_delay.block_id": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.block_id",
+      "status": "explicit-input",
+      "java_expr": "Drill block",
+      "godot_symbol": "source_drill_delay_input.block_id",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Godot block_id identifies source Drill instance.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.drill_multiplier": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.drill_multiplier",
+      "status": "source-backed",
+      "java_expr": "drillMultipliers.get(item, 1f)",
+      "godot_symbol": "source_drill_delay_result.drillMultiplier",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Runtime drill multiplier map supplies source drillMultipliers defaulting to 1f.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.drill_multipliers_comment": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.drill_multipliers_comment",
+      "status": "source-backed",
+      "java_expr": "Multipliers of drill speed for each item. Defaults to 1.",
+      "godot_symbol": "source_drill_delay_result.drillMultipliersComment",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Source Drill drillMultipliers comment.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.drill_multipliers_field": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.drill_multipliers_field",
+      "status": "source-backed",
+      "java_expr": "public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();",
+      "godot_symbol": "source_drill_delay_result.drillMultipliersField",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Source Drill drillMultipliers map field.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.drill_time_comment": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.drill_time_comment",
+      "status": "source-backed",
+      "java_expr": "Base time to drill one ore, in frames.",
+      "godot_symbol": "source_drill_delay_result.drillTimeComment",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Source Drill drillTime comment.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.drill_time_field": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.drill_time_field",
+      "status": "source-backed",
+      "java_expr": "public float drillTime = 300;",
+      "godot_symbol": "source_drill_delay_result.drillTimeField",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Source Drill drillTime default.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.hardness_multiplier_field": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.hardness_multiplier_field",
+      "status": "source-backed",
+      "java_expr": "public float hardnessDrillMultiplier = 50f;",
+      "godot_symbol": "source_drill_delay_result.hardnessDrillMultiplier",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Source Drill hardness multiplier default.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.item_hardness": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.item_hardness",
+      "status": "source-backed",
+      "java_expr": "item.hardness",
+      "godot_symbol": "source_drill_delay_result.itemHardness",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Runtime item hardness supplies source item.hardness.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.item_hardness_comment": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.item_hardness_comment",
+      "status": "source-backed",
+      "java_expr": "drill hardness of the item",
+      "godot_symbol": "source_drill_delay_result.itemHardnessComment",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Source Item hardness comment.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.item_hardness_field": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.item_hardness_field",
+      "status": "source-backed",
+      "java_expr": "public int hardness = 0;",
+      "godot_symbol": "source_drill_delay_result.itemHardnessField",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Source Item hardness default.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.item_id": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.item_id",
+      "status": "explicit-input",
+      "java_expr": "Item item",
+      "godot_symbol": "source_drill_delay_input.item_id",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Godot item_id identifies source Item item parameter.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.method": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.method",
+      "status": "source-backed",
+      "java_expr": "public float getDrillTime(Item item){",
+      "godot_symbol": "source_drill_delay_result.method",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Drill.getDrillTime method boundary.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_delay.result": {
+      "canonical_symbol": "source_symbol_registry.drill_delay.result",
+      "status": "source-backed",
+      "java_expr": "return (drillTime + hardnessDrillMultiplier * item.hardness) / drillMultipliers.get(item, 1f);",
+      "godot_symbol": "source_drill_delay_result.drillTime",
+      "godot_owner": "PortGame.source_drill_delay",
+      "rule": "Source Drill getDrillTime formula.",
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "drill_dump_interval.block_id": {
+      "canonical_symbol": "source_symbol_registry.drill_dump_interval.block_id",
+      "status": "explicit-input",
+      "java_expr": "Block block",
+      "godot_symbol": "source_drill_dump_interval_input.block_id",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "rule": "Godot block_id identifies source block dumpTime.",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "drill_dump_interval.dump_call": {
+      "canonical_symbol": "source_symbol_registry.drill_dump_interval.dump_call",
+      "status": "source-backed",
+      "java_expr": "dump(dominantItem != null && items.has(dominantItem) ? dominantItem : null);",
+      "godot_symbol": "source_drill_dump_interval_result.dumpCall",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "rule": "DrillBuild updateTile dump call.",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "drill_dump_interval.dump_interval": {
+      "canonical_symbol": "source_symbol_registry.drill_dump_interval.dump_interval",
+      "status": "source-backed",
+      "java_expr": "dumpTime / timeScale",
+      "godot_symbol": "source_drill_dump_interval_result.dumpInterval",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "rule": "Source dump interval argument.",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "drill_dump_interval.dump_time": {
+      "canonical_symbol": "source_symbol_registry.drill_dump_interval.dump_time",
+      "status": "source-backed",
+      "java_expr": "dumpTime",
+      "godot_symbol": "source_drill_dump_interval_result.dumpTime",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "rule": "Runtime block dump time supplies source dumpTime.",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "drill_dump_interval.dump_time_comment": {
+      "canonical_symbol": "source_symbol_registry.drill_dump_interval.dump_time_comment",
+      "status": "source-backed",
+      "java_expr": "How often to try dumping items in ticks, e.g. 5 = 12 times/sec",
+      "godot_symbol": "source_drill_dump_interval_result.dumpTimeComment",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "rule": "Block dumpTime comment.",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "drill_dump_interval.dump_time_field": {
+      "canonical_symbol": "source_symbol_registry.drill_dump_interval.dump_time_field",
+      "status": "source-backed",
+      "java_expr": "public int dumpTime = 5;",
+      "godot_symbol": "source_drill_dump_interval_result.dumpTimeField",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "rule": "Block dumpTime field.",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "drill_dump_interval.time_scale": {
+      "canonical_symbol": "source_symbol_registry.drill_dump_interval.time_scale",
+      "status": "explicit-input",
+      "java_expr": "timeScale",
+      "godot_symbol": "source_drill_dump_interval_input.time_scale",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "rule": "Godot time_scale supplies source timeScale.",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "drill_dump_interval.timer_dump_comment": {
+      "canonical_symbol": "source_symbol_registry.drill_dump_interval.timer_dump_comment",
+      "status": "source-backed",
+      "java_expr": "Dump timer ID.",
+      "godot_symbol": "source_drill_dump_interval_result.timerDumpComment",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "rule": "Block timerDump comment.",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "drill_dump_interval.timer_dump_field": {
+      "canonical_symbol": "source_symbol_registry.drill_dump_interval.timer_dump_field",
+      "status": "source-backed",
+      "java_expr": "protected final int timerDump = timers++;",
+      "godot_symbol": "source_drill_dump_interval_result.timerDumpField",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "rule": "Block timerDump field.",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "drill_dump_interval.timer_gate": {
+      "canonical_symbol": "source_symbol_registry.drill_dump_interval.timer_gate",
+      "status": "source-backed",
+      "java_expr": "if(timer(timerDump, dumpTime / timeScale)){",
+      "godot_symbol": "source_drill_dump_interval_result.timerGate",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "rule": "DrillBuild updateTile dump timer gate.",
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "drill_inactive_warmup.current_warmup": {
+      "canonical_symbol": "source_symbol_registry.drill_inactive_warmup.current_warmup",
+      "status": "explicit-input",
+      "java_expr": "warmup",
+      "godot_symbol": "source_drill_inactive_warmup_input.current_warmup",
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "rule": "Godot current_warmup supplies DrillBuild warmup before inactive decay.",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state"
+    },
+    "drill_inactive_warmup.last_speed_reset": {
+      "canonical_symbol": "source_symbol_registry.drill_inactive_warmup.last_speed_reset",
+      "status": "source-backed",
+      "java_expr": "lastDrillSpeed = 0f;",
+      "godot_symbol": "source_drill_inactive_warmup_result.lastDrillSpeed",
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "rule": "Inactive DrillBuild branch resets lastDrillSpeed before returning.",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state"
+    },
+    "drill_inactive_warmup.source_delta": {
+      "canonical_symbol": "source_symbol_registry.drill_inactive_warmup.source_delta",
+      "status": "explicit-input",
+      "java_expr": "Time.delta",
+      "godot_symbol": "source_drill_inactive_warmup_input.source_delta",
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "rule": "Godot source_delta supplies Arc Time.delta for Mathf.approachDelta.",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state"
+    },
+    "drill_inactive_warmup.warmup_decay": {
+      "canonical_symbol": "source_symbol_registry.drill_inactive_warmup.warmup_decay",
+      "status": "source-backed",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, 0f, warmupSpeed);",
+      "godot_symbol": "source_drill_inactive_warmup_result.warmup",
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "rule": "Inactive DrillBuild branch decays warmup toward zero.",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state"
+    },
+    "drill_inactive_warmup.warmup_speed": {
+      "canonical_symbol": "source_symbol_registry.drill_inactive_warmup.warmup_speed",
+      "status": "explicit-input",
+      "java_expr": "warmupSpeed",
+      "godot_symbol": "source_drill_inactive_warmup_input.warmup_speed",
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "rule": "Godot warmup_speed supplies Drill.warmupSpeed for inactive decay.",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state"
+    },
+    "drill_inactive_warmup.warmup_speed_field": {
+      "canonical_symbol": "source_symbol_registry.drill_inactive_warmup.warmup_speed_field",
+      "status": "source-backed",
+      "java_expr": "public float warmupSpeed = 0.015f;",
+      "godot_symbol": "source_drill_inactive_warmup_result.warmupSpeedField",
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "rule": "Drill warmupSpeed field backing inactive warmup decay.",
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state"
+    },
+    "drill_last_speed.assignment": {
+      "canonical_symbol": "source_symbol_registry.drill_last_speed.assignment",
+      "status": "source-backed",
+      "java_expr": "lastDrillSpeed = (speed * dominantItems * warmup) / delay;",
+      "godot_symbol": "source_drill_last_speed_result.lastDrillSpeed",
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "rule": "Source active DrillBuild branch lastDrillSpeed assignment.",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed"
+    },
+    "drill_last_speed.block_id": {
+      "canonical_symbol": "source_symbol_registry.drill_last_speed.block_id",
+      "status": "explicit-input",
+      "java_expr": "Drill block",
+      "godot_symbol": "source_drill_last_speed_input.block_id",
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "rule": "Godot block_id identifies source Drill block for getDrillTime.",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed"
+    },
+    "drill_last_speed.delay": {
+      "canonical_symbol": "source_symbol_registry.drill_last_speed.delay",
+      "status": "source-backed",
+      "java_expr": "float delay = getDrillTime(dominantItem);",
+      "godot_symbol": "source_drill_last_speed_result.delay",
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "rule": "Source active DrillBuild branch delay before lastDrillSpeed assignment.",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed"
+    },
+    "drill_last_speed.dominant_items": {
+      "canonical_symbol": "source_symbol_registry.drill_last_speed.dominant_items",
+      "status": "explicit-input",
+      "java_expr": "dominantItems",
+      "godot_symbol": "source_drill_last_speed_input.dominant_items",
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "rule": "Godot dominant_items supplies DrillBuild dominantItems.",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed"
+    },
+    "drill_last_speed.item_id": {
+      "canonical_symbol": "source_symbol_registry.drill_last_speed.item_id",
+      "status": "explicit-input",
+      "java_expr": "Item dominantItem",
+      "godot_symbol": "source_drill_last_speed_input.item_id",
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "rule": "Godot item_id identifies source dominantItem for getDrillTime.",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed"
+    },
+    "drill_last_speed.liquid_boost_field": {
+      "canonical_symbol": "source_symbol_registry.drill_last_speed.liquid_boost_field",
+      "status": "source-backed",
+      "java_expr": "public float liquidBoostIntensity = 1.6f;",
+      "godot_symbol": "source_drill_last_speed_result.liquidBoostIntensityField",
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "rule": "Drill liquidBoostIntensity field used by source speed expression.",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed"
+    },
+    "drill_last_speed.speed": {
+      "canonical_symbol": "source_symbol_registry.drill_last_speed.speed",
+      "status": "explicit-input",
+      "java_expr": "speed",
+      "godot_symbol": "source_drill_last_speed_input.speed",
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "rule": "Godot speed supplies source local speed after Mathf.lerp and efficiency.",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed"
+    },
+    "drill_last_speed.speed_expr": {
+      "canonical_symbol": "source_symbol_registry.drill_last_speed.speed_expr",
+      "status": "source-backed",
+      "java_expr": "float speed = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency) * efficiency;",
+      "godot_symbol": "source_drill_last_speed_result.speedExpr",
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "rule": "Source active DrillBuild branch speed expression.",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed"
+    },
+    "drill_last_speed.warmup": {
+      "canonical_symbol": "source_symbol_registry.drill_last_speed.warmup",
+      "status": "explicit-input",
+      "java_expr": "warmup",
+      "godot_symbol": "source_drill_last_speed_input.warmup",
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "rule": "Godot warmup supplies DrillBuild warmup before warmup progression.",
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed"
+    },
+    "drill_ore_count.block_id": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.block_id",
+      "status": "explicit-input",
+      "java_expr": "Drill block",
+      "godot_symbol": "source_drill_ore_count_input.block_id",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "Godot block_id identifies the source Drill block footprint.",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_ore_count.can_mine_gate": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.can_mine_gate",
+      "status": "source-backed",
+      "java_expr": "if(canMine(other)){",
+      "godot_symbol": "source_drill_ore_count_result.canMineGate",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "countOre increments only when canMine(other) passes.",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_ore_count.cell": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.cell",
+      "status": "explicit-input",
+      "java_expr": "Tile tile",
+      "godot_symbol": "source_drill_ore_count_input.cell",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "Godot cell supplies the source countOre tile.",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_ore_count.increment": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.increment",
+      "status": "source-backed",
+      "java_expr": "oreCount.increment(getDrop(other), 0, 1);",
+      "godot_symbol": "source_drill_ore_count_result.oreIncrement",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "countOre increments oreCount for getDrop(other).",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_ore_count.item_id": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.item_id",
+      "status": "explicit-input",
+      "java_expr": "returnItem = itemArray.peek();",
+      "godot_symbol": "source_drill_ore_count_input.item_id",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "Godot item_id identifies the selected returnItem being counted.",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_ore_count.linked_tiles_loop": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.linked_tiles_loop",
+      "status": "source-backed",
+      "java_expr": "for(Tile other : tile.getLinkedTilesAs(this, tempTiles)){",
+      "godot_symbol": "source_drill_ore_count_result.linkedTilesLoop",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "countOre scans linked tiles for the drill footprint.",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_ore_count.method": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.method",
+      "status": "source-backed",
+      "java_expr": "protected void countOre(Tile tile){",
+      "godot_symbol": "source_drill_ore_count_result.method",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "Source countOre method backing ore count selection.",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_ore_count.return_count": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.return_count",
+      "status": "source-backed",
+      "java_expr": "returnCount = oreCount.get(itemArray.peek(), 0);",
+      "godot_symbol": "source_drill_ore_count_result.returnCount",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "countOre returns the ore count for the selected itemArray peek.",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_ore_count.return_count_reset": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.return_count_reset",
+      "status": "source-backed",
+      "java_expr": "returnCount = 0;",
+      "godot_symbol": "source_drill_ore_count_result.returnCountReset",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "countOre clears returnCount before scanning linked tiles.",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_ore_count.return_item": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.return_item",
+      "status": "source-backed",
+      "java_expr": "returnItem = itemArray.peek();",
+      "godot_symbol": "source_drill_ore_count_result.returnItem",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "countOre selects the dominant return item from sorted itemArray.",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_ore_count.return_item_reset": {
+      "canonical_symbol": "source_symbol_registry.drill_ore_count.return_item_reset",
+      "status": "source-backed",
+      "java_expr": "returnItem = null;",
+      "godot_symbol": "source_drill_ore_count_result.returnItemReset",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "rule": "countOre clears returnItem before scanning linked tiles.",
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "drill_output_batch.amount": {
+      "canonical_symbol": "source_symbol_registry.drill_output_batch.amount",
+      "status": "source-backed",
+      "java_expr": "int amount = (int)(progress / delay);",
+      "godot_symbol": "source_drill_output_batch_result.amount",
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "rule": "Source integer batch amount from progress divided by delay.",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_batch"
+    },
+    "drill_output_batch.delay": {
+      "canonical_symbol": "source_symbol_registry.drill_output_batch.delay",
+      "status": "explicit-input",
+      "java_expr": "delay",
+      "godot_symbol": "source_drill_output_batch_input.delay",
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "rule": "Godot delay supplies getDrillTime(dominantItem) result.",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_batch"
+    },
+    "drill_output_batch.dominant_items": {
+      "canonical_symbol": "source_symbol_registry.drill_output_batch.dominant_items",
+      "status": "explicit-input",
+      "java_expr": "dominantItems",
+      "godot_symbol": "source_drill_output_batch_input.dominant_items",
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "rule": "Godot dominant_items supplies DrillBuild dominantItems gate.",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_batch"
+    },
+    "drill_output_batch.gate": {
+      "canonical_symbol": "source_symbol_registry.drill_output_batch.gate",
+      "status": "source-backed",
+      "java_expr": "if(dominantItems > 0 && progress >= delay && items.total() < itemCapacity){",
+      "godot_symbol": "source_drill_output_batch_result.gate",
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "rule": "DrillBuild output batch gate before amount/modulo.",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_batch"
+    },
+    "drill_output_batch.item_capacity": {
+      "canonical_symbol": "source_symbol_registry.drill_output_batch.item_capacity",
+      "status": "explicit-input",
+      "java_expr": "itemCapacity",
+      "godot_symbol": "source_drill_output_batch_input.item_capacity",
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "rule": "Godot item_capacity supplies source itemCapacity gate.",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_batch"
+    },
+    "drill_output_batch.items_total": {
+      "canonical_symbol": "source_symbol_registry.drill_output_batch.items_total",
+      "status": "explicit-input",
+      "java_expr": "items.total()",
+      "godot_symbol": "source_drill_output_batch_input.items_total",
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "rule": "Godot items_total supplies source items.total() gate.",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_batch"
+    },
+    "drill_output_batch.progress": {
+      "canonical_symbol": "source_symbol_registry.drill_output_batch.progress",
+      "status": "explicit-input",
+      "java_expr": "progress",
+      "godot_symbol": "source_drill_output_batch_input.progress",
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "rule": "Godot progress supplies DrillBuild progress before output batch.",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_batch"
+    },
+    "drill_output_batch.progress_mod": {
+      "canonical_symbol": "source_symbol_registry.drill_output_batch.progress_mod",
+      "status": "source-backed",
+      "java_expr": "progress %= delay;",
+      "godot_symbol": "source_drill_output_batch_result.progress",
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "rule": "Source progress modulo after output batch.",
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_batch"
+    },
+    "drill_output_delta.delta_return": {
+      "canonical_symbol": "source_symbol_registry.drill_output_delta.delta_return",
+      "status": "source-backed",
+      "java_expr": "return Time.delta * timeScale;",
+      "godot_symbol": "source_drill_output_delta_result.delta",
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "rule": "BuildingComp delta() supplies scaled source delta used by DrillBuild progress increment.",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_delta"
+    },
+    "drill_output_delta.dominant_items": {
+      "canonical_symbol": "source_symbol_registry.drill_output_delta.dominant_items",
+      "status": "explicit-input",
+      "java_expr": "dominantItems",
+      "godot_symbol": "source_drill_output_delta_input.dominant_items",
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "rule": "Godot dominant_items supplies DrillBuild dominantItems in raw progress increment.",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_delta"
+    },
+    "drill_output_delta.progress_increment": {
+      "canonical_symbol": "source_symbol_registry.drill_output_delta.progress_increment",
+      "status": "source-backed",
+      "java_expr": "progress += delta() * dominantItems * speed * warmup;",
+      "godot_symbol": "source_drill_output_delta_result.progress",
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "rule": "Source active DrillBuild branch raw progress increment.",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_delta"
+    },
+    "drill_output_delta.source_delta": {
+      "canonical_symbol": "source_symbol_registry.drill_output_delta.source_delta",
+      "status": "explicit-input",
+      "java_expr": "Time.delta",
+      "godot_symbol": "source_drill_output_delta_input.source_delta",
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "rule": "Godot seconds converted to source ticks supplies Time.delta before BuildingComp timeScale.",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_delta"
+    },
+    "drill_output_delta.speed": {
+      "canonical_symbol": "source_symbol_registry.drill_output_delta.speed",
+      "status": "explicit-input",
+      "java_expr": "speed",
+      "godot_symbol": "source_drill_output_delta_input.speed",
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "rule": "Godot speed supplies source local speed after liquid boost and efficiency.",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_delta"
+    },
+    "drill_output_delta.time_scale": {
+      "canonical_symbol": "source_symbol_registry.drill_output_delta.time_scale",
+      "status": "explicit-input",
+      "java_expr": "timeScale",
+      "godot_symbol": "source_drill_output_delta_input.time_scale",
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "rule": "Godot time_scale supplies BuildingComp timeScale for delta().",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_delta"
+    },
+    "drill_output_delta.warmup": {
+      "canonical_symbol": "source_symbol_registry.drill_output_delta.warmup",
+      "status": "explicit-input",
+      "java_expr": "warmup",
+      "godot_symbol": "source_drill_output_delta_input.warmup",
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "rule": "Godot warmup supplies DrillBuild warmup before raw progress increment.",
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_delta"
+    },
+    "drill_output_rate.block_id": {
+      "canonical_symbol": "source_symbol_registry.drill_output_rate.block_id",
+      "status": "explicit-input",
+      "java_expr": "Drill block",
+      "godot_symbol": "source_drill_output_rate_input.block_id",
+      "godot_owner": "PortGame.source_drill_output_rate",
+      "rule": "Godot block_id identifies source Drill block for getDrillTime.",
+      "tests": [
+        "test_drill_output_rate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_rate"
+    },
+    "drill_output_rate.delay": {
+      "canonical_symbol": "source_symbol_registry.drill_output_rate.delay",
+      "status": "source-backed",
+      "java_expr": "getDrillTime(returnItem)",
+      "godot_symbol": "source_drill_output_rate_result.delay",
+      "godot_owner": "PortGame.source_drill_output_rate",
+      "rule": "Source delay denominator delegates to getDrillTime(returnItem).",
+      "tests": [
+        "test_drill_output_rate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_rate"
+    },
+    "drill_output_rate.draw_place_rate": {
+      "canonical_symbol": "source_symbol_registry.drill_output_rate.draw_place_rate",
+      "status": "source-backed",
+      "java_expr": "float width = drawPlaceText(Core.bundle.formatFloat(\"bar.drillspeed\", 60f / getDrillTime(returnItem) * returnCount, 2), x, y, valid);",
+      "godot_symbol": "source_drill_output_rate_result.rate",
+      "godot_owner": "PortGame.source_drill_output_rate",
+      "rule": "Source drawPlace drillspeed display rate formula for selected returnItem and returnCount.",
+      "tests": [
+        "test_drill_output_rate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_rate"
+    },
+    "drill_output_rate.item_id": {
+      "canonical_symbol": "source_symbol_registry.drill_output_rate.item_id",
+      "status": "explicit-input",
+      "java_expr": "returnItem",
+      "godot_symbol": "source_drill_output_rate_input.item_id",
+      "godot_owner": "PortGame.source_drill_output_rate",
+      "rule": "Godot item_id supplies source returnItem identity selected by countOre.",
+      "tests": [
+        "test_drill_output_rate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_rate"
+    },
+    "drill_output_rate.rate_expr": {
+      "canonical_symbol": "source_symbol_registry.drill_output_rate.rate_expr",
+      "status": "source-backed",
+      "java_expr": "60f / getDrillTime(returnItem) * returnCount",
+      "godot_symbol": "source_drill_output_rate_result.rateExpr",
+      "godot_owner": "PortGame.source_drill_output_rate",
+      "rule": "Source rate expression inside drawPlace drillspeed label.",
+      "tests": [
+        "test_drill_output_rate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_rate"
+    },
+    "drill_output_rate.return_count": {
+      "canonical_symbol": "source_symbol_registry.drill_output_rate.return_count",
+      "status": "explicit-input",
+      "java_expr": "returnCount",
+      "godot_symbol": "source_drill_output_rate_input.return_count",
+      "godot_owner": "PortGame.source_drill_output_rate",
+      "rule": "Godot return_count supplies source returnCount selected by countOre.",
+      "tests": [
+        "test_drill_output_rate_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_rate"
+    },
+    "drill_progress_fraction.delay": {
+      "canonical_symbol": "source_symbol_registry.drill_progress_fraction.delay",
+      "status": "explicit-input",
+      "java_expr": "getDrillTime(dominantItem)",
+      "godot_symbol": "source_drill_progress_fraction_input.delay",
+      "godot_owner": "PortGame.source_drill_progress_fraction",
+      "rule": "Godot delay supplies source getDrillTime(dominantItem) denominator.",
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_progress_fraction"
+    },
+    "drill_progress_fraction.dominant_item_null": {
+      "canonical_symbol": "source_symbol_registry.drill_progress_fraction.dominant_item_null",
+      "status": "source-backed",
+      "java_expr": "dominantItem == null",
+      "godot_symbol": "source_drill_progress_fraction_result.dominantItemNull",
+      "godot_owner": "PortGame.source_drill_progress_fraction",
+      "rule": "Source dominantItem null guard before progress fraction.",
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_progress_fraction"
+    },
+    "drill_progress_fraction.has_dominant_item": {
+      "canonical_symbol": "source_symbol_registry.drill_progress_fraction.has_dominant_item",
+      "status": "explicit-input",
+      "java_expr": "dominantItem == null",
+      "godot_symbol": "source_drill_progress_fraction_input.has_dominant_item",
+      "godot_owner": "PortGame.source_drill_progress_fraction",
+      "rule": "Godot has_dominant_item is the inverse of source dominantItem == null guard.",
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_progress_fraction"
+    },
+    "drill_progress_fraction.mathf_clamp": {
+      "canonical_symbol": "source_symbol_registry.drill_progress_fraction.mathf_clamp",
+      "status": "source-backed",
+      "java_expr": "return Math.max(Math.min(value, 1f), 0f);",
+      "godot_symbol": "source_drill_progress_fraction_result.mathfClamp",
+      "godot_owner": "PortGame.source_drill_progress_fraction",
+      "rule": "Arc Mathf.clamp(float) clamps source progress ratio to [0, 1].",
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_progress_fraction"
+    },
+    "drill_progress_fraction.method": {
+      "canonical_symbol": "source_symbol_registry.drill_progress_fraction.method",
+      "status": "source-backed",
+      "java_expr": "public float progress(){",
+      "godot_symbol": "source_drill_progress_fraction_result.method",
+      "godot_owner": "PortGame.source_drill_progress_fraction",
+      "rule": "Source DrillBuild progress method boundary.",
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_progress_fraction"
+    },
+    "drill_progress_fraction.progress": {
+      "canonical_symbol": "source_symbol_registry.drill_progress_fraction.progress",
+      "status": "explicit-input",
+      "java_expr": "progress",
+      "godot_symbol": "source_drill_progress_fraction_input.progress",
+      "godot_owner": "PortGame.source_drill_progress_fraction",
+      "rule": "Godot progress supplies DrillBuild progress field.",
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_progress_fraction"
+    },
+    "drill_progress_fraction.progress_ratio": {
+      "canonical_symbol": "source_symbol_registry.drill_progress_fraction.progress_ratio",
+      "status": "source-backed",
+      "java_expr": "progress / getDrillTime(dominantItem)",
+      "godot_symbol": "source_drill_progress_fraction_result.progressRatio",
+      "godot_owner": "PortGame.source_drill_progress_fraction",
+      "rule": "Source progress divided by getDrillTime(dominantItem) before clamp.",
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_progress_fraction"
+    },
+    "drill_progress_fraction.return_expr": {
+      "canonical_symbol": "source_symbol_registry.drill_progress_fraction.return_expr",
+      "status": "source-backed",
+      "java_expr": "return dominantItem == null ? 0f : Mathf.clamp(progress / getDrillTime(dominantItem));",
+      "godot_symbol": "source_drill_progress_fraction_result.fraction",
+      "godot_owner": "PortGame.source_drill_progress_fraction",
+      "rule": "Source progress fraction null guard and clamp expression.",
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_progress_fraction"
+    },
+    "drill_time_drilled_delta.building_delta": {
+      "canonical_symbol": "source_symbol_registry.drill_time_drilled_delta.building_delta",
+      "status": "source-backed",
+      "java_expr": "return Time.delta * timeScale;",
+      "godot_symbol": "source_drill_time_drilled_delta_result.buildingDelta",
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "rule": "BuildingComp delta() scales Time.delta by timeScale before DrillBuild timeDrilled increment.",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta"
+    },
+    "drill_time_drilled_delta.field": {
+      "canonical_symbol": "source_symbol_registry.drill_time_drilled_delta.field",
+      "status": "source-backed",
+      "java_expr": "public float timeDrilled;",
+      "godot_symbol": "source_drill_time_drilled_delta_result.timeDrilled",
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "rule": "Source DrillBuild timeDrilled field used for drill rotation animation.",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta"
+    },
+    "drill_time_drilled_delta.increment": {
+      "canonical_symbol": "source_symbol_registry.drill_time_drilled_delta.increment",
+      "status": "source-backed",
+      "java_expr": "timeDrilled += warmup * delta();",
+      "godot_symbol": "source_drill_time_drilled_delta_result.delta",
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "rule": "Source DrillBuild updateTile increments timeDrilled by warmup scaled delta.",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta"
+    },
+    "drill_time_drilled_delta.source_delta": {
+      "canonical_symbol": "source_symbol_registry.drill_time_drilled_delta.source_delta",
+      "status": "explicit-input",
+      "java_expr": "Time.delta",
+      "godot_symbol": "source_drill_time_drilled_delta_input.source_delta",
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "rule": "Godot seconds converted to source ticks supplies Time.delta.",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta"
+    },
+    "drill_time_drilled_delta.time_scale": {
+      "canonical_symbol": "source_symbol_registry.drill_time_drilled_delta.time_scale",
+      "status": "explicit-input",
+      "java_expr": "timeScale",
+      "godot_symbol": "source_drill_time_drilled_delta_input.time_scale",
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "rule": "Godot time_scale supplies BuildingComp timeScale for delta().",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta"
+    },
+    "drill_time_drilled_delta.warmup": {
+      "canonical_symbol": "source_symbol_registry.drill_time_drilled_delta.warmup",
+      "status": "explicit-input",
+      "java_expr": "warmup",
+      "godot_symbol": "source_drill_time_drilled_delta_input.warmup",
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "rule": "Godot warmup supplies DrillBuild warmup multiplier.",
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta"
+    },
+    "drill_warmup_speed.block_id": {
+      "canonical_symbol": "source_symbol_registry.drill_warmup_speed.block_id",
+      "status": "explicit-input",
+      "java_expr": "Drill block",
+      "godot_symbol": "source_drill_warmup_speed_input.block_id",
+      "godot_owner": "PortGame.source_drill_warmup_speed",
+      "rule": "Godot block_id selects the Drill block whose warmupSpeed property is read.",
+      "tests": [
+        "test_drill_warmup_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_speed"
+    },
+    "drill_warmup_speed.comment": {
+      "canonical_symbol": "source_symbol_registry.drill_warmup_speed.comment",
+      "status": "source-backed",
+      "java_expr": "Speed at which the drill speeds up.",
+      "godot_symbol": "source_drill_warmup_speed_result.comment",
+      "godot_owner": "PortGame.source_drill_warmup_speed",
+      "rule": "Source comment documents Drill warmupSpeed meaning.",
+      "tests": [
+        "test_drill_warmup_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_speed"
+    },
+    "drill_warmup_speed.default": {
+      "canonical_symbol": "source_symbol_registry.drill_warmup_speed.default",
+      "status": "source-backed",
+      "java_expr": "0.015f",
+      "godot_symbol": "source_drill_warmup_speed_result.default",
+      "godot_owner": "PortGame.source_drill_warmup_speed",
+      "rule": "Godot fallback default mirrors source warmupSpeed = 0.015f.",
+      "tests": [
+        "test_drill_warmup_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_speed"
+    },
+    "drill_warmup_speed.field": {
+      "canonical_symbol": "source_symbol_registry.drill_warmup_speed.field",
+      "status": "source-backed",
+      "java_expr": "public float warmupSpeed = 0.015f;",
+      "godot_symbol": "source_drill_warmup_speed_result.warmupSpeed",
+      "godot_owner": "PortGame.source_drill_warmup_speed",
+      "rule": "Drill warmupSpeed field default used by source_drill_warmup_speed.",
+      "tests": [
+        "test_drill_warmup_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_speed"
+    },
+    "drill_warmup_speed.key": {
+      "canonical_symbol": "source_symbol_registry.drill_warmup_speed.key",
+      "status": "source-backed",
+      "java_expr": "warmupSpeed",
+      "godot_symbol": "source_drill_warmup_speed_result.key",
+      "godot_owner": "PortGame.source_drill_warmup_speed",
+      "rule": "Godot content property key mirrors source Drill.warmupSpeed field name.",
+      "tests": [
+        "test_drill_warmup_speed_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_speed"
+    },
+    "drill_warmup_state.active_warmup": {
+      "canonical_symbol": "source_symbol_registry.drill_warmup_state.active_warmup",
+      "status": "source-backed",
+      "java_expr": "warmup = Mathf.approachDelta(warmup, speed, warmupSpeed);",
+      "godot_symbol": "source_drill_warmup_state_result.warmup",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "rule": "Drill active branch approaches warmup toward source speed by warmupSpeed.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_state"
+    },
+    "drill_warmup_state.current_warmup": {
+      "canonical_symbol": "source_symbol_registry.drill_warmup_state.current_warmup",
+      "status": "explicit-input",
+      "java_expr": "warmup",
+      "godot_symbol": "source_drill_warmup_state_input.current_warmup",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "rule": "Godot current_warmup supplies DrillBuild warmup before active approach.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_state"
+    },
+    "drill_warmup_state.source_delta": {
+      "canonical_symbol": "source_symbol_registry.drill_warmup_state.source_delta",
+      "status": "explicit-input",
+      "java_expr": "Time.delta",
+      "godot_symbol": "source_drill_warmup_state_input.source_delta",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "rule": "Godot source_delta supplies Java Time.delta for Mathf.approachDelta.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_state"
+    },
+    "drill_warmup_state.speed": {
+      "canonical_symbol": "source_symbol_registry.drill_warmup_state.speed",
+      "status": "explicit-input",
+      "java_expr": "speed",
+      "godot_symbol": "source_drill_warmup_state_input.speed",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "rule": "Godot speed input supplies source active branch speed target.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_state"
+    },
+    "drill_warmup_state.warmup_speed": {
+      "canonical_symbol": "source_symbol_registry.drill_warmup_state.warmup_speed",
+      "status": "explicit-input",
+      "java_expr": "warmupSpeed",
+      "godot_symbol": "source_drill_warmup_state_input.warmup_speed",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "rule": "Godot warmup_speed input supplies source warmupSpeed field value.",
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_state"
+    }
+  }
+}

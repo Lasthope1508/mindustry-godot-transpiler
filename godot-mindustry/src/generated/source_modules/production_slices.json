@@ -1,0 +1,299 @@
+{
+  "policy": {
+    "canonicalOwner": "source_slice_ledger",
+    "newProductionSliceRequiresSourceBackedLedgerMirror": true,
+    "source": "Derived from canonical source_slice_ledger entries whose java_source contains /world/blocks/production/."
+  },
+  "slices": {
+    "N1367": {
+      "canonical_ledger": "source_slice_ledger.N1367",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "getDrillTime(Item item)",
+      "godot_owner": "PortGame.source_drill_delay",
+      "source_symbols": [
+        "drill_delay.method",
+        "drill_delay.result",
+        "drill_delay.hardness_multiplier_field",
+        "drill_delay.drill_time_field",
+        "drill_delay.drill_multipliers_field",
+        "drill_delay.item_hardness",
+        "drill_delay.drill_multiplier",
+        "drill_delay.block_id",
+        "drill_delay.item_id"
+      ],
+      "tests": [
+        "test_emit_bridges_drill_get_drill_time_to_source_state",
+        "test_port_game_exposes_generated_drill_get_drill_time_bridge_state",
+        "test_drill_get_drill_time_matches_upstream_source",
+        "test_generated_drill_get_drill_time_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.generated_drill_get_drill_time_bridge_state"
+    },
+    "N690": {
+      "canonical_ledger": "source_slice_ledger.N690",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "getDrillTime(Item item)",
+      "godot_owner": "PortGame.source_drill_delay",
+      "source_symbols": [
+        "drill_delay.block_id",
+        "drill_delay.drill_multiplier",
+        "drill_delay.drill_multipliers_comment",
+        "drill_delay.drill_multipliers_field",
+        "drill_delay.drill_time_comment",
+        "drill_delay.drill_time_field",
+        "drill_delay.hardness_multiplier_field",
+        "drill_delay.item_hardness",
+        "drill_delay.item_hardness_comment",
+        "drill_delay.item_hardness_field",
+        "drill_delay.item_id",
+        "drill_delay.method",
+        "drill_delay.result"
+      ],
+      "tests": [
+        "test_drill_delay_symbols_are_registered_with_source_backing",
+        "test_port_game_source_drill_delay_matches_get_drill_time"
+      ],
+      "runtime_proof": "/root/Main.source_drill_delay"
+    },
+    "N691": {
+      "canonical_ledger": "source_slice_ledger.N691",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "PortGame.source_drill_dump_interval",
+      "source_symbols": [
+        "drill_dump_interval.block_id",
+        "drill_dump_interval.dump_call",
+        "drill_dump_interval.dump_interval",
+        "drill_dump_interval.dump_time",
+        "drill_dump_interval.dump_time_comment",
+        "drill_dump_interval.dump_time_field",
+        "drill_dump_interval.time_scale",
+        "drill_dump_interval.timer_dump_comment",
+        "drill_dump_interval.timer_dump_field",
+        "drill_dump_interval.timer_gate"
+      ],
+      "tests": [
+        "test_drill_dump_interval_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_drill_dump_interval"
+      ],
+      "runtime_proof": "/root/Main.source_drill_dump_interval"
+    },
+    "N692": {
+      "canonical_ledger": "source_slice_ledger.N692",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "PortGame.source_drill_inactive_warmup_state",
+      "source_symbols": [
+        "drill_inactive_warmup.current_warmup",
+        "drill_inactive_warmup.last_speed_reset",
+        "drill_inactive_warmup.source_delta",
+        "drill_inactive_warmup.warmup_decay",
+        "drill_inactive_warmup.warmup_speed",
+        "drill_inactive_warmup.warmup_speed_field"
+      ],
+      "tests": [
+        "test_drill_inactive_warmup_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_drill_inactive_warmup_state_symbols"
+      ],
+      "runtime_proof": "/root/Main.source_drill_inactive_warmup_state"
+    },
+    "N693": {
+      "canonical_ledger": "source_slice_ledger.N693",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "PortGame.source_drill_last_speed",
+      "source_symbols": [
+        "drill_last_speed.assignment",
+        "drill_last_speed.block_id",
+        "drill_last_speed.delay",
+        "drill_last_speed.dominant_items",
+        "drill_last_speed.item_id",
+        "drill_last_speed.liquid_boost_field",
+        "drill_last_speed.speed",
+        "drill_last_speed.speed_expr",
+        "drill_last_speed.warmup"
+      ],
+      "tests": [
+        "test_drill_last_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_last_speed"
+      ],
+      "runtime_proof": "/root/Main.source_drill_last_speed"
+    },
+    "N695": {
+      "canonical_ledger": "source_slice_ledger.N695",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "countOre(Tile tile)",
+      "godot_owner": "PortGame.source_drill_ore_count",
+      "source_symbols": [
+        "drill_ore_count.method",
+        "drill_ore_count.return_item_reset",
+        "drill_ore_count.return_count_reset",
+        "drill_ore_count.linked_tiles_loop",
+        "drill_ore_count.can_mine_gate",
+        "drill_ore_count.increment",
+        "drill_ore_count.return_item",
+        "drill_ore_count.return_count",
+        "drill_ore_count.block_id",
+        "drill_ore_count.cell",
+        "drill_ore_count.item_id"
+      ],
+      "tests": [
+        "test_drill_ore_count_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_drill_rate"
+      ],
+      "runtime_proof": "/root/Main.source_drill_ore_count"
+    },
+    "N696": {
+      "canonical_ledger": "source_slice_ledger.N696",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "PortGame.source_drill_output_batch",
+      "source_symbols": [
+        "drill_output_batch.gate",
+        "drill_output_batch.amount",
+        "drill_output_batch.progress_mod",
+        "drill_output_batch.progress",
+        "drill_output_batch.delay",
+        "drill_output_batch.dominant_items",
+        "drill_output_batch.items_total",
+        "drill_output_batch.item_capacity"
+      ],
+      "tests": [
+        "test_drill_output_batch_symbols_are_registered_with_source_backing",
+        "test_port_game_batches_source_drill_output"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_batch"
+    },
+    "N697": {
+      "canonical_ledger": "source_slice_ledger.N697",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "PortGame.source_drill_output_delta",
+      "source_symbols": [
+        "drill_output_delta.progress_increment",
+        "drill_output_delta.delta_return",
+        "drill_output_delta.source_delta",
+        "drill_output_delta.time_scale",
+        "drill_output_delta.dominant_items",
+        "drill_output_delta.speed",
+        "drill_output_delta.warmup"
+      ],
+      "tests": [
+        "test_drill_output_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_drill_rate",
+        "test_port_game_applies_source_drill_warmup_to_output_delta",
+        "test_port_game_batches_source_drill_output"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_delta"
+    },
+    "N699": {
+      "canonical_ledger": "source_slice_ledger.N699",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "drawPlace(int x, int y, int rotation, boolean valid)",
+      "godot_owner": "PortGame.source_drill_output_rate",
+      "source_symbols": [
+        "drill_output_rate.draw_place_rate",
+        "drill_output_rate.rate_expr",
+        "drill_output_rate.delay",
+        "drill_output_rate.block_id",
+        "drill_output_rate.item_id",
+        "drill_output_rate.return_count"
+      ],
+      "tests": [
+        "test_drill_output_rate_symbols_are_registered_with_source_backing",
+        "test_port_game_uses_source_drill_rate"
+      ],
+      "runtime_proof": "/root/Main.source_drill_output_rate"
+    },
+    "N700": {
+      "canonical_ledger": "source_slice_ledger.N700",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "progress()",
+      "godot_owner": "PortGame.source_drill_progress_fraction",
+      "source_symbols": [
+        "drill_progress_fraction.method",
+        "drill_progress_fraction.return_expr",
+        "drill_progress_fraction.dominant_item_null",
+        "drill_progress_fraction.progress_ratio",
+        "drill_progress_fraction.mathf_clamp",
+        "drill_progress_fraction.progress",
+        "drill_progress_fraction.delay",
+        "drill_progress_fraction.has_dominant_item"
+      ],
+      "tests": [
+        "test_drill_progress_fraction_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_drill_progress_fraction",
+        "test_port_game_batches_source_drill_output"
+      ],
+      "runtime_proof": "/root/Main.source_drill_progress_fraction"
+    },
+    "N701": {
+      "canonical_ledger": "source_slice_ledger.N701",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "PortGame.source_drill_time_drilled_delta",
+      "source_symbols": [
+        "drill_time_drilled_delta.field",
+        "drill_time_drilled_delta.increment",
+        "drill_time_drilled_delta.building_delta",
+        "drill_time_drilled_delta.warmup",
+        "drill_time_drilled_delta.source_delta",
+        "drill_time_drilled_delta.time_scale"
+      ],
+      "tests": [
+        "test_drill_time_drilled_delta_symbols_are_registered_with_source_backing",
+        "test_port_game_tracks_source_drill_time_drilled"
+      ],
+      "runtime_proof": "/root/Main.source_drill_time_drilled_delta"
+    },
+    "N702": {
+      "canonical_ledger": "source_slice_ledger.N702",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "field declaration",
+      "godot_owner": "PortGame.source_drill_warmup_speed",
+      "source_symbols": [
+        "drill_warmup_speed.field",
+        "drill_warmup_speed.comment",
+        "drill_warmup_speed.key",
+        "drill_warmup_speed.default",
+        "drill_warmup_speed.block_id"
+      ],
+      "tests": [
+        "test_drill_warmup_speed_symbols_are_registered_with_source_backing",
+        "test_port_game_exposes_source_drill_warmup_speed_symbols"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_speed"
+    },
+    "N703": {
+      "canonical_ledger": "source_slice_ledger.N703",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/blocks/production/Drill.java",
+      "java_method": "DrillBuild.updateTile()",
+      "godot_owner": "PortGame.source_drill_warmup_state",
+      "source_symbols": [
+        "drill_warmup_state.active_warmup",
+        "drill_warmup_state.current_warmup",
+        "drill_warmup_state.speed",
+        "drill_warmup_state.warmup_speed",
+        "drill_warmup_state.source_delta"
+      ],
+      "tests": [
+        "test_drill_warmup_state_symbols_are_registered_with_source_backing",
+        "test_port_game_applies_source_drill_warmup_to_output_delta"
+      ],
+      "runtime_proof": "/root/Main.source_drill_warmup_state"
+    }
+  }
+}
