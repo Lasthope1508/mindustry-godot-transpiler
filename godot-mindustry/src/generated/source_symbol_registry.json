@@ -126112,6 +126112,176 @@
       "status": "source-backed",
       "java_expr": "public ConsumeLiquidFilter(){\n    }",
       "godot_symbol": "source_consume_liquid_filter_default_constructor_result.no_op"
+    },
+    "consume_liquid_filter_get_consumed.method": {
+      "source_slice": "N1500",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "public @Nullable Liquid getConsumed(Building build){",
+      "godot_symbol": "source_consume_liquid_filter_get_consumed_result.method"
+    },
+    "consume_liquid_filter_get_consumed.current_liquid": {
+      "source_slice": "N1500",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "status": "explicit-input",
+      "java_expr": "build.liquids.current()",
+      "godot_symbol": "source_consume_liquid_filter_get_consumed_input.current_liquid"
+    },
+    "consume_liquid_filter_get_consumed.current_filter_get_liquid": {
+      "source_slice": "N1500",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "explicit-input",
+      "java_expr": "filter.get(build.liquids.current())",
+      "godot_symbol": "source_consume_liquid_filter_get_consumed_input.current_filter_get_liquid"
+    },
+    "consume_liquid_filter_get_consumed.current_amount": {
+      "source_slice": "N1500",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "status": "explicit-input",
+      "java_expr": "build.liquids.currentAmount()",
+      "godot_symbol": "source_consume_liquid_filter_get_consumed_input.current_amount"
+    },
+    "consume_liquid_filter_get_consumed.content_liquids": {
+      "source_slice": "N1500",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "java_source": "core/src/mindustry/core/ContentLoader.java",
+      "status": "explicit-input",
+      "java_expr": "content.liquids()",
+      "godot_symbol": "source_consume_liquid_filter_get_consumed_input.content_liquids"
+    },
+    "consume_liquid_filter_get_consumed.filter_get_liquid_flags": {
+      "source_slice": "N1500",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "explicit-input",
+      "java_expr": "filter.get(liq)",
+      "godot_symbol": "source_consume_liquid_filter_get_consumed_input.filter_get_liquid_flags"
+    },
+    "consume_liquid_filter_get_consumed.build_liquid_amounts": {
+      "source_slice": "N1500",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+      "status": "explicit-input",
+      "java_expr": "build.liquids.get(liq)",
+      "godot_symbol": "source_consume_liquid_filter_get_consumed_input.build_liquid_amounts"
+    },
+    "consume_liquid_filter_get_consumed.current_branch_matched": {
+      "source_slice": "N1500",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0",
+      "godot_symbol": "source_consume_liquid_filter_get_consumed_result.current_branch_matched"
+    },
+    "consume_liquid_filter_get_consumed.checked_liquids": {
+      "source_slice": "N1500",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "for(int i = 0; i < liqs.size; i++){",
+      "godot_symbol": "source_consume_liquid_filter_get_consumed_result.checked_liquids"
+    },
+    "consume_liquid_filter_get_consumed.consumed_liquid": {
+      "source_slice": "N1500",
+      "java_method": "getConsumed(Building build)",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "status": "source-backed",
+      "java_expr": "return liq;",
+      "godot_symbol": "source_consume_liquid_filter_get_consumed_result.consumed_liquid"
     }
   },
   "version": 1

@@ -41511,6 +41511,81 @@
       ],
       "runtime_proof": "/root/Main.source_consume_liquid_filter_default_constructor_state",
       "rule": "Source no-arg ConsumeLiquidFilter constructor has an empty body and leaves the field initializer public Boolf<Liquid> filter = l -> false; intact; no amount or predicate execution is invented."
+    },
+    "PortGame.source_consume_liquid_filter_get_consumed_state": {
+      "status": "source-backed",
+      "source_slice": "N1500",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "source_method": "getConsumed(Building build)",
+      "params": [
+        {
+          "name": "current_liquid",
+          "type": "Variant",
+          "schema": "source_consume_liquid_filter_get_consumed_input.current_liquid",
+          "java_expr": "build.liquids.current()"
+        },
+        {
+          "name": "current_filter_get_liquid",
+          "type": "bool",
+          "schema": "source_consume_liquid_filter_get_consumed_input.current_filter_get_liquid",
+          "java_expr": "filter.get(build.liquids.current())"
+        },
+        {
+          "name": "current_amount",
+          "type": "float",
+          "schema": "source_consume_liquid_filter_get_consumed_input.current_amount",
+          "java_expr": "build.liquids.currentAmount()"
+        },
+        {
+          "name": "content_liquids",
+          "type": "Array",
+          "schema": "source_consume_liquid_filter_get_consumed_input.content_liquids",
+          "java_expr": "content.liquids()"
+        },
+        {
+          "name": "filter_get_liquid_flags",
+          "type": "Array",
+          "schema": "source_consume_liquid_filter_get_consumed_input.filter_get_liquid_flags",
+          "java_expr": "filter.get(liq)"
+        },
+        {
+          "name": "build_liquid_amounts",
+          "type": "Array",
+          "schema": "source_consume_liquid_filter_get_consumed_input.build_liquid_amounts",
+          "java_expr": "build.liquids.get(liq)"
+        }
+      ],
+      "return_keys": [
+        "source_owner",
+        "source",
+        "method",
+        "current_guard_expr",
+        "current_return_expr",
+        "content_liquids_expr",
+        "loop_expr",
+        "liquid_get_expr",
+        "fallback_guard_expr",
+        "fallback_return_expr",
+        "return_null_expr",
+        "current_liquid",
+        "current_filter_get_liquid",
+        "current_amount",
+        "content_liquids",
+        "filter_get_liquid_flags",
+        "build_liquid_amounts",
+        "current_branch_matched",
+        "checked_liquids",
+        "consumed_liquid",
+        "consumed_index"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ],
+      "runtime_proof": "/root/Main.source_consume_liquid_filter_get_consumed_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported."
     }
   },
   "policy": {

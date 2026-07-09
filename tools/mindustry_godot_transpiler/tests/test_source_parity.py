@@ -1533,6 +1533,36 @@ class SourceParityTests(unittest.TestCase):
         })
         self.assertEqual(report["missing"], [])
 
+    def test_consume_liquid_filter_get_consumed_matches_upstream_source(self):
+        self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_get_consumed_source"))
+        report = source_parity.verify_consume_liquid_filter_get_consumed_source(ROOT / "mindustry-upstream", ROOT / "arc-upstream")
+
+        self.assertEqual(report["source"], "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java")
+        self.assertIn("core/src/mindustry/core/ContentLoader.java", report["sources"])
+        self.assertIn("core/src/mindustry/world/modules/LiquidModule.java", report["sources"])
+        self.assertIn("arc-core/src/arc/func/Boolf.java", report["sources"])
+        self.assertIn("arc-core/src/arc/struct/Seq.java", report["sources"])
+        self.assertEqual(report["checked"], {
+            "method": "public @Nullable Liquid getConsumed(Building build){",
+            "current_guard_expr": "if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){",
+            "current_return_expr": "return build.liquids.current();",
+            "content_liquids_expr": "var liqs = content.liquids();",
+            "loop_expr": "for(int i = 0; i < liqs.size; i++){",
+            "liquid_get_expr": "var liq = liqs.get(i);",
+            "fallback_guard_expr": "if(filter.get(liq) && build.liquids.get(liq) > 0){",
+            "fallback_return_expr": "return liq;",
+            "return_null_expr": "return null;",
+            "next_method": "public void display(Stats stats){",
+            "content_liquids_method": "public Seq<Liquid> liquids(){",
+            "liquid_module_current": "public Liquid current(){",
+            "liquid_module_current_amount": "public float currentAmount(){",
+            "liquid_module_get": "public float get(Liquid liquid){",
+            "boolf_get": "boolean get(T t);",
+            "seq_size_field": "public int size;",
+            "seq_get": "public T get(int index){",
+        })
+        self.assertEqual(report["missing"], [])
+
     def test_consume_liquid_filter_consumes_matches_upstream_source(self):
         self.assertTrue(hasattr(source_parity, "verify_consume_liquid_filter_consumes_source"))
         report = source_parity.verify_consume_liquid_filter_consumes_source(ROOT / "mindustry-upstream")

@@ -3508,6 +3508,59 @@ func generated_consume_liquid_filter_apply_bridge_state(block_has_liquids_before
 		"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null) and result.get("liquid_filter_after", []) == canonical.get("liquid_filter_after", []),
 	}
 
+func source_consume_liquid_filter_get_consumed_state(current_liquid: Variant, current_filter_get_liquid: bool, current_amount: float, content_liquids: Array, filter_get_liquid_flags: Array, build_liquid_amounts: Array) -> Dictionary:
+	var current_branch_matched: bool = current_filter_get_liquid and current_amount > 0.0
+	var consumed_liquid: Variant = current_liquid if current_branch_matched else null
+	var consumed_index: int = -1
+	var checked_liquids: Array = []
+	if not current_branch_matched:
+		for i in range(content_liquids.size()):
+			var liq: Variant = content_liquids[i]
+			var filter_get_liquid: bool = bool(filter_get_liquid_flags[i]) if i < filter_get_liquid_flags.size() else false
+			var build_liquids_get: float = float(build_liquid_amounts[i]) if i < build_liquid_amounts.size() else 0.0
+			var liquid_matches: bool = filter_get_liquid and build_liquids_get > 0.0
+			checked_liquids.append({"index": i, "liquid": liq, "filter_get_liquid": filter_get_liquid, "build_liquids_get": build_liquids_get, "liquid_matches": liquid_matches})
+			if consumed_liquid == null and liquid_matches:
+				consumed_liquid = liq
+				consumed_index = i
+				break
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+		"source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+		"method": "public @Nullable Liquid getConsumed(Building build){",
+		"current_guard_expr": "if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){",
+		"current_return_expr": "return build.liquids.current();",
+		"content_liquids_expr": "var liqs = content.liquids();",
+		"loop_expr": "for(int i = 0; i < liqs.size; i++){",
+		"liquid_get_expr": "var liq = liqs.get(i);",
+		"fallback_guard_expr": "if(filter.get(liq) && build.liquids.get(liq) > 0){",
+		"fallback_return_expr": "return liq;",
+		"return_null_expr": "return null;",
+		"current_liquid": current_liquid,
+		"current_filter_get_liquid": current_filter_get_liquid,
+		"current_amount": current_amount,
+		"content_liquids": content_liquids,
+		"filter_get_liquid_flags": filter_get_liquid_flags,
+		"build_liquid_amounts": build_liquid_amounts,
+		"current_branch_matched": current_branch_matched,
+		"checked_liquids": checked_liquids,
+		"consumed_liquid": consumed_liquid,
+		"consumed_index": consumed_index,
+	}
+
+func generated_consume_liquid_filter_get_consumed_bridge_state(current_liquid: Variant, current_filter_get_liquid: bool, current_amount: float, content_liquids: Array, filter_get_liquid_flags: Array, build_liquid_amounts: Array) -> Dictionary:
+	var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")
+	var instance = script.new()
+	var result = instance.java_method_getConsumed_5([current_liquid, current_filter_get_liquid, current_amount, content_liquids, filter_get_liquid_flags, build_liquid_amounts])
+	var canonical = source_consume_liquid_filter_get_consumed_state(current_liquid, current_filter_get_liquid, current_amount, content_liquids, filter_get_liquid_flags, build_liquid_amounts)
+	return {
+		"source_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+		"generated_owner": "ConsumeLiquidFilter.getConsumed",
+		"result": result,
+		"canonical": canonical,
+		"matches": result.get("consumed_liquid", null) == canonical.get("consumed_liquid", null) and result.get("consumed_index", null) == canonical.get("consumed_index", null) and result.get("current_branch_matched", null) == canonical.get("current_branch_matched", null) and result.get("checked_liquids", []) == canonical.get("checked_liquids", []),
+	}
+
 func source_consume_liquid_filter_liquid_efficiency_multiplier_state() -> Dictionary:
 	return {
 		"method": "public float liquidEfficiencyMultiplier(Liquid liquid){",

@@ -37872,6 +37872,46 @@
         "test_consume_liquid_filter_default_constructor_matches_upstream_source",
         "test_generated_consume_liquid_filter_default_constructor_slice_is_registered_with_source_backing"
       ]
+    },
+    "N1500": {
+      "title": "Generated ConsumeLiquidFilter getConsumed bridge state",
+      "status": "done",
+      "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+      "java_class": "ConsumeLiquidFilter",
+      "java_method": "getConsumed(Building build)",
+      "generated_owner": "ConsumeLiquidFilter.java_method_getConsumed_5",
+      "godot_owner": "PortGame.source_consume_liquid_filter_get_consumed_state",
+      "runtime_proof": "/root/Main.generated_consume_liquid_filter_get_consumed_bridge_state",
+      "rule": "Source getConsumed first returns build.liquids.current() when filter.get(current) and currentAmount > 0, then scans content.liquids() for first filter.get(liq) with build.liquids.get(liq) > 0; Boolf<Liquid> results and liquid amounts are explicit inputs until concrete Liquid binding is ported.",
+      "exact_exprs": [
+        "public @Nullable Liquid getConsumed(Building build){",
+        "if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){",
+        "return build.liquids.current();",
+        "var liqs = content.liquids();",
+        "for(int i = 0; i < liqs.size; i++){",
+        "var liq = liqs.get(i);",
+        "if(filter.get(liq) && build.liquids.get(liq) > 0){",
+        "return liq;",
+        "return null;"
+      ],
+      "source_symbols": [
+        "consume_liquid_filter_get_consumed.method",
+        "consume_liquid_filter_get_consumed.current_liquid",
+        "consume_liquid_filter_get_consumed.current_filter_get_liquid",
+        "consume_liquid_filter_get_consumed.current_amount",
+        "consume_liquid_filter_get_consumed.content_liquids",
+        "consume_liquid_filter_get_consumed.filter_get_liquid_flags",
+        "consume_liquid_filter_get_consumed.build_liquid_amounts",
+        "consume_liquid_filter_get_consumed.current_branch_matched",
+        "consume_liquid_filter_get_consumed.checked_liquids",
+        "consume_liquid_filter_get_consumed.consumed_liquid"
+      ],
+      "tests": [
+        "test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state",
+        "test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state",
+        "test_consume_liquid_filter_get_consumed_matches_upstream_source",
+        "test_generated_consume_liquid_filter_get_consumed_slice_is_registered_with_source_backing"
+      ]
     }
   },
   "version": 1

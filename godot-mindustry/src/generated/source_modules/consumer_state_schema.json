@@ -2778,6 +2778,178 @@
           "java_expr": "public ConsumeLiquidFilter(){\n    }"
         }
       }
+    },
+    "source_consume_liquid_filter_get_consumed_input": {
+      "canonical_schema": "source_state_schema.source_consume_liquid_filter_get_consumed_input",
+      "keys": {
+        "current_liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "build.liquids.current()"
+        },
+        "current_filter_get_liquid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "filter.get(build.liquids.current())"
+        },
+        "current_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "build.liquids.currentAmount()"
+        },
+        "content_liquids": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/core/ContentLoader.java",
+          "java_expr": "content.liquids()"
+        },
+        "filter_get_liquid_flags": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "filter.get(liq)"
+        },
+        "build_liquid_amounts": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "build.liquids.get(liq)"
+        }
+      }
+    },
+    "source_consume_liquid_filter_get_consumed_result": {
+      "canonical_schema": "source_state_schema.source_consume_liquid_filter_get_consumed_result",
+      "keys": {
+        "source_owner": {
+          "type": "String",
+          "status": "canonical-owner",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "getConsumed(Building build)"
+        },
+        "source": {
+          "type": "String",
+          "status": "source-path",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+        },
+        "method": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "public @Nullable Liquid getConsumed(Building build){"
+        },
+        "current_guard_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){"
+        },
+        "current_return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "return build.liquids.current();"
+        },
+        "content_liquids_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "var liqs = content.liquids();"
+        },
+        "loop_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "for(int i = 0; i < liqs.size; i++){"
+        },
+        "liquid_get_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "var liq = liqs.get(i);"
+        },
+        "fallback_guard_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "if(filter.get(liq) && build.liquids.get(liq) > 0){"
+        },
+        "fallback_return_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "return liq;"
+        },
+        "return_null_expr": {
+          "type": "String",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "return null;"
+        },
+        "current_liquid": {
+          "type": "Variant",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "build.liquids.current()"
+        },
+        "current_filter_get_liquid": {
+          "type": "bool",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "filter.get(build.liquids.current())"
+        },
+        "current_amount": {
+          "type": "float",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "build.liquids.currentAmount()"
+        },
+        "content_liquids": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/core/ContentLoader.java",
+          "java_expr": "content.liquids()"
+        },
+        "filter_get_liquid_flags": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "filter.get(liq)"
+        },
+        "build_liquid_amounts": {
+          "type": "Array",
+          "status": "explicit-input",
+          "java_source": "core/src/mindustry/world/modules/LiquidModule.java",
+          "java_expr": "build.liquids.get(liq)"
+        },
+        "current_branch_matched": {
+          "type": "bool",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0"
+        },
+        "checked_liquids": {
+          "type": "Array",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "for(int i = 0; i < liqs.size; i++){"
+        },
+        "consumed_liquid": {
+          "type": "Variant",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "return liq;"
+        },
+        "consumed_index": {
+          "type": "int",
+          "status": "source-backed",
+          "java_source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java",
+          "java_expr": "return liq;"
+        }
+      }
     }
   },
   "version": 1

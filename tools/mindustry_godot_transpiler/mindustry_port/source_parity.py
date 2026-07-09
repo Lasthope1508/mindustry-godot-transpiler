@@ -5230,6 +5230,65 @@ def verify_consume_liquid_filter_apply_source(upstream_root: Path) -> dict[str, 
         "missing": missing,
     }
 
+def verify_consume_liquid_filter_get_consumed_source(upstream_root: Path, arc_root: Path | None = None) -> dict[str, Any]:
+    consume_liquid_filter_source = "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java"
+    content_loader_source = "core/src/mindustry/core/ContentLoader.java"
+    liquid_module_source = "core/src/mindustry/world/modules/LiquidModule.java"
+    boolf_source = "arc-core/src/arc/func/Boolf.java"
+    seq_source = "arc-core/src/arc/struct/Seq.java"
+    upstream_root = Path(upstream_root)
+    arc_root = Path(arc_root) if arc_root is not None else upstream_root.parent / "arc-upstream"
+    source = (upstream_root / consume_liquid_filter_source).read_text(encoding="utf-8", errors="replace")
+    content_loader = (upstream_root / content_loader_source).read_text(encoding="utf-8", errors="replace")
+    liquid_module = (upstream_root / liquid_module_source).read_text(encoding="utf-8", errors="replace")
+    boolf = (arc_root / boolf_source).read_text(encoding="utf-8", errors="replace")
+    seq = (arc_root / seq_source).read_text(encoding="utf-8", errors="replace")
+    checked = {
+        "method": "public @Nullable Liquid getConsumed(Building build){",
+        "current_guard_expr": "if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){",
+        "current_return_expr": "return build.liquids.current();",
+        "content_liquids_expr": "var liqs = content.liquids();",
+        "loop_expr": "for(int i = 0; i < liqs.size; i++){",
+        "liquid_get_expr": "var liq = liqs.get(i);",
+        "fallback_guard_expr": "if(filter.get(liq) && build.liquids.get(liq) > 0){",
+        "fallback_return_expr": "return liq;",
+        "return_null_expr": "return null;",
+        "next_method": "public void display(Stats stats){",
+        "content_liquids_method": "public Seq<Liquid> liquids(){",
+        "liquid_module_current": "public Liquid current(){",
+        "liquid_module_current_amount": "public float currentAmount(){",
+        "liquid_module_get": "public float get(Liquid liquid){",
+        "boolf_get": "boolean get(T t);",
+        "seq_size_field": "public int size;",
+        "seq_get": "public T get(int index){",
+    }
+    source_by_key = {
+        "method": source,
+        "current_guard_expr": source,
+        "current_return_expr": source,
+        "content_liquids_expr": source,
+        "loop_expr": source,
+        "liquid_get_expr": source,
+        "fallback_guard_expr": source,
+        "fallback_return_expr": source,
+        "return_null_expr": source,
+        "next_method": source,
+        "content_liquids_method": content_loader,
+        "liquid_module_current": liquid_module,
+        "liquid_module_current_amount": liquid_module,
+        "liquid_module_get": liquid_module,
+        "boolf_get": boolf,
+        "seq_size_field": seq,
+        "seq_get": seq,
+    }
+    missing = [snippet for key, snippet in checked.items() if snippet not in source_by_key[key]]
+    return {
+        "source": consume_liquid_filter_source,
+        "sources": [content_loader_source, liquid_module_source, boolf_source, seq_source],
+        "checked": checked,
+        "missing": missing,
+    }
+
 def verify_consume_liquid_base_apply_source(upstream_root: Path) -> dict[str, Any]:
     consume_liquid_base_source = "core/src/mindustry/world/consumers/ConsumeLiquidBase.java"
     block_source = "core/src/mindustry/world/Block.java"

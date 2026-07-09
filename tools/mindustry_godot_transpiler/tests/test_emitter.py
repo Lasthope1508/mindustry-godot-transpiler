@@ -18967,6 +18967,69 @@ public class ConsumeLiquidFilter extends ConsumeLiquidBase{
             self.assertIn('"liquid_filter_assignment_expr": "block.liquidFilter[item.id] = true"', source_text)
             self.assertIn('"filtered_liquid_ids": filtered_liquid_ids', source_text)
 
+    def test_emit_bridges_consume_liquid_filter_get_consumed_to_source_state(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source_root = root / "mindustry"
+            consume_path = source_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.java"
+            consume_path.parent.mkdir(parents=True, exist_ok=True)
+            consume_path.write_text(
+                """
+package mindustry.world.consumers;
+
+import mindustry.gen.*;
+import mindustry.type.*;
+
+public class ConsumeLiquidFilter extends ConsumeLiquidBase{
+    public @Nullable Liquid getConsumed(Building build){
+        if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){
+            return build.liquids.current();
+        }
+
+        var liqs = content.liquids();
+
+        for(int i = 0; i < liqs.size; i++){
+            var liq = liqs.get(i);
+            if(filter.get(liq) && build.liquids.get(liq) > 0){
+                return liq;
+            }
+        }
+        return null;
+    }
+}
+""",
+                encoding="utf-8",
+            )
+            output_root = root / "godot" / "src" / "generated" / "classes"
+
+            emit_gdscript_classes(source_root, output_root)
+
+            emitted = output_root / "mindustry" / "world" / "consumers" / "ConsumeLiquidFilter.gd"
+            source_text = emitted.read_text(encoding="utf-8")
+            self.assertIn("func java_method_getConsumed_0(_args: Array = []) -> Variant:", source_text)
+            self.assertIn("var current_liquid: Variant = _args[0] if _args.size() > 0 else null", source_text)
+            self.assertIn("var current_filter_get_liquid: bool = bool(_args[1] if _args.size() > 1 else false)", source_text)
+            self.assertIn("var current_amount: float = float(_args[2] if _args.size() > 2 else 0.0)", source_text)
+            self.assertIn("var content_liquids: Array = _args[3] if _args.size() > 3 else []", source_text)
+            self.assertIn("var filter_get_liquid_flags: Array = _args[4] if _args.size() > 4 else []", source_text)
+            self.assertIn("var build_liquid_amounts: Array = _args[5] if _args.size() > 5 else []", source_text)
+            self.assertIn("var current_branch_matched: bool = current_filter_get_liquid and current_amount > 0.0", source_text)
+            self.assertIn("for i in range(content_liquids.size()):", source_text)
+            self.assertIn("var liquid_matches: bool = filter_get_liquid and build_liquids_get > 0.0", source_text)
+            self.assertIn("if consumed_liquid == null and liquid_matches:", source_text)
+            self.assertIn('return {"source_owner": "PortGame.source_consume_liquid_filter_get_consumed_state"', source_text)
+            self.assertIn('"method": "public @Nullable Liquid getConsumed(Building build){"', source_text)
+            self.assertIn('"current_guard_expr": "if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){"', source_text)
+            self.assertIn('"current_return_expr": "return build.liquids.current();"', source_text)
+            self.assertIn('"content_liquids_expr": "var liqs = content.liquids();"', source_text)
+            self.assertIn('"loop_expr": "for(int i = 0; i < liqs.size; i++){"', source_text)
+            self.assertIn('"liquid_get_expr": "var liq = liqs.get(i);"', source_text)
+            self.assertIn('"fallback_guard_expr": "if(filter.get(liq) && build.liquids.get(liq) > 0){"', source_text)
+            self.assertIn('"fallback_return_expr": "return liq;"', source_text)
+            self.assertIn('"return_null_expr": "return null;"', source_text)
+            self.assertIn('"consumed_liquid": consumed_liquid', source_text)
+            self.assertIn('"checked_liquids": checked_liquids', source_text)
+
     def test_emit_bridges_consume_liquid_filter_consumes_to_source_state(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

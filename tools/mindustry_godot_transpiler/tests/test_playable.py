@@ -1161,6 +1161,26 @@ class PlayableManifestTests(unittest.TestCase):
         self.assertIn('"generated_owner": "ConsumeLiquidFilter.apply"', source)
         self.assertIn('"matches": result.get("block_has_liquids_after", null) == canonical.get("block_has_liquids_after", null)', source)
 
+    def test_port_game_exposes_generated_consume_liquid_filter_get_consumed_bridge_state(self):
+        port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
+        source = port_game.read_text(encoding="utf-8")
+
+        self.assertIn("func source_consume_liquid_filter_get_consumed_state(current_liquid: Variant, current_filter_get_liquid: bool, current_amount: float, content_liquids: Array, filter_get_liquid_flags: Array, build_liquid_amounts: Array) -> Dictionary:", source)
+        self.assertIn('"source_owner": "PortGame.source_consume_liquid_filter_get_consumed_state"', source)
+        self.assertIn('"method": "public @Nullable Liquid getConsumed(Building build){"', source)
+        self.assertIn('"current_guard_expr": "if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){"', source)
+        self.assertIn('"content_liquids_expr": "var liqs = content.liquids();"', source)
+        self.assertIn('"fallback_guard_expr": "if(filter.get(liq) && build.liquids.get(liq) > 0){"', source)
+        self.assertIn("var current_branch_matched: bool = current_filter_get_liquid and current_amount > 0.0", source)
+        self.assertIn("for i in range(content_liquids.size()):", source)
+        self.assertIn("checked_liquids.append", source)
+        self.assertIn("func generated_consume_liquid_filter_get_consumed_bridge_state(current_liquid: Variant, current_filter_get_liquid: bool, current_amount: float, content_liquids: Array, filter_get_liquid_flags: Array, build_liquid_amounts: Array) -> Dictionary:", source)
+        self.assertIn('var script = load("res://src/generated/classes/mindustry/world/consumers/ConsumeLiquidFilter.gd")', source)
+        self.assertIn("var result = instance.java_method_getConsumed_5([current_liquid, current_filter_get_liquid, current_amount, content_liquids, filter_get_liquid_flags, build_liquid_amounts])", source)
+        self.assertIn("var canonical = source_consume_liquid_filter_get_consumed_state(current_liquid, current_filter_get_liquid, current_amount, content_liquids, filter_get_liquid_flags, build_liquid_amounts)", source)
+        self.assertIn('"generated_owner": "ConsumeLiquidFilter.getConsumed"', source)
+        self.assertIn('"matches": result.get("consumed_liquid", null) == canonical.get("consumed_liquid", null)', source)
+
     def test_port_game_exposes_generated_consume_liquid_filter_consumes_bridge_state(self):
         port_game = ROOT / "godot-mindustry" / "src" / "game" / "PortGame.gd"
         source = port_game.read_text(encoding="utf-8")

@@ -1753,6 +1753,35 @@ def _method_body_lines(java_file: dict, type_entry: dict, method: dict) -> list[
     if (
         java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
         and type_entry.get("name") == "ConsumeLiquidFilter"
+        and method.get("name") == "getConsumed"
+    ):
+        return [
+            "\tvar current_liquid: Variant = _args[0] if _args.size() > 0 else null",
+            "\tvar current_filter_get_liquid: bool = bool(_args[1] if _args.size() > 1 else false)",
+            "\tvar current_amount: float = float(_args[2] if _args.size() > 2 else 0.0)",
+            "\tvar content_liquids: Array = _args[3] if _args.size() > 3 else []",
+            "\tvar filter_get_liquid_flags: Array = _args[4] if _args.size() > 4 else []",
+            "\tvar build_liquid_amounts: Array = _args[5] if _args.size() > 5 else []",
+            "\tvar current_branch_matched: bool = current_filter_get_liquid and current_amount > 0.0",
+            "\tvar consumed_liquid: Variant = current_liquid if current_branch_matched else null",
+            "\tvar consumed_index: int = -1",
+            "\tvar checked_liquids: Array = []",
+            "\tif not current_branch_matched:",
+            "\t\tfor i in range(content_liquids.size()):",
+            "\t\t\tvar liq: Variant = content_liquids[i]",
+            "\t\t\tvar filter_get_liquid: bool = bool(filter_get_liquid_flags[i]) if i < filter_get_liquid_flags.size() else false",
+            "\t\t\tvar build_liquids_get: float = float(build_liquid_amounts[i]) if i < build_liquid_amounts.size() else 0.0",
+            "\t\t\tvar liquid_matches: bool = filter_get_liquid and build_liquids_get > 0.0",
+            '\t\t\tchecked_liquids.append({"index": i, "liquid": liq, "filter_get_liquid": filter_get_liquid, "build_liquids_get": build_liquids_get, "liquid_matches": liquid_matches})',
+            "\t\t\tif consumed_liquid == null and liquid_matches:",
+            "\t\t\t\tconsumed_liquid = liq",
+            "\t\t\t\tconsumed_index = i",
+            "\t\t\t\tbreak",
+            '\treturn {"source_owner": "PortGame.source_consume_liquid_filter_get_consumed_state", "source": "core/src/mindustry/world/consumers/ConsumeLiquidFilter.java", "method": "public @Nullable Liquid getConsumed(Building build){", "current_guard_expr": "if(filter.get(build.liquids.current()) && build.liquids.currentAmount() > 0){", "current_return_expr": "return build.liquids.current();", "content_liquids_expr": "var liqs = content.liquids();", "loop_expr": "for(int i = 0; i < liqs.size; i++){", "liquid_get_expr": "var liq = liqs.get(i);", "fallback_guard_expr": "if(filter.get(liq) && build.liquids.get(liq) > 0){", "fallback_return_expr": "return liq;", "return_null_expr": "return null;", "current_liquid": current_liquid, "current_filter_get_liquid": current_filter_get_liquid, "current_amount": current_amount, "content_liquids": content_liquids, "filter_get_liquid_flags": filter_get_liquid_flags, "build_liquid_amounts": build_liquid_amounts, "current_branch_matched": current_branch_matched, "checked_liquids": checked_liquids, "consumed_liquid": consumed_liquid, "consumed_index": consumed_index}',
+        ]
+    if (
+        java_file.get("path") == "mindustry/world/consumers/ConsumeLiquidFilter.java"
+        and type_entry.get("name") == "ConsumeLiquidFilter"
         and method.get("name") == "display"
     ):
         return [
